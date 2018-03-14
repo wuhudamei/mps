@@ -238,12 +238,6 @@ public class SystemAuthorizingRealm extends AuthorizingRealm {
 
 
 
-
-
-
-
-
-
 		public String getSessionid() {
 			try{
 				return (String) UserUtils.getSession().getId();

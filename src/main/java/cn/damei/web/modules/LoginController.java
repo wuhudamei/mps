@@ -97,7 +97,7 @@ public class 	LoginController extends BaseController {
 
 
 
-		return "modules/sys/sysLogin";
+		return "modules/sys/login";
 	}
 
 
@@ -164,7 +164,7 @@ public class 	LoginController extends BaseController {
 			return renderString(response, model);
 		}
 
-		return "modules/sys/sysLogin";
+		return "modules/sys/login";
 	}
 
 

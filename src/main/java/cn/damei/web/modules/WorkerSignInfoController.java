@@ -43,6 +43,11 @@ public class WorkerSignInfoController extends BaseController {
 		}
 		return entity;
 	}
+	@RequestMapping(value = "login")
+	public String test(HttpServletRequest request, HttpServletResponse response){
+		return "modules/sys/login";
+	}
+
 	
 	@RequiresPermissions("workersign:workerSign:view")
 	@RequestMapping(value = {"list", ""})
