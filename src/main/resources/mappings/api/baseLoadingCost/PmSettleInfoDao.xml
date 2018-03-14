@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.PmSettleInfoDao">
+	<select id="queryPmSettleInfoByOrderNumber"
+		resultType="cn.damei.entity.modules.PmSettleInfo">
+		SELECT
+		b.order_number AS "orderNum",
+		em.realName AS "itemManager",
+		a.settle_bill_type AS "settleBillType",
+		a.update_date AS "createMonthlyDate",
+		a.total_amount AS "settleAmount"
+		FROM
+		biz_pm_settle_bill a
+		INNER JOIN biz_order b ON a.order_id = b.id
+		INNER JOIN sys_office c ON b.store_id = c.id
+		INNER JOIN biz_employee em ON em.id = a.pm_employee_id
+		WHERE
+		a.`status` = 50
+		AND a.settle_role = 1
+		AND b.order_number = #{orderNum}
+	</select>
+</mapper>

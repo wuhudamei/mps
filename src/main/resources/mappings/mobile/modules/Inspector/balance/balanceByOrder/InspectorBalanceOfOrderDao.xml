@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="cn.damei.dao.mobile.Inspector.InspectorBalanceOfOrderDao">
+
+
+ <sql id="allOrderSignColumns">
+   
+   a.id As "id" ,
+   a.order_inspector_id As "inspectorId" ,
+   a.customer_name AS  "customerName" ,
+   a.community_name  AS "communityName" ,
+   a.build_number AS "buildNumber" ,
+   a.build_unit AS "buildUnit" ,
+   a.build_room As "buildRoom" ,
+   a.contract_start_date AS "contractStartDate",
+   a.contract_end_date AS "contractEndDate" ,
+   a.actual_start_date AS "actualStartDate",
+   a.contract_time AS "contractTime",
+   a.order_status_description AS "orderStatus",
+   	a.map_coordinate As "mapAddress" ,
+   	a.sign_flag AS "signFlag"
+   
+   </sql>
+  <!-- 根据质检员id 查询订单 -->
+    <select id="orderByInspectorId" parameterType="int" resultType="cn.damei.entity.mobile.Manager.OrderSignVo">
+    
+    SELECT <include refid="allOrderSignColumns"/>
+     FROM
+	biz_order a where a.id  in (select b.order_id from biz_pm_settle_bill b where b.status=50 and b.settle_role =2 )
+
+ORDER BY
+	a.create_date DESC
+    </select>
+
+
+
+
+
+
+<!-- 根据订单id ,质检员id ,查询该质检员的结算详情   biz_pm_settle_bill -->
+
+<select id="findBalanceDetailByOrderId" parameterType="cn.damei.entity.mobile.Inspector.InspectorBalanceEntity" resultType="cn.damei.entity.mobile.Inspector.InspectorBalanceEntity">
+
+ select
+	order_id AS "orderId",
+	pm_employee_id AS "inspectorId",
+	project_mode AS "projectMode",
+	settle_datetime AS "balanceDate",
+	qc_midway_commission_amount AS "midBalanceMoney",
+	qc_complete_commission_amount AS "completeBalanceMoney",
+	 qc_midway_longway_amount as "midDistanceFee",
+	 qc_complete_longway_amount as "completeDistanceFee",
+	total_amount AS "totalMoney"
+ from biz_pm_settle_bill where order_id =#{orderId}
+ and pm_employee_id=#{inspectId} and settle_role =2
+</select>
+
+
+
+
+
+
+	</mapper>

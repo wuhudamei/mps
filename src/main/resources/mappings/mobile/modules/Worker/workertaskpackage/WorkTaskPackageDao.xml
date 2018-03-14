@@ -1,0 +1,486 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="cn.damei.dao.mobile.Worker.WorkTaskPackageDao">
+
+
+	<sql id="WorkTaskPackageColumns">
+		a.id AS "id",
+		a.store_id AS "storeId",
+		a.order_id AS
+		"orderId",
+		a.package_code AS "packageCode",
+		a.package_name AS
+		"packageName",
+		a.plan_startdate AS "planStartdate",
+		a.plan_enddate AS
+		"planEnddate",
+		a.actual_startdate AS "actualStartdate",
+		a.actual_enddate AS "actualEnddate",
+		a.package_stateId AS
+		"packageStateId",
+		a.package_statename AS "packageStatename",
+		a.emp_groupid AS "empGroupid",
+		a.group_id AS "groupId",
+		a.item_customer
+		AS "itemCustomer",
+		a.customer_name AS
+		"customerName",
+		a.customer_message
+		AS "customerMessage",
+		a.item_manager_id AS "managerId",
+		a.task_package_templat_id AS
+		"taskPackageTemplatId",
+		a.labor_auxiliary_materials_budget_amount AS "laborAuxiliaryMaterialsBudgetAmount",
+		IFNULL(a.settle_style,0) as "settleStyle"
+	</sql>
+
+	<select id="get"
+		resultType="cn.damei.entity.mobile.Worker.WorkTaskPackage">
+		SELECT
+		a.id AS "id",
+		a.store_id AS "storeId",
+		a.order_id AS
+		"orderId",
+		a.package_code AS "packageCod",
+		a.package_name AS
+		"packageName",
+		a.plan_startdate AS "planStartdate",
+		a.plan_enddate AS
+		"planEnddate",
+		a.actual_startdate AS "actualStartdate",
+		a.actual_enddate AS "actualEnddate",
+		a.package_stateId AS
+		"packageStateId",
+		a.package_statename AS "packageStatename",
+		a.emp_groupid AS "empGroupid",
+		a.group_id AS "groupId",
+		a.item_customer
+		AS "itemCustomer",
+		a.customer_name AS "customerName",
+		a.customer_message AS "customerMessage",
+		a.item_manager_id AS
+		"managerId",
+		a.task_package_templat_id AS "taskPackageTemplatId",
+		a.labor_auxiliary_materials_budget_amount AS "total",
+		b.customer_phone AS "customerPhone",
+		a.group_realname AS "leaderName"
+		FROM
+		biz_order_taskpackage a
+		INNER JOIN biz_order b on b.id = a.order_id
+		WHERE
+		a.id = #{id}
+	</select>
+
+
+	<select id="findTaskPackageByGroupId" parameterType="int"
+		resultType="cn.damei.entity.mobile.Worker.WorkTaskPackage">
+		SELECT
+			<include refid="WorkTaskPackageColumns" />,
+			b.phone AS "managerPhone",
+			IFNULL(a.settle_style,0) AS "settleStyle"
+		FROM biz_order_taskpackage a 
+		LEFT JOIN biz_employee b ON a.item_manager_id = b.id
+		LEFT JOIN biz_task_package_templat t ON t.id = a.task_package_templat_id
+		left join biz_order c on a.order_id = c.id 
+		where 
+			a.group_id = #{groupId} 
+			and a.package_stateId = '50'
+			and c.is_scrap = '0'
+	</select>
+
+	<update id="acceptTaskPackage" parameterType="int">
+		UPDATE
+		biz_order_taskpackage SET
+		package_stateid = '60',
+		package_statename =
+		'已确定工人组'
+		WHERE id = #{id}
+	</update>
+
+	<update id="refuseTaskPackage" parameterType="int">
+		UPDATE
+		biz_order_taskpackage SET
+		package_stateid = '55',
+		package_statename =
+		'工人拒绝任务包'
+		WHERE id = #{id}
+	</update>
+
+
+
+	<select id="getPackById"
+		resultType="cn.damei.entity.mobile.Worker.WorkTaskPackage"
+		parameterType="int">
+
+		SELECT
+		<include refid="WorkTaskPackageColumns" />,
+		a.labor_budget_amount AS "laborBudgetAmount",
+		a.auxiliary_materials_budget_amount AS "auxiliaryMaterialsBudgetAmount"
+		from
+		biz_order_taskpackage a
+		where a.id =#{packageId}
+
+	</select>
+
+
+	<select id="findPhone" resultType="String" parameterType="int">
+		SELECT
+		c.phone
+		FROM
+		biz_order_taskpackage a,
+		biz_order b,
+		biz_employee c
+		WHERE
+		a.order_id = b.id
+		AND b.item_manager_id = c.id
+		AND a.id = #{id}
+
+
+	</select>
+
+
+	<select id="getLeaderPhoneById" resultType="String"
+		parameterType="int">
+
+		SELECT phone AS "leaderPhone" from
+		biz_employee
+		where id
+		=#{_parameter}
+
+	</select>
+
+
+	<select id="getLeaderNameById" resultType="String"
+		parameterType="int">
+
+		SELECT realName AS "leaderName" from
+		biz_employee
+		where id
+		=#{_parameter}
+
+	</select>
+
+
+
+	<!-- 结算任务包 -->
+	<select id="findTaskPackageForSettlement"
+		resultType="cn.damei.entity.mobile.Worker.WorkTaskPackage">
+		SELECT
+		<include refid="WorkTaskPackageColumns" />,
+		b.phone as "managerPhone",
+		IFNULL(a.settle_style,0) AS "settleStyle",
+		d.is_scrap
+		FROM
+		biz_order_taskpackage a
+		left join biz_employee b on b.id = a.item_manager_id
+		LEFT JOIN biz_task_package_templat c ON c.id = a.task_package_templat_id
+		left join biz_order d on a.order_id = d.id
+		WHERE
+		a.group_id = #{groupId} and
+		a.package_stateId in ('100','105','110','120','130')
+	</select>
+	<select id="findTaskPackageForSettlementCount" resultType="java.lang.Integer">
+		SELECT count(1)
+		FROM
+		biz_order_taskpackage a
+		WHERE
+		a.group_id = #{groupId}
+		and a.package_stateId in
+		<foreach item="item" index="index" collection="list" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
+	<sql id="allProcedureColumns">
+
+		a.id AS "procedureId" ,
+		a.taskpackage_id AS "packageId" ,
+		a.procedure_name AS "procedureName" ,
+		a.budget_number AS "budgetNumber"
+		,
+		a.synthesize_price AS "synthesizePrice" ,
+		a.total AS "total" ,
+		a.remarks AS "remarks"
+
+
+	</sql>
+
+
+
+
+
+
+
+
+	<select id="findProcedureByPackId"
+		resultType="cn.damei.entity.mobile.Worker.WorkerPackProcedure"
+		parameterType="int">
+		SELECT
+			a.taskpackage_id AS "packageId",
+			a.procedure_name AS "procedureName",
+			a.budget_number AS "budgetNumber",
+			a.synthesize_price AS "synthesizePrice",
+			a.labor_auxiliary_materials_budget_amount AS "laborAuxiliaryMaterialsBudgetAmount",
+			a.remarks AS "remarks",
+			b.label AS "unit",
+			a.labor_price AS "laborPrice",
+			a.accessories_price AS "accessoriesPrice",
+			a.labor_budget_amount AS "laborBudgetAmount",
+			a.auxiliary_materials_budget_amount AS "auxiliaryMaterialsBudgetAmount"
+		FROM
+		biz_order_taskpackage_procedure a,
+		sys_dict b
+		WHERE
+		a.measurement_unit = b.`value`
+		AND b.type = 'biz_unit'
+		AND a.taskpackage_id = #{packageId}
+
+
+
+
+	</select>
+
+
+
+
+	<!-- 通过工人id查询状态为施工中的任务包 -->
+	<select id="findDoneApplyListByGroupId" parameterType="int"
+		resultType="cn.damei.entity.mobile.Worker.WorkTaskPackage">
+		SELECT
+		<include refid="WorkTaskPackageColumns" />,
+		b.phone AS "managerPhone",
+		a.settle_style AS "settleStyle",
+		e.is_scrap as 'delFlag'
+		FROM biz_order_taskpackage a 
+		LEFT JOIN biz_employee b ON a.item_manager_id = b.id
+		LEFT JOIN biz_task_package_templat d ON a.task_package_templat_id = d.id
+		left join biz_order e on e.id = a.order_id
+		where a.group_id = #{groupId} and
+		a.package_stateId = '70'
+	</select>
+
+	<!-- 保存图片到数据库中 -->
+	<insert id="savePic">
+		INSERT INTO biz_order_taskpackage_pic(
+		id,
+		order_taskpackage_id,
+		picture_path
+		) VALUES (
+		#{id},
+		#{orderTaskpackageId},
+		#{picturePath}
+		)
+	</insert>
+	
+	<!-- 批量 插入申请完工图片 -->
+	<insert id="savePicAll" parameterType="java.util.List">
+		INSERT INTO biz_order_taskpackage_pic(
+		id,
+		order_taskpackage_id,
+		picture_path
+		) VALUES 
+		<foreach collection="list" item="item" index="index" separator="," >
+			(
+				#{item.id},
+				#{item.orderTaskpackageId},
+				#{item.picturePath}
+			)
+		</foreach>
+	</insert>
+
+
+
+	<!-- 申请完工 -->
+	<update id="applyTaskPackage" parameterType="int">
+		UPDATE
+		biz_order_taskpackage SET
+		package_stateId = '80',
+		package_statename =
+		'工人申请完工',
+		actual_enddate = now()
+		WHERE id = #{id}
+	</update>
+
+	<!-- -->
+
+
+
+	<!-- 已完工数量 -->
+	<select id="findCountCompleted" parameterType="int" resultType="int">
+		SELECT count(1) from biz_order_taskpackage
+		WHERE group_id = #{groupId}
+		and package_stateId not in('70','60','55','50')
+	</select>
+
+	<!-- 未完工数量 -->
+	<select id="findCountDiscompleted" parameterType="int"
+		resultType="int">
+		SELECT count(1) from biz_order_taskpackage
+		WHERE group_id =
+		#{groupId} and package_stateId in('70','60')
+	</select>
+
+
+	<select id="selectMessageInfoByPackId" parameterType="int"
+		resultType="cn.damei.entity.mobile.Worker.WorkTaskPackage">
+		SELECT
+		a.customer_message AS "customerMessage",
+		a.customer_name as "customerName",
+		o.customer_phone as "customerPhone",
+		a.package_name as "packageName",
+		e.phone as "managerPhone",
+		e.id as "managerId"
+		FROM
+		`biz_order_taskpackage` a,
+		biz_employee e ,
+		biz_order o
+		where
+		a.item_manager_id = e.id
+		and a.order_id = o.id
+		and a.id = #{packId}
+
+
+	</select>
+
+
+
+
+	<!-- 催促验收 -->
+	<!-- WorkTaskPackageColumns -->
+	<select id="selectPackByWorkerIdForManagerCheck" parameterType="int"
+		resultType="cn.damei.entity.mobile.Worker.WorkTaskPackage">
+		SELECT
+		<include refid="WorkTaskPackageColumns" />,
+		o.customer_phone as "customerPhone",
+		b.phone AS "managerPhone",
+		o.is_scrap
+		FROM 
+			biz_order_taskpackage a 
+		INNER JOIN biz_order o ON a.order_id = o.id
+		LEFT JOIN biz_employee b ON a.item_manager_id = b.id
+		where
+			a.group_id = #{groupId} 
+			and a.package_stateId = '80'
+	</select>
+
+
+	<!-- 任务包干完, 发送催促短信, 根据任务包id查询订单信息,任务包名称,工人信息和项目经理信息 -->
+	<select id="packActuallyDoneDays" parameterType="int"
+		resultType="cn.damei.entity.mobile.Worker.WorkTaskPackage">
+		SELECT
+		  b.actual_startdate AS "actualEnddate",
+		  b.actual_enddate   AS "actualStartdate",
+		  b.package_name     AS "packageName",
+		  e.realName         AS "itemCustomer",
+		  e.phone            AS "managerPhone",
+		  e.id               AS "managerId",
+		  e1.realName        AS "workerName",
+		  e1.phone           AS "workerPhone",
+		  a.community_name   AS "communityName",
+		  a.build_number     AS "buildNumber",
+		  a.build_unit       AS "buildUnit",
+		  a.build_room       AS "buildRoom",
+		  a.customer_name    AS "customerName",
+		  a.customer_phone   AS "customerPhone"
+		FROM biz_order a 
+		LEFT JOIN  biz_order_taskpackage b ON b.order_id = a.id
+		LEFT JOIN  biz_employee e ON a.item_manager_id = e.id
+		LEFT JOIN biz_employee e1 ON e1.id = b.group_id
+		WHERE  b.id = #{_parameter}
+
+	</select>
+
+
+
+	<!-- 根据任务包id查询催促记录表 -->
+	<select id="urgeRecord" parameterType="int"
+		resultType="cn.damei.entity.mobile.Worker.UrgeRecord">
+		select a.order_task_package_id as "packId",
+		a.to_urge_employee_id as "urgeMan",
+		a.be_urged_employee_id as
+		"beUrgeMan",
+		a.urge_time as "urgeTime"
+		from
+		biz_order_taskpackage_urge_check_log a where a.order_task_package_id
+		=
+		#{packId}
+
+
+
+	</select>
+
+
+
+	<insert id="saveUrgeRecord"
+		parameterType="cn.damei.entity.mobile.Worker.UrgeRecord">
+		insert into biz_order_taskpackage_urge_check_log (
+		order_task_package_id,
+		to_urge_employee_id,
+		be_urged_employee_id,
+		urge_time
+
+		)
+		values (
+		#{packId},
+		#{urgeMan},
+		#{beUrgeMan},
+		#{urgeTime}
+
+		)
+
+	</insert>
+
+	<update id="updateOrderTaskPackage">
+		update
+		biz_order_taskpackage a
+		set
+		a.package_stateId = #{1},
+		a.package_statename = #{2}
+		where
+		a.id = #{0}
+	</update>
+
+	<select id="querySettled" resultType="java.lang.Integer">
+		select count(*) from
+		biz_order_taskpackage a
+		where a.package_stateId = '160'
+		and a.group_id =
+		#{0}
+	</select>
+
+	<select id="querySettling" resultType="java.lang.Integer">
+		select count(*) from
+		biz_order_taskpackage a
+		where a.package_stateId in('140','150')
+		and
+		a.group_id = #{0}
+	</select>
+
+	<select id="queryAllTaskpackage"
+		resultType="cn.damei.entity.mobile.Worker.WorkTaskPackage">
+		SELECT
+		<include refid="WorkTaskPackageColumns" />
+		FROM biz_order_taskpackage a
+		where a.group_id = #{0} and
+		(a.package_stateId BETWEEN 60 and 160) order by a.plan_startdate desc
+	</select>
+	<select id="findOrder"
+		resultType="cn.damei.entity.mobile.Worker.WorkTaskPackage"
+		parameterType="int">
+		SELECT
+		a.customer_message AS "customerMessage",
+		b.item_manager_id AS "managerId",
+		c.phone AS "managerPhone",
+		b.customer_name AS "customerName",
+		b.customer_phone AS "customerPhone",
+		b.id as "orderId"
+		FROM
+		biz_order_taskpackage a,biz_order b,biz_employee c
+		WHERE
+		a.id = #{0}
+		AND a.order_id = b.id
+		AND b.item_manager_id = c.id
+	</select>
+
+</mapper>

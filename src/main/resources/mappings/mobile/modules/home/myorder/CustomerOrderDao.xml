@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.mobile.home.CustomerOrderDao">
+
+
+	<select id="findOrderByPhone" resultType="cn.damei.entity.mobile.home.CustomerOrder">
+		SELECT 
+			a.id as "id",
+			a.order_number as "orderNumber",
+			a.customer_name as "customerName",
+			a.customer_phone as "customerPhone",
+			a.customer_address as "customerAddress",
+			a.community_name as "communityName",
+			a.build_number as "buildNumber",
+			a.build_unit as "buildUnit",
+			a.build_room as "buildRoom",
+			a.sale_type as "saleType",
+			a.build_type as "buildType",
+			a.house_type as "houseType",
+			a.house_is_new as "houseIsNew",
+			a.designer_name as "designerName",
+			a.designer_phone as "designerPhone",
+			a.order_reporter_name as "orderReporterName",
+			a.order_reporter_phone as "orderReporterPhone",
+			a.service_name as "serviceName",
+			a.service_phone as "servicePhone",
+			a.contract_start_date as "contractStartDate",
+			a.contract_end_date as "contractEndDate",
+			a.contract_time as "contractTime",
+			a.covered_area as "coveredArea",
+			a.sign_contract_date as "signContractDate",
+			a.store_id as "storeId",
+			a.item_manager_id as "itemManagerId",
+			a.item_manager as "itemManager",
+			a.order_inspector_id as "orderInspectorId",
+			a.order_inspector as "orderInspector",
+			b.phone as "itemManagerPhone"
+		from biz_order a 
+		LEFT JOIN biz_employee b on a.item_manager_id = b.id
+		where a.customer_phone = #{0}
+	</select>
+
+	<select id="findByOrderId" resultType="cn.damei.entity.mobile.home.CustomerOrder">
+		SELECT 
+			a.id as "id",
+			a.order_number as "orderNumber",
+			a.customer_name as "customerName",
+			a.customer_phone as "customerPhone",
+			a.customer_address as "customerAddress",
+			a.community_name as "communityName",
+			a.build_number as "buildNumber",
+			a.build_unit as "buildUnit",
+			a.build_room as "buildRoom",
+			a.sale_type as "saleType",
+			a.build_type as "buildType",
+			a.house_type as "houseType",
+			a.house_is_new as "houseIsNew",
+			a.designer_name as "designerName",
+			a.designer_phone as "designerPhone",
+			a.order_reporter_name as "orderReporterName",
+			a.order_reporter_phone as "orderReporterPhone",
+			a.service_name as "serviceName",
+			a.service_phone as "servicePhone",
+			a.contract_start_date as "contractStartDate",
+			a.contract_end_date as "contractEndDate",
+			a.contract_time as "contractTime",
+			a.covered_area as "coveredArea",
+			a.sign_contract_date as "signContractDate",
+			a.store_id as "storeId",
+			a.item_manager_id as "itemManagerId",
+			a.item_manager as "itemManager",
+			a.order_inspector_id as "orderInspectorId",
+			a.order_inspector as "orderInspector",
+			c.phone as "orderInspectorPhone",
+			b.phone as "itemManagerPhone",
+			b.star as "managerStar",
+			c.star as "inspectorStar"
+		from biz_order a 
+		LEFT JOIN biz_employee b on a.item_manager_id = b.id
+		LEFT JOIN biz_employee c on a.order_inspector_id = c.id
+		where a.id = #{0}
+	</select>
+	
+	<select id="findTeamByOrderId" resultType="cn.damei.entity.mobile.home.OrderTeam">
+		SELECT 
+			a.id as "id",
+			a.order_number as "orderNumber",
+			a.customer_name as "customerName",
+			a.customer_phone as "customerPhone",
+			a.customer_address as "customerAddress",
+			a.community_name as "communityName",
+			a.build_number as "buildNumber",
+			a.build_unit as "buildUnit",
+			a.build_room as "buildRoom",
+			a.sale_type as "saleType",
+			a.build_type as "buildType",
+			a.house_type as "houseType",
+			a.house_is_new as "houseIsNew",
+			a.designer_name as "designerName",
+			a.designer_phone as "designerPhone",
+			a.order_reporter_name as "orderReporterName",
+			a.order_reporter_phone as "orderReporterPhone",
+			a.service_name as "serviceName",
+			a.service_phone as "servicePhone",
+			a.contract_start_date as "contractStartDate",
+			a.contract_end_date as "contractEndDate",
+			a.contract_time as "contractTime",
+			a.covered_area as "coveredArea",
+			a.sign_contract_date as "signContractDate",
+			a.store_id as "storeId",
+			a.item_manager_id as "itemManagerId",
+			a.item_manager as "itemManager",
+			a.order_inspector_id as "orderInspectorId",
+			a.order_inspector as "orderInspector",
+			f.star as "inspectorStar",
+			b.phone as "itemManagerPhone",
+			b.star as "managerStar",
+			c.emp_groupid as "empGroupId",
+			d.empId as "empId",
+			e.realName as "workerName",
+			e.star as "workerStar",
+			e.phone as "workerPhone",
+			<!-- e.workType as "workerType", -->
+			g.label as "workerType"
+		from biz_order a 
+		LEFT JOIN biz_employee b on a.item_manager_id = b.id
+		LEFT JOIN biz_employee f on a.order_inspector_id = f.id
+		LEFT JOIN biz_order_taskpackage c on a.id = c.order_id
+		INNER JOIN biz_emgrouprelation d on c.emp_groupid = d.groupId
+		INNER JOIN biz_employee e on d.empId = e.id
+		inner join sys_dict g on e.workType = g.value and g.type ='emp_work_type'
+		<!-- group by e.id -->
+		where a.id = #{0}
+	</select>
+</mapper>

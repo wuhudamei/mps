@@ -1,0 +1,24 @@
+.pt26{padding-top: .26rem;}
+.pt28{padding-top: .28rem;}
+.pb30{padding-bottom: .3rem;}
+.pb34{padding-bottom: .34rem;}
+.pb14{padding-bottom: .14rem;}
+.pl30{padding-left: .3rem;}
+.pl60{padding-left: .6rem;}
+.pr30{padding-right: .3rem;}
+.align_ct{text-align: center;}
+.scrollLi{position: relative;margin-left: .55rem;margin-right: .37rem;border-left: 2px solid #0780ec;}
+.greyLi{border-left: 2px solid #ccc;}
+.blueRnd{font-size: .34rem;color: #fcfbfb;background: #0780ec;width: .54rem;height: .54rem;text-align: center;line-height: .54rem;
+	border-radius: 50%;position: absolute;top: 0;left: -.27rem;}
+.greyRnd{font-size: .34rem;color: #fcfbfb;background: #ccc;width: .54rem;height: .54rem;text-align: center;line-height: .54rem;
+	border-radius: 50%;position: absolute;top: 0;left: -.27rem;}
+.scrollSec div{/*padding-top: .28rem;*/padding-bottom: .4rem;margin-left: .48rem;/*margin-bottom: .4rem;border: 1px solid #e5e5e5;*/}
+
+
+.scrollSec div:before{position:absolute;border-top: .15rem solid transparent;border-bottom: .15rem solid transparent;border-right: .15rem solid #fff;
+	content:" ";display:block;width:0;height:0;top: .2rem;left: .35rem;}
+.borTop{border-top: 1px solid #e5e5e5}
+.borBtm{border-bottom: 1px solid #e5e5e5}
+.borRgt{border-right: 1px solid #e5e5e5}
+.scrollSec li:last-child{border: 0;}

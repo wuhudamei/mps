@@ -1,0 +1,38 @@
+.mar_btm14 {
+	margin-bottom: .14rem;
+}
+
+.search-area {
+	position: relative;
+	border: 1px solid #78baf5;
+	width: 85.3%;
+	border-radius: .36rem;
+	margin: 0 auto .14rem;
+	height: .48rem;
+	background: #fff;
+}
+
+.search-box {
+	font-size: .24rem;
+	color: #d5d4d4;
+	border: none;
+	line-height: .48rem;
+	margin-left: .2rem;
+	width: 85%;
+}
+
+.search-btn {
+	display: inline-block;
+	width: .31rem;
+	height: .31rem;
+	background: url(../images/search0.png) no-repeat center center;
+	background-size: .31rem .31rem;
+	position: absolute;
+	right: .3rem;
+	top: .085rem;
+}
+
+.New_searchs {
+	background: url(../images/search0.png) no-repeat center center;
+	background-size: .31rem .31rem;
+}

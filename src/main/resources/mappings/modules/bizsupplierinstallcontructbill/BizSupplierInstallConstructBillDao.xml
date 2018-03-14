@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizSupplierInstallConstructBillDao">
+    
+	<sql id="bizSupplierInstallConstructBillColumns">
+		a.id AS "id",
+		a.construct_bill_code AS "constructBillCode",
+		a.supplier_install_bill_id AS "supplierInstallBillId",
+		a.employee_group_id AS "employeeGroupId",
+		a.status AS "status",
+		a.status_datetime AS "statusDatetime",
+		a.real_into_date AS "realIntoDate",
+		a.real_complete_date AS "realCompleteDate",
+		a.real_accept_date AS "realAcceptDate",
+		a.remarks AS "remarks",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="bizSupplierInstallConstructBillJoins">
+	</sql>
+    
+	<select id="get" resultType="cn.damei.entity.modules.BizSupplierInstallConstructBill">
+		SELECT 
+			<include refid="bizSupplierInstallConstructBillColumns"/>
+		FROM biz_supplier_install_construct_bill a
+		<include refid="bizSupplierInstallConstructBillJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	<select id="getnot90" resultType="cn.damei.entity.modules.BizSupplierInstallConstructBill">
+		SELECT 
+			<include refid="bizSupplierInstallConstructBillColumns"/>
+		FROM biz_supplier_install_construct_bill a
+		<include refid="bizSupplierInstallConstructBillJoins"/>
+		WHERE a.supplier_install_bill_id = #{supplierInstallBillId} and  a.status!='90'
+	</select>
+	
+	<select id="findList" resultType="cn.damei.entity.modules.BizSupplierInstallConstructBill">
+		SELECT 
+			<include refid="bizSupplierInstallConstructBillColumns"/>
+		FROM biz_supplier_install_construct_bill a
+		<include refid="bizSupplierInstallConstructBillJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="supplierInstallBillId != null and supplierInstallBillId != ''">
+				AND a.supplier_install_bill_id = #{supplierInstallBillId}
+			</if>
+			<if test="employeeGroupId != null and employeeGroupId != ''">
+				AND a.employee_group_id = #{employeeGroupId}
+			</if>
+			<if test="status != null and status != ''">
+				AND a.status = #{status}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="cn.damei.entity.modules.BizSupplierInstallConstructBill">
+		SELECT 
+			<include refid="bizSupplierInstallConstructBillColumns"/>
+		FROM biz_supplier_install_construct_bill a
+		<include refid="bizSupplierInstallConstructBillJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO biz_supplier_install_construct_bill(
+			id,
+			construct_bill_code,
+			supplier_install_bill_id,
+			employee_group_id,
+			status,
+			status_datetime,
+			real_into_date,
+			real_complete_date,
+			real_accept_date,
+			remarks,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag
+		) VALUES (
+			#{id},
+			#{constructBillCode},
+			#{supplierInstallBillId},
+			#{employeeGroupId},
+			#{status},
+			#{statusDatetime},
+			#{realIntoDate},
+			#{realCompleteDate},
+			#{realAcceptDate},
+			#{remarks},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE biz_supplier_install_construct_bill SET 	
+			construct_bill_code = #{constructBillCode},
+			supplier_install_bill_id = #{supplierInstallBillId},
+			employee_group_id = #{employeeGroupId},
+			status = #{status},
+			status_datetime = #{statusDatetime},
+			real_into_date = #{realIntoDate},
+			real_complete_date = #{realCompleteDate},
+			real_accept_date = #{realAcceptDate},
+			remarks = #{remarks},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE biz_supplier_install_construct_bill SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

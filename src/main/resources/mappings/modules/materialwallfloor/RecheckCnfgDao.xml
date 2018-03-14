@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.RecheckCnfgDao">
+    
+	<sql id="recheckCnfgColumns">
+		a.price AS "price",
+		a.square_over_max_rate AS "squareOverMaxRate",
+		a.remarks AS "remarks",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="recheckCnfgJoins">
+	</sql>
+    
+	<select id="get" resultType="RecheckCnfg">
+		SELECT 
+			<include refid="recheckCnfgColumns"/>
+		FROM biz_wall_floor_tile_recheck_cnfg a
+		<include refid="recheckCnfgJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	<select id="findAllListz" resultType="RecheckCnfg">
+		SELECT 
+			<include refid="recheckCnfgColumns"/>
+		FROM biz_wall_floor_tile_recheck_cnfg a
+		<include refid="recheckCnfgJoins"/>
+	</select>
+	
+	<select id="findList" resultType="RecheckCnfg">
+		SELECT 
+			<include refid="recheckCnfgColumns"/>
+		FROM biz_wall_floor_tile_recheck_cnfg a
+		<include refid="recheckCnfgJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="RecheckCnfg">
+		SELECT 
+			<include refid="recheckCnfgColumns"/>
+		FROM biz_wall_floor_tile_recheck_cnfg a
+		<include refid="recheckCnfgJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO biz_wall_floor_tile_recheck_cnfg(
+			price,
+			square_over_max_rate,
+			remarks,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag
+		) VALUES (
+			#{price},
+			#{squareOverMaxRate},
+			#{remarks},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="datalesave">
+		UPDATE biz_wall_floor_tile_recheck_cnfg SET 	
+			price = #{price},
+			square_over_max_rate = #{squareOverMaxRate},
+			remarks = #{remarks},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE price = #{price}
+	</update>
+	
+	<delete id="deleteall">
+		delete from  biz_wall_floor_tile_recheck_cnfg 
+	</delete>
+	
+	<update id="delete">
+		UPDATE biz_wall_floor_tile_recheck_cnfg SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE price = #{price}
+	</update>
+	  
+	
+	<!-- 查询墙地砖复尺配置表（材料单价） -->
+	<select id="findRecheckCnfgMessage" resultType="cn.damei.entity.modules.RecheckCnfg">
+	
+		SELECT
+			a.price AS "price",
+			a.square_over_max_rate AS "squareOverMaxRate",
+			a.remarks AS "remarks",
+			a.create_by AS "createBy.id",
+			a.create_date AS "createDate",
+			a.update_by AS "updateBy.id",
+			a.update_date AS "updateDate",
+			a.del_flag AS "delFlag"
+		FROM
+			biz_wall_floor_tile_recheck_cnfg a
+		WHERE
+			a.del_flag = 0
+		LIMIT 1
+	
+	</select>
+	
+	
+</mapper>

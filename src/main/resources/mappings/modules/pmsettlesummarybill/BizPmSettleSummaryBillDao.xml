@@ -1,0 +1,402 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizPmSettleSummaryBillDao">
+    
+	<sql id="bizPmSettleSummaryBillColumns">
+		a.id AS "id",
+		a.pm_settle_summary_bill_code AS "pmSettleSummaryBillCode",
+		a.store_id AS "storeId",
+		a.settle_month AS "settleMonth",
+		a.pm_employee_id AS "pmEmployeeId",
+		a.midway_commission_amount AS "midwayCommissionAmount",
+		a.complete_commission_amount AS "completeCommissionAmount",
+		a.ownpay_amount AS "ownpayAmount",
+		a.materials_standard_amount AS "materialsStandardAmount",
+		a.midway_qc_check_punish_amount AS "midwayQcCheckPunishAmount",
+		a.complet_qc_check_punish_amount AS "completQcCheckPunishAmount",
+		a.guarantee_money_amount AS "guaranteeMoneyAmount",
+		a.total_amount AS "totalAmount",
+		a.status as "status",
+		a.remarks AS "remarks",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag",
+		a.settle_role as "settleRole",
+		a.qc_midway_commission_amount as "qcMidwayCommissionAmount",
+		a.qc_complete_commission_amount as "qcCompleteCommissionAmount",
+		a.qc_midway_longway_amount as "qcMidwayLongwayAmount",
+		a.qc_complete_longway_amount as "qcCompleteLongwayAmount",
+		a.engin_depart_id as "enginDepartId",
+		a.material_selfbuy_reimburse_amount as "materialSelfbuyReimburseAmount",
+		a.midway_auxiliary_materials_settle_amount as "midwayAuxiliaryMaterialsSettleAmount",
+		a.complete_auxiliary_materials_settle_amount as "completeAuxiliaryMaterialsSettleAmount",
+		a.midway_reward_amount as "midwayRewardAmount",
+		a.midway_punish_amount as "midwayPunishAmount",
+		a.complete_reward_amount as "completeRewardAmount",
+		a.complete_punish_amount as "completePunishAmount",
+		a.midway_inspection_reward_amount as "midwayInspectionRewardAmount",
+		a.midway_inspection_punish_amount as "midwayInspectionPunishAmount",
+		a.complete_inspection_reward_amount as "completeInspectionRewardAmount",
+		a.complete_inspection_punish_amount as "completeInspectionPunishAmount"
+	</sql>
+	
+	<sql id="bizPmSettleSummaryBillJoins">
+	</sql>
+    
+	<select id="get" resultType="cn.damei.entity.modules.BizPmSettleSummaryBill">
+		SELECT 
+			<include refid="bizPmSettleSummaryBillColumns"/>
+		FROM biz_pm_settle_summary_bill a
+		<include refid="bizPmSettleSummaryBillJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="cn.damei.entity.modules.BizPmSettleSummaryBill">
+		SELECT 
+			<include refid="bizPmSettleSummaryBillColumns"/>
+		FROM biz_pm_settle_summary_bill a
+		<include refid="bizPmSettleSummaryBillJoins"/>
+		<where>
+			
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+
+	<!--项目经理-月度结算单查询表-->
+	<select id="findSummaryBillList" resultType="cn.damei.entity.modules.BizPmSettleSummaryBill">
+		select aa.store_id as "storeId",aa.settleMonth,b.realName as "itemManager",aa.midwayCommissionAmount,aa.completeCommissionAmount,
+				aa.ownpayAmount,aa.materialsStandardAmount,aa.midwayQcCheckPunishAmount,aa.completQcCheckPunishAmount,
+				aa.guaranteeMoneyAmount,aa.materialSelfbuyReimburseAmount,aa.midwayAuxiliaryMaterialsSettleAmount,aa.completeAuxiliaryMaterialsSettleAmount,
+				aa.totalAmount,b.phone as "itemManagerPhone",c.name as "enginDepartName",
+				aa.midwayRewardAmount,aa.midwayPunishAmount,aa.completeRewardAmount,aa.completePunishAmount,
+				aa.midwayInspectionRewardAmount,aa.midwayInspectionPunishAmount,aa.completeInspectionRewardAmount,aa.completeInspectionPunishAmount
+		from
+		(
+			select a.store_id,a.settle_month as "settleMonth",a.pm_employee_id as "pmEmployeeId",a.engin_depart_id,sum(a.midway_commission_amount) AS "midwayCommissionAmount",
+				sum(a.complete_commission_amount) AS "completeCommissionAmount",sum(a.ownpay_amount) AS "ownpayAmount",
+				sum(a.materials_standard_amount) AS "materialsStandardAmount",sum(a.midway_qc_check_punish_amount) AS "midwayQcCheckPunishAmount",
+				sum(a.complet_qc_check_punish_amount) AS "completQcCheckPunishAmount",
+				sum(a.guarantee_money_amount) AS "guaranteeMoneyAmount",
+				SUM(a.midway_auxiliary_materials_settle_amount) as "midwayAuxiliaryMaterialsSettleAmount",
+		        SUM(a.complete_auxiliary_materials_settle_amount) as "completeAuxiliaryMaterialsSettleAmount",
+				SUM(a.material_selfbuy_reimburse_amount) AS "materialSelfbuyReimburseAmount",
+				sum(a.midway_reward_amount) as "midwayRewardAmount",
+				sum(a.midway_punish_amount) as "midwayPunishAmount",
+				sum(a.complete_reward_amount) as "completeRewardAmount",
+				sum(a.complete_punish_amount) as "completePunishAmount",
+		        sum(a.midway_inspection_reward_amount) as "midwayInspectionRewardAmount",
+			  	sum(a.midway_inspection_punish_amount) as "midwayInspectionPunishAmount",
+				sum(a.complete_inspection_reward_amount) as "completeInspectionRewardAmount",
+				sum(a.complete_inspection_punish_amount) as "completeInspectionPunishAmount",
+				sum(a.total_amount) AS "totalAmount"
+			from biz_pm_settle_summary_bill a
+			where a.STATUS = #{status} AND a.settle_role = #{settleRole}
+			group by a.store_id,a.engin_depart_id,a.pm_employee_id,a.settle_month,a.id
+		) aa
+		INNER JOIN biz_employee b ON aa.pmEmployeeId = b.id
+		left join biz_engineering_department c on aa.engin_depart_id = c.id
+		where 1=1
+		<if test="storeId != null and storeId != ''">
+			and aa.store_id = #{storeId}
+		</if>
+		<if test="enginDepartIds != null and enginDepartIds != ''">
+			AND aa.engin_depart_id in
+			<foreach item="item" index="index" collection="enginDepartIds" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+		<if test="settleMonth != null and settleMonth != ''">
+			and aa.settleMonth = #{settleMonth}
+		</if>
+		<if test="itemManager != null and itemManager != ''">
+			AND b.realName LIKE
+			<if test="dbName == 'oracle'">'%'||#{itemManager}||'%'</if>
+			<if test="dbName == 'mssql'">'%'+#{itemManager}+'%'</if>
+			<if test="dbName == 'mysql'">concat('%',#{itemManager},'%')</if>
+		</if>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY aa.pmEmployeeId asc
+			</otherwise>
+		</choose>
+	</select>
+
+	<!--质检员-月度结算单查询表-->
+	<select id="findSummaryBillListPbc" resultType="cn.damei.entity.modules.BizPmSettleSummaryBill">
+		select aa.store_id as "storeId",aa.settleMonth,b.realName as "orderInspector",aa.qcMidwayCommissionAmount,aa.qcCompleteCommissionAmount,
+				aa.qcMidwayLongwayAmount,aa.qcCompleteLongwayAmount,aa.totalAmount,b.phone as "orderInspectorPhone",c.name as "enginDepartName"
+		from
+		(
+			select a.store_id,a.settle_month as "settleMonth",a.pm_employee_id as "pmEmployeeId",a.engin_depart_id,sum(a.qc_midway_commission_amount) AS "qcMidwayCommissionAmount",
+		    sum(a.qc_complete_commission_amount) AS "qcCompleteCommissionAmount",sum(a.qc_midway_longway_amount) AS "qcMidwayLongwayAmount",
+		    sum(a.qc_complete_longway_amount) AS "qcCompleteLongwayAmount",sum(a.total_amount) AS "totalAmount"
+			from biz_pm_settle_summary_bill a
+			where a.STATUS = #{status} AND a.settle_role = #{settleRole}
+			group by a.store_id,a.engin_depart_id,a.pm_employee_id,a.settle_month
+		) aa
+		INNER JOIN biz_employee b ON aa.pmEmployeeId = b.id
+		left join biz_engineering_department c on aa.engin_depart_id = c.id
+		where 1=1
+		<if test="storeId != null and storeId != ''">
+			and aa.store_id = #{storeId}
+		</if>
+		<if test="enginDepartIds != null and enginDepartIds != ''">
+			AND aa.engin_depart_id in
+			<foreach item="item" index="index" collection="enginDepartIds" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+		<if test="settleMonth != null and settleMonth != ''">
+			and aa.settleMonth = #{settleMonth}
+		</if>
+		<if test="orderInspector != null and orderInspector != ''">
+			AND b.realName LIKE
+			<if test="dbName == 'oracle'">'%'||#{orderInspector}||'%'</if>
+			<if test="dbName == 'mssql'">'%'+#{orderInspector}+'%'</if>
+			<if test="dbName == 'mysql'">concat('%',#{orderInspector},'%')</if>
+		</if>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY aa.pmEmployeeId asc
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="cn.damei.entity.modules.BizPmSettleSummaryBill">
+		SELECT 
+			<include refid="bizPmSettleSummaryBillColumns"/>
+		FROM biz_pm_settle_summary_bill a
+		<include refid="bizPmSettleSummaryBillJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO biz_pm_settle_summary_bill(
+			id,
+			pm_settle_summary_bill_code,
+			store_id,
+			settle_month,
+			pm_employee_id,
+			midway_commission_amount,
+			complete_commission_amount,
+			ownpay_amount,
+			materials_standard_amount,
+			midway_qc_check_punish_amount,
+			complet_qc_check_punish_amount,
+			guarantee_money_amount,
+			total_amount,
+			status,
+			remarks,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag,
+			settle_role,
+			qc_midway_commission_amount,
+			qc_complete_commission_amount,
+			qc_midway_longway_amount,
+			qc_complete_longway_amount,
+			engin_depart_id,
+			material_selfbuy_reimburse_amount,
+			midway_auxiliary_materials_settle_amount,
+			complete_auxiliary_materials_settle_amount,
+			midway_reward_amount,
+			midway_punish_amount,
+			complete_reward_amount,
+			complete_punish_amount,
+			midway_inspection_reward_amount,
+			midway_inspection_punish_amount,
+			complete_inspection_reward_amount,
+			complete_inspection_punish_amount
+		) VALUES (
+			#{id},
+			#{pmSettleSummaryBillCode},
+			#{storeId},
+			#{settleMonth},
+			#{pmEmployeeId},
+			#{midwayCommissionAmount},
+			#{completeCommissionAmount},
+			#{ownpayAmount},
+			#{materialsStandardAmount},
+			#{midwayQcCheckPunishAmount},
+			#{completQcCheckPunishAmount},
+			#{guaranteeMoneyAmount},
+			#{totalAmount},
+			#{status},
+			#{remarks},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag},
+			#{settleRole},
+			#{qcMidwayCommissionAmount},
+			#{qcCompleteCommissionAmount},
+			#{qcMidwayLongwayAmount},
+			#{qcCompleteLongwayAmount},
+			#{enginDepartId},
+			#{materialSelfbuyReimburseAmount},
+			#{midwayAuxiliaryMaterialsSettleAmount},
+			#{completeAuxiliaryMaterialsSettleAmount},
+			#{midwayRewardAmount},
+			#{midwayPunishAmount},
+			#{completeRewardAmount},
+			#{completePunishAmount},
+			#{midwayInspectionRewardAmount},
+			#{midwayInspectionPunishAmount},
+			#{completeInspectionRewardAmount},
+			#{completeInspectionPunishAmount}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE biz_pm_settle_summary_bill SET 	
+			pm_settle_summary_bill_code = #{pmSettleSummaryBillCode},
+			store_id = #{storeId},
+			settle_month = #{settleMonth},
+			pm_employee_id = #{pmEmployeeId},
+			midway_commission_amount = #{midwayCommissionAmount},
+			complete_commission_amount = #{completeCommissionAmount},
+			ownpay_amount = #{ownpayAmount},
+			materials_standard_amount = #{materialsStandardAmount},
+			midway_qc_check_punish_amount = #{midwayQcCheckPunishAmount},
+			complet_qc_check_punish_amount = #{completQcCheckPunishAmount},
+			material_selfbuy_reimburse_amount = #{materialSelfbuyReimburseAmount},
+			guarantee_money_amount = #{guaranteeMoneyAmount},
+			total_amount = #{totalAmount},
+			status = #{status},
+			remarks = #{remarks},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			del_flag = #{delFlag},
+			settle_role = #{settleRole},
+			qc_midway_commission_amount = #{qcMidwayCommissionAmount},
+			qc_complete_commission_amount = #{qcCompleteCommissionAmount},
+			qc_midway_longway_amount = #{qcMidwayLongwayAmount},
+			qc_complete_longway_amount = #{qcCompleteLongwayAmount},
+			engin_depart_id = #{enginDepartId},
+			midway_auxiliary_materials_settle_amount=#{midwayAuxiliaryMaterialsSettleAmount},
+			complete_auxiliary_materials_settle_amount=#{completeAuxiliaryMaterialsSettleAmount},
+			midway_reward_amount=#{midwayRewardAmount},
+			midway_punish_amount=#{midwayPunishAmount},
+			complete_reward_amount=#{completeRewardAmount},
+			complete_punish_amount=#{completePunishAmount},
+			midway_inspection_reward_amount=#{midwayInspectionRewardAmount},
+			midway_inspection_punish_amount=#{midwayInspectionPunishAmount},
+			complete_inspection_reward_amount=#{completeInspectionRewardAmount},
+			complete_inspection_punish_amount=#{completeInspectionPunishAmount}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM biz_pm_settle_summary_bill
+		WHERE id = #{id}
+	</update>
+
+	<!--批量新增-->
+	<insert id="insertBatch" parameterType="java.util.List">
+		INSERT INTO biz_pm_settle_summary_bill(
+			id,
+			pm_settle_summary_bill_code,
+			store_id,
+			settle_month,
+			pm_employee_id,
+			midway_commission_amount,
+			complete_commission_amount,
+			ownpay_amount,
+			materials_standard_amount,
+			midway_qc_check_punish_amount,
+			complet_qc_check_punish_amount,
+			guarantee_money_amount,
+			total_amount,
+			status,
+			remarks,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag,
+			settle_role,
+			qc_midway_commission_amount,
+			qc_complete_commission_amount,
+			qc_midway_longway_amount,
+			qc_complete_longway_amount,
+			engin_depart_id,
+			material_selfbuy_reimburse_amount,
+			midway_auxiliary_materials_settle_amount,
+			complete_auxiliary_materials_settle_amount,
+			midway_reward_amount,
+			midway_punish_amount,
+			complete_reward_amount,
+			complete_punish_amount,
+		    midway_inspection_reward_amount,
+		    midway_inspection_punish_amount,
+		    complete_inspection_reward_amount,
+		    complete_inspection_punish_amount
+		) VALUES
+		<foreach collection="list" item="item" index="index" separator="," >
+			(#{item.id},
+			#{item.pmSettleSummaryBillCode},
+			#{item.storeId},
+			#{item.settleMonth},
+			#{item.pmEmployeeId},
+			#{item.midwayCommissionAmount},
+			#{item.completeCommissionAmount},
+			#{item.ownpayAmount},
+			#{item.materialsStandardAmount},
+			#{item.midwayQcCheckPunishAmount},
+			#{item.completQcCheckPunishAmount},
+			#{item.guaranteeMoneyAmount},
+			#{item.totalAmount},
+			#{item.status},
+			#{item.remarks},
+			#{item.createBy.id},
+			#{item.createDate},
+			#{item.updateBy.id},
+			#{item.updateDate},
+			#{item.delFlag},
+			#{item.settleRole},
+			#{item.qcMidwayCommissionAmount},
+			#{item.qcCompleteCommissionAmount},
+			#{item.qcMidwayLongwayAmount},
+			#{item.qcCompleteLongwayAmount},
+			#{item.enginDepartId},
+			#{item.materialSelfbuyReimburseAmount},
+			#{item.midwayAuxiliaryMaterialsSettleAmount},
+			#{item.completeAuxiliaryMaterialsSettleAmount},
+			#{item.midwayRewardAmount},
+			#{item.midwayPunishAmount},
+			#{item.completeRewardAmount},
+			#{item.completePunishAmount},
+			#{item.midwayInspectionRewardAmount},
+			#{item.midwayInspectionPunishAmount},
+			#{item.completeInspectionRewardAmount},
+			#{item.completeInspectionPunishAmount}
+			)
+		</foreach>
+	</insert>
+</mapper>

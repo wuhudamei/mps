@@ -1,0 +1,121 @@
+.apply_content {
+	padding: 0.4rem 0;
+	background: #fff;
+	border-top: 1px solid #e5e5e5;
+	border-bottom: 1px solid #e5e5e5;
+}
+.icon_tip {
+	background:url('../../images/small_tip.png') no-repeat;
+	width:0.28rem;
+	height: 0.29rem;
+	background-size: 100%;
+	position: absolute;
+	left: 0;
+	top: 0;
+}
+.col_666 {
+	color: #666666;
+}
+.dateChoice {
+	padding: 0.5rem 0.3rem 0 0.3rem;
+}
+.watchH span {
+	line-height: 0.3rem;
+}
+.dateChoice span {
+	width: 2.1rem;
+	display: inline-block;
+	text-align: right;
+}
+.pl44 {
+	padding-left: 0.4rem;
+}
+.dateChoice p .creaseCont {
+	left: 2.1rem;
+}
+.col_red1 {
+	color:#ea0a0a;
+}
+.dateChoice p {
+	margin-bottom: 0.28rem;
+}
+.watchH {
+	height: 1.7rem;
+}
+.tip_info {
+    margin-left: 2.1rem;
+    position:relative;
+    text-align: justify;
+
+}
+.dateChoice p input {
+    width: 100%;
+ }
+ .dataIcon {
+    right: -12%;
+}
+.dateChoice p textarea {
+   margin-left: 0.1rem;
+   width: 4.3rem;
+}
+.submit_btn {
+	background:#09f;
+	border:none;
+	display:block;
+	margin:  0 auto;
+	width: 3.86rem;
+	height: 0.66rem;
+	border-radius: 35px;
+	margin-top: 0.7rem;
+	color:#fff;
+	font-size: 0.3rem;
+}
+.icon_upArrow {
+	background: url('../../images/down_arrow.png') no-repeat;
+	width: 0.29rem;
+	height: 0.33rem;
+	background-size:100%;
+	display: inline-block;
+	color: #378afa;
+	vertical-align: middle;
+    margin-left: 0.1rem;
+}
+.rejected {
+	position: absolute;
+	right: 0.28rem;
+	top: -0.02rem;
+	font-size: 0.3rem;
+}
+.posr {
+	position: relative;
+}
+.rejected ul {
+	font-size:0.28rem;
+}
+.show_cont {
+	padding: 0.3rem 0.3rem;
+	background:#f6f6f6;
+}
+.show_cont li span{
+	float: left;
+}
+.col_a7a6a6 {
+	color: #a7a6a6;
+}
+.fon30 {
+	font-size: 0.3rem;
+}
+.show_cont li p {
+	padding-left: 1.6rem;
+}
+.col_666 {
+	color: #666;
+}
+.rejected {
+	border-bottom: 1px solid #378afa;
+	color: #378afa;
+}
+.cut_btn {
+	padding-left: 0.3rem;
+}
+.pl30{padding-left: .3rem;}

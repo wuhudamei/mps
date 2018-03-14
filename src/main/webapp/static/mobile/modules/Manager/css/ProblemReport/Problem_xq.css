@@ -1,0 +1,43 @@
+.mar_btm24 {
+	margin-bottom: 0.3rem;
+}
+.problemReport ul span {
+    width: 29%;
+    display: inline-block;
+    line-height: 0.4rem;
+}
+.bor_bt {
+	border-bottom: 1px solid #e5e5e5;
+}
+.bor_top {
+	border-top: 1px solid #e5e5e5;
+}
+.problemReport .climit_left_width li {
+	position: relative;
+}
+.problemReport .climit_left_width li span {
+	width: 33%;
+    display: inline-block;
+    line-height: 0.4rem;
+}
+.find_image {
+	position: absolute;
+	right: 0.3rem;
+	top:0px;
+	font-size: 0.26rem;
+}
+.border_none {
+	border: none;
+}
+.flo_right {
+	float: right;
+}
+.CheckTime {
+	position: relative;
+	height: 0.8rem;
+    line-height: 0.8rem;
+    background: #eeeeee;
+    padding-left: 0.3rem;
+    color: #555555;
+    border-top: 1px solid #e5e5e5;
+}

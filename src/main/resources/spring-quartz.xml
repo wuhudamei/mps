@@ -1,0 +1,499 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd"> 
+	<!-- SentMsgQuartz -->
+
+	<!-- 定义目标bean和bean中的方法 -->
+	<!-- =====================日常任务job========================== -->
+    <bean id="TaskPackageQtzJob" class="cn.damei.web.modules.QuartZJobTaskPackageController"></bean>
+    <!-- 定义目标bean和bean中的方法 -->
+
+    <!--2: 任务包提醒项目经理 提前三天 每天9点 -->
+    <bean id="QuartZJobForPack" class="cn.damei.Quartz.QuartZJobForPack"></bean>
+
+	<bean id="sentMsgQuartzJob" class="cn.damei.Quartz.SentMsgQuartz"></bean>
+
+	<bean id="projectProgressBoningJob" class="cn.damei.Quartz.ProjectProgressBoningQuartz"></bean>
+
+	<bean id="projectProgressSummaryDataJob" class="cn.damei.Quartz.BizProjectProgressSummaryDataQuartz"></bean>
+
+	<bean id="evalRewardJob" class="cn.damei.Quartz.EvalRewardQuartz"></bean>
+
+    <!-- 6:订单流转系统的定时抓取接收的预备订单json数据到预备订单中 -->
+   <bean id="quarzPrepareOrder" class="cn.damei.Quartz.QuarzPrepareOrder"></bean>
+
+   	<!-- 客服轮循规则设置定时任务 -->
+   	<bean id="orderReportSendRuleQuarz" class="cn.damei.Quartz.OrderReportSendRuleQuarz"></bean>
+   	
+   	<!-- 8.工程部主材工期统计表 每天凌晨2点-->
+   	<bean id="orderInstallItemReportJob" class="cn.damei.Quartz.OrderInstallItemReportQuartz"></bean>
+
+    <!-- 9.项目经理考勤 每月月一号凌晨执行-->
+    <bean id="managerAttendQuartz" class="cn.damei.Quartz.ManagerAttendQuartz"></bean>
+
+
+
+
+	<bean id="orderReportSendRuleMethod" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+    	<property name="targetObject">
+        	<ref bean="orderReportSendRuleQuarz"/>
+    	</property>
+   	 	<property name="targetMethod"> <!-- 要执行的方法名称 -->
+        	<value>execute</value>
+    	</property>
+    	<property name="concurrent">  <!-- 对于相同的JobDetail，当指定多个Trigger时, 很可能第一个job完成之前，第二个job就开始了。指定concurrent设为false，多个job不会并发运行，第二个job将不会在第一个job完成之前开始。 -->
+			<value>false</value>
+		</property>
+	</bean>
+    <bean id="orderReportSendRuleQuarzCronTriggerBean" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="orderReportSendRuleMethod"></property>
+		<!--每天凌晨0点执行 -->
+		<property name="cronExpression" value="0 0 0 * * ?"></property>
+	</bean>
+
+	<!-- 客服信息 同步 -->
+	 <bean id="customerServiceInformationQuarz" class="cn.damei.service.modules.CustomerServiceInformationQuarz">
+	 		<!-- 默认北京门店 -->
+	 		<property name="storeId">
+			<list>
+				<value>bj001</value>
+			</list>
+			</property>
+	 </bean>
+	 <bean id="customerServiceInformationMethod" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+    	<property name="targetObject">
+        	<ref bean="customerServiceInformationQuarz"/>
+    	</property>
+   	 	<property name="targetMethod"> <!-- 要执行的方法名称 -->
+        	<value>execute</value>
+    	</property>
+    	<property name="concurrent">  <!-- 对于相同的JobDetail，当指定多个Trigger时, 很可能第一个job完成之前，第二个job就开始了。指定concurrent设为false，多个job不会并发运行，第二个job将不会在第一个job完成之前开始。 -->
+			<value>false</value>
+		</property>
+	</bean>
+    <bean id="customerServiceInformationQuarzCronTriggerBean" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="customerServiceInformationMethod"></property>
+		<!--每天凌晨0点执行 -->
+		<property name="cronExpression" value="0 0 0 * * ?"></property>
+	</bean>
+
+
+
+
+
+
+	<!-- =====================每晚11点从接口获取返单信息job========================== -->
+	<bean id="TaskPackageQtzJobForReturnOrder" class="cn.damei.service.modules.QuarzUpdateOrderReportStatus"></bean>
+
+	<bean id="orderReportGetInfoMethod" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="TaskPackageQtzJobForReturnOrder"/>
+		</property>
+		<property name="targetMethod"> <!-- 要执行的方法名称 -->
+			<value>execute</value>
+		</property>
+		<property name="concurrent">  <!-- 对于相同的JobDetail，当指定多个Trigger时, 很可能第一个job完成之前，第二个job就开始了。指定concurrent设为false，多个job不会并发运行，第二个job将不会在第一个job完成之前开始。 -->
+			<value>false</value>
+		</property>
+	</bean>
+
+
+	<!-- 返单 -->
+	<bean id="ReturnOrderInfoQuarzCronTriggerBean" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="orderReportGetInfoMethod"></property>
+		<!--每天晚上11点执行 -->
+	<property name="cronExpression" value="0 0 23 * * ?"></property>
+
+	</bean>
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- 6:方法 -->
+    <bean id="quarzPrepareOrderMethod" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+    	<property name="targetObject">
+        	<ref bean="quarzPrepareOrder"/>
+    	</property>
+   	 	<property name="targetMethod"> <!-- 要执行的方法名称 -->
+        	<value>execute</value>
+    	</property>
+    	<property name="concurrent">  <!-- 对于相同的JobDetail，当指定多个Trigger时, 很可能第一个job完成之前，第二个job就开始了。指定concurrent设为false，多个job不会并发运行，第二个job将不会在第一个job完成之前开始。 -->
+			<value>false</value>
+		</property>
+	</bean>
+
+	<!-- 7.定时发送json数据 -->
+	<bean id="bizSynDateSendAndReceive" class="cn.damei.web.modules.BizSynDateSendAndReceiveController"></bean>
+
+
+    <bean id="TaskPackageQtzJobMethod" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+    	<property name="targetObject">
+        	<ref bean="TaskPackageQtzJob"/>
+    	</property>
+   	 	<property name="targetMethod">  <!-- 要执行的方法名称 -->
+        	<value>execute</value>
+    	</property>
+    	<property name="concurrent">  <!-- 对于相同的JobDetail，当指定多个Trigger时, 很可能第一个job完成之前，第二个job就开始了。指定concurrent设为false，多个job不会并发运行，第二个job将不会在第一个job完成之前开始。 -->
+			<value>false</value>
+		</property>
+	</bean>
+
+
+
+
+	<!-- 2: -->
+
+	  <bean id="TaskPackageQtzJobMethod2" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+    	<property name="targetObject">
+        	<ref bean="QuartZJobForPack"/>
+    	</property>
+   	 	<property name="targetMethod">  <!-- 要执行的方法名称 -->
+        	<value>execute</value>
+    	</property>
+    	<property name="concurrent">  <!-- 对于相同的JobDetail，当指定多个Trigger时, 很可能第一个job完成之前，第二个job就开始了。指定concurrent设为false，多个job不会并发运行，第二个job将不会在第一个job完成之前开始。 -->
+			<value>false</value>
+		</property>
+	</bean>
+
+	<bean id="sentMsgQuartzJobMethod" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="sentMsgQuartzJob"/>
+		</property>
+		<property name="targetMethod">  <!-- 要执行的方法名称 -->
+			<value>execute</value>
+		</property>
+		<property name="concurrent">  <!-- 对于相同的JobDetail，当指定多个Trigger时, 很可能第一个job完成之前，第二个job就开始了。指定concurrent设为false，多个job不会并发运行，第二个job将不会在第一个job完成之前开始。 -->
+			<value>false</value>
+		</property>
+	</bean>
+
+	<bean id="projectProgressBoningJobMethod" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="projectProgressBoningJob"/>
+		</property>
+		<property name="targetMethod">  <!-- 要执行的方法名称 -->
+			<value>execute</value>
+		</property>
+		<property name="concurrent">  <!-- 对于相同的JobDetail，当指定多个Trigger时, 很可能第一个job完成之前，第二个job就开始了。指定concurrent设为false，多个job不会并发运行，第二个job将不会在第一个job完成之前开始。 -->
+			<value>false</value>
+		</property>
+	</bean>
+
+    <bean id="projectProgressSummaryDataJobMethod" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject">
+            <ref bean="projectProgressSummaryDataJob"/>
+        </property>
+        <property name="targetMethod">  <!-- 要执行的方法名称 -->
+            <value>execute</value>
+        </property>
+        <property name="concurrent">  <!-- 对于相同的JobDetail，当指定多个Trigger时, 很可能第一个job完成之前，第二个job就开始了。指定concurrent设为false，多个job不会并发运行，第二个job将不会在第一个job完成之前开始。 -->
+            <value>false</value>
+        </property>
+    </bean>
+
+	<bean id="evalRewardJobMethod" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="evalRewardJob"/>
+		</property>
+		<property name="targetMethod">  <!-- 要执行的方法名称 -->
+			<value>execute</value>
+		</property>
+		<property name="concurrent">  <!-- 对于相同的JobDetail，当指定多个Trigger时, 很可能第一个job完成之前，第二个job就开始了。指定concurrent设为false，多个job不会并发运行，第二个job将不会在第一个job完成之前开始。 -->
+			<value>false</value>
+		</property>
+	</bean>
+
+	<!-- 7 -->
+	 <bean id="bizSynDateSendAndReceiveMethod" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+    	<property name="targetObject">
+        	<ref bean="bizSynDateSendAndReceive"/>
+    	</property>
+   	 	<property name="targetMethod">  <!-- 要执行的方法名称 -->
+        	<value>sendJSONDate</value>
+    	</property>
+		<property name="concurrent">  <!-- 对于相同的JobDetail，当指定多个Trigger时, 很可能第一个job完成之前，第二个job就开始了。指定concurrent设为false，多个job不会并发运行，第二个job将不会在第一个job完成之前开始。 -->
+			<value>false</value>
+		</property>
+    	
+	</bean>
+
+	<!-- 8.工程部主材工期统计表 每天凌晨2点-->
+	<bean id="orderInstallItemReportJobMethod" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="orderInstallItemReportJob"/>
+		</property>
+		<property name="targetMethod">  <!-- 要执行的方法名称 -->
+			<value>execute</value>
+		</property>
+		<property name="concurrent">  <!-- 对于相同的JobDetail，当指定多个Trigger时, 很可能第一个job完成之前，第二个job就开始了。指定concurrent设为false，多个job不会并发运行，第二个job将不会在第一个job完成之前开始。 -->
+			<value>false</value>
+		</property>
+	</bean>
+
+    <!-- 9:项目经理考勤 -->
+
+    <bean id="managerAttendQuartzMethod" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject">
+            <ref bean="managerAttendQuartz"/>
+        </property>
+        <property name="targetMethod"> <!-- 要执行的方法名称 -->
+            <value>execute</value>
+        </property>
+        <property name="concurrent">  <!-- 对于相同的JobDetail，当指定多个Trigger时, 很可能第一个job完成之前，第二个job就开始了。指定concurrent设为false，多个job不会并发运行，第二个job将不会在第一个job完成之前开始。 -->
+            <value>false</value>
+        </property>
+    </bean>
+    <!--9.项目经理考勤-->
+    <bean id="managerAttendQuartzCronTriggerBean" class="org.springframework.scheduling.quartz.CronTriggerBean">
+        <property name="jobDetail" ref="managerAttendQuartzMethod"></property>
+        <!--每月1号 凌晨  -->
+        <property name="cronExpression" value="0 0 0 1 * ?"></property>
+        <!--<property name="cronExpression" value="*/10 * * * * ?"></property>-->
+        <!-- <property name="cronExpression" value="0/30 * * * * ?"></property> -->
+    </bean>
+	
+
+	<!--考勤  -->
+	<bean id="quarzBizAttend" class="cn.damei.Quartz.QuarzBizAttend" />
+	<bean id="quarzBizAttendMethod" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+    	<property name="targetObject">
+        	<ref bean="quarzBizAttend"/>
+    	</property>
+   	 	<property name="targetMethod"> <!-- 要执行的方法名称 -->
+        	<value>execute</value>
+    	</property>
+    	<property name="concurrent">  <!-- 对于相同的JobDetail，当指定多个Trigger时, 很可能第一个job完成之前，第二个job就开始了。指定concurrent设为false，多个job不会并发运行，第二个job将不会在第一个job完成之前开始。 -->
+			<value>false</value>
+		</property>
+	</bean>
+	<!--考勤调度-->
+ 	<bean id="quarzBizAttendCronTriggerBean" class="org.springframework.scheduling.quartz.CronTriggerBean">
+    	<property name="jobDetail" ref="quarzBizAttendMethod"></property>
+    	<!--每月1号 凌晨1点  -->
+    	<property name="cronExpression" value="0 0 1 1 * ?"></property>
+    	<!-- <property name="cronExpression" value="0/30 * * * * ?"></property> -->
+	</bean>
+
+
+	<!-- ======================== 调度触发器 ======================== -->
+  <bean id="TaskPackageCronTriggerBean" class="org.springframework.scheduling.quartz.CronTriggerBean">
+    	<property name="jobDetail" ref="TaskPackageQtzJobMethod"></property>
+    	<!--每天下午12:00触发   0 0 12 * * ? -->
+    	<!--每3分钟触发   0 */3 * * * ? -->
+    	<property name="cronExpression" value="0 0 12 * * ?"></property>
+	</bean>
+
+
+  <!--2: ======================== 调度触发器 ======================== -->
+  <bean id="TaskPackageCronTriggerBean2" class="org.springframework.scheduling.quartz.CronTriggerBean">
+    	<property name="jobDetail" ref="TaskPackageQtzJobMethod2"></property>
+    	<!--每天早上9点触发-->
+    	<property name="cronExpression" value="0 0 9 * * ?"></property>
+	</bean>
+
+<!-- 6:  -->
+	 <bean id="quarzPrepareOrderCronTriggerBean" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="quarzPrepareOrderMethod"></property>
+		<!-- 每隔5秒触发 -->
+		<property name="cronExpression" value="*/5 * * * * ?"></property>
+	</bean>
+
+	<bean id="sentMsgQuartzJobCronTriggerBean" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="sentMsgQuartzJobMethod"></property>
+		<!--每隔2秒触发 -->
+		<property name="cronExpression" value="*/2 * * * * ?"></property>
+		<!--每隔30秒触发 -->
+		<!--<property name="cronExpression" value="0/30 * * * * ?"></property>-->
+	</bean>
+
+	<bean id="projectProgressBoningJobCronTriggerBean" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="projectProgressBoningJobMethod"></property>
+		<!--每天凌晨3点执行 -->
+		<property name="cronExpression" value="0 0 3 * * ?"></property>
+	</bean>
+
+    <bean id="projectProgressSummaryDataJobCronTriggerBean" class="org.springframework.scheduling.quartz.CronTriggerBean">
+        <property name="jobDetail" ref="projectProgressSummaryDataJobMethod"></property>
+        <!--每天凌晨3点执行 -->
+		<property name="cronExpression" value="0 0 3 * * ?"></property>
+    </bean>
+
+
+	<bean id="evalRewardJobCronTriggerBean" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="evalRewardJobMethod"></property>
+		<!--每隔30分钟执行一次 -->
+		<property name="cronExpression" value="0 0/30 * * * ?"></property>
+	</bean>
+
+	<!-- 7 -->
+	<bean id="bizSynDateSendAndReceiveCronTriggerBean" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="bizSynDateSendAndReceiveMethod"></property>
+		<!-- 每隔10秒触发 -->
+		<property name="cronExpression" value="*/10 * * * * ?"></property>
+		<!-- 每隔30秒触发 -->
+		<!-- <property name="cronExpression" value="0/30 * * * * ?"></property> -->
+	</bean>
+	
+	<!-- 8.工程部主材工期统计表 每天凌晨2点-->
+	<bean id="orderInstallItemReportJobCronTriggerBean" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="orderInstallItemReportJobMethod"></property>
+		<!--每天凌晨2点执行 -->
+		<property name="cronExpression" value="0 0 2 * * ?"></property>
+		<!-- <property name="cronExpression" value="0 0/5 * * * ?"></property>-->
+	</bean>
+	
+
+	<!-- 定时更新财务收款信息 -->
+    <bean id="quarzBizPrePmSettleFin" class="cn.damei.Quartz.QuarzBizPrePmSettleFin"></bean>
+
+	<bean id="quarzBizPrePmSettleFinMethod" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+    	<property name="targetObject">
+        	<ref bean="quarzBizPrePmSettleFin"/>
+    	</property>
+   	 	<property name="targetMethod"> <!-- 要执行的方法名称 -->
+        	<value>execute</value>
+    	</property>
+    	<property name="concurrent">  <!-- 对于相同的JobDetail，当指定多个Trigger时, 很可能第一个job完成之前，第二个job就开始了。指定concurrent设为false，多个job不会并发运行，第二个job将不会在第一个job完成之前开始。 -->
+			<value>false</value>
+		</property>
+	</bean>
+
+	<bean id="quarzBizPrePmSettleFinCronTriggerBean" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="quarzBizPrePmSettleFinMethod"></property>
+		<!--每隔10秒触发 -->
+		<property name="cronExpression" value="*/10 * * * * ?"></property>
+	</bean>
+
+    <bean id="orderReportQuarz" class="cn.damei.Quartz.OrderReportQuarz"></bean>
+
+    <bean id="orderReportQuarzMethod" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+    	<property name="targetObject">
+        	<ref bean="orderReportQuarz"/>
+    	</property>
+   	 	<property name="targetMethod"> <!-- 要执行的方法名称 -->
+        	<value>execute</value>
+    	</property>
+    	<property name="concurrent">  <!-- 对于相同的JobDetail，当指定多个Trigger时, 很可能第一个job完成之前，第二个job就开始了。指定concurrent设为false，多个job不会并发运行，第二个job将不会在第一个job完成之前开始。 -->
+			<value>false</value>
+		</property>
+	</bean>
+
+	<bean id="orderReportQuarzCronTriggerBean" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="orderReportQuarzMethod"></property>
+		<!--每天凌晨3点触发 -->
+		<property name="cronExpression" value="0 0 3 * * ?"></property>
+	</bean>
+
+
+
+
+
+
+
+
+	<!-- 定义目标bean和bean中的方法 (客服) -->
+	<!-- =====================日常任务job========================== -->
+	<bean id="customerServiceQuartz" class="cn.damei.Quartz.CustomerServiceQuartz"></bean>
+
+
+
+
+	<bean id="customerServiceFactoryBean" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="customerServiceQuartz"/>
+		</property>
+		<property name="targetMethod"> <!-- 要执行的方法名称 -->
+			<value>execute</value>
+		</property>
+		<property name="concurrent">  <!-- 对于相同的JobDetail，当指定多个Trigger时, 很可能第一个job完成之前，第二个job就开始了。指定concurrent设为false，多个job不会并发运行，第二个job将不会在第一个job完成之前开始。 -->
+			<value>false</value>
+		</property>
+	</bean>
+
+
+	<bean id="customerServiceQuartzCronTriggerBean" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="customerServiceFactoryBean"></property>
+		<!--每天半小时跑一次 -->
+		<property name="cronExpression" value="0 0/30 * * * ?"></property>
+	</bean>
+
+
+
+
+
+
+
+
+	<!-- 定义目标bean和bean中的方法 (投诉问题快速处理) -->
+	<!-- =====================日常任务job========================== -->
+	<bean id="orderComplaintMsgAndPhoneQuartz" class="cn.damei.Quartz.OrderComplaintMsgAndPhoneQuartz"></bean>
+
+
+
+
+	<bean id="orderComplaintMsgAndPhoneQuartzBean" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="orderComplaintMsgAndPhoneQuartz"/>
+		</property>
+		<property name="targetMethod"> <!-- 要执行的方法名称 -->
+			<value>execute</value>
+		</property>
+		<property name="concurrent">  <!-- 对于相同的JobDetail，当指定多个Trigger时, 很可能第一个job完成之前，第二个job就开始了。指定concurrent设为false，多个job不会并发运行，第二个job将不会在第一个job完成之前开始。 -->
+			<value>false</value>
+		</property>
+	</bean>
+
+
+	<bean id="orderComplaintMsgAndPhoneQuartzTriggerBean" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="orderComplaintMsgAndPhoneQuartzBean"></property>
+		<!--半小时一次 -->
+		<property name="cronExpression" value="0 0/30 * * * ?"></property>
+	</bean>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	<!-- ======================== 调度工厂 ======================== -->
+	<bean id="SpringJobSchedulerFactoryBean" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+   	 	<property name="triggers">
+        	 <list>
+            	<!--<ref bean="TaskPackageCronTriggerBean"/>-->
+				<!--<ref bean="sentMsgQuartzJobCronTriggerBean"/>  	stop in testing-->
+                <!--<ref bean="projectProgressSummaryDataJobCronTriggerBean"/>-->
+				<!--<ref bean="evalRewardJobCronTriggerBean"/>-->
+				<!--<ref bean="quarzPrepareOrderCronTriggerBean"/>-->
+				<!--<ref bean="bizSynDateSendAndReceiveCronTriggerBean"/>-->
+				<!--<ref bean="quarzBizPrePmSettleFinCronTriggerBean"/>-->
+				<!--<ref bean="orderReportQuarzCronTriggerBean"/>-->
+				<!--<ref bean="quarzBizAttendCronTriggerBean"/>-->
+				<!--<ref bean="orderReportSendRuleQuarzCronTriggerBean"/>-->
+				<!--<ref bean="customerServiceInformationQuarzCronTriggerBean"/>-->
+				<!--<ref bean="ReturnOrderInfoQuarzCronTriggerBean"/>-->
+				<!--<ref bean="orderInstallItemReportJobCronTriggerBean"/>-->
+				<!--<ref bean="customerServiceQuartzCronTriggerBean"/>-->
+				<!--<ref bean="orderComplaintMsgAndPhoneQuartzTriggerBean"/>-->
+                <!--项目经理考勤-->
+                <!-- <ref bean="managerAttendQuartzCronTriggerBean"/>-->
+
+			</list>
+    	</property>  
+	</bean>
+</beans>

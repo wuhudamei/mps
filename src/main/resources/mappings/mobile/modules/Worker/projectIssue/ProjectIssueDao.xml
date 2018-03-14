@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.mobile.Worker.ProjectIssueDao">
+
+
+    <!--<select id="findProblemByOrderId" parameterType="int" resultType="map">-->
+        <!--SELECT-->
+            <!--CONCAT_WS(-->
+                    <!--"-",-->
+                    <!--a.community_name,-->
+                    <!--a.build_number,-->
+                    <!--a.build_unit,-->
+                    <!--a.build_room,-->
+                    <!--a.customer_name-->
+            <!--)                            AS "customerInfo",-->
+            <!--g.type_name                  AS "typeName",-->
+            <!--f.item_name                  AS "itemName",-->
+            <!--c.create_date                AS "createDate",-->
+            <!--c.complaint_problem_describe AS "problemDescribe",-->
+            <!--c.`status`                   AS "problemStatus",-->
+            <!--h.id                         AS "handleId",-->
+            <!--h.deal_status                AS "dealStatus"-->
+        <!--FROM-->
+            <!--biz_order a-->
+            <!--INNER JOIN biz_order_complaint b ON a.id = b.order_id-->
+            <!--LEFT JOIN biz_order_complaint_problem c ON b.id = c.order_complaint_id-->
+            <!--LEFT JOIN biz_order_complaint_problem_item e ON c.id = e.order_complaint_problem_id-->
+            <!--LEFT JOIN biz_complaint_problem_item f ON e.complaint_problem_item_id = f.id-->
+            <!--LEFT JOIN biz_complaint_problem_type g ON f.complaint_problem_type_id = g.id-->
+            <!--LEFT JOIN biz_order_complaint_problem_deal h ON c.id = h.order_complaint_problem_id-->
+        <!--WHERE-->
+            <!--a.id = #{_parameter}-->
+            <!--AND h.deal_person_type = 2-->
+        <!--GROUP BY h.id-->
+
+        <!--ORDER BY  h.create_date desc-->
+
+
+
+    <!--</select>-->
+
+
+    <update id="updateHandleStatusDataById" parameterType="int">
+        <selectKey keyColumn="relatedId" resultType="int"
+                   order="AFTER">
+            select order_complaint_problem_id from biz_order_complaint_problem_deal where id =#{_parameter}
+
+        </selectKey>
+        update biz_order_complaint_problem_deal a set a.deal_status = 10 where a.id =#{_parameter}
+
+    </update>
+
+
+    <update id="updateProblemItemStatusDataById" parameterType="int">
+
+        UPDATE biz_order_complaint_problem
+        SET `status` = 20
+        WHERE id = #{_parameter}
+
+    </update>
+
+
+</mapper>

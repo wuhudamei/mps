@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="cn.damei.dao.modules.OrderFullActionDao">
+
+	<select id="getBudget" resultType="cn.damei.entity.modules.OrderFullAction" parameterType="string">
+		SELECT
+		a.`create_date` AS "enteringDate",
+		a.`get_order_datetime` AS "receivingDate",
+		o.`name` AS "keyboarder",
+		
+		b.`create_date` AS "packageDate",
+		o2.`name` AS "packageBy",
+
+		c.`create_date` AS "assignedDate",
+		o3.`name` AS "assignedBy",
+		c.distribute_type AS "distributeType"
+	
+		FROM
+		biz_order a
+		INNER JOIN sys_user o
+		ON (a.`create_by` = o.`id`)
+		
+		LEFT JOIN biz_order_taskpackage b
+		ON(a.`id`= b.`order_id`)
+		LEFT JOIN sys_user o2
+		ON(b.`create_by`=o2.`id`)
+
+		LEFT JOIN biz_order_distribute_log c
+		ON(a.`id`=c.`order_id`)
+		LEFT JOIN sys_user o3 
+		ON(c.`create_by`=o3.`id`)
+		
+		WHERE a.id = #{orderId}
+
+		GROUP BY c.`id`
+		ORDER BY  c.`create_date` DESC
+	</select>
+
+
+
+
+	<select id="pqcOrderFullQuery" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT
+			ifnull(c.qc_check_node_name,"无")
+			 AS "qcCheckNodeName",
+			ifnull(	DATE_FORMAT(a.create_date,'%Y-%m-%d'),"无")
+
+								 AS "managerApplyDate",
+			ifnull(DATE_FORMAT(a.expect_check_datetime,'%Y-%m-%d'),"无")
+
+								 AS "managerExpectPqcDate",
+
+
+			ifnull(	DATE_FORMAT(s.sign_datetime,'%Y-%m-%d'),"无")
+
+								 AS "pqcAcutalCheckDate",
+
+			ifnull(	DATE_FORMAT(a.accept_check_datetime,'%Y-%m-%d'),"无")
+
+								 AS "pqcDoneDate"
+
+		FROM
+			biz_qc_bill a
+			LEFT JOIN biz_business_sign s ON a.id = s.related_business_id_int
+											 AND s.sign_type = 301
+			INNER JOIN biz_qc_check_node c ON a.qc_check_node_id = c.id
+		WHERE
+			a.order_id = #{orderId}
+			AND a.qc_bill_type = 1
+			AND a.is_recheck = 0
+
+
+
+	</select>
+
+	
+	<!-- 查询订单详情 -->
+	<select id="orderDetail" parameterType="java.util.Map" resultType="java.util.Map">
+			SELECT
+				a.id AS "orderId",
+				a.store_id AS "storeId",
+				b.`name` AS "storeName",
+				a.order_number AS "orderNumber",
+				a.customer_name AS "customerName",
+				a.customer_phone AS "customerPhone",
+				a.customer_address AS "customerAddress",
+				a.community_name AS "communityName",
+				a.build_number AS "buildNumber",
+				a.build_unit AS "buildUnit",
+				a.build_room AS "buildRoom",
+				a.item_manager_id AS "itemManagerId",
+				e.realName AS "itemManagerName",
+				e.phone AS "itemManagerPhone",
+				a.order_inspector_id AS "orderInspectorId",
+				f.realName AS "orderInspectorName",
+				f.phone AS "orderInspectorPhone",
+				a.designer_name AS "designerName",
+				a.designer_phone AS "designerPhone",
+				a.service_name AS "serviceName",
+				a.service_phone AS "servicePhone"
+			FROM
+				biz_order a
+			LEFT JOIN biz_employee e ON e.id = a.item_manager_id
+			LEFT JOIN biz_employee f ON f.id = a.order_inspector_id
+			LEFT JOIN sys_office b ON b.id = a.store_id
+			<where>
+				<if test="orderNumber != null and orderNumber != ''">
+					AND a.order_number = #{orderNumber}
+				</if>
+				<if test="storeId != null and storeId != ''">
+					AND a.store_id = #{storeId}
+				</if>
+				<if test="orderId != null and orderId != ''">
+					AND a.id = #{orderId}
+				</if>
+			</where>
+			LIMIT 1
+	
+	
+	</select>
+	
+	
+	
+	<!-- 查看材料详情 -->
+	<select id="purchaseDetail" parameterType="java.util.Map" resultType="java.util.Map">
+			SELECT
+				a.id AS "purchaseId",
+				a.purchase_type AS "purchaseType",
+				a.`status` AS "purchaseStatus",
+				c.label AS "purchaseStatusName",
+				IFNULL(DATE_FORMAT(a.apply_time,'%Y-%m-%d %H:%i:%S'),"") AS "applyTime",
+				IFNULL(DATE_FORMAT(a.apply_receive_time,'%Y-%m-%d'),"") AS "applyReceiveTime",
+				IFNULL(DATE_FORMAT(n.receiveDate,'%Y-%m-%d'),"") AS "receiveDate",
+				IFNULL(m1.urgeCount, 0) AS "urgeCount"
+			FROM
+				biz_purchase a
+			LEFT JOIN sys_dict c ON c.`value` = a.`status`
+			AND c.type = #{purchaseStatus}
+			AND c.del_flag = #{delFlag}
+			LEFT JOIN (
+				SELECT
+					b.purchase_id,
+					MAX(b.receive_date) AS "receiveDate"
+				FROM
+					biz_purchase_receive_bill b
+				GROUP BY
+					b.purchase_id
+			) n ON a.id = n.purchase_id
+			LEFT JOIN (
+				SELECT
+					m.business_only_mark_int,
+					COUNT(1) AS "urgeCount"
+				FROM
+					biz_business_urge m
+				WHERE
+					m.busines_type = #{businesType}
+				AND m.operate_type = #{operateType}
+				GROUP BY
+					m.business_only_mark_int
+			) m1 ON m1.business_only_mark_int = a.id
+			WHERE
+				a.order_id = #{orderId}
+			AND a.purchase_type IN (1, 2, 5)
+			ORDER BY
+				a.purchase_type ASC,
+				a.apply_time ASC
+	</select>
+	
+	
+	<!-- 查看安装阶段 -->
+	<select id="installDetail" parameterType="java.util.Map" resultType="java.util.Map">
+			
+			SELECT
+				a.id AS "itstallId",
+				a.install_item_name AS "installItemName",
+				IFNULL(DATE_FORMAT(a.apply_into_create_datetime,'%Y-%m-%d %H:%i:%S'),"") AS "applyIntoCreateDatetime",
+				IFNULL(DATE_FORMAT(a.apply_into_date,'%Y-%m-%d'),"") AS "applyIntoDate",
+				IFNULL(DATE_FORMAT(a.supplier_confirm_into_date,'%Y-%m-%d'),"") AS "supplierConfirmIntoDate",
+				IFNULL(DATE_FORMAT(a.real_into_date,'%Y-%m-%d'),"") AS "realIntoDate",
+				IFNULL(DATE_FORMAT(a.real_complete_date,'%Y-%m-%d'),"") AS "realCompleteDate",
+				IFNULL(DATE_FORMAT(a.real_accept_date,'%Y-%m-%d'),"") AS "realAcceptDate",
+				IFNULL(m1.problemCount,0) AS "problemCount",
+				IFNULL(m1.delayDays,0) AS "delayDays"
+			FROM
+			biz_order_install_plan a
+			LEFT JOIN (
+						SELECT
+							b.business_only_mark_int,
+							COUNT(1) AS "problemCount",
+							SUM(b.delay_days) AS "delayDays"
+						FROM
+							biz_business_problem b
+						WHERE
+							b.business_type = #{businessType}
+						GROUP BY
+							b.business_only_mark_int
+					) m1 ON m1.business_only_mark_int = a.id
+			WHERE a.order_id = #{orderId}
+		
+	</select>
+
+	
+	<!-- 交底 -->
+	<select id="disclosureStartsQuery" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT a.actual_start_date AS "actualStartDate",a.contract_start_date AS "contractStartDate",b.disclose_date AS "discloseDate",
+		c.is_need_sign AS "isNeedSign",c.self_decorate_delay_days AS "selfDecorateDelayDays"
+		FROM biz_order a 
+		LEFT JOIN biz_order_disclose b
+		ON(a.id=b.order_id)
+		LEFT JOIN biz_order_confirm_startwork c 
+		ON(a.id = c.order_id)
+		WHERE a.id = #{orderId}
+	</select>
+	
+	<!-- 基装变更 -->
+	<select id="projectChangeBillQuery" resultType="java.util.Map" parameterType="java.util.Map">
+		SELECT
+	
+		a.project_change_bill_code AS "projectChangeBillCode",
+		a.`apply_date` AS "applyDate",
+		b.`msg_time` AS "stylistCheckDate",
+		c.`msg_time` AS "auditCheckDate"
+		
+		FROM biz_project_change_bill a
+		
+		LEFT JOIN biz_msg b
+		ON(a.`id`=b.`busi_id_int`) AND b.`busi_type` = '101001001'
+		
+		LEFT JOIN biz_msg c
+		ON (a.`id` = c.busi_id_int) AND c.busi_type = '101001003'
+		
+		WHERE a.`order_id`= #{orderId} AND a.`status` IN('10','20','30')
+	
+	</select>
+	
+	<select id="queryPrePmSettleFinance"
+		resultType="cn.damei.entity.modules.BizPrePmSettleFin">
+		SELECT
+		f.receive_money_type as "receiveMoneyType",
+		f.receive_money_datetime as "receiveMoneyDatetime",
+		(
+		SELECT a.accept_check_datetime from biz_qc_bill a
+		INNER JOIN (SELECT b.id from biz_qc_check_node b where b.is_urge_pay = 1) c
+		on c.id = a.qc_check_node_id
+		where a.order_id=f.order_id
+		) as "deptMoneyDate"
+		from
+		biz_pre_pm_settle_finance_receive_moeny f
+		where order_id=#{orderId}
+	</select>
+
+</mapper>

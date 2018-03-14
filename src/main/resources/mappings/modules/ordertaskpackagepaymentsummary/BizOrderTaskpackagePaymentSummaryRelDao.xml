@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizOrderTaskpackagePaymentSummaryRelDao">
+    
+	<sql id="bizOrderTaskpackagePaymentSummaryRelColumns">
+		a.id AS "id",
+		a.order_taskpackage_payment_summary_id as "orderTaskpackagePaymentSummaryId",
+		a.order_taskpackage_payment_id as "orderTaskpackagePaymentId"
+	</sql>
+	
+	<sql id="bizOrderTaskpackagePaymentSummaryRelJoins">
+	</sql>
+    
+	<select id="get" resultType="cn.damei.entity.modules.BizOrderTaskpackagePaymentSummaryRel">
+		SELECT 
+			a.id AS "id",
+			a.order_taskpackage_payment_summary_id as "orderTaskpackagePaymentSummaryId",
+			a.order_taskpackage_payment_id as "orderTaskpackagePaymentId"
+		FROM 
+			biz_order_taskpackage_payment_summary_rel a
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="cn.damei.entity.modules.BizOrderTaskpackagePaymentSummaryRel">
+		SELECT 
+			<include refid="bizOrderTaskpackagePaymentSummaryRelColumns"/>
+		FROM biz_order_taskpackage_payment_summary_rel a
+		<include refid="bizOrderTaskpackagePaymentSummaryRelJoins"/>
+		<where>
+			
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="cn.damei.entity.modules.BizOrderTaskpackagePaymentSummaryRel">
+		SELECT 
+			<include refid="bizOrderTaskpackagePaymentSummaryRelColumns"/>
+		FROM biz_order_taskpackage_payment_summary_rel a
+		<include refid="bizOrderTaskpackagePaymentSummaryRelJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO biz_order_taskpackage_payment_summary_rel(
+			id,
+			order_taskpackage_payment_summary_id,
+			order_taskpackage_payment_id
+		) VALUES (
+			#{id},
+			#{orderTaskpackagePaymentSummaryId},
+			#{orderTaskpackagePaymentId}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE biz_order_taskpackage_payment_summary_rel SET 	
+			order_taskpackage_payment_summary_id = #{orderTaskpackagePaymentSummaryId},
+			order_taskpackage_payment_id = #{orderTaskpackagePaymentId}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM biz_order_taskpackage_payment_summary_rel
+		WHERE id = #{id}
+	</update>
+</mapper>

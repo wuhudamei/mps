@@ -1,0 +1,27 @@
+主材安装-供应商
+/installandsupplier/projectInstallAndSupplier/list
+installandsupplier:projectInstallAndSupplier:view, installandsupplier:projectInstallAndSupplier:edit
+
+供应商工人组设置
+/supplieremgroup/bizSupplierEmployeeGroup/list
+supplieremgroup:bizSupplierEmployeeGroup:view,supplieremgroup:bizSupplierEmployeeGroup:edit
+
+主材安装申请-待办
+/enginInstallNew/enginInstallNew/preList
+enginInstallNew:enginInstallNew:view,enginInstallNew:enginInstallNew:edit
+
+主材安装申请-已处理
+/enginInstallNew/enginInstallNew/preDealWithList
+enginInstallNew:enginInstallNew:view,enginInstallNew:enginInstallNew:edit
+
+主材安装申请-已驳回
+/enginInstallNew/enginInstallNew/preRejectedList
+enginInstallNew:enginInstallNew:view,enginInstallNew:enginInstallNew:edit
+
+主材安装申请-特殊处理
+/enginInstallNew/enginInstallNew/preSpecialDealWithList
+enginInstallNew:enginInstallNew:view,enginInstallNew:enginInstallNew:edit
+
+供应商派安装工人
+/bizsupplierinstallbill/bizSupplierInstallBill/preList
+bizsupplierinstallbill:bizSupplierInstallBill:view,bizsupplierinstallbill:bizSupplierInstallBill:edit

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizOrderTaskpackagePaymentDetailMergeRelDao">
+    
+	<sql id="bizOrderTaskpackagePaymentDetailMergeRelColumns">
+		a.id AS "id",
+		a.order_taskpackage_payment_detail_merge_id AS "orderTaskpackagePaymentDetailMergeId",
+		a.order_taskpackage_payment_detail_id AS "orderTaskpackagePaymentDetailId"
+	</sql>
+	
+	<sql id="bizOrderTaskpackagePaymentDetailMergeRelJoins">
+	</sql>
+    
+	<select id="get" resultType="cn.damei.entity.modules.BizOrderTaskpackagePaymentDetailMergeRel">
+		SELECT 
+			<include refid="bizOrderTaskpackagePaymentDetailMergeRelColumns"/>
+		FROM biz_order_taskpackage_payment_detail_merge_rel a
+		<include refid="bizOrderTaskpackagePaymentDetailMergeRelJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="cn.damei.entity.modules.BizOrderTaskpackagePaymentDetailMergeRel">
+		SELECT 
+			<include refid="bizOrderTaskpackagePaymentDetailMergeRelColumns"/>
+		FROM biz_order_taskpackage_payment_detail_merge_rel a
+		<include refid="bizOrderTaskpackagePaymentDetailMergeRelJoins"/>
+		<where>
+			
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="cn.damei.entity.modules.BizOrderTaskpackagePaymentDetailMergeRel">
+		SELECT 
+			<include refid="bizOrderTaskpackagePaymentDetailMergeRelColumns"/>
+		FROM biz_order_taskpackage_payment_detail_merge_rel a
+		<include refid="bizOrderTaskpackagePaymentDetailMergeRelJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO biz_order_taskpackage_payment_detail_merge_rel(
+			id,
+			order_taskpackage_payment_detail_merge_id,
+			order_taskpackage_payment_detail_id
+		) VALUES (
+			#{id},
+			#{orderTaskpackagePaymentDetailMergeId},
+			#{orderTaskpackagePaymentDetailId}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE biz_order_taskpackage_payment_detail_merge_rel SET 	
+			order_taskpackage_payment_detail_merge_id = #{orderTaskpackagePaymentDetailMergeId},
+			order_taskpackage_payment_detail_id = #{orderTaskpackagePaymentDetailId}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM biz_order_taskpackage_payment_detail_merge_rel
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

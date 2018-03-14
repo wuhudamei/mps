@@ -1,0 +1,1288 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.EngineDepartSyntheticQueryDao">
+
+
+    <select id="get"
+            resultType="cn.damei.entity.modules.EngineDepartSyntheticQueryEntity">
+        SELECT 1
+        FROM dual
+
+        WHERE 1 = 1
+    </select>
+
+    <select id="findList"
+            resultType="cn.damei.entity.modules.EngineDepartSyntheticQueryEntity">
+
+        SELECT
+        IFNULL(
+        (
+        SELECT
+        count(1)
+        FROM
+        biz_order a
+        WHERE
+        a.engin_depart_id = b.id
+        AND a.project_mode = b.project_mode
+        ),0) AS "accpetOrderCount",
+        <if test="queryDate!=null and queryDate !=''">
+
+
+            IFNULL(
+            (
+            SELECT
+            count(1)
+            FROM
+            biz_order a
+            WHERE
+            a.engin_depart_id = b.id
+            AND a.project_mode = b.project_mode
+            AND DATE_FORMAT(a.get_order_datetime ,'%Y-%m-%d') LIKE CONCAT('%',#{queryDate},'%')
+            ),0) AS "accpetOrderCountNow",
+        </if>
+        IFNULL(
+        (
+        SELECT
+        count(1)
+        FROM
+        biz_order a1
+        WHERE
+        a1.engin_depart_id = b.id
+        AND a1.project_mode = b.project_mode
+        AND a1.order_status_number >= #{orderDistributeManagerStatus}
+        ),0) AS "distributeOrderCount",
+
+
+        <if test="queryDate!=null and queryDate !=''">
+            IFNULL(
+            (
+            SELECT
+            count(1)
+            FROM
+            biz_order a,
+            (
+            SELECT
+            min(b1.create_date) AS "managerDate",
+            b1.order_id AS "orderId"
+            FROM
+            biz_order_distribute_log b1
+            GROUP BY
+            b1.order_id
+            ) q
+            WHERE
+            a.engin_depart_id = b.id
+            AND a.id = q.orderid
+            AND a.project_mode = b.project_mode
+            AND DATE_FORMAT(q.managerDate ,'%Y-%m-%d') LIKE CONCAT('%',#{queryDate},'%')
+            ),0) AS "distributeOrderCountNow",
+        </if>
+        IFNULL(
+        (
+        SELECT
+        count(1)
+        FROM
+        biz_order a1
+        WHERE
+        a1.engin_depart_id = b.id
+        AND a1.project_mode = b.project_mode
+        AND a1.order_status_number >= #{orderDiscloseStatus}
+        ) ,0)AS "discloseOrderCount",
+        <if test="queryDate!=null and queryDate !=''">
+            IFNULL(
+            (
+            SELECT
+            count(1)
+            FROM
+            biz_order a
+            INNER JOIN biz_order_disclose d ON a.id = d.order_id
+
+            WHERE
+            a.engin_depart_id = b.id
+            AND a.project_mode = b.project_mode
+            AND a.order_status_number >= #{orderDiscloseStatus}
+            AND
+
+            DATE_FORMAT(d.create_date,'%Y-%m-%d') LIKE CONCAT('%',#{queryDate},'%')
+
+            ),0) AS "discloseOrderCountNow",
+        </if>
+
+        IFNULL(
+        (
+        SELECT
+        count(1)
+        FROM
+        biz_order a1
+        WHERE
+        a1.engin_depart_id = b.id
+        AND a1.project_mode = b.project_mode
+        AND a1.order_status_number >= #{orderConfirmStartStatus}
+        ) ,0)AS "actualStartOrderCount",
+        <if test="queryDate!=null and queryDate !=''">
+
+            IFNULL(
+            (
+            SELECT
+            count(1)
+            FROM
+            biz_order a
+
+            INNER JOIN biz_order_confirm_startwork c ON a.id = c.order_id
+            WHERE
+            a.engin_depart_id = b.id
+            AND a.project_mode = b.project_mode
+            AND a.order_status_number >= #{orderConfirmStartStatus}
+            AND
+            DATE_FORMAT(c.create_date,'%Y-%m-%d') LIKE CONCAT('%',#{queryDate},'%')
+
+
+            ),0) AS "actualStartOrderCountNow",
+        </if>
+        IFNULL(
+        (
+        SELECT
+        count(1)
+        FROM
+        biz_order a1
+        WHERE
+        a1.engin_depart_id = b.id
+        AND a1.project_mode = b.project_mode
+        AND a1.order_status_number >= #{orderDiscloseStatus}
+        AND a1.order_status_number &lt; #{orderApplyCompleteStatus}
+        ),0) AS "buildOrderIndustryCount",
+
+        IFNULL(
+        (
+        SELECT
+        count(1)
+        FROM
+        biz_order a1
+        WHERE
+        a1.engin_depart_id = b.id
+        AND a1.project_mode = b.project_mode
+        AND a1.order_status_number >= #{orderDiscloseStatus}
+        AND a1.order_status_number &lt; #{orderApplyCompleteStatus}
+        ) ,0) AS "buildOrderTraditionCount",
+
+
+        IFNULL(
+        (
+        SELECT
+        count(1)
+        FROM
+        biz_order a
+        WHERE
+        a.engin_depart_id = b.id
+        AND a.project_mode = b.project_mode
+        AND a.order_status_number = #{orderConfirmStartStatus}
+        AND a.id NOT IN (
+        SELECT
+        q.order_id
+        FROM
+        biz_qc_bill q
+        WHERE
+        q.qc_check_node_id IN (
+        SELECT
+        n.id
+        FROM
+        biz_qc_check_node n
+        WHERE
+        n.qc_check_node_name LIKE CONCAT('%', #{basicDoneName}, '%')
+        )
+        )
+        ),0) AS "basicDoneCount",
+
+
+        IFNULL(
+        (
+        SELECT
+        count(1)
+        FROM
+        biz_order a
+        INNER JOIN biz_order_confirm_startwork t
+        WHERE
+        a.engin_depart_id = b.id
+        AND a.project_mode = b.project_mode
+        AND a.order_status_number =#{orderConfirmStartStatus}
+        AND a.id = t.order_id
+        AND TIMESTAMPDIFF(DAY, t.create_date, NOW()) &gt; #{basicDaysDiff}
+        AND a.id NOT IN (
+        SELECT
+        q.order_id
+        FROM
+        biz_qc_bill q
+        WHERE
+        q.qc_check_node_id IN (
+        SELECT
+        n.id
+        FROM
+        biz_qc_check_node n
+        WHERE
+        n.qc_check_node_name LIKE CONCAT('%', #{basicDoneName}, '%')
+        )
+        )
+        ),0) AS "basicDelayCount",
+        IFNULL(
+        concat(
+        FORMAT(
+        (
+        SELECT
+        count(1)
+        FROM
+        biz_order a
+        INNER JOIN biz_order_confirm_startwork t
+        WHERE
+        a.engin_depart_id = b.id
+        AND a.project_mode = b.project_mode
+        AND a.order_status_number = #{orderConfirmStartStatus}
+        AND a.id = t.order_id
+        AND TIMESTAMPDIFF(DAY, t.create_date, NOW()) &gt; #{basicDaysDiff}
+        AND a.id NOT IN (
+        SELECT
+        q.order_id
+        FROM
+        biz_qc_bill q
+        WHERE
+        q.qc_check_node_id IN (
+        SELECT
+        n.id
+        FROM
+        biz_qc_check_node n
+        WHERE
+        n.qc_check_node_name LIKE CONCAT('%', #{basicDoneName}, '%')
+        )
+        )
+        ) / (
+        SELECT
+        count(1)
+        FROM
+        biz_order a
+        WHERE
+        a.engin_depart_id = b.id
+        AND a.project_mode = b.project_mode
+        AND a.order_status_number =#{orderConfirmStartStatus}
+        AND a.id NOT IN (
+        SELECT
+        q.order_id
+        FROM
+        biz_qc_bill q
+        WHERE
+        q.qc_check_node_id IN (
+        SELECT
+        n.id
+        FROM
+        biz_qc_check_node n
+        WHERE
+        n.qc_check_node_name LIKE CONCAT('%', #{basicDoneName}, '%')
+        )
+        )
+        ),
+        2
+        ) * 100,
+        "%"
+        ),
+        "0%"
+        ) AS "basicDelayPercent",
+
+        IFNULL(
+        (
+        SELECT
+        count(1)
+        FROM
+        biz_order a
+        WHERE
+        a.engin_depart_id = b.id
+        AND a.project_mode = b.project_mode
+        AND a.order_status_number != #{orderInspectionCheckPassStatus}
+        AND a.id IN (
+        SELECT
+        q.order_id
+        FROM
+        biz_qc_bill q
+        WHERE
+        q.qc_check_node_id IN (
+        SELECT
+        n.id
+        FROM
+        biz_qc_check_node n
+        WHERE
+        n.qc_check_node_name LIKE CONCAT('%', #{completeDoneName}, '%')
+        )
+        )
+        ),0) AS "mainMaterialStartCount",
+
+        IFNULL(
+        (
+        SELECT
+        count(1)
+        FROM
+        biz_order a
+        INNER JOIN biz_order_confirm_startwork t
+        WHERE
+        a.engin_depart_id = b.id
+        AND a.project_mode = b.project_mode
+        AND a.order_status_number != 320
+        AND a.id = t.order_id
+        AND TIMESTAMPDIFF(DAY, t.create_date, NOW()) &gt; #{mainMaterialDaysDiff}
+        AND a.id IN (
+        SELECT
+        q.order_id
+        FROM
+        biz_qc_bill q
+        WHERE
+        q.qc_check_node_id IN (
+        SELECT
+        n.id
+        FROM
+        biz_qc_check_node n
+        WHERE
+        n.qc_check_node_name LIKE CONCAT('%', #{completeDoneName}, '%')
+        )
+        )
+        ),0) AS "mainMaterialDaysDelayCount",
+        IFNULL(
+        concat(
+        FORMAT(
+        (
+        SELECT
+        count(1)
+        FROM
+        biz_order a
+        INNER JOIN biz_order_confirm_startwork t
+        WHERE
+        a.engin_depart_id = b.id
+        AND a.project_mode = b.project_mode
+        AND a.order_status_number != 320
+        AND a.id = t.order_id
+        AND TIMESTAMPDIFF(DAY, t.create_date, NOW()) > #{mainMaterialDaysDiff}
+        AND a.id IN (
+        SELECT
+        q.order_id
+        FROM
+        biz_qc_bill q
+        WHERE
+        q.qc_check_node_id IN (
+        SELECT
+        n.id
+        FROM
+        biz_qc_check_node n
+        WHERE
+        n.qc_check_node_name LIKE CONCAT('%', #{completeDoneName}, '%')
+        )
+        )
+        ) / (
+        SELECT
+        count(1)
+        FROM
+        biz_order a
+        WHERE
+        a.engin_depart_id = b.id
+        AND a.project_mode = b.project_mode
+        AND a.order_status_number != #{orderInspectionCheckPassStatus}
+        AND a.id IN (
+        SELECT
+        q.order_id
+        FROM
+        biz_qc_bill q
+        WHERE
+        q.qc_check_node_id IN (
+        SELECT
+        n.id
+        FROM
+        biz_qc_check_node n
+        WHERE
+        n.qc_check_node_name LIKE CONCAT('%', #{completeDoneName}, '%')
+        )
+        )
+        ),
+        2
+        ) * 100,
+        "%"
+        ),
+        "0%"
+        ) AS "mainMaterialDelayPercent",
+
+
+        (
+        SELECT
+        count(1)
+        FROM
+        biz_order a
+        WHERE
+        a.order_status_number >= #{orderConfirmStartStatus}
+        AND a.order_status_number &lt; #{orderInspectionCheckPassStatus}
+        AND a.engin_depart_id = b.id
+        AND a.project_mode = b.project_mode
+        ) AS "contractStartDayCount",
+        (
+        SELECT
+        count(1)
+        FROM
+        biz_order_confirm_startwork c,
+        biz_order a1
+        WHERE
+        c.order_id = a1.id
+        AND a1.order_status_number >= #{orderConfirmStartStatus}
+        AND a1.order_status_number &lt;#{orderInspectionCheckPassStatus}
+        AND a1.engin_depart_id = b.id
+        AND a1.project_mode = b.project_mode
+        AND TIMESTAMPDIFF(DAY, c.create_date, NOW()) > a1.contract_time
+        ) AS "contractStartDayDelayCount",
+        IFNULL(
+        concat(
+        FORMAT(
+        (
+        SELECT
+        count(1)
+        FROM
+        biz_order_confirm_startwork c,
+        biz_order a1
+        WHERE
+        c.order_id = a1.id
+        AND a1.order_status_number >= #{orderConfirmStartStatus}
+        AND a1.order_status_number &lt; #{orderInspectionCheckPassStatus}
+        AND a1.engin_depart_id = b.id
+        AND a1.project_mode = b.project_mode
+        AND TIMESTAMPDIFF(DAY, c.create_date, NOW()) > a1.contract_time
+        ) / (
+        SELECT
+        count(1)
+        FROM
+        biz_order a
+        WHERE
+        a.order_status_number >= #{orderConfirmStartStatus}
+        AND a.order_status_number &lt; #{orderInspectionCheckPassStatus}
+        AND a.engin_depart_id = b.id
+        AND a.project_mode = b.project_mode
+        ),
+        2
+        ) * 100,
+        "%"
+        ),
+        "0%"
+        ) AS "contractStartDelayPercent",
+
+
+        <!--
+                (
+                SELECT
+                count(1)
+                FROM
+                biz_order a1
+                WHERE
+                a1.engin_depart_id = b.id
+                AND a1.order_status_number >= #{orderDiscloseStatus}
+                AND a1.order_status_number &lt; #{orderApplyCompleteStatus}
+                ) AS "buildOrderCount",
+
+
+                <if test="queryDate!=null and queryDate !=''">
+                    (
+                    SELECT
+                    count(1)
+                    FROM
+                    biz_order a
+                    INNER JOIN biz_order_disclose d ON a.id = d.order_id
+                    INNER JOIN biz_order_confirm_startwork c ON a.id = c.order_id
+                    WHERE
+                    a.engin_depart_id = b.id
+                    AND a.project_mode = #{orderProjectModeIndustry}
+                    AND a.order_status_number >= #{orderDiscloseStatus}
+                    AND a.order_status_number &lt; #{orderApplyCompleteStatus}
+                    AND (
+                    c.create_date LIKE CONCAT('%',#{queryDate},'%')
+                    OR d.create_date LIKE CONCAT('%',#{queryDate},'%')
+                    )
+                    ) AS "buildOrderCountNow",
+                </if>
+
+                -->
+
+        b.`name` as "engineDepartName"
+        FROM
+        biz_engineering_department b
+        WHERE
+        b.del_flag = #{DEL_FLAG_NORMAL}
+        and b.store_id=#{storeId}
+        GROUP BY
+        b.id
+
+
+        <choose>
+            <when test="page !=null and page.orderBy != null and page.orderBy != ''">
+                ORDER BY ${page.orderBy}
+            </when>
+            <otherwise>
+
+            </otherwise>
+        </choose>
+    </select>
+
+
+    <select id="selectEngineDepartSyntheticList"
+            resultType="cn.damei.entity.modules.EngineDepartSyntheticQueryEntity">
+
+        SELECT
+            a.`name`     AS "engineDepartName",
+            a.id         AS "engineDepartId",
+            b.`name`     AS "storeName",
+            a.id,
+            (
+                SELECT count(c2.id)
+                FROM
+                    biz_order c2
+                WHERE
+                    c2.engin_depart_id = a.id
+                    AND c2.create_date BETWEEN #{startDate}
+                    AND DATE_ADD(#{endDate}, INTERVAL 1 DAY)
+            )            AS "accpetOrderCount",
+            count(d.id)  AS "discloseOrderCount",
+            count(e.id)  AS "contractStartDayCount",
+            count(m2.id) AS "distributeOrderCount"
+        FROM
+            biz_engineering_department a
+            LEFT JOIN sys_office b ON a.store_id = b.id
+            LEFT JOIN biz_order c ON c.engin_depart_id = a.id
+            LEFT JOIN biz_order_disclose d ON d.order_id = c.id
+                                              AND d.disclose_date >= #{startDate}
+                                              AND d.disclose_date &lt;= #{endDate}
+            LEFT JOIN biz_order_confirm_startwork e ON e.order_id = c.id
+                                                       AND c.actual_start_date >= #{startDate}
+                                                       AND c.actual_start_date &lt;= #{endDate}
+            LEFT JOIN (
+                          SELECT
+                              max(f.id) AS "maxId",
+                              f.order_id
+                          FROM
+                              biz_order_distribute_log f
+                          WHERE
+                              f.distribute_type IN (101, 102)
+                              AND f.create_date &lt; (
+                                  SELECT CASE
+                                         WHEN (
+                                                  SELECT h.create_date
+                                                  FROM
+                                                      biz_order_confirm_startwork h
+                                                  WHERE
+                                                      h.order_id = f.order_id
+                                              ) IS NOT NULL
+                                             THEN
+                                                 (
+                                                     SELECT h.create_date
+                                                     FROM
+                                                         biz_order_confirm_startwork h
+                                                     WHERE
+                                                         h.order_id = f.order_id
+                                                 )
+                                         ELSE
+                                             STR_TO_DATE(
+                                                     '2099-12-31',
+                                                     '%Y-%m-%d %H:%i:%s'
+                                             )
+                                         END AS "create_date"
+                              )
+                          GROUP BY
+                              f.order_id
+                      ) m1 ON m1.order_id = c.id
+            LEFT JOIN biz_order_distribute_log m2 ON m2.id = m1.maxId
+                                                     AND m2.create_date >= #{startDate}
+                                                     AND m2.create_date &lt;= #{endDate}
+        WHERE
+            a.del_flag = 0
+            AND a.store_id = #{storeId}
+        GROUP BY
+            a.id
+        ORDER BY
+            a.id ASC
+
+    </select>
+
+
+    <select id="pqcSyntheticQuery"
+            parameterType="cn.damei.entity.modules.EngineDepartSyntheticQueryEntity"
+            resultType="cn.damei.entity.modules.EngineDepartSyntheticQueryEntity">
+
+
+        SELECT
+        a.qc_check_node_name AS "qcCheckNodeName",
+        #{queryDate} as "pqcQueryDate",
+        (
+        SELECT
+        count(c.id)
+        FROM
+
+        biz_order c
+        WHERE
+        c.store_id = a.store_id
+        AND c.project_mode = a.project_mode
+        and
+        DATE_ADD(
+        c.actual_start_date,
+        INTERVAL a.days_to_check DAY
+        ) = #{queryDate}
+
+        ) AS "shouldBeDoneCount",
+        (
+        SELECT
+        count(b2.qc_check_node_id)
+        FROM
+        biz_qc_bill b2
+        WHERE
+        b2.qc_check_node_id = a.id
+        AND b2.qc_bill_type = 1
+        AND b2.is_recheck = 0
+        AND
+        b2.expect_check_datetime =#{queryDate}
+
+        ) AS "managerApplyDoneCount",
+        (
+        SELECT
+        count(b3.qc_check_node_id)
+        FROM
+        biz_qc_bill b3
+        WHERE
+        b3.qc_check_node_id = a.id
+        AND b3.qc_bill_type = 1
+        AND b3.is_recheck = 0
+        AND b3.`status` >= 10
+        AND DATE_FORMAT(
+        b3.accept_check_datetime,
+        '%Y-%m-%d'
+        ) = #{queryDate}
+        ) AS "alreadyDoneCount",
+        (
+        SELECT
+        count(b4.qc_check_node_id)
+        FROM
+        biz_qc_bill b4
+        LEFT JOIN biz_order c2 ON b4.order_id = c2.id
+        WHERE
+        b4.qc_check_node_id = a.id
+        AND b4.qc_bill_type = 1
+        AND b4.is_recheck = 0
+        AND DATE_ADD(
+        c2.actual_start_date,
+        INTERVAL a.days_to_check DAY
+        ) &lt; #{queryDate}
+        AND b4.`status` &lt; 10
+        ) AS "unFinishDoneCount"
+        FROM
+        biz_qc_check_node a
+        WHERE
+        1=1
+        <if test="storeId!=null and storeId!=''">
+            and a.store_id = #{storeId}
+
+
+        </if>
+
+        AND a.project_mode = #{projectMode}
+        and a.del_flag =0 and a.status=1
+
+
+    </select>
+
+
+    <select id="pqcSyntheticDataInfo" parameterType="java.util.Map" resultType="java.util.Map">
+
+        SELECT
+        a.qc_check_node_name as "qcCheckNodeName",
+        (
+        SELECT
+        count(b.qc_check_node_id)
+        FROM
+        biz_qc_bill b LEFT JOIN biz_order c ON b.order_id = c.id
+
+        WHERE
+        b.qc_check_node_id=a.id
+        AND b.qc_bill_type = 1
+        AND b.is_recheck = 0
+
+        AND (
+        DATE_ADD(
+        c.actual_start_date,
+        INTERVAL a.days_to_check DAY
+        ) = #{pqcQueryDate}
+        ) = 1
+        ) as "shouldBeDoneCount",
+
+
+        (
+        SELECT
+        count(b2.qc_check_node_id)
+        FROM
+        biz_qc_bill b2
+        WHERE
+        b2.qc_check_node_id = a.id
+        AND b2.qc_bill_type = 1
+        AND b2.is_recheck = 0
+        AND (
+        b2.expect_check_datetime = #{pqcQueryDate}
+        ) = 1
+        ) AS "managerApplyDoneCount",
+        (
+        SELECT
+        count(b3.qc_check_node_id)
+        FROM
+        biz_qc_bill b3
+        WHERE
+        b3.qc_check_node_id = a.id
+        AND b3.qc_bill_type = 1
+        AND b3.is_recheck = 0
+        and b3.`status`>=10
+        AND (
+        b3.accept_check_datetime = #{pqcQueryDate}
+        ) = 1
+        ) AS "alreadyDoneCount",
+        (
+        SELECT
+        count(b4.qc_check_node_id)
+
+        FROM
+        biz_qc_bill b4 LEFT JOIN biz_order c2 ON b4.order_id = c2.id
+
+        WHERE
+        b4.qc_check_node_id=a.id
+        AND b4.qc_bill_type = 1
+        AND b4.is_recheck = 0
+
+        AND (
+        DATE_ADD(
+        c2.actual_start_date,
+        INTERVAL a.days_to_check DAY
+
+        ) = #{pqcQueryDate}
+        ) = 1
+        and b4.`status` &lt;10
+        ) as "unFinishDoneCount"
+
+        from
+        biz_qc_check_node a
+        WHERE
+        1=1
+        <if test="storeId!=null and storeId!=''">
+            and a.store_id = #{storeId}
+
+
+        </if>
+
+        AND a.project_mode = #{projectMode}
+        and a.del_flag =0 and a.status=1
+
+    </select>
+
+
+    <select id="pqcSyntheticDataInfoForSameDay" parameterType="java.util.Map" resultType="java.util.Map">
+
+        SELECT
+        a.qc_check_node_name as "qcCheckNodeName",
+        (
+        SELECT
+        count(b.qc_check_node_id)
+        FROM
+        biz_qc_bill b LEFT JOIN biz_order c ON b.order_id = c.id
+
+        WHERE
+        b.qc_check_node_id=a.id
+        AND b.qc_bill_type = 1
+        AND b.is_recheck = 0
+
+        AND
+        DATE_ADD(
+        c.actual_start_date,
+        INTERVAL a.days_to_check DAY
+        ) &gt;= #{start}
+
+        AND
+        DATE_ADD(
+        c.actual_start_date,
+        INTERVAL a.days_to_check DAY
+        ) &lt;= #{end}
+
+        ) as "shouldBeDoneCount",
+
+
+        (
+        SELECT
+        count(b2.qc_check_node_id)
+        FROM
+        biz_qc_bill b2
+        WHERE
+        b2.qc_check_node_id = a.id
+        AND b2.qc_bill_type = 1
+        AND b2.is_recheck = 0
+        AND
+        b2.expect_check_datetime &gt;= #{start}
+        AND
+        b2.expect_check_datetime &lt;= #{end}
+
+        ) AS "managerApplyDoneCount",
+        (
+        SELECT
+        count(b3.qc_check_node_id)
+        FROM
+        biz_qc_bill b3
+        WHERE
+        b3.qc_check_node_id = a.id
+        AND b3.qc_bill_type = 1
+        AND b3.is_recheck = 0
+        and b3.`status` >=10
+        AND
+        b3.accept_check_datetime &gt;= #{start}
+        AND
+        b3.accept_check_datetime &lt;= #{end}
+
+        ) AS "alreadyDoneCount",
+        (
+        SELECT
+        count(b4.qc_check_node_id)
+
+        FROM
+        biz_qc_bill b4 LEFT JOIN biz_order c2 ON b4.order_id = c2.id
+
+        WHERE
+        b4.qc_check_node_id=a.id
+        AND b4.qc_bill_type = 1
+        AND b4.is_recheck = 0
+
+        AND
+        DATE_ADD(
+        c2.actual_start_date,
+        INTERVAL a.days_to_check DAY
+
+        ) &gt; #{start}
+
+
+        AND
+        DATE_ADD(
+        c2.actual_start_date,
+        INTERVAL a.days_to_check DAY
+
+        ) &lt; #{end}
+
+
+        and b4.`status` &lt;10
+        ) as "unFinishDoneCount"
+
+        from
+        biz_qc_check_node a
+        WHERE
+        1=1
+        <if test="storeId!=null and storeId!=''">
+            and a.store_id = #{storeId}
+
+
+        </if>
+
+        AND a.project_mode = #{projectMode}
+        and a.del_flag =0 and a.status=1
+
+    </select>
+
+
+    <select id="findEngineByStoreId" parameterType="String" resultType="map">
+
+        SELECT
+            a.id   AS "engineDepartId",
+            a.name AS "engineDepartName",
+            b.name AS "storeName"
+        FROM biz_engineering_department a INNER JOIN sys_office b ON a.store_id = b.id
+        WHERE b.id = #{_parameter}
+              AND a.del_flag = 0
+        ORDER BY a.id ASC
+    </select>
+
+
+    <select id="findOrderCountByEngine" parameterType="map" resultType="map">
+        SELECT
+        count(a.id) as "count",
+        a.engin_depart_id as "departId"
+        FROM
+        biz_order a
+        WHERE
+        a.engin_depart_id IN (
+
+        <foreach collection="list" item="item" index="index" separator=",">
+
+            #{item.engineDepartId}
+
+        </foreach>
+
+        )
+         AND a.is_scrap = 0
+        AND a.get_order_datetime >=#{startDate}
+        AND a.get_order_datetime &lt;= #{endDate}
+        GROUP BY
+        a.engin_depart_id
+        ORDER BY a.engin_depart_id ASC
+
+    </select>
+
+
+    <select id="findDiscloseCountByEngine" parameterType="map" resultType="map">
+        SELECT
+        count(a.id) as "count",
+        a.engin_depart_id as "departId"
+        FROM
+        biz_order a inner JOIN biz_order_disclose b ON a.id = b.order_id
+        WHERE
+        a.engin_depart_id IN (
+
+        <foreach collection="list" item="item" index="index" separator=",">
+
+            #{item.engineDepartId}
+
+        </foreach>
+
+        )
+        AND b.disclose_date >=#{startDate}
+        AND b.disclose_date &lt;=#{endDate}
+        GROUP BY
+        a.engin_depart_id
+        ORDER BY a.engin_depart_id ASC
+
+    </select>
+
+
+    <select id="findStartCountByEngine" parameterType="map" resultType="map">
+        SELECT
+        COUNT(a.id) as "count",
+        a.engin_depart_id as "departId"
+        FROM
+        biz_order a
+        INNER JOIN biz_order_confirm_startwork c ON a.id = c.order_id
+        WHERE
+        a.engin_depart_id IN (
+
+        <foreach collection="list" item="item" index="index" separator=",">
+
+            #{item.engineDepartId}
+
+        </foreach>
+
+        )
+        AND a.actual_start_date >=#{startDate}
+        AND a.actual_start_date &lt;= #{endDate}
+        GROUP BY
+        a.engin_depart_id
+        ORDER BY a.engin_depart_id ASC
+
+    </select>
+
+
+    <select id="findDistributeCountByEngine" parameterType="map" resultType="map">
+		SELECT
+			COUNT(a.id) AS "count",
+			a.engin_depart_id AS "departId"
+		FROM
+			biz_order a
+		INNER JOIN (
+			SELECT
+				f.id AS "maxId",
+				f.order_id
+			FROM
+				biz_order_distribute_log f
+			WHERE
+				f.distribute_type IN (101)
+			AND f.create_date >= #{startDate}
+			AND f.create_date &lt;= #{endDate}
+		) b ON a.id = b.order_id
+		WHERE
+			a.engin_depart_id IN (
+			<foreach collection="list" item="item" index="index" separator=",">
+
+            	#{item.engineDepartId}
+
+       	 	</foreach>
+			)
+		GROUP BY
+			a.engin_depart_id
+		ORDER BY
+			a.engin_depart_id ASC
+    </select>
+
+
+    <resultMap id="engineMap"
+               type="cn.damei.entity.modules.EngineDepartEntity">
+        <result property="storeName" column="storeName"></result>
+        <result property="storeId" column="storeId"></result>
+        <result property="projectMode" column="projectMode"></result>
+        <result property="engineDepartName" column="engineDepartName"></result>
+        <collection property="list" resultMap="starMap"></collection>
+
+    </resultMap>
+
+
+    <resultMap id="starMap"
+               type="cn.damei.entity.modules.ManagerSyntheticStarEntity">
+
+        <result column="star" property="star"></result>
+        <result column="star_level" property="star_level"></result>
+
+
+    </resultMap>
+
+    <!-- 根据门店和工程模式查找大区,并统计大区下项目经理的星级-->
+    <select id="findManagerStarGroupByEngineDepartByStoreIdAndProjectMode" resultMap="engineMap">
+        SELECT
+            e.`name` AS "storeName",
+            f.label AS "projectMode",
+            d.`name` AS "engineDepartName",
+            b.
+            VALUE
+                     AS "star_level",
+            count(a.id) AS "star"
+        FROM
+            `biz_employee` a
+            INNER JOIN biz_engin_depart_employee_position c ON a.id = c.employee_id
+                                                               and a.del_flag =0
+                                                               and a.orderStop=0
+                                                               AND c.position_type = 5
+            INNER JOIN sys_dict b ON a.star = b.`value`
+                                     AND b.type = 'manager_star'
+            INNER JOIN biz_engineering_department d ON c.engin_depart_id = d.id
+            INNER JOIN sys_office e ON a.storeId = e.id
+            INNER JOIN sys_dict f ON d.project_mode = f.
+        VALUE
+
+                                     AND f.type = 'project_mode'
+        WHERE
+            a.empType = 3
+            AND d.store_id =#{0}
+            AND d.project_mode =#{1}
+        GROUP BY
+            a.storeId,
+            a.project_mode,
+            c.engin_depart_id,
+            b.`value`
+        ORDER BY
+            d.`name`,
+            b.`value` ASC
+    </select>
+
+
+    <select id="getDictListByTypeOrderByValue" parameterType="String" resultType="int">
+
+        SELECT value
+        FROM sys_dict
+        WHERE type = #{_parameter}
+        ORDER BY value ASC
+
+    </select>
+
+
+    <!-- 根据门店和工程模式查找大区,并统计大区下工人工种的信息-->
+    <select id="findWorkerTypeGroupByEngineDepartByStoreIdAndProjectMode" resultMap="engineMap">
+        SELECT
+            ep.`name` AS "engineDepartName",
+            ep.store_id AS "storeId",
+            ep.project_mode AS "projectMode",
+            b.
+            VALUE
+                AS "star_level",
+            count(e.id) AS "star"
+        FROM
+            biz_employeegroup a
+            INNER JOIN biz_emgrouprelation egr ON a.id = egr.groupId
+                                                  AND egr.is_leader = '1'
+            INNER JOIN biz_employee e ON egr.empId = e.id
+                                         AND e.del_flag = 0
+                                         and e.orderStop=0
+                                         and a.orderStop=0
+            INNER JOIN biz_engineering_department ep ON ep.id = a.elactricationId
+            INNER JOIN sys_dict b ON e.workType = b.`value`
+                                     AND b.type = 'emp_work_type'
+        WHERE
+
+        e.empType = 2
+        and a.state=0
+        AND a.orderStop = 0
+        AND e.del_flag = 0
+        AND e.orderStop = 0
+            AND ep.store_id =#{0}
+            AND ep.project_mode = #{1}
+        GROUP BY
+            ep.store_id,
+            ep.project_mode,
+            ep.id,
+            b.`value`
+        ORDER BY
+            ep.`name`,
+            b.`value` ASC
+    </select>
+    <!-- 根据门店和工程模式查找大区,并统计大区下工人工种的信息-->
+    <select id="findWorkerTypeList" resultType="String">
+        SELECT a.label
+        FROM sys_dict a
+        WHERE a.type = 'emp_work_type'
+
+        ORDER BY a.value ASC
+    </select>
+
+
+    <!-- 质检报告数-->
+    <select id="qcBillReportCount" parameterType="map" resultType="int">
+        SELECT count(b.id)
+        FROM
+            biz_order a INNER JOIN
+            biz_qc_bill b ON a.id = b.order_id
+                             AND b.`status` >= 5
+                             AND b.is_recheck = 0
+        WHERE
+            a.store_id = #{storeId}
+            AND a.project_mode = #{projectMode}
+            AND b.check_datetime >= #{startDate}
+            AND b.check_datetime &lt;= #{endDate}
+
+
+    </select>
+
+
+    <!--申请约检数(约检单数) -->
+    <select id="managerApplyCheckQcBillCount" parameterType="map" resultType="int">
+        SELECT count(b.id) AS "applyCheckCount"
+
+        FROM
+            biz_order a INNER JOIN
+            biz_qc_bill b ON a.id = b.order_id
+                             AND b.qc_bill_type = 1
+                             AND b.is_recheck = 0
+        WHERE
+            a.store_id = #{storeId}
+            AND a.project_mode = #{projectMode}
+            AND b.create_date >= #{startDate}
+            AND b.create_date &lt;= #{endDate}
+
+
+    </select>
+
+    <!--质检员签到数量-->
+    <select id="qcSignCount" parameterType="map" resultType="int">
+        SELECT count(b.id) AS "qcSignCount"
+        FROM
+            biz_order q INNER JOIN
+            biz_qc_bill a ON q.id = a.order_id
+            INNER JOIN biz_business_sign b ON a.id = b.related_business_id_int
+                                              AND b.sign_type IN (301, 302, 303)
+
+
+        WHERE
+            q.store_id = #{storeId}
+            AND q.project_mode = #{projectMode}
+            AND b.sign_datetime >= #{startDate}
+            AND b.sign_datetime &lt;= #{endDate}
+
+
+    </select>
+
+
+    <!--约检提交报告数量-->
+    <select id="qcApplyCheckCount" parameterType="map" resultType="int">
+        SELECT count(b.id) AS "applyCheckCount"
+        FROM
+            biz_order a
+            INNER JOIN biz_qc_bill b ON a.id = b.order_id
+                                        AND b.`status` >= 5
+                                        AND b.is_recheck = 0
+                                        AND b.qc_bill_type = 1
+        WHERE
+            a.store_id = #{storeId}
+            AND a.project_mode = #{projectMode}
+            AND b.check_datetime >= #{startDate}
+            AND b.check_datetime &lt;= #{endDate}
+
+
+    </select>
+
+
+    <!--约检验收数量-->
+    <select id="qcBillDoneCount" parameterType="map" resultType="int">
+        SELECT count(b.id) AS "qcBillDoneCount"
+
+        FROM
+            biz_order a INNER JOIN
+            biz_qc_bill b ON a.id = b.order_id
+                             AND b.`status` >= 5
+                             AND b.qc_bill_type = 1
+        WHERE
+            a.store_id = #{storeId}
+            AND a.project_mode = #{projectMode}
+            AND b.accept_check_datetime >= #{startDate}
+            AND b.accept_check_datetime &lt;= #{endDate}
+
+
+    </select>
+    <!--质检上报问题-->
+    <select id="qcIssueReportCount" parameterType="map" resultType="int">
+        SELECT count(b.id) AS "issueReportCount"
+        FROM
+            biz_order a INNER JOIN
+
+            `biz_qc_bill` c ON a.id = c.order_id
+            INNER JOIN biz_business_problem b ON c.id = b.business_only_mark_int
+                                                 AND b.business_type = 3
+                                                 AND c.qc_bill_type = 1
+        WHERE
+            a.store_id = #{storeId}
+            AND a.project_mode = #{projectMode}
+            AND
+            b.create_date >= #{startDate}
+            AND b.create_date &lt;= #{endDate}
+
+
+    </select>
+    <!--质检复检单数量-->
+    <select id="qcRecheckCount" parameterType="map" resultType="int">
+        SELECT count(b.id) AS "recheckCount"
+
+        FROM
+            biz_order a INNER JOIN
+            biz_qc_bill b ON a.id = b.order_id
+                             AND b.is_recheck = 1
+        WHERE
+            a.store_id = #{storeId}
+            AND a.project_mode = #{projectMode}
+            AND b.create_date >= #{startDate}
+            AND b.create_date &lt;= #{endDate}
+
+
+    </select>
+
+    <!--质检罚款工地及钱数-->
+    <select id="fineOrderCountAndTotalMoney" parameterType="map" resultType="map">
+        SELECT
+            count(DISTINCT (a.id)) AS "fineOrderCount",
+            sum(d.money)           AS "fineMoneyTotal"
+        FROM
+            biz_order a
+            INNER JOIN biz_qc_bill b ON a.id = b.order_id
+                                        AND b.`status` >= 5
+            INNER JOIN (
+                           SELECT
+                               c.qc_bill_id,
+
+                               sum(
+                                       IFNULL(c.punish_money_amount_real, 0) + IFNULL(c.qc_punish_amount, 0) +
+                                       IFNULL(c.worker_punish_amount, 0)
+                               ) AS "money"
+                           FROM
+                               biz_qc_bill_check_item c
+                           WHERE
+                               c.is_punish_money = 1
+                               AND c.create_date >= #{startDate}
+                               AND c.create_date &lt;= #{endDate}
+                           GROUP BY
+                               c.qc_bill_id
+                       ) d ON b.id = d.qc_bill_id
+        WHERE
+            a.store_id = #{storeId}
+            AND a.project_mode = #{projectMode}
+            AND b.check_datetime >= #{startDate}
+            AND b.check_datetime &lt;= #{endDate}
+
+
+    </select>
+
+
+</mapper>
+

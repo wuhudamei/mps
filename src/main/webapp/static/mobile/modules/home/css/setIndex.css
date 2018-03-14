@@ -1,0 +1,161 @@
+
+
+/*中间内容start*/
+.bxy_setIndex_warp_con{
+    height: 86.2%;
+}
+.bxy_setIndex_warp_con >p{
+    font-size: 0.28rem;
+    color: #666666;
+    height: 0.76rem;
+    line-height: 0.76rem;
+    padding: 0 0.3rem;
+}
+.bxy_setIndex_warp_con .list_con{
+    border-bottom: 1px solid #dddddd;
+    border-top: 1px solid #dddddd;
+    background: #ffffff;
+}
+.bxy_setIndex_warp_con .list_con li{
+    height: 0.98rem;
+    line-height: 0.98rem;
+    border-bottom: 1px solid #ececec;
+    color: #333333;
+    font-size: 0.3rem;
+    padding: 0 0.38rem;
+}
+.bxy_setIndex_warp_con .list_con li:last-child{
+    border-bottom: none;
+}
+.bxy_setIndex_warp_con .list_con li p{
+    line-height: 0.98rem;
+    position: relative;
+}
+.bxy_setIndex_warp_con .list_con li p i{
+    padding-right: 0.38rem;
+}
+.icon_clearCookie{
+    background: url("../images/clearCookie.png") no-repeat;
+    width: 0.46rem;
+    height: 0.47rem;
+    display: inline-block;
+    background-size: 100%;
+    vertical-align: middle;
+    margin-right:0.32rem;
+}
+.icon_enter{
+    background: url("../images/icon_enter.png") no-repeat;
+    width: 0.16rem;
+    height: 0.3rem;
+    background-size: 100%;
+    position: absolute;
+    right:0;
+    top: 0.35rem;
+}
+.icon_updata{
+    background: url("../images/upadta.png") no-repeat;
+    width: 0.46rem;
+    height: 0.47rem;
+    display: inline-block;
+    background-size: 100%;
+    vertical-align: middle;
+    margin-right:0.32rem;
+}
+.new_tip{
+    height: 0.26rem;
+    border-radius: 26px;
+    background-color: #f63c29;
+    display: inline-block;
+    line-height: 0.26rem;
+    text-align: center;
+    color: #ffffff;
+    font-size: 0.18rem;
+    margin-right: 10px;
+    padding: 0 0.1rem;
+}
+.bxy_setIndex_warp_con input{
+    width: 6.53rem;
+    height: 1rem;
+    background-color: #0780ec;
+    border-radius: 25px;
+    border: none;
+    font-size: 0.4rem;
+    color: #ffffff;
+    position: absolute;
+    left: 50%;
+    margin-left: -3.265rem;
+    bottom: 0.66rem;
+}
+/*中间内容end*/
+/*页面弹层start*/
+.bxy_setIndex_mask{
+    height: 2.32rem;
+    background-color: #fff;
+    border-radius: 10px;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    margin-left: -3.2rem;
+    margin-top: -1.16rem;
+    z-index: 10;
+    font-size: 0.3rem;
+    color: #666666;
+    width: 6.4rem;
+}
+.bxy_setIndex_mask_icon img{
+     width: 1.14rem;
+    position: absolute;
+    left: 18%;
+    top: -65%;
+    width: 0.87rem;
+    animation:brushmove 0.5s infinite;
+    -webkit-animation:brushmove 0.5s infinite; /* Safari 和 Chrome */
+}
+.bxy_setIndex_mask_icon{
+    position: relative;
+}
+.bxy_setIndex_mask p{
+    height: 2.32rem;
+    line-height:2.32rem ;
+    margin-left: 2rem;
+}
+.bxy_setIndex_mask{
+    display: none;
+}
+.bxy_setIndex_mask_brash{
+    background: url("../images/cirse.png") no-repeat;
+    background-size: 100%;
+    position: absolute;
+    left: 19%;
+    top: 88%;
+    width: 1.14rem;
+    height: 1.14rem;
+    transform: translate(-50%,-50%);
+    -webkit-transform: translate(-50%,-50%);
+
+}
+@keyframes brushmove{
+    0%   {
+        left:19%;
+        transform: rotate(0deg);
+        transform-origin:50% 0%;
+    }
+    25%  {left:30%; right:30%;
+         transform: rotate(-50deg);
+         transform-origin:50% 0%;
+        transition-duration: 2s;
+     }
+    50%  {left:20%; right:20%;
+        transform: rotate(-25deg);
+        transform-origin:50% 0%;
+        transition-duration: 2s;
+    }
+
+    100% {left:0px;
+        transform: rotate(25deg);
+        transform-origin:50% 0%;
+        transition-duration: 2s;
+    }
+}
+/*页面清理缓存end*/
+

@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizApplyCheckDeleteDao">
+    
+	<sql id="bizApplyCheckDeleteColumns">
+		a.id AS "id"
+
+	</sql>
+	
+	<sql id="bizApplyCheckDeleteJoins">
+	</sql>
+    
+	<select id="get" resultType="BizApplyCheckDelete">
+		SELECT 
+			<include refid="bizApplyCheckDeleteColumns"/>
+		FROM biz_qc_bill a
+		<include refid="bizApplyCheckDeleteJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="BizApplyCheckDelete">
+		SELECT
+		a.create_date AS "createdate",
+		b.store_id AS "storeId",
+		a.id AS "id",
+		c.qc_check_node_name AS "qcNodeName",
+		CONCAT_WS(
+		'-',
+		b.community_name,
+		b.build_number,
+		b.build_unit,
+		b.build_room
+		) AS "customerAddress",
+		b.customer_name AS "customerName",
+		b.item_manager AS "managerName",
+		b.order_inspector AS "inspectorName",
+		b.actual_start_date AS "actualStartDate",
+		DATEDIFF(a.create_date,b.actual_start_date)  as "dateDiff"
+		FROM
+		biz_qc_bill a
+
+		INNER JOIN biz_order b ON a.order_id = b.id
+		LEFT JOIN biz_qc_check_node c ON a.qc_check_node_id = c.id
+		WHERE
+		a.`status` = 2
+		and a.is_recheck =0
+		and a.qc_bill_type=1
+		<if test="storeId !=null and storeId !=''">
+
+			and b.store_id = #{storeId}
+
+
+		</if>
+		<if test="projectMode !=null and projectMode !=''">
+
+			and b.project_mode = #{projectMode}
+
+
+		</if>
+		<if test="managerName !=null and managerName !=''">
+
+			and b.item_manager like concat('%', #{managerName},'%')
+
+
+		</if>
+		<if test="customerName !=null and customerName !=''">
+
+			and b.customer_name like concat('%', #{customerName},'%')
+
+
+		</if>
+		<if test="pqcName !=null and pqcName !=''">
+
+			and b.order_inspector like concat('%', #{pqcName},'%')
+
+
+		</if>
+		<if test="startDate !=null and startDate !='' and endDate !=null and endDate !=''">
+
+			and a.create_date BETWEEN #{startDate} and #{endDate}
+
+
+		</if>
+
+		ORDER BY a.create_date DESC ,a.qc_check_node_id ASC
+
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				, ${page.orderBy}
+			</when>
+			<otherwise>
+
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="BizApplyCheckDelete">
+		SELECT 
+			<include refid="bizApplyCheckDeleteColumns"/>
+		FROM biz_qc_bill a
+		<include refid="bizApplyCheckDeleteJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+
+	<update id="delete">
+	delete from  biz_qc_bill
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

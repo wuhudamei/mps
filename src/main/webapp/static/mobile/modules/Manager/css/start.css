@@ -1,0 +1,269 @@
+.g-start{
+	width: 100%;
+	/*height: 100%;*/
+	background: #eee;
+}
+.g-start section.start_section{
+	padding-top: 0.8rem;
+}
+.g-start h3{
+	/*height: 0.8rem;*/
+	line-height: 0.8rem;
+	background-image: url(../images/details_icon.png);
+	background-repeat: no-repeat;
+	background-position: .2rem .3rem;
+	background-size: 0.2rem 0.2rem;
+	font-size: 0.3rem;
+	font-weight: bold;
+	color: #333;
+	padding-left: 0.5rem;
+}
+.g-start section.start_section ul{
+	margin: 0 0.1rem;
+	padding: 0.2rem;
+	background-color: #fff;
+	border-radius: 0.1rem;
+	position: relative;
+	clear: both;
+	margin-bottom: 0.2rem;
+	position: relative;
+}
+.g-start section.start_section ul:after{
+	content: "";
+	display: inline-block;
+	position: absolute;
+	top: -0.3rem;
+	left: 4rem;
+	width: 0;
+	height: 0;
+	border: none;
+	border-left: 0.20rem solid transparent;
+	border-right: 0.20rem solid transparent;
+	border-bottom: 0.4rem solid #fff;
+	/*vertical-align: 9px;*/
+}
+.g-start ul li{
+	margin-top: .2rem;
+	line-height: 0.8rem;
+}
+.g-start ul li span{
+	font-size: 0.28rem;
+	height: 0.6rem;
+	line-height: 0.6rem;
+	color: #666;
+	float: left;
+	/*text-align: right;*/
+}
+.g-start ul li span.line_hgt8{line-height: .8rem;}
+.g-start ul li p{
+	font-size: 0.28rem;
+	color: #333;
+}
+
+.g-start ul li p label{
+    display: inline-block;
+    width: 1.3rem;
+    text-align: left;
+}
+
+input[type="radio"] {
+  margin: 3px 3px 3px 5px;
+  display: none;
+}
+label {
+  padding-left: .3rem;
+  cursor: pointer;
+  background: url(../images/radio1.png) no-repeat left center;
+  background-size: .24rem .24rem;
+}
+label.checked {
+  background: url(../images/radio2.png) no-repeat left center;
+  background-size: .24rem .24rem;
+}
+.g-start ul li p input.date{
+	width: 3rem;
+    /* line-height: .34rem; */
+    padding: .05rem .12rem;
+    border: 1px solid #9cf;
+    border-radius: 0.1rem;
+    background-image: url(../images/canlender.png);
+    background-repeat: no-repeat;
+    background-size: .3rem .32rem;
+    background-position: 2.4rem center;
+	margin-top: .18rem;
+}
+
+.g-start ul li p.col_blue{
+	color: #00f;
+}
+.g-start textarea{
+	width: 4rem;
+	height: 1.08rem;
+	resize: none;
+	border: 1px solid #9cf;
+	border-radius: 0.1rem;
+	padding: 0.1rem;
+	color: #333;
+	line-height: 1.3em;
+}
+#start{
+	clear: both;
+	display: block;
+	width: 3.08rem;
+	height: .7rem;
+	line-height: .7rem;
+	text-align: center;
+	color: #fff;
+	font-size: .28rem;
+	background: #0780ec;
+	border-radius: .1rem;
+	margin: .5rem auto;
+}
+#divDate{
+	z-index: 9;
+	width: 2.08rem;
+	height: 2.08rem;
+}
+.calendar .calMain{
+	width: 100%;
+	height: inherit;
+}
+.calendar .calMain .calTitle{
+	height: 14%;
+}
+/*下拉菜单css*/
+label{
+	font-size: 0.28rem;
+	height: 0.6rem;
+	line-height: 0.6rem;
+	color: #666;
+	float: left;
+	text-align: right;
+}
+p input,select{
+	font-size: 0.28rem;
+	color: #333;
+	overflow: hidden;
+	display: block;
+	border: none;
+	width: 4rem;
+	margin-top: .18rem;
+	line-height: .44rem;
+	padding: .05rem .12rem;
+	border: 1px solid #9cf;
+	border-radius: 0.1rem;
+}
+select{
+	width: 2.08rem;
+	height: .44rem;
+	border-radius: 0;
+}
+option{
+	font-size: .28rem;
+	color: #333;
+}
+/*单据上传*/
+p.up{position: relative;}
+img.postage_btn{
+	width: 1.4rem;
+    height: 1.4rem;
+}
+p.up input{
+	opacity: 0;
+    width: 100%;
+    font-size: 100px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 1.4rem;
+}
+/*上传图片*/
+.camera{
+	/*width: 33%;*/
+	width: 1.4rem;
+    float: left;
+    height: 1.4rem;
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+}
+.camera input{
+	opacity: 0;
+    width: 100%;
+    height: 100%;
+    font-size: 100px;
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.pic_container{width: 100%;margin-top: .3rem;float: right;}
+/* .pic{
+	width: 33%;
+	float: left;
+	height:140px;
+	padding: 0;
+	position: relative;
+	overflow: hidden;
+	margin-right: .5%;
+}
+.pic:nth-of-type(3n){
+	margin-right: 0;
+} */
+.pic img{
+	width: 100%;
+	height:2.6rem;
+}
+.delBtn{
+	display: block;
+	font-size: .28rem;
+	color: #0780ec;
+	border: 1px solid #0780ec;
+	margin: 0 auto .40rem;
+	line-height: .42rem;
+	width: 46%;
+	text-align: center;
+}
+/*申请约检*/
+.g-qulity_check select{width: 4rem;height: .66rem;}
+.g-qulity_check ul li p input.date{
+	width: 4rem;
+    line-height: .44rem;
+    padding: .05rem .12rem;
+    border: 1px solid #9cf;
+    border-radius: 0.1rem;
+    background-image: url(../images/canlender.png);
+    background-repeat: no-repeat;
+    background-size: .3rem .32rem;
+    background-position: 3.5rem center;
+}
+.del_pic {
+    position: absolute;
+    top: -.255rem;
+    right: -.255rem;
+    width: .51rem;
+    height: .51rem;
+    background: url(../images/del_pic.png);
+    background-size: .51rem;
+}
+.pic {
+    float: left;
+    width: 30%;
+    margin-bottom: .8rem;
+    position: relative;
+    height: 2.6rem;
+}
+.pic:nth-of-type(3n-1) {
+    margin-left: 5%;
+    margin-right: 5%;
+}
+.intro {
+    height: 1.16rem;
+    line-height: 1.16rem;
+    background: #fff;
+    margin-top: .26rem;
+}
+.pb68{padding-bottom:.68rem;}
+.seeDelayBtn{padding:.18rem;background:#f5f5f5;border:1px solid #d1d1d1;border-radius:.1rem;}
+.MaskImgWrapper{margin-top:14%;text-align:center;width:100%;}
+.MaskImgWrapper img{width:100%;}

@@ -1,0 +1,423 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="cn.damei.dao.mobile.Inspector.InspectorEvaluateWorkerDao">
+
+	<!-- 质检评价工人 -->
+	<select id="findEvalList"
+		parameterType="cn.damei.entity.mobile.Inspector.EvaluateWorker"
+		resultType="cn.damei.entity.mobile.Inspector.EvaluateWorker">
+		select 
+		d.id AS "orderId",
+		d.community_name AS "communityName",
+		d.build_number AS "buildNumber",
+		d.build_unit AS "buildUnit",
+		d.build_room AS "buildRoom",
+		d.customer_name AS "customerName",
+		c.group_realname AS "groupRealname",
+		c.package_name AS "packageName",
+		b.id as 'evalTaskpackScoreId',
+		e.check_date AS "checkDate"
+	from biz_eval_score_role a 
+		left join biz_eval_score b on a.eval_score_id = b.id
+		left join biz_order_taskpackage c on c.id = b.related_business_id
+		left join biz_order d on c.order_id = d.id
+		left join biz_order_taskpackage_settlement e on c.id = e.order_taskpackage_id
+		where a.eval_by_employee_id = #{orderInspectorId} and a.eval_status = '0' and eval_role_type = '201'
+		<if test="text!=null and text!=''">
+				and (d.community_name like CONCAT('%','${text}','%' ) or
+				d.customer_name like CONCAT('%','${text}','%' ) or c.group_realname
+				like CONCAT('%','${text}','%') or c.package_name like
+				CONCAT('%','${text}','%' ))
+		</if>
+	</select>
+
+	<!-- 查询项目经理的评价活动 -->
+	<select id="queryManagerEvalActivityList" parameterType="java.util.Map"
+		resultType="cn.damei.entity.modules.BizEvalActivityIndex">
+		SELECT
+		c.id AS "id",
+		c.eval_activity_id AS "evalActivityId",
+		c.eval_role_type AS
+		"evalRoleType",
+		c.eval_index_id AS "evalIndexId",
+		c.eval_total_score AS
+		"evalTotalScore",
+		d.index_name AS "indexName"
+		FROM
+		`biz_eval_activity_stage` a
+		LEFT JOIN biz_eval_activity b ON
+		a.eval_activity_id = b.id
+		LEFT JOIN biz_eval_activity_index c on
+		a.eval_activity_id =
+		c.eval_activity_id
+		LEFT JOIN biz_eval_index d on
+		d.id = c.eval_index_id
+		WHERE
+		b.is_enabled = 1
+		and
+		a.related_qc_check_node_id=#{checkNodeId}
+		and b.eval_start_datetime
+		&lt;=#{expectCheckDatetime} and b.eval_end_datetime
+		>=#{expectCheckDatetime}
+		and c.eval_role_type = #{evalRoleType}
+	</select>
+
+	<!-- 通过评价单ID查询任务包相关信息 -->
+	<select id="findOrderTaskpack" parameterType="int"
+		resultType="cn.damei.entity.mobile.Inspector.EvaluateWorker">
+		SELECT
+		c.community_name AS "communityName",
+		c.build_number AS
+		"buildNumber",
+		c.build_unit AS "buildUnit",
+		c.build_room AS "buildRoom",
+		c.customer_name AS "customerName",
+		b.group_realname AS "groupRealname",
+		b.package_name AS "packageName",
+		b.id AS "orderTaskpackageId",
+		a.id AS
+		"evalTaskpackScoreId"
+		FROM
+		biz_eval_score a
+		INNER JOIN
+		biz_order_taskpackage b ON a.related_business_id = b.id
+		INNER JOIN
+		biz_order c ON b.order_id = c.id
+		WHERE
+		a.id = #{0} and a.eval_type='1'
+	</select>
+
+	<!-- 根据任务包ID查询相关联的评价活动 -->
+	<select id="findEvalActivityIndex"
+		parameterType="cn.damei.entity.mobile.Inspector.EvaluateWorker"
+		resultType="cn.damei.entity.modules.BizEvalActivityIndex">
+		SELECT
+		e.id AS "id",
+		e.eval_activity_id AS "evalActivityId",
+		e.eval_role_type AS "evalRoleType",
+		e.eval_index_id AS "evalIndexId",
+		e.eval_total_score AS "evalTotalScore",
+		f.index_name AS "indexName"
+		FROM
+		biz_order_taskpackage a
+		INNER JOIN
+		biz_eval_activity_order_taskpack_rel b ON a.id =
+		b.order_taskpack_id
+		INNER JOIN biz_order c ON a.order_id = c.id
+		INNER JOIN
+		biz_eval_activity d
+		ON d.id = b.eval_activity_id
+		AND d.store_id =
+		c.store_id
+		AND
+		d.project_mode = c.project_mode
+		AND d.eval_target_type = 1
+		INNER JOIN
+		biz_eval_activity_index e ON e.eval_activity_id = d.id
+		AND
+		e.eval_role_type = #{evalRoleType}
+		INNER JOIN biz_eval_index f ON
+		e.eval_index_id = f.id
+		WHERE
+		a.id = #{orderTaskpackageId}
+	</select>
+	<!-- 判断任务包是否存在活动 -->
+	<select id="checkEvalActivityByOrderTaskpackage" resultType="int"
+		parameterType="int">
+		SELECT count(*) from
+		biz_eval_activity_order_taskpack_rel where
+		order_taskpack_id = #{0}
+	</select>
+
+	<select id="queryEvalActivityIndexByPackageId"
+		resultType="cn.damei.entity.modules.BizEvalActivityIndex">
+		SELECT
+		b.eval_activity_id as "evalActivityId",
+		b.eval_role_type as "evalRoleType",
+		c.eval_cycle_hours as "evalCycleHours"
+		FROM
+		biz_eval_activity_order_taskpack_rel a
+		LEFT JOIN
+		biz_eval_activity_index b ON a.eval_activity_id =
+		b.eval_activity_id
+		LEFT JOIN biz_eval_activity_role_cycle c ON c.eval_activity_id = b.eval_activity_id and c.eval_role_type = b.eval_role_type
+		where
+		a.order_taskpack_id=#{0}
+		and c.is_enabled = '1'
+		GROUP BY b.eval_role_type
+	</select>
+	<!-- 根据活动Id查询活动配置的指标 -->
+	<select id="queryEvalActivityIndexByActivityId"
+		resultType="cn.damei.entity.modules.BizEvalActivityIndex">
+		SELECT
+		b.eval_activity_id as "evalActivityId",
+		b.eval_role_type as
+		"evalRoleType"
+		FROM
+		biz_eval_activity_index b
+		where
+		b.eval_activity_id=#{bizEvalActivityId}
+		GROUP BY b.eval_role_type
+	</select>
+
+	
+	<select id="issave"
+		parameterType="cn.damei.entity.mobile.Inspector.BizEvalScore"
+		resultType="cn.damei.entity.mobile.Inspector.BizEvalScore">
+		select 
+			a.related_business_id,
+			a.group_leader_employee_id as 'groupLeaderEmployeeId'
+		from 
+			biz_eval_score a 
+		where 
+			a.id = #{id}
+	</select>
+
+	<!-- 更新评价任务包得分表 -->
+	<update id="updateEvalTaskpackScore"
+		parameterType="cn.damei.entity.mobile.Inspector.BizEvalScore">
+		UPDATE biz_eval_score
+		SET
+		got_score =#{gotScore},
+		eval_status =#{evalStatus},
+		status_datetime=#{statusDatetime},
+		update_date=#{updateDate}
+		where id =#{id}
+	</update>
+
+	<!-- 保存评价任务包角色得分表 -->
+	<insert id="insertEvalTaskpackRoleScore" useGeneratedKeys="true"
+		keyProperty="id">
+		INSERT INTO biz_eval_score_role(
+		id,
+		eval_score_id,
+		eval_role_type,
+		eval_by_employee_id,
+		eval_by_cus_phone,
+		got_score,
+		eval_feedback,
+		eval_datetime,
+		remarks,
+		create_by,
+		create_date,
+		update_by,
+		update_date,
+		del_flag,
+		eval_status
+		)
+		VALUES (
+		#{id},
+		#{evalScoreId},
+		#{evalRoleType},
+		#{evalByEmployeeId},
+		#{evalByCusPhone},
+		#{gotScore},
+		#{evalFeedback},
+		#{evalDatetime},
+		#{remarks},
+		#{createBy.id},
+		#{createDate},
+		#{updateBy.id},
+		#{updateDate},
+		#{delFlag},
+		#{evalStatus}
+		)
+	</insert>
+	
+	<update id="updateEvalTaskpackRoleScore"  useGeneratedKeys="true" keyProperty="id">
+		update biz_eval_score_role 
+		set
+			eval_by_cus_phone = #{evalByCusPhone}, 
+			got_score = #{gotScore},
+			eval_feedback = #{evalFeedback},
+			eval_datetime = #{evalDatetime},
+			eval_status = #{evalStatus},
+			update_date = #{updateDate},
+			update_by = #{evalByEmployeeId}
+		where 
+			eval_score_id = #{evalScoreId} and eval_role_type = #{evalRoleType}
+	</update>
+	
+	
+
+	<!-- 保存评价任务包角色指标得分表 -->
+	<insert id="insertEvalTaskpackRoleIndexScore" parameterType="java.util.List">
+		INSERT INTO biz_eval_score_role_index(
+		id,
+		eval_score_role_id,
+		eval_activity_index_id,
+		got_score,
+		remarks,
+		create_by,
+		create_date,
+		update_by,
+		update_date,
+		del_flag
+		) VALUES
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(
+			#{item.id},
+			#{item.evalScoreRoleId},
+			#{item.evalActivityIndexId},
+			#{item.gotScore},
+			#{item.remarks},
+			#{item.createBy.id},
+			#{item.createDate},
+			#{item.updateBy.id},
+			#{item.updateDate},
+			#{item.delFlag}
+			)
+		</foreach>
+	</insert>
+
+	<!-- 判断是否评价结束 -->
+	<select id="isEndEvaluate"
+		resultType="cn.damei.entity.mobile.Inspector.BizEvalScoreRole">
+		SELECT
+		SUM(b.got_score) AS "gotScore"
+		FROM
+		biz_eval_score a
+		INNER JOIN
+		biz_eval_score_role b ON a.id =
+		b.eval_score_id
+		WHERE
+		a.id =
+		#{evalScoreId}
+		AND
+		a.eval_status = 1
+		<if test="managerType != null and managerType != ''">
+			AND (SELECT COUNT(1) FROM
+			biz_eval_score_role c WHERE a.id
+			= c.eval_score_id
+			AND c.eval_role_type IN (101,102) and c.eval_status = #{evalStatus}) > 0
+		</if>
+
+		<if test="pqcType != null and pqcType != ''">
+			AND (SELECT COUNT(1) FROM
+			biz_eval_score_role c WHERE a.id
+			= c.eval_score_id
+			AND c.eval_role_type IN (201,202) AND c.eval_status = #{evalStatus}) > 0
+		</if>
+
+		<if test="custemerType != null and custemerType != ''">
+			AND (SELECT COUNT(1) FROM
+			biz_eval_score_role c WHERE a.id
+			= c.eval_score_id
+			AND c.eval_role_type IN (301,302) AND c.eval_status = #{evalStatus}) > 0
+		</if>
+
+
+	</select>
+
+	<!-- 查询是否有奖励金额 -->
+	<select id="isReward"
+		parameterType="cn.damei.entity.mobile.Inspector.BizEvalScore"
+		resultType="cn.damei.entity.modules.BizEvalRewardStar">
+		SELECT
+		e.id AS "id",
+		e.max_score AS "maxScore",
+		e.min_score AS
+		"minScore",
+		e.reward_amount AS "rewardAmount"
+		FROM
+		biz_order_taskpackage
+		a
+		INNER JOIN biz_eval_reward_order_taskpack_rel b ON a.id =
+		b.order_taskpack_id
+		INNER JOIN biz_order c ON a.order_id = c.id
+		INNER
+		JOIN biz_eval_reward_cfg d ON d.id = b.eval_reward_cfg_id
+		AND
+		d.store_id = c.store_id
+		AND d.project_mode = c.project_mode
+		AND
+		d.reward_target_type = 1
+		INNER JOIN biz_eval_reward_star e ON
+		e.eval_reward_cfg_id = d.id
+		WHERE
+		a.id = #{id}
+		AND #{gotScore} &lt;=
+		e.max_score
+		AND #{gotScore} &gt;=
+		e.min_score
+		ORDER BY
+		e.reward_amount
+		DESC
+		LIMIT 1
+	</select>
+
+	<select id="queryEvalManagerDetail"
+		resultType="cn.damei.entity.mobile.Inspector.BizEvalManagerDetail">
+		SELECT
+		c.customer_name as "customerName",
+		c.community_name as
+		"communityName",
+		c.build_number as "buildNumber",
+		c.build_room as
+		"buildRoom",
+		c.build_unit as "buildUnit",
+		c.customer_phone as
+		"customerPhone",
+		c.item_manager as "itemManager",
+		e.phone as
+		"itemPhone",
+		d.qc_check_node_name as "checkNodeName",
+		b.related_business_id as "relatedBusinessId",
+		c.id as "orderId"
+		FROM
+		biz_qc_bill a
+		LEFT JOIN biz_eval_score b ON a.id =
+		b.related_business_id
+		LEFT JOIN biz_order c ON a.order_id = c.id
+		LEFT
+		JOIN biz_qc_check_node d on a.qc_check_node_id = d.id
+		LEFT JOIN
+		biz_employee e on e.id = c.item_manager_id
+		where b.id=#{evalScoreId}
+	</select>
+
+	<!-- 保存评价奖励任务包表 -->
+	<insert id="insertEvalRewardTaskpack"
+		parameterType="cn.damei.entity.mobile.Inspector.EvalRewardTaskpack">
+		INSERT INTO biz_eval_reward_taskpack(
+		id,
+		order_taskpackage_id,
+		group_leader_employee_id,
+		reward_amount,
+		reward_datetime,
+		remarks,
+		create_by,
+		create_date,
+		update_by,
+		update_date,
+		del_flag
+		) VALUES (
+		#{id},
+		#{orderTaskpackageId},
+		#{groupLeaderEmployeeId},
+		#{rewardAmount},
+		#{rewardDatetime},
+		#{remarks},
+		#{createBy.id},
+		#{createDate},
+		#{updateBy.id},
+		#{updateDate},
+		#{delFlag}
+		)
+	</insert>
+	
+	<select id="findEvalScoreRoleId" resultType="String">
+		select 
+			id 
+		FROM 
+			biz_eval_score_role 
+		where 
+			eval_score_id = #{evalScoreId} and eval_role_type = #{evalRoleType}
+	</select>
+
+</mapper>
+
+

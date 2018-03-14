@@ -1,0 +1,344 @@
+    .item-tips {
+        background: #fdf5c3;
+        color: #f09859;
+        font-size: .26rem;
+        padding: .3rem;
+        margin-top: .2rem;
+        position: relative;
+    }
+    
+    .item-tips p {
+        position: relative;
+        padding-left: .68rem;
+        line-height: .5rem;
+    }
+    
+    .item-tips p:first-child {
+        margin-bottom: .2rem;
+    }
+    
+    .icon {
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+        display: inline-block;
+        white-space: nowrap;
+        letter-spacing: -1em;
+        text-indent: -99em;
+        color: transparent;
+        padding: 0;
+        margin: 0;
+    }
+    
+    .icon.icon-tips {
+        position: absolute;
+        left: .01rem;
+        top: 0;
+        width: .49rem;
+        height: .48rem;
+        background-image: url('../../img/tipOrangeIcon.png');
+    }
+    
+    .icon-num {
+        font-style: normal;
+        position: absolute;
+        left: .2rem;
+        top: 0;
+    }
+    
+    .icon-date {
+        position: absolute;
+        z-index: 8;
+        left: -.62rem;
+        top: 0;
+        width: .46rem;
+        height: .45rem;
+        background-image: url('../../img/settlement/icon-date.png');
+        background-color: #fff;
+    }
+    
+    .icon-time {
+        position: absolute;
+        z-index: 8;
+        left: -.58rem;
+        top: .1rem;
+        width: .34rem;
+        height: .34rem;
+        background-image: url('../../img/settlement/icon-time.png');
+        background-color: #eee;
+        background-size: 100% 100%;
+        background-position: 0 0;
+    }
+    
+    .icon-time._undone {
+        position: absolute;
+        z-index: 8;
+        left: -.58rem;
+        top: .1rem;
+        width: .34rem;
+        height: .34rem;
+        background-image: url('../../img/settlement/icon-time-undone.png');
+        background-color: #eee;
+        background-size: 100% 100%;
+        background-position: 0 0;
+    }
+    
+    .date-line li:last-child .icon-time._undone:after {
+        display: inline-block;
+        position: absolute;
+        z-index: 9;
+        left: .12rem;
+        top: .34rem;
+        width: .1rem;
+        height: 1.8rem;
+        border-left: 5px solid #eee;
+        content: ' ';
+    }
+    
+    .date-line li:first-child .icon-time:before {
+        display: inline-block;
+        position: absolute;
+        z-index: 9;
+        left: .12rem;
+        top: -.2rem;
+        width: .1rem;
+        height: .2rem;
+        border-left: 5px solid #eee;
+        content: ' ';
+    }
+    
+    .icon-nodate {
+        width: 1.91rem;
+        height: 1.55rem;
+        margin-bottom: .2rem !important;
+        background-image: url('../../img/settlement/icon-nodate.png');
+    }
+    
+    .pad0 {
+        padding-left: 0 !important;
+    }
+    
+    .border0 {
+        border: 0;
+    }
+    
+    .margin-tb25 {
+        margin: .25rem 0;
+    }
+    
+    .dark-red {
+        color: #b30f0f;
+    }
+    
+    .item-column {
+        border-left: 5px solid #0780ec;
+        margin-left: .3rem;
+        padding-left: .2rem;
+        margin-bottom: .2rem;
+        color: #0780ec;
+        font-size: .3rem;
+    }
+    
+    .date-line {
+        border-left: 1px solid #ccc;
+        margin-left: .4rem;
+        padding-left: .4rem;
+        position: relative;
+        z-index: 1;
+    }
+    
+    .posA {
+        position: relative;
+    }
+    
+    .sec ul:last-child li:last-child {
+        border-bottom: 0;
+    }
+    
+    .item-nodate {
+        padding: 1rem 2.3rem;
+        font-size: .3rem;
+        line-height: 1.5;
+        color: #8d8987;
+    }
+    
+    .align-center {
+        text-align: center;
+    }
+    
+    .bg-list {
+        background-image: url('../../img/settlement/bg-list.png');
+        background-size: 100% 100%;
+        width: 6.54rem;
+        height: .94rem;
+        line-height: .8rem;
+    }
+    
+    .bg-list span:first-child {
+        padding-left: .3rem;
+    }
+    
+    .bg-list span:last-child {
+        padding-right: .1rem;
+    }
+    
+    .header {
+        height: 4.49rem;
+        background-image: url('../../images/bg-index-top.png');
+        background-size: 100% 100%;
+        position: relative;
+        z-index: 10;
+    }
+    
+    .top-bar {
+        padding: .6rem 0 0 .5rem;
+    }
+    
+    .head-img {
+        float: left;
+        width: 1.5rem;
+        height: 1.5rem;
+        border-radius: 100%;
+        border: 2px solid #fff;
+    }
+    
+    .user-info {
+        float: left;
+        margin: .15rem 0 0 .2rem;
+    }
+    
+    .user-info .item {
+        font-size: .24rem;
+        color: #fff;
+        line-height: 1.8;
+        position: relative;
+    }
+    
+    .user-info .star {
+        width: 2rem;
+        height: 0.24rem;
+        margin-top: .2rem;
+    }
+    
+    .user-info .star span {
+        display: inline-block;
+        float: left;
+        width: 0.25rem;
+        margin-left: 0.15rem;
+        height: 0.24rem;
+        background-image: url('../../images/icon-star.png');
+        background-size: 100% 100%;
+    }
+    
+    .user-info .star span:first-child {
+        margin-left: 0;
+    }
+    
+    .user-info .star span.bling {
+        background-image: url('../../images/icon-star-active.png');
+    }
+    
+    .user-name {
+        font-size: .32rem;
+    }
+    
+    .item-num {
+        font-size: .4rem;
+        color: #ff9800;
+        padding-right: .1rem;
+    }
+    
+    .user-menu {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 2.8rem;
+        color: #fff;
+        text-align: center;
+        font-size: .28rem;
+        height: 1.3rem;
+        background-image: url('../../images/bg-menu-top.png');
+        padding: .2rem;
+    }
+    
+    .user-menu li {
+        border-right: 1px solid #277aa4;
+    }
+    
+    .user-menu li:last-child {
+        border: 0;
+    }
+    
+    .user-menu li>p:first-child {
+        font-size: .4rem;
+    }
+    
+    .footer {
+        width: 100%;
+        background: #fff;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        border-top: 1px solid #d1d1d1;
+        z-index: 12;
+    }
+    
+    .footer a {
+        float: left;
+        width: 33.3%;
+        text-align: center;
+        font-size: .2rem;
+        color: #666;
+        padding-top: .64rem;
+        padding-bottom: .12rem;
+        position: relative;
+    }
+    
+    .footer a.home_btn {
+        background: url('../../images/home_icon0.png') no-repeat 50% .14rem/.42rem .42rem
+    }
+    
+    .footer a.msg_btn {
+        background: url('../../images/msg_icon0.png') no-repeat 50% .14rem/.46rem .43rem
+    }
+    
+    .footer a.mine_btn {
+        background: url('../../images/mine_icon0.png') no-repeat 50% .14rem/.39rem .42rem
+    }
+    
+    .footer a.home_btn.active {
+        background: url('../../images/home_icon1.png') no-repeat 50% .14rem/.42rem .42rem
+    }
+    
+    .footer a.msg_btn.active {
+        background: url('../../images/msg_icon1.png') no-repeat 50% .14rem/.46rem .43rem
+    }
+    
+    .footer a.mine_btn.active {
+        background: url('../../images/mine_icon1.png') no-repeat 50% .14rem/.39rem .42rem
+    }
+    
+    .footer a.active {
+        color: #0780ec;
+    }
+    
+    .btn-area {
+        width: 100%;
+    }
+    
+    .btn-fullwidth {
+        height: .8rem;
+        line-height: .8rem;
+        border: solid #ebebeb;
+        border-width: 1px 0;
+        font-size: .3rem;
+        color: #0780ec;
+        text-align: center;
+        background: #fff;
+    }
+    
+    .btn-more {
+        padding: .1rem .4rem;
+        border: 1px solid #ccc;
+        font-size: .3rem;
+        color: #333;
+    }

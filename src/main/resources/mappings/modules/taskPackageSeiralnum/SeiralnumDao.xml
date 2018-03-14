@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.SeiralnumDao">
+    
+	<sql id="seiralnumColumns">
+		t.ID AS "id",
+		t.SEIRAL_NUM AS "seiralNum",
+		t.UPDATE_DATE AS "updateDateU"
+	</sql>
+	
+	<select id="get" resultType="Seiralnum">
+		SELECT 
+			<include refid="seiralnumColumns"/>
+		FROM BIZ_ORDER_TASKPACKAGE_SEIRALNUM t
+	</select>
+	
+	<select id="getById" resultType="Seiralnum">
+		SELECT 
+			<include refid="seiralnumColumns"/>
+		FROM BIZ_ORDER_TASKPACKAGE_SEIRALNUM t
+		<!-- WHERE t.ID = #{id} -->
+	</select>
+	
+	<insert id="insertBySeiralnum">
+		INSERT INTO BIZ_ORDER_TASKPACKAGE_SEIRALNUM(
+			ID,
+			SEIRAL_NUM,
+			UPDATE_DATE
+		) VALUES (
+			#{id},
+			#{seiralNum},
+			#{updateDateU}
+		)
+	</insert>
+	
+	<update id="updateById">
+		UPDATE BIZ_ORDER_TASKPACKAGE_SEIRALNUM SET 	
+			SEIRAL_NUM = #{0},
+			UPDATE_DATE = #{1}
+		WHERE ID = #{2}
+	</update>
+	
+</mapper>

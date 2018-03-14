@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="cn.damei.dao.modules.BizAssessRuleTypeDao">
+	<sql id="bizAssessRuleTypeColumns">
+		a.id as "id",
+		a.store_id as "storeId",
+		a.project_mode as
+		"projectMode",
+		a.type_name as "typeName",
+		a.is_reward_or_punish as
+		"isRewardOrPunish",
+		a.reward_punish_target_type as
+		"rewardPunishTargetType",
+		a.is_month_inspection AS "isMonthInspection",
+		a.is_enabled as "isEnabled",
+		a.remarks as
+		"remarks",
+		a.create_by as "createBy",
+		a.create_date as "createDate",
+		a.update_by as "updateBy",
+		a.update_date as "updateDate",
+		a.del_flag as
+		"delFlag"
+	</sql>
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id"
+		keyColumn="id">
+		INSERT INTO biz_assess_rule_type (
+		id,
+		store_id,
+		project_mode,
+		type_name,
+		is_reward_or_punish,
+		reward_punish_target_type,
+		is_month_inspection,
+		is_enabled,
+		remarks,
+		create_by,
+		create_date,
+		update_by,
+		update_date,
+		del_flag
+		) VALUES (
+		#{id},
+		#{storeId},
+		#{projectMode},
+		#{typeName},
+		#{isRewardOrPunish},
+		#{rewardPunishTargetType},
+		#{isMonthInspection},
+		#{isEnabled},
+		#{remarks},
+		#{createBy.id},
+		#{createDate},
+		#{updateBy.id},
+		#{updateDate},
+		#{delFlag}
+		)
+	</insert>
+	<update id="update">
+		update biz_assess_rule_type set
+		store_id = #{storeId},
+		project_mode = #{projectMode},
+		type_name = #{typeName},
+		is_reward_or_punish = #{isRewardOrPunish},
+		reward_punish_target_type =
+		#{rewardPunishTargetType},
+		is_month_inspection = #{isMonthInspection},
+		is_enabled = #{isEnabled},
+		remarks =
+		#{remarks},
+		update_by = #{updateBy.id},
+		update_date = #{updateDate}
+		where id = #{id}
+	</update>
+
+	<select id="get"
+		resultType="cn.damei.entity.modules.BizAssessRuleType">
+		SELECT
+		<include refid="bizAssessRuleTypeColumns" />
+		FROM
+		biz_assess_rule_type a
+		WHERE a.id = #{id}
+	</select>
+
+	<select id="findList"
+		resultType="cn.damei.entity.modules.BizAssessRuleType">
+		SELECT
+		<include refid="bizAssessRuleTypeColumns" />
+		FROM
+		biz_assess_rule_type a
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="storeId != null and storeId != ''">
+				AND a.store_id = #{storeId}
+			</if>
+			<if test="projectMode != null and projectMode != ''">
+				AND a.project_mode = #{projectMode}
+			</if>
+			<if test="typeName != null and typeName != ''">
+				AND a.type_name LIKE
+				<if test="dbName == 'oracle'">'%'||#{typeName}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{typeName}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{typeName},'%')</if>
+			</if>
+			<if test="isRewardOrPunish != null and isRewardOrPunish != ''">
+			    AND a.is_reward_or_punish = #{isRewardOrPunish}
+			</if>
+			<if test="rewardPunishTargetType != null and rewardPunishTargetType != ''">
+			    AND a.reward_punish_target_type = #{rewardPunishTargetType}
+			</if>
+			<if test="isMonthInspection != null and isMonthInspection != ''">
+				AND a.is_month_inspection = #{isMonthInspection}
+			</if>
+			<if test="isEnabled != null and isEnabled != ''">
+			  AND a.is_enabled = #{isEnabled}
+			</if>
+		</where>
+	</select>
+</mapper>

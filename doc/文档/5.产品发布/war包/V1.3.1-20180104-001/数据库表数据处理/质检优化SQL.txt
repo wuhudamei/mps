@@ -1,0 +1,7 @@
+alter table biz_qc_check_kind add column task_package_templat_id int(11) DEFAULT null comment '关联任务包模板id';
+
+alter table biz_qc_check_item add column task_package_templat_id int(11) DEFAULT null comment '关联任务包模板id';
+
+alter table biz_qc_bill_check_item add column project_manager_id int(11) DEFAULT null comment '责任项目经理id';
+
+alter table biz_qc_bill_check_item add column worker_id int(11) DEFAULT null comment '责任工人id';

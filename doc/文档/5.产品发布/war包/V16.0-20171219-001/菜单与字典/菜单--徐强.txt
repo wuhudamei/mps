@@ -1,0 +1,18 @@
+菜单新增：
+    菜单路径： 材料调度—主材安装--验收——主材安装验收不合格明细查询
+    菜单名称： 主材安装验收不合格明细查询 
+    链接： /bizorderinstallplan/orderinstallacceptquery/list
+
+    菜单路径： 材料调度—主材安装--验收——主材安装订单不合格查询
+    菜单名称：主材安装订单不合格查询
+    链接： /bizorderinstallplan/orderinstallacceptquery/findOrderInstallAccept
+
+    菜单路径： 材料调度—主材安装--验收——不合格安装项统计
+    菜单名称： 不合格安装项统计
+    链接： /bizorderinstallplan/orderinstallacceptquery/unqualifiedInstallItemCount
+
+    菜单路径： 材料调度—主材安装--验收——不合格原因统计
+    菜单名称： 不合格原因统计
+    链接： /bizorderinstallplan/orderinstallacceptquery/unqualifiedResonCount
+
+

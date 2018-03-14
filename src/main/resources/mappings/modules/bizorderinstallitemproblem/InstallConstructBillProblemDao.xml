@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.InstallConstructBillProblemDao">
+    
+	
+	<select id="findList" resultType="cn.damei.entity.modules.BizOrderInstallItemProblem">
+		
+		SELECT
+			a.id AS "problemId",
+			a.problem_type_id AS "problemTypeId",
+			m.type_name AS "problemTypeName",
+			a.problem_describe AS "problemDescribe",
+			a.create_date AS "createDate",
+			c.supplier_id AS "supplierId",
+			l.supplier_name AS "supplierName",
+			d.install_item_name AS "installItemName",
+			e.project_install_item_id AS "projectInstallItemId",
+			f.order_number AS "orderNumber",
+			f.store_id AS "storeId",
+			g.`name` AS "storeName",
+			f.project_mode AS "projectMode",
+			h.label AS "projectModeName",
+			f.engin_depart_id AS "engineDepartId",
+			i.`name` AS "engineDepartName",
+			f.community_name AS "communityName",
+			f.build_number AS "buildNumber",
+			f.build_unit AS "buildUnit",
+			f.build_room AS "buildRoom",
+			f.customer_name AS "customerName",
+			f.customer_phone AS "customerPhone",
+			f.designer_name AS "designerName",
+			f.designer_phone AS "designerPhone",
+			j.realName AS "itemManager",
+			j.phone AS "itemManagerPhone",
+			k.realName AS "orderInspector",
+			k.phone AS "inspectorPhone"
+		FROM
+			biz_business_problem a
+		INNER JOIN biz_supplier_install_construct_bill b ON a.business_only_mark_int = b.id
+		INNER JOIN biz_supplier_install_bill c ON b.supplier_install_bill_id = c.id
+		INNER JOIN biz_order_install_plan d ON c.order_install_plan_id = d.id
+		INNER JOIN biz_order_install_item e ON d.order_install_item_id = e.id
+		INNER JOIN biz_order f ON d.order_id = f.id
+		LEFT JOIN sys_office g ON f.store_id = g.id
+		LEFT JOIN sys_dict h ON h.`value` = f.project_mode AND h.type = 'project_mode' AND h.del_flag = 0
+		LEFT JOIN biz_engineering_department i ON f.engin_depart_id = i.id
+		LEFT JOIN biz_employee j ON f.item_manager_id = j.id
+		LEFT JOIN biz_employee k ON f.order_inspector_id = k.id
+		LEFT JOIN biz_supplier l ON c.supplier_id = l.id
+		LEFT JOIN biz_business_problem_type m ON a.problem_type_id = m.id
+		
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="businessType != null and businessType != ''">
+				AND  a.business_type = #{businessType}
+			</if>
+			<if test="storeId != null and storeId != ''">
+				AND  f.store_id = #{storeId}
+			</if>
+			<if test="projectMode != null and projectMode != ''">
+				AND  f.project_mode = #{projectMode}
+			</if>
+			<if test="engineDepartId != null and engineDepartId != ''">
+				AND f.engin_depart_id =#{engineDepartId}
+			</if>
+			<if test="orderNumber != null and orderNumber != ''">
+				AND f.order_number LIKE CONCAT('%','${orderNumber}','%' )
+			</if>
+			<if test="customerName != null and customerName != ''">
+				AND f.customer_name LIKE CONCAT('%',#{customerName},'%')
+			</if>
+			<if test="itemManager != null and itemManager != ''">
+				AND j.realName LIKE CONCAT('%',#{itemManager},'%')
+			</if>
+			<if test="problemTypeId != null and problemTypeId != ''">
+				AND a.problem_type_id =#{problemTypeId}
+			</if>
+			<if test="supplierId != null and supplierId != ''">
+				AND c.supplier_id =#{supplierId}
+			</if>
+			<if test="projectInstallItemId != null and projectInstallItemId != ''">
+				AND e.project_install_item_id =#{projectInstallItemId}
+			</if>
+			<if test="beginCreateDate != null and beginCreateDate != ''">
+				AND a.create_date &gt;= #{beginCreateDate} 
+			</if>
+			<if test="endCreateDate != null and endCreateDate != ''">
+				AND a.create_date &lt;=  #{endCreateDate}
+			</if>
+			<if test="status != null and status != ''">
+				AND a.status =#{status}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.create_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<!-- 安装工问题上报导出 -->
+	<select id="findExport" resultType="cn.damei.entity.modules.BizOrderInstallItemProblem">
+		SELECT
+			a.id AS "problemId",
+			a.problem_type_id AS "problemTypeId",
+			m.type_name AS "problemTypeName",
+			a.problem_describe AS "problemDescribe",
+			a.create_date AS "createDate",
+			h.realName AS "problemApplyEmployeeName",
+			c.supplier_id AS "supplierId",
+			l.supplier_name AS "supplierName",
+			d.install_item_name AS "installItemName",
+			e.project_install_item_id AS "projectInstallItemId",
+			f.community_name AS "communityName",
+			f.build_number AS "buildNumber",
+			f.build_unit AS "buildUnit",
+			f.build_room AS "buildRoom",
+			f.customer_name AS "customerName",
+			f.customer_phone AS "customerPhone",
+			f.designer_name AS "designerName",
+			f.designer_phone AS "designerPhone",
+			j.realName AS "itemManager",
+			j.phone AS "itemManagerPhone",
+			k.realName AS "orderInspector",
+			k.phone AS "inspectorPhone",
+			f.contract_start_date AS "contractStartDate",
+			f.contract_end_date AS "contractEndDate"
+		FROM
+			biz_business_problem a
+		INNER JOIN biz_supplier_install_construct_bill b ON a.business_only_mark_int = b.id
+		INNER JOIN biz_supplier_install_bill c ON b.supplier_install_bill_id = c.id
+		INNER JOIN biz_order_install_plan d ON c.order_install_plan_id = d.id
+		INNER JOIN biz_order_install_item e ON d.order_install_item_id = e.id
+		INNER JOIN biz_order f ON d.order_id = f.id
+		LEFT JOIN biz_business_problem_log g ON g.business_problem_id = a.id AND g.`status` = 80
+		LEFT JOIN biz_employee h ON g.problem_solve_employee_id = h.id
+		LEFT JOIN biz_employee j ON f.item_manager_id = j.id
+		LEFT JOIN biz_employee k ON f.order_inspector_id = k.id
+		LEFT JOIN biz_supplier l ON c.supplier_id = l.id
+		LEFT JOIN biz_business_problem_type m ON a.problem_type_id = m.id
+		
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="businessType != null and businessType != ''">
+				AND  a.business_type = #{businessType}
+			</if>
+			<if test="storeId != null and storeId != ''">
+				AND  f.store_id = #{storeId}
+			</if>
+			<if test="projectMode != null and projectMode != ''">
+				AND  f.project_mode = #{projectMode}
+			</if>
+			<if test="engineDepartId != null and engineDepartId != ''">
+				AND f.engin_depart_id =#{engineDepartId}
+			</if>
+			<if test="orderNumber != null and orderNumber != ''">
+				AND f.order_number LIKE CONCAT('%','${orderNumber}','%' )
+			</if>
+			<if test="customerName != null and customerName != ''">
+				AND f.customer_name LIKE CONCAT('%',#{customerName},'%')
+			</if>
+			<if test="itemManager != null and itemManager != ''">
+				AND j.realName LIKE CONCAT('%',#{itemManager},'%')
+			</if>
+			<if test="problemTypeId != null and problemTypeId != ''">
+				AND a.problem_type_id =#{problemTypeId}
+			</if>
+			<if test="supplierId != null and supplierId != ''">
+				AND c.supplier_id =#{supplierId}
+			</if>
+			<if test="projectInstallItemId != null and projectInstallItemId != ''">
+				AND e.project_install_item_id =#{projectInstallItemId}
+			</if>
+			<if test="beginCreateDate != null and beginCreateDate != ''">
+				AND a.create_date &gt;= #{beginCreateDate} 
+			</if>
+			<if test="endCreateDate != null and endCreateDate != ''">
+				AND a.create_date &lt;=  #{endCreateDate}
+			</if>
+			<if test="status != null and status != ''">
+				AND a.status =#{status}
+			</if>
+			ORDER BY a.create_date DESC
+		</where>
+	</select>
+	
+</mapper>

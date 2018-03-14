@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.mobile.Manager.ReportDao">
+
+	<!-- 查询质检单订单列表 -->
+	<select id="queryOrderList" resultType="cn.damei.entity.mobile.Inspector.ReportCheck" >
+
+		SELECT
+			a.id AS "orderId",
+			a.community_name AS "communityName",
+			a.build_number AS "buildNumber",
+			a.build_unit AS "buildUnit",
+			a.build_room AS "buildRoom",
+			a.customer_name AS "customerName",
+			a.customer_phone AS "customerPhone",
+			a.item_manager AS "managerRealName",
+			IFNULL(DATE_FORMAT(a.actual_start_date,'%Y-%m-%d'),"") AS "actualStartDateString",
+			a.order_status_number AS "orderStatusNumber",
+			a.order_status_description AS "orderStatusDescription"
+		FROM
+			biz_order a
+		<where>
+			a.del_flag = 0
+			<if test="itemManagerId !=null and itemManagerId != '' ">
+				AND a.item_manager_id = #{itemManagerId}
+			</if>
+			<if test="text!=null and text!=''">
+				AND (a.community_name LIKE CONCAT('%','${text}','%' )  OR a.customer_name LIKE CONCAT('%','${text}','%' ) )
+			</if>
+		</where>
+
+
+	</select>
+
+	<!-- 查询订单所有的质检报告 -->
+	<select id="findReportByManagerId" parameterType="int" resultType="cn.damei.entity.mobile.Inspector.ReportCheck">
+	
+		SELECT
+			b.id AS "orderId",
+			b.community_name AS "communityName",
+			b.build_number AS "buildNumber",
+			b.build_unit AS "buildUnit",
+			b.build_room AS "buildRoom",
+			b.customer_name AS "customerName",
+			b.customer_phone AS "customerPhone",
+			d.realName AS "managerRealName",
+			c.qc_check_node_name AS "qcCheckNodeName",
+			a.id AS "id",
+			a.check_datetime AS "checkDatetime",
+			a.is_recheck AS "isRecheck",
+			a.qc_bill_type AS "qcBillType"
+		FROM
+			biz_order b
+		LEFT JOIN biz_qc_bill a ON b.id = a.order_id
+		LEFT JOIN biz_qc_check_node c ON c.id = a.qc_check_node_id
+		LEFT JOIN biz_employee d ON d.id = b.item_manager_id
+		WHERE
+			b.id = #{0}
+		AND a.`status` &gt; 3
+		ORDER BY
+			a.check_datetime DESC
+	
+	</select>
+	<!-- 根据质检员id查询质检报告详情 -->
+	<select id="findReportDetailsById" parameterType="int" resultType="cn.damei.entity.mobile.Inspector.ReportCheck">
+		
+		SELECT
+				b.community_name AS "communityName",
+				b.build_number AS "buildNumber",
+				b.build_unit AS "buildUnit",
+				b.build_room AS "buildRoom",
+				b.customer_name AS "customerName",
+				b.customer_phone AS "customerPhone",
+				d.realName AS "inspectorRealName",
+				e.realName AS "managerRealName",
+				c.qc_check_node_name AS "qcCheckNodeName",
+				a.id AS "id",
+				a.order_id AS "orderId",
+				a.check_datetime AS "checkDatetime",
+				a.total_score AS "totalScore",
+				a.got_score AS "gotScore",
+				a.is_recheck AS "isRecheck",
+				a.qc_bill_type AS "qcBillType"
+			FROM
+				biz_qc_bill a
+			LEFT JOIN biz_order b ON b.id = a.order_id
+			LEFT JOIN biz_qc_check_node c ON c.id = a.qc_check_node_id
+			LEFT JOIN biz_employee d ON d.id = a.check_employee_id
+			LEFT JOIN biz_employee e ON e.id = b.item_manager_id
+			WHERE
+				a.id = #{id}
+	</select>
+	
+	
+	
+
+	<resultMap
+		type="cn.damei.entity.mobile.Inspector.ReportCheckDetails"
+		id="reportCheckDetails">
+			
+		<result property="id" column="id" />
+		<result property="qcCheckItemName" column="qc_check_item_name" />
+		<result property="isPassed" column="is_passed" />
+		<result property="isWarned" column="is_warned" />
+		<result property="isLocaleRepaire" column="is_locale_repaire" />
+		
+		<result property="isLimitDateRepaire" column="is_limit_date_repaire" />
+		<result property="limitDate" column="limit_date" />
+		<result property="limitDateRepaireCheckStyle" column="limit_date_repaire_check_style" />
+		<result property="isPunishMoney" column="is_punish_money" />
+		<result property="punishMoneyAmountReal" column="punishMoneyAmountReal" />
+		<result property="pmPunishScore" column="pmPunishScore" />
+		<result property="workerPunishAmount" column="workerPunishAmount" />
+		<result property="workerPunishScore" column="workerPunishScore" />
+		<result property="qcPunishAmount" column="qcPunishAmount" />
+		<result property="qcPunishScore" column="qcPunishScore" />
+		
+		<collection property="reportCheckBreakSettleBillList" resultMap="reportCheckBreak"></collection>
+	</resultMap>
+
+
+	<resultMap
+		type="cn.damei.entity.mobile.Inspector.ReportCheckBreak"
+		id="reportCheckBreak">
+		
+		<result property="breakDescribe" column="break_describe" />
+		<result property="isRequiredRemarks" column="is_required_remarks" />
+		<result property="breakRemarks" column="break_remarks" />
+		
+		<association property="reportCheck" resultMap="reportCheckDetails"></association>
+	</resultMap>
+
+
+
+	<select id ="findItemById" resultMap="reportCheckDetails" parameterType="int">
+		SELECT
+			c.id,
+			b.qc_check_item_name,
+			c.is_passed,
+			c.is_warned,
+			c.is_locale_repaire,
+			c.is_limit_date_repaire,
+			c.limit_date,
+			c.limit_date_repaire_check_style,
+			c.is_punish_money,
+			IFNULL(c.punish_money_amount_real,0) AS "punishMoneyAmountReal",
+			IFNULL(c.pm_punish_score,0) AS "pmPunishScore",
+			IFNULL(c.worker_punish_amount,0) AS "workerPunishAmount",
+			IFNULL(c.worker_punish_score,0) AS "workerPunishScore",
+			IFNULL(c.qc_punish_amount,0) AS "qcPunishAmount",
+			IFNULL(c.qc_punish_score,0) AS "qcPunishScore",
+			d.break_describe,
+			d.is_required_remarks,
+			d.break_remarks
+		FROM
+			biz_qc_bill_check_item c
+		LEFT JOIN biz_qc_check_item b ON c.qc_check_item_id = b.id
+		LEFT JOIN biz_qc_bill_check_item_break d ON c.id = d.qc_bill_check_item_id
+		WHERE
+			c.qc_bill_id = #{id}
+	</select>
+	
+	<!-- 通过质检单id查询图片数量 -->
+	<select id="findPicNum" parameterType="int" resultType="int">
+		SELECT
+			COUNT(1)
+		FROM
+			biz_business_pic
+		WHERE
+			business_id_int = #{businessIdInt}
+		AND business_type = '2'
+	</select>
+	<!-- 通过质检单id查询图片 -->
+	<select id="findPic" parameterType="int" resultType="cn.damei.entity.mobile.Inspector.ReportCheckDetailsPic">
+		SELECT
+			id AS "picId",
+			business_type AS "businessType",
+			business_id_int AS "businessIdInt",
+			business_id_varchar AS "businessIdVarchar",
+			pic_type AS "picType",
+			pic_index AS "picIndex",
+			pic_url AS "picUrl",
+			pic_datetime AS "picDatetime"
+		FROM
+			biz_business_pic
+		WHERE
+			business_id_int = #{businessIdInt}
+		AND business_type = '2'
+	</select>
+	
+	
+</mapper>

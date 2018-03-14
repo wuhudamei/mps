@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.mobile.Inspector.ApplyCheckPlanDao">
+
+
+    <select id="findList"
+            resultType="cn.damei.entity.mobile.Inspector.ApplyCheckPlanEntity">
+
+        SELECT
+        a.id AS "orderId",
+        CONCAT_WS(
+        '-',
+        a.community_name,
+        a.build_number,
+        a.build_unit,
+        a.build_room,
+        a.customer_name
+        ) AS "customerAddressInfo",
+        a.customer_name AS "customerName",
+        a.customer_phone AS "customerPhone",
+        a.item_manager AS "managerName",
+        b.phone AS "managerPhone",
+        ifnull(
+        date_format(
+        a.actual_start_date,
+        '%Y-%m-%d'
+        ),
+        "无"
+        ) AS "actualStartDate"
+        FROM
+        biz_order a
+        LEFT JOIN biz_employee b ON a.item_manager_id = b.id
+        WHERE
+        a.order_inspector_id = #{pqcId}
+        <if test="text!=null and text!=''">
+            and (a.community_name like concat('%',#{text},'%') or a.customer_name like concat('%',#{text},'%') or
+            b.realName like concat('%',#{text},'%'))
+        </if>
+
+
+    </select>
+
+
+    <select id="findOrderInfoDoneByPqcId" parameterType="int" resultType="int">
+
+
+        SELECT a1.id
+        FROM
+            biz_order a1
+            INNER JOIN biz_qc_bill b1 ON a1.id = b1.order_id
+            INNER JOIN (
+                           SELECT q.id
+                           FROM
+                               biz_qc_check_node q
+                           WHERE
+                               q.qc_check_node_index = (
+                                   SELECT MAX(a1.qc_check_node_index)
+                                   FROM
+                                       biz_qc_check_node a1
+                                   WHERE
+                                       a1.store_id = q.store_id
+                                       AND a1.project_mode = q.project_mode
+
+                               )
+                       ) e1 ON b1.qc_check_node_id = e1.id
+        WHERE
+            b1.qc_bill_type = 1
+            AND b1.is_recheck = 0
+            AND b1.`status` = 30
+            AND a1.order_inspector_id = #{pqcId}
+    </select>
+
+
+    <select id="allStatusNode"
+            resultType="cn.damei.entity.mobile.Inspector.ApplyCheckPlanEntity"
+            parameterType="String">
+
+        SELECT
+            CONCAT_WS(
+                    '-',
+                    a.community_name,
+                    a.build_number,
+                    a.build_unit,
+                    a.build_room,
+                    a.customer_name
+            )                     AS "customerAddressInfo",
+            c.qc_check_node_name  AS "qcNodeName",
+            date_format(
+                    DATE_ADD(
+                            a.actual_start_date,
+                            INTERVAL c.days_to_check DAY
+                    ),
+                    '%Y-%m-%d'
+            )                     AS "planCheckDate",
+            c.id                  AS "qcNodeId",
+            c.qc_check_node_index AS "checkNodeIndex"
+        FROM
+            biz_order a
+            LEFT JOIN biz_qc_check_node c ON a.store_id = c.store_id
+                                             AND a.project_mode = c.project_mode
+        WHERE
+            a.id = #{_parameter}
+            AND c.`status` = 1
+        ORDER BY
+            c.qc_check_node_index
+    </select>
+    <select id="nodeApply"
+            resultType="cn.damei.entity.mobile.Inspector.ApplyCheckPlanEntity"
+            parameterType="String">
+
+        SELECT
+            c.id                  AS "qcNodeId",
+            b.`status`            AS "qcStatus",
+            c.qc_check_node_name  AS "qcNodeName",
+            date_format(
+                    DATE_ADD(
+                            a.actual_start_date,
+                            INTERVAL c.days_to_check DAY
+                    ),
+                    '%Y-%m-%d'
+            )                     AS "planCheckDate",
+            c.qc_check_node_index AS "checkNodeIndex"
+        FROM
+            biz_order a
+            LEFT JOIN biz_qc_bill b ON a.id = b.order_id
+                                       AND b.qc_bill_type = 1
+                                       AND b.is_recheck = 0
+            INNER JOIN biz_qc_check_node c ON b.qc_check_node_id = c.id
+        WHERE
+            b.order_id = #{_parameter}
+        ORDER BY
+            c.qc_check_node_index
+
+    </select>
+
+
+</mapper>

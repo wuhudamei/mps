@@ -1,0 +1,1 @@
+UPDATE biz_normal_pm_settle_node SET project_mode = 2;

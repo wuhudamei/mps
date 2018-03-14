@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizWorkerScoreDao">
+
+	
+
+	<select id="get" resultType="cn.damei.entity.modules.BizWorkerScore">
+
+	</select>
+
+	<select id="findList" resultType="cn.damei.entity.modules.BizWorkerScore" parameterType="cn.damei.entity.modules.BizWorkerScore">
+
+		SELECT
+		e.star_score As starScore,
+		eg.id,
+		eg.storeId,
+        so.name storeName,
+ 		eg.star As star,
+        eg.elactricationId,
+        ep.name elactricationName,
+        egr.empId,
+        e.realName AS leaderRealName,
+        e.workType,
+        e.phone AS leaderPhone,
+        eg.taskPackageId,
+		eg.project_mode
+		FROM biz_employeegroup eg	
+		LEFT JOIN biz_emgrouprelation egr ON  eg.id = egr.groupId AND egr.is_leader = '1'
+		LEFT JOIN biz_employee e ON egr.empId = e.id
+		LEFT JOIN
+		biz_engineering_department ep ON ep.id = eg.elactricationId
+		LEFT JOIN
+		sys_office so ON so.id = eg.storeId
+		LEFT JOIN biz_employee e1 ON e1.id = e.managerId
+		left join (select * from biz_employee_star_log besl GROUP BY besl.employee_id)besl on  besl.employee_id=e.id 
+		
+		<where>
+			eg.state = 0
+			and e.empType =2
+			AND e.del_flag = 0
+
+			<if test="empId != null and empId != ''">
+				AND  egr.empId = #{empId}
+			</if>
+			<if test="storeId != null and storeId != ''">
+				AND eg.storeId = #{storeId}
+			</if>
+			<if test="enginDepartIds != null and enginDepartIds != ''">
+				AND eg.elactricationId in
+				<foreach item="item" index="index" collection="enginDepartIds" open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>			
+			<!-- 分数条件 -->
+			<if test="starScore1 != null and starScore1 != '' and starScore2 != null and starScore2 != ''">
+				AND e.star_score BETWEEN #{starScore1} AND #{starScore2}
+			</if>
+            <if test="workType != null and workType != ''">
+				<if test="workType == 100">
+					AND e.workType = 0
+				</if>
+                <if test="workType != 100">
+					AND e.workType = #{workType}
+				</if>
+            </if>
+
+			<if test="projectMode != null and projectMode != ''">
+            AND eg.project_mode = #{projectMode}
+			</if>
+		</where>
+		ORDER BY e.star_score desc
+	</select>
+	
+	
+	<select id="findSort" resultType="cn.damei.entity.modules.BizWorkerScore" parameterType="cn.damei.entity.modules.BizWorkerScore">
+
+		SELECT
+		e.star_score As starScore,
+		eg.id,
+		eg.storeId,
+        so.name storeName,
+ 		eg.star As star,
+        eg.elactricationId,
+        ep.name elactricationName,
+        egr.empId,
+        e.realName AS leaderRealName,
+        e.workType,
+        e.phone AS leaderPhone,
+        eg.taskPackageId,
+		eg.project_mode
+		FROM biz_employeegroup eg	
+		LEFT JOIN biz_emgrouprelation egr ON  eg.id = egr.groupId AND egr.is_leader = '1'
+		LEFT JOIN biz_employee e ON egr.empId = e.id
+		LEFT JOIN
+		biz_engineering_department ep ON ep.id = eg.elactricationId
+		LEFT JOIN
+		sys_office so ON so.id = eg.storeId
+		LEFT JOIN biz_employee e1 ON e1.id = e.managerId
+		left join (select * from biz_employee_star_log besl GROUP BY besl.employee_id)besl on  besl.employee_id=e.id 
+		where
+			eg.state = 0
+			and e.empType =2
+			AND e.del_flag = 0
+			ANd e.star_score is not null
+		ORDER BY e.star_score desc
+	</select>
+	
+	<select id="queryBizWorkerScoreDetail" parameterType="cn.damei.entity.modules.BizWorkerScore" resultType="cn.damei.entity.modules.BizWorkerScore">
+		SELECT
+			a.store_id AS storeId,
+			a.project_mode AS projectMode,
+			d.realName AS groupRealName,
+			a.customer_message AS customerMessage,
+			a.customer_name AS customerName,
+			a.id AS packageId,
+			a.package_name AS packageName,
+			n.evaltotalScore,
+			n.eval_role_type AS evalRoleType,
+			m.eval_datetime AS gradeDate
+		FROM
+			biz_order_taskpackage a
+		left JOIN biz_eval_score b ON a.id = b.related_business_id
+		left JOIN biz_eval_activity_order_taskpack_rel c ON c.order_taskpack_id = a.id
+		LEFT JOIN biz_employee d ON d.id = a.group_id
+		LEFT JOIN (
+			SELECT
+				n1.eval_activity_id,
+				n1.eval_role_type,
+				SUM(n1.eval_total_score) AS "evaltotalScore"
+			FROM
+				biz_eval_activity_index n1
+			WHERE
+				n1.eval_role_type IS NOT NULL
+				<if test="evalRoleType != null and evalRoleType != ''">
+					AND n1.eval_role_type = #{evalRoleType}
+				</if>
+			GROUP BY
+				n1.eval_activity_id,
+				n1.eval_role_type
+		) n ON n.eval_activity_id = c.eval_activity_id
+		LEFT JOIN biz_eval_score_role m ON m.eval_score_id = b.id
+		AND (
+			CASE
+			WHEN n.eval_role_type = 1 THEN
+				m.eval_role_type IN (101, 102)
+			WHEN n.eval_role_type = 2 THEN
+				m.eval_role_type IN (201, 202)
+			WHEN n.eval_role_type = 3 THEN
+				m.eval_role_type IN (301, 302)
+			END
+		)
+		<where>
+			a.group_id = #{empId}
+			AND b.eval_type = 1
+			AND m.eval_datetime IS NOT NULL
+			<if test="customerName != null and customerName != ''">
+				AND a.customer_name LIKE CONCAT('%','${customerName}','%'
+				)
+			</if>
+		</where>
+				<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+		</choose>
+		
+	</select>
+
+	<insert id="insert">
+		
+	</insert>
+
+	<update id="update">
+		
+	</update>
+
+	<update id="delete">
+
+	</update>
+
+	
+	
+
+</mapper>

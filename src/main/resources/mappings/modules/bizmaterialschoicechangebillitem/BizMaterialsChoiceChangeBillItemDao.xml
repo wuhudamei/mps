@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizMaterialsChoiceChangeBillItemDao">
+    
+	<sql id="bizMaterialsChoiceChangeBillItemColumns">
+		a.id AS "id",
+		a.materials_choice_change_bill_id AS "materialsChoiceChangeBillId",
+		a.change_type AS "changeType",
+		a.materials_choice_type AS "materialsChoiceType",
+		a.materials_choice_category_code AS "materialsChoiceCategoryCode",
+		a.brand AS "brand",
+		a.model AS "model",
+		a.attribute AS "attribute",
+		a.unit AS "unit",
+		a.spec AS "spec",
+		a.change_number AS "changeNumber",
+		a.unit_price AS "unitPrice",
+		a.total_amount AS "totalAmount",
+		a.remarks AS "remarks",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="bizMaterialsChoiceChangeBillItemJoins">
+	</sql>
+    
+	<select id="get" resultType="cn.damei.entity.modules.BizMaterialsChoiceChangeBillItem">
+		SELECT 
+			<include refid="bizMaterialsChoiceChangeBillItemColumns"/>
+		FROM biz_materials_choice_change_bill_item a
+		<include refid="bizMaterialsChoiceChangeBillItemJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="cn.damei.entity.modules.BizMaterialsChoiceChangeBillItem">
+		SELECT 
+			a.id AS "id",
+			a.materials_choice_change_bill_id AS "materialsChoiceChangeBillId",
+			a.change_type AS "changeType",
+			a.materials_choice_type AS "materialsChoiceType",
+			a.materials_choice_category_code AS "materialsChoiceCategoryCode",
+			a.brand AS "brand",
+			a.model AS "model",
+			a.attribute AS "attribute",
+			a.unit AS "unit",
+			a.spec AS "spec",
+			a.change_number AS "changeNumber",
+			a.unit_price AS "unitPrice",
+			a.total_amount AS "totalAmount",
+			b.category_name AS "categoryName"
+		FROM biz_materials_choice_change_bill_item a
+		LEFT JOIN biz_materials_choice_category b ON b.category_code = a.materials_choice_category_code AND b.category_level = 2
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="materialsChoiceChangeBillId != null and materialsChoiceChangeBillId != ''">
+				AND a.materials_choice_change_bill_id = #{materialsChoiceChangeBillId}
+			</if>
+			<if test="changeType != null and changeType != ''">
+				AND a.change_type = #{changeType}
+			</if>
+		</where>
+	</select>
+	
+	<select id="findAllList" resultType="cn.damei.entity.modules.BizMaterialsChoiceChangeBillItem">
+		SELECT 
+			<include refid="bizMaterialsChoiceChangeBillItemColumns"/>
+		FROM biz_materials_choice_change_bill_item a
+		<include refid="bizMaterialsChoiceChangeBillItemJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO biz_materials_choice_change_bill_item(
+			id,
+			materials_choice_change_bill_id,
+			change_type,
+			materials_choice_type,
+			materials_choice_category_code,
+			brand,
+			model,
+			attribute,
+			unit,
+			spec,
+			change_number,
+			unit_price,
+			total_amount,
+			remarks,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag
+		) VALUES (
+			#{id},
+			#{materialsChoiceChangeBillId},
+			#{changeType},
+			#{materialsChoiceType},
+			#{materialsChoiceCategoryCode},
+			#{brand},
+			#{model},
+			#{attribute},
+			#{unit},
+			#{spec},
+			#{changeNumber},
+			#{unitPrice},
+			#{totalAmount},
+			#{remarks},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE biz_materials_choice_change_bill_item SET 	
+			materials_choice_change_bill_id = #{materialsChoiceChangeBillId},
+			change_type = #{changeType},
+			materials_choice_type = #{materialsChoiceType},
+			materials_choice_category_code = #{materialsChoiceCategoryCode},
+			brand = #{brand},
+			model = #{model},
+			attribute = #{attribute},
+			unit = #{unit},
+			spec = #{spec},
+			change_number = #{changeNumber},
+			unit_price = #{unitPrice},
+			total_amount = #{totalAmount},
+			remarks = #{remarks},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE biz_materials_choice_change_bill_item SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+	<!-- 批量保存选材变更单材料 -->
+	<insert id="insertMaterialsChoiceChangeBillItemList" parameterType="java.util.List">
+		INSERT INTO biz_materials_choice_change_bill_item(
+			materials_choice_change_bill_id,
+			change_type,
+			materials_choice_type,
+			materials_choice_category_code,
+			brand,
+			model,
+			attribute,
+			unit,
+			spec,
+			change_number,
+			unit_price,
+			total_amount,
+			remarks,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag
+		) VALUES 
+		<foreach collection="list" item="item" index="index" separator="," >
+		
+			(
+			
+				#{item.materialsChoiceChangeBillId},
+				#{item.changeType},
+				#{item.materialsChoiceType},
+				#{item.materialsChoiceCategoryCode},
+				#{item.brand},
+				#{item.model},
+				#{item.attribute},
+				#{item.unit},
+				#{item.spec},
+				#{item.changeNumber},
+				#{item.unitPrice},
+				#{item.totalAmount},
+				#{item.remarks},
+				#{item.createBy.id},
+				#{item.createDate},
+				#{item.updateBy.id},
+				#{item.updateDate},
+				#{item.delFlag}
+			)
+		</foreach>
+	</insert>
+	
+</mapper>

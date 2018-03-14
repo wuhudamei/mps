@@ -1,0 +1,50 @@
+ 打包名称：mdn.war
+打包版本：V10.0-20170615-001
+
+功能变更：
+	1、申请复尺优化
+
+	2、确认二期款、尾款优化
+	3、基装变更
+
+	4、工地设计问题处理、查询优化
+	5、大看板2.0
+	6、订单明细优化
+	7、客户端sql优化
+
+功能新增：
+	1、约检接口
+
+	2、基装变更接口
+
+	3、工程部主材工期统计表
+	4、工人回访电话查询
+
+菜单新增：
+	1、工程部主材工期统计
+	名称：工程部主材工期统计表
+	链接：/bizOrderInstallItemReport/bizOrderInstallItemReport/preList
+	权限标识：bizOrderInstallItemReport:bizOrderInstallItemReport:view
+	
+
+	2、工人回访电话查询
+	名称：工人回访电话查询
+	链接：/laborCapital/laborCapital/queryOrderList
+	权限标识：laborCapital:laborCapital:view
+
+
+	
+数据库表结构变更：
+		1、执行文件夹名【数据表结构变更脚本】内的【jeesite_table-v12.0_02_fuchi.sql】脚本
+		2、执行文件夹名【数据表结构变更脚本】内的【jeesite_table-v12.0_03_dakanban1.sql】脚本
+		3、执行文件夹名【数据表结构变更脚本】内的【jeesite_table-v12.0_03_zhucaigongqi.sql】脚本
+		
+
+数据库表数据变更：
+		1、执行文件夹名【历史数据处理脚本】内的【jeesite_table-v12.0_01_cgh.sql】脚本
+		2、执行文件夹名【历史数据处理脚本】内的【jeesite_table-v12.0_02_zkj.sql】脚本
+		
+		
+		
+
+	

@@ -1,0 +1,40 @@
+.Evaluation :-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color: #999;
+    font-size: 0.22rem;
+}
+
+.Evaluation::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color: #999;
+    font-size: 0.22rem;
+}
+
+.Evaluation :-ms-input-placeholder{
+    color: #999;
+    font-size: 0.22rem;
+}
+
+.Evaluation ::-webkit-input-placeholder{
+    color: #999;
+    font-size: 0.22rem;
+}
+
+
+.Complaints :-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color: #666;
+    font-size: 0.22rem;
+}
+
+.Complaints::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color: #666;
+    font-size: 0.22rem;
+}
+
+.Complaints :-ms-input-placeholder{
+   color: #666;
+    font-size: 0.22rem;
+}
+
+.Complaints ::-webkit-input-placeholder{
+    color: #666;
+    font-size: 0.22rem;
+}

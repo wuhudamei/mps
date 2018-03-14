@@ -1,0 +1,60 @@
+.pic_sec{height: .86rem;line-height: .86rem;}
+.bor_btm{border-bottom: 1px solid #ccc;}
+.see_btn {
+    display: block;
+    position: absolute;
+    right: .3rem;
+    top: 0;
+    width: 1.2rem;
+    height: .86rem;
+    line-height: .86rem;
+    text-align: center;
+    font-size: .24rem;
+    color: #0780ec;
+    padding-right: .2rem;
+    background-image: url(../../img/quality/rightArrow.png);
+    background-repeat: no-repeat;
+    background-size: .16rem .29rem;
+    background-position: right center;
+}
+.relative{position: relative;}
+.pad_top24{padding-top: .24rem;}
+.pad_rgt_per30{padding-right: 30%;}
+
+.standard{position: absolute;right: 1.3rem;top: .35rem;height: .24rem;line-height: .24rem;}
+.col9{color: #999;}
+.details_btn {
+    display: block;
+    position: absolute;
+    right: .3rem;
+    top: .35rem;
+    width: 0.66rem;
+    height: .24rem;
+    line-height: .24rem;
+    text-align: center;
+    font-size: .24rem;
+    color: #999;
+    padding-right: .32rem;
+    background-image: url(../../img/quality/spread_btn.png);
+    background-repeat: no-repeat;
+    background-size: .2rem .11rem;
+    background-position: right center;
+}
+.total_btn {
+    display: block;
+    position: absolute;
+    right: .3rem;
+    top: .35rem;
+    width: 0.66rem;
+    height: .24rem;
+    line-height: .24rem;
+    text-align: center;
+    font-size: .24rem;
+    color: #999;
+    padding-right: .32rem;
+    background-image: url(../../img/quality/close_btn.png);
+    background-repeat: no-repeat;
+    background-size: .2rem .11rem;
+    background-position: right center;
+}
+.pad_left7{padding-left: .7rem;}

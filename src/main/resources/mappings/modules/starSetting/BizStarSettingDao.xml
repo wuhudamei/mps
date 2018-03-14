@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizStarSettingDao">
+    
+	<sql id="bizEvalIndexColumns">
+		a.id AS "id",
+		a.store_id AS "storeId",
+		a.peoject_mode AS "projectMode",
+		a.max_score AS "endScore",
+		a.min_socre AS "startScore",
+		a.star  AS "star",
+		a.is_enabled AS "isEnabled",
+		a.remarks AS "remarks",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="bizEvalIndexJoins">
+	</sql>
+    
+	<select id="get" resultType="cn.damei.entity.modules.BizStarSetting">
+		SELECT 
+			<include refid="bizEvalIndexColumns"/>
+		FROM biz_employee_star_cnfg a
+		<include refid="bizEvalIndexJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="cn.damei.entity.modules.BizStarSetting">
+		SELECT 
+			<include refid="bizEvalIndexColumns"/>
+		FROM biz_employee_star_cnfg a
+		<include refid="bizEvalIndexJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="storeId != null and storeId != ''">
+				AND a.store_id = #{storeId}
+			</if>
+			<if test="projectMode != null and projectMode != ''">
+				AND a.peoject_mode = #{projectMode}
+			</if>
+			<if test="isEnabled != null and isEnabled != ''">
+				AND a.is_enabled = #{isEnabled}
+			</if>
+			<if test="star != null and star != ''">
+				AND a.star = #{star}
+			</if>
+			ORDER BY a.create_date DESC
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				,${page.orderBy}
+			</when>
+			<otherwise>
+				,a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="cn.damei.entity.modules.BizStarSetting">
+		SELECT 
+			<include refid="bizEvalIndexColumns"/>
+		FROM biz_employee_star_cnfg a
+		<include refid="bizEvalIndexJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findIsCopy" resultType="cn.damei.entity.modules.BizStarSetting">
+		select 
+		<include refid="bizEvalIndexColumns"/> 
+		from biz_employee_star_cnfg a
+		where 
+	    a.store_id=#{storeId}  
+		and a.peoject_mode=#{projectMode}
+	</select>
+	
+	<select id="findIsCopyStar" resultType="cn.damei.entity.modules.BizStarSetting">
+		select 
+		<include refid="bizEvalIndexColumns"/> 
+		from biz_employee_star_cnfg a
+		where 
+	    a.store_id=#{storeId}  
+		and a.peoject_mode=#{projectMode}
+		and a.star=#{star}
+	</select>
+	
+	<select id="findIsNotCopyStar" resultType="cn.damei.entity.modules.BizStarSetting">
+		select 
+		<include refid="bizEvalIndexColumns"/> 
+		from biz_employee_star_cnfg a
+		where 
+	    a.store_id=#{0}  
+		and a.peoject_mode=#{1}
+		and a.star=#{2}
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO biz_employee_star_cnfg(
+			id,
+			store_id,
+			peoject_mode,
+			max_score,
+			min_socre,
+			star,
+			is_enabled,
+			remarks,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag
+		) VALUES (
+			#{id},
+			#{storeId},
+			#{projectMode},
+			#{endScore},
+			#{startScore},
+			#{star},
+			#{isEnabled},
+			#{remarks},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE biz_employee_star_cnfg SET 	
+			max_score =#{endScore},
+			min_socre =#{startScore},
+			is_enabled = #{isEnabled},
+			remarks = #{remarks},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE biz_employee_star_cnfg SET 
+			max_score= #{endScore},
+			min_socre= #{startScore},
+			is_enabled = #{isEnabled}
+		WHERE id = #{id}
+	</update>
+</mapper>

@@ -1,0 +1,5 @@
+ 	
+1	警告	processing_method	
+2	限期整改	processing_method	
+3	现场整改	processing_method	
+4	罚款	processing_method

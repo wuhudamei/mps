@@ -1,0 +1,402 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="cn.damei.dao.mobile.home.HomeReportDao">
+
+	<!-- 查询顾客所有的订单列表 -->
+	<select id="findOrderList" parameterType="cn.damei.entity.mobile.home.Order" resultType="cn.damei.entity.mobile.home.Order">
+		SELECT
+			a.id AS "orderId",
+			a.community_name AS "communityName",
+			a.build_number AS "buildNumber",
+			a.build_unit AS "buildUnit",
+			a.build_room AS "buildRoom",
+			(
+				SELECT
+					COUNT(1)
+				FROM
+					biz_qc_bill b
+				WHERE
+					a.id = b.order_id
+				AND b.qc_bill_type = '1'
+				AND b.`status` &gt; 2
+				AND b.id NOT IN (
+					SELECT
+						c.business_id_int
+					FROM
+						biz_business_view_log c
+					WHERE
+						c.business_id_int = b.id
+					AND c.business_type = '3'
+				)
+		) AS "number"
+		FROM
+			biz_order a
+		WHERE
+			a.customer_phone = #{customerPhone}
+		ORDER BY
+			a.create_date ASC
+	</select>
+	
+	
+	<resultMap
+		type="cn.damei.entity.mobile.home.Order"
+		id="orderMap">
+		<result property="orderId" column="id" />
+		<result property="communityName" column="community_name" />
+		<result property="buildNumber" column="build_number" />
+		<result property="buildUnit" column="build_unit" />
+		<result property="buildRoom" column="build_room" />
+		<result property="itemManagerId" column="item_manager_id" />
+		<result property="itemManager" column="itemManager" />
+		<result property="itemManagerPhone" column="itemManagerPhone" />
+		<result property="orderInspectorId" column="order_inspector_id" />
+		<result property="orderInspector" column="orderInspector" />
+		<result property="orderInspectorPhone" column="orderInspectorPhone" />
+		<collection property="reportList" resultMap="reportMap"></collection>
+		
+	</resultMap>
+
+
+	<resultMap
+		type="cn.damei.entity.mobile.home.Report"
+		id="reportMap">
+		<result property="qcBillId" column="qcBillId" />
+		<result property="qcBillType" column="qc_bill_type" />
+		<result property="isRecheck" column="is_recheck" />
+		<result property="qcCheckNodeId" column="qc_check_node_id" />
+		<result property="checkDatetime" column="check_datetime" />
+		<result property="qcCheckNodeName" column="qc_check_node_name" />
+		<result property="viewCount" column="viewCount" />
+		
+		<association property="order" resultMap="orderMap"></association>
+	</resultMap>
+
+	<!-- 查看质检报告 -->
+	<select id="findQcBill" parameterType="cn.damei.entity.mobile.home.Order" resultMap="orderMap">
+		SELECT
+			a.id,
+			a.community_name,
+			a.build_number,
+			a.build_unit,
+			a.build_room,
+			a.item_manager_id,
+			c.realName AS "itemManager",
+			c.phone AS "itemManagerPhone",
+			a.order_inspector_id,
+			d.realName AS "orderInspector",
+			d.phone AS "orderInspectorPhone",
+			b.id AS "qcBillId",
+			b.qc_bill_type,
+			b.is_recheck,
+			b.qc_check_node_id,
+			b.check_datetime,
+			e.qc_check_node_name,
+			(SELECT COUNT(1) FROM biz_business_view_log g WHERE g.business_id_int = b.id AND g.business_type = '3') AS "viewCount"
+		FROM
+			biz_order a
+		LEFT JOIN biz_qc_bill b ON a.id = b.order_id
+		AND b.qc_bill_type = '1'
+		AND b.`status` &gt; 2
+		LEFT JOIN biz_employee c ON c.id = a.item_manager_id
+		LEFT JOIN biz_employee d ON d.id = a.order_inspector_id
+		LEFT JOIN biz_qc_check_node e ON e.id = b.qc_check_node_id
+		
+		WHERE
+			a.id = (
+				SELECT
+					h.id
+				FROM
+					biz_order h
+				WHERE
+					h.customer_phone =  #{customerPhone}
+					<if test="orderId != null and orderId != ''">
+						AND h.id = #{orderId}
+					</if>
+				ORDER BY
+					
+					(
+						SELECT
+							COUNT(1)
+						FROM
+							biz_qc_bill w
+						WHERE
+							h.id = w.order_id
+						AND w.qc_bill_type = '1'
+						AND w.`status` &gt; 2
+						AND w.id NOT IN (
+							SELECT
+								n.business_id_int
+							FROM
+								biz_business_view_log n
+							WHERE
+								n.business_id_int = w.id
+							AND n.business_type = '3'
+						)
+					) DESC,h.create_date ASC
+				LIMIT 1
+			)
+		ORDER BY
+			a.create_date ASC,
+			viewCount ASC,
+			b.qc_check_node_id ASC,
+			b.check_datetime ASC
+
+	</select>
+	
+	<resultMap
+		type="cn.damei.entity.mobile.home.Report"
+		id="reportDetailsMap">
+		<result property="communityName" column="community_name" />
+		<result property="buildNumber" column="build_number" />
+		<result property="buildUnit" column="build_unit" />
+		<result property="buildRoom" column="build_room" />
+		<result property="qcBillId" column="qcBillId" />
+		<result property="qcBillType" column="qc_bill_type" />
+		<result property="isRecheck" column="is_recheck" />
+		<result property="qcCheckNodeId" column="qc_check_node_id" />
+		<result property="checkDatetime" column="check_datetime" />
+		<result property="inspector" column="realName" />
+		<result property="qcCheckNodeName" column="qc_check_node_name" />
+		<result property="picCount" column="picCount" />
+		<result property="itemCount" column="itemCount" />
+		<result property="passedCount" column="passedCount" />
+		<result property="noPassedCount" column="noPassedCount" />
+		
+		<!-- 添加start -->
+		
+		<!-- 添加end -->
+		
+		
+		<collection property="checkItemList" resultMap="itemMap"></collection>
+	</resultMap>
+
+
+	<resultMap
+		type="cn.damei.entity.mobile.home.CheckItem"
+		id="itemMap">
+		<result property="qcBillItemId" column="qcBillItemId" />
+		<result property="qcCheckItemId" column="qc_check_item_id" />
+		<result property="qcCheckItemName" column="qc_check_item_name" />
+		<result property="isPassed" column="is_passed" />
+		<result property="isWarned" column="is_warned" />
+		<result property="isLocaleRepaire" column="is_locale_repaire" />
+		<result property="isLimitDateRepaire" column="is_limit_date_repaire" />
+		<result property="limitDate" column="limit_date" />
+		<result property="limitDateRepaireCheckStyle" column="limit_date_repaire_check_style" />
+		<result property="isPunishMoney" column="is_punish_money" />
+		<result property="punishMoneyAmountReal" column="punish_money_amount_real" />
+		<result property="pmPunishScore" column="pm_punish_score" />
+		<result property="workerPunishAmount" column="worker_punish_amount" />
+		<result property="workerPunishScore" column="worker_punish_score" />
+		<result property="qcPunishAmount" column="qc_punish_amount" />
+		<result property="qcPunishScore" column="qc_punish_score" />
+		<result property="checkStyle" column="check_style" />
+
+		<association property="report" resultMap="reportDetailsMap"></association>
+	</resultMap>
+	
+	<!-- 质检罚款详情  -->
+	<select id = "queryQcBillList" parameterType="java.lang.Integer" resultMap="reportDetailsMap">
+		SELECT
+			b.id AS "qcBillId",
+			b.qc_bill_type,
+			b.is_recheck,
+			b.qc_check_node_id,
+			b.check_datetime,
+			g.realName,
+			e.qc_check_node_name,
+			c.id AS "qcBillItemId",
+			c.qc_check_item_id,
+			d.qc_check_item_name,
+			c.is_passed,
+			c.is_warned,
+			c.is_locale_repaire,
+			c.is_limit_date_repaire,
+			c.limit_date,
+			c.limit_date_repaire_check_style,
+			c.is_punish_money,
+			c.punish_money_amount_real,
+			c.pm_punish_score,
+			c.worker_punish_amount,
+			c.worker_punish_score,
+			c.qc_punish_amount,
+			c.qc_punish_score,
+			c.check_style
+		FROM
+			biz_qc_bill b
+		INNER JOIN biz_qc_check_node e ON b.qc_check_node_id = e.id
+		INNER JOIN biz_qc_bill_check_item c ON c.qc_bill_id = b.id
+		LEFT JOIN biz_qc_check_item d ON d.id = c.qc_check_item_id
+		LEFT JOIN biz_employee g ON g.id = b.check_employee_id
+		WHERE
+			b.id in (SELECT DISTINCT(m.qc_bill_id) from biz_qc_bill_check_item m WHERE m.worker_punish_order_taskpackage_id = #{0})
+			and b.is_recheck = '0' and c.worker_punish_order_taskpackage_id = #{0} and c.worker_punish_amount is not NULL
+	</select>
+	
+	<!-- 违规形式 -->
+	<select id="queryCheckBreaks" resultType="cn.damei.entity.mobile.home.CheckBreak">
+		select 
+		     a.break_describe as "breakDescribe",
+		     a.is_required_remarks as "isRequiredRemarks",
+		     a.break_remarks as "breakRemarks"
+		from biz_qc_bill_check_item_break a
+		where a.qc_bill_check_item_id = #{qcBillItemId}
+	</select>
+	
+	<!-- 质检报告详情 -->
+	<select id="reportDetail" parameterType="int" resultMap="reportDetailsMap">
+		SELECT
+			a.community_name,
+			a.build_number,
+			a.build_unit,
+			a.build_room,
+			b.id AS "qcBillId",
+			b.qc_bill_type,
+			b.is_recheck,
+			b.qc_check_node_id,
+			b.check_datetime,
+			g.realName,
+			e.qc_check_node_name,
+		 	<!-- (SELECT COUNT(1) FROM biz_business_pic f WHERE f.business_id_int = b.id AND f.business_type = '2')AS "picCount",
+			(SELECT COUNT(1) FROM biz_qc_bill_check_item g WHERE g.qc_bill_id = b.id) AS "itemCount",
+			(SELECT COUNT(1) FROM biz_qc_bill_check_item g WHERE g.qc_bill_id = b.id AND g.is_passed='1') AS "passedCount",
+			(SELECT COUNT(1) FROM biz_qc_bill_check_item g WHERE g.qc_bill_id = b.id AND g.is_passed='0') AS "noPassedCount", -->
+			
+			IFNULL(m1.picCount,0) AS "picCount",
+			IFNULL(m2.itemCount,0) AS "itemCount",
+			(IFNULL(m2.itemCount,0)-IFNULL(m4.noPassedCount,0)) AS "passedCount",
+			IFNULL(m4.noPassedCount,0) AS "noPassedCount",
+
+			c.id AS "qcBillItemId",
+			c.qc_check_item_id,
+			d.qc_check_item_name,
+			c.is_passed
+		FROM
+			biz_qc_bill b
+		INNER JOIN biz_order a ON a.id = b.order_id
+		INNER JOIN biz_qc_check_node e ON b.qc_check_node_id = e.id
+		INNER JOIN biz_qc_bill_check_item c ON c.qc_bill_id = b.id
+		LEFT JOIN biz_qc_check_item d ON d.id = c.qc_check_item_id
+		LEFT JOIN biz_employee g ON g.id = b.check_employee_id
+		
+		LEFT JOIN (SELECT f.business_id_int,COUNT(1) AS "picCount" FROM biz_business_pic f WHERE f.business_id_int = #{0} AND  f.business_type = '2' GROUP BY f.business_id_int) m1 ON m1.business_id_int = b.id 
+		LEFT JOIN (SELECT h.qc_bill_id,COUNT(1) AS "itemCount" FROM biz_qc_bill_check_item h WHERE h.qc_bill_id = #{0} GROUP BY h.qc_bill_id) m2 ON m2.qc_bill_id = b.id
+		LEFT JOIN (SELECT h.qc_bill_id,COUNT(1) AS "noPassedCount" FROM biz_qc_bill_check_item h WHERE h.qc_bill_id = #{0} AND h.is_passed='0' GROUP BY h.qc_bill_id) m4 ON m4.qc_bill_id = b.id
+		
+		
+		WHERE
+			b.id = #{0}
+	
+	</select>
+	
+	
+	<resultMap
+		type="cn.damei.entity.mobile.home.CheckItem"
+		id="checkItemMap">
+		<result property="isPassed" column="is_passed" />
+		<result property="isWarned" column="is_warned" />
+		<result property="isLocaleRepaire" column="is_locale_repaire" />
+		<result property="isLimitDateRepaire" column="is_limit_date_repaire" />
+		<result property="limitDate" column="limit_date" />
+		<result property="limitDateRepaireCheckStyle" column="limit_date_repaire_check_style" />
+		<result property="isPunishMoney" column="is_punish_money" />
+		<result property="punishMoneyAmountReal" column="punish_money_amount_real" />
+		<result property="pmPunishScore" column="pm_punish_score" />
+		<result property="workerPunishAmount" column="worker_punish_amount" />
+		<result property="workerPunishScore" column="worker_punish_score" />
+		<result property="qcPunishAmount" column="qc_punish_amount" />
+		<result property="qcPunishScore" column="qc_punish_score" />
+		<result property="checkStyle" column="check_style" />
+		
+		<collection property="checkBreakList" resultMap="breakMap"></collection>
+	</resultMap>
+
+
+	<resultMap
+		type="cn.damei.entity.mobile.home.CheckBreak"
+		id="breakMap">
+		<result property="breakDescribe" column="break_describe" />
+		<result property="isRequiredRemarks" column="is_required_remarks" />
+		<result property="breakRemarks" column="break_remarks" />
+
+		<association property="checkItem" resultMap="checkItemMap"></association>
+	</resultMap>
+	
+	<!-- 违规形式及处理方式 -->
+	<select id="findCheckBreak" parameterType="int" resultMap="checkItemMap">
+		SELECT
+			c.is_passed,
+			c.is_warned,
+			c.is_locale_repaire,
+			c.is_limit_date_repaire,
+			c.limit_date,
+			c.limit_date_repaire_check_style,
+			c.is_punish_money,
+			c.punish_money_amount_real,
+			c.pm_punish_score,
+			c.worker_punish_amount,
+			c.worker_punish_score,
+			c.qc_punish_amount,
+			c.qc_punish_score,
+			c.check_style,
+			d.break_describe,
+			d.is_required_remarks,
+			d.break_remarks
+		FROM
+			biz_qc_bill_check_item c
+		LEFT JOIN biz_qc_bill_check_item_break d ON c.id = d.qc_bill_check_item_id
+		WHERE
+			c.id = #{0}
+	
+	
+	</select>
+	
+	<!-- 查看消息是否已读 -->
+	<select id="findView" parameterType="cn.damei.entity.mobile.home.ViewLog" resultType="int">
+		SELECT
+			COUNT(1)
+		FROM
+			biz_business_view_log a
+		WHERE
+			a.business_id_int = #{businessIdInt}
+		AND a.business_type = #{businessType}
+		AND a.business_viewer_only_mark = #{businessViewerOnlyMark}
+	</select>
+	
+	<!-- 如果未读则插入已读信息 -->
+	<insert id="insertView" parameterType="cn.damei.entity.mobile.home.ViewLog">
+		INSERT INTO biz_business_view_log(
+			id,
+			business_type,
+			business_id_int,
+			business_id_varchar,
+			business_view_datetime,
+			business_viewer_employee_id,
+			business_viewer_only_mark,
+			remarks,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag
+		) VALUES(
+			#{id},
+			#{businessType},
+			#{businessIdInt},
+			#{businessIdVarchar},
+			#{businessViewDatetime},
+			#{businessViewerEmployeeId},
+			#{businessViewerOnlyMark},
+			#{remarks},
+			#{createBy},
+			#{createDate},
+			#{updateBy},
+			#{updateDate},
+			#{delFlag}
+		)
+	
+	</insert>
+
+		
+</mapper>

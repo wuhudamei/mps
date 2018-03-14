@@ -1,0 +1,546 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.mobile.Manager.OrderInstallPlanDao">
+    
+	<sql id="orderInstallPlanColumns">
+		t.ID AS "id",
+		t.ORDER_ID AS "orderId",
+		t.ORDER_INSTALL_ITEM_ID AS "orderInstallItemId",
+		t.INSTALL_ITEM_NAME AS "installItemName",
+		t.INSTALL_ITEM_SEQUENCE AS "installItemSequence",
+		t.PLAN_INTO_DATE AS "planIntoDate",
+		t.APPLY_INTO_DATE AS "applyIntoDate",
+		t.REAL_INTO_DATE AS "realIntoDate",
+		t.REAL_COMPLETE_DATE AS "realCompleteDate",
+		t.REAL_ACCEPT_DATE AS "realAcceptDate",
+		t.STATUS AS "status",
+		t.APPLY_INTO_REMARKS AS "applyIntoRemarks",
+		t.IS_COMPLETE_DELAY AS "isCompleteDelay",
+		t.COMPLETE_DELAY_REASON AS "completeDelayReason",
+		t.COMPLETE_DELAY_REMARKS AS "completeDelayRemarks",
+		t.REMARKS AS "remarks",
+		t.CREATE_BY AS "createBy",
+		t.CREATE_DATE AS "createDate",
+		t.UPDATE_BY AS "updateBy",
+		t.UPDATE_DATE AS "updateDate",
+		t.DEL_FLAG AS "delFlag",
+		t.apply_into_create_datetime AS "applyIntoCreateDatetime",
+		t.is_qualified as "isQualified",
+		t.complete_delay_days as "delayDays",
+		t.supplier_confirm_into_date as "supplierIntoDate"
+	</sql>
+	
+
+	<!-- 安装项计划详情 -->
+	<select id="getById" resultType="cn.damei.entity.mobile.Manager.OrderInstallPlan">
+
+		SELECT
+			t.id AS "id",
+			t.order_id AS "orderId",
+			t.order_install_item_id AS "orderInstallItemId",
+			t.install_item_name AS "installItemName",
+			t.install_item_sequence AS "installItemSequence",
+			t.plan_into_date AS "planIntoDate",
+			t.apply_into_date AS "applyIntoDate",
+			t.real_into_date AS "realIntoDate",
+			t.real_complete_date AS "realCompleteDate",
+			t.real_accept_date AS "realAcceptDate",
+			t.`status` AS "status",
+			t.apply_into_remarks AS "applyIntoRemarks",
+			t.is_complete_delay AS "isCompleteDelay",
+			t.complete_delay_reason AS "completeDelayReason",
+			t.complete_delay_remarks AS "completeDelayRemarks",
+			t.remarks AS "remarks",
+			t.apply_into_create_datetime AS "applyIntoCreateDatetime",
+			t.is_qualified AS "isQualified",
+			t.complete_delay_days AS "delayDays",
+			t.supplier_confirm_into_date AS "supplierIntoDate",
+			t.install_mode AS "installMode",
+			t.plan_complete_date AS "planCompleteDate",
+			t.unqualified_accept_time AS "unqualifiedAcceptTime",
+			t.unqualified_reason AS "unqualifiedReason",
+			t.unqualified_remarks AS "unqualifiedRemarks",
+			t.first_pass_rate AS "firstPassRate",
+			IFNULL(t.unqualified_times,0) AS "unqualifiedTimes",
+			b.label AS "completeDelayReasonName"
+		FROM
+			biz_order_install_plan t
+		LEFT JOIN sys_dict b ON b.type = 'delay_reason' AND b.del_flag = 0 AND b.`value` = t.complete_delay_reason
+		WHERE
+			t.id = #{0}
+	</select>
+
+	<!-- 安装验收 订单列表 -->
+	<select id="queryInstallAcceptOrderList" resultType="cn.damei.entity.mobile.Manager.EnginInstall">
+		SELECT
+			a.id AS "id",
+			a.order_number AS "orderNumber",
+			a.customer_name AS "customerName",
+			a.customer_phone AS "customerPhone",
+			a.community_name AS "communityName",
+			a.build_number AS "buildNumber",
+			a.build_unit AS "buildUnit",
+			a.build_room AS "buildRoom",
+			a.contract_start_date AS "contractStartDate",
+			a.contract_end_date AS "contractEndDate",
+			a.contract_time AS "contractTime",
+			a.order_status_number AS "orderStatusNumber",
+			a.order_status_description AS "orderStatusDescription",
+			a.store_id AS "storeId",
+			a.actual_start_date AS "actualStartDate",
+			a.actual_end_date AS "actualEndDate"
+		FROM
+			biz_order a
+		<where>
+			a.item_manager_id = #{managerId}
+			AND a.del_flag = #{delFlag}
+			AND a.order_status_number = '200'
+			<if test="text!=null and text!=''">
+				and (a.community_name like CONCAT('%','${text}','%' )  or a.customer_name like CONCAT('%','${text}','%' ))
+			</if>
+		</where>
+		ORDER BY a.create_date DESC
+	</select>
+
+	<!-- 主材安装验收列表页【3：已转给供应商】【330：工人已申请完工】【401：验收不合格】 -->
+	<select id="queryOrderInstallAcceptList" resultType="cn.damei.entity.mobile.Manager.OrderInstallPlan">
+
+		SELECT
+			t.id AS "id",
+			t.order_id AS "orderId",
+			t.order_install_item_id AS "orderInstallItemId",
+			t.install_item_sequence AS "installItemSequence",
+			t.`status` AS "status",
+			t.apply_into_create_datetime AS "applyIntoCreateDatetime",
+			t.plan_into_date AS "planIntoDate",
+			t.apply_into_date AS "applyIntoDate",
+			t.install_item_name AS "installItemName",
+			t.install_mode AS "installMode",
+			m.statusName AS "statusName",
+			n.installModeName AS "installModeName"
+		FROM
+			biz_order_install_plan t
+		LEFT JOIN (SELECT k.`value`, k.label AS "statusName" FROM sys_dict k WHERE k.type = 'install_status' AND k.del_flag = 0 ) m ON m.`value` = t.`status`
+		LEFT JOIN (SELECT g.`value`, g.label AS "installModeName" FROM sys_dict g WHERE g.type = 'install_mode' AND g.del_flag = 0 ) n ON n.`value` = t.install_mode
+		WHERE
+			t.order_id = #{0}
+		AND t. STATUS IN ('3', '330', '401')
+		ORDER BY
+			t.install_item_sequence ASC,
+			t.`status` DESC
+	</select>
+
+	<!-- 主材安装验收明细列表页【4：已验收】 -->
+	<select id="queryOrderInstallAcceptDetailList" resultType="cn.damei.entity.mobile.Manager.OrderInstallPlan">
+
+		SELECT
+			t.id AS "id",
+			t.order_id AS "orderId",
+			t.order_install_item_id AS "orderInstallItemId",
+			t.install_item_sequence AS "installItemSequence",
+			t.`status` AS "status",
+			t.apply_into_create_datetime AS "applyIntoCreateDatetime",
+			t.plan_into_date AS "planIntoDate",
+			t.apply_into_date AS "applyIntoDate",
+			t.install_item_name AS "installItemName",
+			t.install_mode AS "installMode",
+			m.statusName AS "statusName",
+			n.installModeName AS "installModeName"
+		FROM
+			biz_order_install_plan t
+		LEFT JOIN (SELECT k.`value`, k.label AS "statusName" FROM sys_dict k WHERE k.type = 'install_status' AND k.del_flag = 0 ) m ON m.`value` = t.`status`
+		LEFT JOIN (SELECT g.`value`, g.label AS "installModeName" FROM sys_dict g WHERE g.type = 'install_mode' AND g.del_flag = 0 ) n ON n.`value` = t.install_mode
+		WHERE
+			t.order_id = #{0}
+		AND t. STATUS = '4'
+		ORDER BY
+			t.install_item_sequence ASC,
+			t.`status` DESC
+	</select>
+
+
+	<!-- 查询该安装项【订单】【安装单】【施工单】信息-->
+	<select id="querySupplierInstallBillMessage" resultType="cn.damei.entity.mobile.Manager.EnginInstall">
+		SELECT
+			a.id AS "id",
+			a.install_item_name AS "installItemName",
+			a.`status` AS "installstatus",
+			g.label AS "installstatusName",
+			b.community_name AS "communityName",
+			b.build_number AS "buildNumber",
+			b.build_unit AS "buildUnit",
+			b.build_room AS "buildRoom",
+			b.customer_name AS "customerName",
+			d.id AS "shigongId",
+			IFNULL(DATE_FORMAT(d.real_into_date,'%Y-%m-%d'),"") AS "supplierintodate",
+			IFNULL(DATE_FORMAT(d.real_complete_date,'%Y-%m-%d'),"") AS "suppliercompletedate",
+			f.realName AS "empGroupName",
+			f.phone AS "empGroupPhone"
+		FROM
+			biz_order_install_plan a
+		LEFT JOIN biz_order b ON a.order_id = b.id
+		LEFT JOIN biz_supplier_install_bill c ON c.order_install_plan_id = a.id
+		AND c.`status` != 90
+		LEFT JOIN biz_supplier_install_construct_bill d ON d.supplier_install_bill_id = c.id
+		AND d.`status` != 90
+		LEFT JOIN biz_employeegroup e ON e.id = d.employee_group_id
+		LEFT JOIN biz_employee f ON f.id = e.groupId
+		LEFT JOIN sys_dict g ON g.`value` = a.`status`
+		AND g.type = 'install_status'
+		AND g.del_flag = 0
+		WHERE
+			a.id = #{0}
+
+	</select>
+
+
+	<!--更新订单安装项计划 -->
+	<update id="updateOrderInstallPlan">
+		UPDATE biz_order_install_plan
+		SET
+			`status` = #{status}
+			<if test="isQualified != null and isQualified != ''">
+				,is_qualified = #{isQualified}
+			</if>
+			<if test="realAcceptDate != null and realAcceptDate != ''">
+				,real_accept_date = #{realAcceptDate}
+			</if>
+			<if test="realIntoDate != null and realIntoDate != ''">
+				,real_into_date = #{realIntoDate}
+			</if>
+			<if test="realCompleteDate != null and realCompleteDate != ''">
+				,real_complete_date = #{realCompleteDate}
+			</if>
+			<if test="isCompleteDelay != null and isCompleteDelay != ''">
+				,is_complete_delay = #{isCompleteDelay}
+			</if>
+			<if test="delayDays != null and delayDays != ''">
+				,complete_delay_days = #{delayDays}
+			</if>
+			<if test="completeDelayReason != null and completeDelayReason != ''">
+				,complete_delay_reason = #{completeDelayReason}
+			</if>
+			<if test="completeDelayRemarks != null and completeDelayRemarks != ''">
+				,complete_delay_remarks = #{completeDelayRemarks}
+			</if>
+			<if test="unqualifiedAcceptTime != null and unqualifiedAcceptTime != ''">
+				,unqualified_accept_time = #{unqualifiedAcceptTime}
+			</if>
+			<if test="unqualifiedReason != null and unqualifiedReason != ''">
+				,unqualified_reason = #{unqualifiedReason}
+			</if>
+			<if test="unqualifiedRemarks != null and unqualifiedRemarks != ''">
+				,unqualified_remarks = #{unqualifiedRemarks}
+			</if>
+			<if test="firstPassRate != null and firstPassRate != ''">
+				,first_pass_rate = #{firstPassRate}
+			</if>
+			<if test="unqualifiedTimes != null and unqualifiedTimes != ''">
+				,unqualified_times = #{unqualifiedTimes}
+			</if>
+			,update_date = #{updateDate}
+		WHERE  id = #{id}
+
+	</update>
+
+	<!-- 保存验收日志 -->
+	<insert id="saveOrderInstallPlanAcceptLog" keyProperty="id" useGeneratedKeys="true">
+		INSERT INTO biz_order_install_plan_accept_log (
+				id ,
+				order_id,
+				order_install_plan_id,
+				accept_type,
+				order_install_iteam_id,
+				order_install_iteam,
+				unqualified_reason,
+				accept_remarks,
+				operater_id,
+				unqualified_reason_id,
+				unqualified_reason_configure,
+				remarks,
+				create_by,
+				create_date,
+				update_by,
+				update_date,
+				del_flag
+		)
+		values(
+				#{id},
+				#{orderId},
+				#{orderInstallPlanId},
+				#{acceptType},
+				#{orderInstallIteamId},
+				#{orderInstallIteam},
+				#{unqualifiedReason},
+				#{acceptRemarks},
+				#{operaterId},
+				#{unqualifiedReasonId},
+				#{unqualifiedReasonConfigure},
+				#{remarks},
+				#{createBy.id},
+				#{createDate},
+				#{updateBy.id},
+				#{updateDate},
+				#{delFlag}
+		)
+
+	</insert>
+
+	<!-- 查询该安装项【是否合格】验收的5分钟校验 -->
+	<select id="queryOrderInstallPlanAcceptLog" resultType="int">
+		SELECT
+			COUNT(1)
+		FROM
+			biz_order_install_plan_accept_log a
+		WHERE
+			a.order_install_plan_id = #{0}
+		AND DATE_ADD(a.create_date,INTERVAL 5 MINUTE) &gt; NOW()
+
+	</select>
+
+	<!-- 更新安装单 -->
+	<update id="updateSupplierInstallBill" >
+
+		UPDATE biz_supplier_install_bill
+		SET
+			status = #{status},
+			status_datetime = #{statusDatetime},
+			real_accept_date = #{realAcceptDate},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+
+	</update>
+
+	<!-- 更新施工单 -->
+	<update id="updateSupplierConstructBill">
+
+		UPDATE biz_supplier_install_construct_bill
+		SET
+			status = #{status},
+			status_datetime = #{statusDatetime},
+			real_accept_date = #{realAcceptDate},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+
+	</update>
+
+	<!-- 【不合格】验收日志 -->
+	<select id="queryAcceptUnqualifiedLog" resultType="cn.damei.entity.mobile.Manager.OrderInstallPlanAcceptLog">
+
+		SELECT
+			a.id AS "id",
+			a.order_id AS "orderId",
+			a.order_install_plan_id AS "orderInstallPlanId",
+			a.accept_type AS "acceptType",
+			a.order_install_iteam_id AS "orderInstallIteamId",
+			a.order_install_iteam AS "orderInstallIteam",
+			a.unqualified_reason AS "unqualifiedReason",
+			a.accept_remarks AS "acceptRemarks",
+			a.remarks AS "remarks",
+			a.create_by AS "createBy.id",
+			a.create_date AS "createDate",
+			a.update_by AS "updateBy.id",
+			a.update_date AS "updateDate",
+			a.del_flag AS "delFlag",
+			a.operater_id AS "operaterId",
+			a.unqualified_reason_id AS "unqualifiedReasonId",
+			a.unqualified_reason_configure AS "unqualifiedReasonConfigure"
+		FROM
+			biz_order_install_plan_accept_log a
+		WHERE
+			a.order_install_plan_id = #{0}
+		AND a.accept_type = 2
+		AND a.del_flag = 0
+
+	</select>
+
+	<!-- 查询验收【不合格】图片 -->
+	<select id="queryAcceptUnqualifiedPicList" parameterType="cn.damei.entity.mobile.Inspector.ReportCheckDetailsPic" resultType="cn.damei.entity.mobile.Inspector.ReportCheckDetailsPic">
+		SELECT
+			id AS "picId",
+			business_type AS "businessType",
+			business_id_int AS "businessIdInt",
+			business_id_varchar AS "businessIdVarchar",
+			pic_type AS "picType",
+			pic_index AS "picIndex",
+			pic_url AS "picUrl",
+			pic_datetime AS "picDatetime"
+		FROM
+			biz_business_pic
+		WHERE
+			business_id_int = #{businessIdInt}
+		AND business_type = #{businessType}
+	</select>
+
+	<!-- 查询验收【合格】图片  -->
+	<select id="queryAcceptQualifiedPicList" resultType="cn.damei.entity.mobile.Manager.OrderInstallPlanPic">
+		SELECT
+			t.id AS "id",
+			t.order_install_plan_id AS "orderInstallPlanId",
+			t.pic_url AS "picUrl",
+			t.remarks AS "remarks",
+			t.create_by AS "createBy",
+			t.create_date AS "createDate",
+			t.update_by AS "updateBy",
+			t.update_date AS "updateDate",
+			t.del_flag AS "delFlag"
+		FROM
+			biz_order_install_plan_pic t
+		WHERE
+			t.del_flag = 0
+		AND  t.order_install_plan_id = #{0}
+	</select>
+
+
+
+
+
+	<!-- 批量生成主材安装项计划 -->
+	<insert id="saveInstallPlanList" parameterType="java.util.List">
+		INSERT INTO BIZ_ORDER_INSTALL_PLAN(
+			ID,
+			ORDER_ID,
+			ORDER_INSTALL_ITEM_ID,
+			INSTALL_ITEM_NAME,
+			INSTALL_ITEM_SEQUENCE,
+			PLAN_INTO_DATE,
+			APPLY_INTO_DATE,
+			REAL_INTO_DATE,
+			REAL_COMPLETE_DATE,
+			REAL_ACCEPT_DATE,
+			STATUS,
+			APPLY_INTO_REMARKS,
+			IS_COMPLETE_DELAY,
+			COMPLETE_DELAY_REASON,
+			COMPLETE_DELAY_REMARKS,
+			REMARKS,
+			CREATE_BY,
+			CREATE_DATE,
+			UPDATE_BY,
+			UPDATE_DATE,
+			DEL_FLAG,
+			install_mode,
+			plan_complete_date,
+			allow_apply_checksize_date
+		) VALUES 
+		<foreach collection="list" item="item" index="index" separator="," >
+			(
+				#{item.id},
+				#{item.orderId},
+				#{item.orderInstallItemId},
+				#{item.installItemName},
+				#{item.installItemSequence},
+				#{item.planIntoDate},
+				#{item.applyIntoDate},
+				#{item.realIntoDate},
+				#{item.realCompleteDate},
+				#{item.realAcceptDate},
+				#{item.status},
+				#{item.applyIntoRemarks},
+				#{item.isCompleteDelay},
+				#{item.completeDelayReason},
+				#{item.completeDelayRemarks},
+				#{item.remarks},
+				#{item.createByAuthor},
+				#{item.createDate},
+				#{item.updateByAuthor},
+				#{item.updateDate},
+				#{item.delFlag},
+				#{item.installMode},
+				#{item.planCompleteDate},
+				#{item.allowApplyChecksizeDate}
+			)
+		</foreach>
+	</insert>
+	
+
+	<select id="findOrderDetail" resultType="cn.damei.entity.mobile.Manager.InterfaceOrder">
+		SELECT 
+			a.order_number AS "OrderNo",
+			a.store_id AS "StoreId",
+			a.project_mode AS "ProjectMode",
+			b.name AS "ProjectArea",
+			a.house_is_new AS "IsNew",
+			a.item_manager AS "ProjectManager",
+			a.contract_start_date AS "ContractStartTime",
+			a.contract_end_date AS "ContractCompleteTime",
+			a.actual_start_date AS "RealStartTime"
+		FROM biz_order  a
+		LEFT JOIN biz_engineering_department b ON a.engin_depart_id = b.id
+			WHERE a.id = #{0}
+	</select>
+	<select id = "findNodePlanDetail" resultType="cn.damei.entity.mobile.Manager.InterfaceNodePlan">
+		SELECT 
+			a.node_name AS "ScheduleNodeName",
+			a.node_index AS "ScheduleNodeSequence",
+			a.plan_done_date AS "PlanCompleteTime"
+		FROM biz_node_plan a 
+		WHERE a.order_id = #{0}
+	</select>
+		<select id="findInstallid" resultType="String">
+			SELECT a.order_install_item_id FROM biz_materials_choice_category_install_item a WHERE a.materials_choice_category_id IN 
+			(SELECT a.materials_choice_category_id FROM biz_materials_choice_category_install_item a WHERE a.order_install_item_id IN
+			(
+			SELECT b.project_install_item_id FROM biz_order_install_plan a
+			LEFT JOIN biz_order_install_item b ON a.order_install_item_id = b.id
+			WHERE a.id = #{0}
+			)
+			GROUP BY a.materials_choice_category_id)
+			GROUP BY a.order_install_item_id
+		</select>
+		
+		<select id="findOrderInstallid" resultType="String">
+			SELECT b.project_install_item_id FROM biz_order_install_plan a 
+			LEFT JOIN biz_order_install_item b ON a.order_install_item_id = b.id
+			WHERE a.order_id = #{0}
+		</select>
+	
+		<select id="isCheckInstallItem" resultType="long">
+			SELECT COUNT(a.id) FROM biz_order_install_plan a 
+			LEFT JOIN biz_order_install_item b ON a.order_install_item_id = b.id
+			LEFT JOIN biz_project_install_item c ON c.id = b.project_install_item_id
+			WHERE a.order_id = #{orderId} AND c.id IN (
+			<foreach collection="orderItemId" item="item" separator="," >
+				#{item}
+			</foreach>
+			)
+			AND a.status &lt; 4
+		</select>
+		
+		<select id="findCategoryTowCode" resultType = "String">
+			SELECT d.category_code FROM biz_order_install_plan a 
+			LEFT JOIN biz_order_install_item b ON a.order_install_item_id = b.id
+			LEFT JOIN biz_materials_choice_category_install_item c ON c.order_install_item_id = b.project_install_item_id
+			LEFT JOIN biz_materials_choice_category d ON d.id = c.materials_choice_category_id
+			WHERE a.id = #{0} GROUP BY c.materials_choice_category_id
+		
+		</select>
+		<select id="findOrderDtails" resultType = "cn.damei.entity.mobile.Manager.EnginInstall">
+			SELECT b.order_number,a.install_item_name as "remarks" FROM biz_order_install_plan a
+			LEFT JOIN biz_order b ON b.id = a.order_id
+			WHERE a.id=#{0}
+		</select>
+		
+		<insert id = "saveJSONDate">
+			INSERT INTO 
+			biz_syn_data 
+		SET 
+			data_direction = 2,
+			syn_status = 4,
+			business_data=#{0},
+			business_type=#{1},
+			syn_datetime=#{2},
+			create_date=#{2},
+			update_date=#{2},
+			del_flag=0
+		</insert>
+		<select id="findWallAndFloor" resultType = "String">
+			SELECT b.category_code FROM biz_materials_choice_category_install_item a 
+			LEFT JOIN biz_materials_choice_category b ON a.materials_choice_category_id = b.id
+			WHERE a.order_install_item_id=#{0}
+		</select>
+		
+		
+</mapper>

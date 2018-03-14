@@ -1,0 +1,1029 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizOrderInstallItemReportDao">
+    
+	<sql id="bizOrderInstallItemReportColumns">
+		a.id AS "id",
+		a.engin_depart_id AS "enginDepartId",
+		a.order_id AS "orderId",
+		a.order_number AS "orderNumber",
+		a.customer_name AS "customerName",
+		a.customer_phone AS "customerPhone",
+		a.pm_name AS "pmName",
+		a.actual_start_date AS "actualStartDate",
+		
+		<!-- 1.橱柜 -->
+		a.checksize_apply_datetime_chugui AS "checksizeApplyDatetimeChugui",
+		a.install_item_apply_datetime_chugui AS "installItemApplyDatetimeChugui",
+		a.install_item_apply_into_date_chugui AS "installItemApplyIntoDateChugui",
+		a.install_item_real_into_date_chugui AS "installItemRealIntoDateChugui",
+		a.install_item_real_accept_date_chugui AS "installItemRealAcceptDateChugui",
+		a.install_item_is_returned_chugui AS "installItemIsReturnedChugui",
+		a.install_item_problem_describe_chugui AS "installItemProblemDescribeChugui",
+		a.install_item_problem_apply_datetime_chugui AS "installItemProblemApplyDatetimeChugui",
+		a.install_item_problem_solve_datetime_chugui AS "installItemProblemSolveDatetimeChugui",
+		a.spend_time_chugui AS "spendTimeChugui",
+		
+		<!-- 2.房门 -->
+		a.checksize_apply_datetime_fangmen AS "checksizeApplyDatetimeFangmen",
+		a.install_item_apply_datetime_fangmen AS "installItemApplyDatetimeFangmen",
+		a.install_item_apply_into_date_fangmen AS "installItemApplyIntoDateFangmen",
+		a.install_item_real_into_date_fangmen AS "installItemRealIntoDateFangmen",
+		a.install_item_real_accept_date_fangmen AS "installItemRealAcceptDateFangmen",
+		a.install_item_is_returned_fangmen AS "installItemIsReturnedFangmen",
+		a.install_item_problem_describe_fangmen AS "installItemProblemDescribeFangmen",
+		a.install_item_problem_apply_datetime_fangmen AS "installItemProblemApplyDatetimeFangmen",
+		a.install_item_problem_solve_datetime_fangmen AS "installItemProblemSolveDatetimeFangmen",
+		a.spend_time_fangmen AS "spendTimeFangmen",
+		
+		<!-- 3.洁具 -->
+		a.checksize_apply_datetime_jieju AS "checksizeApplyDatetimeJieju",
+		a.install_item_apply_datetime_jieju AS "installItemApplyDatetimeJieju",
+		a.install_item_apply_into_date_jieju AS "installItemApplyIntoDateJieju",
+		a.install_item_real_into_date_jieju AS "installItemRealIntoDateJieju",
+		a.install_item_real_accept_date_jieju AS "installItemRealAcceptDateJieju",
+		a.install_item_is_returned_jieju AS "installItemIsReturnedJieju",
+		a.install_item_problem_describe_jieju AS "installItemProblemDescribeJieju",
+		a.install_item_problem_apply_datetime_jieju AS "installItemProblemApplyDatetimeJieju",
+		a.install_item_problem_solve_datetime_jieju AS "installItemProblemSolveFatetimeJieju",
+		a.spend_time_jieju AS "spendTimeJieju",
+		
+		
+		<!-- 4.壁纸 -->
+		a.checksize_apply_datetime_bizhi AS "checksizeApplyDatetimeBizhi",
+		a.install_item_apply_datetime_bizhi AS "installItemApplyDatetimeBizhi",
+		a.install_item_apply_into_date_bizhi AS "installItemApplyIntoDateBizhi",
+		a.install_item_real_into_date_bizhi AS "installItemRealIntoDateBizhi",
+		a.install_item_real_complete_date_bizhi AS "installItemRealCompleteDateBizhi",
+		a.install_item_is_returned_bizhi AS "installItemIsReturnedBizhi",
+		a.install_item_problem_describe_bizhi AS "installItemProblemDescribeBizhi",
+		a.install_item_problem_apply_datetime_bizhi AS "installItemProblemApplyDatetimeBizhi",
+		a.install_item_problem_solve_datetime_bizhi AS "installItemProblemSolveDatetimeBizhi",
+		a.spend_time_bizhi AS "spendTimeBizhi",
+		
+		<!-- 5.木地板 -->
+		a.checksize_apply_datetime_mudiban AS "checksizeApplyDatetimeMudiban",
+		a.install_item_apply_datetime_mudiban AS "installItemApplyDatetimeMudiban",
+		a.install_item_apply_into_date_mudiban AS "installItemApplyIntoDateMudiban",
+		a.install_item_real_into_date_mudiban AS "installItemRealIntoDateMudiban",
+		a.install_item_real_accept_date_mudiban AS "installItemRealAcceptDateMudiban",
+		a.install_item_is_returned_mudiban AS "installItemIsReturnedMudiban",
+		a.install_item_problem_describe_mudiban AS "installItemProblemDescribeMudiban",
+		a.install_item_problem_apply_datetime_mudiban AS "installItemProblemApplyDatetimeMudiban",
+		a.install_item_problem_solve_datetime_mudiban AS "installItemProblemSolveDatetimeMudiban",
+		a.spend_time_mudiban AS "spendTimeMudiban",
+		
+		<!-- 6.吊顶-->
+		a.checksize_apply_datetime_diaoding AS "checksizeApplyDatetimeDiaoding",
+		a.install_item_apply_datetime_diaoding AS "installItemApplyDatetimeDiaoding",
+		a.install_item_apply_into_date_diaoding AS "installItemApplyIntoDateDiaoding",
+		a.install_item_real_into_date_diaoding AS "installItemRealIntoDateDiaoding",
+		a.install_item_real_accept_date_diaoding AS "installItemRealAcceptDateDiaoding",
+		a.install_item_is_returned_diaoding AS "installItemIsReturnedDiaoding",
+		a.install_item_problem_describe_diaoding AS "installItemProblemDescribeDiaoding",
+		a.install_item_problem_apply_datetime_diaoding AS "installItemProblemApplyDatetimeDiaoding",
+		a.install_item_problem_solve_datetime_diaoding AS "installItemProblemSolveDatetimeDiaoding",
+		a.spend_time_diaoding AS "spendTimeDiaoding",
+		
+		<!-- 7.灯具、开关、小五金 -->
+		a.checksize_apply_datetime_dengju AS "checksizeApplyDatetimeDengju",
+		a.install_item_apply_datetime_dengju AS "installItemApplyDatetimeDengju",
+		a.install_item_apply_into_date_dengju AS "installItemApplyIntoDateDengju",
+		a.install_item_real_into_date_dengju AS "installItemRealIntoDateDengju",
+		a.install_item_real_accept_date_dengju AS "installItemRealAcceptDateDengju",
+		a.install_item_is_returned_dengju AS "installItemIsReturnedDengju",
+		a.install_item_problem_describe_dengju AS "installItemProblemDescribeDengju",
+		a.install_item_problem_apply_datetime_dengju AS "installItemProblemApplyDatetimeDengju",
+		a.install_item_problem_solve_datetime_dengju AS "installItemProblemSolveDatetimeDengju",
+		a.spend_time_dengju AS "spendTimeDengju",
+		
+		<!-- 8.窗帘 -->
+		a.checksize_apply_datetime_chuanglian AS "checksizeApplyDatetimeChuanglian",
+		a.install_item_apply_datetime_chuanglian AS "installItemApplyDatetimeChuanglian",
+		a.install_item_apply_into_date_chuanglian AS "installItemApplyIntoDateChuanglian",
+		a.install_item_real_into_date_chuanglian AS "installItemRealIntoDateChuanglian",
+		a.install_item_real_accept_date_chuanglian AS "installItemRealAcceptDateChuanglian",
+		a.install_item_is_returned_chuanglian AS "installItemIsReturnedChuanglian",
+		a.install_item_problem_describe_chuanglian AS "installItemProblemDescribeChuanglian",
+		a.install_item_problem_apply_datetime_chuanglian AS "installItemProblemApplyDatetimeChuanglian",
+		a.install_item_problem_solve_datetime_chuanglian AS "installItemProblemSolveDatetimeChuanglian",
+		a.spend_time_chuanglian AS "spendTimeChuanglian",
+		
+		<!-- 9.淋浴房 -->
+		a.checksize_apply_datetime_linyufang AS "checksizeApplyDatetimeLinyufang",
+		a.install_item_apply_datetime_linyufang AS "installItemApplyDatetimeLinyufang",
+		a.install_item_apply_into_date_linyufang AS "installItemApplyIntoDateLinyufang",
+		a.install_item_real_into_date_linyufang AS "installItemRealIntoDateLinyufang",
+		a.install_item_real_accept_date_linyufang AS "installItemRealAcceptDateLinyufang",
+		a.install_item_is_returned_linyufang AS "installItemIsReturnedLinyufang",
+		a.install_item_problem_describe_linyufang AS "installItemProblemDescribeLinyufang",
+		a.install_item_problem_apply_datetime_linyufang AS "installItemProblemApplyDatetimeLinyufang",
+		a.install_item_problem_solve_datetime_linyufang AS "installItemProblemSolveDatetimeLinyufang",
+		a.spend_time_linyufang AS "spendTimeLinyufang",
+		
+		<!-- 10.定制衣柜 -->
+		a.checksize_apply_datetime_yigui AS "checksizeApplyDatetimeYigui",
+		a.install_item_apply_datetime_yigui AS "installItemApplyDatetimeYigui",
+		a.install_item_apply_into_date_yigui AS "installItemApplyIntoDateYigui",
+		a.install_item_real_into_date_yigui AS "installItemRealIntoDateYigui",
+		a.install_item_real_accept_date_yigui AS "installItemRealAcceptDateYigui",
+		a.install_item_is_returned_yigui AS "installItemIsReturnedYigui",
+		a.install_item_problem_describe_yigui AS "installItemProblemDescribeYigui",
+		a.install_item_problem_apply_datetime_yigui AS "installItemProblemApplyDatetimeYigui",
+		a.install_item_problem_solve_datetime_yigui AS "installItemProblemSolveDatetimeYigui",
+		a.spend_time_yigui AS "spendTimeYigui"
+		
+	</sql>
+	
+	<sql id="bizOrderInstallItemReportJoins">
+	
+	</sql>
+    
+	<select id="get" resultType="cn.damei.entity.modules.BizOrderInstallItemReport">
+		SELECT 
+			<include refid="bizOrderInstallItemReportColumns"/>
+		FROM biz_order_install_item_report a
+		<include refid="bizOrderInstallItemReportJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="cn.damei.entity.modules.BizOrderInstallItemReport">
+		SELECT 
+			<include refid="bizOrderInstallItemReportColumns"/>,
+			d.name AS "enginDepartName"
+		FROM biz_order_install_item_report a
+		LEFT JOIN biz_engineering_department d ON d.id = a.engin_depart_id AND d.del_flag=0
+		LEFT JOIN biz_order b ON b.id = a.order_id
+		<include refid="bizOrderInstallItemReportJoins"/>
+		<where>
+			<if test="storeId != null and storeId != ''">
+				AND  b.store_id = #{storeId}
+			</if>
+			<if test="enginDepartId != null and enginDepartId != ''">
+				AND  a.engin_depart_id = #{enginDepartId}
+			</if>
+			<if test="orderNumber != null and orderNumber != ''">
+				AND a.order_number LIKE CONCAT('%','${orderNumber}','%' )
+			</if>
+			<if test="customerName != null and customerName != ''">
+				AND a.customer_name LIKE CONCAT('%','${customerName}','%' )
+			</if>
+			<if test="customerPhone != null and customerPhone != ''">
+				AND a.customer_phone LIKE CONCAT('%','${customerPhone}','%' )
+			</if>
+			<if test="pmName != null and pmName != ''">
+				AND a.pm_name LIKE CONCAT('%','${pmName}','%' )
+			</if>
+			<if test="beginActualStartDate != null and beginActualStartDate != ''">
+				AND a.actual_start_date &gt;= #{beginActualStartDate}
+			</if>
+			<if test="endActualStartDate != null and endActualStartDate != ''">
+				AND a.actual_start_date &lt;= #{endActualStartDate}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="cn.damei.entity.modules.BizOrderInstallItemReport">
+		SELECT 
+			<include refid="bizOrderInstallItemReportColumns"/>
+		FROM biz_order_install_item_report a
+		<include refid="bizOrderInstallItemReportJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	
+	
+	
+	
+	
+	<!-- 查询订单信息 -->
+	<select id="findOrderMessage" resultType="cn.damei.entity.modules.BizOrderInstallItemReport">
+	
+		SELECT
+			a.id AS "orderId",
+			a.engin_depart_id AS "enginDepartId",
+			d.`name` AS "enginDepartName",
+			a.order_number AS "orderNumber",
+			a.customer_name AS "customerName",
+			a.customer_phone AS "customerPhone",
+			a.item_manager AS "pmName",
+			a.actual_start_date AS "actualStartDate",
+			b.id AS "bizOrderInstallItemReportId"
+		FROM
+			biz_order a
+		LEFT JOIN biz_order_install_item_report b ON b.order_id = a.id
+		LEFT JOIN biz_engineering_department d ON d.id = a.engin_depart_id
+		AND d.del_flag = 0
+		WHERE a.order_status_number &gt;= 200 AND a.order_status_number &lt;= 340
+	
+	
+	</select>
+	
+	
+	
+	<!-- 批量  插入    工程部主材工期统计表 -->
+	<insert id="batchInsertList"  parameterType="java.util.List">
+		insert into biz_order_install_item_report
+		(
+			engin_depart_id,
+			order_id,
+			order_number,
+			customer_name,
+			customer_phone,
+			pm_name,
+			actual_start_date,
+			
+			checksize_apply_datetime_chugui,
+			install_item_apply_datetime_chugui,
+			install_item_apply_into_date_chugui,
+			install_item_real_into_date_chugui,
+			install_item_real_accept_date_chugui,
+			install_item_is_returned_chugui,
+			install_item_problem_describe_chugui,
+			install_item_problem_apply_datetime_chugui,
+			install_item_problem_solve_datetime_chugui,
+			spend_time_chugui,
+			
+			checksize_apply_datetime_fangmen,
+			install_item_apply_datetime_fangmen,
+			install_item_apply_into_date_fangmen,
+			install_item_real_into_date_fangmen,
+			install_item_real_accept_date_fangmen,
+			install_item_is_returned_fangmen,
+			install_item_problem_describe_fangmen,
+			install_item_problem_apply_datetime_fangmen,
+			install_item_problem_solve_datetime_fangmen,
+			spend_time_fangmen,
+			
+			
+			checksize_apply_datetime_jieju,
+			install_item_apply_datetime_jieju,
+			install_item_apply_into_date_jieju,
+			install_item_real_into_date_jieju,
+			install_item_real_accept_date_jieju,
+			install_item_is_returned_jieju,
+			install_item_problem_describe_jieju,
+			install_item_problem_apply_datetime_jieju,
+			install_item_problem_solve_datetime_jieju,
+			spend_time_jieju,
+			
+			checksize_apply_datetime_bizhi,
+			install_item_apply_datetime_bizhi,
+			install_item_apply_into_date_bizhi,
+			install_item_real_into_date_bizhi,
+			install_item_real_complete_date_bizhi,
+			install_item_is_returned_bizhi,
+			install_item_problem_describe_bizhi,
+			install_item_problem_apply_datetime_bizhi,
+			install_item_problem_solve_datetime_bizhi,
+			spend_time_bizhi,
+			
+			checksize_apply_datetime_mudiban,
+			install_item_apply_datetime_mudiban,
+			install_item_apply_into_date_mudiban,
+			install_item_real_into_date_mudiban,
+			install_item_real_accept_date_mudiban,
+			install_item_is_returned_mudiban,
+			install_item_problem_describe_mudiban,
+			install_item_problem_apply_datetime_mudiban,
+			install_item_problem_solve_datetime_mudiban,
+			spend_time_mudiban,
+			
+			checksize_apply_datetime_diaoding,
+			install_item_apply_datetime_diaoding,
+			install_item_apply_into_date_diaoding,
+			install_item_real_into_date_diaoding,
+			install_item_real_accept_date_diaoding,
+			install_item_is_returned_diaoding,
+			install_item_problem_describe_diaoding,
+			install_item_problem_apply_datetime_diaoding,
+			install_item_problem_solve_datetime_diaoding,
+			spend_time_diaoding,
+			
+			checksize_apply_datetime_dengju,
+			install_item_apply_datetime_dengju,
+			install_item_apply_into_date_dengju,
+			install_item_real_into_date_dengju,
+			install_item_real_accept_date_dengju,
+			install_item_is_returned_dengju,
+			install_item_problem_describe_dengju,
+			install_item_problem_apply_datetime_dengju,
+			install_item_problem_solve_datetime_dengju,
+			spend_time_dengju,
+			
+			checksize_apply_datetime_chuanglian,
+			install_item_apply_datetime_chuanglian,
+			install_item_apply_into_date_chuanglian,
+			install_item_real_into_date_chuanglian,
+			install_item_real_accept_date_chuanglian,
+			install_item_is_returned_chuanglian,
+			install_item_problem_describe_chuanglian,
+			install_item_problem_apply_datetime_chuanglian,
+			install_item_problem_solve_datetime_chuanglian,
+			spend_time_chuanglian,
+			
+			checksize_apply_datetime_linyufang,
+			install_item_apply_datetime_linyufang,
+			install_item_apply_into_date_linyufang,
+			install_item_real_into_date_linyufang,
+			install_item_real_accept_date_linyufang,
+			install_item_is_returned_linyufang,
+			install_item_problem_describe_linyufang,
+			install_item_problem_apply_datetime_linyufang,
+			install_item_problem_solve_datetime_linyufang,
+			spend_time_linyufang,
+			
+			checksize_apply_datetime_yigui,
+			install_item_apply_datetime_yigui,
+			install_item_apply_into_date_yigui,
+			install_item_real_into_date_yigui,
+			install_item_real_accept_date_yigui,
+			install_item_is_returned_yigui,
+			install_item_problem_describe_yigui,
+			install_item_problem_apply_datetime_yigui,
+			install_item_problem_solve_datetime_yigui,
+			spend_time_yigui
+		
+			
+		)  values
+		<foreach collection="list" item="item" index="index" separator="," >
+			(
+				#{item.enginDepartId},
+				#{item.orderId},
+				#{item.orderNumber},
+				#{item.customerName},
+				#{item.customerPhone},
+				#{item.pmName},
+				#{item.actualStartDate},				
+				
+				#{item.checksizeApplyDatetimeChugui},
+				#{item.installItemApplyDatetimeChugui},
+				#{item.installItemApplyIntoDateChugui},
+				#{item.installItemRealIntoDateChugui},
+				#{item.installItemRealAcceptDateChugui},
+				#{item.installItemIsReturnedChugui},
+				#{item.installItemProblemDescribeChugui},
+				#{item.installItemProblemApplyDatetimeChugui},
+				#{item.installItemProblemSolveDatetimeChugui},
+				#{item.spendTimeChugui},
+				
+				#{item.checksizeApplyDatetimeFangmen},
+				#{item.installItemApplyDatetimeFangmen},
+				#{item.installItemApplyIntoDateFangmen},
+				#{item.installItemRealIntoDateFangmen},
+				#{item.installItemRealAcceptDateFangmen},
+				#{item.installItemIsReturnedFangmen},
+				#{item.installItemProblemDescribeFangmen},
+				#{item.installItemProblemApplyDatetimeFangmen},
+				#{item.installItemProblemSolveDatetimeFangmen},
+				#{item.spendTimeFangmen},
+				
+				
+				#{item.checksizeApplyDatetimeJieju},
+				#{item.installItemApplyDatetimeJieju},
+				#{item.installItemApplyIntoDateJieju},
+				#{item.installItemRealIntoDateJieju},
+				#{item.installItemRealAcceptDateJieju},
+				#{item.installItemIsReturnedJieju},
+				#{item.installItemProblemDescribeJieju},
+				#{item.installItemProblemApplyDatetimeJieju},
+				#{item.installItemProblemSolveFatetimeJieju},
+				#{item.spendTimeJieju},
+		
+		
+				#{item.checksizeApplyDatetimeBizhi},
+				#{item.installItemApplyDatetimeBizhi},
+				#{item.installItemApplyIntoDateBizhi},
+				#{item.installItemRealIntoDateBizhi},
+				#{item.installItemRealCompleteDateBizhi},
+				#{item.installItemIsReturnedBizhi},
+				#{item.installItemProblemDescribeBizhi},
+				#{item.installItemProblemApplyDatetimeBizhi},
+				#{item.installItemProblemSolveDatetimeBizhi},
+				#{item.spendTimeBizhi},
+		
+				#{item.checksizeApplyDatetimeMudiban},
+				#{item.installItemApplyDatetimeMudiban},
+				#{item.installItemApplyIntoDateMudiban},
+				#{item.installItemRealIntoDateMudiban},
+				#{item.installItemRealAcceptDateMudiban},
+				#{item.installItemIsReturnedMudiban},
+				#{item.installItemProblemDescribeMudiban},
+				#{item.installItemProblemApplyDatetimeMudiban},
+				#{item.installItemProblemSolveDatetimeMudiban},
+				#{item.spendTimeMudiban},
+		
+				#{item.checksizeApplyDatetimeDiaoding},
+				#{item.installItemApplyDatetimeDiaoding},
+				#{item.installItemApplyIntoDateDiaoding},
+				#{item.installItemRealIntoDateDiaoding},
+				#{item.installItemRealAcceptDateDiaoding},
+				#{item.installItemIsReturnedDiaoding},
+				#{item.installItemProblemDescribeDiaoding},
+				#{item.installItemProblemApplyDatetimeDiaoding},
+				#{item.installItemProblemSolveDatetimeDiaoding},
+				#{item.spendTimeDiaoding},
+
+		
+				#{item.checksizeApplyDatetimeDengju},
+				#{item.installItemApplyDatetimeDengju},
+				#{item.installItemApplyIntoDateDengju},
+				#{item.installItemRealIntoDateDengju},
+				#{item.installItemRealAcceptDateDengju},
+				#{item.installItemIsReturnedDengju},
+				#{item.installItemProblemDescribeDengju},
+				#{item.installItemProblemApplyDatetimeDengju},
+				#{item.installItemProblemSolveDatetimeDengju},
+				#{item.spendTimeDengju},
+		
+				#{item.checksizeApplyDatetimeChuanglian},
+				#{item.installItemApplyDatetimeChuanglian},
+				#{item.installItemApplyIntoDateChuanglian},
+				#{item.installItemRealIntoDateChuanglian},
+				#{item.installItemRealAcceptDateChuanglian},
+				#{item.installItemIsReturnedChuanglian},
+				#{item.installItemProblemDescribeChuanglian},
+				#{item.installItemProblemApplyDatetimeChuanglian},
+				#{item.installItemProblemSolveDatetimeChuanglian},
+				#{item.spendTimeChuanglian},
+
+		
+				#{item.checksizeApplyDatetimeLinyufang},
+				#{item.installItemApplyDatetimeLinyufang},
+				#{item.installItemApplyIntoDateLinyufang},
+				#{item.installItemRealIntoDateLinyufang},
+				#{item.installItemRealAcceptDateLinyufang},
+				#{item.installItemIsReturnedLinyufang},
+				#{item.installItemProblemDescribeLinyufang},
+				#{item.installItemProblemApplyDatetimeLinyufang},
+				#{item.installItemProblemSolveDatetimeLinyufang},
+				#{item.spendTimeLinyufang},
+				
+		
+				#{item.checksizeApplyDatetimeYigui},
+				#{item.installItemApplyDatetimeYigui},
+				#{item.installItemApplyIntoDateYigui},
+				#{item.installItemRealIntoDateYigui},
+				#{item.installItemRealAcceptDateYigui},
+				#{item.installItemIsReturnedYigui},
+				#{item.installItemProblemDescribeYigui},
+				#{item.installItemProblemApplyDatetimeYigui},
+				#{item.installItemProblemSolveDatetimeYigui},
+				#{item.spendTimeYigui}
+			)
+		</foreach>
+		
+	</insert>
+
+
+		
+	<!--批量  更新  工程部主材工期统计表 -->
+	<update id="batchUpdateList" parameterType="java.util.List">
+		
+		update biz_order_install_item_report
+			set
+				engin_depart_id=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.enginDepartId}
+				</foreach>
+				,order_id=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.orderId}
+				</foreach>
+				,order_number=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.orderNumber}
+				</foreach>
+				,customer_name=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.customerName}
+				</foreach>
+				,customer_phone=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.customerPhone}
+				</foreach>
+				,pm_name=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.pmName}
+				</foreach>
+				,actual_start_date=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.actualStartDate}
+				</foreach>
+				
+				
+				
+				<!-- 1.橱柜 -->
+				,checksize_apply_datetime_chugui=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.checksizeApplyDatetimeChugui}
+				</foreach>
+				,install_item_apply_datetime_chugui=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.installItemApplyDatetimeChugui}
+				</foreach>
+				,install_item_apply_into_date_chugui=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.installItemApplyIntoDateChugui}
+				</foreach>
+				,install_item_real_into_date_chugui=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.installItemRealIntoDateChugui}
+				</foreach>
+				,install_item_real_accept_date_chugui=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.installItemRealAcceptDateChugui}
+				</foreach>
+				,install_item_is_returned_chugui=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.installItemIsReturnedChugui}
+				</foreach>
+				,install_item_problem_describe_chugui=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.installItemProblemDescribeChugui}
+				</foreach>
+				,install_item_problem_apply_datetime_chugui=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.installItemProblemApplyDatetimeChugui}
+				</foreach>
+				,install_item_problem_solve_datetime_chugui=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.installItemProblemSolveDatetimeChugui}
+				</foreach>
+				,spend_time_chugui=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.spendTimeChugui}
+				</foreach>
+		
+		
+				<!-- 2.房门 -->
+				,checksize_apply_datetime_fangmen=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.checksizeApplyDatetimeFangmen}
+				</foreach>
+				,install_item_apply_datetime_fangmen=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.installItemApplyDatetimeFangmen}
+				</foreach>
+				,install_item_apply_into_date_fangmen=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.installItemApplyIntoDateFangmen}
+				</foreach>
+				,install_item_real_into_date_fangmen=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.installItemRealIntoDateFangmen}
+				</foreach>
+				,install_item_real_accept_date_fangmen=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.installItemRealAcceptDateFangmen}
+				</foreach>
+				,install_item_is_returned_fangmen=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.installItemIsReturnedFangmen}
+				</foreach>
+				,install_item_problem_describe_fangmen=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.installItemProblemDescribeFangmen}
+				</foreach>
+				,install_item_problem_apply_datetime_fangmen=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.installItemProblemApplyDatetimeFangmen}
+				</foreach>
+				,install_item_problem_solve_datetime_fangmen=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.installItemProblemSolveDatetimeFangmen}
+				</foreach>
+				,spend_time_fangmen=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.spendTimeFangmen}
+				</foreach>
+		
+		
+				<!-- 3.洁具 -->
+				,checksize_apply_datetime_jieju=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.checksizeApplyDatetimeJieju}
+				</foreach>
+				,install_item_apply_datetime_jieju=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.installItemApplyDatetimeJieju}
+				</foreach>
+				,install_item_apply_into_date_jieju=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.installItemApplyIntoDateJieju}
+				</foreach>
+				,install_item_real_into_date_jieju=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.installItemRealIntoDateJieju}
+				</foreach>
+				,install_item_real_accept_date_jieju=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.installItemRealAcceptDateJieju}
+				</foreach>
+				,install_item_is_returned_jieju=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.installItemIsReturnedJieju}
+				</foreach>
+				,install_item_problem_describe_jieju=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.installItemProblemDescribeJieju}
+				</foreach>
+				,install_item_problem_apply_datetime_jieju=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.installItemProblemApplyDatetimeJieju}
+				</foreach>
+				,install_item_problem_solve_datetime_jieju=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.installItemProblemSolveFatetimeJieju}
+				</foreach>
+				,spend_time_jieju=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.spendTimeJieju}
+				</foreach>
+		
+		
+				<!-- 4.壁纸 -->
+				,checksize_apply_datetime_bizhi=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.checksizeApplyDatetimeBizhi}
+				</foreach>
+				,install_item_apply_datetime_bizhi=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.installItemApplyDatetimeBizhi}
+				</foreach>
+				,install_item_apply_into_date_bizhi=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.installItemApplyIntoDateBizhi}
+				</foreach>
+				,install_item_real_into_date_bizhi=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.installItemRealIntoDateBizhi}
+				</foreach>
+				,install_item_real_complete_date_bizhi=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.installItemRealCompleteDateBizhi}
+				</foreach>
+				,install_item_is_returned_bizhi=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.installItemIsReturnedBizhi}
+				</foreach>
+				,install_item_problem_describe_bizhi=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.installItemProblemDescribeBizhi}
+				</foreach>
+				,install_item_problem_apply_datetime_bizhi=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.installItemProblemApplyDatetimeBizhi}
+				</foreach>
+				,install_item_problem_solve_datetime_bizhi=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.installItemProblemSolveDatetimeBizhi}
+				</foreach>
+				,spend_time_bizhi=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.spendTimeBizhi}
+				</foreach>
+		
+		
+				<!-- 5.木地板 -->
+				,checksize_apply_datetime_mudiban=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.checksizeApplyDatetimeMudiban}
+				</foreach>
+				,install_item_apply_datetime_mudiban=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.installItemApplyDatetimeMudiban}
+				</foreach>
+				,install_item_apply_into_date_mudiban=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.installItemApplyIntoDateMudiban}
+				</foreach>
+				,install_item_real_into_date_mudiban=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.installItemRealIntoDateMudiban}
+				</foreach>
+				,install_item_real_accept_date_mudiban=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.installItemRealAcceptDateMudiban}
+				</foreach>
+				,install_item_is_returned_mudiban=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.installItemIsReturnedMudiban}
+				</foreach>
+				,install_item_problem_describe_mudiban=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.installItemProblemDescribeMudiban}
+				</foreach>
+				,install_item_problem_apply_datetime_mudiban=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.installItemProblemApplyDatetimeMudiban}
+				</foreach>
+				,install_item_problem_solve_datetime_mudiban=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.installItemProblemSolveDatetimeMudiban}
+				</foreach>
+				,spend_time_mudiban=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.spendTimeMudiban}
+				</foreach>
+		
+		
+				<!-- 6.吊顶-->
+				,checksize_apply_datetime_diaoding=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.checksizeApplyDatetimeDiaoding}
+				</foreach>
+				,install_item_apply_datetime_diaoding=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.installItemApplyDatetimeDiaoding}
+				</foreach>
+				,install_item_apply_into_date_diaoding=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.installItemApplyIntoDateDiaoding}
+				</foreach>
+				,install_item_real_into_date_diaoding=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.installItemRealIntoDateDiaoding}
+				</foreach>
+				,install_item_real_accept_date_diaoding=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.installItemRealAcceptDateDiaoding}
+				</foreach>
+				,install_item_is_returned_diaoding=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.installItemIsReturnedDiaoding}
+				</foreach>
+				,install_item_problem_describe_diaoding=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.installItemProblemDescribeDiaoding}
+				</foreach>
+				,install_item_problem_apply_datetime_diaoding=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.installItemProblemApplyDatetimeDiaoding}
+				</foreach>
+				,install_item_problem_solve_datetime_diaoding=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.installItemProblemSolveDatetimeDiaoding}
+				</foreach>
+				,spend_time_diaoding=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.spendTimeDiaoding}
+				</foreach>
+		
+		
+				<!-- 7.灯具、开关、小五金 -->
+				,checksize_apply_datetime_dengju=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.checksizeApplyDatetimeDengju}
+				</foreach>
+				,install_item_apply_datetime_dengju=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.installItemApplyDatetimeDengju}
+				</foreach>
+				,install_item_apply_into_date_dengju=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.installItemApplyIntoDateDengju}
+				</foreach>
+				,install_item_real_into_date_dengju=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.installItemRealIntoDateDengju}
+				</foreach>
+				,install_item_real_accept_date_dengju=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.installItemRealAcceptDateDengju}
+				</foreach>
+				,install_item_is_returned_dengju=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.installItemIsReturnedDengju}
+				</foreach>
+				,install_item_problem_describe_dengju=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.installItemProblemDescribeDengju}
+				</foreach>
+				,install_item_problem_apply_datetime_dengju=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.installItemProblemApplyDatetimeDengju}
+				</foreach>
+				,install_item_problem_solve_datetime_dengju=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.installItemProblemSolveDatetimeDengju}
+				</foreach>
+				,spend_time_dengju=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.spendTimeDengju}
+				</foreach>
+		
+		
+				<!-- 8.窗帘 -->
+				,checksize_apply_datetime_chuanglian=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.checksizeApplyDatetimeChuanglian}
+				</foreach>
+				,install_item_apply_datetime_chuanglian=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.installItemApplyDatetimeChuanglian}
+				</foreach>
+				,install_item_apply_into_date_chuanglian=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.installItemApplyIntoDateChuanglian}
+				</foreach>
+				,install_item_real_into_date_chuanglian=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.installItemRealIntoDateChuanglian}
+				</foreach>
+				,install_item_real_accept_date_chuanglian=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.installItemRealAcceptDateChuanglian}
+				</foreach>
+				,install_item_is_returned_chuanglian=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.installItemIsReturnedChuanglian}
+				</foreach>
+				,install_item_problem_describe_chuanglian=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.installItemProblemDescribeChuanglian}
+				</foreach>
+				,install_item_problem_apply_datetime_chuanglian=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.installItemProblemApplyDatetimeChuanglian}
+				</foreach>
+				,install_item_problem_solve_datetime_chuanglian=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.installItemProblemSolveDatetimeChuanglian}
+				</foreach>
+				,spend_time_chuanglian=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.spendTimeChuanglian}
+				</foreach>
+		
+		
+				<!-- 9.淋浴房 -->
+				,checksize_apply_datetime_linyufang=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.checksizeApplyDatetimeLinyufang}
+				</foreach>
+				,install_item_apply_datetime_linyufang=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.installItemApplyDatetimeLinyufang}
+				</foreach>
+				,install_item_apply_into_date_linyufang=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.installItemApplyIntoDateLinyufang}
+				</foreach>
+				,install_item_real_into_date_linyufang=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.installItemRealIntoDateLinyufang}
+				</foreach>
+				,install_item_real_accept_date_linyufang=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.installItemRealAcceptDateLinyufang}
+				</foreach>
+				,install_item_is_returned_linyufang=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.installItemIsReturnedLinyufang}
+				</foreach>
+				,install_item_problem_describe_linyufang=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.installItemProblemDescribeLinyufang}
+				</foreach>
+				,install_item_problem_apply_datetime_linyufang=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.installItemProblemApplyDatetimeLinyufang}
+				</foreach>
+				,install_item_problem_solve_datetime_linyufang=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.installItemProblemSolveDatetimeLinyufang}
+				</foreach>
+				,spend_time_linyufang=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.spendTimeLinyufang}
+				</foreach>
+		
+		
+				<!-- 10.定制衣柜 -->
+				,checksize_apply_datetime_yigui=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.checksizeApplyDatetimeYigui}
+				</foreach>
+				,install_item_apply_datetime_yigui=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.installItemApplyDatetimeYigui}
+				</foreach>
+				,install_item_apply_into_date_yigui=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.installItemApplyIntoDateYigui}
+				</foreach>
+				,install_item_real_into_date_yigui=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.installItemRealIntoDateYigui}
+				</foreach>
+				,install_item_real_accept_date_yigui=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.installItemRealAcceptDateYigui}
+				</foreach>
+				,install_item_is_returned_yigui=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.installItemIsReturnedYigui}
+				</foreach>
+				,install_item_problem_describe_yigui=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.installItemProblemDescribeYigui}
+				</foreach>
+				,install_item_problem_apply_datetime_yigui=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.installItemProblemApplyDatetimeYigui}
+				</foreach>
+				,install_item_problem_solve_datetime_yigui=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.installItemProblemSolveDatetimeYigui}
+				</foreach>
+				,spend_time_yigui=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.bizOrderInstallItemReportId} then #{item.spendTimeYigui}
+				</foreach>
+		
+			where id in
+			<foreach collection="list" index="index" item="item" separator="," open="(" close=")">
+				#{item.bizOrderInstallItemReportId}
+			</foreach>
+			
+		
+	</update>
+		
+		
+		
+	<!-- 根据订单查询    厂家复尺信息 -->	
+	<select id="findCheckSizeMessage" parameterType="int" resultType="cn.damei.entity.modules.BizOrderCheckSize">
+	
+		SELECT
+			a.id AS "orderId",
+			m1.checksizeDate AS "checksizeDate",
+			m1.checksize_type AS "checksizeType"
+		FROM
+			biz_order a
+		LEFT JOIN (
+			SELECT
+				b.order_id,
+				MIN(b.create_date) AS "checksizeDate",
+				b.checksize_type
+			FROM
+				biz_order_checksize b
+			WHERE b.checksize_type IN (3,4,5,6,10)
+			GROUP BY
+				b.order_id,
+				b.checksize_type
+		) m1 ON m1.order_id = a.id
+		WHERE
+			a.id = #{0}
+	
+	
+	</select>	
+		
+		
+	<!-- 根据订单查询   主材安装以及问题上报信息 -->	
+	<select id="findInstallPlanAndProblemMessage" parameterType="int" resultType="cn.damei.entity.modules.BizOrderInstasllPlanAndProblem">
+	
+		SELECT
+			a.id AS "orderId",
+			n1.id AS "orderInstallPlanId",
+			n1.install_item_sequence AS "installItemSequence",
+			n1.apply_into_create_datetime AS "applyIntoCreateDatetime",
+			n1.apply_into_date AS "applyIntoDate",
+			n1.real_into_date AS "realIntoDate",
+			n1.real_complete_date AS "realCompleteDate",
+			IFNULL(p.problemCount,0) AS "problemCount",
+			p.problemDateTime AS "problemDateTime",
+			q.problem_describe AS "problemDescribe"
+		FROM
+			biz_order a
+		LEFT JOIN biz_order_install_plan n1 ON n1.order_id = a.id
+		AND n1.install_item_sequence IN (4, 6, 8, 5, 9, 2, 7, 10, 3)
+		LEFT JOIN (SELECT m.business_only_mark_int,COUNT(1) AS "problemCount",MIN(m.create_date) AS "problemDateTime" FROM biz_business_problem m WHERE m.business_type = 1 AND m.problem_type_id NOT IN (3,8,9,10) GROUP BY m.business_only_mark_int) p ON p.business_only_mark_int = n1.id
+		LEFT JOIN biz_business_problem q ON q.business_only_mark_int = p.business_only_mark_int AND q.create_date = p.problemDateTime AND q.business_type = 1 AND q.problem_type_id NOT IN (3,8,9,10)
+		WHERE
+			a.id = #{0}
+	
+	
+	</select>	
+		
+	
+	
+</mapper>

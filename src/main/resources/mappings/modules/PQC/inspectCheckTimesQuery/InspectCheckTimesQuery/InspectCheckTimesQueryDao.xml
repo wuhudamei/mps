@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+        namespace="cn.damei.dao.modules.InspectCheckTimesDao">
+    <select id="findList"
+            resultType="cn.damei.entity.modules.InspectCheckTimesEntity">
+        SELECT
+        e.storeId AS "storeId",
+        e.project_mode as "projectMode",
+        e.realName AS "inspectName",
+        (
+        select count(p.orderId)
+        from
+        (
+        SELECT
+        DISTINCT(a.order_id) as "orderId",
+        e.id as "empId"
+        FROM
+        biz_qc_bill a,
+
+        biz_employee e
+        where e.id =a.check_employee_id
+
+        ) p,
+        biz_employee e8
+        where e8.id =p.empId
+        and e8.id = e.id
+
+        ) AS "checkConstructionSiteTimes",
+        (
+        SELECT
+        COUNT(1)
+        FROM
+        biz_business_sign a
+        WHERE
+        a.sign_employee_id = e.id
+        ) AS "signTimes",
+        (
+        SELECT
+        COUNT(1)
+        FROM
+        biz_qc_bill b
+        WHERE
+        b.check_employee_id = e.id
+        AND
+        b.`status` > 3
+        <if
+                test="checkStartDate!=null and checkStartDate != '' and checkEndDate !=null and checkEndDate !=''">
+            and b.check_datetime between #{checkStartDate} and
+            #{checkEndDate}
+
+        </if>
+        ) AS "inspectReportTimes",
+        (
+        SELECT
+        COUNT(1)
+        FROM
+        biz_qc_bill c
+        WHERE
+        c.check_employee_id = e.id
+        AND c.qc_bill_type = '2'
+        AND c.`status` > 3
+        <if
+                test="checkStartDate!=null and checkStartDate != '' and checkEndDate !=null and checkEndDate !=''">
+            and c.check_datetime between #{checkStartDate} and
+            #{checkEndDate}
+
+        </if>
+        ) AS "randomCheckReportTimes",
+        (
+        SELECT
+        COUNT(1)
+        FROM
+        biz_qc_bill d
+        WHERE
+        d.check_employee_id = e.id
+        AND d.qc_bill_type = '1'
+        AND d.`status` > 3
+        <if
+                test="checkStartDate!=null and checkStartDate != '' and checkEndDate !=null and checkEndDate !=''">
+            and d.check_datetime between #{checkStartDate} and
+            #{checkEndDate}
+
+        </if>
+        ) AS "aboutCheckReportTimes",
+        (
+        SELECT
+        COUNT(1)
+        FROM
+        biz_qc_bill f
+        WHERE
+        f.check_employee_id = e.id
+        AND f.is_recheck = '1'
+        AND f.`status` > 3
+        <if
+                test="checkStartDate!=null and checkStartDate != '' and checkEndDate !=null and checkEndDate !=''">
+            and f.check_datetime between #{checkStartDate} and
+            #{checkEndDate}
+
+        </if>
+        ) AS "recheckReportTimes",
+        (
+        SELECT
+        SUM(h.recheck_times)
+        FROM
+        biz_qc_bill h
+        WHERE
+        h.check_employee_id = e.id
+        AND h.is_recheck = '1'
+        <if
+                test="checkStartDate!=null and checkStartDate != '' and checkEndDate !=null and checkEndDate !=''">
+            and h.check_datetime between #{checkStartDate} and
+            #{checkEndDate}
+
+        </if>
+
+        ) AS "recheckTimes",
+        (
+        SELECT
+        COUNT(1)
+        FROM
+        biz_qc_bill g,
+        biz_qc_bill_check_item i
+        WHERE
+        g.check_employee_id = e.id
+        AND g.id =
+        i.qc_bill_id
+        AND i.is_punish_money = '1'
+        <if
+                test="checkStartDate!=null and checkStartDate != '' and checkEndDate !=null and checkEndDate !=''">
+            and g.check_datetime between #{checkStartDate} and
+            #{checkEndDate}
+
+        </if>
+
+        ) AS "fineTimes",
+        (
+        SELECT
+        SUM(i.punish_money_amount_real)
+        FROM
+        biz_qc_bill g,
+        biz_qc_bill_check_item i
+        WHERE
+        g.check_employee_id = e.id
+        AND g.id = i.qc_bill_id
+        AND i.is_punish_money = '1'
+        <if
+                test="checkStartDate!=null and checkStartDate != '' and checkEndDate !=null and checkEndDate !=''">
+            and g.check_datetime between #{checkStartDate} and
+            #{checkEndDate}
+
+        </if>
+        ) AS "findTotalMoney"
+        FROM
+        biz_employee e
+        WHERE
+        e.empType = '1'
+        <if test="storeId != null and storeId != ''">
+            AND e.storeId = #{storeId}
+        </if>
+        <if test="projectMode != null and projectMode != ''">
+            AND e.project_mode = #{projectMode}
+        </if>
+        <if test="inspectName != null and inspectName != ''">
+            AND e.realName LIKE
+            <if test="dbName == 'mysql'">concat('%',#{inspectName},'%')</if>
+        </if>
+
+        GROUP BY e.id
+
+        ORDER BY e.realName ASC
+
+        <choose>
+            <when test="page !=null and page.orderBy != null and page.orderBy != ''">
+                , ${page.orderBy}
+            </when>
+
+        </choose>
+
+
+    </select>
+
+
+    <select id="findPqcInfoByStoreIdAndProjectMode"
+            parameterType="cn.damei.entity.modules.InspectCheckTimesEntity"
+            resultType="cn.damei.entity.modules.InspectCheckTimesEntity">
+
+
+        select id as "inspectId",
+        realName as "inspectName",
+        #{storeId} as "storeId",
+        #{projectMode} as "projectMode"
+        from biz_employee where storeId=#{storeId}
+        and project_mode=#{projectMode}
+
+        <if test="inspectName!=null and inspectName!=''">
+            AND realName LIKE
+            concat('%',#{inspectName},'%')
+
+
+        </if>
+        and empType=1
+        and del_flag =0
+    </select>
+
+
+    <select id="findSignInfoByEmpId"
+            parameterType="map"
+            resultType="cn.damei.entity.modules.InspectCheckTimesEntity">
+
+
+        SELECT
+        a.sign_employee_id as "inspectId",
+        ifnull(count(a.id),0) as "signTimes"
+        FROM
+        biz_business_sign a
+        WHERE
+
+        a.sign_employee_id IN (
+
+        <foreach collection="list" item="item" separator="," index="index">
+            ${item.inspectId}
+
+        </foreach>
+        )
+
+        <if test="startDate!=null and startDate!=''">
+            and a.sign_datetime >= #{startDate}
+
+
+        </if>
+        <if test="endDate!=null and endDate!=''">
+            AND a.sign_datetime &lt;= #{endDate}
+
+
+        </if>
+
+
+
+
+
+        GROUP BY
+        a.sign_employee_id
+
+
+    </select>
+
+
+    <select id="findAllPqcBillByEmpId" parameterType="map"
+            resultType="cn.damei.entity.modules.InspectCheckTimesEntity">
+        SELECT
+        b.check_employee_id as "inspectId",
+        b.id AS "billId",
+        b.qc_bill_type as "qcBillType",
+        b.is_recheck as "isRecheck",
+        b.`status` as "qcBillStatus",
+        b.recheck_times as "recheckTimes"
+        FROM
+        biz_qc_bill b
+        WHERE
+        b.check_employee_id IN (
+
+        <foreach collection="list" item="item" separator="," index="index">
+            ${item.inspectId}
+
+        </foreach>
+        )
+
+
+        <if test="startDate!=null and startDate!=''">
+            AND b.check_datetime >= #{startDate}
+
+
+        </if>
+        <if test="endDate!=null and endDate!=''">
+            and b.check_datetime &lt;= #{endDate}
+
+
+        </if>
+
+
+
+
+        ORDER BY
+        b.id ASC
+        <choose>
+            <when test="page !=null and page.orderBy != null and page.orderBy != ''">
+                , ${page.orderBy}
+            </when>
+
+        </choose>
+
+
+    </select>
+
+
+    <select id="findPqcItemInfoByBillId"
+            parameterType="cn.damei.entity.modules.InspectCheckTimesEntity"
+            resultType="cn.damei.entity.modules.InspectCheckTimesEntity">
+        SELECT
+        a.qc_bill_id AS "billId",
+        IFNULL(
+        a.punish_money_amount_real + a.qc_punish_amount + a.worker_punish_amount,
+        0
+        ) AS "findTotalMoney"
+        FROM
+        biz_qc_bill_check_item a
+        WHERE
+        a.qc_bill_id IN (
+        <foreach collection="list" item="item" separator="," index="index">
+            ${item.billId}
+
+        </foreach>
+
+        )
+        AND a.is_punish_money = 1
+        GROUP BY
+        a.qc_bill_id
+        ORDER BY
+        a.qc_bill_id ASC
+
+
+    </select>
+
+
+    <select id="findCheckTimesByPqcId" parameterType="map"
+            resultType="cn.damei.entity.modules.InspectCheckTimesEntity">
+
+
+        SELECT
+        a.check_employee_id AS "inspectId",
+        count(DISTINCT(a.order_id)) AS "checkConstructionSiteTimes"
+        FROM
+        biz_qc_bill a
+        WHERE
+
+        a.check_employee_id IN (
+
+        <foreach collection="list" item="item" separator="," index="index">
+            ${item.inspectId}
+
+        </foreach>
+        )
+
+        <if test="startDate!=null and startDate!=''">
+            AND a.check_datetime >= #{startDate}
+
+
+        </if>
+        <if test="endDate!=null and endDate!=''">
+            AND a.check_datetime &lt;= #{endDate}
+
+
+        </if>
+
+
+
+
+        GROUP BY
+        a.check_employee_id
+
+    </select>
+</mapper>

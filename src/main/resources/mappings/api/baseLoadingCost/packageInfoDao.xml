@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.PackageInfoDao">
+
+	<select id="queryPackInfoByOrderNumber"
+		resultType="cn.damei.entity.modules.PackageInfo">
+		SELECT
+		d.`name` AS "storeId",
+		b.order_number AS "orderNum",
+		a.package_name AS "packageName",
+		a.group_realname AS "workerGroupName",
+		a.settle_style AS "settleStyle",
+		c.settlement_amount AS "settlementAmount",
+		IFNULL(
+		(
+		IFNULL(
+		c.auxiliary_materials_deduct_amount_wangzhen_price,
+		0
+		) + IFNULL(
+		c.sand_cement_deduct_amount_wangzhen_price,
+		0
+		)
+		),
+		0
+		) AS "auxiliaryAmountWangzhen",
+		IFNULL(
+		(
+		IFNULL(
+		c.auxiliary_materials_deduct_amount,
+		0
+		) + IFNULL(
+		c.sand_cement_deduct_amount,
+		0
+		)
+		),
+		0
+		) AS "auxiliaryAmountworker",
+		a.labor_auxiliary_materials_budget_amount AS "packageBudgetAmount",
+		c.labor_settle_amount AS "laborSettleAmount",
+		c.auxiliary_materials_settle_amount AS "auxiliaryMaterialsSettleAmount",
+		c.labor_auxiliary_materials_settle_amount AS
+		"laborAuxiliaryMaterialsSettleAmount",
+		c.guarantee_money_amount AS "guaranteeMoneyAmount",
+		IFNULL(
+		IFNULL(c.reward_amount, 0) - IFNULL(c.delay_amerce, 0) -
+		IFNULL(c.punish_amerce, 0) - IFNULL(c.company_deduct_amount, 0) -
+		IFNULL(c.qc_punish_money_amount, 0),
+		0
+		) AS "rewardPunishAmount",
+		c.worker_group_settle_amount AS "workerGroupSettleAmount"
+		FROM
+		biz_order_taskpackage a
+		INNER JOIN
+		biz_order b on a.order_id = b.id
+		INNER JOIN
+		biz_order_taskpackage_settlement c on a.id =
+		c.order_taskpackage_id
+		INNER JOIN sys_office d on b.store_id = d.id
+		WHERE
+		c.`status` >=90
+		and
+		b.order_number = #{orderNumber}
+	</select>
+</mapper>

@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizPhoneMsgDao">
+    
+	<sql id="bizPhoneMsgColumns">
+		a.id AS "id",
+		a.receive_employee_id AS "receiveEmployeeId",
+		a.receive_phone AS "receivePhone",
+		a.msg_content AS "msgContent",
+		a.msg_generate_datetime AS "msgGenerateDatetime",
+		a.msg_tosend_datetime AS "msgTosendDatetime",
+		a.msg_sended_datetime AS "msgSendedDatetime",
+		a.msg_status AS "msgStatus",
+		a.related_business_type AS "relatedBusinessType",
+		a.related_business_id_int AS "relatedBusinessIdInt",
+		a.related_business_id_varchar AS "relatedBusinessIdVarchar"
+	</sql>
+	
+	<sql id="bizPhoneMsgJoins">
+	</sql>
+    
+	<select id="get" resultType="cn.damei.entity.modules.BizPhoneMsg">
+		SELECT 
+			<include refid="bizPhoneMsgColumns"/>
+		FROM biz_phone_msg a
+		<include refid="bizPhoneMsgJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="cn.damei.entity.modules.BizPhoneMsg">
+		SELECT 
+			<include refid="bizPhoneMsgColumns"/>
+		FROM biz_phone_msg a
+		<include refid="bizPhoneMsgJoins"/>
+		<where>
+			
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="cn.damei.entity.modules.BizPhoneMsg">
+		SELECT 
+			<include refid="bizPhoneMsgColumns"/>
+		FROM biz_phone_msg a
+		<include refid="bizPhoneMsgJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO biz_phone_msg(
+			id,
+			receive_employee_id,
+			receive_phone,
+			msg_content,
+			msg_generate_datetime,
+			msg_tosend_datetime,
+			msg_sended_datetime,
+			msg_status,
+			related_business_type,
+			related_business_id_int,
+			related_business_id_varchar
+		) VALUES (
+			#{id},
+			#{receiveEmployeeId},
+			#{receivePhone},
+			#{msgContent},
+			#{msgGenerateDatetime},
+			#{msgTosendDatetime},
+			#{msgSendedDatetime},
+			#{msgStatus},
+			#{relatedBusinessType},
+			#{relatedBusinessIdInt},
+			#{relatedBusinessIdVarchar}
+		)
+	</insert>
+	
+	<!-- 安装项确认调整 -->
+	<insert id="installPlanInsert">
+		INSERT INTO biz_phone_msg(
+			id,
+			receive_employee_id,
+			receive_phone,
+			msg_content,
+			msg_generate_datetime,
+			msg_tosend_datetime,
+			msg_sended_datetime,
+			msg_status,
+			related_business_type,
+			related_business_id_int,
+			related_business_id_varchar
+		) VALUES (
+			#{id},
+			#{receiveEmployeeId},
+			#{receivePhone},
+			#{msgContent},
+			#{msgGenerateDatetime},
+			#{msgTosendDatetime},
+			#{msgSendedDatetime},
+			#{msgStatus},
+			#{relatedBusinessType},
+			#{relatedBusinessIdInt},
+			#{relatedBusinessIdVarchar}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE biz_phone_msg SET 	
+			receive_employee_id = #{receiveEmployeeId},
+			receive_phone = #{receivePhone},
+			msg_content = #{msgContent},
+			msg_generate_datetime = #{msgGenerateDatetime},
+			msg_tosend_datetime = #{msgTosendDatetime},
+			msg_sended_datetime = #{msgSendedDatetime},
+			msg_status = #{msgStatus},
+			related_business_type = #{relatedBusinessType},
+			related_business_id_int = #{relatedBusinessIdInt},
+			related_business_id_varchar = #{relatedBusinessIdVarchar}
+		WHERE id = #{id}
+	</update>
+	
+	<delete id="delete">
+		DELETE FROM biz_phone_msg
+		WHERE id = #{id}
+	</delete>
+
+	<select id="queryPhoneMsgList" parameterType="java.util.Map" resultType="cn.damei.entity.modules.BizPhoneMsg">
+		SELECT <include refid="bizPhoneMsgColumns"/>
+		FROM biz_phone_msg a
+		WHERE (a.msg_status =#{msgStatus0} and ((a.msg_tosend_datetime is null or a.msg_tosend_datetime = '')
+										or (a.msg_tosend_datetime is not null and a.msg_tosend_datetime &lt;> ''
+												and ABS(TIMESTAMPDIFF(SECOND,#{date},a.msg_tosend_datetime)) > #{msgTosendDatetimeDiffMin0}
+												and ABS(TIMESTAMPDIFF(SECOND,#{date},a.msg_tosend_datetime)) &lt;= #{msgTosendDatetimeDiffMax0}
+											)
+									)
+				)
+		<!-- or
+			(a.msg_status = #{msgStatus2} and ((a.msg_tosend_datetime is null or a.msg_tosend_datetime = '')
+										or (a.msg_tosend_datetime is not null and a.msg_tosend_datetime &lt;> ''
+												and ABS(TIMESTAMPDIFF(HOUR,#{date},a.msg_tosend_datetime)) > #{msgTosendDatetimeDiffMin2}
+												and ABS(TIMESTAMPDIFF(HOUR,#{date},a.msg_tosend_datetime)) &lt;= #{msgTosendDatetimeDiffMax2}
+											)
+									)
+			) -->
+
+	</select>
+</mapper>

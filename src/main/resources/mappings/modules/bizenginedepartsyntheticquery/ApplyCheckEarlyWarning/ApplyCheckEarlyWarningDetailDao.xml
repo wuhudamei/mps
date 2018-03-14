@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.ApplyCheckEarlyWarningDetailDao">
+
+
+
+
+    <select id="findList" resultType="cn.damei.entity.modules.ApplyCheckEarlyWarningQueryDetailEntity" parameterType="cn.damei.entity.modules.ApplyCheckEarlyWarningQueryDetailEntity">
+        SELECT
+        a.store_id as "storeId",
+        c.qc_check_node_name "checkNodeName",
+        a.engin_depart_id as "engineDepartId",
+
+        DATE_ADD(
+        a.actual_start_date,
+        INTERVAL days_to_check DAY
+        ) AS "planEndDate",
+
+
+
+        (
+        DATEDIFF(
+        CURDATE(),
+        DATE_ADD(
+        a.actual_start_date,
+        INTERVAL days_to_check DAY
+        )
+        )
+        ) AS "delayDaysCount",
+
+
+
+        a.project_mode as "projectMode",
+        t.`name` AS "engineDepartName",
+        CONCAT_WS(
+        "-",
+        a.community_name,
+        a.build_number,
+        a.build_unit,
+        a.build_room
+        ) AS "addressInfo",
+
+
+        CONCAT_WS(
+        " ",
+        a.customer_name,
+        a.customer_phone
+        ) AS "customerInfo",
+
+
+        CONCAT_WS(" ", e1.realName, e1.phone) AS "managerInfo",
+
+
+        CONCAT_WS(" ", e2.realName, e2.phone) AS "pqcInfo",
+
+
+        DATE_FORMAT(
+        a.actual_start_date,
+        '%Y-%m-%d'
+        ) as "actualStartDate",
+
+
+        DATE_FORMAT(
+        b.expect_check_datetime,
+        '%Y-%m-%d'
+        )  as "expectCheckDate",
+
+
+
+        (
+        SELECT
+        DATE_FORMAT(
+        s.sign_datetime,
+        '%Y-%m-%d'
+        )
+        FROM
+        biz_business_sign s
+        WHERE
+        b.id = s.related_business_id_int
+        AND s.sign_type = '301'
+        ) AS "pqcSignDate",
+
+
+
+        DATE_FORMAT(
+        b.check_datetime,
+        '%Y-%m-%d'
+        ) AS "pqcCheckDate",
+        b.accept_check_datetime AS "pqcDoneDate"
+        FROM
+        biz_order a
+
+        LEFT JOIN biz_employee e1 ON a.item_manager_id = e1.id
+        LEFT JOIN biz_employee e2 ON a.order_inspector_id = e2.id
+        LEFT JOIN biz_engineering_department t ON a.engin_depart_id = t.id
+        LEFT JOIN biz_qc_bill b ON a.id = b.order_id
+        and b.qc_check_node_id =#{nodeId}
+        AND a.order_status_number&lt; 340
+        and a.create_date &gt; '2017-03-01'
+        <if test="engineDepartId!=null and engineDepartId!=''">
+and a.engin_depart_id =#{engineDepartId}
+
+        </if>
+        <if test="customerName!=null and customerName!=''">
+            and a.customer_name like concat('%',#{customerName},'%')
+
+        </if>
+        AND b.qc_bill_type = 1
+        AND b.`status` &lt; 10
+        AND b.is_recheck = 0
+        INNER JOIN biz_qc_check_node c ON b.qc_check_node_id = c.id
+        and c.store_id =a.store_id
+        and c.project_mode = a.project_mode
+        AND (
+        DATE_ADD(
+        a.actual_start_date,
+        INTERVAL c.days_to_check DAY
+        ) &lt;  CURDATE()
+        ) = 1
+        and c.del_flag =0 and c.status=1
+
+        where
+
+        c.store_id = #{storeId}
+        AND c.project_mode = #{projectMode}
+
+    </select>
+</mapper>

@@ -1,0 +1,2645 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="cn.damei.dao.modules.BizProjectProgressBoningDao">
+
+	<sql id="bizProjectProgressBoningColumns">
+		a.id AS "id",
+		a.order_id AS "orderId",
+		a.order_number AS
+		"orderNumber",
+		a.area AS "area",
+		a.store_id AS "storeId",
+		a.house_is_new
+		AS "houseIsNew",
+		a.order_create_date AS "orderCreateDate",
+		a.customer_name
+		AS "customerName",
+		a.customer_phone AS "customerPhone",
+		a.detail_address AS "detailAddress",
+		a.item_manager AS "itemManager",
+		a.item_manager_phone AS "itemManagerPhone",
+		a.designer_name AS
+		"designerName",
+		a.designer_phone AS "designerPhone",
+		a.qc_name AS
+		"orderInspector",
+		a.qc_phone AS "inspectorPhone",
+		a.contract_start_date
+		AS "contractStartDate",
+		a.contract_end_date AS "contractEndDate",
+		a.actual_start_date AS "actualStartDate",
+		a.actual_end_date AS
+		"actualEndDate",
+		a.start_diff_day AS "startDiffDay",
+		a.is_need_sign AS
+		"isNeedSign",
+		a.self_decorate_delay_days AS "selfDecorateDelayDays",
+		a.is_self_decorate_need_sign AS "isSelfDecorateNeedSign",
+		a.node1_plan_date AS "node1PlanDate",
+		a.node1_actual_date AS
+		"node1ActualDate",
+		a.node1SubmDate AS "node1SubmDate",
+		a.node1_diff_day
+		AS "node1DiffDay",
+		a.node2_plan_date AS "node2PlanDate",
+		a.node2_expect_date AS "node2ExpectDate",
+		a.node2_actual_date AS
+		"node2ActualDate",
+		a.node2SubmDate AS "node2SubmDate",
+		a.node2_diff_day
+		AS "node2DiffDay",
+		a.node3_plan_date AS "node3PlanDate",
+		a.node3_expect_date AS "node3ExpectDate",
+		a.node3_actual_date AS
+		"node3ActualDate",
+		a.node3SubmDate AS "node3SubmDate",
+		a.node3_diff_day
+		AS "node3DiffDay",
+		a.node4_plan_date AS "node4PlanDate",
+		a.node4_actual_date AS "node4ActualDate",
+		a.node4SubmDate AS
+		"node4SubmDate",
+		a.node4ExpectDate AS "node4ExpectDate",
+		a.node4_diff_day AS "node4DiffDay",
+		a.node5_plan_date AS
+		"node5PlanDate",
+		a.node5_actual_date AS "node5ActualDate",
+		a.node5SubmDate AS "node5SubmDate",
+		a.node5ExpectDate AS
+		"node5ExpectDate",
+		a.node5_diff_day AS "node5DiffDay",
+		a.node6_plan_date AS "node6PlanDate",
+		a.node6_actual_date
+		AS"node6ActualDate",
+		a.node6SubmDate AS "node6SubmDate",
+		a.node6_diff_day AS "node6DiffDay",
+		a.node7_plan_date AS
+		"node7PlanDate",
+		a.node7_actual_date AS
+		"node7ActualDate",
+		a.node7SubmDate AS "node7SubmDate",
+		a.node7ExpectDate AS
+		"node7ExpectDate",
+		a.node7_diff_day AS
+		"node7DiffDay",
+		a.node8_plan_date
+		AS "node8PlanDate",
+		a.node8_amount_date AS "node8AmountDate",
+		a.node8_actual_date AS
+		"node8ActualDate",
+		a.node8_diff_day AS
+		"node8DiffDay",
+		a.node9_plan_date AS "node9PlanDate",
+		a.node9_actual_date AS
+		"node9ActualDate",
+		a.node9SubmDate AS
+		"node9SubmDate",
+		a.node9ExpectDate AS "node9ExpectDate",
+		a.node9_diff_day AS
+		"node9DiffDay",
+		a.node10_plan_date AS
+		"node10PlanDate",
+		a.node10_actual_date AS "node10ActualDate",
+		a.node10SubmDate AS
+		"node10SubmDate",
+		a.node10ApplyEntryDate AS
+		"node10ApplyEntryDate",
+		a.node10ActualEntryDate AS
+		"node10ActualEntryDate",
+		a.node10ActualCheckDate AS
+		"node10ActualCheckDate",
+		a.node10_diff_day
+		AS "node10DiffDay",
+		a.node11_plan_date AS "node11PlanDate",
+		a.node11_install_date AS
+		"node11InstallDate",
+		a.node11_actual_date AS
+		"node11ActualDate",
+		a.node11SubmDate AS "node11SubmDate",
+		a.node11ApplyEntryDate AS
+		"node11ApplyEntryDate",
+		a.node11ActualEntryDate AS
+		"node11ActualEntryDate",
+		a.node11_diff_day
+		AS "node11DiffDay",
+		a.node12_plan_date AS "node12PlanDate",
+		a.node12_install_date AS
+		"node12InstallDate",
+		a.node12_actual_date AS
+		"node12ActualDate",
+		a.node12SubmDate AS "node12SubmDate",
+		a.node12ApplyEntryDate AS
+		"node12ApplyEntryDate",
+		a.node12ActualEntryDate AS
+		"node12ActualEntryDate",
+		a.node12_diff_day
+		AS "node12DiffDay",
+		a.node13_plan_date AS "node13PlanDate",
+		a.node13_install_date AS
+		"node13InstallDate",
+		a.node13_actual_date AS
+		"node13ActualDate",
+		a.node13SubmDate AS "node13SubmDate",
+		a.node13ApplyEntryDate AS
+		"node13ApplyEntryDate",
+		a.node13ActualEntryDate AS
+		"node13ActualEntryDate",
+		a.node13_diff_day
+		AS "node13DiffDay",
+		a.node14_plan_date AS "node14PlanDate",
+		a.node14_install_date AS
+		"node14InstallDate",
+		a.node14_actual_date AS
+		"node14ActualDate",
+		a.node14SubmDate AS "node14SubmDate",
+		a.node14ApplyEntryDate AS
+		"node14ApplyEntryDate",
+		a.node14ActualEntryDate AS
+		"node14ActualEntryDate",
+		a.node14_diff_day
+		AS "node14DiffDay",
+		a.node15_plan_date AS "node15PlanDate",
+		a.node15_install_date AS
+		"node15InstallDate",
+		a.node15_actual_date AS
+		"node15ActualDate",
+		a.node15SubmDate AS "node15SubmDate",
+		a.node15ApplyEntryDate AS
+		"node15ApplyEntryDate",
+		a.node15ActualEntryDate AS
+		"node15ActualEntryDate",
+		a.node15_diff_day
+		AS "node15DiffDay",
+		a.node16_plan_date AS "node16PlanDate",
+		a.node16_install_date AS
+		"node16InstallDate",
+		a.node16_actual_date AS
+		"node16ActualDate",
+		a.node16SubmDate AS "node16SubmDate",
+		a.node16ApplyEntryDate AS
+		"node16ApplyEntryDate",
+		a.node16ActualEntryDate AS
+		"node16ActualEntryDate",
+		a.node16_diff_day
+		AS "node16DiffDay",
+		a.node17_plan_date AS "node17PlanDate",
+		a.node17_install_date AS
+		"node17InstallDate",
+		a.node17_actual_date AS
+		"node17ActualDate",
+		a.node17SubmDate AS "node17SubmDate",
+		a.node17ApplyEntryDate AS
+		"node17ApplyEntryDate",
+		a.node17ActualEntryDate AS
+		"node17ActualEntryDate",
+		a.node17_diff_day
+		AS "node17DiffDay",
+		a.node18_plan_date AS "node18PlanDate",
+		a.node18_install_date AS
+		"node18InstallDate",
+		a.node18_actual_date AS
+		"node18ActualDate",
+		a.node18SubmDate AS "node18SubmDate",
+		a.node18ApplyEntryDate AS
+		"node18ApplyEntryDate",
+		a.node18ActualEntryDate AS
+		"node18ActualEntryDate",
+		a.node18_diff_day
+		AS "node18DiffDay",
+		a.node19_plan_date AS "node19PlanDate",
+		a.node19_actual_date AS
+		"node19ActualDate",
+		a.node19SubmDate AS
+		"node19SubmDate",
+		a.node19ExpectDate AS "node19ExpectDate",
+		a.node19_diff_day AS
+		"node19DiffDay",
+		a.node20_plan_date AS
+		"node20PlanDate",
+		a.node20_actual_date AS "node20ActualDate",
+		a.node20_diff_day AS
+		"node20DiffDay",
+		a.node21_plan_date AS
+		"node21PlanDate",
+		a.node21_install_date AS "node21InstallDate",
+		a.node21_actual_date AS
+		"node21ActualDate",
+		a.node21SubmDate AS
+		"node21SubmDate",
+		a.node21ApplyEntryDate AS "node21ApplyEntryDate",
+		a.node21ActualEntryDate AS "node21ActualEntryDate",
+		a.node21_diff_day
+		AS "node21DiffDay",
+		a.node22_plan_date AS "node22PlanDate",
+		a.node22_install_date AS "node22InstallDate",
+		a.node22_actual_date AS
+		"node22ActualDate",
+		a.node22SubmDate AS "node22SubmDate",
+		a.node22ApplyEntryDate AS "node22ApplyEntryDate",
+		a.node22ActualEntryDate AS "node22ActualEntryDate",
+		a.node22_diff_day
+		AS "node22DiffDay",
+		a.delay_days as "delayDays",
+		a.remarks AS "remarks",
+		a.create_date AS
+		"createDate",
+		a.update_date AS "updateDate",
+		a.del_flag
+		AS "delFlag",
+		a.contractArea,
+		a.buildType,
+		a.node1PlanSubDate,
+		a.node1SubDiffDay,
+		a.node1ApplyEntryDate,
+		a.node1ActualEntryDate,
+		a.node1EntryDiffDay,
+		a.node2PlanSubDate,
+		a.node2SubDiffDay,
+		a.node2ActualExpectDate,
+		a.node2EntryDiffDay,
+		a.node3PlanSubDate,
+		a.node3SubDiffDay,
+		a.node3ActualExpectDate,
+		a.node3EntryDiffDay,
+		a.node4PlanSubDate,
+		a.node4SubDiffDay,
+		a.node4ActualExpectDate,
+		a.node4EntryDiffDay,
+		a.node5PlanSubDate,
+		a.node5SubDiffDay,
+		a.node5ActualExpectDate,
+		a.node5EntryDiffDay,
+		a.node6PlanSubDate,
+		a.node6SubDiffDay,
+		a.node6ExpectDate,
+		a.node6ActualExpectDate,
+		a.node6EntryDiffDay,
+		a.node7PlanSubDate,
+		a.node7SubDiffDay,
+		a.node7ActualExpectDate,
+		a.node7EntryDiffDay,
+		a.node9PlanSubDate,
+		a.node9SubDiffDay,
+		a.node9ActualExpectDate,
+		a.node9EntryDiffDay,
+		a.node10PlanSubDate,
+		a.node10SubDiffDay,
+		a.node10EntryDiffDay,
+		a.node11PlanSubDate,
+		a.node11SubDiffDay,
+		a.node11EntryDiffDay,
+		a.node12PlanSubDate,
+		a.node12SubDiffDay,
+		a.node12EntryDiffDay,
+		a.node13PlanSubDate,
+		a.node13SubDiffDay,
+		a.node13RuleDate,
+		a.node13EntryDiffDay,
+		a.node14PlanSubDate,
+		a.node14SubDiffDay,
+		a.node14RuleDate,
+		a.node14EntryDiffDay,
+		a.node15PlanSubDate,
+		a.node15SubDiffDay,
+		a.node15EntryDiffDay,
+		a.node16PlanSubDate,
+		a.node16SubDiffDay,
+		a.node16RuleDate,
+		a.node16EntryDiffDay,
+		a.node17PlanSubDate,
+		a.node17SubDiffDay,
+		a.node17EntryDiffDay,
+		a.node18PlanSubDate,
+		a.node18SubDiffDay,
+		a.node18RuleDate,
+		a.node18EntryDiffDay,
+		a.node19PlanSubDate,
+		a.node19SubDiffDay,
+		a.node19ActualEntryDate,
+		a.node19EntryDiffDay,
+		a.node21PlanSubDate,
+		a.node21SubDiffDay,
+		a.node21EntryDiffDay,
+		a.node22PlanSubDate,
+		a.node22SubDiffDay,
+		a.node22EntryDiffDay
+	</sql>
+
+	<sql id="bizProjectProgressBoningJoins">
+	</sql>
+
+	<select id="get"
+		resultType="cn.damei.entity.modules.BizProjectProgressBoning">
+		SELECT
+		<include refid="bizProjectProgressBoningColumns" />
+		FROM biz_project_progress_boning a
+		<include refid="bizProjectProgressBoningJoins" />
+		WHERE a.id = #{id}
+	</select>
+
+	<select id="findList"
+		resultType="cn.damei.entity.modules.BizProjectProgressBoning">
+		SELECT
+		<include refid="bizProjectProgressBoningColumns" />
+		,
+		c.name as "enginDepartName",
+		b.project_mode as "projectMode"
+		FROM
+		biz_project_progress_boning a
+		left join
+		biz_order b on a.order_id = b.id
+		left join
+		biz_engineering_department c
+		on b.engin_depart_id = c.id
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="storeId != null and storeId != ''">
+				and a.store_id = #{storeId}
+			</if>
+			<if test="itemManager != null and itemManager != ''">
+				AND a.item_manager LIKE
+				<if test="dbName == 'oracle'">'%'||#{itemManager}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{itemManager}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{itemManager},'%')</if>
+			</if>
+			<if test="projectMode != '' and projectMode != null">
+				and b.project_mode = #{projectMode}
+			</if>
+			<if test="customerName != null and customerName != ''">
+				AND a.customer_name LIKE
+				<if test="dbName == 'oracle'">'%'||#{customerName}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{customerName}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{customerName},'%')</if>
+			</if>
+
+			<if test="houseIsNew != null and houseIsNew != ''">
+				and a.house_is_new = #{houseIsNew}
+			</if>
+			<if
+				test="beginActualStartDate != null and beginActualStartDate != '' and endActualStartDate != null and endActualStartDate != ''">
+				AND a.actual_start_date BETWEEN #{beginActualStartDate} AND
+				#{endActualStartDate}
+			</if>
+			<if test="enginDepartIds != null and enginDepartIds != ''">
+				AND b.engin_depart_id in
+				<foreach item="item" index="index" collection="enginDepartIds"
+					open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+			<if test="isScrap != null and isScrap == 0">
+				AND (a.is_scrap = #{isScrap} or a.is_scrap is null)
+			</if>
+			<if test="isScrap != null and isScrap == 1">
+				AND a.is_scrap = #{isScrap}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.order_create_date DESC
+			</otherwise>
+		</choose>
+	</select>
+
+	<select id="findAllList"
+		resultType="cn.damei.entity.modules.BizProjectProgressBoning">
+		SELECT
+		<include refid="bizProjectProgressBoningColumns" />
+		FROM biz_project_progress_boning a
+		<include refid="bizProjectProgressBoningJoins" />
+		<where>
+
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.order_create_date DESC
+			</otherwise>
+		</choose>
+	</select>
+
+	<insert id="insert">
+		INSERT INTO biz_project_progress_boning(
+		id,
+		order_id,
+		order_number,
+		area,
+		store_id,
+		house_is_new,
+		order_create_date,
+		customer_name,
+		customer_phone,
+		detail_address,
+		item_manager,
+		item_manager_phone,
+		designer_name,
+		designer_phone,
+		qc_name,
+		qc_phone,
+		contract_start_date,
+		contract_end_date,
+		actual_start_date,
+		actual_end_date,
+		start_diff_day,
+		is_need_sign,
+		self_decorate_delay_days,
+		is_self_decorate_need_sign,
+		node1_plan_date,
+		node1_actual_date,
+		node1_diff_day,
+		node2_plan_date,
+		node2_expect_date,
+		node2_actual_date,
+		node2_diff_day,
+		node3_plan_date,
+		node3_expect_date,
+		node3_actual_date,
+		node3_diff_day,
+		node4_plan_date,
+		node4_actual_date,
+		node4_diff_day,
+		node5_plan_date,
+		node5_actual_date,
+		node5_diff_day,
+		node6_plan_date,
+		node6_actual_date,
+		node6_diff_day,
+		node7_plan_date,
+		node7_actual_date,
+		node7_diff_day,
+		node8_plan_date,
+		node8_amount_date,
+		node8_actual_date,
+		node8_diff_day,
+		node9_plan_date,
+		node9_actual_date,
+		node9_diff_day,
+		node10_plan_date,
+		node10_actual_date,
+		node10_diff_day,
+		node11_plan_date,
+		node11_install_date,
+		node11_actual_date,
+		node11_diff_day,
+		node12_plan_date,
+		node12_install_date,
+		node12_actual_date,
+		node12_diff_day,
+		node13_plan_date,
+		node13_install_date,
+		node13_actual_date,
+		node13_diff_day,
+		node14_plan_date,
+		node14_install_date,
+		node14_actual_date,
+		node14_diff_day,
+		node15_plan_date,
+		node15_install_date,
+		node15_actual_date,
+		node15_diff_day,
+		node16_plan_date,
+		node16_install_date,
+		node16_actual_date,
+		node16_diff_day,
+		node17_plan_date,
+		node17_install_date,
+		node17_actual_date,
+		node17_diff_day,
+		node18_plan_date,
+		node18_install_date,
+		node18_actual_date,
+		node18_diff_day,
+		node19_plan_date,
+		node19_actual_date,
+		node19_diff_day,
+		node20_plan_date,
+		node20_actual_date,
+		node20_diff_day,
+		node21_plan_date,
+		node21_install_date,
+		node21_actual_date,
+		node21_diff_day,
+		node22_plan_date,
+		node22_install_date,
+		node22_actual_date,
+		node22_diff_day,
+		remarks,
+		create_date,
+		update_date,
+		del_flag,
+		node1SubmDate,
+		node2SubmDate,
+		node3SubmDate,
+		node4SubmDate,
+		node4ExpectDate,
+		node5SubmDate,
+		node5ExpectDate,
+		node6SubmDate,
+		node7SubmDate,
+		node7ExpectDate,
+		node9SubmDate,
+		node9ExpectDate,
+		node10SubmDate,
+		node10ApplyEntryDate,
+		node10ActualEntryDate,
+		node10ActualCheckDate,
+		node11SubmDate,
+		node11ApplyEntryDate,
+		node11ActualEntryDate,
+		node12SubmDate,
+		node12ApplyEntryDate,
+		node12ActualEntryDate,
+		node13SubmDate,
+		node13ApplyEntryDate,
+		node13ActualEntryDate,
+		node14SubmDate,
+		node14ApplyEntryDate,
+		node14ActualEntryDate,
+		node15SubmDate,
+		node15ApplyEntryDate,
+		node15ActualEntryDate,
+		node16SubmDate,
+		node16ApplyEntryDate,
+		node16ActualEntryDate,
+		node17SubmDate,
+		node17ApplyEntryDate,
+		node17ActualEntryDate,
+		node18SubmDate,
+		node18ApplyEntryDate,
+		node18ActualEntryDate,
+		node19SubmDate,
+		node19ExpectDate,
+		node21SubmDate,
+		node21ApplyEntryDate,
+		node21ActualEntryDate,
+		node22SubmDate,
+		node22ApplyEntryDate,
+		node22ActualEntryDate,
+		delay_days,
+		is_scrap,
+		contractArea,
+		buildType,
+		node1PlanSubDate,
+		node1SubDiffDay,
+		node1ApplyEntryDate,
+		node1ActualEntryDate,
+		node1EntryDiffDay,
+		node2PlanSubDate,
+		node2SubDiffDay,
+		node2ActualExpectDate,
+		node2EntryDiffDay,
+		node3PlanSubDate,
+		node3SubDiffDay,
+		node3ActualExpectDate,
+		node3EntryDiffDay,
+		node4PlanSubDate,
+		node4SubDiffDay,
+		node4ActualExpectDate,
+		node4EntryDiffDay,
+		node5PlanSubDate,
+		node5SubDiffDay,
+		node5ActualExpectDate,
+		node5EntryDiffDay,
+		node6PlanSubDate,
+		node6SubDiffDay,
+		node6ExpectDate,
+		node6ActualExpectDate,
+		node6EntryDiffDay,
+		node7PlanSubDate,
+		node7SubDiffDay,
+		node7ActualExpectDate,
+		node7EntryDiffDay,
+		node9PlanSubDate,
+		node9SubDiffDay,
+		node9ActualExpectDate,
+		node9EntryDiffDay,
+		node10PlanSubDate,
+		node10SubDiffDay,
+		node10EntryDiffDay,
+		node11PlanSubDate,
+		node11SubDiffDay,
+		node11EntryDiffDay,
+		node12PlanSubDate,
+		node12SubDiffDay,
+		node12EntryDiffDay,
+		node13PlanSubDate,
+		node13SubDiffDay,
+		node13RuleDate,
+		node13EntryDiffDay,
+		node14PlanSubDate,
+		node14SubDiffDay,
+		node14RuleDate,
+		node14EntryDiffDay,
+		node15PlanSubDate,
+		node15SubDiffDay,
+		node15EntryDiffDay,
+		node16PlanSubDate,
+		node16SubDiffDay,
+		node16RuleDate,
+		node16EntryDiffDay,
+		node17PlanSubDate,
+		node17SubDiffDay,
+		node17EntryDiffDay,
+		node18PlanSubDate,
+		node18SubDiffDay,
+		node18RuleDate,
+		node18EntryDiffDay,
+		node19PlanSubDate,
+		node19SubDiffDay,
+		node19ActualEntryDate,
+		node19EntryDiffDay,
+		node21PlanSubDate,
+		node21SubDiffDay,
+		node21EntryDiffDay,
+		node22PlanSubDate,
+		node22SubDiffDay,
+		node22EntryDiffDay
+		) VALUES (
+		#{id},
+		#{orderId},
+		#{orderNumber},
+		#{area},
+		#{storeId},
+		#{houseIsNew},
+		#{orderCreateDate},
+		#{customerName},
+		#{customerPhone},
+		#{detailAddress},
+		#{itemManager},
+		#{itemManagerPhone},
+		#{designerName},
+		#{designerPhone},
+		#{orderInspector},
+		#{inspectorPhone},
+		#{contractStartDate},
+		#{contractEndDate},
+		#{actualStartDate},
+		#{actualEndDate},
+		#{startDiffDay},
+		#{isNeedSign},
+		#{selfDecorateDelayDays},
+		#{isSelfDecorateNeedSign},
+		#{node1PlanDate},
+		#{node1ActualDate},
+		#{node1DiffDay},
+		#{node2PlanDate},
+		#{node2ExpectDate},
+		#{node2ActualDate},
+		#{node2DiffDay},
+		#{node3PlanDate},
+		#{node3ExpectDate},
+		#{node3ActualDate},
+		#{node3DiffDay},
+		#{node4PlanDate},
+		#{node4ActualDate},
+		#{node4DiffDay},
+		#{node5PlanDate},
+		#{node5ActualDate},
+		#{node5DiffDay},
+		#{node6PlanDate},
+		#{node6ActualDate},
+		#{node6DiffDay},
+		#{node7PlanDate},
+		#{node7ActualDate},
+		#{node7DiffDay},
+		#{node8PlanDate},
+		#{node8AmountDate},
+		#{node8ActualDate},
+		#{node8DiffDay},
+		#{node9PlanDate},
+		#{node9ActualDate},
+		#{node9DiffDay},
+		#{node10PlanDate},
+		#{node10ActualDate},
+		#{node10DiffDay},
+		#{node11PlanDate},
+		#{node11InstallDate},
+		#{node11ActualDate},
+		#{node11DiffDay},
+		#{node12PlanDate},
+		#{node12InstallDate},
+		#{node12ActualDate},
+		#{node12DiffDay},
+		#{node13PlanDate},
+		#{node13InstallDate},
+		#{node13ActualDate},
+		#{node13DiffDay},
+		#{node14PlanDate},
+		#{node14InstallDate},
+		#{node14ActualDate},
+		#{node14DiffDay},
+		#{node15PlanDate},
+		#{node15InstallDate},
+		#{node15ActualDate},
+		#{node15DiffDay},
+		#{node16PlanDate},
+		#{node16InstallDate},
+		#{node16ActualDate},
+		#{node16DiffDay},
+		#{node17PlanDate},
+		#{node17InstallDate},
+		#{node17ActualDate},
+		#{node17DiffDay},
+		#{node18PlanDate},
+		#{node18InstallDate},
+		#{node18ActualDate},
+		#{node18DiffDay},
+		#{node19PlanDate},
+		#{node19ActualDate},
+		#{node19DiffDay},
+		#{node20PlanDate},
+		#{node20ActualDate},
+		#{node20DiffDay},
+		#{node21PlanDate},
+		#{node21InstallDate},
+		#{node21ActualDate},
+		#{node21DiffDay},
+		#{node22PlanDate},
+		#{node22InstallDate},
+		#{node22ActualDate},
+		#{node22DiffDay},
+		#{remarks},
+		#{createDate},
+		#{updateDate},
+		#{delFlag},
+		#{node1SubmDate},
+		#{node2SubmDate},
+		#{node3SubmDate},
+		#{node4SubmDate},
+		#{node4ExpectDate},
+		#{node5SubmDate},
+		#{node5ExpectDate},
+		#{node6SubmDate},
+		#{node7SubmDate},
+		#{node7ExpectDate},
+		#{node9SubmDate},
+		#{node9ExpectDate},
+		#{node10SubmDate},
+		#{node10ApplyEntryDate},
+		#{node10ActualEntryDate},
+		#{node10ActualCheckDate},
+		#{node11SubmDate},
+		#{node11ApplyEntryDate},
+		#{node11ActualEntryDate},
+		#{node12SubmDate},
+		#{node12ApplyEntryDate},
+		#{node12ActualEntryDate},
+		#{node13SubmDate},
+		#{node13ApplyEntryDate},
+		#{node13ActualEntryDate},
+		#{node14SubmDate},
+		#{node14ApplyEntryDate},
+		#{node14ActualEntryDate},
+		#{node15SubmDate},
+		#{node15ApplyEntryDate},
+		#{node15ActualEntryDate},
+		#{node16SubmDate},
+		#{node16ApplyEntryDate},
+		#{node16ActualEntryDate},
+		#{node17SubmDate},
+		#{node17ApplyEntryDate},
+		#{node17ActualEntryDate},
+		#{node18SubmDate},
+		#{node18ApplyEntryDate},
+		#{node18ActualEntryDate},
+		#{node19SubmDate},
+		#{node19ExpectDate},
+		#{node21SubmDate},
+		#{node21ApplyEntryDate},
+		#{node21ActualEntryDate},
+		#{node22SubmDate},
+		#{node22ApplyEntryDate},
+		#{node22ActualEntryDate},
+		#{delayDays},
+		#{isScrap},
+		#{contractArea},
+		#{buildType},
+		#{node1PlanSubDate},
+		#{node1SubDiffDay},
+		#{node1ApplyEntryDate},
+		#{node1ActualEntryDate},
+		#{node1EntryDiffDay},
+		#{node2PlanSubDate},
+		#{node2SubDiffDay},
+		#{node2ActualExpectDate},
+		#{node2EntryDiffDay},
+		#{node3PlanSubDate},
+		#{node3SubDiffDay},
+		#{node3ActualExpectDate},
+		#{node3EntryDiffDay},
+		#{node4PlanSubDate},
+		#{node4SubDiffDay},
+		#{node4ActualExpectDate},
+		#{node4EntryDiffDay},
+		#{node5PlanSubDate},
+		#{node5SubDiffDay},
+		#{node5ActualExpectDate},
+		#{node5EntryDiffDay},
+		#{node6PlanSubDate},
+		#{node6SubDiffDay},
+		#{node6ExpectDate},
+		#{node6ActualExpectDate},
+		#{node6EntryDiffDay},
+		#{node7PlanSubDate},
+		#{node7SubDiffDay},
+		#{node7ActualExpectDate},
+		#{node7EntryDiffDay},
+		#{node9PlanSubDate},
+		#{node9SubDiffDay},
+		#{node9ActualExpectDate},
+		#{node9EntryDiffDay},
+		#{node10PlanSubDate},
+		#{node10SubDiffDay},
+		#{node10EntryDiffDay},
+		#{node11PlanSubDate},
+		#{node11SubDiffDay},
+		#{node11EntryDiffDay},
+		#{node12PlanSubDate},
+		#{node12SubDiffDay},
+		#{node12EntryDiffDay},
+		#{node13PlanSubDate},
+		#{node13SubDiffDay},
+		#{node13RuleDate},
+		#{node13EntryDiffDay},
+		#{node14PlanSubDate},
+		#{node14SubDiffDay},
+		#{node14RuleDate},
+		#{node14EntryDiffDay},
+		#{node15PlanSubDate},
+		#{node15SubDiffDay},
+		#{node15EntryDiffDay},
+		#{node16PlanSubDate},
+		#{node16SubDiffDay},
+		#{node16RuleDate},
+		#{node16EntryDiffDay},
+		#{node17PlanSubDate},
+		#{node17SubDiffDay},
+		#{node17EntryDiffDay},
+		#{node18PlanSubDate},
+		#{node18SubDiffDay},
+		#{node18RuleDate},
+		#{node18EntryDiffDay},
+		#{node19PlanSubDate},
+		#{node19SubDiffDay},
+		#{node19ActualEntryDate},
+		#{node19EntryDiffDay},
+		#{node21PlanSubDate},
+		#{node21SubDiffDay},
+		#{node21EntryDiffDay},
+		#{node22PlanSubDate},
+		#{node22SubDiffDay},
+		#{node22EntryDiffDay}
+		)
+	</insert>
+
+	<update id="update">
+		UPDATE biz_project_progress_boning
+		SET order_id =
+		#{orderId},
+		order_number = #{orderNumber},
+		area = #{area},
+		store_id =
+		#{storeId},
+		house_is_new = #{houseIsNew},
+		order_create_date =
+		#{orderCreateDate},
+		customer_name = #{customerName},
+		customer_phone =
+		#{customerPhone},
+		detail_address = #{detailAddress},
+		item_manager =
+		#{itemManager},
+		item_manager_phone = #{itemManagerPhone},
+		designer_name
+		= #{designerName},
+		designer_phone = #{designerPhone},
+		qc_name =
+		#{orderInspector},
+		qc_phone = #{inspectorPhone},
+		contract_start_date =
+		#{contractStartDate},
+		contract_end_date =
+		#{contractEndDate},
+		actual_start_date = #{actualStartDate},
+		actual_end_date =
+		#{actualEndDate},
+		start_diff_day = #{startDiffDay},
+		is_need_sign =
+		#{isNeedSign},
+		self_decorate_delay_days =
+		#{selfDecorateDelayDays},
+		is_self_decorate_need_sign =
+		#{isSelfDecorateNeedSign},
+		node1_plan_date
+		= #{node1PlanDate},
+		node1_actual_date = #{node1ActualDate},
+		node1_diff_day =
+		#{node1DiffDay},
+		node2_plan_date = #{node2PlanDate},
+		node2_expect_date =
+		#{node2ExpectDate},
+		node2_actual_date =
+		#{node2ActualDate},
+		node2_diff_day = #{node2DiffDay},
+		node3_plan_date =
+		#{node3PlanDate},
+		node3_expect_date = #{node3ExpectDate},
+		node3_actual_date =
+		#{node3ActualDate},
+		node3_diff_day =
+		#{node3DiffDay},
+		node4_plan_date =
+		#{node4PlanDate},
+		node4_actual_date =
+		#{node4ActualDate},
+		node4_diff_day = #{node4DiffDay},
+		node5_plan_date =
+		#{node5PlanDate},
+		node5_actual_date = #{node5ActualDate},
+		node5_diff_day =
+		#{node5DiffDay},
+		node6_plan_date = #{node6PlanDate},
+		node6_actual_date =
+		#{node6ActualDate},
+		node6_diff_day =
+		#{node6DiffDay},
+		node7_plan_date =
+		#{node7PlanDate},
+		node7_actual_date =
+		#{node7ActualDate},
+		node7_diff_day = #{node7DiffDay},
+		node8_plan_date =
+		#{node8PlanDate},
+		node8_amount_date = #{node8AmountDate},
+		node8_actual_date =
+		#{node8ActualDate},
+		node8_diff_day =
+		#{node8DiffDay},
+		node9_plan_date =
+		#{node9PlanDate},
+		node9_actual_date =
+		#{node9ActualDate},
+		node9_diff_day = #{node9DiffDay},
+		node10_plan_date =
+		#{node10PlanDate},
+		node10_actual_date = #{node10ActualDate},
+		node10_diff_day =
+		#{node10DiffDay},
+		node11_plan_date =
+		#{node11PlanDate},
+		node11_install_date = #{node11InstallDate},
+		node11_actual_date =
+		#{node11ActualDate},
+		node11_diff_day =
+		#{node11DiffDay},
+		node12_plan_date = #{node12PlanDate},
+		node12_install_date =
+		#{node12InstallDate},
+		node12_actual_date =
+		#{node12ActualDate},
+		node12_diff_day = #{node12DiffDay},
+		node13_plan_date =
+		#{node13PlanDate},
+		node13_install_date =
+		#{node13InstallDate},
+		node13_actual_date = #{node13ActualDate},
+		node13_diff_day =
+		#{node13DiffDay},
+		node14_plan_date =
+		#{node14PlanDate},
+		node14_install_date = #{node14InstallDate},
+		node14_actual_date =
+		#{node14ActualDate},
+		node14_diff_day =
+		#{node14DiffDay},
+		node15_plan_date = #{node15PlanDate},
+		node15_install_date =
+		#{node15InstallDate},
+		node15_actual_date =
+		#{node15ActualDate},
+		node15_diff_day = #{node15DiffDay},
+		node16_plan_date =
+		#{node16PlanDate},
+		node16_install_date =
+		#{node16InstallDate},
+		node16_actual_date = #{node16ActualDate},
+		node16_diff_day =
+		#{node16DiffDay},
+		node17_plan_date =
+		#{node17PlanDate},
+		node17_install_date = #{node17InstallDate},
+		node17_actual_date =
+		#{node17ActualDate},
+		node17_diff_day =
+		#{node17DiffDay},
+		node18_plan_date = #{node18PlanDate},
+		node18_install_date =
+		#{node18InstallDate},
+		node18_actual_date =
+		#{node18ActualDate},
+		node18_diff_day = #{node18DiffDay},
+		node19_plan_date =
+		#{node19PlanDate},
+		node19_actual_date =
+		#{node19ActualDate},
+		node19_diff_day = #{node19DiffDay},
+		node20_plan_date =
+		#{node20PlanDate},
+		node20_actual_date =
+		#{node20ActualDate},
+		node20_diff_day = #{node20DiffDay},
+		node21_plan_date =
+		#{node21PlanDate},
+		node21_install_date =
+		#{node21InstallDate},
+		node21_actual_date = #{node21ActualDate},
+		node21_diff_day =
+		#{node21DiffDay},
+		node22_plan_date =
+		#{node22PlanDate},
+		node22_install_date = #{node22InstallDate},
+		node22_actual_date =
+		#{node22ActualDate},
+		node22_diff_day =
+		#{node22DiffDay},
+		remarks =
+		#{remarks},
+		update_date = #{updateDate},
+		del_flag = #{delFlag},
+		node1SubmDate = #{node1SubmDate},
+		node2SubmDate =
+		#{node2SubmDate},
+		node3SubmDate = #{node3SubmDate},
+		node4SubmDate =
+		#{node4SubmDate},
+		node4ExpectDate = #{node4ExpectDate},
+		node5SubmDate =
+		#{node5SubmDate},
+		node5ExpectDate = #{node5ExpectDate},
+		node6SubmDate =
+		#{node6SubmDate},
+		node7SubmDate = #{node7SubmDate},
+		node7ExpectDate =
+		#{node7ExpectDate},
+		node9SubmDate = #{node9SubmDate},
+		node9ExpectDate =
+		#{node9ExpectDate},
+		node10SubmDate = #{node10SubmDate},
+		node10ApplyEntryDate =
+		#{node10ApplyEntryDate},
+		node10ActualEntryDate =
+		#{node10ActualEntryDate},
+		node10ActualCheckDate =
+		#{node10ActualCheckDate},
+		node11SubmDate = #{node11SubmDate},
+		node11ApplyEntryDate = #{node11ApplyEntryDate},
+		node11ActualEntryDate =
+		#{node11ActualEntryDate},
+		node12SubmDate = #{node12SubmDate},
+		node12ApplyEntryDate = #{node12ApplyEntryDate},
+		node12ActualEntryDate =
+		#{node12ActualEntryDate},
+		node13SubmDate = #{node13SubmDate},
+		node13ApplyEntryDate = #{node13ApplyEntryDate},
+		node13ActualEntryDate =
+		#{node13ActualEntryDate},
+		node14SubmDate = #{node14SubmDate},
+		node14ApplyEntryDate = #{node14ApplyEntryDate},
+		node14ActualEntryDate =
+		#{node14ActualEntryDate},
+		node15SubmDate = #{node15SubmDate},
+		node15ApplyEntryDate = #{node15ApplyEntryDate},
+		node15ActualEntryDate =
+		#{node15ActualEntryDate},
+		node16SubmDate = #{node16SubmDate},
+		node16ApplyEntryDate = #{node16ApplyEntryDate},
+		node16ActualEntryDate =
+		#{node16ActualEntryDate},
+		node17SubmDate = #{node17SubmDate},
+		node17ApplyEntryDate = #{node17ApplyEntryDate},
+		node17ActualEntryDate =
+		#{node17ActualEntryDate},
+		node18SubmDate = #{node18SubmDate},
+		node18ApplyEntryDate = #{node18ApplyEntryDate},
+		node18ActualEntryDate =
+		#{node18ActualEntryDate},
+		node19SubmDate = #{node19SubmDate},
+		node19ExpectDate = #{node19ExpectDate},
+		node21SubmDate =
+		#{node21SubmDate},
+		node21ApplyEntryDate = #{node21ApplyEntryDate},
+		node21ActualEntryDate = #{node21ActualEntryDate},
+		node22SubmDate =
+		#{node22SubmDate},
+		node22ApplyEntryDate = #{node22ApplyEntryDate},
+		node22ActualEntryDate = #{node22ActualEntryDate},
+		delay_days =
+		#{delayDays},
+		contractArea = #{contractArea},
+		buildType = #{buildType},
+		node1PlanSubDate = #{node1PlanSubDate},
+		node1SubDiffDay =
+		#{node1SubDiffDay},
+		node1ApplyEntryDate = #{node1ApplyEntryDate},
+		node1ActualEntryDate = #{node1ActualEntryDate},
+		node1EntryDiffDay =
+		#{node1EntryDiffDay},
+		node2PlanSubDate = #{node2PlanSubDate},
+		node2SubDiffDay = #{node2SubDiffDay},
+		node2ActualExpectDate =
+		#{node2ActualExpectDate},
+		node2EntryDiffDay = #{node2EntryDiffDay},
+		node3PlanSubDate = #{node3PlanSubDate},
+		node3SubDiffDay =
+		#{node3SubDiffDay},
+		node3ActualExpectDate = #{node3ActualExpectDate},
+		node3EntryDiffDay = #{node3EntryDiffDay},
+		node4PlanSubDate =
+		#{node4PlanSubDate},
+		node4SubDiffDay = #{node4SubDiffDay},
+		node4ActualExpectDate = #{node4ActualExpectDate},
+		node4EntryDiffDay =
+		#{node4EntryDiffDay},
+		node5PlanSubDate = #{node5PlanSubDate},
+		node5SubDiffDay = #{node5SubDiffDay},
+		node5ActualExpectDate =
+		#{node5ActualExpectDate},
+		node5EntryDiffDay = #{node5EntryDiffDay},
+		node6PlanSubDate = #{node6PlanSubDate},
+		node6SubDiffDay =
+		#{node6SubDiffDay},
+		node6ExpectDate = #{node6ExpectDate},
+		node6ActualExpectDate = #{node6ActualExpectDate},
+		node6EntryDiffDay =
+		#{node6EntryDiffDay},
+		node7PlanSubDate = #{node7PlanSubDate},
+		node7SubDiffDay = #{node7SubDiffDay},
+		node7ActualExpectDate =
+		#{node7ActualExpectDate},
+		node7EntryDiffDay = #{node7EntryDiffDay},
+		node9PlanSubDate = #{node9PlanSubDate},
+		node9SubDiffDay =
+		#{node9SubDiffDay},
+		node9ActualExpectDate = #{node9ActualExpectDate},
+		node9EntryDiffDay = #{node9EntryDiffDay},
+		node10PlanSubDate =
+		#{node10PlanSubDate},
+		node10SubDiffDay = #{node10SubDiffDay},
+		node10EntryDiffDay = #{node10EntryDiffDay},
+		node11PlanSubDate =
+		#{node11PlanSubDate},
+		node11SubDiffDay = #{node11SubDiffDay},
+		node11EntryDiffDay = #{node11EntryDiffDay},
+		node12PlanSubDate =
+		#{node12PlanSubDate},
+		node12SubDiffDay = #{node12SubDiffDay},
+		node12EntryDiffDay = #{node12EntryDiffDay},
+		node13PlanSubDate =
+		#{node13PlanSubDate},
+		node13SubDiffDay = #{node13SubDiffDay},
+		node13RuleDate = #{node13RuleDate},
+		node13EntryDiffDay =
+		#{node13EntryDiffDay},
+		node14PlanSubDate = #{node14PlanSubDate},
+		node14SubDiffDay = #{node14SubDiffDay},
+		node14RuleDate =
+		#{node14RuleDate},
+		node14EntryDiffDay = #{node14EntryDiffDay},
+		node15PlanSubDate = #{node15PlanSubDate},
+		node15SubDiffDay =
+		#{node15SubDiffDay},
+		node15EntryDiffDay = #{node15EntryDiffDay},
+		node16PlanSubDate = #{node16PlanSubDate},
+		node16SubDiffDay =
+		#{node16SubDiffDay},
+		node16RuleDate = #{node16RuleDate},
+		node16EntryDiffDay = #{node16EntryDiffDay},
+		node17PlanSubDate =
+		#{node17PlanSubDate},
+		node17SubDiffDay = #{node17SubDiffDay},
+		node17EntryDiffDay = #{node17EntryDiffDay},
+		node18PlanSubDate =
+		#{node18PlanSubDate},
+		node18SubDiffDay = #{node18SubDiffDay},
+		node18RuleDate = #{node18RuleDate},
+		node18EntryDiffDay =
+		#{node18EntryDiffDay},
+		node19PlanSubDate = #{node19PlanSubDate},
+		node19SubDiffDay = #{node19SubDiffDay},
+		node19ActualEntryDate =
+		#{node19ActualEntryDate},
+		node19EntryDiffDay = #{node19EntryDiffDay},
+		node21PlanSubDate = #{node21PlanSubDate},
+		node21SubDiffDay =
+		#{node21SubDiffDay},
+		node21EntryDiffDay = #{node21EntryDiffDay},
+		node22PlanSubDate = #{node22PlanSubDate},
+		node22SubDiffDay =
+		#{node22SubDiffDay},
+		node22EntryDiffDay = #{node22EntryDiffDay}
+		WHERE
+		id
+		= #{id}
+	</update>
+
+	<update id="delete">
+		DELETE FROM biz_project_progress_boning
+		WHERE id =
+		#{id}
+	</update>
+
+	<!--查询订单 -->
+	<select id="queryOrderByCondition"
+		resultType="cn.damei.entity.modules.BizProjectProgressBoning">
+		SELECT
+		a.id AS "orderId",
+		a.store_id AS "storeId",
+		a.order_number as
+		"orderNumber",
+		a.order_status_number as "orderStatus",
+		a.area as "area",
+		a.house_is_new AS
+		"houseIsNew",
+		a.create_date AS
+		"orderCreateDate",
+		a.customer_name AS
+		"customerName",
+		a.customer_phone AS
+		"customerPhone",
+		a.detail_address AS
+		"detailAddress",
+		a.item_manager AS
+		"itemManager",
+		b.phone AS
+		"itemManagerPhone",
+		a.designer_name AS
+		"designerName",
+		a.designer_phone
+		AS "designerPhone",
+		a.order_inspector AS
+		"orderInspector",
+		b1.phone AS
+		"inspectorPhone",
+		a.contract_start_date AS
+		"contractStartDate",
+		a.contract_end_date AS "contractEndDate",
+		a.actual_start_date AS
+		"actualStartDate",
+		a.actual_end_date AS
+		"actualEndDate",
+		TIMESTAMPDIFF(
+		DAY,
+		contract_start_date,
+		actual_start_date
+		) AS "startDiffDay",
+		d.is_need_sign AS "isNeedSign",
+		d.self_decorate_delay_days AS
+		"selfDecorateDelayDays",
+		d.is_self_decorate_need_sign AS
+		"isSelfDecorateNeedSign",
+		a.is_scrap as
+		"isScrap",
+		a.contract_area as "contractArea",
+		a.build_type as
+		"buildType"
+		FROM
+		biz_order a
+		LEFT JOIN biz_employee b ON
+		a.item_manager_id = b.id
+		LEFT JOIN
+		biz_employee b1 ON
+		a.order_inspector_id = b1.id
+		LEFT JOIN
+		biz_order_confirm_startwork d ON
+		a.id = d.order_id
+		INNER JOIN (
+		SELECT
+		order_id,MAX(create_date) as
+		create_date from
+		biz_order_confirm_startwork GROUP BY order_id
+		) d1 on
+		d1.order_id =
+		d.order_id and d1.create_date = d.create_date
+		WHERE
+		a.del_flag = '0'
+		AND
+		a.order_status_number >= '200'
+		AND
+		(a.is_to_refresh_process_data is
+		null or a.is_to_refresh_process_data =
+		0)
+	</select>
+
+	<select id="queryIsScrapOrder"
+		resultType="cn.damei.entity.modules.BizProjectProgressBoning">
+		SELECT
+		a.id AS "orderId",
+		a.store_id AS "storeId",
+		a.order_number as
+		"orderNumber"
+		from
+		biz_order a
+		where
+		a.is_scrap = 1
+	</select>
+
+	<!--根据订单id查询订单 -->
+	<select id="queryOrderByOrderId" parameterType="java.lang.Integer"
+		resultType="cn.damei.entity.modules.BizProjectProgressBoning">
+		SELECT
+		a.id AS "orderId",
+		a.order_number as "orderNumber",
+		a.area as
+		"area",
+		a.store_id AS "storeId",
+		a.house_is_new AS
+		"houseIsNew",
+		a.create_date AS "orderCreateDate",
+		a.customer_name AS
+		"customerName",
+		a.customer_phone AS "customerPhone",
+		a.detail_address AS
+		"detailAddress",
+		a.item_manager AS "itemManager",
+		b.phone AS
+		"itemManagerPhone",
+		a.designer_name AS "designerName",
+		a.designer_phone
+		AS "designerPhone",
+		a.order_inspector AS "orderInspector",
+		b1.phone AS
+		"inspectorPhone",
+		a.contract_start_date AS "contractStartDate",
+		a.contract_end_date AS "contractEndDate",
+		a.actual_start_date AS
+		"actualStartDate",
+		a.actual_end_date AS "actualEndDate",
+		TIMESTAMPDIFF(
+		DAY,
+		contract_start_date,
+		actual_start_date
+		) AS "startDiffDay",
+		d.is_need_sign AS "isNeedSign",
+		d.self_decorate_delay_days AS
+		"selfDecorateDelayDays",
+		d.is_self_decorate_need_sign AS
+		"isSelfDecorateNeedSign",
+		a.is_scrap as "isScrap",
+		a.contract_area as "contractArea",
+		a.build_type as
+		"buildType"
+		FROM
+		biz_order a
+		LEFT
+		JOIN biz_employee b ON
+		a.item_manager_id = b.id
+		LEFT JOIN biz_employee
+		b1 ON
+		a.order_inspector_id = b1.id
+		LEFT JOIN biz_order_confirm_startwork
+		d ON
+		a.id = d.order_id
+		INNER JOIN (
+		SELECT order_id,MAX(create_date) as
+		create_date from
+		biz_order_confirm_startwork GROUP BY order_id
+		) d1 on
+		d1.order_id = d.order_id and d1.create_date = d.create_date
+		WHERE
+		a.id =
+		#{orderId}
+
+	</select>
+
+	<!--根据订单查询 -->
+	<select id="queryByOrderId" parameterType="java.lang.Integer"
+		resultType="cn.damei.entity.modules.BizProjectProgressBoning">
+		SELECT
+		<include refid="bizProjectProgressBoningColumns" />
+		FROM biz_project_progress_boning a
+		<include refid="bizProjectProgressBoningJoins" />
+		WHERE a.order_id = #{orderId} and a.del_flag = '0'
+	</select>
+
+	<!--根据订单id更新 -->
+	<update id="updateByOrderId">
+		UPDATE biz_project_progress_boning
+		SET order_id =
+		#{orderId},
+		order_number = #{orderNumber},
+		area = #{area},
+		store_id =
+		#{storeId},
+		house_is_new = #{houseIsNew},
+		order_create_date =
+		#{orderCreateDate},
+		customer_name = #{customerName},
+		customer_phone =
+		#{customerPhone},
+		detail_address = #{detailAddress},
+		item_manager =
+		#{itemManager},
+		item_manager_phone = #{itemManagerPhone},
+		designer_name
+		= #{designerName},
+		designer_phone = #{designerPhone},
+		qc_name =
+		#{orderInspector},
+		qc_phone = #{inspectorPhone},
+		contract_start_date =
+		#{contractStartDate},
+		contract_end_date = #{contractEndDate},
+		actual_start_date = #{actualStartDate},
+		actual_end_date =
+		#{actualEndDate},
+		start_diff_day = #{startDiffDay},
+		is_need_sign =
+		#{isNeedSign},
+		self_decorate_delay_days = #{selfDecorateDelayDays},
+		is_self_decorate_need_sign = #{isSelfDecorateNeedSign},
+		node1_plan_date = #{node1PlanDate},
+		node1_actual_date =
+		#{node1ActualDate},
+		node1_diff_day = #{node1DiffDay},
+		node2_plan_date =
+		#{node2PlanDate},
+		node2_expect_date = #{node2ExpectDate},
+		node2_actual_date = #{node2ActualDate},
+		node2_diff_day =
+		#{node2DiffDay},
+		node3_plan_date = #{node3PlanDate},
+		node3_expect_date =
+		#{node3ExpectDate},
+		node3_actual_date = #{node3ActualDate},
+		node3_diff_day = #{node3DiffDay},
+		node4_plan_date = #{node4PlanDate},
+		node4_actual_date = #{node4ActualDate},
+		node4_diff_day =
+		#{node4DiffDay},
+		node5_plan_date = #{node5PlanDate},
+		node5_actual_date =
+		#{node5ActualDate},
+		node5_diff_day = #{node5DiffDay},
+		node6_plan_date =
+		#{node6PlanDate},
+		node6_actual_date = #{node6ActualDate},
+		node6_diff_day = #{node6DiffDay},
+		node7_plan_date = #{node7PlanDate},
+		node7_actual_date = #{node7ActualDate},
+		node7_diff_day =
+		#{node7DiffDay},
+		node8_plan_date = #{node8PlanDate},
+		node8_amount_date =
+		#{node8AmountDate},
+		node8_actual_date = #{node8ActualDate},
+		node8_diff_day = #{node8DiffDay},
+		node9_plan_date = #{node9PlanDate},
+		node9_actual_date = #{node9ActualDate},
+		node9_diff_day =
+		#{node9DiffDay},
+		node10_plan_date = #{node10PlanDate},
+		node10_actual_date = #{node10ActualDate},
+		node10_diff_day =
+		#{node10DiffDay},
+		node11_plan_date = #{node11PlanDate},
+		node11_install_date = #{node11InstallDate},
+		node11_actual_date =
+		#{node11ActualDate},
+		node11_diff_day = #{node11DiffDay},
+		node12_plan_date = #{node12PlanDate},
+		node12_install_date =
+		#{node12InstallDate},
+		node12_actual_date = #{node12ActualDate},
+		node12_diff_day = #{node12DiffDay},
+		node13_plan_date =
+		#{node13PlanDate},
+		node13_install_date = #{node13InstallDate},
+		node13_actual_date = #{node13ActualDate},
+		node13_diff_day =
+		#{node13DiffDay},
+		node14_plan_date = #{node14PlanDate},
+		node14_install_date = #{node14InstallDate},
+		node14_actual_date =
+		#{node14ActualDate},
+		node14_diff_day = #{node14DiffDay},
+		node15_plan_date = #{node15PlanDate},
+		node15_install_date =
+		#{node15InstallDate},
+		node15_actual_date = #{node15ActualDate},
+		node15_diff_day = #{node15DiffDay},
+		node16_plan_date =
+		#{node16PlanDate},
+		node16_install_date = #{node16InstallDate},
+		node16_actual_date = #{node16ActualDate},
+		node16_diff_day =
+		#{node16DiffDay},
+		node17_plan_date = #{node17PlanDate},
+		node17_install_date = #{node17InstallDate},
+		node17_actual_date =
+		#{node17ActualDate},
+		node17_diff_day = #{node17DiffDay},
+		node18_plan_date = #{node18PlanDate},
+		node18_install_date =
+		#{node18InstallDate},
+		node18_actual_date = #{node18ActualDate},
+		node18_diff_day = #{node18DiffDay},
+		node19_plan_date =
+		#{node19PlanDate},
+		node19_actual_date = #{node19ActualDate},
+		node19_diff_day = #{node19DiffDay},
+		node20_plan_date =
+		#{node20PlanDate},
+		node20_actual_date = #{node20ActualDate},
+		node20_diff_day = #{node20DiffDay},
+		node21_plan_date =
+		#{node21PlanDate},
+		node21_install_date = #{node21InstallDate},
+		node21_actual_date = #{node21ActualDate},
+		node21_diff_day =
+		#{node21DiffDay},
+		node22_plan_date = #{node22PlanDate},
+		node22_install_date = #{node22InstallDate},
+		node22_actual_date =
+		#{node22ActualDate},
+		node22_diff_day = #{node22DiffDay},
+		remarks =
+		#{remarks},
+		update_date = #{updateDate},
+		del_flag = #{delFlag},
+		node1SubmDate = #{node1SubmDate},
+		node2SubmDate = #{node2SubmDate},
+		node3SubmDate = #{node3SubmDate},
+		node4SubmDate = #{node4SubmDate},
+		node4ExpectDate = #{node4ExpectDate},
+		node5SubmDate = #{node5SubmDate},
+		node5ExpectDate = #{node5ExpectDate},
+		node6SubmDate = #{node6SubmDate},
+		node7SubmDate = #{node7SubmDate},
+		node7ExpectDate = #{node7ExpectDate},
+		node9SubmDate = #{node9SubmDate},
+		node9ExpectDate = #{node9ExpectDate},
+		node10SubmDate = #{node10SubmDate},
+		node10ApplyEntryDate =
+		#{node10ApplyEntryDate},
+		node10ActualEntryDate =
+		#{node10ActualEntryDate},
+		node10ActualCheckDate =
+		#{node10ActualCheckDate},
+		node11SubmDate = #{node11SubmDate},
+		node11ApplyEntryDate = #{node11ApplyEntryDate},
+		node11ActualEntryDate =
+		#{node11ActualEntryDate},
+		node12SubmDate = #{node12SubmDate},
+		node12ApplyEntryDate = #{node12ApplyEntryDate},
+		node12ActualEntryDate =
+		#{node12ActualEntryDate},
+		node13SubmDate = #{node13SubmDate},
+		node13ApplyEntryDate = #{node13ApplyEntryDate},
+		node13ActualEntryDate =
+		#{node13ActualEntryDate},
+		node14SubmDate = #{node14SubmDate},
+		node14ApplyEntryDate = #{node14ApplyEntryDate},
+		node14ActualEntryDate =
+		#{node14ActualEntryDate},
+		node15SubmDate = #{node15SubmDate},
+		node15ApplyEntryDate = #{node15ApplyEntryDate},
+		node15ActualEntryDate =
+		#{node15ActualEntryDate},
+		node16SubmDate = #{node16SubmDate},
+		node16ApplyEntryDate = #{node16ApplyEntryDate},
+		node16ActualEntryDate =
+		#{node16ActualEntryDate},
+		node17SubmDate = #{node17SubmDate},
+		node17ApplyEntryDate = #{node17ApplyEntryDate},
+		node17ActualEntryDate =
+		#{node17ActualEntryDate},
+		node18SubmDate = #{node18SubmDate},
+		node18ApplyEntryDate = #{node18ApplyEntryDate},
+		node18ActualEntryDate =
+		#{node18ActualEntryDate},
+		node19SubmDate = #{node19SubmDate},
+		node19ExpectDate = #{node19ExpectDate},
+		node21SubmDate =
+		#{node21SubmDate},
+		node21ApplyEntryDate = #{node21ApplyEntryDate},
+		node21ActualEntryDate = #{node21ActualEntryDate},
+		node22SubmDate =
+		#{node22SubmDate},
+		node22ApplyEntryDate = #{node22ApplyEntryDate},
+		node22ActualEntryDate = #{node22ActualEntryDate},
+		delay_days =
+		#{delayDays},
+		is_scrap = #{isScrap},
+		contractArea = #{contractArea},
+		buildType = #{buildType},
+		node1PlanSubDate = #{node1PlanSubDate},
+		node1SubDiffDay =
+		#{node1SubDiffDay},
+		node1ApplyEntryDate = #{node1ApplyEntryDate},
+		node1ActualEntryDate = #{node1ActualEntryDate},
+		node1EntryDiffDay =
+		#{node1EntryDiffDay},
+		node2PlanSubDate = #{node2PlanSubDate},
+		node2SubDiffDay = #{node2SubDiffDay},
+		node2ActualExpectDate =
+		#{node2ActualExpectDate},
+		node2EntryDiffDay = #{node2EntryDiffDay},
+		node3PlanSubDate = #{node3PlanSubDate},
+		node3SubDiffDay =
+		#{node3SubDiffDay},
+		node3ActualExpectDate = #{node3ActualExpectDate},
+		node3EntryDiffDay = #{node3EntryDiffDay},
+		node4PlanSubDate =
+		#{node4PlanSubDate},
+		node4SubDiffDay = #{node4SubDiffDay},
+		node4ActualExpectDate = #{node4ActualExpectDate},
+		node4EntryDiffDay =
+		#{node4EntryDiffDay},
+		node5PlanSubDate = #{node5PlanSubDate},
+		node5SubDiffDay = #{node5SubDiffDay},
+		node5ActualExpectDate =
+		#{node5ActualExpectDate},
+		node5EntryDiffDay = #{node5EntryDiffDay},
+		node6PlanSubDate = #{node6PlanSubDate},
+		node6SubDiffDay =
+		#{node6SubDiffDay},
+		node6ExpectDate = #{node6ExpectDate},
+		node6ActualExpectDate = #{node6ActualExpectDate},
+		node6EntryDiffDay =
+		#{node6EntryDiffDay},
+		node7PlanSubDate = #{node7PlanSubDate},
+		node7SubDiffDay = #{node7SubDiffDay},
+		node7ActualExpectDate =
+		#{node7ActualExpectDate},
+		node7EntryDiffDay = #{node7EntryDiffDay},
+		node9PlanSubDate = #{node9PlanSubDate},
+		node9SubDiffDay =
+		#{node9SubDiffDay},
+		node9ActualExpectDate = #{node9ActualExpectDate},
+		node9EntryDiffDay = #{node9EntryDiffDay},
+		node10PlanSubDate =
+		#{node10PlanSubDate},
+		node10SubDiffDay = #{node10SubDiffDay},
+		node10EntryDiffDay = #{node10EntryDiffDay},
+		node11PlanSubDate =
+		#{node11PlanSubDate},
+		node11SubDiffDay = #{node11SubDiffDay},
+		node11EntryDiffDay = #{node11EntryDiffDay},
+		node12PlanSubDate =
+		#{node12PlanSubDate},
+		node12SubDiffDay = #{node12SubDiffDay},
+		node12EntryDiffDay = #{node12EntryDiffDay},
+		node13PlanSubDate =
+		#{node13PlanSubDate},
+		node13SubDiffDay = #{node13SubDiffDay},
+		node13RuleDate = #{node13RuleDate},
+		node13EntryDiffDay =
+		#{node13EntryDiffDay},
+		node14PlanSubDate = #{node14PlanSubDate},
+		node14SubDiffDay = #{node14SubDiffDay},
+		node14RuleDate =
+		#{node14RuleDate},
+		node14EntryDiffDay = #{node14EntryDiffDay},
+		node15PlanSubDate = #{node15PlanSubDate},
+		node15SubDiffDay =
+		#{node15SubDiffDay},
+		node15EntryDiffDay = #{node15EntryDiffDay},
+		node16PlanSubDate = #{node16PlanSubDate},
+		node16SubDiffDay =
+		#{node16SubDiffDay},
+		node16RuleDate = #{node16RuleDate},
+		node16EntryDiffDay = #{node16EntryDiffDay},
+		node17PlanSubDate =
+		#{node17PlanSubDate},
+		node17SubDiffDay = #{node17SubDiffDay},
+		node17EntryDiffDay = #{node17EntryDiffDay},
+		node18PlanSubDate =
+		#{node18PlanSubDate},
+		node18SubDiffDay = #{node18SubDiffDay},
+		node18RuleDate = #{node18RuleDate},
+		node18EntryDiffDay =
+		#{node18EntryDiffDay},
+		node19PlanSubDate = #{node19PlanSubDate},
+		node19SubDiffDay = #{node19SubDiffDay},
+		node19ActualEntryDate =
+		#{node19ActualEntryDate},
+		node19EntryDiffDay = #{node19EntryDiffDay},
+		node21PlanSubDate = #{node21PlanSubDate},
+		node21SubDiffDay =
+		#{node21SubDiffDay},
+		node21EntryDiffDay = #{node21EntryDiffDay},
+		node22PlanSubDate = #{node22PlanSubDate},
+		node22SubDiffDay =
+		#{node22SubDiffDay},
+		node22EntryDiffDay = #{node22EntryDiffDay}
+		WHERE
+		order_id =
+		#{orderId}
+	</update>
+
+	<update id="updateOrder">
+		update biz_order set is_to_refresh_process_data = 1
+		where id=#{orderId}
+	</update>
+	<!--根据订单查询节点 -->
+	<select id="queryNodePlanByOrderId" parameterType="java.lang.Integer"
+		resultType="cn.damei.entity.modules.BizProjectProgressBoning">
+		SELECT a.node_index as "nodeIndex",a.plan_done_date as
+		"planDoneDate"
+		FROM biz_node_plan a
+		WHERE a.order_id = #{orderId}
+	</select>
+
+	<!--查询节点1的计划提报日期、实际提报时间、期望进场日期、实际进场时间、计划完成日期 和 实际完成时间 -->
+	<select id="queryNode1ByOrderId" parameterType="java.lang.Integer"
+		resultType="cn.damei.entity.modules.BizProjectProgressBoning">
+		SELECT
+		b.actual_start_date AS "node1PlanSubDate",
+		a.create_date AS
+		"node1SubmDate",
+		a.checksize_date AS "node1ApplyEntryDate",
+		a.supplier_confirm_date AS
+		"node1ActualDate"
+		FROM
+		biz_order_checksize a
+		LEFT JOIN biz_order b ON
+		a.order_id = b.id
+		LEFT JOIN biz_node_plan c on
+		c.order_id = a.order_id
+		LEFT JOIN biz_construction_schedule d ON
+		c.construction_schedule_id =
+		d.id
+		WHERE
+		a.checksize_type = '1'
+		AND
+		a.order_id = #{orderId}
+		AND d.sort =
+		1
+		ORDER BY
+		a.create_date DESC
+		LIMIT 1
+	</select>
+
+	<!--查询节点2的实际日期、期望日期 、提报日期 -->
+	<select id="queryNode2ByOrderId" parameterType="java.lang.Integer"
+		resultType="cn.damei.entity.modules.BizProjectProgressBoning">
+		SELECT
+		DATE_ADD(
+		b.actual_start_date,
+		INTERVAL
+		(IFNULL(c.Late_completion_days,0) - 3) DAY
+		) AS "node2PlanSubDate",
+		a.apply_time AS "node2SubmDate",
+		DATE_FORMAT(
+		a.apply_receive_time,
+		'%Y-%m-%d'
+		) AS "node2ExpectDate",
+		(
+		SELECT
+		b.receive_date
+		FROM
+		biz_purchase_receive_bill b
+		WHERE
+		b.purchase_id = a.id
+		ORDER BY
+		b.receive_date ASC
+		LIMIT 1
+		) AS
+		"node2ActualDate"
+
+		FROM
+		biz_purchase a
+		LEFT JOIN biz_order b ON a.order_id
+		= b.id
+		LEFT JOIN biz_construction_schedule c ON c.store_id = b.store_id
+		AND c.project_mode = b.project_mode
+		AND c.is_old_house = b.house_is_new
+		AND is_enable = 1
+		AND c.sort = 2
+		WHERE
+		a.order_id = #{orderId}
+		AND
+		a.purchase_type = '1'
+		AND a. STATUS &lt;> '21'
+		ORDER BY
+		a.create_date ASC
+		LIMIT 1
+	</select>
+
+	<!--查询节点3的实际日期、期望日期 -->
+	<select id="queryNode3ByOrderId" parameterType="java.lang.Integer"
+		resultType="cn.damei.entity.modules.BizProjectProgressBoning">
+		SELECT
+		DATE_ADD(
+		b.actual_start_date,
+		INTERVAL
+		(IFNULL(c.Late_completion_days,0) - 3) DAY
+		) AS "node3PlanSubDate",
+		a.apply_time AS "node3SubmDate",
+		DATE_FORMAT(
+		a.apply_receive_time,
+		'%Y-%m-%d'
+		) AS "node3ExpectDate",
+		(
+		SELECT
+		b.receive_date
+		FROM
+		biz_purchase_receive_bill b
+		WHERE
+		b.purchase_id = a.id
+		ORDER BY
+		b.receive_date ASC
+		LIMIT 1
+		) AS
+		"node3ActualDate"
+
+		FROM
+		biz_purchase a
+		LEFT JOIN biz_order b ON a.order_id
+		= b.id
+		LEFT JOIN biz_construction_schedule c ON c.store_id = b.store_id
+		AND c.project_mode = b.project_mode
+		AND c.is_old_house = b.house_is_new
+		AND is_enable = 1
+		AND c.sort = 2
+		WHERE
+		a.order_id = #{orderId}
+		AND
+		a.purchase_type = '5'
+		AND a. STATUS &lt;> '21'
+		ORDER BY
+		a.create_date ASC
+		LIMIT 1
+	</select>
+
+	<!--查询节点4的实际日期、提报时间 、期望时间 -->
+	<select id="queryNode4ByOrderId" parameterType="java.lang.Integer"
+		resultType="cn.damei.entity.modules.BizProjectProgressBoning">
+		SELECT
+		DATE_ADD(
+		c.actual_start_date,
+		INTERVAL (IFNULL(b.days_to_apply,
+		0)) DAY
+		) AS "node4PlanSubDate",
+		a.create_date AS "node4SubmDate",
+		a.expect_check_datetime AS "node4ExpectDate",
+		d.sign_datetime AS
+		"node4ActualExpectDate",
+		(
+		SELECT
+		DATE_FORMAT(
+		a.accept_check_datetime,
+		'%Y-%m-%d'
+		)
+		FROM
+		biz_qc_bill a
+		INNER JOIN biz_qc_check_node b ON
+		a.qc_check_node_id = b.id
+		WHERE
+		a.qc_bill_type = '1'
+		AND a.is_recheck =
+		'0'
+		AND a. STATUS >= '10'
+		AND
+		a.order_id = #{orderId}
+		AND
+		b.qc_check_node_index = 1
+		ORDER BY
+		a.create_date DESC
+		LIMIT 1
+		) AS
+		"node4ActualDate"
+		FROM
+		biz_qc_bill a
+		INNER JOIN biz_qc_check_node b ON
+		a.qc_check_node_id = b.id
+		LEFT JOIN biz_order c ON c.id = a.order_id
+		LEFT JOIN biz_business_sign d ON d.related_business_id_int = a.id
+		AND
+		d.sign_type = 301
+		WHERE
+		a.qc_bill_type = '1'
+		AND a.is_recheck = '0'
+		AND
+		a.order_id = #{orderId}
+		AND b.qc_check_node_index = 1
+		ORDER BY
+		a.create_date DESC
+		LIMIT 1
+	</select>
+
+	<!--查询节点5的实际日期 、提报时间 、期望时间 -->
+	<select id="queryNode5ByOrderId" parameterType="java.lang.Integer"
+		resultType="cn.damei.entity.modules.BizProjectProgressBoning">
+		SELECT
+		DATE_ADD(
+		c.actual_start_date,
+		INTERVAL
+		(IFNULL(b.days_to_apply, 0)) DAY
+		) AS "node5PlanSubDate",
+		a.create_date
+		AS "node5SubmDate",
+		a.expect_check_datetime AS "node5ExpectDate",
+		d.sign_datetime AS "node5ActualExpectDate",
+		(
+		SELECT
+		DATE_FORMAT(
+		a.accept_check_datetime,
+		'%Y-%m-%d'
+		)
+		FROM
+		biz_qc_bill a
+		INNER JOIN
+		biz_qc_check_node b ON a.qc_check_node_id = b.id
+		WHERE
+		a.qc_bill_type =
+		'1'
+		AND a.is_recheck = '0'
+		AND a. STATUS >= '10'
+		AND
+		a.order_id =
+		#{orderId}
+		AND b.qc_check_node_index = 2
+		ORDER BY
+		a.create_date DESC
+		LIMIT 1
+		) AS "node5ActualDate"
+		FROM
+		biz_qc_bill a
+		INNER JOIN
+		biz_qc_check_node b ON a.qc_check_node_id = b.id
+		LEFT JOIN biz_order c
+		ON c.id = a.order_id
+		LEFT JOIN biz_business_sign d ON
+		d.related_business_id_int = a.id
+		AND d.sign_type = 301
+		WHERE
+		a.qc_bill_type = '1'
+		AND a.is_recheck = '0'
+		AND a.order_id = #{orderId}
+		AND b.qc_check_node_index = 2
+		ORDER BY
+		a.create_date DESC
+		LIMIT 1
+	</select>
+
+	<!--查询节点6的实际日期、提报时间 -->
+	<select id="queryNode6ByOrderId" parameterType="java.lang.Integer"
+		resultType="cn.damei.entity.modules.BizProjectProgressBoning">
+		SELECT
+		DATE_ADD(
+		c.actual_start_date,
+		INTERVAL (IFNULL(d.work_apply_day,
+		0)) DAY
+		) AS "node6PlanSubDate",
+		a.create_date AS "node6SubmDate",
+		a.checksize_date AS "node6ExpectDate",
+		a.supplier_confirm_date AS
+		"node6ActualDate"
+		FROM
+		biz_order_checksize a
+		LEFT JOIN
+		biz_order_install_item b ON a.order_install_item_id = b.id
+		LEFT JOIN
+		biz_order c ON a.order_id = c.id
+		LEFT JOIN biz_project_install_item d
+		ON b.project_install_item_id = d.id
+		WHERE
+		a.checksize_type = '4'
+		AND
+		a.order_id = #{orderId}
+		ORDER BY
+		a.create_date ASC
+		LIMIT 1
+	</select>
+
+	<!--查询节点7的实际日期 、提报时间 、期望时间 -->
+	<select id="queryNode7ByOrderId" parameterType="java.lang.Integer"
+		resultType="cn.damei.entity.modules.BizProjectProgressBoning">
+		SELECT
+		DATE_ADD(
+		c.actual_start_date,
+		INTERVAL
+		(IFNULL(b.days_to_apply,
+		0)) DAY
+		) AS "node7PlanSubDate",
+		a.create_date
+		AS "node7SubmDate",
+		a.expect_check_datetime AS "node7ExpectDate",
+		d.sign_datetime AS
+		"node7ActualExpectDate",
+		(
+		SELECT
+		DATE_FORMAT(
+		a.accept_check_datetime,
+		'%Y-%m-%d'
+		)
+		FROM
+		biz_qc_bill a
+		INNER JOIN
+		biz_qc_check_node b ON
+		a.qc_check_node_id = b.id
+		WHERE
+		a.qc_bill_type =
+		'1'
+		AND a.is_recheck =
+		'0'
+		AND a. STATUS >= '10'
+		AND
+		a.order_id =
+		#{orderId}
+		AND
+		b.qc_check_node_index = 3
+		ORDER BY
+		a.create_date DESC
+		LIMIT 1
+		) AS
+		"node7ActualDate"
+		FROM
+		biz_qc_bill a
+		INNER JOIN
+		biz_qc_check_node b ON
+		a.qc_check_node_id = b.id
+		LEFT JOIN biz_order c
+		ON c.id = a.order_id
+		LEFT JOIN biz_business_sign d ON
+		d.related_business_id_int = a.id
+		AND
+		d.sign_type = 301
+		WHERE
+		a.qc_bill_type = '1'
+		AND a.is_recheck = '0'
+		AND
+		a.order_id = #{orderId}
+		AND b.qc_check_node_index = 3
+		ORDER BY
+		a.create_date DESC
+		LIMIT 1
+	</select>
+
+	<!--查询节点8的催款日期 -->
+	<select id="queryNode8ByOrderId" parameterType="java.lang.Integer"
+		resultType="cn.damei.entity.modules.BizProjectProgressBoning">
+		select DATE_FORMAT(a.accept_check_datetime,'%Y-%m-%d') as
+		"node8AmountDate"
+		from biz_qc_bill a
+		inner join biz_qc_check_node b on
+		a.qc_check_node_id = b.id
+		where a.qc_bill_type = '1' and a.is_recheck =
+		'0' and a.status &gt;= '10' and a.order_id = #{orderId}
+		and
+		b.qc_check_node_index = 3 ORDER BY a.create_date DESC LIMIT 1
+	</select>
+
+	<!-- 查询节点8的二期款实际收款日期 -->
+	<select id="queryNode8ActualDateByOrderId" parameterType="java.lang.Integer"
+		resultType="cn.damei.entity.modules.BizProjectProgressBoning">
+		select DATE_FORMAT(a.receive_money_datetime,'%Y-%m-%d') as
+		"node8ActualDate"
+		from biz_pre_pm_settle_finance_receive_moeny a
+		where
+		a.receive_money_type='1' and a.del_flag='0' and a.order_id=#{orderId}
+		order by a.create_date desc
+		limit 1
+	</select>
+
+	<!--查询节点9的实际日期 、提报时间 、期望时间 -->
+	<select id="queryNode9ByOrderId" parameterType="java.lang.Integer"
+		resultType="cn.damei.entity.modules.BizProjectProgressBoning">
+		SELECT
+		DATE_ADD(
+		c.actual_start_date,
+		INTERVAL
+		(IFNULL(b.days_to_apply,
+		0)) DAY
+		) AS "node9PlanSubDate",
+		a.create_date
+		AS "node9SubmDate",
+		a.expect_check_datetime AS "node9ExpectDate",
+		d.sign_datetime AS
+		"node9ActualExpectDate",
+		(
+		SELECT
+		DATE_FORMAT(
+		a.accept_check_datetime,
+		'%Y-%m-%d'
+		)
+		FROM
+		biz_qc_bill a
+		INNER JOIN
+		biz_qc_check_node b ON
+		a.qc_check_node_id = b.id
+		WHERE
+		a.qc_bill_type =
+		'1'
+		AND a.is_recheck =
+		'0'
+		AND a. STATUS >= '10'
+		AND
+		a.order_id =
+		#{orderId}
+		AND
+		b.qc_check_node_index = 6
+		ORDER BY
+		a.create_date DESC
+		LIMIT 1
+		) AS
+		"node9ActualDate"
+		FROM
+		biz_qc_bill a
+		INNER JOIN
+		biz_qc_check_node b ON
+		a.qc_check_node_id = b.id
+		LEFT JOIN biz_order c
+		ON c.id = a.order_id
+		LEFT JOIN biz_business_sign d ON
+		d.related_business_id_int = a.id
+		AND
+		d.sign_type = 301
+		WHERE
+		a.qc_bill_type = '1'
+		AND a.is_recheck = '0'
+		AND
+		a.order_id = #{orderId}
+		AND b.qc_check_node_index = 6
+		ORDER BY
+		a.create_date DESC
+		LIMIT 1
+	</select>
+
+	<!--查询节点10的实际完工日期 、提报时间 、申请进场、实际进场、实际验收 -->
+	<select id="queryNode10ByOrderId" parameterType="java.lang.Integer"
+		resultType="cn.damei.entity.modules.BizProjectProgressBoning">
+		SELECT
+		DATE_ADD(
+		c.actual_start_date,
+		INTERVAL (IFNULL(d.work_apply_day,
+		0)) DAY
+		) AS "node10PlanSubDate",
+		a.apply_into_create_datetime AS
+		"node10SubmDate",
+		a.apply_into_date AS "node10ApplyEntryDate",
+		a.real_into_date AS "node10ActualEntryDate",
+		DATE_FORMAT(
+		a.real_complete_date,
+		'%Y-%m-%d'
+		) AS "node10ActualDate",
+		a.real_accept_date AS "node10ActualCheckDate"
+		FROM
+		biz_order_install_plan a
+		LEFT JOIN biz_order_install_item b ON
+		a.order_install_item_id = b.id
+		LEFT JOIN biz_order c ON a.order_id =
+		c.id
+		LEFT JOIN biz_project_install_item d ON b.project_install_item_id
+		= d.id
+		WHERE
+		a.order_id = #{orderId}
+		AND a.install_item_sequence = 2
+	</select>
+
+	<!--查询节点11的安装日期、实际验收日期 、提报日期、申请进场日期、实际进场日期 -->
+	<select id="queryNode11ByOrderId" parameterType="java.lang.Integer"
+		resultType="cn.damei.entity.modules.BizProjectProgressBoning">
+		SELECT
+		DATE_ADD(
+		c.actual_start_date,
+		INTERVAL (IFNULL(d.work_apply_day,
+		0)) DAY
+		) AS "node11PlanSubDate",
+		a.apply_into_create_datetime AS
+		"node11SubmDate",
+		a.apply_into_date AS "node11ApplyEntryDate",
+		a.real_into_date AS "node11ActualEntryDate",
+		DATE_FORMAT(a.real_complete_date,'%Y-%m-%d') as "node11InstallDate",
+		DATE_FORMAT(a.real_accept_date,'%Y-%m-%d') as "node11ActualDate"
+		FROM
+		biz_order_install_plan a
+		LEFT JOIN
+		biz_order_install_item b ON
+		a.order_install_item_id = b.id
+		LEFT JOIN
+		biz_order c ON a.order_id =
+		c.id
+		LEFT JOIN biz_project_install_item d
+		ON b.project_install_item_id =
+		d.id
+		WHERE
+		a.order_id = #{orderId}
+		AND
+		a.install_item_sequence = 8
+	</select>
+
+	<!--查询节点12的安装日期、实际验收日期 、提报日期、申请进场日期、实际进场日期 -->
+	<select id="queryNode12ByOrderId" parameterType="java.lang.Integer"
+		resultType="cn.damei.entity.modules.BizProjectProgressBoning">
+		SELECT
+		DATE_ADD(
+		c.actual_start_date,
+		INTERVAL (IFNULL(d.work_apply_day,
+		0)) DAY
+		) AS "node12PlanSubDate",
+		a.apply_into_create_datetime AS
+		"node12SubmDate",
+		a.apply_into_date AS "node12ApplyEntryDate",
+		a.real_into_date AS "node12ActualEntryDate",
+		DATE_FORMAT(a.real_complete_date,'%Y-%m-%d') as "node12InstallDate",
+		DATE_FORMAT(a.real_accept_date,'%Y-%m-%d') as "node12ActualDate"
+		FROM
+		biz_order_install_plan a
+		LEFT JOIN
+		biz_order_install_item b ON
+		a.order_install_item_id = b.id
+		LEFT JOIN
+		biz_order c ON a.order_id =
+		c.id
+		LEFT JOIN biz_project_install_item d
+		ON b.project_install_item_id =
+		d.id
+		WHERE
+		a.order_id = #{orderId}
+		AND
+		a.install_item_sequence = 7
+	</select>
+
+	<!--查询节点13的安装日期、实际验收日期 、提报日期、申请进场日期、实际进场日期 -->
+	<select id="queryNode13ByOrderId" parameterType="java.lang.Integer"
+		resultType="cn.damei.entity.modules.BizProjectProgressBoning">
+		SELECT
+		DATE_ADD(
+		c.actual_start_date,
+		INTERVAL (IFNULL(d.work_apply_day,
+		0)) DAY
+		) AS "node13PlanSubDate",
+		a.apply_into_create_datetime AS
+		"node13SubmDate",
+		a.apply_into_date AS "node13ApplyEntryDate",
+		a.real_into_date AS "node13ActualEntryDate",
+		DATE_FORMAT(
+		a.real_complete_date,
+		'%Y-%m-%d'
+		) AS "node13InstallDate",
+		DATE_FORMAT(
+		a.real_accept_date,
+		'%Y-%m-%d'
+		) AS "node13ActualDate",
+		e.create_date AS
+		"node13RuleDate"
+		FROM
+		biz_order_install_plan a
+		LEFT JOIN
+		biz_order_install_item b ON a.order_install_item_id = b.id
+		LEFT JOIN
+		biz_order c ON a.order_id = c.id
+		LEFT JOIN biz_project_install_item d
+		ON b.project_install_item_id = d.id
+		LEFT JOIN biz_order_checksize e on
+		e.order_id = a.order_id and
+		e.checksize_type = 4
+		WHERE
+		a.order_id =
+		#{orderId}
+		AND a.install_item_sequence = 4
+		ORDER BY e.create_date DESC LIMIT 1
+	</select>
+
+	<!--查询节点14的安装日期、实际验收日期 、提报日期、申请进场日期、实际进场日期 -->
+	<select id="queryNode14ByOrderId" parameterType="java.lang.Integer"
+		resultType="cn.damei.entity.modules.BizProjectProgressBoning">
+		SELECT
+		DATE_ADD(
+		c.actual_start_date,
+		INTERVAL (IFNULL(d.work_apply_day,
+		0)) DAY
+		) AS "node14PlanSubDate",
+		a.apply_into_create_datetime AS
+		"node14SubmDate",
+		a.apply_into_date AS "node14ApplyEntryDate",
+		a.real_into_date AS "node14ActualEntryDate",
+		DATE_FORMAT(
+		a.real_complete_date,
+		'%Y-%m-%d'
+		) AS "node14InstallDate",
+		DATE_FORMAT(
+		a.real_accept_date,
+		'%Y-%m-%d'
+		) AS "node14ActualDate",
+		e.create_date AS
+		"node14RuleDate"
+		FROM
+		biz_order_install_plan a
+		LEFT JOIN
+		biz_order_install_item b ON a.order_install_item_id = b.id
+		LEFT JOIN
+		biz_order c ON a.order_id = c.id
+		LEFT JOIN biz_project_install_item d
+		ON b.project_install_item_id = d.id
+		LEFT JOIN biz_order_checksize e on
+		e.order_id = a.order_id and
+		e.checksize_type = 5
+		WHERE
+		a.order_id =
+		#{orderId}
+		AND a.install_item_sequence = 17
+		ORDER BY e.create_date DESC LIMIT 1
+	</select>
+
+	<!--查询节点15的安装日期、实际验收日期 、提报日期、申请进场日期、实际进场日期 -->
+	<select id="queryNode15ByOrderId" parameterType="java.lang.Integer"
+		resultType="cn.damei.entity.modules.BizProjectProgressBoning">
+		SELECT
+		DATE_ADD(
+		c.actual_start_date,
+		INTERVAL (IFNULL(d.work_apply_day,
+		0)) DAY
+		) AS "node15PlanSubDate",
+		a.apply_into_create_datetime AS
+		"node15SubmDate",
+		a.apply_into_date AS "node15ApplyEntryDate",
+		a.real_into_date AS "node15ActualEntryDate",
+		DATE_FORMAT(a.real_complete_date,'%Y-%m-%d') as "node15InstallDate",
+		DATE_FORMAT(a.real_accept_date,'%Y-%m-%d') as "node15ActualDate"
+		FROM
+		biz_order_install_plan a
+		LEFT JOIN
+		biz_order_install_item b ON
+		a.order_install_item_id = b.id
+		LEFT JOIN
+		biz_order c ON a.order_id =
+		c.id
+		LEFT JOIN biz_project_install_item d
+		ON b.project_install_item_id =
+		d.id
+		WHERE
+		a.order_id = #{orderId}
+		AND
+		a.install_item_sequence = 5
+	</select>
+
+	<!--查询节点16的安装日期、实际验收日期 、提报日期、申请进场日期、实际进场日期 -->
+	<select id="queryNode16ByOrderId" parameterType="java.lang.Integer"
+		resultType="cn.damei.entity.modules.BizProjectProgressBoning">
+		SELECT
+		DATE_ADD(
+		c.actual_start_date,
+		INTERVAL (IFNULL(d.work_apply_day,
+		0)) DAY
+		) AS "node16PlanSubDate",
+		a.apply_into_create_datetime AS
+		"node16SubmDate",
+		a.apply_into_date AS "node16ApplyEntryDate",
+		a.real_into_date AS "node16ActualEntryDate",
+		DATE_FORMAT(
+		a.real_complete_date,
+		'%Y-%m-%d'
+		) AS "node16InstallDate",
+		DATE_FORMAT(
+		a.real_accept_date,
+		'%Y-%m-%d'
+		) AS "node16ActualDate",
+		e.create_date AS
+		"node16RuleDate"
+		FROM
+		biz_order_install_plan a
+		LEFT JOIN
+		biz_order_install_item b ON a.order_install_item_id = b.id
+		LEFT JOIN
+		biz_order c ON a.order_id = c.id
+		LEFT JOIN biz_project_install_item d
+		ON b.project_install_item_id = d.id
+		LEFT JOIN biz_order_checksize e on
+		e.order_id = a.order_id and
+		e.checksize_type = 3
+		WHERE
+		a.order_id =
+		#{orderId}
+		AND a.install_item_sequence = 6
+		ORDER BY e.create_date DESC LIMIT 1
+	</select>
+
+	<!--查询节点17的安装日期、实际验收日期 、提报日期、申请进场日期、实际进场日期 -->
+	<select id="queryNode17ByOrderId" parameterType="java.lang.Integer"
+		resultType="cn.damei.entity.modules.BizProjectProgressBoning">
+		SELECT
+		DATE_ADD(
+		c.actual_start_date,
+		INTERVAL (IFNULL(d.work_apply_day,
+		0)) DAY
+		) AS "node17PlanSubDate",
+		a.apply_into_create_datetime AS
+		"node17SubmDate",
+		a.apply_into_date AS "node17ApplyEntryDate",
+		a.real_into_date AS "node17ActualEntryDate",
+		DATE_FORMAT(a.real_complete_date,'%Y-%m-%d') as "node17InstallDate",
+		DATE_FORMAT(a.real_accept_date,'%Y-%m-%d') as "node17ActualDate"
+		FROM
+		biz_order_install_plan a
+		LEFT JOIN
+		biz_order_install_item b ON
+		a.order_install_item_id = b.id
+		LEFT JOIN
+		biz_order c ON a.order_id =
+		c.id
+		LEFT JOIN biz_project_install_item d
+		ON b.project_install_item_id =
+		d.id
+		WHERE
+		a.order_id = #{orderId}
+		AND
+		a.install_item_sequence = 9
+	</select>
+
+	<!--查询节点18的安装日期、实际验收日期 、提报日期、申请进场日期、实际进场日期 -->
+	<select id="queryNode18ByOrderId" parameterType="java.lang.Integer"
+		resultType="cn.damei.entity.modules.BizProjectProgressBoning">
+		SELECT
+		DATE_ADD(
+		c.actual_start_date,
+		INTERVAL (IFNULL(d.work_apply_day,
+		0)) DAY
+		) AS "node18PlanSubDate",
+		a.apply_into_create_datetime AS
+		"node18SubmDate",
+		a.apply_into_date AS "node18ApplyEntryDate",
+		a.real_into_date AS "node18ActualEntryDate",
+		DATE_FORMAT(
+		a.real_complete_date,
+		'%Y-%m-%d'
+		) AS "node18InstallDate",
+		DATE_FORMAT(
+		a.real_accept_date,
+		'%Y-%m-%d'
+		) AS "node18ActualDate",
+		e.create_date AS
+		"node18RuleDate"
+		FROM
+		biz_order_install_plan a
+		LEFT JOIN
+		biz_order_install_item b ON a.order_install_item_id = b.id
+		LEFT JOIN
+		biz_order c ON a.order_id = c.id
+		LEFT JOIN biz_project_install_item d
+		ON b.project_install_item_id = d.id
+		LEFT JOIN biz_order_checksize e on
+		e.order_id = a.order_id and
+		e.checksize_type = 6
+		WHERE
+		a.order_id =
+		#{orderId}
+		AND a.install_item_sequence = 10
+		ORDER BY e.create_date DESC LIMIT 1
+	</select>
+
+	<!--查询节点19的实际日期 、提报日期、期望日期 -->
+	<select id="queryNode19ByOrderId" parameterType="java.lang.Integer"
+		resultType="cn.damei.entity.modules.BizProjectProgressBoning">
+		SELECT
+		DATE_ADD(
+		c.actual_start_date,
+		INTERVAL
+		(IFNULL(b.days_to_apply,
+		0)) DAY
+		) AS "node19PlanSubDate",
+		a.create_date
+		AS "node19SubmDate",
+		a.expect_check_datetime AS "node19ExpectDate",
+		d.sign_datetime AS
+		"node19ActualExpectDate",
+		(
+		SELECT
+		DATE_FORMAT(
+		a.accept_check_datetime,
+		'%Y-%m-%d'
+		)
+		FROM
+		biz_qc_bill a
+		INNER JOIN
+		biz_qc_check_node b ON
+		a.qc_check_node_id = b.id
+		WHERE
+		a.qc_bill_type =
+		'1'
+		AND a.is_recheck =
+		'0'
+		AND a. STATUS >= '10'
+		AND
+		a.order_id =
+		#{orderId}
+		AND
+		b.qc_check_node_index = 9
+		ORDER BY
+		a.create_date DESC
+		LIMIT 1
+		) AS
+		"node19ActualDate"
+		FROM
+		biz_qc_bill a
+		INNER JOIN
+		biz_qc_check_node b ON
+		a.qc_check_node_id = b.id
+		LEFT JOIN biz_order c
+		ON c.id = a.order_id
+		LEFT JOIN biz_business_sign d ON
+		d.related_business_id_int = a.id
+		AND
+		d.sign_type = 301
+		WHERE
+		a.qc_bill_type = '1'
+		AND a.is_recheck = '0'
+		AND
+		a.order_id = #{orderId}
+		AND b.qc_check_node_index = 9
+		ORDER BY
+		a.create_date DESC
+		LIMIT 1
+	</select>
+
+	<!-- 查询节点20尾款实际收款日期 -->
+	<select id="queryNode20ActualDateByOrderId" parameterType="java.lang.Integer"
+		resultType="cn.damei.entity.modules.BizProjectProgressBoning">
+		select DATE_FORMAT(a.receive_money_datetime,'%Y-%m-%d') as
+		"node20ActualDate"
+		from biz_pre_pm_settle_finance_receive_moeny a
+		where
+		a.receive_money_type='2' and a.del_flag='0' and a.order_id=#{orderId}
+		order by a.create_date desc
+		limit 1
+	</select>
+
+	<!--查询节点21的安装日期、实际验收日期 、提报日期、申请进场日期、实际进场日期 -->
+	<select id="queryNode21ByOrderId" parameterType="java.lang.Integer"
+		resultType="cn.damei.entity.modules.BizProjectProgressBoning">
+		SELECT
+		DATE_ADD(
+		c.actual_start_date,
+		INTERVAL (IFNULL(d.work_apply_day,
+		0)) DAY
+		) AS "node21PlanSubDate",
+		a.apply_into_create_datetime AS
+		"node21SubmDate",
+		a.apply_into_date AS "node21ApplyEntryDate",
+		a.real_into_date AS "node21ActualEntryDate",
+		DATE_FORMAT(a.real_complete_date,'%Y-%m-%d') as "node21InstallDate",
+		DATE_FORMAT(a.real_accept_date,'%Y-%m-%d') as "node21ActualDate"
+		FROM
+		biz_order_install_plan a
+		LEFT JOIN
+		biz_order_install_item b ON
+		a.order_install_item_id = b.id
+		LEFT JOIN
+		biz_order c ON a.order_id =
+		c.id
+		LEFT JOIN biz_project_install_item d
+		ON b.project_install_item_id =
+		d.id
+		WHERE
+		a.order_id = #{orderId}
+		AND
+		a.install_item_sequence = 11
+	</select>
+
+	<!--查询节点22的安装日期、实际验收日期 、提报日期、申请进场日期、实际进场日期 -->
+	<select id="queryNode22ByOrderId" parameterType="java.lang.Integer"
+		resultType="cn.damei.entity.modules.BizProjectProgressBoning">
+		SELECT
+		DATE_ADD(
+		c.actual_start_date,
+		INTERVAL (IFNULL(d.work_apply_day,
+		0)) DAY
+		) AS "node22PlanSubDate",
+		a.apply_into_create_datetime AS
+		"node22SubmDate",
+		a.apply_into_date AS "node22ApplyEntryDate",
+		a.real_into_date AS "node22ActualEntryDate",
+		DATE_FORMAT(a.real_complete_date,'%Y-%m-%d') as "node22InstallDate",
+		DATE_FORMAT(a.real_accept_date,'%Y-%m-%d') as "node22ActualDate"
+		FROM
+		biz_order_install_plan a
+		LEFT JOIN
+		biz_order_install_item b ON
+		a.order_install_item_id = b.id
+		LEFT JOIN
+		biz_order c ON a.order_id =
+		c.id
+		LEFT JOIN biz_project_install_item d
+		ON b.project_install_item_id =
+		d.id
+		WHERE
+		a.order_id = #{orderId}
+		AND
+		a.install_item_sequence = 12
+	</select>
+
+	<!-- 查询订单的客户认可延期天数 -->
+	<select id="queryDelayDaysByOrderId" parameterType="java.lang.Integer"
+		resultType="cn.damei.entity.modules.BizProjectProgressBoning">
+		SELECT SUM(delay_days) as "delayDays" FROM
+		`biz_order_delay_bill` where order_id = #{orderId} and status = 20
+	</select>
+</mapper>

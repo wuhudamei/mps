@@ -1,0 +1,38 @@
+.one_btn {
+	background-color: #378afa
+}
+
+/* .sec .clearfix .col_w {
+	border: #378afa solid 1px;
+	color: #378afa
+} */
+.sec .clearfix .col_w {
+	background: #378afa;
+	color: #fff;
+	border:1px solid #378afa;
+}
+
+.w2 {
+	width: 2rem;text-align: right;
+}
+
+.complaint {
+	font-size: .3rem;
+	padding: .2rem .3rem;
+	background: #fff
+}
+
+.complaint span {
+	color: #666;
+	vertical-align: top
+}
+
+.complaint textarea {
+	width: 5.8rem;
+	height: 2rem;
+	border: 1px solid #ddd;
+	resize: none;
+	font-size: .28rem;
+	color: #666;
+}
+.grey_btn{background: #bbb;}

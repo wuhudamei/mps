@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizOrderQcBillDao">
+    
+	<sql id="orderColumns">
+		a.id AS "orderId",
+		a.order_number AS "orderNumber",
+		a.customer_name AS "customerName",
+		a.community_name AS "communityName",
+		a.build_number AS "buildNumber",
+		a.build_unit AS "buildUnit",
+		a.build_room AS "buildRoom",
+		a.order_status_number AS "orderStatusNumber",
+		a.order_status_description AS "orderStatusDescription",
+		a.order_inspector_id AS "orderInspectorId",
+		a.project_mode AS "projectMode",
+		a.item_manager_id AS "itemManagerId",
+		a.store_id AS "storeId",
+		a.cus_manager AS "cusManager",
+		a.actual_start_date AS "actualStartDate"
+	</sql>
+	
+    
+	<select id="get" resultType="cn.damei.entity.modules.BizOrderQcBill">
+		SELECT 
+			<include refid="orderColumns"/>,
+			c.realName AS "orderInspector",
+			b.realName AS "itemManager"
+		FROM biz_order a
+		LEFT JOIN biz_employee b ON b.id = a.item_manager_id
+		LEFT JOIN biz_employee c ON c.id = a.order_inspector_id 
+		WHERE a.id =#{orderId} 
+			 AND a.order_status_number !='300'
+	</select>
+	
+	
+	
+	<select id="findList" resultType="cn.damei.entity.modules.BizOrderQcBill">
+		SELECT 
+			<include refid="orderColumns"/>,
+			c.realName AS "orderInspector",
+			b.realName AS "itemManager",
+			<!-- (SELECT COUNT(1) FROM biz_qc_bill m,biz_business_sign n WHERE m.order_id = a.id AND n.related_business_id_int = m.id AND n.sign_type IN (301,302,303) AND m.`status` &gt; 3) AS "signCount",
+			(SELECT COUNT(1)FROM biz_qc_bill d WHERE d.order_id=a.id AND d.`status` &gt; 3) AS "count",
+			(SELECT COUNT(1)FROM biz_qc_bill e WHERE e.order_id=a.id AND e.qc_bill_type='1' AND e.`status` &gt; 3) AS "checkCount",
+			(SELECT COUNT(1)FROM biz_qc_bill f WHERE f.order_id=a.id AND f.qc_bill_type='2' AND f.`status` &gt; 3) AS "selectCheckCount",
+			(SELECT COUNT(1)FROM biz_qc_bill h WHERE h.order_id=a.id AND h.is_recheck='1' AND h.`status` &gt; 3) AS "recheckCount",
+			(SELECT SUM(g.recheck_times) FROM biz_qc_bill g WHERE g.order_id=a.id AND g.is_recheck = '1' AND g.`status` &gt; 3) AS "recheckTimes" -->
+			IFNULL(m1.signCount,0)  AS "signCount",
+			IFNULL(m2.count,0) AS "count",
+			IFNULL(m3.checkCount,0) AS "checkCount",
+			IFNULL(m4.selectCheckCount,0) AS "selectCheckCount",
+			IFNULL(m5.recheckCount,0) AS "recheckCount",
+			m6.recheckTimes AS "recheckTimes"
+	
+		FROM biz_order a
+		LEFT JOIN biz_employee b ON b.id = a.item_manager_id
+		LEFT JOIN biz_employee c ON c.id = a.order_inspector_id 
+		
+		LEFT JOIN (SELECT m.order_id,COUNT(1) AS "signCount" FROM biz_qc_bill m,biz_business_sign n WHERE n.related_business_id_int = m.id AND n.sign_type IN (301,302,303) AND m.`status` &gt; 3 GROUP BY m.order_id) m1 ON m1.order_id = a.id
+
+		LEFT JOIN (SELECT d.order_id,COUNT(1) AS "count" FROM biz_qc_bill d WHERE  d.`status` &gt; 3 GROUP BY d.order_id) m2 ON m2.order_id = a.id
+		
+		LEFT JOIN (SELECT e.order_id,COUNT(1) AS "checkCount" FROM biz_qc_bill e WHERE e.qc_bill_type='1' AND e.`status` &gt; 3 GROUP BY e.order_id) m3 ON m3.order_id = a.id
+		
+		LEFT JOIN (SELECT f.order_id,COUNT(1) AS "selectCheckCount" FROM biz_qc_bill f WHERE f.qc_bill_type='2' AND f.`status` &gt; 3 GROUP BY f.order_id) m4 ON m4.order_id = a.id
+		
+		LEFT JOIN (SELECT h.order_id,COUNT(1) AS "recheckCount" FROM biz_qc_bill h WHERE h.is_recheck='1' AND h.`status` &gt; 3 GROUP BY h.order_id) m5 ON m5.order_id = a.id
+		
+		LEFT JOIN (SELECT g.order_id,SUM(g.recheck_times) AS "recheckTimes" FROM biz_qc_bill g WHERE  g.is_recheck = '1' AND g.`status` &gt; 3 GROUP BY g.order_id) m6 ON m6.order_id = a.id
+				
+		
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="id != null and id != ''">
+				AND a.id =#{orderId}
+			</if>
+			<if test="orderNumber != null and orderNumber != ''">
+					AND  a.order_number LIKE CONCAT('%','${orderNumber}','%' )  
+			</if>
+			<if test="projectMode != null and projectMode != ''">
+				AND a.project_mode = #{projectMode}
+			</if>
+			<if test="customerName != null and customerName != ''">
+				AND a.customer_name LIKE
+					<if test="dbName == 'oracle'">'%'||#{customerName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{customerName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{customerName},'%')</if>
+			</if>
+			
+			<if test="itemManager != null and itemManager != ''">
+				AND a.item_manager LIKE
+				<if test="dbName == 'oracle'">'%'||#{itemManager}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{itemManager}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{itemManager},'%')</if>
+			</if>
+			<if test="orderInspector != null and orderInspector != ''">
+				AND c.realName LIKE
+				<if test="dbName == 'oracle'">'%'||#{orderInspector}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{orderInspector}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{orderInspector},'%')</if>
+			</if>
+			<if test="storeId != null and storeId != ''">
+				AND a.store_id = #{storeId}
+			</if>
+			<if test="isNullActualStartDate != null">
+				AND a.actual_start_date is not null
+			</if>
+			ORDER BY a.create_date DESC
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				,${page.orderBy}
+			</when>
+		</choose>
+	</select>
+	<!-- 根据订单id查询订单 -->
+	<select id="findOrder" parameterType="int" resultType="cn.damei.entity.modules.BizOrderQcBill">
+		SELECT 
+			a.id AS "orderId",
+			a.order_number AS "orderNumber",
+			a.customer_name AS "customerName",
+			a.community_name AS "communityName",
+			a.build_number AS "buildNumber",
+			a.build_unit AS "buildUnit",
+			a.build_room AS "buildRoom",
+			c.realName AS "orderInspector",
+			b.realName AS "itemManager"
+		FROM biz_order a
+		LEFT JOIN biz_employee b ON b.id = a.item_manager_id
+		LEFT JOIN biz_employee c ON c.id = a.order_inspector_id 
+		WHERE a.id =#{orderId} 
+	</select>
+	<!-- 通过订单id查询所属订单的报告单 -->
+	<select id="findReport" parameterType="int" resultType="cn.damei.entity.modules.BizQcBill">
+		SELECT
+			a.id AS "qcBillId",
+			e.qc_check_node_name AS "qcCheckNodeName",
+			f.realName AS "checkRealName",
+			a.check_datetime AS "checkDatetime",
+			a.accept_check_datetime AS "acceptCheckDatetime",
+			g.sign_address AS "signAddress",
+			b.customer_address AS "customerAddress",
+			a.total_score AS "totalScore",
+			a.got_score AS "gotScore",
+			a.is_recheck AS "isRecheck",
+			a.qc_bill_type AS "qcBillType",
+			a.recheck_times AS "recheckTimes"
+		FROM
+			biz_qc_bill a
+		LEFT JOIN biz_order b ON a.order_id = b.id
+		LEFT JOIN biz_qc_check_node e ON e.id = a.qc_check_node_id
+		LEFT JOIN biz_employee f ON f.id = a.check_employee_id
+		LEFT JOIN biz_business_sign g ON g.related_business_id_int = a.id 
+		WHERE
+			a.order_id = #{orderId}
+			AND a.`status` &gt; 3
+			ORDER BY a.check_datetime DESC
+		
+	</select>
+	
+	<!-- 通过质检单id查询质检单信息 -->
+	<select id="findReportDetails" parameterType="int" resultType="cn.damei.entity.modules.BizQcBill">
+		SELECT
+			b.customer_name AS "customerName",
+			b.community_name AS "communityName",
+			b.build_number AS "buildNumber",
+			b.build_unit AS "buildUnit",
+			b.build_room AS "buildRoom",
+			b.id AS "orderId",
+			b.customer_address AS "customerAddress",
+			e.sign_address AS "signAddress",
+			e.sign_datetime AS "signCheckDatetime",
+			a.qc_bill_type AS "qcBillType",
+			a.is_recheck AS "isRecheck",
+			g.qc_check_node_name AS "qcCheckNodeName",
+			b.actual_start_date AS "actualStartDate",
+			d.realName AS "inspectorRealName",
+			c.realName AS "managerRealName",
+			a.check_datetime AS "checkDatetime",
+			a.got_score AS "gotScore",
+			a.total_score AS "totalScore",
+			f.realName AS "checkRealName",
+			a.accept_check_datetime AS "acceptCheckDatetime"
+		FROM
+			biz_qc_bill a
+		LEFT JOIN biz_order b ON a.order_id = b.id
+		LEFT JOIN biz_employee c ON b.item_manager_id = c.id
+		LEFT JOIN biz_employee d ON b.order_inspector_id = d.id
+		LEFT JOIN biz_employee f ON a.check_employee_id = f.id
+		LEFT JOIN biz_qc_check_node g ON g.id = a.qc_check_node_id
+		LEFT JOIN biz_business_sign e ON e.related_business_id_int = a.id and e.sign_type in (301,302,303)
+
+		WHERE
+			a.id = #{qcBillId}
+			
+	
+	</select>
+	<!-- 报告详情 -->
+	<resultMap
+		type="cn.damei.entity.modules.ReportCheckDetails"
+		id="reportCheckDetails">
+			
+		<result property="id" column="id" />
+		<result property="qcCheckItemName" column="qc_check_item_name" />
+		<result property="qcCheckKindId" column="qc_check_kind_id" />
+		<result property="qcCheckKindName" column="qcCheckKind" />
+		<result property="isPassed" column="is_passed" />
+		<result property="isWarned" column="is_warned" />
+		<result property="isLocaleRepaire" column="is_locale_repaire" />
+		
+		<result property="isLimitDateRepaire" column="is_limit_date_repaire" />
+		<result property="limitDate" column="limit_date" />
+		<result property="limitDateRepaireCheckStyle" column="limit_date_repaire_check_style" />
+		<result property="isPunishMoney" column="is_punish_money" />
+		<result property="punishMoneyAmountReal" column="punish_money_amount_real" />
+		<result property="pmPunishScore" column="pm_punish_score" />
+		<result property="workerPunishAmount" column="worker_punish_amount" />
+		<result property="workerPunishScore" column="worker_punish_score" />
+		<result property="qcPunishAmount" column="qc_punish_amount" />
+		<result property="qcPunishScore" column="qc_punish_score" />
+		
+		<collection property="reportCheckBreakSettleBillList" resultMap="reportCheckBreak"></collection>
+	</resultMap>
+
+
+	<resultMap
+		type="cn.damei.entity.modules.ReportCheckBreak"
+		id="reportCheckBreak">
+		
+		<result property="breakDescribe" column="break_describe" />
+		<result property="isRequiredRemarks" column="is_required_remarks" />
+		<result property="breakRemarks" column="break_remarks" />
+		
+		<association property="reportCheck" resultMap="reportCheckDetails"></association>
+	</resultMap>
+
+
+
+	<select id ="finditemById" resultMap="reportCheckDetails" parameterType="cn.damei.entity.modules.ReportCheckDetails">
+		SELECT
+			c.id,
+			b.qc_check_item_name,
+			b.qc_check_kind_id,
+			e.qc_check_kind_name AS "qcCheckKind",
+			c.is_passed,
+			c.is_warned,
+			c.is_locale_repaire,
+			c.is_limit_date_repaire,
+			c.limit_date,
+			c.limit_date_repaire_check_style,
+			c.is_punish_money,
+			c.punish_money_amount_real,
+			c.pm_punish_score,
+			c.worker_punish_amount,
+			c.worker_punish_score,
+			c.qc_punish_amount,
+			c.qc_punish_score,
+			d.break_describe,
+			d.is_required_remarks,
+			d.break_remarks
+		FROM
+			biz_qc_bill_check_item c
+		INNER JOIN biz_qc_check_item b ON b.id = c.qc_check_item_id
+		LEFT JOIN biz_qc_bill_check_item_break d ON c.id = d.qc_bill_check_item_id
+		LEFT JOIN biz_qc_check_kind e ON e.id = b.qc_check_kind_id
+		<where>
+				c.qc_bill_id = #{qcBillId}
+			
+			<if test="isPassed != null and isPassed !=''">
+				AND c.is_passed = #{isPassed}
+			</if>
+			<if test="qcCheckKindId != null and qcCheckKindId !=''">
+				AND b.qc_check_kind_id = #{qcCheckKindId}
+			</if>
+		</where>
+			
+	</select>
+	<!-- 查询所有的检查分类 -->
+	<select id="findCheckKind" resultType="cn.damei.entity.modules.BizQcCheckKind">
+		SELECT
+		 
+		id AS "id",
+		store_id AS "storeId",
+		qc_check_kind_name AS "qcCheckKindName",
+		status AS "status"
+		
+		FROM biz_qc_check_kind where status=1
+	</select>
+	<!-- 通过质检单id查询质检图片 -->
+	<select id="findPic" parameterType="int" resultType="cn.damei.entity.modules.ReportCheckDetailsPic">
+		SELECT
+			id AS "picId",
+			business_type AS "businessType",
+			business_id_int AS "businessIdInt",
+			business_id_varchar AS "businessIdVarchar",
+			pic_type AS "picType",
+			pic_index AS "picIndex",
+			pic_url AS "picUrl",
+			pic_datetime AS "picDatetime"
+		FROM
+			biz_business_pic
+		WHERE
+			business_id_int = #{businessIdInt}
+		AND business_type = '2'
+	
+	</select>
+	
+	
+</mapper>

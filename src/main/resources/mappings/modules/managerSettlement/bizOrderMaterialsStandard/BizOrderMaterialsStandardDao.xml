@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizOrderMaterialsStandardDao">
+    
+	<sql id="bizOrderMaterialsStandardColumns">
+		a.id AS "id",
+		a.order_id AS "orderId",
+		a.materials_standard_id AS "materialsStandardId",
+		a.materials_type AS "materialsType",
+		a.materials_name AS "materialsName",
+		a.materials_unit AS "materialsUnit",
+		a.materials_price AS "materialsPrice",
+		a.materials_amount AS "materialsAmount",
+		a.apply_number_total AS "applyNumberTotal",
+		a.receive_number_total AS "receiveNumberTotal",
+		a.max_receive_number AS "maxReceiveNumber",
+		a.remarks AS "remarks",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag",
+		a.apply_number_suggest AS "applyNumberSuggest"
+	</sql>
+	
+	<sql id="bizOrderMaterialsStandardJoins">
+	</sql>
+    
+	<select id="get" resultType="cn.damei.entity.modules.BizOrderMaterialsStandard">
+		SELECT 
+			<include refid="bizOrderMaterialsStandardColumns"/>
+		FROM biz_order_materials_standard a
+		<include refid="bizOrderMaterialsStandardJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="cn.damei.entity.modules.BizOrderMaterialsStandard">
+		SELECT 
+			<include refid="bizOrderMaterialsStandardColumns"/>
+		FROM biz_order_materials_standard a
+		<include refid="bizOrderMaterialsStandardJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="id != null and id != ''">
+				AND a.id = #{id}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="cn.damei.entity.modules.BizOrderMaterialsStandard">
+		SELECT 
+			<include refid="bizOrderMaterialsStandardColumns"/>
+		FROM biz_order_materials_standard a
+		<include refid="bizOrderMaterialsStandardJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO biz_order_materials_standard(
+			id,
+			order_id,
+			materials_standard_id,
+			materials_type,
+			materials_name,
+			materials_unit,
+			materials_price,
+			materials_amount,
+			apply_number_total,
+			receive_number_total,
+			max_receive_number,
+			remarks,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag,
+			apply_number_suggest
+		) VALUES (
+			#{id},
+			#{orderId},
+			#{materialsStandardId},
+			#{materialsType},
+			#{materialsName},
+			#{materialsUnit},
+			#{materialsPrice},
+			#{materialsAmount},
+			#{applyNumberTotal},
+			#{receiveNumberTotal},
+			#{maxReceiveNumber},
+			#{remarks},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag},
+			#{applyNumberSuggest}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE biz_order_materials_standard SET 	
+			order_id = #{orderId},
+			materials_standard_id = #{materialsStandardId},
+			materials_type = #{materialsType},
+			materials_name = #{materialsName},
+			materials_unit = #{materialsUnit},
+			materials_price = #{materialsPrice},
+			materials_amount = #{materialsAmount},
+			apply_number_total = #{applyNumberTotal},
+			receive_number_total = #{receiveNumberTotal},
+			max_receive_number = #{maxReceiveNumber},
+			update_date = #{updateDate},
+			del_flag = #{delFlag},
+			apply_number_suggest = #{applyNumberSuggest}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE biz_order_materials_standard SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	<select id="getList" resultType="cn.damei.entity.modules.BizOrderMaterialsStandard">
+				SELECT
+			bms.id AS materialsStandardId,	
+			bms.store_id,
+			bms.materials_type,
+			bms.materials_name,
+			bms.materials_unit,
+			bms.materials_price,
+			IFNULL(boms.apply_number_total,0) AS applyNumberTotal,
+			IFNULL(boms.receive_number_total,0) AS receiveNumberTotal,
+			IFNULL(bms.max_receive_number,0) AS maxReceiveNumber
+		FROM
+			biz_materials_standard bms
+		LEFT JOIN 
+		(	SELECT b.* FROM biz_order_materials_standard b WHERE  b.order_id=#{orderId})
+		
+		 AS boms ON boms.materials_standard_id = bms.id
+		WHERE
+			bms.store_id = #{storeId}
+		AND bms.is_enabled = 1
+		<if test="materialsLargeType==&quot;1&quot; ">
+		AND
+			(bms.materials_large_type is NULL OR bms.materials_large_type='1')
+		</if>
+		<if test="materialsLargeType==&quot;2&quot;">
+		AND bms.materials_large_type ='2'
+		</if>
+	</select>
+	<select id="getBizOrderMaterialsStandard" resultType="cn.damei.entity.modules.BizOrderMaterialsStandard" >
+			SELECT
+			id,
+			order_id,
+			materials_type,
+			materials_standard_id,
+			materials_amount,
+			materials_name,
+			materials_unit,
+			materials_price,
+			apply_number_total,
+			receive_number_total,
+			max_receive_number
+		FROM
+			biz_order_materials_standard
+		WHERE
+			order_id = #{orderId}
+		AND materials_standard_id = #{materialsStandardId}
+	</select>
+	<select id="getMaterialIsView" resultType="String">
+			SELECT
+			id,
+			is_viewed
+		FROM
+			biz_materials_standard_receive_bill
+		WHERE
+			order_id =#{orderId}
+			AND is_viewed ='0'
+	</select>
+	<select id="selectBillView" resultType="String">
+		SELECT 
+		is_viewed
+		FROM
+		biz_materials_standard_receive_bill
+		WHERE
+			id = #{billId}
+	</select>
+	<update id="updateBill" >
+		UPDATE biz_materials_standard_receive_bill
+		SET is_viewed = #{isViewed} ,
+		view_datetime = #{viewDatetime}
+		WHERE
+			id = #{id}
+	</update>
+	<update id="updateOrderMaterialsByOrderIdAndStandId">
+		UPDATE biz_order_materials_standard  
+		<!-- <trim prefix="set" suffixOverrides=",">
+			<if test="materialsAmount != null and materialsAmount !=''">
+				materials_amount=#{materialsAmount},
+			</if>
+			<if test="applyNumberTotal != null and applyNumberTotal != ''">
+				apply_number_total=#{applyNumberTotal},
+			</if>
+			<if test="receiveNumberTotal != null and receiveNumberTotal != ''">
+				receive_number_total=#{receiveNumberTotal},
+			</if> 
+		</trim>-->
+		set 
+		materials_amount=#{materialsAmount},
+		apply_number_total=#{applyNumberTotal},
+		receive_number_total=#{receiveNumberTotal}
+			
+		WHERE order_id=#{orderId}
+		AND materials_standard_id=#{materialsStandardId}
+	</update>
+	<select id="getMaterialsByOrderId" resultType="cn.damei.entity.modules.BizOrderMaterialsStandard" >
+		SELECT
+			bo.id,
+			bo.order_id,
+			bo.materials_type,
+			bo.materials_standard_id,
+			bo.materials_amount,
+			bo.materials_name,
+			bo.materials_unit,
+			bo.materials_price,
+			bo.apply_number_total,
+			bo.receive_number_total,
+			bo.max_receive_number,
+			bo.apply_number_suggest
+		FROM
+			biz_order_materials_standard bo
+		JOIN biz_materials_standard bs ON bo.materials_standard_id = bs.id
+		WHERE
+			order_id = #{orderId}
+		AND	
+			(
+				receive_number_total != 0
+				OR receive_number_total != NULL
+			)
+		AND 
+		<if test="materialsLargeType==&quot;1&quot;">
+			(bs.materials_large_type IS NULL OR bs.materials_large_type="1")
+		</if>
+		<if test="materialsLargeType==&quot;2&quot;">
+		bs.materials_large_type="2"
+		</if>	
+	</select>
+</mapper>

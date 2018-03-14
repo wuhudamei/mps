@@ -1,0 +1,55 @@
+.pad_top88{padding-top: .88rem;}
+.item{display: block;height: .9rem;line-height: .9rem;padding-left: .3rem;font-size: .3rem;color: #0780ec;border-bottom: 1px solid #e5e5e5;}
+.item:last-child{margin-bottom: 300px;}
+.zhankai{
+	background-image: url(../images/method/zhankai.png);
+    background-repeat: no-repeat;
+    background-size: 0.3rem 0.15rem;
+    background-position: 94% center;
+}
+.shouqi{
+	background-image: url(../images/method/shouqi.png);
+    background-repeat: no-repeat;
+    background-size: 0.3rem 0.15rem;
+    background-position: 94% center;
+}
+.dashed{border-bottom: 1px dashed #ccc;}
+.oraBtn{font-size: .24rem;color: #fefcf8;padding: .1rem .28rem;background: #e9a910;border-radius: .44rem;display: inline-block;margin-left: .3rem;margin-top: .1rem;}
+
+/*mask*/
+.tanchuceng{
+    /*z-index: 99;position: relative;top: -3.1rem;bottom: .4rem;left: -.3rem;*/
+    /*right: 0;background: rgba(0,0,0,.5);width: calc( 100% + .6rem );*/
+    z-index: 99;position: fixed;top: 0;bottom: 0;
+    background: rgba(0,0,0,.5);width: 100%;
+    
+}
+.tanchuceng .notice-box{
+    overflow: hidden;
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 100%;
+}
+.tanchuceng .notice-box ul{
+    overflow-y: scroll;
+    height: 100%;
+}
+.shutBtn{position: absolute;top: 1.4rem;right: .3rem;width: .34rem;height: .34rem;background: url(../images/method/shutBtn.png) no-repeat;background-size: .34rem;}
+.mask-tit{height: .9rem;line-height: .9rem;font-size: .36rem;color: #fff;background: #0780ec;text-align: center;}
+.pad_top31{padding-top: .31rem;}
+.pad_btm31{padding-bottom: .31rem;}
+.border_btm{border-bottom: 1px solid #e5e5e5;}
+.tTop{height: 1.1rem;z-index: 99;}
+.topOne{padding: .3rem;padding-left: .7rem;border-top: 1px solid #ccc;}
+.cont{line-height: 1.3em;padding-left: .3rem;}
+.pad_left70{padding-left: .7rem;}
+
+.leftIcon{
+    background-image: url(../images/method/two.png);
+    background-repeat: no-repeat;
+    background-size: .29rem .28rem;
+    background-position: 4% center;
+}
+
+.ele li:last-child{margin-bottom: 300px;}

@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizTaskPackageTemplatRelDao">
+    
+	<sql id="bizTaskPackageTemplatRelColumns">
+		a.id AS "id",
+		a.task_package_templat_id AS "taskPackageTemplatId",
+		a.procedure_no AS "procedureNo",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="bizTaskPackageTemplatRelProcedureColumns">
+		a.task_package_templat_id AS "taskPackageTemplatId",
+		a.procedure_no AS "procedureNo",
+		b.procedure_name AS "procedureName"
+	</sql>
+	
+	<sql id="bizTaskPackageTemplatRelJoins">
+		LEFT JOIN biz_task_package_templat b ON b.id = a.task_package_templat_id
+	</sql>
+    
+	<select id="get" resultType="BizTaskPackageTemplatRel">
+		SELECT 
+			<include refid="bizTaskPackageTemplatRelColumns"/>
+		FROM biz_task_package_templat_rel a
+		<include refid="bizTaskPackageTemplatRelJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="getList" resultType="BizTaskPackageTemplatRel">
+		SELECT 
+			<include refid="bizTaskPackageTemplatRelColumns"/>
+		FROM biz_task_package_templat_rel a
+		<include refid="bizTaskPackageTemplatRelJoins"/>
+		WHERE a.task_package_templat_id = #{0}
+		AND a.procedure_no = #{1}
+	</select>
+	
+	<select id="getAllList" resultType="BizTaskPackageTemplatRel">
+		SELECT 
+			<include refid="bizTaskPackageTemplatRelColumns"/>
+		FROM biz_task_package_templat_rel a
+		<include refid="bizTaskPackageTemplatRelJoins"/>
+		WHERE a.task_package_templat_id = #{0}
+	</select>
+	
+	<select id="getByProcedureNo" resultType="BizTaskPackageTemplatRel">
+		SELECT 
+			<include refid="bizTaskPackageTemplatRelColumns"/>
+		FROM BIZ_TASK_PACKAGE_TEMPLAT_REL a
+		WHERE a.TASK_PACKAGE_TEMPLAT_ID = #{taskPackageTemplatId}
+		AND a.PROCEDURE_NO NOT IN
+		<foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+	</select>
+	
+	<select id="findList" resultType="BizTaskPackageTemplatRel">
+		SELECT 
+			<include refid="bizTaskPackageTemplatRelColumns"/>
+		FROM biz_task_package_templat_rel a
+		<include refid="bizTaskPackageTemplatRelJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="taskPackageTemplatId != null and taskPackageTemplatId != ''">
+				AND a.task_package_templat_id = #{taskPackageTemplatId}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.create_date ASC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="BizTaskPackageTemplatRel">
+		SELECT 
+			<include refid="bizTaskPackageTemplatRelColumns"/>
+		FROM biz_task_package_templat_rel a
+		<include refid="bizTaskPackageTemplatRelJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.create_date ASC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findByTaskPackageTemplateId" resultType="BizTaskPackageTemplatRel">
+		SELECT 
+			<include refid="bizTaskPackageTemplatRelColumns"/>
+		FROM biz_task_package_templat_rel a
+		<where>
+			a.del_flag = 0 and a.task_package_templat_id = #{taskPackageTemplatId}
+		</where>		
+	</select>
+	<select id="findByTaskPackageRelProcedureTemplateId" resultType="BizTaskPackageTemplatRelProcedure">
+		SELECT 
+			<include refid="bizTaskPackageTemplatRelProcedureColumns"/>
+		FROM biz_task_package_templat_rel a,biz_procedure b
+		<where>
+			a.procedure_no=b.procedure_no and a.del_flag = 0 and a.task_package_templat_id = #{taskPackageTemplatId} and b.del_flag = 0
+		</where>		
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO biz_task_package_templat_rel(
+			task_package_templat_id,
+			procedure_no,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag
+		) VALUES (
+			#{taskPackageTemplatId},
+			#{procedureNo},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE biz_task_package_templat_rel SET 	
+			task_package_templat_id = #{taskPackageTemplatId},
+			procedure_no = #{procedureNo},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE biz_task_package_templat_rel SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		<choose>
+			<when test="id !=null and id != ''">
+				WHERE id = #{id}
+			</when>
+			<otherwise>
+				WHERE task_package_templat_id = #{taskPackageTemplatId}
+			</otherwise>
+		</choose>
+	</update>
+	
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+	    INSERT INTO biz_task_package_templat_rel (
+	    	task_package_templat_id,
+			procedure_no,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag)    
+	    VALUES 
+	    <foreach collection="list" item="item" index="index" separator="," >
+	    	(
+	    	#{item.taskPackageTemplatId},
+			#{item.procedureNo},
+			#{item.createBy.id},
+			#{item.createDate},
+			#{item.updateBy.id},
+			#{item.updateDate},
+			#{item.remarks},
+			#{item.delFlag}
+			)
+	    </foreach>  
+	  </insert>
+	
+	<update id="batchDeleteByTemplatId">
+	 delete  
+	 from biz_task_package_templat_rel where task_package_templat_id = #{taskPackageTemplatId} and procedure_no in  
+	 <foreach item="item" index="index" collection="procedureNos" open="(" separator="," close=")">  
+	  #{item}  
+	 </foreach>  
+	</update>  
+</mapper>

@@ -1,0 +1,11 @@
+BizEmployeegroupController.class路径：
+WEB-INF\classes\com\thinkgem\jeesite\modules\empgroup\web
+
+BizEmployeegroupVO.class 和BizEmployeegroup.class的路径：
+WEB-INF\classes\com\thinkgem\jeesite\modules\empgroup\entity
+
+bizEmployeegroupList.jsp 和 bizEmployeegroupForm.jsp的路径：
+WEB-INF\views\modules\empgroup
+
+BizEmployeegroupVoDao.xml 和 BizEmployeegroupDao.xml 的路径：
+WEB-INF\classes\mappings\modules\empgroup

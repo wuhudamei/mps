@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.mobile.Manager.ManagerBroadCastDao">
+    
+    
+  <select id="findBroadCastList" parameterType="cn.damei.entity.mobile.Manager.ManagerBroadCastEntity" resultType="cn.damei.entity.mobile.Manager.ManagerBroadCastEntity">
+  
+  SELECT
+	a.customer_name AS "customerName",
+	a.community_name AS "communityName",
+	a.build_number AS "buildNumber",
+	a.build_unit AS "buildUnit",
+	a.build_room AS "buildName",
+	e.realName AS "applyBroadCastName",
+	e.id AS "applyBroadCastId",
+	b.cus_broadcast_bill_name AS "broadcastName",
+	a.id AS "orderId",
+	b.id AS "broadcastId",
+	b.apply_datetime as "applyBroadCastDate"
+FROM
+	biz_order a,
+	biz_cus_broadcast_bill b,
+	biz_employee e
+WHERE
+	b.order_id = a.id
+AND b.apply_employee_id = e.id
+ and a.item_manager_id = #{applyBroadCastId}
+ and b.status='10'
+<if test="text!=null and text!=''">
+and (a.community_name like CONCAT('%','${text}','%' )  or a.customer_name like CONCAT('%','${text}','%' ) or b.cus_broadcast_bill_name like CONCAT('%','${text}','%' ))
+</if>
+  </select>  
+    
+    
+    
+  
+  <!-- 根据播报单id 查询图片等 -->  
+    <select id="findBroadCastInfoAndPic" parameterType="int" resultType="cn.damei.entity.mobile.Manager.ManagerBroadCastEntity">
+    SELECT
+	a.customer_name AS "customerName",
+	a.community_name AS "communityName",
+	a.build_number AS "buildNumber",
+	a.build_unit AS "buildUnit",
+	a.build_room AS "buildName",
+	e.realName AS "applyBroadCastName",
+	e.id AS "applyBroadCastId",
+	e.phone as "applyBroadCastPhone",
+	b.cus_broadcast_bill_name AS "broadcastName",
+	a.id AS "orderId",
+	b.id AS "broadCastId",
+	b.apply_datetime as "applyBroadCastDate",
+	p.pic_url as "picPath",
+	p.id as "picId"
+	
+FROM
+	biz_order a,
+	biz_cus_broadcast_bill b,
+	biz_employee e,
+	biz_business_pic p
+WHERE
+	b.order_id = a.id
+AND b.apply_employee_id = e.id
+ and p.business_type='501'
+and p.business_id_int = b.id
+and b.id =#{broadcastId}
+    
+    </select>
+    
+    
+    
+    
+    <update id="updateCurrentPicStatus" parameterType="java.util.List">
+    update biz_business_pic set remarks = <foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+      when #{item.picId} then #{item.isShow,jdbcType=VARCHAR}
+  </foreach>
+  	where id in
+			<foreach collection="list" index="index" item="item" separator="," open="(" close=")">
+				#{item.picId}
+			</foreach>
+  
+    </update>
+    
+   
+   <insert id="savePicAndIsShow" parameterType="java.util.List">
+   
+   insert into biz_business_pic (
+   business_type,
+   business_id_int,
+   pic_url,
+   pic_datetime,
+   remarks
+   )values<foreach collection="list" item="item" index="index" separator="," >
+			(
+				#{item.picType},
+				#{item.picRelatedId},
+				#{item.picPath},
+				#{item.picDateTime},
+				#{item.isShow}
+			)
+		</foreach>
+   </insert> 
+    
+   
+   <update id="updateBroadCast" parameterType="cn.damei.entity.mobile.Manager.ManagerBroadCastEntity">
+   update biz_cus_broadcast_bill set check_employee_id = #{checkEmployeeId}
+   ,status=#{status},status_datetime = #{statusDateTime}, pic_number =#{picCount}
+   where id = #{broadcastId}
+   
+   
+   </update> 
+    
+    </mapper>

@@ -1,0 +1,69 @@
+.g-sign{
+	width: 100%;
+	height: 100%;
+	background: #eee;
+}
+.g-sign header.sign_header{
+	width: 100%;
+	height: 0.8rem;
+	background: #09f;
+	position: fixed;
+	z-index: 9;
+}
+.back_btn{
+	display: block;
+	width: 0.2rem;
+	height: 0.34rem;
+	background-image: url(../images/back_icon.png);
+	background-size: 0.2rem 0.34rem;
+	position: absolute;
+	left: 0.3rem;
+	top: 0.23rem;
+}
+.g-sign h2.sign_title{
+	text-align: center;
+	color: #fff;
+	font-size: 0.34rem;
+	height: inherit;
+	line-height: 0.8rem;
+}
+/*header ending*/
+.g-sign .position_text{
+	position: fixed;
+	top: 0.8rem;
+	width: 100%;
+	height: 0.74rem;
+	line-height: 0.74rem;
+	text-align: center;
+	font-size: 0.3rem;
+	color: #666;
+	background-color: #eee;
+	z-index: 9;
+}
+#map{
+	padding-top: 1.54rem;
+	width: 100%;
+	height: 100%;
+}
+.g-sign .position_point{
+	width: 0.54rem;
+	height: 0.74rem;
+	background-image: url(../images/position_point.png);
+	background-size: 0.54rem 0.74rem;
+	position: absolute;
+	top: 3rem;
+	left: 47%;
+	z-index: 9;
+}
+.g-sign .btns a{
+	position: fixed;
+	display: block;
+	width: 3.76rem;
+	height: 0.8rem;
+	line-height: 0.8rem;
+	text-align: center;
+	font-size: 0.28rem;
+	color: #fff;
+	background: #09f;
+	border-radius: 0.1rem;
+}

@@ -1,0 +1,14 @@
+在接单预算管理下新增菜单
+			换单详情管理 
+
+			在换单详情管理新增 工人换单明细     
+			工人换单明细 --链接 /exchangeOrderDetails/exchangeOrderDetails/worker_list
+				     --权限标识 worker:bizWorkerExchange:view
+
+			在换单详情管理新增 项目经理换单明细
+			项目经理换单明细 -- 链接 /exchangeOrderDetails/exchangeOrderDetails/manager_list
+					 -- 权限标识 manager:bizManagerExchange:view
+
+			在换单详情管理新增 质检员换单明细
+			质检员换单明细	 -- 链接 /exchangeOrderDetails/exchangeOrderDetails/inspector_list
+					 -- 权限标识 inspector:bizInspectorExchange:view

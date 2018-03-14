@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="cn.damei.dao.mobile.Manager.BalanceByMonthDao">
+
+
+	<!-- 查询传入月份的所有结算单的值 -->
+	<select id="getBalanceDetailByMonth"
+		resultType="cn.damei.entity.mobile.Manager.balanceDetail">
+		select
+		a.pm_employee_id AS "managerId",
+		a.midway_commission_amount AS "midBalanceMoney",
+		a.complete_commission_amount AS "completeBalanceMoney",
+		a.ownpay_amount AS "freePayMoney",
+		a.materials_standard_amount AS
+		"materialsStandardAmount",
+		a.midway_qc_check_punish_amount AS
+		"midFineMoney",
+		a.complet_qc_check_punish_amount AS "comleteFineMoney",
+		a.guarantee_money_amount AS "guaranteMoney",
+		a.total_amount AS
+		"totalMoney",
+		a.midway_auxiliary_materials_settle_amount AS
+		"midwayAuxiliaryMaterialsDeductAmount",
+		a.complete_auxiliary_materials_settle_amount AS
+		"completeAuxiliaryMaterialsDeductAmount",
+		a.material_selfbuy_reimburse_amount as
+		"materialSelfbuyReimburseAmount",
+		a.total_amount AS "totalMoney"
+		FROM
+		biz_pm_settle_summary_bill a
+		WHERE
+		a.settle_month = #{0} and
+		a.pm_employee_id =#{1} and a.settle_role =1
+	</select>
+
+	<select id="getBalanceDetailByParam" parameterType="java.util.Map"
+		resultType="cn.damei.entity.mobile.Manager.balanceDetail">
+		SELECT
+		GROUP_CONCAT(a.id) AS "summaryBillIds",
+		a.settle_month AS "settleMonth",
+		sum(a.total_amount) AS
+		"totalMoney"
+		FROM
+		biz_pm_settle_summary_bill a
+		WHERE
+		a.pm_employee_id
+		=#{pmEmployeeId} and a.settle_role =1 AND a.settle_month &lt;
+		#{endSettleMonth} AND
+		a.settle_month >= #{startSettleMonth}
+		group by a.settle_month
+	</select>
+
+	<select id="queryTotalMoneyByParam" parameterType="java.util.Map"
+		resultType="double">
+		SELECT
+		sum(IFNULL(a.total_amount,0)) AS "totalMoney"
+		FROM
+		biz_pm_settle_summary_bill a
+		WHERE
+		a.pm_employee_id =#{pmEmployeeId} and
+		a.settle_role =1 AND
+		a.settle_month &lt; #{endSettleMonth} AND
+		a.settle_month >=
+		#{startSettleMonth}
+	</select>
+
+	<select id="querySettleBillByParam" parameterType="java.util.Map"
+		resultType="cn.damei.entity.mobile.Manager.balanceDetail">
+		SELECT
+		b.id AS "settleBillId",
+		b.order_id AS "orderId",
+		c.community_name AS "communityName",
+		c.build_number AS "buildNumber",
+		c.build_room AS "buildRoom",
+		c.build_unit AS "buildUnit",
+		c.customer_name AS "customerName",
+		b.settle_bill_type AS
+		"settleBillType",
+		b.total_amount AS "totalMoney"
+		FROM
+		biz_pm_settle_summary_bill a
+		LEFT JOIN biz_pm_settle_bill b on a.id =
+		b.pm_settle_summary_bill_id
+		LEFT JOIN biz_order c on c.id = b.order_id
+		WHERE
+		a.pm_employee_id = #{pmEmployeeId}
+		AND a.settle_role = 1
+		AND a.settle_month = #{settleMonth}
+	</select>
+</mapper>

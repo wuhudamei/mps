@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizOrderInstallItemProblemLogDao">
+    
+	<sql id="bizOrderInstallItemProblemLogColumns">
+		a.id AS "id",
+		a.business_problem_id AS "businessProblemId",
+		a.status AS "status",
+		a.problem_solve_role AS "problemSolveRole",
+		a.problem_solve_employee_id AS "problemSolveEmployeeId",
+		a.problem_solve_notes AS "problemSolveNotes",
+		a.remarks AS "remarks",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="bizOrderInstallItemProblemLogJoins">
+	</sql>
+    
+	<select id="get" resultType="cn.damei.entity.modules.BizOrderInstallItemProblemLog">
+		SELECT 
+			<include refid="bizOrderInstallItemProblemLogColumns"/>
+		FROM biz_business_problem_log a
+		<include refid="bizOrderInstallItemProblemLogJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="cn.damei.entity.modules.BizOrderInstallItemProblemLog">
+		SELECT 
+			<include refid="bizOrderInstallItemProblemLogColumns"/>,
+			b.realName AS "problemSolveEmployeeName",
+			b.phone AS "problemSolveEmployeePhone"
+		FROM biz_business_problem_log a
+		LEFT JOIN biz_employee b on b.id = a.problem_solve_employee_id
+		<include refid="bizOrderInstallItemProblemLogJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="businessProblemId != null and businessProblemId != ''">
+				AND  a.business_problem_id = #{businessProblemId}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.create_date ASC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="cn.damei.entity.modules.BizOrderInstallItemProblemLog">
+		SELECT 
+			<include refid="bizOrderInstallItemProblemLogColumns"/>
+		FROM biz_business_problem_log a
+		<include refid="bizOrderInstallItemProblemLogJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO biz_business_problem_log(
+			id,
+			business_problem_id,
+			status,
+			problem_solve_role,
+			problem_solve_employee_id,
+			problem_solve_notes,
+			remarks,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag
+		) VALUES (
+			#{id},
+			#{businessProblemId},
+			#{status},
+			#{problemSolveRole},
+			#{problemSolveEmployeeId},
+			#{problemSolveNotes},
+			#{remarks},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE biz_business_problem_log SET 	
+			business_problem_id = #{businessProblemId},
+			status = #{status},
+			problem_solve_role = #{problemSolveRole},
+			problem_solve_employee_id = #{problemSolveEmployeeId},
+			problem_solve_notes = #{problemSolveNotes},
+			remarks = #{remarks},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE biz_business_problem_log SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+	<select id="queryByProblemId" resultType="cn.damei.entity.modules.BizOrderInstallItemProblemLog">
+		SELECT 
+			a.id AS "id",
+			a.business_problem_id AS "businessProblemId",
+			a.status AS "status",
+			a.problem_solve_role AS "problemSolveRole",
+			a.problem_solve_employee_id AS "problemSolveEmployeeId",
+			a.problem_solve_notes AS "problemSolveNotes",
+			a.remarks AS "remarks",
+			a.create_by AS "createBy.id",
+			a.create_date AS "createDate",
+			a.update_by AS "updateBy.id",
+			a.update_date AS "updateDate",
+			a.del_flag AS "delFlag",
+			b.realName
+		FROM biz_business_problem_log a
+		left join biz_employee b on b.id = a.problem_solve_employee_id
+		WHERE a.business_problem_id = #{businessProblemId} and a.problem_solve_role = #{problemSolveRole}
+	</select>
+</mapper>

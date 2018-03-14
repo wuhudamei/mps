@@ -1,0 +1,38 @@
+键值	标签			类型				描述			排序	操作
+10	已转给供应商		supplier_install_bill_status	安装项-安装单状态	10	修改 删除 添加键值
+15	已确定工期		supplier_install_bill_status	安装项-安装单状态	15	修改 删除 添加键值
+20	已确定工人组		supplier_install_bill_status	安装项-安装单状态	20	修改 删除 添加键值
+30	施工中			supplier_install_bill_status	安装项-安装单状态	30	修改 删除 添加键值
+40	已申请完工		supplier_install_bill_status	安装项-安装单状态	40	修改 删除 添加键值
+50	已验收			supplier_install_bill_status	安装项-安装单状态	50	修改 删除 添加键值
+90	已作废			supplier_install_bill_status	安装项-安装单状态	60	修改 删除 添加键值
+
+键值	标签	类型			描述		排序			操作
+1	产业	install_mode	主材安装_订单安装	10	修改 删除 添加键值
+2	传统	install_mode	主材安装_订单安装	20	修改 删除 添加键值
+310	已确定工人组	install_status	安装单状态	70	修改 删除 添加键值
+
+
+键值	标签		类型		描述		排序			操作
+320	施工中		install_status	安装单状态	80	修改 删除 添加键值
+330	工人已申请完工	install_status	安装单状态	90	修改 删除 添加键值
+		
+键值	标签		类型					描述		排序	操作
+10	已确定工人组	supplier_install_construct_bill_status	施工单状态	10	修改 删除 添加键值
+20	施工中		supplier_install_construct_bill_status	施工单状态	20	修改 删除 添加键值
+30	工人已申请完工	supplier_install_construct_bill_status	施工单状态	30	修改 删除 添加键值
+50	已验收		supplier_install_construct_bill_status	施工单状态	40	修改 删除 添加键值
+90	已作废		supplier_install_construct_bill_status	施工单状态	50	修改 删除 添加键值
+
+5	安装工上报问题	problem_business_type			问题上报所属业务	40	修改 删除 添加键值
+
+
+
+
+键值	标签	类型	描述	排序	操作
+1	主材安装	install_item_type	主材安装_安装项分类	10	修改 删除 添加键值
+2	墙地砖	install_item_type	主材安装_安装项分类	20	修改 删除 添加键值
+3	沙子水泥	install_item_type	主材安装_安装项分类	30	修改 删除 添加键值
+4	辅料	install_item_type	主材安装_安装项分类	40	修改 删除 添加键值
+
+

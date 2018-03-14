@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.mobile.Manager.OrderDisclosePicDao">
+    
+	<sql id="orderDisclosePicColumns">
+		a.ID AS "id",
+		a.ORDER_DISCLOSE_ID AS "orderDiscloseId",
+		a.ORDER_DISCLOSE_PIC_TYPE AS "orderDisclosePicType",
+		a.PIC_URL AS "picUrl",
+	</sql>
+	
+	<insert id="batchInsertPic" parameterType="java.util.List" useGeneratedKeys="true">
+	    INSERT INTO BIZ_ORDER_DISCLOSE_PIC (
+	    	ID,
+			ORDER_DISCLOSE_ID,
+			ORDER_DISCLOSE_PIC_TYPE,
+			PIC_URL
+		)VALUES 
+	    <foreach collection="list" item="item" index="index" separator="," >
+	    (
+	    	#{item.id},
+			#{item.orderDiscloseId},
+			#{item.orderDisclosePicType},
+			#{item.picUrl}
+		)
+	    </foreach>  
+	  </insert>
+	  
+	  <insert id="insertPic">
+	    INSERT INTO BIZ_ORDER_DISCLOSE_PIC (
+	    	ID,
+			ORDER_DISCLOSE_ID,
+			ORDER_DISCLOSE_PIC_TYPE,
+			PIC_URL
+		)VALUES (
+	    	#{id},
+			#{orderDiscloseId},
+			#{orderDisclosePicType},
+			#{picUrl}
+		)
+	  </insert>
+	
+</mapper>

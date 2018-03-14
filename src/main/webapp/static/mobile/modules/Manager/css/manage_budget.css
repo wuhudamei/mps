@@ -1,0 +1,30 @@
+.g_info ul.info_ul li:first-child{
+	background-image: url(../images/zaicai_03.png);
+	background-repeat: no-repeat;
+	background-size: 0.33rem 0.32rem;
+	background-position: 4% center;
+}
+.g_info ul.info_ul li:nth-child(2){
+	background-image: url(../images/budget_icon1.png);
+	background-repeat: no-repeat;
+	background-size: 0.33rem 0.32rem;
+	background-position: 4% center;
+}
+.g_info ul.info_ul li:nth-child(3){
+	background-image: url(../images/budget_icon2.png);
+	background-repeat: no-repeat;
+	background-size: 0.33rem 0.32rem;
+	background-position: 4% center;
+}
+.g_info ul.info_ul li:nth-child(4){
+	background-image: url(../images/budget_icon3.png);
+	background-repeat: no-repeat;
+	background-size: 0.33rem 0.32rem;
+	background-position: 4% center;
+}
+.g_info ul.info_ul li:nth-child(5){
+	background-image: url(../images/budget_icon4.png);
+	background-repeat: no-repeat;
+	background-size: 0.33rem 0.32rem;
+	background-position: 4% center;
+}

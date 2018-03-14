@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.mobile.Manager.ReceivedAuxiliaryDao">
+	
+	<select id="queryAuxiliaryByPurchase" resultType="cn.damei.entity.mobile.Manager.ReceivedAuxiliary">
+		SELECT
+			a.id as "id",
+			a.purchase_id as "purchaseId",
+			a.auxi_mate_code as "mateCode",
+			a.auxi_mate_count as "count",
+			a.received_auxi_mate_count as "receivedCount",
+			a.owed_auxi_mate_count as "owedCount",
+			<!-- b.auxiliary_materials_no as "auxiliaryMaterialNo", -->
+			b.auxiliary_materials_name as "name",
+			b.specifications as "specifications",
+			b.brands as "brands",
+			b.pic_url as "picUrl",
+			c.label as "unit"
+		FROM
+			biz_purchase_auxi_mate a
+		INNER JOIN biz_auxiliary_materials b ON a.auxi_mate_code = b.auxiliary_materials_no
+
+		INNER JOIN sys_dict c ON b.measurement_unit = c.value
+		AND c.type = 'biz_material_unit'
+		WHERE
+			a.submmit_status = 'YES' and a.purchase_id = #{0} and a.owed_auxi_mate_count &lt;>0
+	</select>
+	
+	<select id="queryAuxiliaryById" resultType="cn.damei.entity.mobile.Manager.ReceivedAuxiliary" >
+		SELECT
+			a.id as "id",
+			a.purchase_id as "purchaseId",
+			a.auxi_mate_code as "mateCode",
+			a.auxi_mate_count as "count",
+			a.received_auxi_mate_count as "receivedCount",
+			a.owed_auxi_mate_count as "owedCount",
+			<!-- b.auxiliary_materials_no as "auxiliaryMaterialNo", -->
+			b.auxiliary_materials_name as "name",
+			b.specifications as "specifications",
+			b.brands as "brands",
+			b.pic_url as "picUrl",
+			c.label as "unit"
+		FROM
+			biz_purchase_auxi_mate a
+		INNER JOIN biz_auxiliary_materials b ON a.auxi_mate_code = b.auxiliary_materials_no
+
+		INNER JOIN sys_dict c ON b.measurement_unit = c.value
+		AND c.type = 'biz_material_unit'
+		WHERE
+			a.submmit_status = 'YES' and  a.id = #{0}
+	
+	</select>
+	
+	<update id="updateCount">
+		update 
+			biz_purchase_auxi_mate 
+		set
+			received_auxi_mate_count = #{1},
+			owed_auxi_mate_count = #{2} 
+		where id = #{0}
+	</update>
+	
+	<select id="queryAuxiliaryByReceiveBillId" resultType="cn.damei.entity.mobile.Manager.ReceivedAuxiliary">
+	
+		SELECT
+			a.received_count as "receivedNumber",
+			b.id as "id",
+			b.purchase_id as "purchaseId",
+			b.auxi_mate_code as "mateCode",
+			b.auxi_mate_count as "count",
+			b.received_auxi_mate_count as "receivedCount",
+			b.owed_auxi_mate_count as "owedCount",
+			c.auxiliary_materials_name as "name",
+			c.specifications as "specifications",
+			c.brands as "brands",
+			c.pic_url as "picUrl",
+			d.label as "unit"
+		FROM
+			biz_purchase_receive_bill_product a
+		LEFT JOIN biz_purchase_auxi_mate b ON a.purchase_product_id = b.id
+		AND b.submmit_status = 'YES'
+		INNER JOIN biz_auxiliary_materials c ON b.auxi_mate_code = c.auxiliary_materials_no
+		AND c. STATUS = '1'
+		AND c.del_flag = '0'
+		INNER JOIN sys_dict d ON c.measurement_unit = d.`value`
+		AND d.type = 'biz_material_unit'
+		WHERE
+			a.purchase_receive_bill_id = #{0}
+	</select>
+</mapper>

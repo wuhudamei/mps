@@ -1,0 +1,8 @@
+在基础设置-材料管理下新增 辅料管理-网真  辅料管理-供应商
+
+			  辅料管理-网真 --链接 /auxiliarymaterials/bizAuxiliaryMaterials/WZlist
+					-- 权限标识 auxiliarymaterials:bizWZAuxiliaryMaterials:view,auxiliarymaterials:bizWZAuxiliaryMaterials:edit
+
+
+			  辅料管理-供应商 --链接 /auxiliarymaterials/bizAuxiliaryMaterials/supplierList
+					  -- 权限标识 auxiliarymaterials:bizSupplierListAuxiliaryMaterials:view,auxiliarymaterials:bizSupplierListAuxiliaryMaterials:edit

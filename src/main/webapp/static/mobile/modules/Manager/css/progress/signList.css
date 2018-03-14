@@ -1,0 +1,18 @@
+.bg_already{
+	background-image: url(../../img/progress/signSignal.png);
+	background-repeat: no-repeat;
+	background-size: 1.14rem .9rem;
+	background-position: 96% .2rem;
+}
+.one_btn1{
+	display: block;
+	margin: .36rem auto;
+	width: 3.3rem;
+    height: .58rem;
+    line-height: .58rem;
+    color: #ff9800;
+    text-align: center;
+    border: 1px solid #ff9800;
+    font-size: .28rem;
+    border-radius: .29rem;
+}

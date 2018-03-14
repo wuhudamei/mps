@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizSynDateSendAndReceiveDao">
+	<resultMap type="HashMap" id = "bizsyndatemap">
+		<result property="id" column="id" javaType="String"/>
+		<result property="business_type" column="business_type"/>
+	</resultMap>
+
+	<insert id = "saveJSONDate" >
+		INSERT INTO 
+			biz_syn_data 
+		SET 
+			data_direction = 1,
+			syn_status = 1,
+			business_data=#{0},
+			business_type=#{1},
+			syn_datetime=#{2},
+			create_date=#{2},
+			update_date=#{2},
+			del_flag=0
+	</insert>
+	<insert id = "saveData" parameterType="Map">
+		INSERT INTO 
+			biz_syn_data 
+		SET 
+			data_direction = 1,
+			syn_status = 1,
+			business_data=#{businessData},
+			business_type=#{businessType},
+			business_only_mark_varchar = #{businessOnlyMarkInt},
+			syn_datetime=NOW(),
+			create_date=NOW(),
+			update_date=NOW(),
+			del_flag=0
+	</insert>
+	<update id="updateData" parameterType="Map">
+		update biz_syn_data set
+			business_data=#{businessData},
+			update_date=NOW()
+		where 
+			business_type=#{businessType} and 
+			business_only_mark_varchar = #{businessOnlyMarkInt}
+	</update>
+	<select id = "findSendJsonDate" resultType="cn.damei.entity.modules.BizSynDataCnfg">
+		SELECT 
+			bs.id,
+			bs.business_type ,
+			bs.business_data
+		FROM 
+			biz_syn_data bs 
+		WHERE
+			bs.data_direction=2
+			and bs.syn_status=4 
+	</select>
+	<update id="updateBizSynDate">
+		UPDATE 
+			biz_syn_data 
+		SET 
+			syn_status = #{2},
+			syn_datetime = #{1}
+		WHERE 
+			id = #{0}
+	</update>
+	
+	<select id="findBizSynDateConf" resultType="String">
+		SELECT 
+			interface_url
+		FROM 
+			biz_syn_data_cnfg
+		WHERE 
+			business_type = #{0}
+		AND 
+			data_direction = 2;
+	</select>
+	<select id="findJson" resultType="String">
+		SELECT business_data FROM biz_syn_data a WHERE a.syn_datetime BETWEEN '2017-04-09' AND '2017-04-10' AND a.data_direction = '1'
+	</select>
+	<insert id="saveCustomerServiceDataByMap" parameterType="Map">
+		insert into biz_cus_service_problem (
+        store_id,
+        store_code,
+        work_order_code,
+        order_code ,
+
+        customer_address,
+        customer_name,
+        customer_mobile,
+
+
+        problem_create_datetime,
+        problem_describe,
+
+
+        liable_department_code,
+        complaintType,
+        important_degree_code_1,
+
+        photo_url,
+        create_date,
+        update_date,
+
+        question_type1,
+        question_type2,
+        work_source,
+        del_flag,
+		status
+
+        )values
+            (
+
+            (select id from sys_office where `code`=#{companyName}),
+            #{companyName},
+            #{workOrderCode},
+            #{orderNo},
+
+            #{customerAddress},
+            #{customerName},
+            #{customerMobile},
+            #{problemCreateDate},
+            #{problem},
+
+            #{departId},
+            #{complaintTypeName},
+            #{importantDegree1Id},
+
+
+            #{photo},
+            NOW(),
+            NOW(),
+
+            #{questionType1ObjectMapName},
+            #{questionType2ObjectMapName},
+            #{sourceObjectName},
+            #{del_flag},
+            #{status}
+            )
+
+	</insert>
+	<select id="selectCountBizSynDataByTypeAndMarkInt" resultType="Integer">
+		select count(*) from biz_syn_data where business_type=#{0} and business_only_mark_varchar=#{1}
+	</select>
+	<update id="updateCustomerServiceDataByMap" parameterType="Map">
+		update biz_cus_service_problem set 
+			store_id = (select id from sys_office where `code`=#{companyName}),
+	        store_code = #{companyName},
+	        work_order_code =#{workOrderCode},
+	        order_code  = #{orderNo},
+	
+	        customer_address =#{customerAddress},
+	        customer_name =#{customerName},
+	        customer_mobile = #{customerMobile},
+	
+			problem_create_datetime =#{problemCreateDate},
+	        problem_describe =#{problem},
+	
+	
+	        liable_department_code =#{departId},
+	        complaintType = #{complaintTypeName},
+	        important_degree_code_1 =#{importantDegree1Id},
+	
+	        photo_url =#{photo},
+	        update_date = NOW(),
+	
+	        question_type1 =  #{questionType1ObjectMapName},
+	        question_type2 = #{questionType2ObjectMapName},
+	        work_source = #{sourceObjectName},
+	        del_flag = #{del_flag},
+			status = #{status}
+        where work_order_code = #{workOrderCode}
+	</update>
+	<select id="selectCountProblemByTypeAndMarkInt" resultType="Integer">
+		select count(*) from biz_cus_service_problem where work_order_code = #{workOrderCode}
+	</select>
+	<select id="selectliableTypeCountByMap" resultType="Integer" parameterType="String">
+		select count(*) from biz_cus_service_liable_type where liable_type_code = #{liableTypeCode}
+	</select>
+	<insert id="insertLiableTypeByMap" parameterType="Map">
+		insert into biz_cus_service_liable_type
+			(
+				liable_type_code,
+				father_liable_type_code,
+				liable_type_name,
+				create_date,
+				update_date
+			)values
+			(
+				#{id},
+				#{familyCode},
+				#{orgName},
+				NOW(),
+				NOW()
+			)
+	</insert>
+	
+	<update id="updateLiableTypeByMap" parameterType="Map">
+		update biz_cus_service_liable_type set 
+			father_liable_type_code=#{familyCode},
+			liable_type_name=#{orgName},
+			update_date = NOW() 
+			where liable_type_code =#{id}
+	</update>
+</mapper>

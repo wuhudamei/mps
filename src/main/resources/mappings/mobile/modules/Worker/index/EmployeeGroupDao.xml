@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.mobile.Worker.EmployeeGroupDao">
+
+	<sql id="employeeGroupColumns">
+		a.id AS "id",
+		a.star AS "star",
+		a.nps AS "nps",
+		a.sort AS "sort",
+		a.address AS "address",
+		a.orderStop AS "orderStop",
+		a.state AS "state",
+		a.ordersArea AS "ordersArea",
+		a.workType AS "workType",
+		a.groupId AS "groupId",
+		a.storeId AS "storeId",
+		a.taskPackageId AS "taskPackageId",
+		a.taskPackageId AS "taskPackageId"	
+	</sql>
+
+	<select id="selectEmployeeGroupByGroupId" resultType="cn.damei.entity.mobile.Worker.EmployeeGroup">
+		SELECT 
+		<include refid="employeeGroupColumns" />
+		from  biz_employeegroup a
+		where a.groupId = #{groupId} and (a.state = 0 or a.state is null) 
+	</select>
+	
+	
+	
+	<select id="findCount" parameterType="cn.damei.entity.mobile.Worker.WorkerTaskpackageVo" resultType="int">
+	SELECT 
+	count(1)
+		FROM biz_order_taskpackage a 
+		left join biz_order b on a.order_id = b.id 
+		where a.group_id = #{workerId} 
+		and a.package_stateId = #{status}
+		and b.is_scrap = '0'
+	</select>
+	
+	<select id="findSignCount" parameterType="cn.damei.entity.mobile.Worker.WorkerTaskpackageVo" resultType="int">
+	SELECT 
+	count(1)
+		FROM biz_order_taskpackage a where a.group_id = #{workerId} and a.package_stateId = #{status}
+		and (SELECT COUNT(b.id) FROM biz_sign b WHERE b.pack_id = a.id and b.signType ="2") &lt; 1
+	</select>
+	
+	
+	
+	
+</mapper>

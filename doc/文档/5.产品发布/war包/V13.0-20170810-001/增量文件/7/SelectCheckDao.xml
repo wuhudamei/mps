@@ -1,0 +1,918 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="cn.damei.dao.mobile.Inspector.SelectCheckDao">
+
+<!-- 根据质检单id 查询订单信息和 经理名字加手机 -->
+<select id="findMessageInfoByInspectId" parameterType="int" resultType="cn.damei.entity.mobile.Manager.QualityControl">
+SELECT
+	b.community_name AS "communityName",
+	b.build_number AS "buildNumber",
+	b.build_unit AS "buildUnit",
+	b.build_room AS "buildRoom",
+	b.customer_name AS "customerName",
+	b.customer_phone AS "customerPhone",
+	e.realName AS "itemManager",
+	e.phone AS "phone",
+	e.id as "itemManagerId",
+	b.id as "orderId"
+FROM
+	biz_order b,
+	biz_employee e
+WHERE
+	b.item_manager_id = e.id
+AND b.id = (
+	SELECT
+		a.order_id
+	FROM
+		biz_qc_bill a
+	WHERE
+		a.id = #{_parameter}
+)
+
+</select>
+<!-- 根据质检单id 查询订单信息和 质检员名字加手机 -->
+<select id="findMessageInfoByInspectId2" parameterType="int" resultType="cn.damei.entity.mobile.Manager.QualityControl">
+SELECT
+	b.community_name AS "communityName",
+	b.build_number AS "buildNumber",
+	b.build_unit AS "buildUnit",
+	b.build_room AS "buildRoom",
+	b.customer_name AS "customerName",
+	b.customer_phone AS "customerPhone",
+	e.realName AS "orderInspector",
+	e.phone AS "phone",
+	e.id as "orderInspectorId"
+FROM
+	biz_order b,
+	biz_employee e
+WHERE
+	b.order_inspector_id = e.id
+AND b.id = (
+	SELECT
+		a.order_id
+	FROM
+		biz_qc_bill a
+	WHERE
+		a.id = #{_parameter}
+)
+
+</select>
+
+
+	<!-- 通过质检员id查询订单 -->
+	<select id="findOrderByInspectorId" parameterType="cn.damei.entity.mobile.Inspector.Order"
+		resultType="cn.damei.entity.mobile.Inspector.Order">
+
+		SELECT
+			a.id AS "orderId",
+			a.community_name AS "communityName",
+			a.build_number AS "buildNumber",
+			a.build_unit AS "buildUnit",
+			a.build_room AS "buildRoom",
+			a.customer_name AS "customerName",
+			a.customer_phone AS "customerPhone",
+			b.realName AS "itemManager",
+			b.phone as "managerPhone",
+			a.actual_start_date AS "actualStartDate",
+			c.id AS "qcBillId",
+			c.`status` AS "qcBillStatus",
+			substring_index(a.map_coordinate, ',', 1) AS "lon",
+			substring_index(a.map_coordinate, ',', - 1) AS "lat"
+		FROM
+			biz_order a
+			LEFT JOIN biz_employee b ON b.id = a.item_manager_id
+			left join biz_qc_bill c on a.id = c.order_id
+			AND c.qc_bill_type = 2
+			AND c.is_recheck = '0'
+			AND c.`status` NOT IN (5)
+		WHERE
+			a.order_inspector_id = #{orderInspectorId}
+			AND a.order_status_number &lt; '300'
+			<if test="text!=null and text!=''">
+and (a.community_name like CONCAT('%','${text}','%' )  or a.customer_name like CONCAT('%','${text}','%' ) or a.item_manager  like CONCAT('%','${text}','%'))
+
+</if>
+			
+		ORDER BY a.actual_start_date DESC
+
+	</select>
+
+
+	<!-- 通过订单id查询抽检单 -->
+	<select id="findBizQcBillByOrderId" parameterType="int"
+		resultType="cn.damei.entity.mobile.Inspector.BizQcBill">
+
+		SELECT
+			a.id AS "qcBillId",
+			a.`status` AS "status"
+		FROM
+			biz_qc_bill a
+		WHERE
+			a.order_id = #{orderId}
+			AND a.qc_bill_type = 2
+			AND a.is_recheck = '0'
+			AND a.`status` NOT IN (5)
+
+	</select>
+
+	<!-- 根据抽检单查询暂存记录, 如果有 直接跳到检查项处理页面 -->
+	<select id="findZanCun" parameterType="int"
+		resultType="cn.damei.entity.mobile.Inspector.InspectItem">
+		SELECT
+			b.qc_bill_id AS "inspectBillId",
+			b.qc_check_item_id AS "checkItemId",
+			c.qc_check_item_name AS "checkItemName",
+			b.is_passed AS "isOk",
+			b.item_score AS "preScores",
+			b.got_score AS "actualScores",
+			b.is_warned AS "isWarn",
+			b.is_locale_repaire AS "isLocatedChange",
+			b.is_limit_date_repaire AS "isLimitDateChange",
+			b.limit_date AS "limitDate",
+			b.limit_date_repaire_check_style AS "limitChangeWay",
+			b.is_punish_money AS "isPunishMoney",
+			b.punish_money_amount_default AS "prePunishMoney",
+			b.punish_money_amount_real AS "actualPunishMoney",
+			b.check_style
+		FROM
+			biz_qc_bill a,
+			biz_qc_bill_check_item b,
+			biz_qc_check_item c
+		WHERE
+			a.`status` = '0'
+			AND a.id = #{inspectId}
+			AND a.id = b.qc_bill_id
+			AND b.qc_check_item_id = c.id;
+	</select>
+
+	<!-- 根据订单id查询订单所属门店 -->
+	<select id="findStoreByOrderId" parameterType="int" resultType="int">
+		SELECT store_id FROM biz_order WHERE id=#{0}
+	</select>
+
+	<resultMap
+		type="cn.damei.entity.mobile.Inspector.InspectKind"
+		id="checkKindMap">
+		<result property="checkKindId" column="id" />
+		<result property="checkKindName" column="qc_check_kind_name" />
+			<result property="projectMode" column="projectMode" />
+		<collection property="checkItemList" resultMap="checkItemMap"></collection>
+	</resultMap>
+
+
+	<resultMap
+		type="cn.damei.entity.mobile.Inspector.InspectItem"
+		id="checkItemMap">
+		<result property="checkItemId" column="checkItemId" />
+		<result property="checkItemName" column="qc_check_item_name" />
+		<result property="isRequired" column="is_required" />
+		<association property="checkKind" resultMap="checkKindMap"></association>
+	</resultMap>
+
+
+
+	<!-- 根据订单id查询检查分类和检查项   有工程模式-->
+	<select id="selectAllCheckItem" parameterType="int" resultMap="checkKindMap">
+		SELECT
+			a.id,
+			a.qc_check_kind_name,
+			b.id AS "checkItemId",
+			b.qc_check_item_name,
+			b.is_required,
+		 	c.projectMode as "projectMode"
+		FROM
+			biz_qc_check_kind a,
+			biz_qc_check_item b,
+			(
+				SELECT
+					e.store_id as "storeId",
+					e.project_mode as "projectMode"
+				FROM
+					biz_order e
+				WHERE
+				 e.id = #{_parameter}
+			) c
+		WHERE
+			a.store_id =c.storeId 
+		and a.project_mode = c.projectMode
+		and b.project_mode = a.project_mode
+		AND a.id = b.qc_check_kind_id
+		AND b. STATUS = '1'
+		AND a.status = '1'
+		ORDER BY
+			a.id,
+			b.id
+
+	</select>
+
+	<!-- 通过抽检单id查询图片 -->
+	<select id="findPic" parameterType="int"
+		resultType="cn.damei.entity.mobile.Inspector.ReportCheckDetailsPic">
+		SELECT
+			id AS "picId",
+			business_type AS "businessType",
+			business_id_int AS "businessIdInt",
+			business_id_varchar AS "businessIdVarchar",
+			pic_type AS "picType",
+			pic_index AS "picIndex",
+			pic_url AS "picUrl",
+			pic_datetime AS "picDatetime"
+		FROM
+			biz_business_pic
+		WHERE
+			business_id_int = #{businessIdInt}
+			AND business_type = '2'
+	</select>
+
+	<!-- 通过抽检单id查询是否有签到信息 -->
+	<select id="findSign" parameterType="int" resultType="int">
+		SELECT
+			COUNT(1)
+		FROM
+			biz_business_sign a
+		WHERE
+			a.related_business_id_int = #{0}
+			AND a.sign_type='302'
+	</select>
+
+	<!-- 根据抽检单id,删除检查项 -->
+	<delete id="deleteCheckItemsByCheckId" parameterType="int">
+		delete from
+			biz_qc_bill_check_item 
+		where 
+			qc_bill_id = #{qcBillId}
+	</delete>
+
+	<!-- 创建抽检单 -->
+	<insert id="saveBizQcBill"
+		parameterType="cn.damei.entity.mobile.Inspector.BizQcBill">
+		<selectKey resultType="java.lang.Integer" keyProperty="qcBillId"
+			order="AFTER">
+			SELECT LAST_INSERT_ID();
+		</selectKey>
+		insert into biz_qc_bill(
+			id,
+			qc_bill_code,
+			qc_bill_type,
+			is_recheck,
+			order_id,
+	
+			apply_remarks,
+			status,
+			remarks,
+			create_date,
+			update_date
+		) VALUES(
+			#{qcBillId},
+			#{qcBillCode},
+			#{qcBillType},
+			#{isRecheck},
+			#{orderId},
+	
+			#{applyRemarks},
+			#{status},
+			#{remarks},
+			#{createDate},
+			#{updateDate}
+		)
+	</insert>
+
+	<!-- 保存质检员选择的检查项 到 biz_qc_bill_check_item 表中 -->
+	<insert id="saveItems"
+		parameterType="cn.damei.entity.mobile.Inspector.InspectItem">
+		insert into biz_qc_bill_check_item(
+			qc_bill_id ,
+			qc_check_item_id,
+			create_date
+		)values (
+			#{inspectBillId},
+			#{checkItemId},
+			#{createDate}
+		)
+	</insert>
+
+	<!-- 根据抽检单id查询检查项选择记录表 biz_qc_bill_check_item 回显 重选 -->
+	<select id="changeCheckItem" parameterType="int" resultMap="checkKindMap">
+		SELECT
+			b.id ,
+			b.qc_check_kind_name ,
+			a.qc_check_item_id "checkItemId",
+			c.is_required ,
+			c.qc_check_item_name
+		FROM
+			biz_qc_bill_check_item a,
+			biz_qc_check_kind b,
+			biz_qc_check_item c
+		where
+			a.qc_check_item_id = c.id
+			and c.qc_check_kind_id = b.id
+			and a.qc_bill_id = #{inspectId}
+	</select>
+	<!-- 根据检查项id 查询违规形式 -->
+	<select id="findIllegalModalityByCheckItemId" parameterType="int"
+		resultType="cn.damei.entity.mobile.Inspector.IllegalModality">
+			SELECT
+	a.id AS "id",
+	a.break_describe AS "illegalModalityName",
+	a.is_required_remarks AS "isRemarks",
+	a.qc_check_item_id AS "checkItemId",
+	a.remarks AS "remarks",
+	a.`status` AS "status",
+	a.store_id AS "storeId",
+	b.punish_amount AS "managerFineMoney",
+	b.worker_punish_amount AS "workerFineMoney",
+	b.item_score AS "managerFineScore",
+	b.worker_punish_score AS "workerFineScore",
+	b.qc_punish_score AS "pqcFineScore",
+	b.qc_punish_amount AS "pqcFineMoney"
+FROM
+	biz_qc_check_item_break a,
+	biz_qc_check_item b
+WHERE
+	a. STATUS = '1'
+AND a.qc_check_item_id = b.id
+AND a.qc_check_item_id = #{checkItemId}
+	</select>
+
+	<!-- 根据违规项id 查询 检查项id,分数,及是否有备注 -->
+	<select id="selectCheckItemInfoByIllegalModalityId"
+		parameterType="int"
+		resultType="cn.damei.entity.mobile.Inspector.InspectItem">
+		SELECT
+			a.item_score as "preScores",
+			a.id as "checkItemId",
+			b.is_required_remarks as "isRequired",
+			b.break_describe as "remarks"
+		FROM
+			biz_qc_check_item a,
+			biz_qc_check_item_break b
+		where
+			a.id = b.qc_check_item_id
+			and b.id = #{illegalModalityId};
+	</select>
+	<!-- 更新检查项, 添加不合格的处理方式和违规形式 -->
+	<update id="updateCheckItem"
+		parameterType="cn.damei.entity.mobile.Inspector.InspectItem">
+			update biz_qc_bill_check_item  set
+		is_passed=#{isOk},
+		worker_punish_order_taskpackage_id=#{packId},
+		worker_punish_employeegroup_id =#{workerGroupId},
+		worker_punish_amount = #{workerMoney},
+		worker_punish_score = #{workerScore},
+		pm_punish_employee_id =#{managerId},
+		pm_punish_score = #{managerScore},
+		qc_punish_employee_id = #{inspectorId},
+		qc_punish_score=#{inspectorScore},
+		qc_punish_amount=#{inspectorMoney},
+		item_score=#{preScores},
+		got_score=#{actualScores},
+		is_warned=#{isWarn},
+		is_locale_repaire=#{isLocatedChange},
+		is_limit_date_repaire=#{isLimitDateChange},
+		limit_date=#{limitDate},
+		limit_date_repaire_check_style=#{limitChangeWay},
+		is_punish_money=#{isPunishMoney},
+		punish_money_amount_default=#{prePunishMoney},
+		punish_money_amount_real=#{actualPunishMoney},
+		check_style="1" where
+		qc_check_item_id=#{checkItemId} and qc_bill_id=#{inspectBillId}
+	</update>
+	<!-- 查询 biz_qc_bill_check_item_break违规形式的外键检查项id 根据:biz_qc_bill_check_item 
+		质检单id,检查项ID -->
+	<select id="selectCheckItemId"
+		parameterType="cn.damei.entity.mobile.Inspector.InspectItem"
+		resultType="int">
+		SELECT
+			ID
+		FROM
+			biz_qc_bill_check_item
+		where
+			qc_check_item_id=#{checkItemId}
+			and qc_bill_id=#{inspectBillId}
+	</select>
+	<!-- 保存违规记录表 -->
+	<insert id="saveIllegalModality"
+		parameterType="cn.damei.entity.mobile.Inspector.IllegalModality">
+		insert into biz_qc_bill_check_item_break (
+			qc_bill_check_item_id,
+			qc_check_item_break_id,
+			break_describe,
+			is_required_remarks,
+			break_remarks
+		)
+		values (
+			#{checkItemId},
+			#{illegalModalityId},
+			#{IllegalModalityName},
+			#{isRemarks},
+			#{remarks}
+		)
+	</insert>
+
+	<!-- 根据检查项id查询 检查项不合格记录表 biz_qc_check_item 是否是不合格的检查项 ,如果不合格,保存到复检单记录-->
+	<select id="selectScoresFromCheckItemRecord"
+			parameterType="cn.damei.entity.mobile.Inspector.InspectItem"
+			resultType="cn.damei.entity.mobile.Inspector.InspectItem">
+		SELECT a.id as "itemId",
+		a.qc_bill_id AS "inspectBillId",
+		a.related_qc_bill_check_item_id AS "relatedBillCheckItemId",
+		a.qc_check_item_id AS "checkItemId",
+		a.is_passed AS "isOk",
+		a.item_score AS "preScores",
+		a.got_score AS "actualScores",
+		a.is_limit_date_repaire AS "isLimitDateChange",
+		a.limit_date AS "limitDate",
+		a.limit_date_repaire_check_style AS "limitChangeWay",
+		a.create_date AS "createDate",
+		a.is_punish_money as "isPunishMoney",
+		a.punish_money_amount_real as "actualPunishMoney",
+		b.order_id as "orderId",
+		c.item_score AS "scores",
+		a.pm_punish_employee_id as "managerId",
+		a.qc_punish_amount as "inspectorMoney",
+		a.qc_punish_employee_id as "pqcId"
+		FROM
+		biz_qc_bill b
+		LEFT JOIN biz_qc_bill_check_item a ON a.qc_bill_id = b.id
+		LEFT JOIN biz_qc_check_item c ON c.id = a.qc_check_item_id
+		WHERE
+		a.qc_check_item_id IN (
+
+		<foreach collection="checkItemIds" item="item" separator="," index="index">
+
+			#{item}
+
+
+		</foreach>
+
+
+		)
+		AND a.qc_bill_id = #{inspectBillId}
+
+	</select>
+
+
+
+
+	<!-- 根据合格的检查项id 查询该检查项的分数 -->
+	<select id="selectCheckItemScores" parameterType="int"
+		resultType="java.lang.Double">
+		SELECT
+			item_score
+		from
+			biz_qc_check_item
+		where
+			id = #{checkItemId}
+	</select>
+	<!-- 更新抽检单 -->
+	<update id="updateInspect"
+		parameterType="cn.damei.entity.mobile.Inspector.InspectKind">
+		update
+			biz_qc_bill
+		set
+			status = #{status},
+			check_employee_id = #{actualCheckPersonId} ,
+			check_datetime = #{checkDate},
+			total_score = #{totalScores},
+			got_score = #{actualScores}
+		where
+			id = #{inspectBillId}
+	</update>
+	<!-- 保存图片到数据库 -->
+	<insert id="savePic"
+		parameterType="cn.damei.entity.mobile.Inspector.ReportCheckDetailsPic">
+		INSERT INTO biz_business_pic (
+			id ,
+			business_type,
+			business_id_int,
+			business_id_varchar,
+			pic_type,
+			pic_index,
+			pic_url,
+			pic_datetime
+		)
+		values(
+			#{picId},
+			#{businessType},
+			#{businessIdInt},
+			#{businessIdVarchar},
+			#{picType},
+			#{picIndex},
+			#{picUrl},
+			#{picDatetime}
+		)
+	</insert>
+	<!-- 删除数据库图片 -->
+	<delete id="deletePic" parameterType="int">
+		DELETE FROM
+			biz_business_pic 
+		WHERE 
+			id = #{picId}
+	</delete>
+	<!-- 获取抽检单编码 -->
+	<select id="getCode"
+		resultType="cn.damei.entity.mobile.Manager.PurchaseTwoCode">
+		SELECT 
+			a.id AS "id", 
+			a.purchase_code AS "purchaseCode",
+			a.auxiliary_date AS "auxiliaryDate" 
+		from 
+			biz_purchase_increNum a
+		where 
+			a.id = 3 ;
+	</select>
+	<!-- 更新抽检单编码 -->
+	<select id="updateCode"
+		parameterType="cn.damei.entity.mobile.Manager.PurchaseTwoCode">
+		UPDATE biz_purchase_increNum SET
+			purchase_code=#{purchaseCode} ,
+			auxiliary_date =#{auxiliaryDate} 
+		where
+			id =#{id}
+	</select>
+	<!-- 插入抽检单编码 -->
+	<insert id="insertPurchase"
+		parameterType="cn.damei.entity.mobile.Manager.PurchaseTwoCode">
+		INSERT INTO biz_purchase_increnum (
+			id,
+			purchase_code,
+			auxiliary_date
+		)
+		values(
+			#{id},
+			#{purchaseCode},
+			#{auxiliaryDate}
+		)
+	</insert>
+
+
+
+	<select id="findOrderIdByBillId"
+		resultType="cn.damei.entity.mobile.Inspector.InspectKind"
+		parameterType="int">
+		SELECT
+			order_id AS "orderId",
+			qc_check_node_id AS "checkNodeId"
+		FROM
+			biz_qc_bill
+		WHERE
+			id = #{inspectBillId}
+
+	</select>
+	
+	<insert id="saveRecheck" parameterType="cn.damei.entity.mobile.Inspector.Recheck">
+		<selectKey keyColumn="id" keyProperty="reCheckId" order="AFTER" resultType="int">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+			INSERT INTO BIZ_QC_BILL(
+				qc_bill_code,
+				qc_bill_type,
+				is_recheck,
+				related_qc_bill_id,
+				status,
+				create_date,
+				order_id,
+				qc_check_node_id
+			)
+			VALUES (
+				#{reCheckCode},
+				#{type},
+				#{isReCheck},
+				#{relatedBillId},
+				#{status},
+				#{createDate},
+				#{orderId},
+				#{checkNodeId}
+				
+			)
+	</insert>
+
+
+
+
+	<!-- 保存复检单的不合格检查项纪录 -->
+	<insert id="saveRecheckCheckItem"  parameterType="cn.damei.entity.mobile.Inspector.Recheck">
+		insert into biz_qc_bill_check_item
+		(
+			qc_bill_id,
+			related_qc_bill_check_item_id,
+			qc_check_item_id,
+			is_passed,
+			item_score,
+			got_score,
+			is_limit_date_repaire,
+			limit_date_repaire_check_style
+		)  values(
+			#{relatedBillId},
+			#{relatedCheckItemId},
+			#{checkItemId},
+			#{isOk},
+			#{preScores},
+			#{actualScores},
+			"1",
+			#{changeWay}
+		)
+
+
+	</insert>
+	
+	
+	<!-- 批量   保存质检员选择的检查项 到 biz_qc_bill_check_item 表中 -->
+	<insert id="saveItemsAll" parameterType="java.util.List">
+		insert into biz_qc_bill_check_item(
+			id,
+			qc_bill_id ,
+			qc_check_item_id,
+			create_date,
+			update_date,
+			del_flag
+		)values 
+		<foreach collection="list" item="item" index="index" separator="," >
+			(
+				#{item.id},
+				#{item.inspectBillId},
+				#{item.checkItemId},
+				#{item.createDate},
+				#{item.updateDate},
+				#{item.delFlag}
+			)
+		</foreach>
+	</insert>
+	
+	<!--批量  更新检查项, 添加不合格的处理方式和违规形式 -->
+	<update id="updateCheckItemAll" parameterType="java.util.List">
+		
+		update biz_qc_bill_check_item
+			set
+				is_passed=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.id} then #{item.isOk}
+				</foreach>
+				,item_score=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.id} then #{item.preScores}
+				</foreach>
+				,got_score=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.id} then #{item.actualScores}
+				</foreach>
+				,is_warned=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.id} then #{item.isWarn}
+				</foreach>
+				,is_locale_repaire=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.id} then #{item.isLocatedChange}
+				</foreach>
+				,is_limit_date_repaire=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.id} then #{item.isLimitDateChange}
+				</foreach>
+				,limit_date=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.id} then #{item.limitDate}
+				</foreach>
+				,limit_date_repaire_check_style=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.id} then #{item.limitChangeWay}
+				</foreach>
+				,is_punish_money=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.id} then #{item.isPunishMoney}
+				</foreach>
+				,punish_money_amount_default=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.id} then #{item.prePunishMoney}
+				</foreach>
+				,punish_money_amount_real=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.id} then #{item.actualPunishMoney}
+				</foreach>
+				,update_date=
+				<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+					when #{item.id} then #{item.updateDate}
+				</foreach>
+				,check_style="1"
+				
+			where id in
+			<foreach collection="list" index="index" item="item" separator="," open="(" close=")">
+				#{item.id}
+			</foreach>
+			
+	</update>
+	
+	<!-- 批量  保存复检单的不合格检查项纪录 -->
+	<insert id="saveRecheckCheckItemAll"  parameterType="java.util.List">
+		insert into biz_qc_bill_check_item
+		(
+			qc_bill_id,
+			related_qc_bill_check_item_id,
+			qc_check_item_id,
+			is_passed,
+			
+			item_score,
+			got_score,
+			is_limit_date_repaire,
+			limit_date_repaire_check_style,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag
+			
+		)  values
+		<foreach collection="list" item="item" index="index" separator="," >
+			(
+				#{item.relatedBillId},
+				#{item.relatedCheckItemId},
+				#{item.checkItemId},
+				#{item.isOk},
+				
+				#{item.preScores},
+				#{item.actualScores},
+				"1",
+				#{item.changeWay},
+				#{item.createBy},
+				#{item.createDate},
+				#{item.updateBy},
+				#{item.updateDate},
+				#{item.delFlag}
+			)
+		</foreach>
+
+
+	</insert>
+	<!-- 批量 保存违规记录表 -->
+	<insert id="saveIllegalModalityAll" parameterType="java.util.List">
+		insert into biz_qc_bill_check_item_break (
+			qc_bill_check_item_id,
+			qc_check_item_break_id,
+			break_describe,
+			is_required_remarks,
+			break_remarks
+		)
+		values 
+		<foreach collection="list" item="item" index="index" separator="," >
+			(
+				#{item.checkItemId},
+				#{item.illegalModalityId},
+				#{item.IllegalModalityName},
+				#{item.isRemarks},
+				#{item.remarks}
+			)
+		</foreach>
+	</insert>
+	
+	<!-- 查询该订单最新一次抽检的时间是否间隔有5分钟 -->
+	<select id="findTimeSpan" parameterType="int" resultType="cn.damei.entity.mobile.Inspector.BizQcBill">
+		SELECT
+			a.id AS "qcBillId",
+			a.check_datetime AS "checkDatetime"
+		FROM
+			biz_qc_bill a
+		WHERE
+			a.order_id = #{0}
+		AND a.qc_bill_type = '2'
+		AND a.is_recheck = '0'
+		AND a.`status` = '5'
+		ORDER BY
+			a.check_datetime DESC
+		LIMIT 1
+	
+	</select>
+
+	<!-- 查询该订单有没有抽检单 做重复提交校验-->
+	<select id="findSelectCheckIsExist" parameterType="int" resultType="cn.damei.entity.mobile.Inspector.BizQcBill">
+		SELECT
+		a.id AS "qcBillId",
+		a.check_datetime AS "checkDatetime"
+		FROM
+		biz_qc_bill a
+		WHERE
+		a.order_id = #{0}
+		AND a.qc_bill_type = '2'
+		AND a.is_recheck = '0'
+		AND a.`status` != '5'
+		ORDER BY
+		a.check_datetime DESC
+		LIMIT 1
+
+	</select>
+
+
+<select id="findWorkerManagerInspectorPackageInfoByOrderId" parameterType="int" resultType="cn.damei.entity.mobile.Inspector.InspectItem">
+SELECT
+	a.emp_groupid AS "workerGroupId",
+	a.group_realname AS "workerGroupLeaderName",
+	a.id AS "packId",
+	a.package_name AS "packName",
+	b.item_manager_id AS "managerId",
+	b.order_inspector_id AS "inspectorId"
+FROM
+	biz_order_taskpackage a,
+	biz_order b
+WHERE
+	b.id = a.order_id
+AND a.package_stateId >= 60
+AND b.id = (
+	SELECT
+		order_id
+	FROM
+		biz_qc_bill
+	WHERE
+		id = #{parameter}
+)
+</select>
+<select id="findWorkerInfoByPackId" parameterType="int" resultType="int">
+SELECT a.emp_groupid FROM  biz_order_taskpackage a where a.id =#{parameter}
+</select>
+	
+	<!-- 通过质检员id查询订单 -->
+	<select id="findOrderByLeaderInspectorId" parameterType="cn.damei.entity.mobile.Inspector.Order"
+		resultType="cn.damei.entity.mobile.Inspector.Order">
+
+		SELECT
+			a.id AS "orderId",
+			a.community_name AS "communityName",
+			a.build_number AS "buildNumber",
+			a.build_unit AS "buildUnit",
+			a.build_room AS "buildRoom",
+			a.customer_name AS "customerName",
+			a.customer_phone AS "customerPhone",
+			b.realName AS "itemManager",
+			b.phone AS "managerPhone",
+			a.actual_start_date AS "actualStartDate",
+			c.id AS "qcBillId",
+			c.`status` AS "qcBillStatus",
+			substring_index(a.map_coordinate, ',', 1) AS "lon",
+			substring_index(a.map_coordinate, ',', - 1) AS "lat"
+		FROM
+			biz_employee d
+		INNER JOIN biz_order a ON d.storeId = a.store_id
+		LEFT JOIN biz_employee b ON b.id = a.item_manager_id
+		LEFT JOIN biz_qc_bill c ON a.id = c.order_id
+		AND c.qc_bill_type = 2
+		AND c.is_recheck = '0'
+		AND c.`status` NOT IN (5)
+		<where>
+				d.id = #{orderInspectorId}
+			AND a.order_status_number &lt; '300'
+			<if test="text!=null and text!=''">
+				and (a.community_name like CONCAT('%','${text}','%' )  or a.customer_name like CONCAT('%','${text}','%' ) or a.item_manager  like CONCAT('%','${text}','%'))
+			</if>
+				
+			ORDER BY a.actual_start_date DESC
+		</where>
+	</select>
+
+	<!-- 批量保存复检单的不合格检查项纪录 -->
+	<insert id="batchSaveRecheckCheckItem"  parameterType="cn.damei.entity.mobile.Inspector.Recheck">
+		insert into biz_qc_bill_check_item
+		(
+		qc_bill_id,
+		related_qc_bill_check_item_id,
+		qc_check_item_id,
+		is_passed,
+		item_score,
+		got_score,
+		is_limit_date_repaire,
+		limit_date_repaire_check_style
+
+
+		)  values
+		<foreach collection="list" item="item" index="index">
+			(
+
+			#{item.relatedBillId},
+			#{item.relatedCheckItemId},
+			#{item.checkItemId},
+			#{item.isOk},
+			#{item.preScores},
+			#{item.actualScores},
+			"1",
+			#{item.changeWay}
+			)
+
+		</foreach>
+
+
+
+	</insert>
+
+
+
+
+	<select id="findIsExistSelectQcBillById" parameterType="String" resultType="int">
+
+		select count(1) from biz_qc_bill where id =#{_parameter}
+		and qc_bill_type =2
+		and is_recheck=0
+		and status=5
+
+	</select>
+
+
+
+
+</mapper>

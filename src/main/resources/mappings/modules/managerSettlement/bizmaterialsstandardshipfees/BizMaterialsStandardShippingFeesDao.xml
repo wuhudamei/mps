@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizMaterialsStandardShippingFeesDao">
+    
+	<sql id="bizMaterialsStandardShippingFeesColumns">
+		a.id AS "id",
+		a.store_id AS "storeId",
+		a.biz_materials_standard_type AS "bizMaterialsStandardType",
+		a.shipping_fees AS "shippingFees",
+		a.status AS "status",
+		a.create_id AS "createId",
+		a.create_name AS "createName",
+		a.create_date AS "createDate"
+	</sql>
+	
+	<sql id="bizMaterialsStandardShippingFeesJoins">
+	</sql>
+    
+	<select id="get" resultType="cn.damei.entity.modules.BizMaterialsStandardShippingFees">
+		SELECT 
+			<include refid="bizMaterialsStandardShippingFeesColumns"/>
+		FROM biz_materials_standard_shipping_fees a
+		<include refid="bizMaterialsStandardShippingFeesJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	<select id="getShippingFee" resultType="cn.damei.entity.modules.BizMaterialsStandardShippingFees">
+		SELECT
+			<include refid="bizMaterialsStandardShippingFeesColumns"/>
+		FROM biz_materials_standard_shipping_fees a
+		<include refid="bizMaterialsStandardShippingFeesJoins"/>
+		WHERE a.store_id = #{storeId} AND  a.biz_materials_standard_type=#{bizMaterialsStandardType} AND a.status=1
+	</select>
+
+	<select id="findList" resultType="cn.damei.entity.modules.BizMaterialsStandardShippingFees">
+		SELECT 
+			<include refid="bizMaterialsStandardShippingFeesColumns"/>
+		FROM biz_materials_standard_shipping_fees a
+		<include refid="bizMaterialsStandardShippingFeesJoins"/>
+		<where>
+			
+			<if test="storeId != null and storeId != ''">
+				AND a.store_id = #{storeId}
+			</if>
+			<if test="bizMaterialsStandardType != null and bizMaterialsStandardType != ''">
+				AND a.biz_materials_standard_type = #{bizMaterialsStandardType}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="cn.damei.entity.modules.BizMaterialsStandardShippingFees">
+		SELECT 
+			<include refid="bizMaterialsStandardShippingFeesColumns"/>
+		FROM biz_materials_standard_shipping_fees a
+		<include refid="bizMaterialsStandardShippingFeesJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert" >
+		INSERT INTO biz_materials_standard_shipping_fees(
+			id,
+			store_id,
+			biz_materials_standard_type,
+			shipping_fees,
+			create_id,
+			create_name,
+			create_date
+		) VALUES (
+			#{id},
+			#{storeId},
+			#{bizMaterialsStandardType},
+			#{shippingFees},
+			#{createId},
+			#{createName},
+			#{createDate}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE biz_materials_standard_shipping_fees SET
+			status = #{status}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM biz_materials_standard_shipping_fees
+		WHERE id = #{id}
+	</update>
+
+	
+</mapper>

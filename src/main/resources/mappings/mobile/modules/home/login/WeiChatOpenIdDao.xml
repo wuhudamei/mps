@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.mobile.home.WeiChatOpenIdDao">
+	
+	<select id="findByOpenId" resultType="cn.damei.entity.mobile.home.WeiChatOpenId">
+		select 
+			a.id as "id",
+			a.cus_phone as "phone",
+			a.wechat_openid as "openid",
+			a.bind_datetime as "bindDatetime",
+			a.bind_status as "bindStatus",
+			a.unbind_datetime as "unbindDatetime",
+			a.remarks as "remarks"
+		from 
+			biz_cus_wechat_bind a 
+		where 
+			a.wechat_openid = #{0} and a.bind_status = '1'
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO biz_cus_wechat_bind(id,cus_phone,wechat_openid,bind_datetime,bind_status,unbind_datetime,remarks)
+		VALUES (#{id},#{phone},#{openid},#{bindDatetime},#{bindStatus},#{unbindDatetime},#{remarks})
+	</insert>
+	
+	<update id="updateByPhone">
+		update biz_cus_wechat_bind a set a.bind_status = '0',a.unbind_datetime = now() where a.cus_phone = #{0} and a.bind_status = '1' 
+	</update>
+</mapper>

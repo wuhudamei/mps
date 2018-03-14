@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizWallFloorTileReturnDao">
+    
+	<sql id="bizWallFloorTileReturnColumns">
+		a.id AS "id",
+		a.order_id AS "orderId",
+		a.square_return AS "squareReturn",
+		a.return_datetime AS "returnDatetime",
+		a.remarks AS "remarks",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="bizWallFloorTileReturnJoins">
+	</sql>
+    
+	<select id="get" resultType="cn.damei.entity.modules.BizWallFloorTileReturn">
+		SELECT 
+			<include refid="bizWallFloorTileReturnColumns"/>
+		FROM biz_wall_floor_tile_return a
+		<include refid="bizWallFloorTileReturnJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="cn.damei.entity.modules.BizWallFloorTileReturn">
+		SELECT 
+			<include refid="bizWallFloorTileReturnColumns"/>
+		FROM biz_wall_floor_tile_return a
+		<include refid="bizWallFloorTileReturnJoins"/>
+		<where>
+			
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="cn.damei.entity.modules.BizWallFloorTileReturn">
+		SELECT 
+			<include refid="bizWallFloorTileReturnColumns"/>
+		FROM biz_wall_floor_tile_return a
+		<include refid="bizWallFloorTileReturnJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO biz_wall_floor_tile_return(
+			id,
+			order_id,
+			square_return,
+			return_datetime,
+			remarks,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag
+		) VALUES (
+			#{id},
+			#{orderId},
+			#{squareReturn},
+			#{returnDatetime},
+			#{remarks},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE biz_wall_floor_tile_return SET 	
+			order_id = #{orderId},
+			square_return = #{squareReturn},
+			return_datetime = #{returnDatetime},
+			remarks = #{remarks},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM biz_wall_floor_tile_return
+		WHERE id = #{id}
+	</update>
+	
+	<!-- 根据订单id查询订单的退货面积总和 -->
+	<select id="findSquareReturnAll" resultType="java.lang.Double">
+		SELECT
+			IFNULL(ROUND(SUM(a.square_return),2),0)
+		FROM
+			biz_wall_floor_tile_return a
+		WHERE a.order_id = #{0}
+	
+	</select>
+	
+</mapper>

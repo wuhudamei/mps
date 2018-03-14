@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="cn.damei.dao.mobile.Inspector.RecheckDao">
+
+
+
+	<select id="findRecheckList" parameterType="int"
+		resultType="cn.damei.entity.mobile.Inspector.RecheckEntity">
+		SELECT
+			d.id,
+			e.id AS "orderId",
+			b.qc_bill_type AS "recheckType",
+			a.qc_check_node_name as "checkNodeName",
+			d.expect_check_datetime AS "hopeCheckTime",
+			e.customer_address AS "customerAddress",
+			e.customer_name AS "customerName",
+			e.customer_phone AS "customerPhone",
+			substring_index(e.map_coordinate, ',', 1) AS "lon",
+			substring_index(e.map_coordinate, ',', - 1) AS "lat",
+			d.id AS "recheckId",
+			f.realName AS "managerName",
+			f.phone AS "managerPhone"
+		FROM
+
+			biz_order e
+			LEFT JOIN
+			biz_qc_bill b ON b.order_id = e.id
+			LEFT JOIN biz_qc_check_node a ON a.id = b.qc_check_node_id
+			LEFT JOIN biz_qc_bill d ON b.id = d.related_qc_bill_id
+
+			LEFT JOIN biz_employee f ON f.id = e.item_manager_id
+		WHERE
+			e.order_inspector_id=#{inspectId}
+			and d.qc_bill_type IN (1,2)
+			AND d.`status` =2
+			AND d.is_recheck = 1
+
+
+
+
+
+
+
+	</select>
+
+
+
+	<!-- 得到订单经纬度 -->
+	<select id="getOrderLngLatByOrderId" parameterType="int"
+		resultType="String">
+
+		select map_coordinate from biz_order where id = #{orderId}
+
+	</select>
+
+
+
+
+	<insert id="inspectorSign"
+		parameterType="cn.damei.entity.mobile.Inspector.InspectSign">
+
+
+		 insert into biz_business_sign(
+			   id,
+			   sign_type,
+			   related_business_id_int,
+			   sign_employee_id,
+			   sign_datetime,
+			   sign_address,
+			   sign_xy,
+			   sign_error_distance,
+			   remarks,
+			   create_by,
+			   create_date,
+			   update_by,
+			   update_date,
+			   del_flag
+		  
+		   ) VALUES(
+		   	   #{id},
+			   #{signType},
+			   #{relatedBusinessId},
+			   #{signEmployeeId},
+			   #{signDateTime},
+			   #{signAddress},
+			   #{signXy},
+			   #{signErrorDistance},
+			   #{remarks},
+			   #{createBy},
+			   #{createDate},
+			   #{updateBy},
+			   #{updateDate},
+			   #{delFlag}
+		  
+		   )
+	</insert>
+
+	<!-- 签到判断 ,根据质检单id判断 -->
+	<select id="findInspectSignRecord" parameterType="int"
+		resultType="int">
+		SELECT count(id) FROM BIZ_BUSINESS_SIGN WHERE
+		related_business_id_int =
+		#{INSPECTID} AND sign_type="303"
+	</select>
+
+	<!-- 更新复检单签到 -->
+	<update id="updateInspectRecord"
+		parameterType="cn.damei.entity.mobile.Inspector.InspectSign">
+		update biz_business_sign set
+		sign_datetime=#{signDateTime} ,
+		sign_address =#{signAddress},
+		sign_xy =#{signXy},
+		sign_error_distance=#{signErrorDistance},
+		remarks =#{remarks},
+		update_by = #{updateBy},
+        update_date = #{updateDate}
+		where
+		sign_employee_id =#{signEmployeeId} and sign_type=#{signType} and
+		related_business_id_int =#{relatedBusinessId}
+	</update>
+
+
+
+
+
+	<!-- 根据复检单id 查询项目经理上传的整改照片 -->
+	<select id="findRecheckPic" parameterType="int"
+		resultType="cn.damei.entity.mobile.Inspector.RecheckEntity">
+
+		SELECT
+		a.business_id_int AS "recheckId",
+		a.pic_url AS
+		"picUrl",
+		a.id as "picId"
+
+		FROM
+		biz_business_pic a,
+		biz_qc_bill b
+		WHERE
+		a.business_id_int = b.id
+		AND a.business_type = '1'
+		AND b.is_recheck ='1'
+		AND (
+		b.`status` = '2'
+		OR b.`status` = '3'
+		)
+		AND a.business_id_int =
+		#{recheckId}
+	</select>
+
+
+	<!-- 根据复检单, 查询所有检查项 -->
+	<select id="findRecheckCheckItem" parameterType="int"
+		resultType="cn.damei.entity.mobile.Inspector.RecheckEntity">
+		SELECT
+		a.id AS "recheckId",
+		b.id AS "checkItemId",
+		c.qc_check_item_name AS "checkItemName",
+		b.limit_date_repaire_check_style AS "changeWay",
+		b.is_passed AS
+		"isPassed",
+		a.recheck_times AS "recheckTimes"
+		FROM
+		biz_qc_bill a,
+		biz_qc_bill_check_item b,
+		biz_qc_check_item c
+		WHERE
+		a.id = b.qc_bill_id
+		and b.qc_bill_id = #{recheckId}
+		AND b.qc_check_item_id = c.id
+		AND
+		a.is_recheck = '1'
+		AND (
+		a.`status` = '2'
+		OR a.`status` = '3'
+		)
+		
+		order by b.is_passed
+
+	</select>
+
+
+
+
+	<delete id="deletePic" parameterType="int">
+		delete from
+		biz_business_pic where id =#{picId}
+	</delete>
+
+
+
+
+	<!-- 保存图片到数据库 -->
+	<insert id="savePic"
+		parameterType="cn.damei.entity.mobile.Inspector.ReportCheckDetailsPic">
+		INSERT INTO biz_business_pic (
+		business_type,
+		business_id_int,
+		business_id_varchar,
+		pic_type,
+		pic_index,
+		pic_url,
+		pic_datetime
+		)
+		values(
+		#{businessType},
+		#{businessIdInt},
+		#{businessIdVarchar},
+		#{picType},
+		#{picIndex},
+		#{picUrl},
+		#{picDatetime}
+		)
+
+	</insert>
+
+
+	<update id="updateRecheckCheckItem"
+		parameterType="cn.damei.entity.mobile.Inspector.RecheckEntity">
+		update biz_qc_bill_check_item set update_date = #{updateTime} , is_passed =#{isPassed} where id = #{checkItemId}
+	</update>
+
+
+	<select id="findRecheckById" parameterType="int"
+		resultType="cn.damei.entity.mobile.Inspector.RecheckEntity">
+		SELECT id as "recheckId",recheck_times as "recheckTimes" ,status as "recheckStatus" from biz_qc_bill
+		where id = #{recheckId} and is_recheck='1'
+	</select>
+
+
+	<update id="updateRecheck"
+		parameterType="cn.damei.entity.mobile.Inspector.RecheckEntity">
+		update biz_qc_bill set status = #{recheckStatus} ,recheck_times = #{recheckTimes} ,check_datetime =#{recheckDate},check_employee_id=#{recheckManId} where id = #{recheckId}
+	</update>
+
+
+</mapper>
+

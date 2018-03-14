@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.dao">
+
+	<sql id="orderColumns">
+		a.id AS "orderId",
+		a.order_number AS "orderNumber",
+		a.contract_number AS "contractNumber",
+		a.customer_type AS
+		"customerType",
+		a.customer_description AS "customerDescription",
+		a.customer_name AS "customerName",
+		a.customer_phone AS "customerPhone",
+		a.community_name AS "communityName",
+		a.build_number AS "buildNumber",
+		a.build_unit AS "buildUnit",
+		a.build_room AS "buildRoom",
+		a.map_coordinate AS "mapCoordinate",
+		a.sale_type AS "saleType",
+		a.project_mode as "projectMode",
+		a.area
+		AS "area",
+		a.build_type AS "buildType",
+		a.house_type AS "houseType",
+		a.house_is_new AS "houseIsNew",
+		a.is_elevator AS "isElevator",
+		a.designer_name AS "designerName",
+		a.designer_phone AS "designerPhone",
+		a.order_reporter_name AS "orderReporterName",
+		a.order_reporter_phone AS
+		"orderReporterPhone",
+		a.service_name AS "serviceName",
+		a.service_phone
+		AS "servicePhone",
+		a.contract_start_date AS "contractStartDate",
+		a.contract_end_date AS "contractEndDate",
+		a.covered_area AS
+		"coveredArea",
+		a.contract_area AS "contractArea",
+		a.contract_time AS
+		"contractTime",
+		a.sign_contract_date AS "signContractDate",
+		a.order_status_number AS "orderStatusNumber",
+		a.order_status_description AS "orderStatusDescription",
+		a.order_inspector AS "orderInspector",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS
+		"delFlag",
+		a.item_manager_id AS
+		"itemManagerId",
+		a.store_id AS "storeId",
+		a.cus_manager AS "cusManager",
+		a.customer_address AS "customerAddress",
+		a.orderTaskPack_status AS
+		"orderTaskPackStatus",
+		a.actual_start_date as "actualStartDate",
+		a.engin_depart_id as "engineDepartId"
+	</sql>
+
+	<sql id="orderJoins">
+	</sql>
+
+
+
+
+	<select id="findList"
+		resultType="cn.damei.entity.modules.orderVo">
+		SELECT
+		<include refid="orderColumns" />,
+		e.realName as "itemManager"
+		FROM biz_order a,
+		biz_employee e
+		
+		<include refid="orderJoins" />
+		<where>
+			a.item_manager_id = e.id
+			and a.is_scrap = 0
+			<if test="engineDepartId != null and engineDepartId != ''">
+				AND a.engin_depart_id =#{engineDepartId}
+			</if>
+			<if test="id != null and id != ''">
+				AND a.id =#{orderId}
+			</if>
+			<!-- 合同编号 -->
+			<if test="orderNumber != null and orderNumber != ''">
+				AND a.order_number LIKE CONCAT('%','${orderNumber}','%' )
+			</if>
+			<!-- 客户姓名 -->
+			<if test="customerName != null and customerName != ''">
+				AND a.customer_name LIKE
+				<if test="dbName == 'oracle'">'%'||#{customerName}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{customerName}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{customerName},'%')</if>
+			</if>
+
+			<!-- 项目经理 -->
+			<if test="itemManager != null and itemManager != ''">
+				AND a.item_manager  LIKE CONCAT('%','${itemManager}','%' )
+			</if>
+			
+			<!-- 门店 -->
+			<if test="storeId != null and storeId != ''">
+				AND a.store_id = #{storeId}
+			</if>
+			AND A.order_status_number NOT IN ('300','310','320','400','499')
+			<if test="projectMode != '' and projectMode != null">
+				and a.project_mode = #{projectMode}
+			</if>
+			<if test="projectMode == '' or projectMode == null">
+				and a.project_mode in('1','4')
+			</if>
+			
+
+		</where>
+		order by a.create_date desc
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				, ${page.orderBy}
+			</when>
+			<otherwise>
+				, a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+
+
+
+	<!-- 订单下的任务包 -->
+	<select id="getPackageByOrderId" parameterType="int"
+		resultType="cn.damei.entity.modules.OrderTaskpackage">
+		SELECT A.id AS "ID",
+		A.package_name AS "packageName",
+		a.plan_startdate as "planStartDate",
+		a.plan_enddate as "planEndDate",
+		a.order_id as "orderId",
+		a.package_stateId as "packageStateId",
+		a.customer_message AS "customerMessage",
+		a.customer_name as "customerName",
+		e.phone as "managerPhone",
+		e.id as "itemManagerId"
+		FROM biz_order_taskpackage A ,
+		biz_employee e 
+		where a.order_id = #{orderId}
+		and a.item_manager_id = e.id
+order by A.create_date desc
+
+	</select>
+
+
+
+
+	<!-- 调整任务报的开始时间和结束时间 -->
+	<update id="updatePackTime"
+		parameterType="cn.damei.entity.modules.OrderTaskpackage">
+		
+		update biz_order_taskpackage set
+		 plan_startdate = #{planStartdate}
+		where id = #{id}
+
+	</update>
+	
+
+	<!-- 调整任务报的开始时间和结束时间 -->
+	<update id="updatePackTime1"
+		parameterType="cn.damei.entity.modules.OrderTaskpackage">
+		
+		update biz_order_taskpackage set
+		plan_enddate = #{planEnddate}
+		
+		where id = #{id}
+
+	</update>
+	
+	
+	
+	<!-- 发送定时短信的内容   经理手机,客户地址和姓名,任务包名称,计划开始时间,计划结束时间 -->
+		
+	<select id="sendFixedTimeMessageToManagerForPackPlanTime" parameterType="String" resultType="cn.damei.entity.modules.OrderTaskpackage">
+	SELECT
+	A.id AS "id",
+	A.plan_startdate AS "planStartdate",
+	A.plan_enddate AS "planEnddate",
+	A.package_name AS "packageName",
+	A.customer_message AS "customerMessage",
+	A.customer_name AS "customerName",
+	e.phone AS "managerPhone",
+	e.id as "itemManagerId"
+FROM
+	biz_order_taskpackage A,
+	biz_employee e
+WHERE
+	A.item_manager_id = e.id
+AND A.plan_startdate LIKE CONCAT('%','${_parameter}','%' )
+	
+	</select>	
+		
+	
+	
+
+</mapper>

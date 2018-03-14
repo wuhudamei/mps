@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.mobile.Manager.ReceivedTileDao">
+	
+	<select id="queryTileByPurchaseId" resultType="cn.damei.entity.mobile.Manager.ReceivedTile">
+		SELECT 
+			a.id as "id",
+			a.purchase_id as "purchaseId",
+			a.main_mate_type as "mainMateType",
+			a.position as "position",
+			a.brand_combo as "brands",
+			a.model as "model",
+			a.specification as "specifications",
+			a.unit as "unit",
+			a.count as "mainMateCount",
+			a.includ_loss_count as "includLossCount",
+			a.apply_counta as "count",
+			a.remarks as "remarks",
+			a.received_wall_floor_count as "receivedCount",
+			a.owed_wall_floor_count as "owedCount"
+		from 
+			biz_purchase_wall_floor_tile a
+		where a.purchase_id = #{0} and a.owed_wall_floor_count &lt;>0 
+		
+	</select>
+	
+	<select id="queryTileById" resultType="cn.damei.entity.mobile.Manager.ReceivedTile">
+		SELECT 
+			a.id as "id",
+			a.purchase_id as "purchaseId",
+			a.main_mate_type as "mainMateType",
+			a.position as "position",
+			a.brand_combo as "brands",
+			a.model as "model",
+			a.specification as "specifications",
+			a.unit as "unit",
+			a.count as "mainMateCount",
+			a.includ_loss_count as "includLossCount",
+			a.apply_counta as "count",
+			a.remarks as "remarks",
+			a.received_wall_floor_count as "receivedCount",
+			a.owed_wall_floor_count as "owedCount"
+		from 
+			biz_purchase_wall_floor_tile a
+		where a.id = #{0}
+	</select>
+	
+	<update id="updateCount">
+		update 
+			biz_purchase_wall_floor_tile 
+		set
+			received_wall_floor_count = #{1},
+			owed_wall_floor_count = #{2} 
+		where id = #{0}
+	</update>
+	
+	
+	<select id="queryTileByReceiveBillId" resultType="cn.damei.entity.mobile.Manager.ReceivedTile">
+	
+		SELECT
+			b.received_count AS "receivedNumber",
+			a.id AS "id",
+			a.purchase_id AS "purchaseId",
+			a.main_mate_type AS "mainMateType",
+			a.position AS "position",
+			a.brand_combo AS "brands",
+			a.model AS "model",
+			a.specification AS "specifications",
+			a.unit AS "unit",
+			a.count AS "mainMateCount",
+			a.includ_loss_count AS "includLossCount",
+			a.apply_counta AS "count",
+			a.remarks AS "remarks",
+			a.received_wall_floor_count AS "receivedCount",
+			a.owed_wall_floor_count AS "owedCount"
+		FROM
+			biz_purchase_receive_bill_product b
+		INNER JOIN biz_purchase_wall_floor_tile a ON b.purchase_product_id = a.id
+		AND b.purchase_receive_bill_id = #{0}
+	</select>
+</mapper>

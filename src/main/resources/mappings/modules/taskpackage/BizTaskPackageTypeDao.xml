@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizTaskPackageTypeDao">
+    
+	<sql id="bizTaskPackageTypeColumns">
+		a.id AS "id",
+		a.name AS "name",
+		a.status AS "status",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="bizTaskPackageTypeJoins">
+	</sql>
+    
+	<select id="get" resultType="BizTaskPackageType">
+		SELECT 
+			<include refid="bizTaskPackageTypeColumns"/>
+		FROM biz_task_package_type a
+		<include refid="bizTaskPackageTypeJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="getById" resultType="BizTaskPackageType">
+		SELECT p.id 
+		from biz_task_package_templat t 
+		LEFT JOIN biz_task_package_type p ON p.id = t.task_package_type_id
+		WHERE t.no=#{0}
+	</select>
+	
+	<select id="findList" resultType="BizTaskPackageType">
+		SELECT 
+			<include refid="bizTaskPackageTypeColumns"/>
+		FROM biz_task_package_type a
+		<include refid="bizTaskPackageTypeJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="name != null and name != ''">
+				AND a.name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{name}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{name}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{name},'%')</if>
+			</if>
+			<if test="status != null and status != ''">
+				AND a.status = #{status}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="BizTaskPackageType">
+		SELECT 
+			<include refid="bizTaskPackageTypeColumns"/>
+		FROM biz_task_package_type a
+		<include refid="bizTaskPackageTypeJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO biz_task_package_type(
+			name,
+			status,
+			create_by,
+			update_by,
+			update_date,
+			remarks
+		) VALUES (
+			#{name},
+			#{status},
+			#{createBy.id},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE biz_task_package_type SET 	
+			name = #{name},
+			status = #{status},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE biz_task_package_type SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+	<select id="findTypeByTaskpackageId" resultType="java.lang.String">
+		select
+			c.name AS "packageName"
+		from 
+			biz_order_taskpackage a,
+			biz_task_package_templat b,
+			biz_task_package_type c
+		where 
+			a.task_package_templat_id = b.id 
+		and 
+			b.task_package_type_id = c.id	
+		and 
+			a.id = #{0}
+	</select>
+	
+</mapper>

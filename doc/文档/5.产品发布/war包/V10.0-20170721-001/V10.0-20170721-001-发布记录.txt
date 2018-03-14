@@ -1,0 +1,47 @@
+打包名称：mdn.war
+打包版本：V10.0-20170721-001
+
+
+功能变更：
+
+	1、工程节点流程优化--张康健-徐强
+	2、任务包模版优化添加最大派单数量--王磊--雷力明
+	3、项目经理结算优化--郝永辉--川哥
+	4、修改设计师id--王磊
+
+
+功能新增：
+
+	1、约检待办--梅浩--雷力明
+	2、工程流程节点流程--张康健--徐强
+	3、待办事项--志明--雷力明
+	4、特殊角色--王磊--雷力明
+
+数据库表结构变更;
+
+	1、执行文件夹名【数据库表结构变更脚本】内的【jeesite_index_v1.0_01.sql】
+	   【jeesite_table-v12.0_17_pm_daiban.sql】
+	   【jeesite_table-v12.0_18_jiedanliang.sql】
+	   【jeesite_table-v12.0_20_gongcheng_jiedian.sql】
+	   【jeesite_table-v12.0_16_anzhuanggong _app_02.sql】
+	   【jeesite_table-v12.0_11_shejishi_biangeng.sql】
+
+数据库表数据变更：
+
+	1、执行文件夹名【数据库表数据变更脚本】内的【orderxiugaishejishiid.sql】脚本
+	2、执行文件夹名【数据库表数据变更脚本】内的【erjimulucharugengxin.sql】脚本
+
+
+	
+
+	
+
+	
+
+
+	
+
+
+
+
+	 

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizOrderExcelDao">
+    
+	<sql id="bizOrderExcelColumns">
+		a.id AS "id",
+		a.order_id AS "orderId",
+		a.file_name AS "fileName",
+		a.version AS "version",
+		a.remarks AS "remarks",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag",
+		a.file_path AS "filePath"
+	</sql>
+	
+	<sql id="bizOrderExcelJoins">
+		LEFT JOIN biz_order b ON a.order_id = b.id
+	</sql>
+    
+	<select id="get" resultType="BizOrderExcel">
+		SELECT 
+			<include refid="bizOrderExcelColumns"/>
+		FROM biz_order_excel a
+		<include refid="bizOrderExcelJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="BizOrderExcel">
+		SELECT 
+			<include refid="bizOrderExcelColumns"/>
+		FROM biz_order_excel a
+		<include refid="bizOrderExcelJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="orderId!=null and orderId != '' ">
+				AND a.order_id = #{orderId}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="BizOrderExcel">
+		SELECT 
+			<include refid="bizOrderExcelColumns"/>
+		FROM biz_order_excel a
+		<include refid="bizOrderExcelJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="orderId!=null and orderId != '' ">
+				AND a.order_id = #{orderId}
+			</if> 	
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO biz_order_excel(
+			id,
+			order_id,
+			file_name,
+			version,
+			remarks,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag,
+			file_path
+		) VALUES (
+			#{id},
+			#{orderId},
+			#{fileName},
+			#{version},
+			#{remarks},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag},
+			#{filePath}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE biz_order_excel SET 	
+			order_id = #{orderId},
+			file_name = #{fileName},
+			version = #{version},
+			remarks = #{remarks},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			file_path = #{filePath}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE biz_order_excel SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

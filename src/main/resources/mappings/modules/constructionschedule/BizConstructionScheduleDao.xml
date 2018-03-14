@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizConstructionScheduleDao">
+    
+	<sql id="bizConstructionScheduleColumns">
+		a.id AS "id",
+		a.store_id AS "storeId",
+		a.is_old_house AS "isOldHouse",
+		a.construction_schedule_name AS "constructionScheduleName",
+		a.sort AS "sort",
+		a.normal_completion_days AS "normalCompletionDays",
+		a.late_completion_days AS "lateCompletionDays",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag",
+		a.is_enable AS "isEnable",
+		a.project_mode as "projectMode"
+	</sql>
+	
+	<sql id="bizConstructionScheduleJoins">
+		LEFT JOIN sys_office o2 ON o2.id = a.store_id
+	</sql>
+	
+	<select id="getConsScheduleByIsOldHouseAndStoreId" resultType="BizConstructionSchedule">
+		SELECT 
+			<include refid="bizConstructionScheduleColumns"/>
+		FROM BIZ_CONSTRUCTION_SCHEDULE a
+		WHERE a.STORE_ID = #{0}
+		AND a.IS_OLD_HOUSE = #{1}
+		AND a.PROJECT_MODE = #{2}
+		AND a.IS_ENABLE = '1'
+	</select>
+    
+	<select id="get" resultType="BizConstructionSchedule">
+		SELECT 
+			<include refid="bizConstructionScheduleColumns"/>
+		FROM biz_construction_schedule a
+		<include refid="bizConstructionScheduleJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<!-- 获取新房的节点 -->
+	<select id="getByEnableOrNewHouse" resultType="BizConstructionSchedule">
+		SELECT 
+			<include refid="bizConstructionScheduleColumns"/>
+		FROM BIZ_CONSTRUCTION_SCHEDULE a
+		WHERE a.IS_ENABLE = '1'
+		AND a.STORE_ID = #{0}
+		AND a.IS_OLD_HOUSE = #{1}
+		ORDER BY a.SORT
+	</select>
+	
+	<!-- 获取老房的节点 -->
+	<select id="getByEnableOrOldHouse" resultType="BizConstructionSchedule">
+		SELECT 
+			<include refid="bizConstructionScheduleColumns"/>
+		FROM BIZ_CONSTRUCTION_SCHEDULE a
+		WHERE a.IS_ENABLE = '1'
+		<!-- AND a.DEL_FLAG = '1'
+		AND a.IS_OLD_HOUSE = '0' -->
+	</select>
+	
+	<select id="getByStoreIdAndDelflag" resultType="BizConstructionSchedule">
+		SELECT 
+			<include refid="bizConstructionScheduleColumns"/>
+		FROM BIZ_CONSTRUCTION_SCHEDULE a
+		WHERE a.DEL_FLAG = '1'
+		AND a.STORE_ID = #{0}
+		AND a.IS_OLD_HOUSE = #{1}
+		ORDER BY a.SORT ASC
+	</select>
+	
+	<select id="getByStoreIdList" resultType="BizConstructionSchedule">
+		SELECT 
+			<include refid="bizConstructionScheduleColumns"/>
+		FROM BIZ_CONSTRUCTION_SCHEDULE a
+		WHERE a.STORE_ID = #{0}
+		ORDER BY a.SORT ASC
+	</select>
+	
+	<select id="findList" resultType="BizConstructionSchedule">
+		SELECT 
+			<include refid="bizConstructionScheduleColumns"/>
+		FROM biz_construction_schedule a
+		<include refid="bizConstructionScheduleJoins"/>
+		<where>
+			<if test="storeId != null and storeId != ''">
+				AND a.store_id = #{storeId}
+			</if>
+			<if test="projectMode != null and projectMode != ''">
+				AND a.project_mode = #{projectMode}
+			</if>
+			<if test="isOldHouse != null and isOldHouse != ''">
+				AND a.is_old_house = #{isOldHouse}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.store_id ASC,a.is_enable DESC,a.sort ASC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="BizConstructionSchedule">
+		SELECT 
+			<include refid="bizConstructionScheduleColumns"/>
+		FROM biz_construction_schedule a
+		<include refid="bizConstructionScheduleJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.store_id ASC,a.is_enable DESC,a.sort ASC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO biz_construction_schedule(
+			store_id,
+			is_old_house,
+			construction_schedule_name,
+			sort,
+			normal_completion_days,
+			late_completion_days,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag,
+			is_enable,
+			project_mode
+		) VALUES (
+			#{storeId},
+			#{isOldHouse},
+			#{constructionScheduleName},
+			#{sort},
+			#{normalCompletionDays},
+			#{lateCompletionDays},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag},
+			#{isEnable},
+			#{projectMode}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE biz_construction_schedule SET 	
+			store_id = #{storeId},
+			is_old_house = #{isOldHouse},
+			construction_schedule_name = #{constructionScheduleName},
+			sort = #{sort},
+			normal_completion_days = #{normalCompletionDays},
+			late_completion_days = #{lateCompletionDays},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks},
+			is_enable = #{isEnable},
+			project_mode = #{projectMode}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE biz_construction_schedule SET 
+			del_flag = #{DEL_FLAG_DELETE},
+			is_enable = #{isEnable}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

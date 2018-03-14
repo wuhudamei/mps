@@ -1,0 +1,39 @@
+准产业项目经理结算
+
+	1、结算日志
+	   名称：结算日志
+	   链接：/PreSettleBilllog/list
+
+
+	2、结算补助设置
+	   名称：结算补助设置
+	   链接：/pmsubsidycnfg/list
+
+	3、发起项目经理中期结算
+	   名称：发起项目经理中期结算
+	   链接：/proIndustryPmSettle/proIndustryPmSettle/queryProIndustryPmMidwaySettle
+	   权限标识：
+
+	4、发起项目经理竣工结算
+	   名称：发起项目经理竣工结算
+	   链接：/proIndustryPmSettle/proIndustryPmSettle/queryProIndustryPmCompleteSettle
+	   权限标识：
+
+	5、下发项目经理结算单
+	   名称：下发项目经理结算单
+	   链接：/bizPmPreIndustrySettleBill/bizPmPreIndustrySettleBill/openPmPreIndustrySettleBill
+	   权限标识：
+
+	6、准产业项目经理生成月度结算
+	   名称：准产业项目经理生成月度结算
+	   链接：/bizPmPreIndustrySettleBill/bizPmPreIndustrySettleBill/monthlyPmPreIndustrySettle
+	   权限标识：
+
+	7、准产业项目经理结算单查询
+	   名称：准产业项目经理结算单查询
+	   链接：/bizPmPreIndustrySettleBill/bizPmPreIndustrySettleBill/queryPmSettleBill
+	   权限标识：
+
+	8、项目经理月度结算查询
+	   名称：项目经理月度结算查询
+	   链接：/bizPmPreIndustrySettleSummaryBill/bizPmPreIndustrySettleSummaryBill/queryPmMonthSettle

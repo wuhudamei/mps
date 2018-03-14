@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="cn.damei.dao.mobile.home.HomeLoginDao">
+
+	
+	
+	<!-- 是否有这个客户 -->
+	<select id="selectRecordPhone" parameterType="cn.damei.entity.mobile.home.CustomerVo" resultType="int">
+	
+	select count(1) from biz_order where id = #{orderId} and customer_phone = #{phone}
+	
+	
+	</select>
+	
+
+
+
+
+
+
+
+
+
+
+
+
+	<select id="findUnReadReportCountByCustomerPhone" parameterType="String" resultType="java.util.Map" >
+
+		SELECT
+			b.id as "businessId",
+			a.customer_name AS "customerName"
+		FROM
+			biz_qc_bill b LEFT JOIN  biz_order a on b.order_id = a.id
+
+			WHERE
+  a.customer_phone = #{customerPhone}
+
+			AND b.qc_bill_type = '1'
+			AND b.`status` &gt; 2
+# 			AND b.id NOT IN (
+# 				SELECT
+# 					f.business_id_int
+# 				FROM
+# 					biz_business_view_log f
+# 				WHERE
+# 					 f.business_type = '3'
+# 			)
+
+	</select>
+
+
+
+	<select id="findProgressCountByCustomerPhone" parameterType="String" resultType="int" >
+
+		SELECT
+			b.id as "businessId"
+		FROM
+			biz_cus_broadcast_bill b
+
+			LEFT JOIN  biz_order a on b.order_id = a.id
+
+			where
+		  a.customer_phone = #{customerPhone}
+
+			AND b.`status` ='20'
+# 			AND b.id NOT IN (
+# 				SELECT
+# 					f.business_id_int
+# 				FROM
+# 					biz_business_view_log f
+# 				WHERE
+# 					 f.business_type = '4'
+# 			)
+
+	</select>
+
+	<select id="findProjectChangeCountByCustomerPhone" parameterType="String" resultType="int" >
+
+	SELECT
+	b.id as "businessId"
+	FROM
+	biz_project_change_bill b
+	LEFT JOIN  biz_order a on b.order_id = a.id
+	where a.customer_phone = #{customerPhone}
+	AND b.`status` = '30'
+	<!-- AND b.id NOT IN (
+        SELECT
+            f.business_id_int
+        FROM
+            biz_business_view_log f
+        WHERE
+            f.business_id_int = b.id
+        AND f.business_type = '5'
+    ) -->
+	</select>
+<select id="findEvalCountByCustomerPhone" parameterType="String" resultType="int" >
+
+	SELECT
+		c.id as "businessId"
+	FROM
+		biz_order a
+		INNER JOIN biz_order_taskpackage b ON a.id = b.order_id
+		INNER JOIN biz_eval_score c ON b.id = c.related_business_id and c.eval_type='1'
+									   AND c.eval_status NOT IN (2)
+									   AND b.group_id = c.group_leader_employee_id
+	WHERE
+		a.customer_phone = #{customerPhone}
+# 		AND (
+# 				SELECT
+# 					COUNT(1)
+# 				FROM
+# 					biz_eval_score_role d
+# 				WHERE
+# 					c.id = d.eval_score_id
+# 					AND d.eval_role_type IN (301, 302)
+# 			) &lt; 1
+	</select>
+<select id="findProjectProgressCountByCustomerPhone" parameterType="String" resultType="int" >
+
+	SELECT
+	b.id as "businessId"
+	FROM
+		biz_order b
+	WHERE
+		b.customer_phone = #{customerPhone}
+# 		AND b.id NOT IN (
+# 			SELECT
+# 				a.business_id_int
+# 			FROM
+# 				`biz_business_view_log` a
+# 			WHERE
+# 				a.business_type = '555'
+#
+# 		)
+	</select>
+
+
+
+	<select id="commonViewLogCountByBusinessIntId" parameterType="java.util.Map" resultType="int">
+
+		SELECT
+			count(a.id)
+		FROM
+			`biz_business_view_log` a
+		WHERE
+			a.business_type = #{businessType}
+
+		<if test="list==null">
+			and a.business_id_int=0
+
+
+		</if>
+
+		<if test="list!=null">
+			and a.business_id_int in(
+			<foreach collection="list" item="item" separator="," >
+
+				#{item}
+			</foreach>
+			)
+
+
+		</if>
+
+
+	</select>
+
+	</mapper>

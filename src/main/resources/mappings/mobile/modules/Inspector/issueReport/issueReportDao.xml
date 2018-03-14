@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.mobile.Inspector.IssueReportDao">
+
+    <select id="issueReportList" parameterType="java.util.Map" resultType="java.util.Map">
+
+
+        SELECT
+            CONCAT_WS(
+                    "-",
+                    a.community_name,
+                    a.build_number,
+                    a.build_unit,
+                    a.build_room,
+        a.customer_name
+            ) AS "customerInfo",
+            a.item_manager AS "managerName",
+            c.qc_check_node_name AS "qcCheckNodeName",
+        b.id as "qcId",
+            ifnull(DATE_FORMAT(
+                    b.expect_check_datetime,
+                    '%Y-%m-%d'
+            ) ,"无")as "qcExpectCheckDate",
+        case  b.`status` when 2 then "项目经理已申请"
+        when 5 then "已检查完成"
+        end as "qcStatus"
+        FROM
+            biz_order a
+            INNER JOIN biz_qc_bill b ON a.id = b.order_id
+
+            <if test="text!=null and text!=''">
+                and (a.community_name LIKE concat('%',#{text},'%') or a.item_manager LIKE concat('%',#{text},'%') or a.customer_name LIKE concat('%',#{text},'%') )
+
+
+            </if>
+
+                                        AND b.`status` IN (2, 5)
+                                        AND b.qc_bill_type = 1
+                                        AND b.is_recheck = 0
+            LEFT JOIN biz_qc_check_node c ON b.qc_check_node_id = c.id
+
+where a.order_inspector_id =#{pqcId}
+	and a.is_scrap!='1'
+
+    </select>
+    
+    
+    <select id="findIssueInfoByQcId" parameterType="String" resultType="java.util.Map">
+
+        SELECT
+            CONCAT_WS("-",b.community_name,b.build_number,b.build_unit,b.build_room,b.customer_name) as "customerInfo",
+            ifnull(DATE_FORMAT(
+                           a.expect_check_datetime,
+                           '%Y-%m-%d'
+                   ) ,"无")as "qcExpectCheckDate",
+            c.qc_check_node_name as "nodeName",
+            t.id as "typeId",
+            t.type_name as "typeName",
+            a.id as "pqcId"
+
+        FROM
+            biz_qc_bill a
+            INNER JOIN biz_order b ON a.order_id = b.id
+            LEFT JOIN biz_qc_check_node c on a.qc_check_node_id = c.id
+            LEFT JOIN biz_business_problem_type t on b.store_id = t.store_id
+                                                     and b.project_mode =t.project_mode and t.is_enabled =1
+                                                     and t.business_type =3
+        where a.id =#{_parameter}
+
+
+    </select>
+
+
+    <insert id="saveIssueReport" parameterType="java.util.Map" useGeneratedKeys="true" keyProperty="id">
+        insert into biz_business_problem (
+
+
+            business_only_mark_int,
+            problem_type_id,
+            is_delay,
+            delay_days,
+            problem_describe,
+            status,
+
+            create_by,
+            create_date,
+
+
+            business_type
+        )VALUES (
+               #{qcId},
+            #{typeId},
+            #{isDelay},
+            #{delayDays},
+            #{problemDescribe},
+            #{status},
+            #{pqcId},
+            #{createDate},
+            #{businessType}
+
+        )
+
+    </insert>
+
+    <select id="findIssueReportRecord" parameterType="String" resultType="java.util.Map">
+
+
+        SELECT
+            CONCAT_WS("-",b.community_name,b.build_number,b.build_unit,b.build_room,b.customer_name) as "customerInfo",
+            ifnull(DATE_FORMAT(
+                          a.expect_check_datetime,
+                           '%Y-%m-%d'
+                   ) ,"无")as "qcExpectCheckDate",
+            c.qc_check_node_name as "nodeName",
+            b.item_manager as "managerName",
+          d.id as "issueId"
+
+        FROM
+            biz_qc_bill a
+            INNER JOIN biz_order b ON a.order_id = b.id
+            LEFT JOIN biz_qc_check_node c on a.qc_check_node_id = c.id
+                inner JOIN biz_business_problem d on a.id =d.business_only_mark_int
+        where a.id =#{_parameter}
+
+    </select>
+
+
+
+    <select id="findIssueReportDetail" parameterType="String" resultType="java.util.Map">
+
+        SELECT
+            CONCAT_WS(
+                    "-",
+                    b.community_name,
+                    b.build_number,
+                    b.build_unit,
+                    b.build_room,
+                    b.customer_name
+            ) AS "customerInfo",
+            ifnull(DATE_FORMAT(
+                          a.expect_check_datetime,
+                           '%Y-%m-%d'
+                   ) ,"无")as "qcExpectCheckDate",
+            c.qc_check_node_name AS "nodeName",
+            d.delay_days AS "delayDays",
+            d.problem_describe AS "problemDescribe",
+            t.type_name AS "typeName"
+        FROM
+            biz_qc_bill a
+            INNER JOIN biz_order b ON a.order_id = b.id
+            LEFT JOIN biz_qc_check_node c ON a.qc_check_node_id = c.id
+            INNER JOIN biz_business_problem d ON a.id = d.business_only_mark_int
+            INNER JOIN biz_business_problem_type t ON d.problem_type_id = t.id
+        where d.id = #{_parameter}
+
+    </select>
+</mapper>
+
+

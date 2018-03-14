@@ -1,0 +1,9 @@
+字典表
+
+
+键值	标签			类型				 描述
+50      已派单到工人	        taskpackage_status_new		 工人接单监控-任务表类型
+55	工人拒绝任务包		taskpackage_status_new		 工人接单监控-任务表类型
+60	已确定工人组		taskpackage_status_new		 工人接单监控-任务表类型
+70	施工中			taskpackage_status_new		 工人接单监控-任务表类型
+80	工人申请完工		taskpackage_status_new		 工人接单监控-任务表类型

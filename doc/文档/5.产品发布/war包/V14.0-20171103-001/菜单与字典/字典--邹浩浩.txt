@@ -1,0 +1,11 @@
+【收货列表-缺少条件】的字典表
+
+键值        标签         类型            描述          排序
+
+1	    辅料      purchase_type    采购单类型       10
+
+2          开关面板   purchase_type    采购单类型       20
+
+5           墙地砖    purchase_type    采购单类型       50
+
+6          沙子水泥   purchase_type    采购单类型       60

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.mobile.Worker.SettlementAuxiliaryDao">
+
+<select id="findAuxiliaryListForSettlement" resultType="cn.damei.entity.mobile.Worker.SettlementAuxiliary">
+
+SELECT 
+	t.id AS "id", 
+	t.auxiliaryMaterialsNo AS "auxiliaryMaterialsNo", 
+	t.orderTaskpackageId AS "orderTaskpackageId", 
+	t.laborPrice AS "laborPrice", 
+	t.auxiliaryMaterialsName AS "auxiliaryMaterialsName", 
+	t.specifications AS "specifications", 
+	t.measurementUnit AS "measurementUnit", 
+	t.usedCount AS "usedCount", 
+	t.laborPrice * t.usedCount AS "price",
+	t.brands AS "brands"
+FROM 
+	(
+		SELECT
+			a.id AS "id",
+			a.auxiliary_materials_no AS "auxiliaryMaterialsNo",
+			a.order_taskpackage_id AS "orderTaskpackageId",
+			a.price AS "laborPrice",
+			b.auxiliary_materials_name AS "auxiliaryMaterialsName",
+			b.specifications AS "specifications",
+			b.measurement_unit AS "measurementUnit",
+			a.used_count AS "usedCount",
+			b.brands AS "brands"
+		FROM
+			biz_auxiliary_materials b,
+			biz_order_taskpackage_auxiliary_materials a
+		WHERE
+			a.auxiliary_materials_no = b.auxiliary_materials_no
+	    AND 
+	        (a.is_sand_cement is null or a.is_sand_cement='0')
+		AND 
+			a.order_taskpackage_id = #{0}
+	) AS t 
+	
+	WHERE t.usedCount > 0
+
+
+</select>
+
+<select id="findSandListForSettlement" resultType="cn.damei.entity.mobile.Worker.SettlementAuxiliary">
+
+SELECT 
+	t.id AS "id", 
+	t.auxiliaryMaterialsNo AS "auxiliaryMaterialsNo", 
+	t.orderTaskpackageId AS "orderTaskpackageId", 
+	t.laborPrice AS "laborPrice", 
+	t.auxiliaryMaterialsName AS "auxiliaryMaterialsName", 
+	t.specifications AS "specifications", 
+	t.measurementUnit AS "measurementUnit", 
+	t.usedCount AS "usedCount", 
+	t.laborPrice * t.usedCount AS "price",
+	t.brands AS "brands"
+FROM 
+	(
+		SELECT
+			a.id AS "id",
+			a.auxiliary_materials_no AS "auxiliaryMaterialsNo",
+			a.order_taskpackage_id AS "orderTaskpackageId",
+			a.price AS "laborPrice",
+			b.auxiliary_materials_name AS "auxiliaryMaterialsName",
+			b.specifications AS "specifications",
+			b.measurement_unit AS "measurementUnit",
+			a.used_count AS "usedCount",
+			b.brands AS "brands"
+		FROM
+			biz_auxiliary_materials b,
+			biz_order_taskpackage_auxiliary_materials a
+		WHERE
+			a.auxiliary_materials_no = b.auxiliary_materials_no
+	    AND 
+	        a.is_sand_cement='1'
+		AND 
+			a.order_taskpackage_id = #{0}
+	) AS t 
+	
+	WHERE t.usedCount > 0
+
+
+</select>
+</mapper>

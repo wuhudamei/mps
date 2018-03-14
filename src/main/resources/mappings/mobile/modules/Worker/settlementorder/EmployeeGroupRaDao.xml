@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.mobile.Worker.EmployeeGroupRaDao">
+	
+	<select id="findByEmployeeId" resultType="cn.damei.entity.mobile.Worker.EmployeeGroupRa">
+		SELECT 
+			a.id AS "id",
+			a.empId AS "empId",
+			a.groupId AS "groupId",
+			a.is_leader AS "isLead",
+			a.salary_ratio AS "salaryRatio"
+		FROM 
+			biz_emgrouprelation a
+			INNER JOIN biz_employeegroup b on a.groupId = b.id AND b.state = 0
+		WHERE 
+			a.empId = #{0}
+	</select>
+	
+</mapper>

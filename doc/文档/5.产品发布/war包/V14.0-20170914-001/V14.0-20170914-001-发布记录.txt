@@ -1,0 +1,34 @@
+打包名称：mdn.war
+打包版本：V14.0-20170914-001
+
+
+功能新增：
+  1、工人协议确认--徐强    --张康健
+  2、任务包预算上限--刘川    --郝永辉
+
+功能变更：
+  1.接单管理优化 --徐强    --武轶博/张同维
+
+
+
+
+数据库表结构变更：
+	在文件夹【数据库表结构变更】
+	1、执行文件【数据库表结构变更】内的【jeesite_table-v14.0_10_gongren_xieyi.sql】
+	2、执行文件【数据库表结构变更】内的【jeesite_table-v14.0_05_jiedan_liebiao_youhua.sql】
+	3、执行文件【数据库表结构变更】内的【jeesite_table-v14.0_12_shengcheng_renwubao.sql】
+
+
+
+数据库表数据处理：
+	在文件夹【数据库表数据变更】
+	1、执行文件【数据库表数据变更】内的【history_data_1.sql】
+	2、执行文件【数据库表数据变更】内的【history_data_2.sql】
+	3、执行文件【数据库表数据变更】内的【history_data_3.sql】
+	4、执行文件【数据库表数据变更】内的【history_data_4.sql】
+	5、执行文件【数据库表数据变更】内的【history_data_5.sql】
+	6、执行文件【数据库表数据变更】内的【wallfloor.sql】
+                7、执行文件【数据库表数据变更】内的为【shanchubpingjiashuju.sql】
+                8、执行文件【dakanbanshijijungongshijianUpdate.sql】
+
+

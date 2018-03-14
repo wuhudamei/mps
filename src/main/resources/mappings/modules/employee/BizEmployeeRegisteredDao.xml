@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizEmployeeRegisteredDao">
+
+
+    <!--查询在册人员导出-->
+    <select id="queryExportExcel"  resultType="cn.damei.entity.modules.BizEmployeeRegistered">
+        SELECT
+        *
+        FROM
+        (
+            SELECT
+                aa.`name`AS "storeIdName",
+                bb.date AS "month",
+                IFNULL(cc.employeeEntriesCount, 0) AS "employeeEntriesCount",
+                (
+                    SELECT
+                        COUNT(1)
+                    FROM
+                        biz_employee n
+                    WHERE
+                        n.orderStop = 0
+                        AND n.del_flag = 0
+                        AND DATE_FORMAT(n.create_date, '%Y-%m') &lt;= bb.date
+                        AND n.storeId = aa.id
+                        <if test="empType != null and empType != ''">
+                            AND n.empType = #{empType}
+                        </if>
+                        <if test="projectMode != null and projectMode != ''">
+                            AND n.project_mode = #{projectMode}
+                        </if>
+                        <if test="endEntryDate != null and endEntryDate != ''">
+                            AND n.create_date &lt;= DATE_ADD(#{endEntryDate},INTERVAL 1 DAY)
+                        </if>
+                ) AS "employeeRegisteredCount"
+            FROM
+            (
+                SELECT
+                    a.id,
+                    a.`name`
+                FROM
+                    sys_office a
+                WHERE
+                    a.parent_id = 1
+                    AND a.del_flag = 0
+                    <if test="storeId != null and storeId != ''">
+                        AND a.id = #{storeId}
+                    </if>
+            ) aa
+            LEFT JOIN (
+                SELECT
+                    @num :=@num + 1,
+                    DATE_FORMAT(
+                        ADDDATE(
+                        #{startEntryDate},
+                        INTERVAL @num MONTH
+                        ),
+                        '%Y-%m'
+                    ) AS date
+                FROM
+                    biz_employee,
+                    (SELECT @num := - 1) t
+                WHERE
+                    ADDDATE(
+                    #{startEntryDate},
+                    INTERVAL @num MONTH
+                    )  &lt;= DATE_FORMAT(#{endEntryDate}, '%Y-%m')
+                ORDER BY
+                date
+            ) bb ON 1 = 1
+            LEFT JOIN (
+                SELECT
+                    c.storeId,
+                    c.empType,
+                    DATE_FORMAT(c.create_date, '%Y-%m') AS "exportMonth",
+                    COUNT(1) AS "employeeEntriesCount"
+                FROM
+                    biz_employee c
+                WHERE
+                    c.orderStop = 0
+                    AND c.del_flag = 0
+                    <if test="storeId != null and storeId != ''">
+                        AND c.storeId = #{storeId}
+                    </if>
+                    <if test="empType != null and empType != ''">
+                        AND c.empType = #{empType}
+                    </if>
+                    <if test="projectMode != null and projectMode != ''">
+                        AND c.project_mode = #{projectMode}
+                    </if>
+                    <if test="startEntryDate != null and startEntryDate != ''">
+                        AND c.create_date &gt;= #{startEntryDate}
+                    </if>
+                    <if test="endEntryDate != null and endEntryDate != ''">
+                        AND c.create_date &lt;= DATE_ADD(#{endEntryDate},INTERVAL 1 DAY)
+                    </if>
+                GROUP BY
+                c.storeId,
+                exportMonth
+            ) cc ON cc.storeId = aa.id
+            AND cc.exportMonth = bb.date
+            ORDER BY
+            aa.id,
+            bb.date
+        ) mm
+        WHERE
+        mm.employeeRegisteredCount > 0
+
+    </select>
+
+
+	
+</mapper>

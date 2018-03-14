@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="cn.damei.dao.mobile.home.BroadCastDao">
+
+
+<insert id="saveBroadCastRecord" parameterType="cn.damei.entity.mobile.home.BroadCastPicEntity">
+<selectKey keyProperty="id" order="AFTER" resultType="int" keyColumn="id">
+select LAST_INSERT_ID()
+</selectKey>
+
+insert into  biz_cus_broadcast_bill (
+id,
+order_id,
+cus_broadcast_bill_type,
+cus_broadcast_bill_name,
+related_business_id,
+cus_broadcast_bill_code,
+pic_number,
+apply_employee_id,
+apply_datetime,
+check_employee_id,
+status,
+status_datetime,
+remarks,
+create_by,
+create_date,
+update_by,
+update_date,
+del_flag
+
+) values (
+#{id},
+#{orderId},
+#{cusBroadCastType},
+#{broadCastName},
+#{relatedBusinessId},
+#{cusBroadCastCode},
+#{picCount},
+#{applyEmployeeId},
+#{applyDate},
+#{checkEmployeeId},
+#{status},
+#{statusTime},
+#{remarks},
+#{createBy},
+#{createDate},
+#{updateBy},
+#{updateDate},
+#{delFlag}
+
+)
+</insert>
+
+<!-- 保存播报图片  类型:501  关联播报表biz_cus_broadcast_bill id  -->
+<insert id="saveBroadCastPic" parameterType="cn.damei.entity.mobile.home.BroadCastPicEntity">
+
+
+
+insert into biz_business_pic (
+business_type,
+business_id_int,
+pic_url,
+pic_datetime
+
+)values(
+#{picType},
+#{broadCastId},
+#{picUrl},
+#{picDateTime}
+
+)
+
+</insert>
+
+
+
+
+<select id="getCode" resultType="cn.damei.entity.mobile.home.BroadCastCodeEntity">
+SELECT bussiness_type as "bussinessType",
+last_seiralnum as "lastSeiralnum",
+generate_time  as "generateTime"
+from biz_seiralnum where  bussiness_type ="BB"
+</select>
+
+
+<update id="updateCode" parameterType="cn.damei.entity.mobile.home.BroadCastCodeEntity">
+update biz_seiralnum set last_seiralnum = #{lastSeiralnum}  where bussiness_type = "BB"
+</update>
+
+<insert id="saveCode">
+insert into biz_seiralnum (bussiness_type,last_seiralnum,generate_time)
+values('BB','0','2017-11-08 10:00:00');
+</insert>
+
+	</mapper>

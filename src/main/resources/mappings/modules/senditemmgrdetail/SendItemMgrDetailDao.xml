@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.SendItemMgrDetailDao">
+
+	<sql id="itemMgrDetailColumns">
+		f.`name` AS "storeName",
+		log.create_date AS "createDate",
+		u.`name` AS "operName",
+		emp1.realName AS "newItemManager",
+		emp2.realName AS "oldItemManager",
+		dict.label AS "projectModeName",
+		d.`name` AS "engineDepartName",
+		o.order_number AS "orderNumber",
+		o.actual_start_date AS "actualStartDate",
+		o.community_name AS "communityName",
+		o.build_number AS "buildNumber",
+		o.build_unit AS "buildUnit",
+		o.build_room AS "buildRoom",
+		o.customer_name AS "customerName",
+		o.customer_phone AS "customerPhone",
+		o.designer_name AS "designerName",
+		o.designer_phone AS "designerPhone",
+		emp3.realName AS "itemManager",
+		emp3.phone AS "itemManagerPhone",
+		emp4.realName AS "orderInspector",
+		emp4.phone AS "orderInspectorPhone"
+	</sql>
+	
+	<sql id="itemMgrStarAndOrdColums">
+		a.storeId AS "storeId",
+		bb.`name` AS "storeName",
+		a.project_mode AS "projectMode",
+		c.label AS "projectModeName",
+		IFNULL(c1.id,"") AS "engineDepartId",
+		IFNULL(c1.`name`,"") AS "engineDepartName",
+		a.`no` AS "itemManagerId",
+		a.realName AS "itemManager",
+		a.phone AS "itemManagerPhone",
+		a.star AS "star",
+		IFNULL(q.count, 0) AS "orderCount",
+		IFNULL(m.orderCount,0) AS "orderTotalCount",
+		a.orderStop AS "orderStop",
+		IFNULL(a.remarks,"") AS "remarks",
+		m.id AS "orderNumber",
+		m.customer_name AS "customerName",
+		q.create_date AS "createDate"
+	</sql>
+
+	<select id="findList" resultType="cn.damei.entity.modules.SendItemMgrDetail">
+		SELECT
+		<include refid="itemMgrDetailColumns" />
+		FROM biz_order_distribute_log log
+		LEFT JOIN sys_user u ON u.id = log.create_by
+		LEFT JOIN biz_employee ep ON ep.id = u.emp_id
+		LEFT JOIN biz_employee emp1 ON emp1.id = log.distributed_employee_id
+		LEFT JOIN biz_employee emp2 ON emp2.id = log.old_employee_id
+		LEFT JOIN biz_order o ON o.id = log.order_id
+		LEFT JOIN biz_engineering_department d ON d.id = o.engin_depart_id
+		AND d.del_flag = 0
+		LEFT JOIN sys_dict dict ON dict.`value` = o.project_mode
+		AND dict.type = 'project_mode'
+		AND dict.del_flag = 0
+		LEFT JOIN biz_employee emp3 ON emp3.id = o.item_manager_id
+		LEFT JOIN biz_employee emp4 ON emp4.id = o.order_inspector_id
+		LEFT JOIN sys_office f ON f.id = o.store_id
+		<where>
+			log.distribute_type in (101,102)
+			<if test="storeId != null and storeId != ''">
+				AND o.store_id = #{storeId}
+			</if>
+			<if test="projectMode != null and projectMode != ''">
+				AND o.project_mode = #{projectMode}
+			</if>
+			<if test="engineDepartId != null and engineDepartId != ''">
+				AND o.engin_depart_id =#{engineDepartId}
+			</if>
+			<if test="orderNumber != null and orderNumber != ''">
+				AND o.order_number LIKE CONCAT('%','${orderNumber}','%' )
+			</if>
+			<if test="customerName != null and customerName != ''">
+				AND o.customer_name LIKE
+				<if test="dbName == 'oracle'">'%'||#{customerName}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{customerName}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{customerName},'%')</if>
+			</if>
+			<if test="itemManager != null and itemManager != ''">
+				AND emp3.realName LIKE
+				<if test="dbName == 'oracle'">'%'||#{itemManager}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{itemManager}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{itemManager},'%')</if>
+			</if>
+			<if test="endCreateDate != null and endCreateDate != ''">
+				AND log.create_date &lt;= #{endCreateDate}
+			</if>
+			<if test="beginCreateDate != null and beginCreateDate != ''">
+				AND log.create_date &gt;= #{beginCreateDate}
+			</if>
+		</where>
+		ORDER BY log.create_date DESC
+	</select>
+	
+	<select id="findListToExport" resultType="cn.damei.entity.modules.SendItemMgrDetail">
+		SELECT
+		<include refid="itemMgrStarAndOrdColums" />
+		FROM biz_employee a
+		LEFT JOIN sys_office bb ON bb.id = a.storeId
+		LEFT JOIN sys_dict c ON c.`value` = a.project_mode
+		AND c.type = 'project_mode'
+		AND c.del_flag = 0
+		LEFT JOIN biz_engin_depart_employee_position b1 ON a.id = b1.employee_id
+		AND b1.position_type = '5'
+		LEFT JOIN biz_engineering_department c1 ON b1.engin_depart_id = c1.id
+		LEFT JOIN (
+			SELECT
+				mm.distributed_employee_id,
+				COUNT(1) AS "count",
+				mm.create_date
+			FROM
+				biz_order_distribute_log mm,
+				(
+					SELECT
+						MAX(b.id) AS "logId"
+					FROM
+						biz_order_distribute_log b
+					WHERE
+						b.distribute_type IN (101, 102)
+					AND b.create_date &lt; (
+					SELECT
+						IFNULL(max(h.create_date),'2099-12-31')
+					FROM
+						biz_order_confirm_startwork h
+					WHERE
+						h.order_id = b.order_id
+					)
+					GROUP BY
+						b.order_id
+				) www
+			WHERE
+				mm.id = www.logId
+			<if test="endCreateDate != null and endCreateDate != ''">
+				AND mm.create_date &lt;= #{endCreateDate}
+			</if>
+			<if test="beginCreateDate != null and beginCreateDate != ''">
+				AND mm.create_date &gt;= #{beginCreateDate}
+			</if>			
+			GROUP BY
+				mm.distributed_employee_id
+		) q ON q.distributed_employee_id = a.id		
+		LEFT JOIN (
+			SELECT
+				d.item_manager_id,
+				d.id,
+				d.customer_name,
+				COUNT(1) AS "orderCount"
+			FROM
+				biz_order d
+			GROUP BY
+				d.item_manager_id
+		) m ON m.item_manager_id = a.id	
+		<where> 
+			a.empType = 3 AND a.del_flag = 0
+			<if test="storeId != null and storeId != ''">
+				AND a.storeId = #{storeId}
+			</if>
+			<if test="projectMode != null and projectMode != ''">
+				AND a.project_mode = #{projectMode}
+			</if>
+			<if test="engineDepartId != null and engineDepartId != ''">
+				AND c1.id =#{engineDepartId}
+			</if>
+			<if test="orderNumber != null and orderNumber != ''">
+				AND m.id LIKE CONCAT('%','${orderNumber}','%' )
+			</if>
+			<if test="customerName != null and customerName != ''">
+				AND m.customer_name LIKE
+				<if test="dbName == 'oracle'">'%'||#{customerName}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{customerName}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{customerName},'%')</if>
+			</if>
+			<if test="itemManager != null and itemManager != ''">
+				AND a.realName LIKE
+				<if test="dbName == 'oracle'">'%'||#{itemManager}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{itemManager}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{itemManager},'%')</if>
+			</if>
+			
+			ORDER BY a.storeId, a.project_mode, c1.id, CONVERT(a.realName using gbk)
+		</where>
+	</select>
+	
+	<select id="findDispatchDetailToExport" resultType="cn.damei.entity.modules.SendItemMgrDetail">
+		SELECT 
+			b.id,
+			b.order_id,
+			c.order_number as 'orderNumber',
+			DATE_FORMAT(b.create_date,'%Y-%m-%d %H:%i:%S') as 'createDate',
+			c.customer_name,
+			c.customer_phone,
+			c.customer_address,
+			c.biz_order_accept_area,
+			DATE_FORMAT(c.contract_start_date,'%Y-%m-%d') as 'contractStartDate',
+			DATE_FORMAT(c.contract_end_date,'%Y-%m-%d') as 'contractEndDate',
+			c.designer_name,
+			c.designer_phone,
+			e.star,
+			e.realName AS 'itemManager',
+			e.phone AS 'itemManagerPhone',
+			b.distributed_employee_id 'itemManagerId',
+			DATE_FORMAT(b.create_date,'%Y%m') as 'month',
+			DATE_FORMAT(b.create_date,'%Y%m%d') as 'days',
+			p.name as 'engineDepartName'
+			
+		FROM(
+			SELECT 
+				MAX(f.id) AS 'id'
+			FROM 
+				biz_order_distribute_log f 
+			WHERE 
+				f.distribute_type IN (101, 102) AND f.create_date &lt;= 
+				(SELECT CASE WHEN (SELECT h.create_date FROM biz_order_confirm_startwork h WHERE h.order_id = f.order_id LIMIT 0,1) IS NOT NULL THEN (SELECT h.create_date FROM biz_order_confirm_startwork h WHERE h.order_id = f.order_id LIMIT 0,1) ELSE (SELECT MAX(s.create_date) FROM biz_order_distribute_log s WHERE s.order_id = f.order_id) END)
+			GROUP BY f.order_id
+			ORDER BY f.id) a 
+			LEFT JOIN biz_order_distribute_log b ON a.id = b.id
+			LEFT JOIN biz_order c ON c.id = b.order_id
+			LEFT JOIN biz_employee e ON e.id = b.distributed_employee_id
+			left join biz_engineering_department p on p.id = c.engin_depart_id
+		WHERE 
+			c.is_scrap = '0' 
+			<if test="endCreateDate != null and endCreateDate != ''">
+				AND b.create_date &lt;= #{endCreateDate}
+			</if>
+			<if test="beginCreateDate != null and beginCreateDate != ''">
+				AND b.create_date &gt;= #{beginCreateDate}
+			</if>
+			
+			<if test="storeId != null and storeId != ''">
+				AND c.store_id = #{storeId}
+			</if>
+			<if test="projectMode != null and projectMode != ''">
+				AND c.project_mode = #{projectMode}
+			</if>
+			<if test="engineDepartId != null and engineDepartId != ''">
+				AND p.id =#{engineDepartId}
+			</if>
+			<if test="orderNumber != null and orderNumber != ''">
+				AND c.order_number LIKE CONCAT('%','${orderNumber}','%' )
+			</if>
+			<if test="customerName != null and customerName != ''">
+				AND c.customer_name LIKE
+				<if test="dbName == 'oracle'">'%'||#{customerName}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{customerName}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{customerName},'%')</if>
+			</if>
+			<if test="itemManager != null and itemManager != ''">
+				AND c.realName LIKE
+				<if test="dbName == 'oracle'">'%'||#{itemManager}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{itemManager}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{itemManager},'%')</if>
+			</if>
+		order by 
+			b.create_date desc
+	</select>
+	
+	<select id="findManagerCount" resultType="cn.damei.entity.modules.SendItemMgrDetail">
+		SELECT  a.item_manager_id,COUNT(a.item_manager_id) as 'managerCount' FROM biz_order a 
+		where a.is_scrap = '0'
+		GROUP BY a.item_manager_id;
+	</select>
+	
+</mapper>

@@ -1,0 +1,52 @@
+.g-ensure{
+	width: 100%;
+	height: 100%;
+	background: #eee;
+}
+.g-ensure section.ensure_list{
+	padding-top: 1rem;
+	margin-left: 0.1rem;
+	margin-right: 0.1rem;
+}
+.g-ensure ul{
+	background-color: #fff;
+	border-radius: 0.1rem;
+	position: relative;
+	margin-bottom: 0.2rem;
+	padding-bottom: .2rem;
+}
+.g-ensure ul:last-child{
+	margin-bottom: 1.2rem;
+}
+.g-ensure ul li{
+	margin-left: 0.2rem;
+	margin-right: 0.6rem;
+	line-height: 0.6rem;
+}
+.g-ensure ul li span{
+	font-size: 0.28rem;
+	height: 0.6rem;
+	line-height: 0.6rem;
+	color: #666;
+	float: left;
+}
+.g-ensure ul li p{
+	font-size: 0.28rem;
+	color: #333;
+	overflow: hidden;
+}
+.g-ensure ul li p.col_blue{
+	color: #00f;
+}
+.g-ensure a.ensure_btn{
+	font-size: 0.28rem;
+    color: #fff;
+    display: block;
+    margin: 0.15rem auto 0;
+    width: 3.7rem;
+    text-align: center;
+    height: 0.76rem;
+    line-height: 0.76rem;
+    background-color: #0780ec;
+    border-radius: 0.1rem;
+}

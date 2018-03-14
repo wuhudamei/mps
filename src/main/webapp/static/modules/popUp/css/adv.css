@@ -1,0 +1,253 @@
+body {
+    background-color: #fff
+}
+
+.wrap {
+    width: 100%;
+    height: 100%;
+    position: relative
+}
+
+.wrap .Black {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, .6);
+    width: 100%;
+    height: 100%
+}
+
+.wrap .Black .tc_center {
+    padding: 15px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 560px;
+    height: 420px;
+    margin-left: -300px;
+    margin-top: -210px;
+    background: #fff;
+    color: #666
+}
+
+.wrap .Black .tc_center h2 {
+    font-size: 20px;
+    text-align: center;
+    line-height: 40px
+}
+
+.wrap .Black .tc_center .cen_t {
+    width: 100%
+}
+
+.wrap .Black .tc_center .cen_t p {
+    line-height: 30px;
+    font-size: 16px;
+    text-align: center;
+    margin-bottom: 12px
+}
+
+.wrap .Black .tc_center .cen_t p input {
+    width: 50%;
+    line-height: 30px;
+    padding-left: 10px;
+    border-radius: 3px;
+    border: #ccc solid 1px
+}
+
+.wrap .Black .tc_center .cen_t .cen_btn {
+    position: absolute;
+    width: 100%;
+    bottom: 20px;
+    text-align: center;
+    line-height: 30px
+}
+
+.wrap .Black .tc_center .cen_t .cen_btn span {
+    width: 120px;
+    display: inline-block;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 3px
+}
+
+.wrap .Black .tc_center .cen_t .cen_btn .btn_y {
+    background: #3da5ee;
+    color: #fff
+}
+
+.wrap .Black .tc_center .cen_t .cen_btn .btn_n {
+    margin-left: 50px;
+    border: solid 1px #3da5ee;
+    color: #3da5ee
+}
+
+.wrap .Black .tc_center .cen_t .cen_tex {
+    width: 90%;
+    margin-left: 5%;
+    font-size: 16px
+}
+
+.wrap .Black .tc_center .cen_t .cen_tex .span_l {
+    display: block;
+    line-height: 30px;
+    float: left;
+    width: 18%;
+    text-align: right;
+    vertical-align: middle
+}
+
+.wrap .Black .tc_center .cen_t .cen_tex .span_r {
+    padding-left: 20%;
+    text-align: left;
+    vertical-align: middle;
+    position: relative;
+    margin-bottom: 8px
+}
+
+.wrap .Black .tc_center .cen_t .cen_tex .span_r input {
+    width: 90%;
+    background: 0 0
+}
+
+.wrap .Black .tc_center .cen_t .cen_tex .span_r textarea {
+    color: #666;
+    width: 90%;
+    height: 200px;
+    padding: 5px 15px;
+    line-height: 20px;
+    font-size: 12px;
+    border: #ccc solid 1px;
+    border-radius: 3px
+}
+
+.wrap .Black .tc_close {
+    background: url(../images/close.png) no-repeat;
+    background-size: 100% 100%;
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    top: -10px;
+    right: -12px
+}
+.wrap .pic {
+    background: #fff;
+}
+
+.wrap .pic textarea {
+    padding-left: 0.92rem;
+    width: 100%;
+    height: 8rem;
+    color: #333;
+    line-height: 2rem;
+    font-size: 1.4rem;
+}
+
+.wrap .pic .span_pic{
+	text-align:right;
+	width: 18%;
+	font-size: 16px;
+	margin-bottom:5px;
+}
+.wrap .pic p {
+    padding-left: 0.92rem;
+    padding-right: 0.92rem;
+    line-height: 2.75rem;
+    height: 2.75rem;
+    font-size: 1.5rem;
+    color: #cacaca;
+}
+
+.wrap .pic p span {
+    padding: 2px;
+    float: right;
+    color: #bcbbbb;
+}
+
+.wrap .pic .Fol {
+    height: 200px;
+    overflow: auto;
+    padding-right: 0.92rem;
+}
+
+.wrap .pic .Fol img {
+    margin-bottom: 3px;
+    margin-right: 1px;
+    width: 24.5%;
+    height: 7rem;
+    float: left;
+}
+
+.wrap .pic .Fol span {
+    display: inline-block;
+    width: 25%;
+    height: 7rem;
+    background: url(../images/zhaop_06.png) no-repeat;
+    background-size: 100% 100%;
+}
+
+.wrap .pic .Fol span .Up {
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+}
+.Big {
+    position: absolute;
+    top: -112px;
+    left: 50%;
+    margin-left: -200px;
+    width: 400px !important;
+    height: 300px !important;
+    z-index: 99;
+}
+.black_small{
+    display:none;
+    position:absolute;
+    top: 0;
+    left:0;
+    width: 100%;
+    height: 100%;
+    background:rgba(0,0,0,0.9)
+
+}
+.black_small img{
+    position:absolute;
+    top: 8%;
+    left: 10%;
+    width: 80%;
+    height: 75%;
+}
+.black_small .cen_btn{
+    width: 100%;
+    position:absolute;
+    bottom:5%;
+    left:15px;
+    text-align:center;
+}
+.black_small .cen_btn span {
+    width: 120px;
+    display: inline-block;
+    line-height:30px;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 3px
+}
+
+.black_small .btn_y {
+    background: #3da5ee;
+    color: #fff
+}
+
+.black_small .btn_n {
+    margin-left: 50px;
+    border: solid 1px #3da5ee;
+    color: #3da5ee
+}
+.del_img{
+    position: absolute;
+    bottom: 5%;
+    right: 50%;
+    width: 3rem;
+    height: 3rem;
+    margin-right: -1.5rem;
+}

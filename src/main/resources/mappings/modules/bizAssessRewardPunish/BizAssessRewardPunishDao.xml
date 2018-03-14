@@ -1,0 +1,631 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="cn.damei.dao.modules.BizAssessRewardPunishDao">
+	<sql id="bizAssessRewardPunishColumns">
+		a.id as "id",
+		a.related_business_type as
+		"relatedBusinessType",
+		a.related_business_id_int as
+		"relatedBusinessIdInt",
+		a.related_business_id_varchar as
+		"relatedBusinessIdVarchar",
+		a.assess_rule_id as "assessRuleId",
+		a.is_reward_or_punish as "isRewardOrPunish",
+		a.reward_punish_target_type as "rewardPunishTargetType",
+		a.is_month_inspection as "isMonthInspection",
+		a.reward_punish_target_employee_type as
+		"rewardPunishTargetEmployeeType",
+		a.reward_punish_target_employee_id as
+		"rewardPunishTargetEmployeeId",
+		a.reward_punish_amount as
+		"rewardPunishAmount",
+		a.reward_punish_score as "rewardPunishScore",
+		a.reward_punish_remarks as "rewardPunishRemarks",
+		a.reward_punish_datetime as "rewardPunishDatetime",
+		a.reward_punish_status as "rewardPunishStatus",
+		a.status_datetime as
+		"statusDatetime",
+		a.status_operator as "statusOperator",
+		a.status_describe as "statusDescribe",
+		a.settle_stage as "settleStage",
+		a.settle_type as "settleType",
+		a.settle_id as "settleId",
+		a.remarks as
+		"remarks",
+		a.general_remarks as "generalRemarks",
+		a.detail_remarks as "detailRemarks",
+		a.create_by as "createBy",
+		a.create_date as
+		"createDate",
+		a.update_by as "updateBy",
+		a.update_date as "updateDate",
+		a.del_flag as
+		"delFlag"
+	</sql>
+
+	<select id="get"
+		resultType="cn.damei.entity.modules.BizAssessRewardPunish">
+		SELECT
+		<include refid="bizAssessRewardPunishColumns" />
+		,
+		b.store_id AS "storeId",
+		b.project_mode AS "projectMode",
+		b.engin_depart_id AS "enginDepartId",
+		c.biz_assess_rule_type_id AS
+		"assessRuleTypeId"
+		FROM
+		biz_assess_reward_punish a
+		INNER JOIN biz_order b
+		on a.related_business_id_int = b.id
+		INNER JOIN biz_assess_rule c on
+		a.assess_rule_id = c.id
+		WHERE a.id = #{id}
+	</select>
+
+	<select id="findList"
+		resultType="cn.damei.entity.modules.BizAssessRewardPunish">
+		SELECT
+		a.id as "id",
+		b.store_id AS "storeId",
+		b.project_mode AS
+		"projectMode",
+		en.`name` AS "enginDepartName",
+		a.reward_punish_datetime
+		AS
+		"rewardPunishDatetime",
+		em.realName AS
+		"rewardPunishTargetEmployeeName",
+		a.reward_punish_amount AS
+		"rewardPunishAmount",
+		a.reward_punish_score AS "rewardPunishScore",
+		a.reward_punish_status AS "rewardPunishStatus",
+		a.settle_stage AS
+		"settleStage",
+		b.community_name AS "communityName",
+		b.build_number AS
+		"buildNumber",
+		b.build_room AS "buildRoom",
+		b.build_unit AS "buildUnit",
+		b.customer_name AS "customerName"
+		FROM
+		biz_assess_reward_punish a
+		INNER
+		JOIN biz_order b on a.related_business_id_int = b.id
+		LEFT JOIN
+		biz_engineering_department en on b.engin_depart_id = en.id
+		LEFT JOIN
+		biz_employee em on em.id = a.reward_punish_target_employee_id
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="storeId != null and storeId != ''">
+				and b.store_id = #{storeId}
+			</if>
+
+			<if test="projectMode != null and projectMode != ''">
+				and b.project_mode = #{projectMode}
+			</if>
+
+			<if test="enginDepartIds != null and enginDepartIds != ''">
+				AND b.engin_depart_id in
+				<foreach item="item" index="index" collection="enginDepartIds"
+					open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+
+			<if test="customerName != null and customerName != ''">
+				AND b.customer_name LIKE
+				<if test="dbName == 'oracle'">'%'||#{customerName}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{customerName}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{customerName},'%')</if>
+			</if>
+
+			<if
+				test="rewardPunishTargetEmployeeName != null and rewardPunishTargetEmployeeName != ''">
+				AND em.realName LIKE
+				<if test="dbName == 'oracle'">'%'||#{rewardPunishTargetEmployeeName}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{rewardPunishTargetEmployeeName}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{rewardPunishTargetEmployeeName},'%')</if>
+			</if>
+
+			<if test="rewardPunishStatus != null and rewardPunishStatus != ''">
+				AND a.reward_punish_status=#{rewardPunishStatus}
+			</if>
+
+			<if test="settleStage != null and settleStage != ''">
+				AND a.settle_stage=#{settleStage}
+			</if>
+
+			<if test="startDate != null">
+				and a.reward_punish_datetime >= #{startDate}
+			</if>
+			<if test="endDate != null">
+				and a.reward_punish_datetime &lt;= #{endDate}
+			</if>
+
+			<if test="isRewardOrPunish != null and isRewardOrPunish != ''">
+				and a.is_reward_or_punish = #{isRewardOrPunish}
+			</if>
+				AND a.is_month_inspection = #{isMonthInspection}
+		</where>
+	</select>
+
+	<select id="findInspectionList"
+			resultType="cn.damei.entity.modules.BizAssessRewardPunish">
+		SELECT
+		group_concat(a.id) as "ids",
+		b.store_id AS "storeId",
+		b.project_mode AS
+		"projectMode",
+		en.`name` AS "enginDepartName",
+		a.reward_punish_datetime
+		AS
+		"rewardPunishDatetime",
+		em.realName AS
+		"rewardPunishTargetEmployeeName",
+		SUM(ifnull(a.reward_punish_amount,0)) AS
+		"rewardPunishAmount",
+		SUM(ifnull(a.reward_punish_score,0)) AS "rewardPunishScore",
+		a.reward_punish_status AS "rewardPunishStatus",
+		a.settle_stage AS
+		"settleStage",
+		b.community_name AS "communityName",
+		b.build_number AS
+		"buildNumber",
+		b.build_room AS "buildRoom",
+		b.build_unit AS "buildUnit",
+		b.customer_name AS "customerName"
+		FROM
+		biz_assess_reward_punish a
+		INNER
+		JOIN biz_order b on a.related_business_id_int = b.id
+		LEFT JOIN
+		biz_engineering_department en on b.engin_depart_id = en.id
+		LEFT JOIN
+		biz_employee em on em.id = a.reward_punish_target_employee_id
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="storeId != null and storeId != ''">
+				and b.store_id = #{storeId}
+			</if>
+
+			<if test="projectMode != null and projectMode != ''">
+				and b.project_mode = #{projectMode}
+			</if>
+
+			<if test="enginDepartIds != null and enginDepartIds != ''">
+				AND b.engin_depart_id in
+				<foreach item="item" index="index" collection="enginDepartIds"
+						 open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+
+			<if test="customerName != null and customerName != ''">
+				AND b.customer_name LIKE
+				<if test="dbName == 'oracle'">'%'||#{customerName}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{customerName}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{customerName},'%')</if>
+			</if>
+
+			<if test="rewardPunishTargetEmployeeName != null and rewardPunishTargetEmployeeName != ''">
+				AND em.realName LIKE
+				<if test="dbName == 'oracle'">'%'||#{rewardPunishTargetEmployeeName}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{rewardPunishTargetEmployeeName}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{rewardPunishTargetEmployeeName},'%')</if>
+			</if>
+
+			<if test="rewardPunishStatus != null and rewardPunishStatus != ''">
+				AND a.reward_punish_status=#{rewardPunishStatus}
+			</if>
+
+			<if test="settleStage != null and settleStage != ''">
+				AND a.settle_stage=#{settleStage}
+			</if>
+
+			<if test="startDate != null">
+				and a.reward_punish_datetime >= #{startDate}
+			</if>
+			<if test="endDate != null">
+				and a.reward_punish_datetime &lt;= #{endDate}
+			</if>
+
+			<if test="isRewardOrPunish != null and isRewardOrPunish != ''">
+				and a.is_reward_or_punish = #{isRewardOrPunish}
+			</if>
+				AND a.is_month_inspection = #{isMonthInspection}
+		</where>
+			group by a.related_business_id_int,a.reward_punish_target_employee_id,a.create_date,a.create_by,a.reward_punish_status
+		    ORDER BY a.reward_punish_datetime DESC
+	</select>
+
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id"
+		keyColumn="id">
+		INSERT INTO biz_assess_reward_punish (
+		id,
+		related_business_type,
+		related_business_id_int,
+		related_business_id_varchar,
+		assess_rule_id,
+		is_reward_or_punish,
+		reward_punish_target_type,
+		is_month_inspection,
+		reward_punish_target_employee_type,
+		reward_punish_target_employee_id,
+		reward_punish_amount,
+		reward_punish_score,
+		reward_punish_remarks,
+		reward_punish_datetime,
+		reward_punish_status,
+		status_datetime,
+		status_operator,
+		status_describe,
+		settle_stage,
+		settle_type,
+		settle_id,
+		remarks,
+		create_by,
+		create_date,
+		update_by,
+		update_date,
+		del_flag
+		) VALUES (
+		#{id},
+		#{relatedBusinessType},
+		#{relatedBusinessIdInt},
+		#{relatedBusinessIdVarchar},
+		#{assessRuleId},
+		#{isRewardOrPunish},
+		#{rewardPunishTargetType},
+		#{isMonthInspection},
+		#{rewardPunishTargetEmployeeType},
+		#{rewardPunishTargetEmployeeId},
+		#{rewardPunishAmount},
+		#{rewardPunishScore},
+		#{rewardPunishRemarks},
+		#{rewardPunishDatetime},
+		#{rewardPunishStatus},
+		#{statusDatetime},
+		#{statusOperator},
+		#{statusDescribe},
+		#{settleStage},
+		#{settleType},
+		#{settleId},
+		#{remarks},
+		#{createBy.id},
+		#{createDate},
+		#{updateBy.id},
+		#{updateDate},
+		#{delFlag}
+		)
+	</insert>
+
+	<insert id="insertBatch" parameterType="java.util.List">
+	    INSERT INTO biz_assess_reward_punish (
+		id,
+		related_business_type,
+		related_business_id_int,
+		related_business_id_varchar,
+		assess_rule_id,
+		is_reward_or_punish,
+		reward_punish_target_type,
+		is_month_inspection,
+		reward_punish_target_employee_type,
+		reward_punish_target_employee_id,
+		reward_punish_amount,
+		reward_punish_score,
+		reward_punish_remarks,
+		reward_punish_datetime,
+		reward_punish_status,
+		status_datetime,
+		status_operator,
+		status_describe,
+		settle_stage,
+		settle_type,
+		settle_id,
+		remarks,
+		general_remarks,
+		detail_remarks,
+		create_by,
+		create_date,
+		update_by,
+		update_date,
+		del_flag
+		) VALUES
+		<foreach collection="list" item="item" index="index" separator="," >
+			(
+			#{item.id},
+			#{item.relatedBusinessType},
+			#{item.relatedBusinessIdInt},
+			#{item.relatedBusinessIdVarchar},
+			#{item.assessRuleId},
+			#{item.isRewardOrPunish},
+			#{item.rewardPunishTargetType},
+			#{item.isMonthInspection},
+			#{item.rewardPunishTargetEmployeeType},
+			#{item.rewardPunishTargetEmployeeId},
+			#{item.rewardPunishAmount},
+			#{item.rewardPunishScore},
+			#{item.rewardPunishRemarks},
+			#{item.rewardPunishDatetime},
+			#{item.rewardPunishStatus},
+			#{item.statusDatetime},
+			#{item.statusOperator},
+			#{item.statusDescribe},
+			#{item.settleStage},
+			#{item.settleType},
+			#{item.settleId},
+			#{item.remarks},
+			#{item.generalRemarks},
+			#{item.detailRemarks},
+			#{item.createBy.id},
+			#{item.createDate},
+			#{item.updateBy.id},
+			#{item.updateDate},
+			#{item.delFlag}
+			)
+		</foreach>
+	</insert>
+
+	<update id="update">
+		update biz_assess_reward_punish set
+		related_business_type = #{relatedBusinessType},
+		related_business_id_int = #{relatedBusinessIdInt},
+		related_business_id_varchar = #{relatedBusinessIdVarchar},
+		assess_rule_id = #{assessRuleId},
+		is_reward_or_punish =
+		#{isRewardOrPunish},
+		reward_punish_target_type =
+		#{rewardPunishTargetType},
+		is_month_inspection = #{isMonthInspection},
+		reward_punish_target_employee_type =
+		#{rewardPunishTargetEmployeeType},
+		reward_punish_target_employee_id =
+		#{rewardPunishTargetEmployeeId},
+		reward_punish_amount =
+		#{rewardPunishAmount},
+		reward_punish_score = #{rewardPunishScore},
+		reward_punish_remarks = #{rewardPunishRemarks},
+		reward_punish_datetime
+		= #{rewardPunishDatetime},
+		reward_punish_status =
+		#{rewardPunishStatus},
+		status_datetime = #{statusDatetime},
+		status_operator = #{statusOperator},
+		status_describe =
+		#{statusDescribe},
+		settle_stage = #{settleStage},
+		settle_type =
+		#{settleType},
+		settle_id = #{settleId},
+		remarks=#{remarks},
+		general_remarks=#{generalRemarks},
+		detail_remarks=#{detailRemarks},
+		update_by =
+		#{updateBy.id},
+		update_date = #{updateDate}
+		where id = #{id}
+	</update>
+
+	<update id="delete">
+		update biz_assess_reward_punish set del_flag = 1
+		where id = #{id}
+	</update>
+
+	<update id="delUpdateBatch" parameterType="java.util.Map">
+		 update biz_assess_reward_punish set del_flag = 1
+		  where id IN
+		<foreach item="item" index="index" collection="ids"
+				 open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
+
+	<delete id="deleteBatch" parameterType="java.util.Map">
+		DELETE  FROM  biz_assess_reward_punish where id IN
+		<foreach item="item" index="index" collection="ids"
+				 open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+
+	<select id="queryAssessRewardPunishByParam"
+		resultType="cn.damei.entity.modules.BizAssessRewardPunish"
+		parameterType="java.util.Map">
+		select
+		<include refid="bizAssessRewardPunishColumns" />,
+		b.biz_assess_rule_describe as "assessRuleDescribe",
+        c.type_name as "assessRuleType",
+        u.`name` as "operatorName"
+		from
+		biz_assess_reward_punish a
+		LEFT JOIN biz_assess_rule b ON a.assess_rule_id = b.id
+        LEFT JOIN biz_assess_rule_type c ON b.biz_assess_rule_type_id = c.id
+        LEFT JOIN sys_user u on u.id = a.create_by
+		where
+		a.del_flag =0
+		AND
+		a.related_business_id_int =
+		#{relatedBusinessIdInt}
+		<if
+			test="rewardPunishTargetEmployeeId != null and rewardPunishTargetEmployeeId !=''">
+			AND
+			a.reward_punish_target_employee_id =
+			#{rewardPunishTargetEmployeeId}
+		</if>
+		AND
+		a.reward_punish_target_employee_type =
+		#{rewardPunishTargetEmployeeType}
+		AND a.reward_punish_target_type =
+		#{rewardPunishTargetType}
+		AND a.is_reward_or_punish =
+		#{isRewardOrPunish}
+		AND a.reward_punish_status = #{rewardPunishStatus}
+		AND a.is_month_inspection = #{isMonthInspection}
+	</select>
+
+	<!-- 查询订单下每个人的奖励/扣款信息 -->
+	<select id="queryEvalPmRewardPunishInfoByParam"
+		resultType="cn.damei.entity.modules.BizAssessRewardPunish">
+		SELECT
+		a.reward_punish_target_employee_id as "rewardPunishTargetEmployeeId",
+		IFNULL(SUM(a.reward_punish_amount),0) as "rewardPunishAmount"
+		FROM
+		`biz_assess_reward_punish` a
+		WHERE
+		a.del_flag = #{DEL_FLAG_NORMAL}
+		AND
+		a.related_business_id_int =
+		#{relatedBusinessIdInt}
+		AND
+		a.reward_punish_target_employee_type =
+		#{rewardPunishTargetEmployeeType}
+		AND a.reward_punish_target_type =
+		#{rewardPunishTargetType}
+		AND a.is_reward_or_punish =
+		#{isRewardOrPunish}
+		AND a.reward_punish_status = #{rewardPunishStatus}
+		AND a.is_month_inspection = #{isMonthInspection}
+		group by a.reward_punish_target_employee_id
+	</select>
+
+	<select id="queryTotalAmountByParam" resultType="double">
+		SELECT
+		IFNULL(SUM(a.reward_punish_amount),0)
+		FROM
+		`biz_assess_reward_punish` a
+		WHERE
+		a.del_flag = #{DEL_FLAG_NORMAL}
+		AND a.related_business_id_int =
+		#{relatedBusinessIdInt}
+		AND a.reward_punish_target_employee_id =
+		#{rewardPunishTargetEmployeeId}
+		AND
+		a.reward_punish_target_employee_type =
+		#{rewardPunishTargetEmployeeType}
+		AND a.reward_punish_target_type =
+		#{rewardPunishTargetType}
+		AND a.is_reward_or_punish =
+		#{isRewardOrPunish}
+		AND a.is_month_inspection = #{isMonthInspection}
+		AND a.reward_punish_status = #{rewardPunishStatus}
+		<if test="rewardPunishTargetEmployeeId != null and rewardPunishTargetEmployeeId !=''">
+			AND
+			a.reward_punish_target_employee_id =
+			#{rewardPunishTargetEmployeeId}
+		</if>
+	</select>
+
+	<update id="updateRewardPunishStatus">
+		update biz_assess_reward_punish set
+		reward_punish_status =
+		<foreach collection="list" item="item" index="index"
+			separator=" " open="case ID" close="end">
+			when #{item.id} then
+			#{item.rewardPunishStatus}
+		</foreach>
+		,
+		status_datetime =
+		<foreach collection="list" item="item" index="index"
+			separator=" " open="case ID" close="end">
+			when #{item.id} then
+			#{item.statusDatetime}
+		</foreach>
+		,
+		status_operator =
+		<foreach collection="list" item="item" index="index"
+			separator=" " open="case ID" close="end">
+			when #{item.id} then
+			#{item.statusOperator}
+		</foreach>
+		,
+		status_describe =
+		<foreach collection="list" item="item" index="index"
+			separator=" " open="case ID" close="end">
+			when #{item.id} then
+			#{item.statusDescribe}
+		</foreach>
+		,
+		update_by =
+		<foreach collection="list" item="item" index="index"
+			separator=" " open="case ID" close="end">
+			when #{item.id} then
+			#{item.updateBy.id}
+		</foreach>
+		,
+		update_date =
+		<foreach collection="list" item="item" index="index"
+			separator=" " open="case ID" close="end">
+			when #{item.id} then
+			#{item.updateDate}
+		</foreach>
+		where id in
+		<foreach collection="list" index="index" item="item"
+			separator="," open="(" close=")">
+			#{item.id}
+		</foreach>
+	</update>
+
+	<select id="queryPmRewardPunishBySettleParam"
+		resultType="cn.damei.entity.modules.BizAssessRewardPunish">
+		SELECT
+		em.realName AS "rewardPunishTargetEmployeeName",
+		em.phone AS "rewardPunishTargetEmployeePhone",
+		c.customer_name AS "customerName",
+		c.customer_phone AS "customerPhone",
+		c.community_name AS "communityName",
+		c.build_number AS "buildNumber",
+		c.build_room AS "buildRoom",
+		c.build_unit AS "buildUnit",
+		b.reward_punish_datetime AS "rewardPunishDatetime",
+		b.reward_punish_amount AS "rewardPunishAmount",
+		b.reward_punish_remarks AS "rewardPunishRemarks",
+		b.general_remarks AS "generalRemarks",
+		b.detail_remarks AS "detailRemarks",
+		d.biz_assess_rule_describe AS "assessRuleDescribe",
+
+		b.create_date AS "createDate",
+		u.`name` as "operatorName",
+		e.type_name as "assessRuleType"
+		FROM
+		biz_pm_settle_category_detail a
+		INNER JOIN biz_assess_reward_punish b ON a.related_business_id = b.id
+		INNER JOIN biz_order c ON b.related_business_id_int = c.id
+		LEFT JOIN biz_employee em ON em.id = a.pm_employee_id
+		LEFT JOIN biz_assess_rule d ON b.assess_rule_id = d.id
+		LEFT JOIN biz_assess_rule_type e ON  e.id = d.biz_assess_rule_type_id
+		LEFT JOIN sys_user u on u.id = a.create_by
+		WHERE
+		b.del_flag = 0
+		AND a.order_id = #{orderId}
+		AND
+		a.settle_category = #{settleCategory}
+		AND a.pm_employee_id =
+		#{pmEmployeeId}
+	</select>
+
+	<update id="updateByParam">
+		UPDATE biz_assess_reward_punish p INNER JOIN (
+		SELECT
+		a.related_business_id,
+		b.pm_settle_bill_id
+		FROM
+		`biz_pm_settle_category_detail` a
+		INNER JOIN
+		biz_pm_settle_category_summary b on
+		a.pm_settle_category_summary_id =
+		b.id
+		WHERE
+		a.order_id = #{orderId}
+		AND a.settle_status = #{settleStatus}
+		AND a.settle_category IN
+		<foreach item="item" index="index" collection="settleCategorys"
+			open="(" separator="," close=")">
+			#{item}
+		</foreach>
+		) d on p.id = d.related_business_id set
+		p.settle_stage=#{settleStage},p.settle_type=#{settleType},p.settle_id
+		= d.pm_settle_bill_id;
+	</update>
+</mapper>

@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizBusinessStatusLogDao">
+    
+	<sql id="bizBusinessStatusLogColumns">
+		a.id AS "id",
+		a.business_type AS "businessType",
+		a.business_only_mark_int AS "businessOnlyMarkInt",
+		a.business_only_mark_varchar AS "businessOnlyMarkVarchar",
+		a.business_status AS "businessStatus",
+		a.status_datetime AS "statusDatetime",
+		a.business_remarks AS "businessRemarks",
+		a.business_employee_id AS "businessEmployeeId",
+		b.name AS businessEmployeeName,
+		a.remarks AS "remarks",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="bizBusinessStatusLogJoins">
+	LEFT JOIN sys_user b on b.id = a.business_employee_id
+	</sql>
+    
+	<select id="get" resultType="cn.damei.entity.modules.BizBusinessStatusLog">
+		SELECT 
+			<include refid="bizBusinessStatusLogColumns"/>
+		FROM biz_business_status_log a
+		<include refid="bizBusinessStatusLogJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="cn.damei.entity.modules.BizBusinessStatusLog">
+		SELECT 
+			<include refid="bizBusinessStatusLogColumns"/>
+		FROM biz_business_status_log a
+		<include refid="bizBusinessStatusLogJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="businessType != null and businessType != ''">
+			  AND a.business_type in (${businessType})
+			</if>
+			
+			<if test="businessOnlyMarkInt != null and businessOnlyMarkInt != ''">
+			  AND a.business_only_mark_int in (${businessOnlyMarkInt})
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.business_type
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="cn.damei.entity.modules.BizBusinessStatusLog">
+		SELECT 
+			<include refid="bizBusinessStatusLogColumns"/>
+		FROM biz_business_status_log a
+		<include refid="bizBusinessStatusLogJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert"  useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO biz_business_status_log(
+			id,
+			business_type,
+			business_only_mark_int,
+			business_only_mark_varchar,
+			business_status,
+			status_datetime,
+			business_remarks,
+			business_employee_id,
+			remarks,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag
+		) VALUES (
+			#{id},
+			#{businessType},
+			#{businessOnlyMarkInt},
+			#{businessOnlyMarkVarchar},
+			#{businessStatus},
+			#{statusDatetime},
+			#{businessRemarks},
+			#{businessEmployeeId},
+			#{remarks},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE biz_business_status_log SET 	
+			business_type = #{businessType},
+			business_only_mark_int = #{businessOnlyMarkInt},
+			business_only_mark_varchar = #{businessOnlyMarkVarchar},
+			business_status = #{businessStatus},
+			status_datetime = #{statusDatetime},
+			business_remarks = #{businessRemarks},
+			business_employee_id = #{businessEmployeeId},
+			remarks = #{remarks},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE biz_business_status_log SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+	<!-- 查询状态日志 -->
+	<select id="findInstallStatusLog" resultType="cn.damei.entity.modules.BizBusinessStatusLog">
+		
+		SELECT
+			b.id AS "id",
+			b.business_type AS "businessType",
+			b.business_only_mark_int AS "businessOnlyMarkInt",
+			b.business_status AS "businessStatus",
+			b.status_datetime AS "statusDatetime",
+			b.business_employee_id AS "businessEmployeeId",
+			b.create_by AS "createBy.id",
+			c.realName AS "businessEmployeeName"
+		FROM
+			biz_business_status_log b
+		LEFT JOIN biz_employee c ON c.id = b.business_employee_id
+		INNER JOIN (
+				SELECT
+					MAX(f.id) AS "id"
+				FROM
+					biz_business_status_log f
+				<where>
+					f.del_flag = #{DEL_FLAG_NORMAL} and f.business_status not in (4)
+					<if test="businessType != null and businessType != ''">
+					  AND f.business_type=#{businessType}
+					</if>
+					<if test="businessOnlyMarkInt != null and businessOnlyMarkInt != ''">
+					  AND f.business_only_mark_int=#{businessOnlyMarkInt}
+					</if>
+					<if test="businessStatus != null and businessStatus != ''">
+					  AND f.business_status &gt; #{businessStatus}
+					</if>
+
+					GROUP BY f.business_status
+				</where>
+			) m ON m.id = b.id
+		ORDER BY b.business_status ASC
+
+	</select>
+	
+	<select id="queryOrderPmSettleLog" parameterType="java.util.Map" 
+	resultType="cn.damei.entity.modules.BizBusinessStatusLog">
+	  SELECT
+			b.id AS "id",
+			b.business_type AS "businessType",
+			b.business_only_mark_int AS "businessOnlyMarkInt",
+			b.business_status AS "businessStatus",
+			b.status_datetime AS "statusDatetime",
+			b.business_employee_id AS "businessEmployeeId",
+			b.create_by AS "createBy.id",
+			c.realName AS "businessEmployeeName"
+		FROM
+			biz_business_status_log b
+			LEFT JOIN biz_employee c ON c.id = b.business_employee_id
+		WHERE
+		    b.del_flag = 0
+		    AND b.business_type=#{businessType}
+		    AND b.business_only_mark_int=#{businessOnlyMarkInt}
+		    AND b.business_status=#{businessStatus}
+		ORDER BY b.create_date desc
+		limit 1
+	</select>
+	
+	
+	<select id="findListByVarchar" resultType="cn.damei.entity.modules.BizBusinessStatusLog">
+		SELECT 
+				a.id AS "id",
+		a.business_type AS "businessType",
+		a.business_only_mark_int AS "businessOnlyMarkInt",
+		a.business_only_mark_varchar AS "businessOnlyMarkVarchar",
+		a.business_status AS "businessStatus",
+		a.status_datetime AS "statusDatetime",
+		a.business_remarks AS "businessRemarks",
+		a.business_employee_id AS "businessEmployeeId",
+		b.realName AS businessEmployeeName,
+		a.remarks AS "remarks",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag"
+		FROM biz_business_status_log a
+		left join biz_employee b on a.business_employee_id = b.id
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="businessType != null and businessType != ''">
+			  AND a.business_type in (${businessType})
+			</if>
+			<if test="businessOnlyMarkInt != null and businessOnlyMarkInt != ''">
+			  AND a.business_only_mark_int in (${businessOnlyMarkVarchar})
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.business_type
+			</otherwise>
+		</choose>
+	
+	</select>
+	
+	<select id="findMyList" resultType="cn.damei.entity.modules.BizBusinessStatusLog">
+		SELECT 
+		a.id AS "id",
+		a.business_type AS "businessType",
+		a.business_only_mark_int AS "businessOnlyMarkInt",
+		a.business_only_mark_varchar AS "businessOnlyMarkVarchar",
+		a.business_status AS "businessStatus",
+		a.status_datetime AS "statusDatetime",
+		a.business_remarks AS "businessRemarks",
+		a.business_employee_id AS "businessEmployeeId",
+		b.realName AS businessEmployeeName,
+		a.remarks AS "remarks",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag"
+		FROM biz_business_status_log a
+		left join biz_employee b on a.business_employee_id = b.id
+		<where> 
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="businessType != null and businessType != ''">
+			  AND a.business_type in (${businessType})
+			</if>
+			
+			<if test="businessOnlyMarkInt != null and businessOnlyMarkInt != ''">
+			  AND a.business_only_mark_int in (${businessOnlyMarkInt})
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.business_type
+			</otherwise>
+		</choose>
+	</select>
+	
+	<!-- 查询5分钟内操作的数量 -->
+	<select id="findFiveTimeApplyCount" resultType="int">
+		SELECT
+			COUNT(1)
+		FROM
+			biz_business_status_log a
+		WHERE
+			a.business_only_mark_int = #{businessOnlyMarkInt}
+		AND a.business_type = #{businessType}
+		AND DATE_ADD(a.create_date,INTERVAL 5 MINUTE) &gt; NOW()
+	
+	</select>
+
+
+</mapper>

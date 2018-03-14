@@ -1,0 +1,28 @@
+.one_btn1{
+    padding: 0.16rem 0.7rem;
+    float: left;
+    display: block;
+    font-size: 0.28rem;
+    border-radius: 20px;
+    margin: 0.36rem;
+    border: 1px solid #ff9800;
+    color: #ff9800;
+}
+.one_btn1.active{
+    background: #ff9800;
+    color: #ffffff;
+}
+body{
+    color: #333333;
+}
+.col_bgBtn{
+    background: #ff9800;
+    color: #ffffff;
+}
+
+.col_font{
+color: #ff9800;
+}
+.marginAuto{
+    margin:  0 auto;
+}

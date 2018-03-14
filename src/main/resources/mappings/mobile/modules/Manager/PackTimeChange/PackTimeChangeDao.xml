@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="cn.damei.dao.mobile.Manager.PackTimeChangeDao">
+
+
+
+
+<!-- 根据经理id 查询经理下的订单下的任务包  -->
+
+<select id="selectPackByManagerId" parameterType="cn.damei.entity.mobile.Manager.TaskPackage" resultType="cn.damei.entity.mobile.Manager.TaskPackage">
+
+	SELECT
+	a.id AS "packageId",
+	a.order_task_package_code AS "orderTaskPackageCode",
+	a.order_id AS "orderId",
+	a.package_name AS "packageName",
+	a.customer_message AS "customerMessage",
+	a.customer_name AS "customerName",
+	a.plan_startdate AS "planStartDate",
+	a.plan_enddate AS "planEndDate"
+	FROM
+	biz_order_taskpackage a
+	INNER JOIN biz_order o ON a.order_id = o.id
+	INNER JOIN (
+	SELECT
+	b.taskpackage_id
+	FROM
+	biz_order_taskpackage_procedure b
+	GROUP BY
+	b.taskpackage_id
+	) c on c.taskpackage_id = a.id
+	WHERE
+	a.item_manager_id = #{itemManagerId}
+	AND a.package_stateId &lt; 60 and a.package_stateId <![CDATA[>=20]]>
+	<if test="text!=null and text!=''">
+        and (o.community_name like CONCAT('%','${text}','%' )  or o.customer_name like CONCAT('%','${text}','%' ))
+    </if>
+order by a.order_id
+
+</select>
+
+
+
+
+<select id="packDetailByPackId" parameterType="int" resultType="cn.damei.entity.mobile.Manager.TaskPackage">
+
+SELECT
+	a.id AS "packageId",
+	a.order_task_package_code AS "orderTaskPackageCode",
+	a.order_id AS "orderId",
+	a.package_name AS "packageName",
+	a.customer_message AS "customerMessage",
+	a.customer_name AS "customerName",
+	a.plan_startdate AS "planStartDate",
+	a.plan_enddate AS "planEndDate",
+	a.remarks AS "remarks"
+FROM
+	biz_order_taskpackage a
+WHERE
+	a.id = #{packId}
+
+
+
+</select>
+
+
+
+<update id="changePackTime" parameterType="cn.damei.entity.mobile.Manager.TaskPackage">
+UPDATE biz_order_taskpackage
+SET plan_startdate = #{planStartDate} ,plan_enddate=#{planEndDate} ,remarks = #{remarks}
+WHERE
+	id = #{packageId}
+
+
+</update>
+
+
+
+<select id="selectDiaoDuYuan" resultType="String">
+SELECT a.employees FROM `biz_messagegroup`a 
+where a.message_group_type = 6 
+and a.store_id = 2
+
+</select>
+
+
+<select id="selectDiaoDuYuanPhone" parameterType="int" resultType="String">
+select a.phone from biz_employee a where a.id = #{employeeId}
+
+</select>
+
+</mapper>

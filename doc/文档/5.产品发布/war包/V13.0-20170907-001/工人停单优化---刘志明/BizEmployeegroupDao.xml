@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizEmployeegroupDao">
+
+	<sql id="bizEmployeegroupColumns">
+		a.id AS "id",
+		a.star AS "star",
+		a.nps AS "nps",
+		a.sort AS
+		"sort",
+		a.orderstop AS "orderstop",
+		a.address AS "address",
+		a.ordersarea
+		AS "ordersarea",
+		a.createtime AS "createtime",
+		a.createuser AS
+		"createuser",
+		a.state AS "state",
+		a.worktype AS "worktype",
+		a.groupid AS
+		"groupid",
+		a.storeid AS "storeid",
+		a.taskpackageid AS "taskpackageid",
+		a.elactricationid AS "elactricationid",
+		a.pointXy as "pointXy1",
+		a.project_mode as "projectMode",
+		a.order_stop_reason as "orderStopReason",
+		a.order_stop_operator_employee_id as "orderStopOperatorEmployeeId",
+		a.order_stop_reason_type as "orderStopReasonType",
+		a.order_stop_operate_datetime as "orderStopOperateDatetime"
+	</sql>
+
+	<sql id="bizEmployeegroupJoins">
+		LEFT JOIN sys_user u12 ON u12.id = a.groupid
+	</sql>
+
+	<select id="get" resultType="BizEmployeegroup">
+		SELECT
+		<include refid="bizEmployeegroupColumns" />
+		FROM biz_employeegroup a
+		<include refid="bizEmployeegroupJoins" />
+		WHERE a.id = #{id}
+	</select>
+	<select id="findList" resultType="BizEmployeegroup">
+		SELECT
+		<include refid="bizEmployeegroupColumns" />
+		FROM biz_employeegroup a
+		<include refid="bizEmployeegroupJoins" />
+		<where>
+			<if test="groupid != null and groupid != ''"> 
+            AND a.groupid =	#{groupid}
+			</if>
+			<if test="storeid != null and storeid != ''"> 
+            AND a.storeid = #{storeid}
+			</if>
+			<if test="taskpackageid != null and taskpackageid != ''">
+			AND a.taskpackageid like CONCAT('%','${taskpackageid}','%')
+			</if>
+			<if test="elactricationid != null and elactricationid != ''"> 
+            AND a.elactricationid = #{elactricationid}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''"> 
+            ORDER BY ${page.orderBy} 
+            </when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	<select id="findAllList" resultType="BizEmployeegroup">
+		SELECT
+		<include refid="bizEmployeegroupColumns" />
+		FROM biz_employeegroup a
+		<include refid="bizEmployeegroupJoins" />
+		<where>
+
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+
+	<insert id="insert"  useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO biz_employeegroup(
+		star,
+		nps,
+		sort,
+		orderstop,
+		address,
+		ordersarea,
+		createtime,
+		createuser,
+		state,
+		worktype,
+		groupid,
+		storeid,
+		taskpackageid,
+		elactricationid,
+		pointXy,
+		project_mode,
+		order_stop_reason_type,
+		order_stop_reason,
+		order_stop_operator_employee_id,
+		order_stop_operate_datetime
+		) VALUES (
+		#{star},
+		#{nps},
+		#{sort},
+		#{orderstop},
+		#{address},
+		#{ordersarea},
+		#{createtime},
+		#{createuser},
+		0,
+		#{worktype},
+		#{groupid},
+		#{storeid},
+		#{taskpackageid},
+		#{elactricationid},
+		#{pointXy1},
+		#{projectMode},
+		#{orderStopReasonType},
+		#{orderStopReason},
+		#{orderStopOperatorEmployeeId},
+		NOW()
+		)
+	</insert>
+	<insert id="insertEmpGroupRelation">
+		INSERT INTO biz_emgrouprelation(
+		empId,
+		groupId,
+		is_leader,
+		salary_ratio
+		) VALUES (
+		#{empId},
+		#{groupId},
+		#{is_leader},
+		#{salary_ratio}
+		)
+	</insert>
+	<update id="update">
+		UPDATE biz_employeegroup SET
+		star = #{star},
+		nps =
+		#{nps},
+		sort = #{sort},
+		orderstop = #{orderstop},
+		address = #{address},
+		ordersarea = #{ordersarea},
+		createtime = #{createtime},
+		createuser =
+		#{createuser},
+		state = #{state},
+		worktype = #{worktype},
+		groupid =
+		#{groupid},
+		storeid = #{storeid},
+		taskpackageid = #{taskpackageid},
+		elactricationid = #{elactricationid},
+		pointXy=#{pointXy1},
+		project_mode=#{projectMode},
+		order_stop_reason_type=#{orderStopReasonType},
+		order_stop_reason=#{orderStopReason},
+		order_stop_operator_employee_id=#{orderStopOperatorEmployeeId},
+		order_stop_operate_datetime = NOW()
+		WHERE id = #{id}
+	</update>
+
+	<update id="delete">
+		update biz_employeegroup set state =1
+		WHERE id = #{id}
+	</update>
+    
+    <select id="hasInGroup" resultType="java.lang.Integer" parameterType="java.util.Map">
+		select count(1) from biz_employeegroup g,biz_emgrouprelation r 
+		where g.id=r.groupId and r.empId=#{bizemployeeId}
+	</select>
+	
+	<select id="findBizEmployeegroup" resultType="BizEmployeegroup">
+		SELECT
+		<include refid="bizEmployeegroupColumns" />
+		FROM biz_employeegroup a
+		<include refid="bizEmployeegroupJoins" />
+		WHERE a.id = #{0}
+	</select>
+</mapper>

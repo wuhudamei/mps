@@ -1,0 +1,1 @@
+UPDATE biz_order SET is_to_refresh_process_data = 0;

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.mobile.Inspector.PqcBacklogDao">
+
+
+    <select id="getPackRecheckInfoByPqcEmployeeId" resultType="map" parameterType="int">
+
+        SELECT
+            SUBSTR(b.package_name, 1, 2) as "packName",
+            CONCAT_WS(
+                    '-',
+                    a.community_name,
+                    a.build_number,
+                    a.build_unit,
+                    a.build_room,
+                    a.customer_name
+            ) AS "customerAddressInfo",
+            b.id as "packId"
+        FROM
+            biz_order a
+            LEFT JOIN biz_order_taskpackage b ON a.id = b.order_id
+        WHERE
+            a.order_inspector_id = #{_parameter}
+            AND b.package_stateId = 90
+        ORDER BY b.actual_enddate
+
+
+
+    </select>
+
+
+    <select id="getApplyCheckDoneInfoByPqcEmployeeId" resultType="map" parameterType="int" >
+        SELECT
+        CONCAT_WS(
+        '-',
+        a.community_name,
+        a.build_number,
+        a.build_unit,
+        a.build_room,
+        a.customer_name
+        ) AS "customerAddressInfo",
+            a.customer_name as "customerName",
+        b.id AS "qcId",
+        c.qc_check_node_name as "qcNodeName"
+        FROM
+        biz_order a
+        LEFT JOIN biz_qc_bill b ON a.id = b.order_id
+        LEFT JOIN biz_qc_check_node c ON b.qc_check_node_id = c.id
+        WHERE
+        b.qc_bill_type = 1
+        AND b.is_recheck = 0
+        AND b.`status` NOT IN (10, 30)
+        AND b.expect_check_datetime &lt;= date_format(now(),'%Y-%m-%d')
+        and a.order_inspector_id =#{_parameter}
+
+    </select>
+
+
+</mapper>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.mobile.Worker.TaskPackagePictureDao">
+	
+	<select id="findPicturesByPackageId" resultType="cn.damei.entity.mobile.Worker.TaskPackagePicture">
+		
+		select 
+			a.id AS "id",
+			a.order_taskpackage_id AS "orderTaskpackageId",
+			a.picture_path AS "picturePath"
+		from 
+			biz_order_taskpackage_pic a
+		where 
+			a.order_taskpackage_id = #{0}
+				
+	</select>
+
+</mapper>

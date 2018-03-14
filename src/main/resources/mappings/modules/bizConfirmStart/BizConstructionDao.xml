@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizOrderConstructionDao">
+
+	<sql id="bizOrderConstructionColumns">
+		a.ID AS "id",
+		a.ORDER_NUMBER AS "orderNumber",
+		a.CONTRACT_NUMBER AS "contractNumber",
+		a.CUSTOMER_TYPE AS "customerType",
+		a.CUSTOMER_DESCRIPTION AS "customerDescription",
+		a.CUSTOMER_NAME AS "customerName",
+		a.CUSTOMER_PHONE AS "customerPhone",
+		a.COMMUNITY_NAME AS "communityName",
+		a.BUILD_NUMBER AS "buildNumber",
+		a.BUILD_UNIT AS "buildUnit",
+		a.BUILD_ROOM AS "buildRoom",
+		a.MAP_COORDINATE AS "mapCoordinate",
+		a.SALE_TYPE AS "saleType",
+		a.AREA AS "area",
+		a.BUILD_TYPE AS "buildType",
+		a.HOUSE_TYPE AS "houseType",
+		a.HOUSE_IS_NEW AS "houseIsNew",
+		a.IS_ELEVATOR AS "isElevator",
+		a.DESIGNER_NAME AS "designerName",
+		a.DESIGNER_PHONE AS "designerPhone",
+		a.ORDER_REPORTER_NAME AS "orderReporterName",
+		a.ORDER_REPORTER_PHONE AS "orderReporterPhone",
+		a.SERVICE_NAME AS "serviceName",
+		a.SERVICE_PHONE AS "servicePhone",
+		a.CONTRACT_START_DATE AS "contractStartDate",
+		a.CONTRACT_END_DATE AS "contractEndDate",
+		a.COVERED_AREA AS "coveredArea",
+		a.CONTRACT_AREA AS "contractArea",
+		a.CONTRACT_TIME AS "contractTime",
+		a.SIGN_CONTRACT_DATE AS "signContractDate",
+		a.ORDER_STATUS_NUMBER AS "orderStatusNumber",
+		a.ORDER_STATUS_DESCRIPTION AS "orderStatusDescription",
+		a.ORDER_INSPECTOR AS "orderInspector",
+		a.CREATE_BY AS "createBy.id",
+		a.CREATE_DATE AS "createDate",
+		a.UPDATE_BY AS "updateBy.id",
+		a.UPDATE_DATE AS "updateDate",
+		a.REMARKS AS "remarks",
+		a.DEL_FLAG AS "delFlag",
+		a.ITEM_MANAGER AS "itemManager",
+		a.STORE_ID AS "storeId",
+		a.CUS_MANAGER AS "cusManager",
+		a.ORDERTASKPACK_STATUS AS "orderTaskPackStatus",
+		a.ACTUAL_START_DATE AS actualStartDate,
+		a.ACTUAL_END_DATE AS actualEndDate,
+		a.ITEM_MANAGER_ID AS "itemManagerId",
+		a.SIGN_FLAG AS "signFlag",
+		a.DELAY_TYPE AS "delayType",
+		a.ORDER_INSPECTOR_ID AS "orderInspectorId",
+		a.PROJECT_MODE AS "projectMode"
+	</sql>
+	
+	<select id="get" resultType="cn.damei.entity.modules.BizOrderConstruction">
+		SELECT 
+			<include refid="bizOrderConstructionColumns"/>
+		FROM BIZ_ORDER a
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="cn.damei.entity.modules.BizOrderConstruction">
+		SELECT 
+			<include refid="bizOrderConstructionColumns"/>,
+			y.REALNAME AS "managerRealName",
+			(SELECT e.REALNAME FROM BIZ_EMPLOYEE e WHERE e.ID = a.ORDER_INSPECTOR_ID) AS "inspectorName",
+			v1.nodeIndex AS "nodeIndex"
+		FROM BIZ_ORDER a,BIZ_EMPLOYEE y,
+		(SELECT n.ORDER_ID,MAX(n.NODE_INDEX) AS "nodeIndex" FROM BIZ_NODE_PLAN n WHERE n.REAL_DONE_DATE IS NOT null GROUP BY n.ORDER_ID) v1
+		<where>
+			a.ID IN(v1.ORDER_ID)
+			AND y.ID = a.ITEM_MANAGER_ID
+			AND a.ORDER_STATUS_NUMBER = '200'
+			<if test="managerRealName != null and managerRealName != ''">
+                AND y.REALNAME LIKE concat('%',#{employeeRealName}, '%')
+            </if>
+            <if test="nodeIndex != null and nodeIndex != ''">
+                AND v1.nodeIndex = #{nodeIndex}
+            </if>
+            <if test="projectMode != null and projectMode != ''">
+				AND a.PROJECT_MODE = #{projectMode}
+			</if>
+			<if test="orderNumber != null and orderNumber != ''">
+                AND a.ORDER_NUMBER LIKE concat('%',#{orderNumber}, '%')
+            </if>
+            <if test="storeId != null and storeId != ''">
+                AND a.STORE_ID = #{storeId}
+            </if>
+            <if test="customerName != null and customerName != ''">
+                AND a.CUSTOMER_NAME LIKE concat('%',#{customerName}, '%')
+            </if>
+            <if test="actualStartDateBegin != null and actualStartDateBegin != ''">
+                AND a.ACTUAL_START_DATE &gt;= #{actualStartDateBegin}
+            </if>
+            <if test="actualStartDateEnd != null and actualStartDateEnd != ''">
+                AND a.ACTUAL_START_DATE &lt;= #{actualStartDateEnd}
+            </if>
+            <if test="contractStartDateBegin != null and contractStartDateBegin != ''">
+                AND a.CONTRACT_START_DATE &gt;= #{contractStartDateBegin}
+            </if>
+            <if test="actualStartDateEnd != null and actualStartDateEnd != ''">
+                AND a.CONTRACT_START_DATE &lt;= #{actualStartDateEnd}
+            </if> 
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.ID DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+</mapper>

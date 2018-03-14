@@ -1,0 +1,14 @@
+------永辉----
+
+键值	标签	类型			描述		排序	操作
+1	产业	package_project_mode	任务包工程模式	10	修改 删除 添加键值
+4	准产业	package_project_mode	任务包工程模式	20	修改 删除 添加键值
+4	准产业	project_mode		订单工程模式	30	修改 删除 添加键值
+4	准产业	employee_project_mode	准产业		10	修改 删除 添加键值
+
+------康健-------
+
+键值	标签	类型	描述	排序	操作
+1	产业	pre_employee_project_mode	准产业	10	修改 删除 添加键值
+2	传统	pre_employee_project_mode	准产业模式	20	修改 删除 添加键值
+4	准产业	pre_employee_project_mode	准产业模式	30	修改 删除 添加键值

@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.mobile.Manager.WallAndFloorDao">
+
+	<!-- 通过项目经理id查询项目经理下所有的订单 -->
+	<select id="findOrderList" resultType="cn.damei.entity.mobile.Manager.MaterialManagement">
+		SELECT
+			a.id AS "orderId",
+			a.order_number AS "orderNumber",
+			a.customer_name AS "customerName",
+			a.customer_phone AS "customerPhone",
+			a.community_name AS "communityName",
+			a.build_number AS "buildNumber",
+			a.build_unit AS "buildUnit",
+			a.build_room AS "buildRoom",
+			a.contract_start_date AS "contractStartDate",
+			DATE_FORMAT(a.contract_start_date,'%Y-%m-%d') AS "contractStartDateString",
+			a.contract_time AS "contractTime",
+			a.order_status_number AS "orderStatusNumber",
+			a.order_status_description AS "orderStatusDescription",
+			a.actual_start_date AS "actualStartDate",
+			a.is_scrap AS "isScrap",
+			DATE_FORMAT(a.actual_start_date,'%Y-%m-%d') AS "actualStartDateString",
+			a.project_mode AS "projectMode",
+			IFNULL(m.allCount,0) AS "allCount"
+		FROM
+			biz_order a
+		LEFT JOIN (
+			SELECT
+				b.order_id,
+				COUNT(1) AS "allCount"
+			FROM
+				biz_order_confirm_startwork b
+			WHERE
+				b.del_flag = 0
+			GROUP BY
+				b.order_id
+		) m ON m.order_id = a.id
+		WHERE
+			a.item_manager_id = #{0}
+		AND a.order_status_number &lt; 300
+		ORDER BY
+			a.create_date DESC
+	
+	</select>
+	
+	
+	<!-- 申请墙地砖5分钟校验和是否查看详情 -->
+	<select id="findPurchaseViewAndTimeMessage" resultType="cn.damei.entity.mobile.Manager.Purchase">
+	
+		SELECT
+			a.id AS "id",
+			a.order_id AS "orderId",
+			IFNULL(m.applyFiveMinuteCount, 0) AS "applyFiveMinuteCount",
+			IFNULL(n.count, 0) AS "count"
+		FROM
+			biz_purchase a
+		LEFT JOIN (SELECT b.order_id,COUNT(1) AS "applyFiveMinuteCount" FROM biz_purchase b WHERE b.purchase_type = 5 AND DATE_ADD(b.apply_time,INTERVAL 5 MINUTE) > NOW() GROUP BY b.order_id ) m ON m.order_id = a.order_id
+		LEFT JOIN (SELECT b.business_id_int,COUNT(1) AS "count" FROM biz_business_view_log b WHERE b.business_type = '201' GROUP BY b.business_id_int ) n ON n.business_id_int = a.id
+		WHERE
+			a.purchase_type = 5
+		AND a.order_id = #{0}
+		ORDER BY
+			a.create_date DESC
+		LIMIT 1
+	
+	</select>
+	
+	
+	<!-- 根据订单id查询订单信息 -->
+	<select id="findOrderMessage" resultType="cn.damei.entity.mobile.Manager.MaterialManagement">
+		
+		SELECT
+			a.id AS "orderId",
+			a.store_id AS "storeId",
+			a.order_number AS "orderNumber",
+			a.customer_name AS "customerName",
+			a.customer_phone AS "customerPhone",
+			a.community_name AS "communityName",
+			a.build_number AS "buildNumber",
+			a.build_unit AS "buildUnit",
+			a.build_room AS "buildRoom",
+			a.order_status_number AS "orderStatusNumber",
+			a.order_status_description AS "orderStatusDescription",
+			a.project_mode AS "projectMode",
+			b.id AS "wallFloorTileOrderCountId",
+			b.square_budget AS "squareBudget",
+			b.square_purchase_total AS "squarePurchaseTotal",
+			b.square_return AS "squareReturn",
+			b.square_purchase_real AS "squarePurchaseReal",
+			b.square_settle AS "squareSettle",
+			b.square_measure AS "squareMeasure",
+			IFNULL(ROUND(b.square_budget * 1.08, 2),0) AS "squareBudgetOne"
+		FROM
+			biz_order a
+		LEFT JOIN biz_wall_floor_tile_order_count b ON a.id = b.order_id
+		WHERE
+			a.id = #{0}  LIMIT 1
+	
+	</select>
+	<!-- 根据订单id查询预算面积-->
+	<select id="findOrderMessage1" resultType="cn.damei.entity.mobile.Manager.MaterialManagement">
+		
+		SELECT
+			a.id AS "orderId",
+			a.store_id AS "storeId",
+			a.order_number AS "orderNumber",
+			a.customer_name AS "customerName",
+			a.customer_phone AS "customerPhone",
+			a.community_name AS "communityName",
+			a.build_number AS "buildNumber",
+			a.build_unit AS "buildUnit",
+			a.build_room AS "buildRoom",
+			a.order_status_number AS "orderStatusNumber",
+			a.order_status_description AS "orderStatusDescription",
+			a.project_mode AS "projectMode",
+			b.id AS "wallFloorTileOrderCountId",
+			b.square_budget AS "squareBudget",
+			b.square_purchase_total AS "squarePurchaseTotal",
+			b.square_return AS "squareReturn",
+			b.square_purchase_real AS "squarePurchaseReal",
+			b.square_settle AS "squareSettle",
+			b.square_measure AS "squareMeasure",
+			IFNULL(
+				ROUND(b.square_budget * 1.08, 2),
+				0
+			) AS "squareBudgetOne",
+		  SUM(c.includ_loss_count) as squareBudgetOne1
+		
+		FROM
+			biz_order a
+		LEFT JOIN biz_wall_floor_tile_order_count b ON a.id = b.order_id
+		LEFT JOIN biz_order_wall_floor_tile c ON a.id=c.order_id  AND c.unit='㎡'
+		WHERE
+			a.id = #{0}
+	
+	</select>
+	
+	<!-- 通过订单id查询订单主材表的墙砖 -->
+	<select id="findWallByOrderId" resultType="cn.damei.entity.mobile.Manager.OrderMainMate">
+		SELECT
+			a.id AS "id",
+			a.order_id AS "orderId",
+			a.main_mate_type AS "mainMateType",
+			m.mainMateTypeName AS "mainMateTypeName",
+			a.position AS "position",
+			a.brand_combo AS "brandCombo",
+			a.model AS "model",
+			a.attribute AS "attribute",
+			a.supplier_name AS "supplier",
+			a.specification AS "specification",
+			a.unit AS "unit",
+			a.count AS "count",
+			a.includ_loss_count AS "includLossCount",
+			a.apply_counta AS "applyCounta",
+			a.remarks AS "remarks",
+			a.is_count_square AS "isCountSquare",
+			a.unit_square AS "unitSquare",
+			IFNULL(a.purchase_count,0) AS "purchaseCount"
+		FROM
+			biz_order_wall_floor_tile a
+		LEFT JOIN (SELECT b.`value`,b.label AS "mainMateTypeName" FROM sys_dict b WHERE b.type = 'main_material_type' AND b.del_flag = 0) m ON m.`value` = a.main_mate_type
+		WHERE
+			a.order_id = #{0}
+		AND a.main_mate_type in (4,41,42,43,44,45,46) 
+		AND a.del_flag = 0
+	</select>
+	
+	<!-- 通过订单id查询订单主材表的地砖 -->
+	<select id="findFloorByOrderId" resultType="cn.damei.entity.mobile.Manager.OrderMainMate">
+		SELECT
+			a.id AS "id",
+			a.order_id AS "orderId",
+			a.main_mate_type AS "mainMateType",
+			m.mainMateTypeName AS "mainMateTypeName",
+			a.position AS "position",
+			a.brand_combo AS "brandCombo",
+			a.model AS "model",
+			a.attribute AS "attribute",
+			a.supplier_name AS "supplier",
+			a.specification AS "specification",
+			a.unit AS "unit",
+			a.count AS "count",
+			a.includ_loss_count AS "includLossCount",
+			a.apply_counta AS "applyCounta",
+			a.remarks AS "remarks",
+			a.is_count_square AS "isCountSquare",
+			a.unit_square AS "unitSquare",
+			IFNULL(a.purchase_count,0) AS "purchaseCount"
+		FROM
+			biz_order_wall_floor_tile a
+		LEFT JOIN (SELECT b.`value`,b.label AS "mainMateTypeName" FROM sys_dict b WHERE b.type = 'main_material_type' AND b.del_flag = 0) m ON m.`value` = a.main_mate_type
+		WHERE
+			a.order_id = #{0}
+		AND a.main_mate_type in (3,31,32,33) 
+		AND a.del_flag = 0
+	
+	</select>
+	
+	<!-- 通过订单id查询订单主材表的材料 -->
+	<select id="findWallAndFloorByOrderId" resultType="cn.damei.entity.mobile.Manager.OrderMainMate">
+		SELECT
+			a.id AS "id",
+			a.order_id AS "orderId",
+			a.main_mate_type AS "mainMateType",
+			a.position AS "position",
+			a.brand_combo AS "brandCombo",
+			a.model AS "model",
+			a.specification AS "specification",
+			a.unit AS "unit",
+			a.count AS "count",
+			a.includ_loss_count AS "includLossCount",
+			a.apply_counta AS "applyCounta",
+			a.remarks AS "remarks",
+			a.is_count_square AS "isCountSquare",
+			a.unit_square AS "unitSquare"
+		FROM
+			biz_order_wall_floor_tile a
+		WHERE
+			a.order_id = #{0}
+		AND a.del_flag = 0
+	
+	</select>
+	
+	
+	<!-- 查询采购单面积之和（有效面积） -->
+	<select id="findSquarePurchaseTotal" resultType="java.lang.Double">
+		SELECT
+			IFNULL(ROUND(SUM(b.apply_square), 2),0)
+		FROM
+			biz_purchase a
+		INNER JOIN biz_purchase_wall_floor_tile b ON a.id = b.purchase_id
+		WHERE
+			a.purchase_type = 5
+		AND a.order_id = #{0}
+		AND a.`status` != 21
+		AND b.is_count_square = 1
+	
+	</select>
+	
+	<!-- 根据订单id查询实测面积 -->
+	<select id="findSquareActual" resultType="java.lang.Double">
+	SELECT  a.wall_floor_tile_measure_square FROM  biz_order_disclose a  where a.order_id=#{0}  ORDER BY id desc  LIMIT 1
+	
+	</select>
+	
+<!-- 	根据订单id查询复尺单信息 -->
+		<select id="findWallRecheckManage" resultType="cn.damei.entity.mobile.Manager.WallRecheckManage">
+		SELECT 
+				a.id AS "id",
+		a.order_id AS "orderId",
+		a.square_budget AS "squareBudget",
+		a.square_quota AS "squareQuota",
+		a.square_purchase AS "squarePurchase",
+		a.square_measure AS "squareMeasure",
+		a.plan_measure_date AS "planMeasureDate",
+		a.real_measure_date AS "realMeasureDate",
+		a.measure_remarks AS "measureRemarks",
+		a.price AS "price",
+		a.assess_square_error_1 AS "assessSquareError1",
+		a.assess_square_error_2 AS "assessSquareError2",
+		a.assess_amount_1 AS "assessAmount1",
+		a.assess_amount_2 AS "assessAmount2",
+		a.assess_person_name_1 AS "assessPersonName1",
+		a.assess_person_name_2 AS "assessPersonName2",
+		a.status AS "status",
+		a.status_describe AS "statusDescribe",
+		a.status_datetime AS "statusDatetime",
+		a.status_operate_employee_id AS "statusOperateEmployeeId",
+		a.recheck_remarks AS "recheckRemarks",
+		a.remarks AS "remarks",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag"
+		FROM biz_wall_floor_tile_recheck a
+		WHERE a.order_id = #{orderId}
+		order by id  desc  limit 1
+	</select>
+	
+	<!-- 更新订单墙地砖表（已申请商品数量） -->
+	<update id="updateOrderWallFloorTile" parameterType="int">
+		UPDATE biz_order_wall_floor_tile n
+		SET n.purchase_count = (
+			SELECT
+				IFNULL(SUM(b.apply_counta),0)
+			FROM
+				biz_purchase a
+			INNER JOIN biz_purchase_wall_floor_tile b ON b.purchase_id = a.id
+			WHERE
+				a.order_id = n.order_id
+			AND a.purchase_type = 5
+			AND a.`status` != 21
+			AND n.main_mate_type = b.main_mate_type
+			AND (CASE WHEN (n.position is not NULL OR b.position is NOT null) THEN  n.position = b.position ELSE 1=1 END)
+			AND (CASE WHEN (n.brand_combo is not NULL OR b.brand_combo is NOT null) THEN  n.brand_combo = b.brand_combo ELSE 1=1 END)
+			AND (CASE WHEN (n.model is not NULL OR b.model is NOT null) THEN  n.model = b.model ELSE 1=1 END)
+			AND (CASE WHEN (n.specification is not NULL OR b.specification is NOT null) THEN  n.specification = b.specification ELSE 1=1 END)
+			AND (CASE WHEN (n.unit is not NULL OR b.unit is NOT null) THEN  n.unit = b.unit ELSE 1=1 END)
+		)
+		WHERE
+			n.order_id = #{0}
+	
+	</update>
+	
+	
+			<!-- 根据订单id查询实测面积 -->
+	<select id="querySquate" resultType="java.lang.Double">
+	
+	select a.square_measure from biz_wall_floor_tile_recheck  a where a.order_id=#{0}   AND a.`status`='90'   ORDER BY id DESC    LIMIT 1;
+	
+	</select>
+	
+	
+	
+</mapper>
+   

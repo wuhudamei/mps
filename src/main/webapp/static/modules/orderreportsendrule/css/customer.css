@@ -1,0 +1,562 @@
+/* Reset styles begin */
+
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr, 
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    vertical-align: baseline;
+    outline: none;
+    font-family: Microsoft YaHei, PingFangSC-Light, HelveticaNeue-Light, sans-serif;
+}
+html {
+    font-size: 62.5%;
+}
+html,
+body {
+    height: 100%;
+}
+body {
+    background: #fff;
+    color: #666;
+}
+
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+    display: block;
+}
+
+ol,
+ul {
+    list-style: none;
+}
+
+blockquote,
+q {
+    quotes: none;
+}
+input[type=number] {
+    -moz-appearance:textfield;
+}
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+    content: '';
+    content: none;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+img {
+    border: 0;
+    max-width: 100%;
+}
+
+sub {
+    vertical-align: bottom;
+}
+
+sup {
+    vertical-align: top;
+}
+
+i,
+em {
+    font-style: normal;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6 {
+    font-weight: normal;
+}
+
+a {
+    text-decoration: none;
+    color: #333;
+}
+
+input {
+    outline: none;
+    color: #8e8e93;
+}
+
+input[type=button],
+input[type=submit],
+input[type=file],
+button {
+    cursor: pointer;
+    -webkit-appearance: none;
+}
+
+.clear {
+    height: 0px;
+    line-height: 0px;
+    clear: both;
+    overflow: hidden;
+    font-size: 0px;
+}
+
+.clearfix:after {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: "";
+    clear: both;
+    height: 0;
+}
+
+/* Hides from IE-mac */
+
+* html .clearfix {
+    height: 1%;
+    zoom: 1;
+}
+
+/* End hide from IE-mac */
+
+.show {
+    display: block;
+}
+
+.hide {
+    display: none;
+}
+
+.comfire_dudaofl {
+    float: left;
+}
+
+.fr {
+    float: right;
+}
+
+.fl {
+    float: left;
+}
+
+.tc {
+    text-align: center;
+}
+
+.tr {
+    text-align: right;
+}
+
+.flex_box {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    display: -ms-flexbox;
+}
+
+.boxwrap {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+/*页面样式*/
+caption,.thead tr th,table{
+   border: none;
+   border-collapse: collapse; 
+   cellpadding:0;
+}
+.customer-wrapper {
+    width: 97%;
+    height: 100%;
+    margin: 15px auto 0;
+    margin-left: 3%;
+
+}
+.cont-title {
+	margin-left:3%;
+	margin-top:10px;
+	font-size:16px;
+	color:#3da5ee;
+}
+.cont-title .fr{
+	margin-right:3%;
+	padding:10px;
+	cursor:pointer;
+	position: absolute;
+	right:3%;
+	top:0px;
+	
+}
+.customerContent{
+	position: relative;
+	height: 64%;
+	width: 100%;
+}
+.icon-clock {
+	width:20px;
+	height:20px;
+}
+.editMask {
+	width:95%;
+	height:100%;
+	display:none;
+	background:transparent;
+	z-index: 20;
+	position:absolute;
+	left:0;
+	top:0;
+}
+.customer-list table{
+    border-right: none;
+}
+.customer-list tr td:last-child {
+	border-right:none;
+}
+.customer-list,.customer{
+    width: 47%;
+    height: 94%;
+    overflow: auto;
+    float: left;
+     border: 1px solid #3da5ee;
+}
+.customer-wrapper table td:last-child{
+    border: none;
+}
+.customer-wrapper table  th:last-child{
+    border: none;
+}
+.customer{
+ position: relative;
+ margin-left: 2%;
+}
+.timeBox {
+    position: absolute;
+    bottom: 4%;
+    left: 9%;
+    width: 90%;
+}
+.customer-wrapper table ,.customerMask table {
+    font-size: 14px;
+    font-family: 'Microsoft YaHei';
+    line-height: 24px;
+    text-align: center;
+    width: 100%;
+}
+.customer-wrapper table caption,.customerMask table caption{
+    font-size: 16px;
+    background: #3da5ee;
+    color: #fff;
+}
+.customer-wrapper table tbody tr td ,.customerMask table tbody tr td{
+    color: #999;
+}
+.customer-wrapper table  th {
+   border-right: 1px solid #3da5ee;
+}
+.customerMask table thead tr{
+   border-bottom: 1px solid #ccc; 
+   border-left: 1px solid #ccc; 
+
+}
+.customerMask table thead tr th {
+    border-right: 1px solid #ccc;
+
+}
+.customerMask table {
+    border-top: 1px solid #ccc; 
+}
+
+.customerMask table tbody th  ,.customerMask table  tbody tr ,.customerMask table tbody td{
+ border-bottom: 1px solid #ccc; 
+ border-right: 1px solid #ccc; 
+ border-left: 1px solid #ccc; 
+
+}
+.customerMask table tr.none td{
+    border:none;
+}
+.customer-list table td {
+	border-left:none;
+}
+.customer-wrapper table   tr {
+    border-bottom: 1px solid #3da5ee;
+}
+.customer-wrapper table   td{
+    border-right: 1px solid #3da5ee;
+}
+.customer-wrapper table  thead tr th ,.customerMask table  thead tr th{
+    font-size: 16px;
+    font-style: normal;
+    font-weight: normal;
+}
+.customerMask table thead tr th {
+    color: #bcbcbc;
+}
+.timeChoice{
+    position: relative;
+}
+.setTime{
+	vertical-align: middle;
+    display: inline-block;
+    height: 30px;
+}
+.customer-back {
+    position: relative;
+    height: 89%;
+    width: 100%;
+    overflow: auto;
+}
+.timeChoice {
+    margin-top: 20px;
+}
+.timeChoice span{
+    font-size: 12px;
+    color: #999;
+}
+/*.timeChoice  input {
+    width: 66%;
+    border-radius: 4px;
+    height: 30px;
+    line-height: 30px;
+    border: 1px solid #3da5ee;
+    }*/
+    .saveBtn {
+	    position: absolute;
+	    right: 0;
+    	bottom: 13px;
+    }
+    .mr30{
+        margin-right: 30px;
+    }
+    .mt30{
+        margin-top: 30px;
+    }
+    .mb30 {
+        margin-bottom: 30px;
+    }
+    .plr30{
+        padding-right: 30px;
+        padding-left: 30px;
+    }
+    .saveBtn input[type="button"] {
+     border: 1px solid #3da5ee;
+        border-radius: 8px;
+        background: #3da5ee;
+        outline: none;
+        width: 80px;
+        height: 26px;
+    	line-height: 25px;
+        color: #fff;
+    }
+    
+    .saveBtn input[type="button"].bor-1px{
+     border:none;
+     border: 1px solid #3da5ee;
+     background:#fff;
+     color:#999;
+    }
+    
+    .posCenter{
+       width:375px;
+       position: relative;
+       margin:-2% auto 0;
+    }
+    .saveBtn input[type="button"].cancel {
+        background: #fff;
+        color: #999;
+        margin-left: 23px;
+    	margin-right: 13px;
+
+    }
+    .customerMask {
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.8);
+        position: fixed;
+        left: 0;
+        top: 0;
+        display: none;
+    }
+    .customerMask .customerMask_content {
+        width: 30%;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%,-50%);
+        -webkit-transform: translate(-50%,-50%);
+        background: #fff;
+        border-radius: 20px;
+        padding: 30px;
+    }
+    .customerMask_content  table tfoot tr button {
+       padding:6px  14px;
+       border-radius: 8px;
+       background: #3da5ee;
+       border: none;
+       outline: none;
+       width: 80px;
+       color: #fff;
+       margin: 10px 0;
+   }
+   .timeChoice {
+    /*position: relative;*/
+    width: 100%;
+}
+
+.timeChoice  span{
+    width: 90px;
+    display: inline-block;
+}
+.timeChoice input {
+   background: url(../images/canlender.png) no-repeat 98%;
+   background-size: 22px 23px;
+   padding: 0 15px;
+   box-sizing: border-box;
+   width: 66%;
+   border-radius: 4px;
+   height: 30px;
+   line-height: 30px;
+   border: 1px solid #3da5ee;
+}
+/*.icon_time {
+    position: absolute;
+    right: 13%;
+    top: 5px;
+    width: 22px;
+    height: 23px;
+    background: url(../images/canlender.png) no-repeat;
+    background-size: 100%;
+    }*/
+    .customer-wrapper table   td.col_blue{
+        color: #3da5ee;
+    }
+    table  tbody  tr td:last-child {
+        cursor: pointer;
+    }
+    .customer-wrapper table tr:none {
+        border-bottom: none;
+    }
+    .rember{
+        width: 96.5%;
+        height: 28%;
+        overflow: auto;
+        
+    } 
+    .marksure{
+	    padding: 6px 30px;
+	    background: #3da5ee;
+	    border-radius: 20px;
+	    margin: 20px auto 0;
+	    display: block;
+		border: none;
+	    color: #fff;
+    }
+    .climitCont{
+    height:200px;
+    overflow:auto;
+    }
+    .rember table {
+        border: 1px solid #3da5ee;
+    }

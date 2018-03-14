@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizCustomerReturnVisitDao">
+    
+	<sql id="bizCustomerReturnVisitColumns">
+		a.id AS "id",
+		a.store_id AS "storeId",
+		a.return_visit_node AS "returnVisitNode",
+		a.project_node AS "projectNode",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="bizCustomerReturnVisitJoins">
+	</sql>
+    
+	<select id="get" resultType="BizCustomerReturnVisit">
+		SELECT 
+			<include refid="bizCustomerReturnVisitColumns"/>,
+			a.project_mode AS "projectMode"
+		FROM biz_customer_return_visit a 
+		<include refid="bizCustomerReturnVisitJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="getReturnVisitName" resultType="java.lang.String">
+		select return_visit_node from biz_customer_return_visit where project_node = ${projectNode} and store_id = ${storeId} and project_mode=${projectMode} and del_flag = 0
+	</select>
+	
+	<select id="queryReturnVisitNodeByStoreId" resultType="map">
+		select return_visit_node as label,project_node as value from biz_customer_return_visit where store_id = ${storeId} and project_mode=${projectMode} and del_flag = 0 order by project_node asc
+	</select>
+	
+	<select id="findList" resultType="BizCustomerReturnVisit">
+		SELECT 
+			<include refid="bizCustomerReturnVisitColumns"/>,
+			b.qc_check_node_name as projectNodeCn,
+			a.project_mode as projectMode
+		FROM biz_customer_return_visit a left join (
+				select id,qc_check_node_name from biz_qc_check_node 
+			union select 0 as id,'开工交底' as qc_check_node_name from dual 
+		) b on a.project_node = b.id
+		<include refid="bizCustomerReturnVisitJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="storeId != null and storeId != ''">
+				AND a.store_id = #{storeId}
+			</if>
+			<if test="projectMode != null and projectMode != ''">
+				AND a.project_mode = #{projectMode}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.id ASC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="BizCustomerReturnVisit">
+		SELECT 
+			<include refid="bizCustomerReturnVisitColumns"/>
+		FROM biz_customer_return_visit a
+		<include refid="bizCustomerReturnVisitJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert"  useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO biz_customer_return_visit(
+			store_id,
+			return_visit_node,
+			project_node,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag,
+			project_mode
+		) VALUES (
+			#{storeId},
+			#{returnVisitNode},
+			#{projectNode},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag},
+			#{projectMode}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE biz_customer_return_visit SET 	
+			store_id = #{storeId},
+			return_visit_node = #{returnVisitNode},
+			project_node = #{projectNode},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE biz_customer_return_visit SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+	<!-- 获取二级选项信息（字典表中查询不满意类型） -->
+	<select id="queryReturnVisitBadType" resultType="map">
+		select label from sys_dict where type = 'return_visit_bad_type' and del_flag = '0' order by sort asc
+	</select>
+</mapper>

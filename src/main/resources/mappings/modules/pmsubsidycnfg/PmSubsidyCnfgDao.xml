@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.PmSubsidyCnfgDao">
+    <select id="findList" resultType="cn.damei.entity.modules.PmSubsidyCnfg">
+    	SELECT
+			a.id,
+			a.store_id,
+			a.project_mode,
+			a.square_min,
+			a.square_max,
+			a.subsidy_price,
+			a.is_enabled
+		FROM biz_pm_subsidy_cnfg a
+		order by a.square_min
+    </select>
+    <select id="findAllPmSubsidyCnfg" resultType="cn.damei.entity.modules.PmSubsidyCnfg">
+    	SELECT
+			a.id,
+			a.store_id,
+			a.project_mode,
+			a.square_min,
+			a.square_max,
+			a.subsidy_price,
+			a.is_enabled
+		FROM biz_pm_subsidy_cnfg a 
+		where a.is_enabled = '1' and a.store_id = #{storeId} AND a.project_mode = #{projectMode}
+    </select>
+    <insert id="insert">
+    	insert into biz_pm_subsidy_cnfg(
+	    	store_id,
+	    	project_mode,
+	    	square_min,
+	    	square_max,
+	    	subsidy_price,
+	    	is_enabled,
+	    	remarks,
+	    	create_by,
+	    	create_date,
+	    	update_by,
+	    	update_date,
+	    	del_flag
+    	)values(
+	    	#{storeId},
+	    	#{projectMode},
+	    	#{squareMin},
+	    	#{squareMax},
+	    	#{subsidyPrice},
+	    	#{isEnabled},
+	    	#{remarks},
+	    	#{createBy.id},
+	    	#{createDate},
+	    	#{updateBy.id},
+	    	#{updateDate},
+	    	#{delFlag}
+    	)
+    </insert>
+    <update id="update">
+    	update biz_pm_subsidy_cnfg
+	    	set store_id = #{storeId},
+	    	project_mode = #{projectMode},
+	    	square_min = #{squareMin},
+	    	square_max = #{squareMax},
+	    	subsidy_price = #{subsidyPrice},
+	    	is_enabled = #{isEnabled},
+	    	remarks = #{remarks},
+	    	create_by = #{createBy.id},
+	    	create_date = #{createDate},
+	    	update_by = #{updateBy.id},
+	    	update_date = #{updateDate},
+	    	del_flag = #{delFlag}
+    	where 
+    		id = #{id}
+    </update>
+    
+    <select id="get" resultType="cn.damei.entity.modules.PmSubsidyCnfg">
+    	SELECT
+			a.id,
+			a.store_id,
+			a.project_mode,
+			a.square_min,
+			a.square_max,
+			a.subsidy_price,
+			a.is_enabled
+		FROM biz_pm_subsidy_cnfg a 
+		where a.id = #{id}
+    </select>
+    
+    <update id="isEnabel">
+    	update biz_pm_subsidy_cnfg set is_enabled = #{isEnabled} WHERE id = #{id}
+    </update>
+    
+</mapper>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.mobile.Manager.RecheckScaleBillRoomCabinetDao">
+    
+	<sql id="recheckScalBillRoomCabinetColumns">
+		t.ID AS "id",
+		t.RECHECK_SCALE_BILL_ID AS "recheckScaleBillId",
+		t.POSITION AS "position",
+		t.BATHROOM_CABINET_MODEL AS "bathroomCabinetModel",
+		t.REMARKS AS "remarks",
+		t.CREATE_DATE AS "createDate",
+		t.UPDATE_DATE AS "updateDate",
+		t.DEL_FLAG AS "delFlag"
+	</sql>
+	
+	<select id="get" resultType="cn.damei.entity.mobile.Manager.RecheckScaleBillRoomCabinet" parameterType="java.lang.Integer">
+		SELECT 
+    	<include refid="recheckScalBillRoomCabinetColumns"/> 
+    	FROM BIZ_RECHECK_SCALE_BILL_BATHROOM_CABINET t
+    	WHERE t.ID = #{0}
+	</select>
+	
+	<select id="getByRecheckID" resultType="cn.damei.entity.mobile.Manager.RecheckScaleBillRoomCabinet">
+		SELECT 
+    	<include refid="recheckScalBillRoomCabinetColumns"/> 
+    	FROM BIZ_RECHECK_SCALE_BILL_BATHROOM_CABINET t
+    	WHERE t.RECHECK_SCALE_BILL_ID = #{0}
+	</select>
+	
+	<insert id="insert" parameterType="cn.damei.entity.mobile.Manager.RecheckScaleBillRoomCabinet">
+		INSERT INTO BIZ_RECHECK_SCALE_BILL_BATHROOM_CABINET(
+			ID,
+			RECHECK_SCALE_BILL_ID,
+			POSITION,
+			BATHROOM_CABINET_MODEL,
+			REMARKS,
+			CREATE_DATE,
+			UPDATE_DATE,
+			DEL_FLAG
+		) VALUES (
+			#{id},
+			#{recheckScaleBillId},
+			#{position},
+			#{bathroomCabinetModel},
+			#{remarks},
+			#{createDate},
+			#{updateDate},
+			#{delFlag}
+		)
+	</insert>
+	
+	<insert id="insertCabinet" parameterType="cn.damei.entity.mobile.Manager.RecheckScaleBillRoomCabinet">
+		INSERT INTO BIZ_RECHECK_SCALE_BILL_BATHROOM_CABINET(
+			ID,
+			RECHECK_SCALE_BILL_ID,
+			POSITION,
+			BATHROOM_CABINET_MODEL,
+			REMARKS,
+			CREATE_DATE,
+			CREATE_BY,
+			UPDATE_DATE,
+			UPDATE_BY,
+			DEL_FLAG
+		) VALUES (
+			#{id},
+			#{recheckScaleBillId},
+			#{position},
+			#{bathroomCabinetModel},
+			#{remarks},
+			#{createDate},
+			#{createPeo},
+			#{updateDate},
+			#{updatePeo},
+			#{delFlag}
+		)
+	</insert>
+</mapper>

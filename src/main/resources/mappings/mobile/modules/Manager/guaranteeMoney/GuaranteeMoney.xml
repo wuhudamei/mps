@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.mobile.Manager.GuaranteeMoneyDao">
+
+
+	<sql id="bizGuaranteeMoneyColumns">
+		a.id AS "id" ,
+		a.order_taskpackage_id as "orderTaskpackageId",
+		a.settlement_id as "settlementId",
+		a.taskpackage_templat_id as "taskpackageTemplatId",
+		a.employee_id as "employeeId",
+		a.employeegroup_id as "employeegroupId",
+		a.guarantee_money_amount as "guaranteeMoneyAmount",
+		a.guarantee_money_amount_total as "guaranteeMoneyAmountTotal",
+		a.is_deduct as "isDeduct",
+		a.deduct_time as "deductTime",
+		a.remarks as "remarks",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<!--查询工人组长扣质保金次数-->
+	<select id="queryGuaranteeMoneyCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		select count(*) from biz_guarantee_money 
+		where taskpackage_templat_id = #{taskpackageTemplatId} and employee_id = #{employeeId} and is_deduct = #{isDeduct} 
+		<if test="settlementId != null and settlementId != ''">
+			and settlement_id &lt;> #{settlementId}
+		</if>
+	</select>
+	
+	<!--查询工人组长所扣质保金累积-->
+	<select id="queryGuaranteeMoneySum" parameterType="java.util.Map" resultType="java.lang.Double">
+		select IFNULL(sum(guarantee_money_amount),0) from biz_guarantee_money 
+		where employee_id = #{employeeId}
+		<if test="settlementId != null and settlementId != ''">
+			and settlement_id &lt;> #{settlementId}
+		</if>
+		
+	</select>
+	
+	<!-- 新增 -->
+	<insert id="insert">
+		INSERT INTO biz_guarantee_money(
+			id,
+			order_taskpackage_id,
+			settlement_id,
+			taskpackage_templat_id,
+			employee_id,
+			employeegroup_id,
+			guarantee_money_amount,
+			guarantee_money_amount_total,
+			is_deduct,
+			deduct_time,
+			remarks,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag,
+			guarantee_money_balance
+		) VALUES (
+			#{id},
+			#{orderTaskpackageId},
+			#{settlementId},
+			#{taskpackageTemplatId},
+			#{employeeId},
+			#{employeegroupId},
+			#{guaranteeMoneyAmount},
+			#{guaranteeMoneyAmountTotal},
+			#{isDeduct},
+			#{deductTime},
+			#{remarks},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag},
+			#{guaranteeMoneyBalance}
+		)
+	</insert>
+	
+	<!--根据任务包id和结算单id查质保金表-->
+	<select id="queryGuarnteeMoney" parameterType="java.util.Map" resultType="cn.damei.entity.mobile.Manager.GuaranteeMoney">
+		select a.id AS "id",a.order_taskpackage_id as "orderTaskpackageId",a.settlement_id as "settlementId",
+			a.taskpackage_templat_id as "taskpackageTemplatId",a.employee_id as "employeeId",a.employeegroup_id as "employeegroupId",
+			a.guarantee_money_amount as "guaranteeMoneyAmount",a.guarantee_money_amount_total as "guaranteeMoneyAmountTotal",
+			a.is_deduct as "isDeduct",a.deduct_time as "deductTime",a.remarks as "remarks",a.create_by AS "createBy.id",
+			a.create_date AS "createDate",a.update_by AS "updateBy.id",a.update_date AS "updateDate",a.del_flag AS "delFlag"
+		from biz_guarantee_money a where a.order_taskpackage_id=#{orderTaskpackageId} and a.settlement_id=#{settlementId}
+	</select>
+
+	<!--根据任务包id查询质保金表-->
+	<select id="queryGuarnteeMoneyByTaskId" parameterType="java.lang.Integer" resultType="cn.damei.entity.mobile.Manager.GuaranteeMoney">
+		select <include refid="bizGuaranteeMoneyColumns"/>
+		from biz_guarantee_money a where a.order_taskpackage_id=#{orderTaskpackageId}
+	</select>
+	
+	<!--修改质保金-->
+	<update id="updateGuaranteeMoney" parameterType="cn.damei.entity.mobile.Manager.GuaranteeMoney">
+		update biz_guarantee_money 
+		set guarantee_money_amount=#{guaranteeMoneyAmount},guarantee_money_amount_total=#{guaranteeMoneyAmountTotal},
+		deduct_time=#{deductTime},update_date=#{updateDate},guarantee_money_balance=#{guaranteeMoneyBalance}
+		where id=#{id}	
+	</update>
+</mapper>
+   

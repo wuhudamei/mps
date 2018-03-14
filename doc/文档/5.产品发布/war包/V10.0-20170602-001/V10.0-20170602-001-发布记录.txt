@@ -1,0 +1,94 @@
+打包名称：mdn.war
+打包版本：V10.0-20170602-001
+
+功能变更：
+	1、评价工人优化
+	2、分配项目经理、质检、工人样式优化
+	3、标化预警日期筛选条件优化
+	4、工人组查询没有回显
+
+功能新增：
+	1、订单全动作查询
+	2、质检问题上报
+	3、确认开工查询导出Excel
+	4、材料部厂商复尺数据权限
+	5、订单客户类型增加“串单”
+	6、筒灯灯带
+
+菜单变更：
+	1、梅浩：
+	质检后台查询
+
+		名称：项目经理约检问题统计
+		链接：/bizbusinessproblemsynquery/bizBusinessProblemQuery/list
+		权限标识：bizbusinessproblemsynquery:bizBusinessProblemQuery:view,bizbusinessproblemsynquery:bizBusinessProblemQuery:edit
+		
+		名称：质检检查问题上报
+		链接：/bizbusinessproblemquery/bizBusinessProblemQuery/list
+		权限标识：bizbusinessproblemquery:bizBusinessProblemQuery:view
+
+	2、郝永辉：
+
+	    菜单名称                                   连接                                    排序
+
+	工人评价分数查询      /evaluate/bizEvalWorkGrade/openBizEvalWorkGradePage               70
+
+	3、订单全动作查询
+
+		名称：订单全动作查询
+		链接：/selectFullOrder/selectFullOrder/select
+		权限标识：selectFullOrder:selectFullOrder:view
+
+	4、筒灯灯带--小冷
+		基础设置--产业管家结算设置
+
+		名称：筒灯灯带定义
+		链接：/standradmaterials/bizMaterialsLight/list
+		权限标识：standradmaterials:bizMaterialsLight:view,standradmaterials:bizMaterialsLight:edit
+
+
+		材料调度--筒灯灯带管理
+		筒灯灯带管理
+		名称：筒灯灯带累计汇总申请记录
+		链接：/orderMaterialsStandard/bizOrderMaterialsLight/list
+		权限标识：managersettlement:bizOrderMaterialsLight:view
+
+		名称：筒灯灯带申请记录
+		链接：/standradmaterialsrecords/bizMaterialsLightReceiveBillApply/list
+		权限标识：lightmaterialsapplyrecords:bizMaterialsLightReceiveBillApply:edit
+
+		基础设置--业务基础规则--客户回访节点设置
+		
+		名称：客户回访节点设置
+		链接：/customerreturnvisit/bizCustomerReturnVisit/list
+		权限标识：customerreturnvisit:bizCustomerReturnVisit:view,customerreturnvisit:bizCustomerReturnVisit:edit
+
+		基础设置--工程安装管理
+		名称：客户回访记录查询
+		链接：/customerreturnvisitrecorecord/bizCustomerReturnVisitRecord/list
+		权限标识：customerreturnvisitrecorecord:bizCustomerReturnVisitRecord:view,customerreturnvisitrecorecord:bizCustomerReturnVisitRecord:edit
+
+		名称：待回访订单查询
+		链接：/customerreturnvisitrecorecord/bizCustomerReturnVisitRecord/checkingList
+		权限标识：customerreturnvisitrecorecord:bizCustomerReturnVisitRecord:view,customerreturnvisitrecorecord:bizCustomerReturnVisitRecord:edit
+
+字典新增：
+	键值	标签		类型				描述			排序
+	2	串单		cus_type			客户类型		20
+
+	键值	标签		类型				描述			排序
+	3	约检问题上报	problem_business_type		问题上报所属业务	30
+
+数据库表结构变更：
+		1、（有执行顺序）先执行文件夹名为【脚本】内的【jeesite_table-v11.0_waibao_fandan.sql】，然后在执行【jeesite_table-v11.0_waibao_fandan_2.sql】脚本
+		2、执行文件夹名为【脚本】内的【jeesite_table-v11.0_07_pingjia.sql】脚本
+		
+
+数据库表数据变更：
+		1、执行文件夹名为【脚本】内的【initdata.sql】脚本
+		2、执行文件夹名为【脚本】内的【jeesite_table-v11.0_09_biaohuayuejian.sql】脚本
+		
+		
+		
+
+	

@@ -1,0 +1,20 @@
+.pad_btm40{padding-bottom:.4rem;}
+.alertMask{position: fixed;top: 0;bottom: 0;left: 0;right: 0;background: rgba(0,0,0,.5);z-index: 990;}
+.maskWrapper{width: 84%;margin: 30% auto 0;border-radius: .1rem;background: #fff;font-size: .32rem;}
+.col_3{color: #333}
+.col_6{color: #666;}
+.col_f{color: #fff;}
+.col_fdfcfa{color: #fdfcfa;}
+.col_0780ec{color: #0780ec;}
+.font28{font-size: .28rem;}
+.font33{font-size: .33rem;}
+.maskTit{height: 1rem;line-height: 1rem;text-align: center;}
+.maskContent{padding: .5rem;border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;line-height: 1.5em;}
+.maskBtns{width: 83%;margin: 0 auto;padding-bottom: .2rem;padding-top: .2rem;}
+/* .maskBtn{display: block;width: 60%;} */
+.maskBtn{background: #0780ec;border-radius: .1rem;display: block;width: 47.6%;
+	text-align: center;line-height: .76rem;font-size:.33rem;margin: 0 auto;}
+.maskBtnOne{background: #0780ec;border-radius: .1rem;display: block;width: 47.6%;
+	text-align: center;line-height: .76rem;font-size:.33rem;margin: 0 auto;}
+.twoBtns .maskBtn:first-child{background: #0780ec;border-radius: .1rem;float: left;}
+.twoBtns .maskBtn:last-child{border: 1px solid #0780ec;box-sizing: border-box;border-radius: .1rem;float: right;background: #fff;}

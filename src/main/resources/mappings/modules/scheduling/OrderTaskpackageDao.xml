@@ -1,0 +1,809 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="cn.damei.dao.modules.OrderTaskpackageDao">
+
+	<sql id="orderTaskpackageColumns">
+		a.id AS "id",
+		a.store_id AS "storeId",
+		a.project_mode AS "projectMode",
+		a.order_id AS
+		"orderId",
+		a.package_code AS "packageCode",
+		a.package_name AS
+		"packageName",
+		a.plan_startdate AS "planStartdate",
+		a.plan_enddate AS
+		"planEnddate",
+		a.actual_startdate AS "actualStartdate",
+		a.actual_enddate AS "actualEnddate",
+		a.package_stateId AS
+		"packageStateId",
+		a.package_statename AS "packageStatename",
+		a.emp_groupid AS "empGroupid",
+		a.group_id AS "groupId",
+		a.group_realname AS "groupRealname",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag",
+		a.item_customer
+		AS "itemCustomer",
+		a.task_package_type AS "taskPackageType",
+		a.dispatcher AS "dispatcher",
+		a.customer_name AS "customerName",
+		a.customer_message AS "customerMessage",
+		a.dispatch_time AS
+		"dispatchTime",
+		a.is_overtime AS "isOvertime",
+		a.labor_auxiliary_materials_budget_amount AS "laborAuxiliaryMaterialsBudgetAmount",
+		a.item_manager_id AS "itemManagerId",
+		a.task_package_templat_id AS
+		"taskPackageTemplatId",
+		a.order_task_package_code AS
+		"orderTaskPackageCode" 
+	</sql>
+
+	<sql id="orderTaskpackageJoins">
+	</sql>
+
+	<select id="get" resultType="OrderTaskpackage">
+		SELECT
+		<include refid="orderTaskpackageColumns" />
+		FROM biz_order_taskpackage a
+		<include refid="orderTaskpackageJoins" />
+		WHERE a.id = #{id}
+	</select>
+
+	<select id="queryListByOrderTaskpackage" resultType="java.lang.Integer">
+		SELECT
+		<include refid="orderTaskpackageColumns" />
+		FROM biz_order_taskpackage a
+		WHERE a.order_id = #{0}
+		AND a.store_id = #{1}
+		AND a.project_mode= #{2}
+	</select>
+
+	<select id="getByOrderId" resultType="OrderTaskpackage">
+		SELECT
+		<include refid="orderTaskpackageColumns" />
+		FROM biz_order_taskpackage a
+		WHERE a.order_id = #{0}
+	</select>
+	<!-- 通过订单id查询订单编号 -->
+	<select id="findOrderNumber" parameterType="java.lang.Integer"
+		resultType="java.lang.String">
+		SELECT
+		o.order_number AS "orderNumber"
+		FROM biz_order o
+		WHERE
+		o.id = #{id}
+	</select>
+
+	<select id="getByOrderIdB" resultType="OrderTaskpackage">
+		SELECT
+		<include refid="orderTaskpackageColumns" />
+		FROM biz_order_taskpackage a
+		WHERE a.order_id = #{0}
+		AND a.package_code
+		= #{1}
+	</select>
+
+	<select id="findList" resultType="OrderTaskpackage">
+		SELECT
+		<include refid="orderTaskpackageColumns" />,
+		b.engin_depart_id as "engineDepartId"
+		FROM biz_order_taskpackage a ,biz_order b
+		<include refid="orderTaskpackageJoins" />
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			and a.order_id = b.id
+			AND a.labor_auxiliary_materials_budget_amount != 0
+			and b.is_scrap = 0
+			<if test="engineDepartId != null and engineDepartId != ''">
+				AND b.engin_depart_id = #{engineDepartId}
+			</if>
+			<if test="storeId != null and storeId != ''">
+				AND a.store_id = #{storeId}
+			</if>
+			<if test="orderId != null and orderId != ''">
+				AND a.order_id = #{orderId}
+			</if>
+			<if test="orderTaskPackageCode != null and orderTaskPackageCode != ''">
+				AND a.order_task_package_code LIKE
+				<if test="dbName == 'oracle'">'%'||#{orderTaskPackageCode}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{orderTaskPackageCode}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{orderTaskPackageCode},'%')</if>
+			</if>
+			<if test="packageStateId != null and packageStateId != ''">
+				AND a.package_stateId = #{packageStateId}
+			</if>
+			<if test="packageStateId == null or packageStateId == ''">
+				AND a.package_stateId in (20,55)
+			</if>
+			<if test="itemCustomer != null and itemCustomer != ''">
+				AND a.item_customer LIKE
+				<if test="dbName == 'oracle'">'%'||#{itemCustomer}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{itemCustomer}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{itemCustomer},'%')</if>
+
+			</if>
+			<if test="packageName != null and packageName != ''">
+				AND a.package_name LIKE
+				<if test="dbName == 'oracle'">'%'||#{packageName}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{packageName}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{packageName},'%')</if>
+
+			</if>
+			<if test="customerName != null and customerName != ''">
+				AND a.customer_name LIKE
+				<if test="dbName == 'oracle'">'%'||#{customerName}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{customerName}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{customerName},'%')</if>
+			</if>
+			<if test="dispatcher != null and dispatcher != ''">
+				AND a.dispatcher LIKE
+				<if test="dbName == 'oracle'">'%'||#{dispatcher}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{dispatcher}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{dispatcher},'%')</if>
+			</if>
+			<if test="taskPackageType != null and taskPackageType != ''">
+				AND a.task_package_type = #{taskPackageType}
+			</if>
+			<if test="dispatchTime != null and dispatchTime != ''">
+				AND a.dispatch_time = #{dispatchTime}
+			</if>
+			<if test="planStartdate != null and planStartdate != ''">
+				AND a.plan_startdate like concat('%',#{planStartdate},'%')
+			</if>
+			<if test="projectMode != '' and projectMode != null">
+				AND b.project_mode = #{projectMode}
+			</if>
+			<if test="projectMode == '' or projectMode == null">
+				AND b.project_mode in('1','4')
+			</if>
+			<if test="orderNumber != null and orderNumber != ''">
+				AND b.order_number like concat('%',#{orderNumber},'%')
+			</if>
+		</where>
+		order by a.create_date desc
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				, ${page.orderBy}
+			</when>
+			<otherwise>
+			, a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<!-- 定时任务 -->
+	<select id="getByNewDate" resultType="cn.damei.entity.modules.GroupSendMessage">
+		SELECT t.ID AS "id",
+		t.community_name AS "communityName",
+		t.build_number AS "buildNumber",
+		t.build_unit AS "buildUnit",
+		t.build_room AS "buildRoom",
+		k.id AS "orderTaskPackageId",
+		k.package_code AS "packageCode",
+		k.PACKAGE_NAME AS "packageName",
+		k.ORDER_ID AS "orderId",
+		k.PLAN_STARTDATE AS "planStartdate",
+		e.NO AS "no",
+		e.REALNAME AS "realName",
+		e.PHONE AS "phone",
+		e.EMPTYPE AS "empType",
+		k.GROUP_ID as "groupId",
+		t.CUSTOMER_NAME AS "customerName",
+		k.ITEM_MANAGER_ID AS "itemManagerId"
+		FROM biz_employee e,biz_order_taskpackage k,biz_order t 
+		WHERE t.id=k.order_id
+		AND e.id in(k.item_manager_id,k.group_id)
+		AND k.plan_startdate = STR_TO_DATE(#{0}, '%Y-%m-%d %H:%i:%s')
+	</select>
+
+	<!-- 工人接单的分页查询 -->
+	<select id="findListMy" resultType="OrderTaskpackage">
+		SELECT
+		<include refid="orderTaskpackageColumns" /> ,
+		b.engin_depart_id as "engineDepartId",
+		u.name as 'leaflet',
+  		g.create_date as 'leafletDate',
+  		b.is_scrap AS isScrap
+		FROM biz_order_taskpackage a left join biz_order b on a.order_id = b.id
+		inner join biz_order_distribute_log g on g.order_taskpackage_id  = a.id
+		inner join sys_user u on u.id = g.create_by
+		<include refid="orderTaskpackageJoins" />
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL} 
+			AND a.package_stateId in(50,55,60,70,80)
+			and g.distribute_type = '301'
+			<if test="packageName != null and packageName != ''">
+				AND a.package_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{packageName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{packageName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{packageName},'%')</if>
+			</if>
+			<if test="beginleafletdate !=null and beginleafletdate !='' and endleafletdate !=null and endleafletdate !=''">
+				and g.create_date BETWEEN #{beginleafletdate} and DATE_ADD(#{endleafletdate},INTERVAL 1 DAY)
+			</if>
+			<if test="leaflet !=null and leaflet !=''">
+				and u.name like concat('%',#{leaflet},'%')
+			</if>
+			<if test="packageStateId !=null and packageStateId !=''">
+				AND a.package_stateId = #{packageStateId}
+			</if>
+			<if test="orderTaskpackageCode != null and orderTaskpackageCode != ''">
+				AND a.order_task_package_code LIKE 
+					<if test="dbName == 'oracle'">'%'||#{orderTaskpackageCode}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{orderTaskpackageCode}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{orderTaskpackageCode},'%')</if>
+			</if>
+			<if test="storeId != null and storeId != ''">
+				AND a.store_id = #{storeId}
+			</if>
+			<if test="projectMode != '' and projectMode != null">
+				and b.project_mode = #{projectMode}
+			</if>
+			<if test="projectMode == '' or projectMode == null">
+				and b.project_mode in ('1','4')
+			</if>
+			<if test="orderNumber != null and orderNumber != ''">
+				AND b.order_number LIKE
+					<if test="dbName == 'oracle'">'%'||#{orderNumber}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{orderNumber}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{orderNumber},'%')</if>
+			</if>
+			<if test="engineDepartId != null and engineDepartId != ''">
+				AND b.engin_depart_id = #{engineDepartId}
+			</if>
+			<if test="orderId != null and orderId != ''">
+				AND a.order_id = #{orderId}
+			</if>
+			<if test="packageCode != null and packageCode != ''">
+				AND a.package_code = #{packageCode}
+			</if>
+			<if test="packageStateId != null and packageStateId != ''">
+				AND a.package_stateId = #{packageStateId}
+			</if>
+			<if test="itemCustomer != null and itemCustomer != ''">
+				AND a.item_customer LIKE
+				<if test="dbName == 'oracle'">'%'||#{itemCustomer}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{itemCustomer}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{itemCustomer},'%')</if>
+
+			</if>
+			<if test="customerName != null and customerName != ''">
+				AND a.customer_name LIKE
+				<if test="dbName == 'oracle'">'%'||#{customerName}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{customerName}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{customerName},'%')</if>
+			</if>
+			<if test="dispatcher != null and dispatcher != ''">
+				AND a.dispatcher LIKE
+				<if test="dbName == 'oracle'">'%'||#{dispatcher}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{dispatcher}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{dispatcher},'%')</if>
+			</if>
+			<if test="groupRealname != null and groupRealname != ''">
+				AND a.group_realname LIKE
+				<if test="dbName == 'oracle'">'%'||#{groupRealname}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{groupRealname}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{groupRealname},'%')</if>
+			</if>
+			<if test="taskPackageType != null and taskPackageType != ''">
+				AND a.task_package_type = #{taskPackageType}
+			</if>
+			<if test="dispatchTime != null and dispatchTime != ''">
+				AND DATE_FORMAT(a.dispatch_time,'%Y-%m-%d') = DATE_FORMAT(#{dispatchTime},'%Y-%m-%d')
+			</if>
+			<if test="isScrap != null and isScrap != ''">
+				AND b.is_scrap = #{isScrap}
+			</if>
+		</where>
+		order by a.dispatch_time DESC
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+			,${page.orderBy}
+			</when>
+			<otherwise>
+				, a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+
+	<select id="findAllList" resultType="OrderTaskpackage">
+		SELECT
+		<include refid="orderTaskpackageColumns" />
+		FROM biz_order_taskpackage a
+		<include refid="orderTaskpackageJoins" />
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+
+	<insert id="insertTaskpackageByOrder">
+		INSERT INTO biz_order_taskpackage(
+		id,
+		store_id,
+		project_mode,
+		order_id,
+		package_code,
+		package_name,
+		plan_startdate,
+		plan_enddate,
+		actual_startdate,
+		actual_enddate,
+		package_stateId,
+		package_statename,
+		emp_groupid,
+		group_id,
+		group_realname,
+		create_by,
+		create_date,
+		update_by,
+		update_date,
+		del_flag,
+		item_customer,
+		task_package_type,
+		dispatcher,
+		customer_name,
+		customer_message,
+		dispatch_time,
+		is_overtime,
+		labor_auxiliary_materials_budget_amount,
+		item_manager_id,
+		task_package_templat_id,
+		order_task_package_code,
+		labor_budget_amount,
+		auxiliary_materials_budget_amount,
+		settle_style
+		)
+		VALUES (
+		#{id},
+		#{storeId},
+		#{projectMode},
+		#{orderId},
+		#{packageCode},
+		#{packageName},
+		#{planStartdate},
+		#{planEnddate},
+		#{actualStartdate},
+		#{actualEnddate},
+		#{packageStateId},
+		#{packageStatename},
+		#{empGroupid},
+		#{groupId},
+		#{groupRealname},
+		#{createBy.id},
+		#{createDate},
+		#{updateBy.id},
+		#{updateDate},
+		#{delFlag},
+		#{itemCustomer},
+		#{taskPackageType},
+		#{dispatcher},
+		#{customerName},
+		#{customerMessage},
+		#{dispatchTime},
+		#{isOvertime},
+		#{laborAuxiliaryMaterialsBudgetAmount},
+		#{itemManagerId},
+		#{taskTackageTempId},
+		#{orderTaskPackageCode},
+		#{laborBudgetAmount},
+		#{auxiliaryMaterialsBudgetAmount},
+		#{settleStyle}
+		)
+	</insert>
+
+	<update id="update">
+		UPDATE biz_order_taskpackage SET
+		store_id = #{storeId},
+		project_mode = #{projectMode},
+		order_id = #{orderId},
+		package_code = #{packageCode},
+		package_name = #{packageName},
+		plan_startdate = #{planStartdate},
+		plan_enddate = #{planEnddate},
+		actual_startdate = #{actualStartdate},
+		actual_enddate = #{actualEnddate},
+		package_stateid = #{packageStateId},
+		package_statename = #{packageStatename},
+		emp_groupid = #{empGroupid},
+		group_id = #{groupId},
+		group_realname = #{groupRealname},
+		update_by =
+		#{updateBy.id},
+		update_date = #{updateDate},
+		item_customer =
+		#{itemCustomer},
+		task_package_type = #{taskPackageType},
+		dispatcher =
+		#{dispatcher},
+		customer_name = #{customerName},
+		customer_message =
+		#{customerMessage},
+		dispatch_time = #{dispatchTime},
+		is_overtime =
+		#{isOvertime}
+		WHERE id = #{id}
+	</update>
+
+	<update id="delete">
+		UPDATE biz_order_taskpackage SET
+		del_flag =
+		#{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+
+
+
+
+
+	<!-- 根据工人组id 去工人工人组关系表查询所有工人组成员数 -->
+
+	<select id="findCountByWorkerId" parameterType="java.lang.String"
+		resultType="int">
+		<!-- SELECT count(e.empId) FROM biz_emgrouprelation e WHERE e.groupId = 
+			( select e1.groupId FROM biz_emgrouprelation e1 WHERE e1.empId = #{empId} 
+			AND e1.is_leader = '1' ) and e.is_leader='0' -->
+
+
+		SELECT
+		count(e.empId)
+		FROM
+		biz_emgrouprelation e
+		where e.groupId=#{groupId}
+	
+
+	</select>
+
+
+	<!-- 工人组长的个人信息展示 共 头像 姓名 手机号 及所属工人组的任务包 -->
+
+	<sql id="teamLeaderInfo">
+		a.realName AS "realName" ,
+		a.headPic AS "headPic" ,
+		a.phone
+		AS "phone"
+
+	</sql>
+
+	<!-- 根据工人组id 查询组长id 获取组长名字 ,头像 , 及 手机号 -->
+	<select id="findTeamLeaderInfoByEmployeeGroupId" parameterType="java.lang.String"
+		resultType="cn.damei.entity.modules.TeamLeaderInfo">
+		SELECT
+		<include refid="teamLeaderInfo" />
+
+
+		from biz_employee a where a.id = (SELECT B.groupId from
+		biz_employeegroup B where B.id =#{id})
+
+	</select>
+
+	<!-- 根据工人组id 查询 可接任务包id -->
+	<select id="findTaskPackageByemployeeGroupId" parameterType="java.lang.String"
+		resultType="java.lang.String">
+		SELECT taskPackageId FROM biz_employeegroup where id =
+		#{id}
+
+	</select>
+
+	<!--根据任务包id 查询任务包名称 -->
+	<select id="findPackageNameById" parameterType="java.lang.String"
+		resultType="java.lang.String">
+		SELECT A.templat_name from biz_task_package_templat A where
+		A.id = #{id}
+
+	</select>
+
+	<!--根据任务包id 查询任务包名称 -->
+	<select id="getByOrderIDList" resultType="cn.damei.entity.modules.OrderTaskpackage">
+		SELECT 
+		a.ID AS "id",
+		a.ORDER_ID as "orderId",
+		a.PACKAGE_NAME AS "packageName",
+		a.PACKAGE_STATEID AS "packageStateId"
+		FROM BIZ_ORDER_TASKPACKAGE a WHERE
+		a.ORDER_ID = #{id}
+
+	</select>
+	
+	<insert id="insertTaskpackage">
+		INSERT INTO biz_order_taskpackage(
+			store_id,
+			project_mode,
+			order_id,
+			package_code,
+			package_name,
+			plan_startdate,
+			plan_enddate,
+			actual_startdate,
+			actual_enddate,
+			package_stateId,
+			package_statename,
+			emp_groupid,
+			group_id,
+			group_realname,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag,
+			item_customer,
+			task_package_type,
+			dispatcher,
+			customer_name,
+			customer_message,
+			dispatch_time,
+			is_overtime,
+			labor_auxiliary_materials_budget_amount,
+			item_manager_id,
+			task_package_templat_id,
+			order_task_package_code,
+			labor_budget_amount,
+			auxiliary_materials_budget_amount,
+			settle_style
+		)values (
+			#{storeId},
+			#{projectMode},
+			#{orderId},
+			#{packageCode},
+			#{packageName},
+			#{planStartdate},
+			#{planEnddate},
+			#{actualStartdate},
+			#{actualEnddate},
+			#{packageStateId},
+			#{packageStatename},
+			#{empGroupid},
+			#{groupId},
+			#{groupRealname},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag},
+			#{itemCustomer},
+			#{taskPackageType},
+			#{dispatcher},
+			#{customerName},
+			#{customerMessage},
+			#{dispatchTime},
+			#{isOvertime},
+			#{laborAuxiliaryMaterialsBudgetAmount},
+			#{itemManagerId},
+			#{taskTackageTempId},
+			#{orderTaskPackageCode},
+			#{laborBudgetAmount},
+			#{auxiliaryMaterialsBudgetAmount},
+			#{settleStyle}
+		)
+	</insert>
+	
+	
+	<select id="findPackageByCode" resultType="OrderTaskpackage">
+		SELECT
+		<include refid="orderTaskpackageColumns" />
+		FROM biz_order_taskpackage a
+		<include refid="orderTaskpackageJoins" />
+		WHERE a.order_task_package_code = #{0}
+	</select>
+	
+	<insert id="insertProcedure">
+		INSERT INTO biz_order_taskpackage_procedure(
+			taskpackage_id,
+			package_name,
+			procedure_no,
+			procedure_name,
+			measurement_unit,
+			labor_price,
+			accessories_price,
+			synthesize_price,
+			budget_number,
+			total,
+			remarks,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag,
+			project_mode
+		) VALUES (
+			#{taskpackageId},
+			#{packageName},
+			#{procedureNo},
+			#{procedureName},
+			#{measurementUnit},
+			#{laborPrice},
+			#{accessoriesPrice},
+			#{synthesizePrice},
+			#{budgetNumber},
+			#{total},
+			#{remarks},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag},
+			#{projectMode}
+		)
+	</insert>
+	
+	<insert id="insertProcedureList" parameterType="java.util.List">
+		INSERT INTO biz_order_taskpackage_procedure(
+			taskpackage_id,
+			package_name,
+			procedure_no,
+			procedure_name,
+			measurement_unit,
+			labor_price,
+			accessories_price,
+			synthesize_price,
+			budget_number,
+			labor_auxiliary_materials_budget_amount,
+			remarks,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag,
+			labor_budget_amount,
+			auxiliary_materials_budget_amount,
+			project_mode
+		) VALUES
+		<foreach collection="list" item="item" index="index" separator=",">
+		(	#{item.taskpackageId},
+			#{item.packageName},
+			#{item.procedureNo},
+			#{item.procedureName},
+			#{item.measurementUnit},
+			#{item.laborPrice},
+			#{item.accessoriesPrice},
+			#{item.synthesizePrice},
+			#{item.budgetNumber},
+			#{item.laborAuxiliaryMaterialsBudgetAmount},
+			#{item.remarks},
+			#{item.createBy.id},
+			#{item.createDate},
+			#{item.updateBy.id},
+			#{item.updateDate},
+			#{item.delFlag},
+			#{item.laborBudgetAmount},
+			#{item.auxiliaryMaterialsBudgetAmount},
+			#{item.projectMode}
+		)
+		</foreach>
+	
+	</insert>
+	
+	<select id="getUnOrderTaskPackage" resultType="int">
+		select count(*) from biz_order_taskpackage t
+		inner join biz_order a on t.order_id = a.id
+		<where>
+			<if test="storeId != '' and storeId != null ">
+				and t.store_id = #{storeId}
+			</if>
+			AND t.package_stateId in (20,55)
+			and t.labor_auxiliary_materials_budget_amount != 0
+			and a.project_mode in ('1','4')
+			and t.del_flag = '0'
+		</where>
+	</select>
+	
+	<!-- 特殊重派工人组 -->
+	<select id="findSpecialPageMy" resultType="OrderTaskpackage">
+		SELECT
+		<include refid="orderTaskpackageColumns" /> ,
+		b.engin_depart_id as "engineDepartId",
+		u.name as 'leaflet',
+  		g.create_date as 'leafletDate'
+		FROM biz_order_taskpackage a left join biz_order b on a.order_id = b.id
+		inner join biz_order_distribute_log g on g.order_taskpackage_id  = a.id
+		inner join sys_user u on u.id = g.create_by
+		<include refid="orderTaskpackageJoins" />
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL} 
+			AND a.package_stateId in(50,55,60,70,80)
+			and g.distribute_type in ('301','304')
+			<if test="packageName != null and packageName != ''">
+				AND a.package_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{packageName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{packageName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{packageName},'%')</if>
+			</if>
+			<if test="beginleafletdate !=null and beginleafletdate !='' and endleafletdate !=null and endleafletdate !=''">
+				and g.create_date BETWEEN #{beginleafletdate} and DATE_ADD(#{endleafletdate},INTERVAL 1 DAY)
+			</if>
+			<if test="leaflet !=null and leaflet !=''">
+				and u.name like concat('%',#{leaflet},'%')
+			</if>
+			<if test="packageStateId !=null and packageStateId !=''">
+				AND a.package_stateId = #{packageStateId}
+			</if>
+			<if test="orderTaskpackageCode != null and orderTaskpackageCode != ''">
+				AND a.order_task_package_code LIKE 
+					<if test="dbName == 'oracle'">'%'||#{orderTaskpackageCode}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{orderTaskpackageCode}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{orderTaskpackageCode},'%')</if>
+			</if>
+			<if test="storeId != null and storeId != ''">
+				AND a.store_id = #{storeId}
+			</if>
+			<if test="projectMode != '' and projectMode != null">
+				and b.project_mode = #{projectMode}
+			</if>
+			<if test="projectMode == '' or projectMode == null">
+				and b.project_mode in ('1','4')
+			</if>
+			<if test="orderNumber != null and orderNumber != ''">
+				AND b.order_number LIKE
+					<if test="dbName == 'oracle'">'%'||#{orderNumber}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{orderNumber}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{orderNumber},'%')</if>
+			</if>
+			<if test="engineDepartId != null and engineDepartId != ''">
+				AND b.engin_depart_id = #{engineDepartId}
+			</if>
+			<if test="orderId != null and orderId != ''">
+				AND a.order_id = #{orderId}
+			</if>
+			<if test="packageCode != null and packageCode != ''">
+				AND a.package_code = #{packageCode}
+			</if>
+			<if test="packageStateId != null and packageStateId != ''">
+				AND a.package_stateId = #{packageStateId}
+			</if>
+			<if test="itemCustomer != null and itemCustomer != ''">
+				AND a.item_customer LIKE
+				<if test="dbName == 'oracle'">'%'||#{itemCustomer}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{itemCustomer}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{itemCustomer},'%')</if>
+
+			</if>
+			<if test="customerName != null and customerName != ''">
+				AND a.customer_name LIKE
+				<if test="dbName == 'oracle'">'%'||#{customerName}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{customerName}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{customerName},'%')</if>
+			</if>
+			<if test="dispatcher != null and dispatcher != ''">
+				AND a.dispatcher LIKE
+				<if test="dbName == 'oracle'">'%'||#{dispatcher}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{dispatcher}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{dispatcher},'%')</if>
+			</if>
+			<if test="groupRealname != null and groupRealname != ''">
+				AND a.group_realname LIKE
+				<if test="dbName == 'oracle'">'%'||#{groupRealname}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{groupRealname}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{groupRealname},'%')</if>
+			</if>
+			<if test="taskPackageType != null and taskPackageType != ''">
+				AND a.task_package_type = #{taskPackageType}
+			</if>
+			<if test="dispatchTime != null and dispatchTime != ''">
+				AND DATE_FORMAT(a.dispatch_time,'%Y-%m-%d') = DATE_FORMAT(#{dispatchTime},'%Y-%m-%d')
+			</if>
+		</where>
+		order by a.dispatch_time DESC
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+			,${page.orderBy}
+			</when>
+			<otherwise>
+				, a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+</mapper>

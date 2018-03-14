@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.mobile.Manager.OrderDiscloseDao">
+    
+	<sql id="orderDiscloseColumns">
+		a.ID AS "id",
+		a.ORDER_ID AS "orderId",
+		a.DISCLOSE_DATE AS "discloseDate",
+		a.DISCLOSE_EMPLOYEE_ID AS "discloseEmployeeId",
+	</sql>
+	
+	<insert id="insertByDisclose" parameterType="cn.damei.entity.mobile.Manager.OrderDisclose">
+	<selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER">
+		SELECT LAST_INSERT_ID()
+	</selectKey>
+		INSERT INTO BIZ_ORDER_DISCLOSE(
+			ID,
+			ORDER_ID,
+			DISCLOSE_DATE,
+			DISCLOSE_EMPLOYEE_ID,
+			REMARKS,
+			CREATE_BY,
+			CREATE_DATE,
+			UPDATE_BY,
+			UPDATE_DATE,
+			DEL_FLAG,
+			wall_floor_tile_measure_square
+		) VALUES(
+			#{id},
+			#{orderId},
+			#{discloseDate},
+			#{discloseEmployeeId},
+			#{remarks},
+			#{createByAuthor},
+			#{createDate},
+			#{updateByAuthor},
+			#{updateDate},
+			#{delFlag},
+			#{measureSquare}
+		)
+	</insert>
+	
+	<select id="findByOrderId" resultType="java.lang.Integer">
+		select a.order_id from biz_order_disclose a where a.order_id = #{0}
+	</select>
+</mapper>

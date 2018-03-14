@@ -1,0 +1,98 @@
+.progress_Bar ul {
+   width: 6.3rem;
+    margin:  0 auto;
+    height: 1rem;
+}
+.progress_Bar ul li span.avtive{
+    border: 1px solid #0780ec;
+
+}
+.progress_Bar ul li span{
+    width: .52rem;
+    height: .52rem;
+    border: 1px solid #cccccc;
+    border-radius: 30px;
+    position: relative;
+    display: block;
+}
+.progress_Bar ul li span{
+    margin: 0 auto 0.1rem;
+    position: relative;
+
+}
+.progress_Bar ul li span i{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    -webkit-transform: translate(-50%,-50%);
+    width: 0.42rem;
+    height: 0.42rem;
+    border-radius: 30px;
+    background: #cccccc;
+    font-style: normal;
+    font-size: 0.24rem;
+    color: #ffffff;
+    text-align: center;
+    line-height: 0.42rem;
+}
+.progress_Bar ul li span.avtive i {
+    background: #0780ec;
+}
+i{
+    font-style: normal;
+}
+.progress_Bar ul li p{
+    font-size: 0.28rem;
+    color: #999999;
+}
+.progress_Bar ul li p.active{
+    font-size: 0.28rem;
+    color: #0780ec;
+}
+.progress_Bar ul li{
+    width: 2.1rem;
+    float: left;
+
+}
+.line.active{
+    background: url("../images/line-active.png") no-repeat;
+
+}
+.line{
+    width: 1.3rem;
+    height: 0.02rem;
+    position: absolute;
+    left: 0.7rem;
+    top: 50%;
+    transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+    background: url(../images/line.png) no-repeat;
+}
+.contentInfo{
+    line-height: 0.56rem;
+background: #ffffff;
+    padding: 0.3rem;
+}
+.formIn{
+    padding: 0.2rem 0.3rem;
+    margin-bottom: 0.24rem;
+}
+.formIn div img{
+    width: 100%;
+}
+.label-rgt{width: 30%;text-align: right;}
+.pt40{padding-top: .4rem;}
+.pb40{padding-bottom: .4rem;}
+.bor_dotted{border-bottom: 1px dotted #ccc;}
+.detBtn{
+    display: block;
+    width: 53%;
+    line-height: .62rem;
+    font-size: .3rem;
+    color: #fff;
+    background: #ff9800;
+    margin: .3rem auto;
+    border-radius: .31rem;
+    text-align: center;
+}

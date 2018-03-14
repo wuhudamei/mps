@@ -1,0 +1,6 @@
+名称                               链接                                                                                  排序
+
+项目经理巡检奖励       /bizAssessRewardPunish/bizAssessRewardPunish/openBizAssessReward?isMonthInspection=1              1000
+
+项目经理巡检罚款       /bizAssessRewardPunish/bizAssessRewardPunish/openBizAssessPunish?isMonthInspection=1              1030
+

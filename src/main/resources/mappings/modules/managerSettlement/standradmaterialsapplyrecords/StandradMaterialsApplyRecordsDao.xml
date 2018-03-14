@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper	namespace="cn.damei.dao.modules.BizMaterialsStandardReceiveBillApplyDao">
+	<select id="findList" resultType="cn.damei.entity.modules.BizMaterialsStandardReceiveBillApply">
+		SELECT 
+			bm.id,so.name,
+			bm.apply_datetime,
+			bm.materials_standard_receive_bill_code,
+			be.realName,bm.status,
+			bm.receive_datetime,
+			bo.order_number,
+			bo.customer_name,
+			bo.is_scrap,
+			bm.receive_bill_amount,
+			bm.shipping_type,
+			bm.shipping_fee
+		FROM
+			biz_materials_standard_receive_bill bm,
+			sys_office so,
+			biz_employee be,
+			biz_order bo
+		<where>
+			<if test="shippingType != null">
+				AND bm.shipping_type = #{shippingType}
+			</if>
+			<if test="name != null and name != ''">
+                AND so.id = #{name}
+            </if>
+            <if test="orderNumber != null and orderNumber != ''">
+                AND bo.order_number LIKE concat('%',#{orderNumber},'%')
+            </if>
+            <if test="customerName != null and customerName != ''">
+                AND bo.customer_name LIKE concat('%',#{customerName},'%')
+            </if>
+			<if test="isScrap != null and isScrap != ''">
+				AND bo.is_scrap = #{isScrap}
+			</if>              
+            <if test="status != null and status != ''">
+                AND bm.status = #{status}
+            </if>
+            <if test="realName != null and realName != ''">
+                AND be.realName like concat('%',#{realName},'%')
+            </if>
+            <!-- <if test="fristApplyDatetime != null and fristApplyDatetime != ''">
+                AND BM.apply_datetime 
+                	BETWEEN
+                		#{fristApplyDatetime}
+                	AND
+                		CURRENT_DATE();
+            </if> -->
+            <if test="fristApplyDatetime != null and fristApplyDatetime != '' and endApplyDatetime != null and endApplyDatetime != ''">
+                AND BM.apply_datetime 
+                	BETWEEN
+                		#{fristApplyDatetime}
+                	AND
+                		#{endApplyDatetime}
+            </if>
+            
+            <if test="fristReceiveDatetime != null and fristReceiveDatetime != '' and endReceiveDatetime != null and endReceiveDatetime != ''">
+                AND bm.receive_datetime
+                	BETWEEN
+                		#{fristReceiveDatetime}
+                	AND
+                		#{endReceiveDatetime}
+            </if>
+          
+            <if test="receiveBillType==&quot;1&quot;">
+            AND (bm.receive_bill_type IS NULL OR bm.receive_bill_type='1')
+            </if>
+            <if test="receiveBillType==&quot;2&quot;">
+            AND bm.receive_bill_type='2'
+            </if>
+			AND bo.id = bm.order_id 
+            AND so.id = bm.store_id
+            AND be.id = bm.apply_employee_id
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY bm.apply_datetime DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<update id="materialsApplyBillById" >
+		UPDATE 
+			biz_materials_standard_receive_bill bm
+		SET 
+			bm.status = #{status},
+			bm.operator_employee_id = #{operatorEmployeeId},
+			bm.operate_datetime = #{operateDatetime},
+			bm.receive_datetime = #{receiveDatetime}
+			<if test="abandonReason!=null">
+			,bm.abandon_reason = #{abandonReason}
+			</if>
+		WHERE 
+			bm.id = #{id}
+	</update>
+	
+	<select id="materialsApplyBillVoById" resultType="cn.damei.entity.modules.BizMaterialsStandardReceiveBillApply">
+		SELECT 
+			bo.customer_name,
+			bo.order_number,
+			bb.materials_standard_receive_bill_code,
+			be.realName,
+			bb.apply_datetime,
+			su.name,
+			bb.receive_datetime,
+			bb.receive_bill_amount,
+			bb.status,
+			bb.abandon_reason
+		FROM 
+			biz_materials_standard_receive_bill bb,
+			biz_order bo,
+			biz_employee be,sys_user su
+		WHERE
+			bb.id = #{id} 
+			AND bo.id = bb.order_id 
+			AND be.id = bb.apply_employee_id 
+		<if test="status ==1">
+			AND bb.operator_employee_id = su.id
+		</if>
+		
+	</select>
+	
+	<sql id="bizMaterialsStandardReceiveDetailColumns">
+		bd.id AS "id",
+		bd.materials_standard_receive_bill_id AS "materialsStandardReceiveBillId",
+		bd.materials_standard_id AS "materialsId",
+		bd.materials_type AS "materialsType",
+		bd.materials_name AS "materialsName",
+		bd.materials_unit AS "materialsUnit",
+		bd.materials_price AS "materialsPrice",
+		bd.receive_number AS "receiveNumber",
+		bd.materials_amount AS "materialsAmount",
+		bd.status AS "status",
+		bd.apply_datetime as "applyDatetime",
+		be.realName as "itemManager",
+	</sql>
+	
+	<sql id="bizMaterialsStandardReceiveDetailJoins">
+		biz_materials_standard_receive_bill bb,
+		biz_employee be
+	</sql>
+    
+	
+	<select id="findDetailsByBillId" resultType="cn.damei.entity.modules.BizMaterialsStandardReceiveDetail">
+		SELECT 
+			<include refid="bizMaterialsStandardReceiveDetailColumns"/>
+		FROM 
+			biz_materials_standard_receive_detail bd
+			<include refid="bizMaterialsStandardReceiveDetailJoins"/>
+		where 
+		bd.materials_standard_receive_bill_id = #{0}
+		and bd.materials_standard_receive_bill_id = bb.id
+		and be.id = bb.apply_employee_id
+	</select>
+		<select id="findApplyMaterialsStandardReceiveDetailById" resultType="cn.damei.entity.modules.BizMaterialsStandardRecords">
+			SELECT
+				bm.materials_standard_id,
+				bm.materials_type,
+				bm.materials_name,
+				bm.materials_amount,
+				bm.materials_price,
+				bm.receive_number,
+				bm.materials_unit,
+				bm.max_receive_number_snap,
+				bm.apply_number_total_snap,
+				bm.receive_number_total_snap,
+				bs.apply_number_suggest
+			FROM
+				biz_materials_standard_receive_detail bm
+			JOIN biz_materials_standard_receive_bill bb
+			JOIN biz_order_materials_standard bs ON bm.materials_standard_receive_bill_id = bb.id
+			AND bm.materials_standard_id = bs.materials_standard_id
+			AND bb.order_id = bs.order_id
+			WHERE
+				bm.materials_standard_receive_bill_id = #{0}
+	</select>
+
+	<select id="findMaterialsApplyBillByOrderId" resultType="cn.damei.entity.modules.BizMaterialsStandardReceiveBillApply">
+		SELECT
+			a.apply_datetime,
+			a.materials_standard_receive_bill_code,
+			a.receive_datetime,
+			a.shipping_type,
+			a.shipping_fee
+		FROM
+			biz_materials_standard_receive_bill a
+		WHERE
+			a.receive_bill_type = #{receiveBillType}
+		AND a.order_id = #{orderId}
+		AND a. STATUS = 20
+	</select>
+	
+</mapper>

@@ -1,0 +1,1 @@
+UPDATE biz_project_change_bill SET STATUS ='30' WHERE STATUS IN('100','40')

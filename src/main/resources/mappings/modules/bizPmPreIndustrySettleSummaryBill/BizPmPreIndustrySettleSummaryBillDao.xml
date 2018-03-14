@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="cn.damei.dao.modules.BizPmPreIndustrySettleSummaryBillDao">
+	<select id="findList"
+			resultType="cn.damei.entity.modules.BizPmPreIndustrySettleSummaryBill">
+		SELECT
+		a.id AS "id",
+		a.store_id AS "storeId",
+		en.`name` AS
+		"enginDepartName",
+		a.settle_month AS "settleMonth",
+		b.realName AS
+		"pmEmployeeName",
+		b.phone AS "pmEmployeePhone",
+		(
+		SELECT
+		SUM(c.real_settle_amount)
+		FROM
+		biz_pm_pre_industry_settle_bill c
+		WHERE
+		c.pm_pre_industry_settle_summary_bill_id = a.id
+		AND c.settle_bill_type
+		= 1
+		) AS "midwayRealSettleAmount",
+		(
+		SELECT
+		SUM(c.real_settle_amount)
+		FROM
+		biz_pm_pre_industry_settle_bill c
+		WHERE
+		c.pm_pre_industry_settle_summary_bill_id = a.id
+		AND c.settle_bill_type
+		= 2
+		) AS "completeRealSettleAmount",
+		a.real_settle_amount AS
+		"realSettleAmount"
+		FROM
+		`biz_pm_pre_industry_settle_summary_bill` a
+		LEFT
+		JOIN biz_employee b ON a.pm_employee_id = b.id
+		LEFT JOIN
+		biz_engineering_department en ON en.id = a.engin_depart_id
+		<where>
+			<if test="storeId != null and storeId != ''">
+				AND a.store_id = #{storeId}
+			</if>
+			<if test="enginDepartIds != null and enginDepartIds.size>0">
+				AND a.engin_depart_id in
+				<foreach item="item" index="index" collection="enginDepartIds"
+					open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+
+			<if test="settleMonth != null and settleMonth != ''">
+				AND a.settle_month = #{settleMonth}
+			</if>
+
+			<if test="pmEmployeeName != null and pmEmployeeName != ''">
+				AND b.realName LIKE
+				<if test="dbName == 'oracle'">'%'||#{pmEmployeeName}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{pmEmployeeName}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{pmEmployeeName},'%')</if>
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.create_date DESC
+			</otherwise>
+		</choose>
+	</select>
+
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT
+		INTO biz_pm_pre_industry_settle_summary_bill (
+		id,
+		pm_pre_industry_settle_summary_bill,
+		store_id,
+		engin_depart_id,
+		settle_month,
+		pm_employee_id,
+		contract_amount,
+		midway_qc_check_punish_amount,
+		reward_amount,
+		punish_amount,
+		order_change_add_amount,
+		order_change_reduce_amount,
+		midway_basicwork_add_amount,
+		midway_materials_standard_amount,
+		midway_materials_auxiliary_amount,
+		midway_sand_cement_amount,
+		midway_switch_panel_amount,
+		midway_worker_salary_amount,
+		midway_material_carry_cost_amount,
+		complete_guarantee_money_amount,
+		complete_longway_commission_amount,
+		contract_settle_amount,
+		real_settle_amount,
+		status,
+		status_operator_employee_id,
+		status_datetime,
+		status_describe,
+		remarks,
+		create_by,
+		create_date,
+		update_by,
+		update_date,
+		del_flag
+		) VAlUES (
+		#{id},
+		#{pmPreIndustrySettleSummaryBill},
+		#{storeId},
+		#{enginDepartId},
+		#{settleMonth},
+		#{pmEmployeeId},
+		#{contractAmount},
+		#{midwayQcCheckPunishAmount},
+		#{rewardAmount},
+		#{punishAmount},
+		#{orderChangeAddAmount},
+		#{orderChangeReduceAmount},
+		#{midwayBasicworkAddAmount},
+		#{midwayMaterialsStandardAmount},
+		#{midwayMaterialsAuxiliaryAmount},
+		#{midwaySandCementAmount},
+		#{midwaSwitchPanelAmount},
+		#{midwayWorkerSalaryAmount},
+		#{midwayMaterialCarryCostAmount},
+		#{completeGuaranteeMoneyAmount},
+		#{completeLongwayCommissionAmount},
+		#{contractSettleAmount},
+		#{realSettleAmount},
+		#{status},
+		#{statusOperatorEmployeeId},
+		#{statusDatetime},
+		#{statusDescribe},
+		#{remarks},
+		#{createBy.id},
+		#{createDate},
+		#{updateBy.id},
+		#{updateDate},
+		#{delFlag}
+		)
+	</insert>
+
+	<select id="queryPmPreIndustrySettleByParam"
+		resultType="cn.damei.entity.modules.BizPmPreIndustrySettleBill"
+		parameterType="java.util.Map">
+		SELECT
+		em.realName AS "itemCustomer",
+		a.settle_month AS "settleMonth",
+		SUM(b.contract_amount) AS "contractAmount",
+		SUM(b.midway_basicwork_add_amount) AS "midwayBasicworkAddAmount",
+		SUM(b.midway_materials_auxiliary_amount) AS
+		"midwayMaterialsAuxiliaryAmount",
+		SUM(b.midway_materials_standard_amount) AS
+		"midwayMaterialsStandardAmount",
+		SUM(b.midway_sand_cement_amount) AS "midwaySandCementAmount",
+		SUM(b.midway_switch_panel_amount) AS "midwaySwitchPanelAmount",
+		SUM(b.midway_worker_salary_amount) AS "midwayWorkerSalaryAmount",
+		SUM(b.midway_qc_check_punish_amount) AS "midwayQcCheckPunishAmount",
+		SUM(b.reward_amount) AS "rewardAmount",
+		SUM(b.punish_amount) AS "punishAmount",
+		SUM(b.midway_material_carry_cost_amount) AS "midwayMaterialCarryCostAmount",
+		SUM(b.order_change_add_amount) AS "orderChangeAddAmount",
+		SUM(b.order_change_reduce_amount) AS "orderChangeReduceAmount",
+		SUM(b.complete_guarantee_money_amount) AS "completeGuaranteeMoneyAmount",
+		SUM(b.complete_longway_commission_amount) AS
+		"completeLongwayCommissionAmount",
+		SUM(b.contract_settle_amount) AS "contractSettleAmount",
+		SUM(b.real_settle_amount) AS "realSettleAmount"
+		FROM
+		biz_pm_pre_industry_settle_summary_bill a
+		LEFT JOIN biz_pm_pre_industry_settle_bill b ON a.id =
+		b.pm_pre_industry_settle_summary_bill_id
+		LEFT JOIN biz_employee em on em.id = a.pm_employee_id
+		where a.id = #{id} and b.settle_bill_type = #{settleBillType}
+		<if test="orderId != null and orderId != ''">
+			AND b.order_id = #{orderId}
+		</if>
+	</select>
+
+	<select id="findListByOrder"
+			resultType="cn.damei.entity.modules.BizPmPreIndustrySettleSummaryBill">
+       SELECT
+
+  DISTINCT(o.id) AS "orderId",
+  so.`name` AS "storeName",
+  pss.id AS "id",
+	o.store_id AS "storeId",
+  pss.create_date AS "createDate",
+  pss.settle_month AS "settleMonth",
+  o.order_number AS "orderNumber",
+  o.customer_name AS "customerName",
+  em.realName AS "pmEmployeeName",
+  (
+		SELECT
+		SUM(c.real_settle_amount)
+		FROM
+		biz_pm_pre_industry_settle_bill c
+		WHERE
+		c.pm_pre_industry_settle_summary_bill_id = pss.id
+		AND c.settle_bill_type = 1
+		AND c.order_id = o.id
+		) AS "midwayRealSettleAmount",
+    (
+		SELECT
+		SUM(c.real_settle_amount)
+		FROM
+		biz_pm_pre_industry_settle_bill c
+		WHERE
+		c.pm_pre_industry_settle_summary_bill_id = pss.id
+		AND c.settle_bill_type = 2
+		AND c.order_id = o.id
+		) AS "completeRealSettleAmount",
+    (
+		SELECT
+		SUM(c.real_settle_amount)
+		FROM
+		biz_pm_pre_industry_settle_bill c
+		WHERE
+		c.pm_pre_industry_settle_summary_bill_id = pss.id
+		AND c.order_id = o.id
+		) AS "realSettleAmount"
+FROM
+	biz_order o
+INNER JOIN biz_pm_pre_industry_settle_bill ps ON ps.order_id = o.id
+AND ps.`status` = 50
+INNER JOIN biz_pm_pre_industry_settle_summary_bill pss on pss.id = ps.pm_pre_industry_settle_summary_bill_id
+LEFT JOIN biz_employee em on em.id = ps.pm_employee_id
+LEFT JOIN sys_office so on so.id = o.store_id
+<where>
+	o.project_mode = 4
+	<if test="storeId != null and storeId != ''">
+		AND o.store_id = #{storeId}
+	</if>
+	<if test="settleMonth != null and settleMonth != ''">
+		AND pss.settle_month = #{settleMonth}
+	</if>
+
+	<if test="customerName != null and customerName !=''">
+		AND o.customer_name = #{customerName}
+	</if>
+
+	<if test="pmEmployeeName != null and pmEmployeeName != ''">
+		AND em.realName LIKE
+		<if test="dbName == 'oracle'">'%'||#{pmEmployeeName}||'%'</if>
+		<if test="dbName == 'mssql'">'%'+#{pmEmployeeName}+'%'</if>
+		<if test="dbName == 'mysql'">concat('%',#{pmEmployeeName},'%')</if>
+	</if>
+
+	<if test="createSettleMonthStartDate != null and createSettleMonthEndDate != null">
+		AND  pss.create_date >= #{createSettleMonthStartDate}
+		AND  pss.create_date &lt;= #{createSettleMonthEndDate}
+	</if>
+</where>
+	</select>
+</mapper>

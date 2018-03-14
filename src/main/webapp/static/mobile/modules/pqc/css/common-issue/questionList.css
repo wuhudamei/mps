@@ -1,0 +1,18 @@
+
+.iconNext {
+	position: absolute;
+	right: 0.3rem;
+	top: 50%;
+	width: 0.2rem;
+	height: 0.34rem;
+	background: url(../../images/common-issue/backLeft.png) no-repeat;
+	background-size: 100%;
+	transform: translateY(-50%);
+	-webkit-transform: translateY(-50%);
+}
+.qustion-list ul li{
+	position: relative;
+}
+.qustion-warp header {
+	position: relative;
+}

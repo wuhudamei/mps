@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.mobile.Manager.PmGuaranteeMoneyLogDao">
+
+<select id="queryPmGuaranteeMoneyLog" parameterType="java.lang.Integer" resultType="cn.damei.entity.mobile.Manager.PmGuaranteeMoneyLog">
+      select 
+      a.takeoff_amount as "takeoffAmount",
+      a.takeoff_datetime as "takeoffDatetime",
+      b.community_name as "communityName",
+	  b.build_number as "buildNumber",
+	  b.build_unit as "buildUnit",
+	  b.build_room as "buildRoom",
+	  b.customer_name as "customerName",
+	  b.item_manager AS "pmEmployeeName"
+      from biz_pm_guarantee_money_log a
+      left join biz_order b on a.order_id = b.id
+      where a.pm_employee_id = #{pmEmployeeId}
+</select>
+</mapper>
+   

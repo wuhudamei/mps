@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.OrderDao2">
+
+	<sql id="getTableFieldInfo">
+		od.order_number AS orderNumber,
+		od.customer_name AS customerName,
+		od.customer_phone AS customerPhone,
+		od.customer_address AS customerAddress,
+		od.item_manager AS itemManager,
+		em.phone AS itemManagerPhone,
+		od.designer_name AS designerName,
+		od.designer_phone AS designerPhone,
+		od.order_inspector AS orderInspector,
+		ep.phone AS orderInspectorPhone,
+		DATE_FORMAT(od.contract_start_date,'%Y-%m-%d %H:%i:%s') AS contractStartDate,
+		DATE_FORMAT(od.contract_end_date,'%Y-%m-%d %H:%i:%s') AS contractEndDate,
+		DATE_FORMAT(od.actual_start_date,'%Y-%m-%d %H:%i:%s') AS actualStartDate,
+		DATE_FORMAT(od.actual_end_date,'%Y-%m-%d %H:%i:%s') AS actualEndDate,
+		od.contract_amount AS contractAmount,
+		od.order_status_description AS orderStatusDescription,
+		oc.name AS stroeName,
+		di.label AS label
+	</sql>
+
+	<select id="orderByActualEndDate" resultType="map" parameterType="String">
+		SELECT
+		<include refid="getTableFieldInfo"/>
+		FROM biz_order od
+		LEFT JOIN biz_employee em ON od.item_manager_id = em.id
+		LEFT JOIN biz_employee ep ON od.order_inspector_id=ep.id
+		LEFT JOIN sys_office oc ON od.store_id=oc.id
+		LEFT JOIN sys_dict di ON od.project_mode=di.value AND di.type='project_mode'
+		where
+			od.order_status_number='400'
+			AND DATE_FORMAT(od.actual_end_date,'%Y-%m-%d')=DATE_FORMAT(#{_parameter},'%Y-%m-%d')
+		ORDER BY od.actual_end_date ASC
+	</select>
+
+	<select id="findOrder" resultType="map">
+		SELECT
+		<include refid="getTableFieldInfo"/>
+		FROM biz_order od
+		LEFT JOIN biz_employee em ON od.item_manager_id = em.id
+		LEFT JOIN biz_employee ep ON od.order_inspector_id=ep.id
+		LEFT JOIN sys_office oc ON od.store_id=oc.id
+		LEFT JOIN sys_dict di ON od.project_mode=di.value AND di.type='project_mode'
+		where
+			od.order_status_number='400'
+		ORDER BY od.actual_end_date ASC
+	</select>
+</mapper>

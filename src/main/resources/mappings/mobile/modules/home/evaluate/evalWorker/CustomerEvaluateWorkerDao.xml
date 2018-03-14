@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.mobile.home.CustomerEvaluateWorkerDao">
+
+	<!-- 查询客户所有的订单列表 -->
+	<select id="findOrderList" parameterType="String" resultType="cn.damei.entity.mobile.home.BizOrder">
+		SELECT
+			a.id AS "orderId",
+			a.community_name AS "communityName",
+			a.build_number AS "buildNumber",
+			a.build_unit AS "buildUnit",
+			a.build_room AS "buildRoom",
+			(
+				SELECT
+					COUNT(c.id)
+				FROM
+					biz_order_taskpackage b
+				INNER JOIN biz_eval_score c ON b.id = c.related_business_id AND c.eval_type='1'  AND c.eval_status NOT IN (2) AND b.group_id = c.group_leader_employee_id
+				WHERE
+					b.order_id = a.id
+				AND (SELECT COUNT(1) FROM biz_eval_score_role d WHERE c.id = d.eval_score_id AND d.eval_role_type IN (301,302)) &lt; 1
+			) AS "number"
+		FROM
+			biz_order a
+		WHERE
+			a.customer_phone = #{0}
+		ORDER BY
+			a.create_date ASC
+	
+	</select>
+	
+	<!-- 查询订单 -->
+	<select id="findOrder" parameterType="cn.damei.entity.mobile.home.BizOrder" resultType="cn.damei.entity.mobile.home.BizOrder">
+		SELECT
+			a.id AS "orderId",
+			a.community_name AS "communityName",
+			a.build_number AS "buildNumber",
+			a.build_unit AS "buildUnit",
+			a.build_room AS "buildRoom",
+			(
+				SELECT
+					COUNT(c.id)
+				FROM
+					biz_order_taskpackage b
+				INNER JOIN biz_eval_score c ON b.id = c.related_business_id AND c.eval_type='1' AND c.eval_status NOT IN (2) AND b.group_id = c.group_leader_employee_id
+				WHERE
+					b.order_id = a.id
+				AND (SELECT COUNT(1) FROM biz_eval_score_role d WHERE c.id = d.eval_score_id AND d.eval_role_type IN (301,302)) &lt; 1
+			) AS "number"
+		FROM
+			biz_order a
+		<where>
+			a.customer_phone = #{customerPhone}
+			<if test="orderId != null and orderId != ''">
+				AND a.id = #{orderId}
+			</if>
+		</where>
+		ORDER BY
+			number DESC,a.create_date ASC LIMIT 1
+	</select>
+	
+	<!-- 查询评价列表 -->
+	<select id="findEvaluateList" parameterType="int" resultType="cn.damei.entity.mobile.Inspector.EvaluateWorker">
+		SELECT 
+			a.package_name AS "packageName",
+			a.group_realname AS "groupRealname",
+			b.id AS "evalTaskpackScoreId",
+			DATE_ADD(b.eval_start_datetime,INTERVAL 12 HOUR) AS "addEvalStartDatetime",
+			(SELECT COUNT(1) FROM biz_eval_score_role c WHERE b.id = c.eval_score_id AND c.eval_role_type IN (301,302)) AS "count"
+		FROM
+			biz_order_taskpackage a 
+			INNER JOIN biz_eval_score b ON a.id = b.related_business_id AND b.eval_type='1'
+		WHERE 
+			a.order_id = #{0}
+		ORDER BY 
+			count ASC,
+			b.eval_start_datetime ASC
+	</select>
+	
+	<!-- 查询评价详情 -->
+	<select id="toDetails" parameterType="int" resultType="cn.damei.entity.mobile.Inspector.EvaluateWorker">
+		SELECT
+			b.package_name AS "packageName",
+			b.group_realname AS "groupRealname",
+			c.eval_feedback AS "evalFeedback",
+			f.index_name AS "indexName",
+			ROUND((d.got_score*5)/e.eval_total_score) AS "count"
+		FROM
+			biz_eval_score a
+		INNER JOIN biz_order_taskpackage b ON b.id = a.related_business_id
+		AND b.group_id = a.group_leader_employee_id
+		INNER JOIN biz_eval_score_role c ON a.id = c.eval_score_id
+		AND c.eval_role_type IN (301, 302)
+		INNER JOIN biz_eval_score_role_index d ON c.id = d.eval_score_role_id
+		INNER JOIN biz_eval_activity_index e ON d.eval_activity_index_id = e.id
+		INNER JOIN biz_eval_index f ON f.id = e.eval_index_id
+		AND f.is_enabled = 1
+		WHERE
+			a.id = #{0}
+			AND a.eval_type='1'
+		ORDER BY c.eval_role_type ASC
+	</select>
+	
+</mapper>
+
+

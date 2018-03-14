@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="cn.damei.dao.mobile.Worker.UrgeEvaluationDao">
+
+	<select id="findEvaluationTaskpageByGroupId" resultType="cn.damei.entity.mobile.Worker.UrgeEvaluation">
+		select 
+			d.customer_name,
+			d.community_name,
+			d.build_number,
+			d.build_unit,
+			d.build_room,
+			a.package_name,
+			d.item_manager,
+			b.create_date,
+			e.realName as 'orderInspectorName',
+			e.phone as 'orderInspectorPhone',
+			a.id,
+			e.id as 'orderInspectorId'
+		from biz_order_taskpackage a 
+		left join biz_eval_score b on a.id = b.related_business_id
+		left join biz_eval_score_role c on b.id = c.eval_score_id
+		left join biz_order d on d.id = a.order_id
+		left join biz_employee e on e.id = d.order_inspector_id
+		where b.eval_status in (0,1) and c.eval_role_type = '201' and a.package_stateId = '120'
+		<if test="id !=null and id !=''">
+			and a.id = #{id}
+		</if>
+		<if test="workerId !=null and workerId !=''">
+			and a.emp_groupid  = #{workerId}
+		</if>
+	</select>
+	
+</mapper>

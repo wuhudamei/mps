@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="cn.damei.dao.mobile.Inspector.InspectorBalanceOfMonthDao">
+
+
+<!-- 查询传入月份的所有结算单的值 -->
+<select id="getBalanceDetailByMonth"  resultType="cn.damei.entity.mobile.Inspector.InspectorBalanceEntity">
+SELECT
+	a.pm_employee_id AS "inspectorId",
+	a.qc_midway_commission_amount AS "midBalanceMoney",
+	a.qc_complete_commission_amount AS "completeBalanceMoney",
+	a.qc_midway_longway_amount AS "midDistanceFee",
+	a.qc_complete_longway_amount AS "completeDistanceFee",
+	a.total_amount AS "totalMoney",
+	a.settle_month AS '233'
+FROM
+	biz_pm_settle_summary_bill a
+WHERE
+	a.settle_month = #{0} and a.pm_employee_id =#{1} and a.settle_role =2
+and a.status = 50
+
+</select>
+
+
+	</mapper>

@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="cn.damei.dao.modules.BizOrderDistributeLogDao">
+
+	<sql id="bizOrderDistributeLogColumns">
+		a.id AS "id",
+		a.order_id AS "orderId",
+		a.order_taskpackage_id AS "orderTaskpackageId",
+		a.distribute_type AS
+		"distributeType",
+		a.distributed_employee_id AS "distributedEmployeeId",
+		a.distributed_group_id AS "distributedGroupId",
+		a.unfinished_order_count_before AS "unfinishedOrderCountBefore",
+		a.distribute_order_count AS "distributeOrderCount",
+		a.unfinished_order_count_after AS "unfinishedOrderCountAfter",
+		a.remarks AS "remarks",
+		a.create_by AS "createBy.id",
+		a.create_date AS
+		"createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS
+		"updateDate",
+		a.del_flag AS "delFlag",
+
+		a.old_employee_id,
+		a.reason_type,
+		a.reason_remarks
+	</sql>
+
+	<sql id="bizOrderDistributeLogJoins">
+	</sql>
+
+	<select id="get"
+		resultType="cn.damei.entity.modules.BizOrderDistributeLog">
+		SELECT
+		<include refid="bizOrderDistributeLogColumns" />
+		FROM biz_order_distribute_log a
+		<include refid="bizOrderDistributeLogJoins" />
+		WHERE a.id = #{id}
+	</select>
+
+	<select id="queryOrderPmDistributeLogByOrderId"
+		resultType="cn.damei.entity.modules.BizOrderDistributeLog">
+		SELECT
+		DISTINCT(a.distributed_employee_id) as "distributedEmployeeId",
+		em.realName as "distributedEmployeeName"
+		FROM
+		biz_order_distribute_log a
+		LEFT JOIN biz_employee em on em.id = a.distributed_employee_id
+		WHERE
+		a.order_id = #{orderId}
+		AND a.distribute_type IN (101, 102)
+	</select>
+
+	<select id="findList"
+		resultType="cn.damei.entity.modules.BizOrderDistributeLog">
+		SELECT
+		<include refid="bizOrderDistributeLogColumns" />
+		FROM biz_order_distribute_log a
+		<include refid="bizOrderDistributeLogJoins" />
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+
+	<select id="findAllList"
+		resultType="cn.damei.entity.modules.BizOrderDistributeLog">
+		SELECT
+		<include refid="bizOrderDistributeLogColumns" />
+		FROM biz_order_distribute_log a
+		<include refid="bizOrderDistributeLogJoins" />
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+
+	<insert id="insert">
+		INSERT INTO biz_order_distribute_log(
+		id,
+		order_id,
+		order_taskpackage_id,
+		distribute_type,
+		distributed_employee_id,
+		distributed_group_id,
+		unfinished_order_count_before,
+		distribute_order_count,
+		unfinished_order_count_after,
+		remarks,
+		create_by,
+		create_date,
+		update_by,
+		update_date,
+		del_flag,
+		old_employee_id,
+		reason_type,
+		reason_remarks
+		) VALUES (
+		#{id},
+		#{orderId},
+		#{orderTaskpackageId},
+		#{distributeType},
+		#{distributedEmployeeId},
+		#{distributedGroupId},
+		#{unfinishedOrderCountBefore},
+		#{distributeOrderCount},
+		#{unfinishedOrderCountAfter},
+		#{remarks},
+		#{createBy.id},
+		#{createDate},
+		#{updateBy.id},
+		#{updateDate},
+		#{delFlag},
+		#{oldEmployeeId},
+		#{reasonType},
+		#{reasonRemarks}
+		)
+	</insert>
+
+	<update id="update">
+		UPDATE biz_order_distribute_log SET
+		order_id = #{orderId},
+		order_taskpackage_id = #{orderTaskpackageId},
+		distribute_type = #{distributeType},
+		distributed_employee_id = #{distributedEmployeeId},
+		distributed_group_id = #{distributedGroupId},
+		unfinished_order_count_before = #{unfinishedOrderCountBefore},
+		distribute_order_count = #{distributeOrderCount},
+		unfinished_order_count_after = #{unfinishedOrderCountAfter},
+		remarks = #{remarks},
+		update_by = #{updateBy.id},
+		update_date = #{updateDate},
+		old_employee_id = #{oldEmployeeId},
+		reason_type = #{reasonType},
+		reason_remarks = #{reasonRemarks}
+		WHERE id = #{id}
+	</update>
+
+	<update id="delete">
+		UPDATE biz_order_distribute_log SET
+		del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+
+</mapper>

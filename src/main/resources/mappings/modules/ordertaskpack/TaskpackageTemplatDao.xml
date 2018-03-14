@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.TaskpackageTemplatDao">
+
+	<select id="findByStoreId" resultType="cn.damei.entity.modules.TaskpackageTemplat">
+		SELECT 
+			a.id as "id",
+			a.no as "no",
+			a.templat_name as "templatName",
+			a.task_package_type_id as "taskPackageTypeId",
+			a.store_id as "storeId",
+			a.store_order as "storeOrder",
+			a.advance_payment_rates as "advancePaymentRates",
+			a.rest_payment_rates as "restPaymentRates",
+			a.status as "status",
+			a.is_quality_guarantee as "isQualityGuarantee",
+			a.quality_guarantee_rate as "qualityGuaranteeRate",
+			a.settle_style as "settleStyle"
+		FROM biz_task_package_templat a
+		where a.`status` = 1 and a.del_flag = 0 and a.templat_name = '特殊任务包' and a.store_id = #{0} and a.project_mode = #{1}
+		
+	
+	</select>
+	
+</mapper>

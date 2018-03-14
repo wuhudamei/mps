@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="cn.damei.dao.modules.BizCompletedAuditDao">
+
+	<sql id="bizCompletedAuditColumns">
+		a.ID AS "id",
+		a.ORDER_NUMBER AS "orderNumber",
+		a.CONTRACT_NUMBER AS "contractNumber",
+		a.CUSTOMER_TYPE AS
+		"customerType",
+		a.CUSTOMER_DESCRIPTION AS "customerDescription",
+		a.CUSTOMER_NAME AS "customerName",
+		a.CUSTOMER_PHONE AS "customerPhone",
+		a.COMMUNITY_NAME AS "communityName",
+		a.BUILD_NUMBER AS "buildNumber",
+		a.BUILD_UNIT AS "buildUnit",
+		a.BUILD_ROOM AS "buildRoom",
+		a.MAP_COORDINATE AS "mapCoordinate",
+		a.SALE_TYPE AS "saleType",
+		a.AREA
+		AS "area",
+		a.BUILD_TYPE AS "buildType",
+		a.HOUSE_TYPE AS "houseType",
+		a.HOUSE_IS_NEW AS "houseIsNew",
+		a.IS_ELEVATOR AS "isElevator",
+		a.DESIGNER_NAME AS "designerName",
+		a.DESIGNER_PHONE AS "designerPhone",
+		a.ORDER_REPORTER_NAME AS "orderReporterName",
+		a.ORDER_REPORTER_PHONE AS
+		"orderReporterPhone",
+		a.SERVICE_NAME AS "serviceName",
+		a.SERVICE_PHONE
+		AS "servicePhone",
+		a.CONTRACT_START_DATE AS "contractStartDate",
+		a.CONTRACT_END_DATE AS "contractEndDate",
+		a.COVERED_AREA AS
+		"coveredArea",
+		a.CONTRACT_AREA AS "contractArea",
+		a.CONTRACT_TIME AS
+		"contractTime",
+		a.SIGN_CONTRACT_DATE AS "signContractDate",
+		a.ORDER_STATUS_NUMBER AS "orderStatusNumber",
+		a.ORDER_STATUS_DESCRIPTION AS "orderStatusDescription",
+		a.ORDER_INSPECTOR AS "orderInspector",
+		a.CREATE_BY AS "createBy.id",
+		a.CREATE_DATE AS "createDate",
+		a.UPDATE_BY AS "updateBy.id",
+		a.UPDATE_DATE AS "updateDate",
+		a.REMARKS AS "remarks",
+		a.DEL_FLAG AS
+		"delFlag",
+		a.ITEM_MANAGER AS "itemManager",
+		a.STORE_ID AS "storeId",
+		a.CUS_MANAGER AS "cusManager",
+		a.ORDERTASKPACK_STATUS AS
+		"orderTaskPackStatus",
+		a.ACTUAL_START_DATE AS actualStartDate,
+		a.ACTUAL_END_DATE AS actualEndDate,
+		a.ITEM_MANAGER_ID AS
+		"itemManagerId",
+		a.SIGN_FLAG AS "signFlag",
+		a.DELAY_TYPE AS "delayType",
+		a.ORDER_INSPECTOR_ID AS "orderInspectorId",
+		a.PROVINCE AS "province",
+		a.CITY AS "city",
+		a.COUNTY AS "county",
+		a.DETAIL_ADDRESS AS
+		"detailAddress",
+		a.BIZ_ORDER_ACCEPT_AREA AS "bizOrderAcceptArea",
+		a.PROJECT_MODE AS "projectMode"
+	</sql>
+
+	<select id="get"
+		resultType="cn.damei.entity.modules.BizCompletedAudit">
+		SELECT
+		<include refid="bizCompletedAuditColumns" />
+		,
+		e.REALNAME AS "empRealName",
+		e.PHONE AS "empPhone",
+		e.ID AS "empId"
+		FROM BIZ_ORDER a,BIZ_EMPLOYEE e
+		WHERE a.ID = #{id}
+		AND e.ID =
+		a.ITEM_MANAGER_ID
+	</select>
+
+	<select id="findList"
+		resultType="cn.damei.entity.modules.BizCompletedAudit">
+		SELECT
+		<include refid="bizCompletedAuditColumns" />
+		,
+		y.REALNAME AS "employeeRealName",
+		y.PHONE AS "employeePhone",
+		f.REAL_FINISH_PROJECT_DATE AS "realFinishProjectDate",
+		b.name as "departmentName",
+		f.id AS "orderFinishProjectBillId",
+		f.APPLY_DATETIME AS "applyDatetime"<!-- , (SELECT count(p.ID) FROM BIZ_BUSINESS_PIC p WHERE 
+			p.BUSINESS_ID_INT = f.ID AND p.BUSINESS_TYPE IN('101','102','103')) AS "countPic", 
+			(SELECT count(task.ID) FROM BIZ_ORDER_TASKPACKAGE task WHERE task.ORDER_ID 
+			= a.ID) AS "countTaskpackage" -->
+		<!-- FROM BIZ_ORDER a,BIZ_EMPLOYEE y,BIZ_ORDER_FINISH_PROJECT_BILL f -->
+		FROM BIZ_ORDER a
+		left join biz_engineering_department b on
+		a.engin_depart_id = b.id
+		left join BIZ_EMPLOYEE y on y.ID =
+		a.ITEM_MANAGER_ID
+		left join BIZ_ORDER_FINISH_PROJECT_BILL f on
+		f.ORDER_ID = a.ID
+		<where>
+			<!-- y.ID = a.ITEM_MANAGER_ID AND f.ORDER_ID = a.ID AND --> <!-- a.ORDER_STATUS_NUMBER IN ('300','320','330','340') -->
+			1=1
+			<if test="status != null ">
+				AND a.ORDER_STATUS_NUMBER IN
+				<foreach collection="status" item="item" open="(" separator=","
+					close=")" index="index">
+					#{item}
+				</foreach>
+			</if>
+
+			<if test="orderNumber != null and orderNumber != ''">
+				AND a.ORDER_NUMBER = #{orderNumber}
+			</if>
+			<if test="projectMode != null and projectMode != ''">
+				AND a.PROJECT_MODE = #{projectMode}
+			</if>
+			<if test="storeId != null and storeId != ''">
+				AND a.STORE_ID = #{storeId}
+			</if>
+			<if test="itemManager != null and itemManager != ''">
+				AND a.ITEM_MANAGER = #{itemManager}
+			</if>
+			<if test="appStartDate != null and appStartDate != ''">
+				AND f.APPLY_DATETIME &gt;= #{appStartDate}
+			</if>
+			<if test="appEndDate != null and appEndDate != ''">
+				AND f.APPLY_DATETIME &lt;= #{appEndDate}
+			</if>
+			<if
+				test="realFinishProjectStartDate != null and realFinishProjectStartDate != ''">
+				AND f.REAL_FINISH_PROJECT_DATE &gt;= #{realFinishProjectStartDate}
+			</if>
+			<if
+				test="realFinishProjectEndDate != null and realFinishProjectEndDate != ''">
+				AND f.REAL_FINISH_PROJECT_DATE &lt;= #{realFinishProjectEndDate}
+			</if>
+
+			<if test="enginDepartIds != null">
+				AND a.engin_depart_id in
+				<foreach item="item" index="index" collection="enginDepartIds"
+					open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.ORDER_STATUS_NUMBER,f.REAL_FINISH_PROJECT_DATE
+			</otherwise>
+		</choose>
+	</select>
+
+	<select id="findAllList"
+		resultType="cn.damei.entity.modules.BizCompletedAudit">
+		SELECT
+		<include refid="bizCompletedAuditColumns" />
+		FROM biz_node_plan a
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+
+	<select id="checkOrderTaskpackByOrderId" resultType="int">
+		SELECT COUNT(*) FROM biz_order_taskpackage where order_id=#{orderId} AND
+		labor_auxiliary_materials_budget_amount >0 AND package_stateId != 160
+	</select>
+
+	<update id="updateOrderStatus">
+		update BIZ_ORDER set
+		ORDER_STATUS_NUMBER = #{0},
+		ORDER_STATUS_DESCRIPTION = #{1}
+		WHERE ID = #{2}
+	</update>
+</mapper>

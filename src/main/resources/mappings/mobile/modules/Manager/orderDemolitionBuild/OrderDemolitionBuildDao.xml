@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.mobile.Manager.OrderDemolitionBuildDao">
+    <select id="findOrderDemolitionBuildList" resultType="cn.damei.entity.modules.Order">
+    	SELECT
+			a.id,
+			a.order_number,
+			a.contract_number,
+			a.customer_description,
+			a.customer_name,
+			a.community_name,
+			a.build_number,
+			a.build_unit,
+			a.build_room,
+			a.contract_time,
+			a.contract_start_date,
+			a.contract_end_date,
+			a.order_status_description,
+			substring_index(a.map_coordinate, ',', 1) AS "lon",
+            substring_index(a.map_coordinate, ',', - 1) AS "lat"
+		FROM 
+			biz_order a
+		left join biz_order_demolition_build b on a.id = b.order_id
+		WHERE 
+			a.item_manager_id = #{0} AND a.is_scrap = '0' and b.id is null 
+    </select>
+    
+    <select id="findOrderSignDatetime" resultType="cn.damei.entity.mobile.Manager.SignDetail">
+    	select 
+    		a.id as 'orderId',
+    		concat(a.customer_address,'-',a.community_name,'-',a.build_number,'-',a.build_unit,'-',a.build_room,'-',a.customer_name) as 'customerAddress',
+    		b.sign_date 
+    	from 
+    		biz_order a 
+    	inner join biz_sign b on a.id = b.order_id and b.signType = #{signType} 
+    	where a.id = #{orderId}
+    </select>
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    	insert into biz_order_demolition_build(
+			order_id,
+			demolition_build_date,
+			delay_days,
+			demolition_build_employee_id,
+			create_date,
+			create_by,
+			update_date,
+			update_by,
+			del_flag,
+			remarks
+		)VALUES(
+			#{orderId},
+			#{demolitionBuildDate},
+			#{delayDays},
+			#{demolitionBuildEmployeeId},
+			#{createDate},
+			#{createBy.id},
+			#{updateDate},
+			#{updateBy.id},
+			#{delFlag},
+			#{remarks}
+		)
+    </insert>
+	
+	<select id="isDisclose" resultType="boolean">
+		select 
+			(case when COUNT(*) = 0 then false else true end ) 
+		from 
+			biz_order_demolition_build a 
+		where a.order_id = #{0};
+	</select>
+	
+</mapper>

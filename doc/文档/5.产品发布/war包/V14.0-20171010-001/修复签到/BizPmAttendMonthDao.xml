@@ -1,0 +1,667 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizPmAttendMonthDao">
+    
+	<sql id="bizPmAttendMonthColumns">
+		a.id AS "id",
+		a.attend_month AS "attendMonth",
+		a.pm_employee_id AS "pmEmployeeId",
+		a.attend_start_date AS "attendStartDate",
+		a.attend_end_date AS "attendEndDate",
+		a.must_sign_times AS "mustSignTimes",
+		a.real_sign_times AS "realSignTimes",
+		a.owed_sign_times AS "owedSignTimes",
+		a.attend_rate AS "attendRate",
+		a.remarks AS "remarks",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag",
+		a.status_describe AS "statusDescribe"
+	</sql>
+	
+	<sql id="bizPmAttendMonthJoins">
+	</sql>
+    
+	<select id="get" resultType="BizPmAttendMonth">
+		SELECT 
+			<include refid="bizPmAttendMonthColumns"/>
+		FROM biz_pm_attend_month a
+		<include refid="bizPmAttendMonthJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="BizPmAttendMonth">
+		select DISTINCT
+			a.storeId AS "storeId",
+			c.id AS "enginDepartId",
+			c.`name` AS departmentName,
+			a.phone AS "phone",
+			a.realName AS "itemManager",
+			a.id AS "itemManagerId",
+			e.`status` AS "status",
+			e.id AS "pmAttendMonthId",
+			#{attendMonth} as "attendMonth"
+		 from biz_employee a 
+		left join biz_engin_depart_employee_position b on a.id = b.employee_id
+		left join biz_pm_attend_month e on e.pm_employee_id = a.id and e.attend_month = #{attendMonth}
+		left join biz_engineering_department c on c.id = b.engin_depart_id
+		left join biz_pm_attend_day_order d on d.pm_employee_id = a.id
+		<where>
+			and a.orderStop = '0'
+			and a.empType = '3'
+			and a.del_flag = '0'
+			<!-- and (e.`status` = 10 or e.`status` = 35 or e.`status` is null) -->
+			<if test="storeId != '' and storeId != null">
+				and a.storeId = #{storeId}
+			</if>
+			<if test="enginDepartId != '' and enginDepartId != null">
+				and c.id = #{enginDepartId}
+			</if>
+			<if test="itemManager != '' and itemManager != null">
+				 and a.realName like
+				 <if test="dbName == 'oracle'">'%'||#{itemManager}||'%'</if>
+				 <if test="dbName == 'mssql'">'%'+#{itemManager}+'%'</if>
+				 <if test="dbName == 'mysql'">concat('%',#{itemManager},'%')</if>
+			</if>
+		    <if test="attendMonth != '' and attendMonth != null">
+				and a.id not in (select e.pm_employee_id from biz_pm_attend_month e where e.attend_month = #{attendMonth} and e.`status` != 35)
+			</if>
+			
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="BizPmAttendMonth">
+		SELECT 
+			<include refid="bizPmAttendMonthColumns"/>
+		FROM biz_pm_attend_month a
+		<include refid="bizPmAttendMonthJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO biz_pm_attend_month(
+			attend_month,
+			pm_employee_id,
+			pm_attend_month_code,
+			attend_start_date,
+			attend_end_date,
+			must_sign_times,
+			real_sign_times,
+			owed_sign_times,
+			attend_rate,
+			remarks,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			status,
+			del_flag
+		) VALUES (
+			#{attendMonth},
+			#{itemManagerId},
+			#{attendMonthCode},
+			#{attendStartDate},
+			#{attendEndDate},
+			#{mustSignTimes},
+			#{realSignTimes},
+			#{owedSignTimes},
+			#{attendRate},
+			#{remarks},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{status},
+			#{delFlag}
+		)
+	</insert>
+	
+	<insert id="insertMonthOrder" >
+		INSERT INTO biz_pm_attend_month_order(
+			pm_attend_month_id,
+			order_id,
+			pm_employee_id,
+			must_sign_times,
+			real_sign_times,
+			owed_sign_times,
+			remarks,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag
+		) VALUES (
+			#{pmAttendMonthId},
+			#{orderId},
+			#{itemManagerId},
+			#{mustSignTimes},
+			#{realSignTimes},
+			#{owedSginTime},
+			#{remarks},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag}
+		)
+	</insert>
+	
+	<select id="findMinthOrder" resultType="BizPmAttendMonth">
+		select order_id AS orderId from biz_pm_attend_month_order t
+		<where>
+			and t.order_id = #{orderId}
+			and t.pm_employee_id = #{itemManagerId}
+		</where>
+	</select>
+	
+	<update id="update">
+		UPDATE biz_pm_attend_month SET 	
+			attend_month = #{attendMonth},
+			pm_employee_id = #{pmEmployeeId},
+			attend_start_date = #{attendStartDate},
+			attend_end_date = #{attendEndDate},
+			must_sign_times = #{mustSignTimes},
+			real_sign_times = #{realSignTimes},
+			owed_sign_times = #{owedSignTimes},
+			status = #{status},
+			attend_rate = #{attendRate},
+			remarks = #{remarks},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE biz_pm_attend_month SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+	<select id="getBizPmAttendMonthList" resultType="BizPmAttendMonth">
+		SELECT
+			DISTINCT
+			t.customer_name AS "customerName",
+			t.customer_address AS "customerAddress",
+			t1.label AS "orderStatusNumber",
+			IFNULL(a.countDay,0) + IFNULL(a1.countDay1,0) AS "countDay",
+			IFNULL(count(a3.id),0) AS "sjCountDay",
+			(
+				IFNULL(a.countDay,0) + IFNULL(a1.countDay1,0) - IFNULL(count(a3.id),0)
+			) AS "wcDay"
+		FROM
+			biz_order t
+		LEFT JOIN (
+			SELECT
+				t.order_number,
+				floor(
+			datediff(
+						str_to_date(#{attendEndDate}, '%Y-%m-%d'),
+						t2.accept_check_datetime
+					) / t1.sign_cycle_days_basicwork
+				) AS countDay
+			FROM 
+			
+				biz_order t
+			LEFT JOIN biz_pm_attend_cnfg t1 ON t.store_id = t1.store_id and str_to_date(t1.effect_month,'%Y-%d') = str_to_date(#{attendStartDate},'%Y-%d')
+			LEFT JOIN biz_qc_bill t2 ON t.id = t2.order_id
+			LEFT JOIN biz_qc_check_node t3 ON t2.qc_check_node_id = t3.id
+			WHERE
+				t2.`status` = 10
+			AND t3.qc_check_node_index IN ('6', '9')
+			AND t.contract_start_date &lt;= str_to_date(#{attendStartDate}, '%Y-%m-%d')
+			AND t.contract_end_date &gt;= str_to_date(#{attendEndDate}, '%Y-%m-%d')
+			AND datediff(
+				t2.check_datetime,
+				str_to_date(#{attendStartDate}, '%Y-%m-%d')
+			) &gt; 0
+			AND t.item_manager_id = #{itemManagerId}
+			AND t.store_id = #{storeId}
+		) a ON a.order_number = t.order_number
+		LEFT JOIN (
+			SELECT
+				DISTINCT
+				t.order_number,
+				IFNULL(floor(
+					datediff(
+						str_to_date(#{attendEndDate}, '%Y-%m-%d'),
+						t.actual_start_date
+					) / t1.sign_cycle_days_basicwork
+				),0) AS countDay1
+			FROM
+				biz_order t
+			LEFT JOIN biz_pm_attend_cnfg t1 ON t.store_id = t1.store_id and str_to_date(t1.effect_month,'%Y-%d') = str_to_date(#{attendStartDate},'%Y-%d')
+			LEFT JOIN biz_qc_bill t2 ON t.id = t2.order_id
+			WHERE
+				t.order_status_number = '200'
+			AND not EXISTS (select * from biz_qc_check_node t3 where t3.qc_check_node_index = '6' and t2.qc_check_node_id = t3.id)
+			AND t.contract_start_date &lt;= str_to_date(#{attendStartDate}, '%Y-%m-%d')
+			AND t.contract_end_date &gt;= str_to_date(#{attendEndDate}, '%Y-%m-%d')
+			AND t.item_manager_id = #{itemManagerId}
+			AND t.store_id = #{storeId}
+		) a1 ON t.order_number = a1.order_number
+		LEFT JOIN biz_pm_attend_day_order a3 ON a3.pm_employee_id = t.item_manager_id
+		and a3.order_id = t.id
+		AND a3.sign_datetime &gt;= str_to_date(#{attendStartDate}, '%Y-%m-%d')
+		AND a3.sign_datetime &lt;= str_to_date(#{attendEndDate}, '%Y-%m-%d')
+		left join sys_dict t1 on t1.sort = t.order_status_number and t1.type = 'order_status'
+		WHERE
+			t.item_manager_id = #{itemManagerId}
+		AND t.del_flag = 0
+		<!-- AND t2.`status` = 10 -->
+		AND t.order_status_number = '200'
+		AND t.contract_start_date &lt;= str_to_date(#{attendStartDate}, '%Y-%m-%d')
+		AND t.contract_end_date &gt;= str_to_date(#{attendEndDate}, '%Y-%m-%d')
+		and a3.is_valid = '1'
+		group by t.community_name,a3.id
+	</select>
+	<select id="getBizPmAttendMonthCount" resultType="BizPmAttendMonth">
+		SELECT
+			DISTINCT
+			IFNULL(a.countDay,0) + IFNULL(a1.countDay1,0) AS "countDay",
+			IFNULL(count(a3.id),0) AS "sjCountDay",
+			(
+				IFNULL(a.countDay,0) + IFNULL(a1.countDay1,0) - IFNULL(count(a3.id),0)
+			) AS "wcDay"
+		FROM
+			biz_order t
+		LEFT JOIN (
+			SELECT
+				t.order_number,
+				sum(floor(
+			datediff(
+						str_to_date(#{attendEndDate}, '%Y-%m-%d'),
+						t2.accept_check_datetime
+					) / t1.sign_cycle_days_basicwork
+				)) AS countDay
+			FROM 
+			
+				biz_order t
+			LEFT JOIN biz_pm_attend_cnfg t1 ON t.store_id = t1.store_id and str_to_date(t1.effect_month,'%Y-%d') = str_to_date(#{attendStartDate},'%Y-%d')
+			LEFT JOIN biz_qc_bill t2 ON t.id = t2.order_id
+			LEFT JOIN biz_qc_check_node t3 ON t2.qc_check_node_id = t3.id
+			LEFT JOIN biz_pm_attend_day_order a3 ON a3.pm_employee_id = t.item_manager_id
+			and a3.order_id = t.id
+			WHERE
+				t2.`status` = 10
+			AND t3.qc_check_node_index IN ('6', '9')
+			AND t.contract_start_date &lt;= str_to_date(#{attendStartDate}, '%Y-%m-%d')
+			AND t.contract_end_date &gt;= str_to_date(#{attendEndDate}, '%Y-%m-%d')
+			and a3.is_valid = '1'
+			AND datediff(
+				t2.check_datetime,
+				str_to_date(#{attendStartDate}, '%Y-%m-%d')
+			) &gt; 0
+			AND t.item_manager_id = #{itemManagerId}
+			AND t.store_id = #{storeId}
+		) a ON a.order_number = t.order_number
+		LEFT JOIN (
+			SELECT
+				DISTINCT
+				t.order_number,
+				sum(IFNULL(floor(
+					datediff(
+						str_to_date(#{attendEndDate}, '%Y-%m-%d'),
+						t.actual_start_date
+					) / t1.sign_cycle_days_basicwork
+				),0)) AS countDay1
+			FROM
+				biz_order t
+			LEFT JOIN biz_pm_attend_cnfg t1 ON t.store_id = t1.store_id and str_to_date(t1.effect_month,'%Y-%d') = str_to_date(#{attendStartDate},'%Y-%d')
+			LEFT JOIN biz_qc_bill t2 ON t.id = t2.order_id
+			LEFT JOIN biz_pm_attend_day_order a3 ON a3.pm_employee_id = t.item_manager_id
+			and a3.order_id = t.id
+			WHERE
+				t.order_status_number = '200'
+			AND not EXISTS (select * from biz_qc_check_node t3 where t3.qc_check_node_index = '6' and t2.qc_check_node_id = t3.id)
+			AND t.contract_start_date &lt;= str_to_date(#{attendStartDate}, '%Y-%m-%d')
+			AND t.contract_end_date &gt;= str_to_date(#{attendEndDate}, '%Y-%m-%d')
+			AND t.item_manager_id = #{itemManagerId}
+			AND t.store_id = #{storeId}
+			and a3.is_valid = '1'
+		) a1 ON t.order_number = a1.order_number
+		LEFT JOIN biz_pm_attend_day_order a3 ON a3.pm_employee_id = t.item_manager_id
+		and a3.order_id = t.id
+		AND a3.sign_datetime &gt;= str_to_date(#{attendStartDate}, '%Y-%m-%d')
+		AND a3.sign_datetime &lt;= str_to_date(#{attendEndDate}, '%Y-%m-%d')
+		and a3.is_valid = '1'
+		WHERE
+			t.item_manager_id = #{itemManagerId}
+		AND t.del_flag = 0
+		<!-- AND t2.`status` = 10 -->
+		AND t.order_status_number = '200'
+		AND t.contract_start_date &lt;= str_to_date(#{attendStartDate}, '%Y-%m-%d')
+		AND t.contract_end_date &gt;= str_to_date(#{attendEndDate}, '%Y-%m-%d')
+		and a3.is_valid = '1'
+	</select>
+	
+	<select id="findPmAttendList" resultType="BizPmAttendMonth">
+		SELECT
+			DISTINCT
+			a.pm_attend_month_code AS 'attendMonthCode',
+			c.star AS "itemManagerStar",
+			b.store_id AS "storeId",
+			b.id AS "enginDepartId",
+			c.realName AS "itemManager",
+			c.id AS "itemManagerId",
+			c.phone AS "phone",
+			a.attend_month AS "attendMonth",
+			a.must_sign_times AS "mustSignTimes",
+			a.real_sign_times AS "realSignTimes",
+			a.owed_sign_times AS "owedSignTimes",
+			a.attend_rate AS "attendRate",
+			a.`status` as "status",
+			d.`name` AS "departmentName",
+			a.attend_start_date AS "attendStartDate",
+			a.attend_end_date AS "attendEndDate"
+		FROM
+			biz_pm_attend_month a
+		inner JOIN biz_engineering_department b ON find_in_set(a.pm_employee_id,b.manager)
+		inner JOIN biz_employee c ON c.id = a.pm_employee_id
+		inner join biz_engineering_department d on d.id = b.id
+		<where>
+			and b.del_flag = '0'
+			and a.status = '20'
+			<if test="storeId != null and storeId != ''">
+				and b.store_id = #{storeId}
+			</if>
+			<if test="enginDepartId != '' and enginDepartId != null">
+				and b.id = #{enginDepartId}
+			</if>
+			<if test="attendMonth != '' and attendMonth != null">
+				and a.attend_month = #{attendMonth}
+			</if>
+			<if test="attendRateStart != '' and attendRateStart != null and attendRateEnd != '' and attendRateEnd != null">
+				and a.attend_rate BETWEEN #{attendRateStart} and #{attendRateEnd}
+			</if>
+		</where>
+	</select>
+	
+	<select id="getBizMonthSalary" resultType="BizPmAttendMonth">
+		SELECT
+			DISTINCT
+			a.id AS "pmAttendMonthId",
+			a.pm_attend_month_code AS 'attendMonthCode',
+			c.star AS "itemManagerStar",
+			b.store_id AS "storeId",
+			b.id AS "enginDepartId",
+			c.realName AS "itemManager",
+			c.id AS "itemManagerId",
+			c.phone AS "phone",
+			a.attend_month AS "attendMonth",
+			a.must_sign_times AS "mustSignTimes",
+			a.real_sign_times AS "realSignTimes",
+			a.owed_sign_times AS "owedSignTimes",
+			a.attend_start_date AS "attendStartDate",
+			a.attend_end_date AS "attendEndDate",
+			a.attend_rate AS "attendRate",
+			a.`status` as "status",
+			d.`name` AS "departmentName",
+			f.star_salary_all_attend AS "starSalaryAllAttend",
+			f.star_salary_min AS "starSalaryMin",
+  			datediff(a.attend_end_date,a.attend_start_date)+1 AS "naturalDay"
+		FROM
+			biz_pm_attend_month a
+		inner JOIN biz_engineering_department b on find_in_set(a.pm_employee_id,b.manager)
+		inner JOIN biz_employee c ON c.id = a.pm_employee_id
+		inner join biz_engineering_department d on d.id = b.id
+		left JOIN biz_pm_attend_cnfg e on e.effect_month = a.attend_month and e.store_id = b.store_id 
+		left join biz_pm_attend_cnfg_star f on f.pm_attend_cnfg_id = e.id and f.star = c.star
+		<where>
+			and b.del_flag = '0'
+			and a.status = '20'
+			<if test="storeId != null and storeId != ''">
+				and b.store_id = #{storeId}
+			</if>
+			<if test="enginDepartId != '' and enginDepartId != null">
+				and b.id = #{enginDepartId}
+			</if>
+			<if test="attendMonth != '' and attendMonth != null">
+				and a.attend_month = #{attendMonth}
+			</if>
+			<if test="attendRateStart != '' and attendRateStart != null and attendRateEnd != '' and attendRateEnd != null">
+				and a.attend_rate BETWEEN #{attendRateStart} and #{attendRateEnd}
+			</if>
+			<if test="itemManagerId != '' and itemManagerId != null">
+				and a.pm_employee_id = #{itemManagerId}
+			</if>
+		</where>
+	</select>
+	
+	<update id="updatePmAttendMonthStatus">
+		update biz_pm_attend_month t set t.`status` = #{status}
+		where t.id = #{pmAttendMonthId}
+	</update>
+	
+	<select id="bizPmAttendSalaryBillDetail" resultType="BizPmAttendMonth">
+		SELECT
+			DISTINCT
+			a.id AS "pmAttendMonthId",
+			a.pm_attend_month_code AS 'attendMonthCode',
+			c.star AS "itemManagerStar",
+			b.store_id AS "storeId",
+			b.id AS "enginDepartId",
+			c.realName AS "itemManager",
+			c.id AS "itemManagerId",
+			c.phone AS "phone",
+			a.attend_month AS "attendMonth",
+			a.must_sign_times AS "mustSignTimes",
+			a.real_sign_times AS "realSignTimes",
+			a.owed_sign_times AS "owedSignTimes",
+			a.attend_start_date AS "attendStartDate",
+			a.attend_end_date AS "attendEndDate",
+			a.attend_rate AS "attendRate",
+			a.`status` as "status",
+			g.pm_star_salary_real AS "starSalaryReal",
+			d.`name` AS "departmentName",
+			f.star_salary_all_attend AS "starSalaryAllAttend",
+			f.star_salary_min AS "starSalaryMin",
+  			datediff(a.attend_end_date,a.attend_start_date)+1 AS "naturalDay"
+		FROM
+			biz_pm_attend_month a
+		inner JOIN biz_engineering_department b on find_in_set(a.pm_employee_id,b.manager)
+		inner JOIN biz_employee c ON c.id = a.pm_employee_id
+		inner join biz_engineering_department d on d.id = b.id
+		left JOIN biz_pm_attend_cnfg e on e.effect_month = a.attend_month and e.store_id = b.store_id 
+		left join biz_pm_attend_cnfg_star f on f.pm_attend_cnfg_id = e.id and f.star = c.star
+		left join biz_pm_attend_salary_bill g on g.pm_attend_month_id = a.id
+		<where>
+			and b.del_flag = '0'
+			<if test="status != '' and status != null">
+				and a.status = #{status}
+			</if>
+			<if test="storeId != null and storeId != ''">
+				and b.store_id = #{storeId}
+			</if>
+			<if test="enginDepartId != '' and enginDepartId != null">
+				and b.id = #{enginDepartId}
+			</if>
+			<if test="attendMonth != '' and attendMonth != null">
+				and a.attend_month = #{attendMonth}
+			</if>
+			<if test="attendRateStart != '' and attendRateStart != null and attendRateEnd != '' and attendRateEnd != null">
+				and a.attend_rate BETWEEN #{attendRateStart} and #{attendRateEnd}
+			</if>
+			<if test="itemManagerId != '' and itemManagerId != null">
+				and a.pm_employee_id = #{itemManagerId}
+			</if>
+		</where>
+	</select>
+	
+	<select id="getCheckTimeByOrderIdAndNode" resultType="String">
+		select b.accept_check_datetime from biz_qc_bill b 
+
+			LEFT JOIN biz_qc_check_node n 
+			
+			on b.qc_check_node_id = n.id
+			where  b.is_recheck =0
+			and b.qc_bill_type=1
+			and b.order_id=#{0}
+			and n.qc_check_node_index=#{1}
+						
+	</select>
+	
+	
+	<select id="getOrderList" resultType="BizPmAttendMonth">
+		select
+			t.customer_name AS "customerName",
+			t.customer_address AS "customerAddress",
+			t1.label AS orderStatusNumber,
+			t.actual_start_date AS "actualStartDate",
+			t.id AS "orderId",
+			t.item_manager_id AS "itemManagerId"
+		from biz_order t
+		left join sys_dict t1 on t1.sort = t.order_status_number and t1.type = 'order_status'
+		<where>
+			<if test="itemManagerId != null and itemManagerId != ''">
+				and t.item_manager_id = #{itemManagerId}
+			</if>
+			and t.order_status_number = 200
+			and t.is_scrap = '0'
+			and t.project_mode = '1'
+		</where>
+	</select>
+	
+	<select id="getQdcs" resultType="BizPmAttendMonth">
+		select
+			t.effect_month,
+			t.sign_cycle_days_basicwork AS "signCycleDaysBasicwork",
+			t.sign_cycle_days_complete AS "signCycleDaysComplete"
+		from biz_pm_attend_cnfg t
+		<where>
+			and t.store_id = #{storeId}
+			and t.is_enabled = '1'
+			and t.effect_month &lt;= #{attendMonth}
+		</where>
+		order by t.effect_month desc
+		LIMIT 1
+	</select>
+	
+	<select id="getSignDateTimesCount" resultType="Integer" parameterType="BizPmAttendMonth">
+		select count(*) from biz_pm_attend_day_order t
+		where t.order_id = #{orderId}
+		and t.is_valid = '1'
+		and t.sign_step='10'
+		and t.sign_datetime BETWEEN #{attendStartDate} AND #{attendEndDate}
+	</select>
+	
+	<select id="getSignDateTimesCount1" resultType="Integer" parameterType="BizPmAttendMonth">
+		select count(*) from biz_pm_attend_day_order t
+		where t.order_id = #{1}
+		and t.is_valid = '1'
+		and t.sign_datetime BETWEEN #{2} AND #{0}
+	</select>
+	
+	<select id="getBizMonthOrder" resultType="BizPmAttendMonth">
+		select * from biz_pm_attend_month_order t
+		where t.pm_attend_month_id = #{id}
+	</select>
+	
+	<update id="updatePmAttendMonth">
+		update biz_pm_attend_month t set 
+			t.attend_month = #{attendMonth},
+			t.pm_employee_id = #{itemManagerId},
+			t.attend_start_date = #{attendStartDate},
+			t.attend_end_date = #{attendEndDate},
+			t.must_sign_times = #{mustSignTimes},
+			t.real_sign_times = #{realSignTimes},
+			t.owed_sign_times =  #{owedSignTimes},
+			t.attend_rate = #{attendRate},
+			t.remarks = #{remarks},
+			t.create_by = #{createBy.id},
+			t.create_date = #{createDate},
+			t.update_by = #{updateBy.id},
+			t.update_date = #{updateDate},
+			t.status = #{status},
+			t.del_flag = #{delFlag}
+		where t.id = #{pmAttendMonthId}
+	</update>
+	
+	<select id="findAttendMonth" resultType="BizPmAttendMonth">
+		select * from biz_pm_attend_month t
+		where t.attend_month = #{attendMonth}
+		and t.pm_employee_id = #{itemManagerId}
+		and t.status != '35'
+	</select>
+	
+	<select id="findPmAttendDetailList" resultType="BizPmAttendMonth">
+		SELECT
+			DISTINCT
+			a.pm_attend_month_code AS 'attendMonthCode',
+			c.star AS "itemManagerStar",
+			b.store_id AS "storeId",
+			b.id AS "enginDepartId",
+			c.realName AS "itemManager",
+			c.id AS "itemManagerId",
+			c.phone AS "phone",
+			a.attend_month AS "attendMonth",
+			a.must_sign_times AS "mustSignTimes",
+			a.real_sign_times AS "realSignTimes",
+			a.owed_sign_times AS "owedSignTimes",
+			a.attend_rate AS "attendRate",
+			a.`status` as "status",
+			d.`name` AS "departmentName",
+			a.attend_start_date AS "attendStartDate",
+			a.attend_end_date AS "attendEndDate"
+		FROM
+			biz_pm_attend_month a
+		inner JOIN biz_engineering_department b on find_in_set(a.pm_employee_id,b.manager)
+		inner JOIN biz_employee c ON c.id = a.pm_employee_id
+		inner join biz_engineering_department d on d.id = b.id
+		<where>
+			and b.del_flag = '0'
+			and a.status >= '20'
+			<if test="storeId != null and storeId != ''">
+				and b.store_id = #{storeId}
+			</if>
+			<if test="enginDepartId != '' and enginDepartId != null">
+				and b.id = #{enginDepartId}
+			</if>
+			<if test="attendMonth != '' and attendMonth != null">
+				and a.attend_month = #{attendMonth}
+			</if>
+			<if test="attendRateStart != '' and attendRateStart != null and attendRateEnd != '' and attendRateEnd != null">
+				and a.attend_rate BETWEEN #{attendRateStart} and #{attendRateEnd}
+			</if>
+		</where>
+	</select>
+	
+	<select id="getDetailFormList" resultType="BizPmAttendMonth">
+		select c.customer_name AS "customerName",
+		c.customer_address AS "customerAddress",
+		d.label AS orderStatusNumber,
+		b.must_sign_times AS "mustSignTimes",
+		b.real_sign_times AS "realSignTimes",
+		b.owed_sign_times AS "owedSignTimes"
+		from biz_pm_attend_month t
+		left join biz_pm_attend_month_order b on t.id = b.pm_attend_month_id
+		left join biz_order c on c.id = b.order_id
+		left join sys_dict d on c.order_status_number = d.sort and d.type = 'order_status'
+		<where>
+			and t.attend_month = #{attendMonth}
+			and t.pm_employee_id = #{itemManagerId}
+			and c.is_scrap = '0'
+			and c.project_mode = '1'
+		</where>
+	</select>
+	
+</mapper>

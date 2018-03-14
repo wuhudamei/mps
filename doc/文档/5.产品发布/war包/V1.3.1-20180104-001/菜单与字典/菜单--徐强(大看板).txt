@@ -1,0 +1,7 @@
+   名称                              链接
+
+大看板查询基础规则配置         /projectprogressboning/bizProjectProgressQueryRuleConfig/configList
+
+
+订单工程进度大看板             /projectprogressboning/bizProjectProgressSummaryData/preList
+bizProjectProgressSummaryData:bizProjectProgressSummaryData:view,bizProjectProgressSummaryData:bizProjectProgressSummaryData:edit

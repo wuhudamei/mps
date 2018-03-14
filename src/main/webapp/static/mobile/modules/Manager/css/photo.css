@@ -1,0 +1,27 @@
+.g-photo{
+	width: 100%;
+	height: 100%;
+	background: #eee;
+}
+.g-photo section.swiper-container{
+	padding-top: 0.8rem;
+	width: 100%;
+	height: calc(100% - 0.8rem);
+}
+.g-photo section.swiper-container img{
+	width: 100%;
+	height: 100%;
+}
+#prev_btn{
+	width: 0.6rem;
+	height: 1rem;
+	background-image: url(../images/photo_left.png);
+	left: 0;
+}
+#next_btn{
+	width: 0.6rem;
+	height: 1rem;
+	background-image: url(../images/photo_right.png);
+	right: 0;
+}
+.back{font-size: 14px;padding: 5px;color: #666;border: 1px solid #333;border-radius: 2px;position: absolute;left: 10px;top: 10px;}

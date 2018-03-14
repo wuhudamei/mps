@@ -1,0 +1,25 @@
+.info_ul li:first-child{
+	background-image: url(../images/0order_icon.png);
+    background-repeat: no-repeat;
+    background-size: 0.32rem 0.32rem;
+    background-position: 0.3rem center;
+}
+.info_ul li:nth-child(2){
+	background-image: url(../images/0method_icon.png);
+    background-repeat: no-repeat;
+    background-size: 0.32rem 0.32rem;
+    background-position: 0.3rem center;
+}
+.info_ul li:nth-child(3){
+	background-image: url(../images/0guar_icon.png);
+    background-repeat: no-repeat;
+    background-size: 0.32rem 0.32rem;
+    background-position: 0.3rem center;
+}
+.info_ul li:nth-child(3){
+    background-image: url(../../Worker/images/common-issue.png);
+    background-repeat: no-repeat;
+    background-size: 0.32rem 0.32rem;
+    background-position: 0.3rem center;
+}
+/*mine ending*/

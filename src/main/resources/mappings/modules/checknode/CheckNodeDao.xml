@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.CheckNodeDao">
+    
+	<sql id="checkNodeColumns">
+		a.id AS "id",
+		a.store_id AS "storeId",
+		a.qc_check_node_name AS "qcCheckNodeName",
+		a.qc_check_node_index AS "qcCheckNodeIndex",
+		a.days_to_check AS "daysToCheck",
+		a.construction_schedule_id AS "constructionScheduleId",
+		a.is_urge_pay AS "isUrgePay",
+		a.status AS "status",
+		a.status_datetime AS "statusDatetime",
+		a.project_mode AS "projectMode",
+		a.remarks AS "remarks",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag",
+		a.days_to_apply as "daysToApply",
+		b.construction_schedule_name as "constructionScheduleName",
+	  	a.is_for_basicwork as "isForBasicWork"
+	</sql>
+	
+	<sql id="checkNodeJoins">
+	</sql>
+    
+	<select id="get" resultType="cn.damei.entity.modules.CheckNode">
+		SELECT 
+			<include refid="checkNodeColumns"/>
+		FROM biz_qc_check_node a
+		LEFT JOIN biz_construction_schedule b ON a.construction_schedule_id = b.id
+		<include refid="checkNodeJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="cn.damei.entity.modules.CheckNode">
+		SELECT 
+			<include refid="checkNodeColumns"/>
+		FROM biz_qc_check_node a 
+			LEFT JOIN biz_construction_schedule b ON a.construction_schedule_id = b.id
+		<include refid="checkNodeJoins"/>
+		<where>
+			a.del_flag= #{DEL_FLAG_NORMAL}
+			<if test="null!=storeId and ''!=storeId">
+		   		and a.store_id = #{storeId}
+			</if>
+			<if test="projectMode != null and projectMode != ''">
+				AND a.project_mode = #{projectMode}
+			</if>
+			<if test="status != null and status != ''">
+				AND a.status = #{status}
+			</if>
+		
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.qc_check_node_index ASC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="cn.damei.entity.modules.CheckNode">
+		SELECT 
+			<include refid="checkNodeColumns"/>
+		FROM biz_qc_check_node a,
+			biz_construction_schedule b
+		<include refid="checkNodeJoins"/>
+		<where>
+		a.construction_schedule_id = b.id
+		and
+		
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO biz_qc_check_node(
+			id,
+			store_id,
+			qc_check_node_name,
+			qc_check_node_index,
+			days_to_apply,
+			days_to_check,
+			construction_schedule_id,
+			is_urge_pay,
+			status,
+			status_datetime,
+			project_mode,
+			remarks,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag,
+			is_for_basicwork
+		) VALUES (
+			#{id},
+			#{storeId},
+			#{qcCheckNodeName},
+			#{qcCheckNodeIndex},
+			#{daysToApply},
+			#{daysToCheck},
+			#{constructionScheduleId},
+			#{isUrgePay},
+			#{status},
+			#{statusDatetime},
+			#{projectMode},
+			#{remarks},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag},
+			#{isForBasicWork}
+		)
+	</insert>
+	
+	<update id="update" parameterType="cn.damei.entity.modules.CheckNode">
+		UPDATE biz_qc_check_node SET 	
+			store_id = #{storeId},
+			qc_check_node_name = #{qcCheckNodeName},
+			qc_check_node_index = #{qcCheckNodeIndex},
+			days_to_apply=	#{daysToApply},
+			days_to_check = #{daysToCheck},
+			construction_schedule_id = #{constructionScheduleId},
+			is_urge_pay = #{isUrgePay},
+			status = #{status},
+			status_datetime = #{statusDatetime},
+			project_mode = #{projectMode},
+			remarks = #{remarks},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			is_for_basicwork=#{isForBasicWork}
+		WHERE id = #{id}
+	</update>
+	
+	<!-- 停启用 -->
+	<update id="delete" parameterType="cn.damei.entity.modules.CheckNode">
+		UPDATE biz_qc_check_node SET 
+			status = #{status}
+		WHERE id = #{id}
+	</update>
+	
+	
+	
+	
+	
+	
+	
+	<select id="findConsList" parameterType="cn.damei.entity.modules.CheckNode" resultType="cn.damei.entity.modules.CheckNode">
+	SELECT
+	a.id AS "constructionScheduleId",
+	a.construction_schedule_name AS "constructionScheduleName"
+FROM
+	`biz_construction_schedule` a
+WHERE
+	 a.store_id = #{storeId} and a.project_mode = #{projectMode} and a.is_enable = '1' order by a.sort
+	
+	
+	</select>
+	
+	<select id="queryNodeListByStoreId" resultType="cn.damei.entity.modules.DropModel">
+		select 
+		id as 'value',
+		qc_check_node_name as 'label'
+		from biz_qc_check_node a
+		<where>
+			<if test="storeid != null and storeid != ''">
+                AND a.store_id = #{storeid}
+            </if>
+            <if test="projectMode != null and projectMode != ''">
+                AND a.project_mode = #{projectMode}
+            </if>
+            and a.del_flag= 0 and a.status = '1'
+		</where>
+	</select>
+
+
+
+
+
+
+
+
+
+	<select id="checkIsOkForBasicNode"  resultType="String">
+
+		select count(1) from biz_qc_check_node
+		where store_id =#{0} and project_mode =#{1}
+and is_for_basicwork = 1
+and status =1
+	</select>
+
+	<select id="checkIsOkForDelete" parameterType="int" resultType="int">
+		select count(1) from biz_qc_check_node a
+			INNER JOIN  	(select  b.store_id ,b.project_mode from biz_qc_check_node b where b.id =#{_parameter} and b.is_for_basicwork=1) b2  on a.store_id = b2.store_id
+			and a.project_mode = b2.project_mode
+
+		where
+		 a.is_for_basicwork = 1
+			  and a.status =1
+
+
+
+	</select>
+
+</mapper>

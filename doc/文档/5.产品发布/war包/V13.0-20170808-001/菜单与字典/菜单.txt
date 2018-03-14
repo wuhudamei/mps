@@ -1,0 +1,16 @@
+菜单新增：
+	1、墙地砖
+	   材料调度--墙地砖--基础信息设置
+	     名称：基础信息设置
+	     链接：/materialwallfloor/recheckCnfg
+             权限标识：materialwallfloor:wallRecheck:view,materialwallfloor:wallRecheck:edit
+        2、墙地砖
+           材料调度--墙地砖--墙地砖设计师
+             名称：墙地砖设计师
+             链接：/materialwallfloor/wallRecheck/viewlist
+             权限标识：materialwallfloor:recheckCnfg:view,materialwallfloor:recheckCnfg:edit
+	3、墙地砖
+           材料调度--墙地砖--墙地砖审计
+             名称：墙地砖审计
+             链接：/materialwallfloor/wallRecheck/viewlistExamine
+             权限标识：materialwallfloor:wallRecheck:view,materialwallfloor:wallRecheck:edit

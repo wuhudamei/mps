@@ -1,0 +1,27 @@
+雷力明--王磊--特殊角色
+
+1、	名称：特殊-传统已分派项目经理
+	链接：/order2/order2/listAllotManagerTraditionCT
+
+2、	名称：特殊-传统待分派项目经理
+	链接：/order2/order2/listUnAllotManagerTraditionCT
+
+3、	名称：特殊-产业已分派项目经理
+	链接：/order2/order2/listAllotCY
+
+4、	名称：特殊-产业待分派项目经理
+	链接：/order2/order2/listUnAllotCY
+
+雷力明--志明--待办事项
+1、	名称:待办事项配置
+	
+2、	名称：待办事项配置
+	链接：/biztodotype/bizTodoItemType/list
+	权限标识：biztodotype:bizTodoItemType:view,biztodotype:bizTodoItemType:edit
+
+3、	名称：待办事项监控
+	权限标识：toDoItem:toDoItem:view	
+
+4、	名称：待办事项监控
+	链接：/toDoItemController/toDoItemList
+	权限标识：toDoItem:toDoItem:view

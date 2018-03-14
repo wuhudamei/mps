@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <meta content="email=no" name="format-detection">
+    <title>弹出层-modal</title>
+    <link rel="stylesheet" type="text/css" href="../static/mobile/modules/public/reset.css" />
+    <link rel="stylesheet" type="text/css" href="../static/mobile/modules/public/help.css" />
+    <link rel="stylesheet" type="text/css" href="../static/mobile/modules/public/color.css" />
+    <link rel="stylesheet" type="text/css" href="../static/mobile/modules/public/mask.css" />
+
+    <body>
+        <div class="wrap">
+            <!-- class 「disB」 显示层，「disN」 隐藏层  -->
+            <!--公共弹层背景-->
+            <div class="alertMask _in">
+            </div>
+            <!-- /.alertMask -->
+            <!--公共弹层内容-->
+            <!-- 两个button情况 -->
+            <div class="maskWrapper _in">
+                <div class="maskContent">
+                    <p>请选择配送方式</p>
+                    <p>配送方式：
+                        <input type="radio">自提
+                        <input type="radio" checked>配送</p>
+                    <p class="text-red">注：选择 [ 配送 ] 时，每个订单会收取50元配送费。
+                    </p>
+                </div>
+                <div class="maskBtns twoBtns clearfix">
+                    <button class="maskBtn" type="button" name="agree">确认</button>
+                    <button class="maskBtn" type="button" name="cancel">取消</button>
+                </div>
+            </div>
+            <!-- /.maskWrapper -->
+            <div class="maskWrapper">
+                <div class="maskTit">提 示</div>
+                <div class="maskContent">
+                    <p>该工地2017-08-22开工，按照工程部规定主 材（家电安装）开工58天后（2017-10-19） 才可以申请复尺，如果需提前申请，请点击 【提前申请】，如有其它问题请联系大区经 理或助理。
+                    </p>
+                </div>
+                <div class="maskBtns twoBtns clearfix">
+                    <button class="maskBtn" type="button">确 定</button>
+                    <button class="maskBtn" type="button">提前申请</button>
+                </div>
+            </div>
+            <!-- /.maskWrapper -->
+            <!-- 一个button情况 -->
+            <div class="maskWrapper">
+                <div class="maskTit">提 示</div>
+                <div class="maskContent">
+                    <p class="text-center">请上传至少一张图片
+                    </p>
+                </div>
+                <div class="maskBtns">
+                    <button class="maskBtnOne" type="button">确定</button>
+                </div>
+            </div>
+            <!-- /.maskWrapper -->
+            <div class="maskWrapper">
+                <div class="maskTit">提 示</div>
+                <div class="maskContent">
+                    <p>该工地2017-08-22开工，按照工程部规定主 材（家电安装）开工58天后（2017-10-19） 才可以申请软硬包复尺，如果需提前申请， 请点击【提前申请】，如有其它问题请联系 大区经理或助理。
+                    </p>
+                </div>
+                <div class="maskBtns">
+                    <button class="maskBtnOne" type="button">已申请(提前申请)</button>
+                </div>
+            </div>
+            <!-- /.maskWrapper -->
+        </div>
+        <!-- /.wrap -->
+        <script type="text/javascript" src="../static/mobile/modules/home/js/lib/jquery-2.1.1.min.js"></script>
+        <script type="text/javascript" src="../static/mobile/modules/home/js/utils/calcRootFontSize.js"></script>
+    </body>
+
+</html>

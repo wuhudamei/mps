@@ -1,0 +1,13 @@
+
+增加字典：
+            键值   	标签     		类型        		描述     		排序   
+            35		已下发给项目经理	pm_settle_status	项目经理结算状态	35	
+	    38		已重新下发给项目经理	pm_settle_status	项目经理结算状态	38	
+	    40		项目经理已同意结算金额	pm_settle_status	项目经理结算状态	40	
+	    45		项目经理已拒绝结算金额	pm_settle_status	项目经理结算状态	45	
+	    10		中期结算		settlement_stage	结算阶段		10	
+	    20		竣工结算		settlement_stage	结算阶段		20
+
+	
+	    1		中期结算单		settle_bill_type	准产业结算单类型	1	
+	    2		竣工结算单		settle_bill_type	准产业结算单类型	2	

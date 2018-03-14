@@ -1,0 +1,349 @@
+/* Reset styles begin */
+
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    vertical-align: baseline;
+    outline: none;
+    font-family: Microsoft YaHei, PingFangSC-Light, HelveticaNeue-Light, sans-serif;
+}
+
+html,
+body {
+    font-size: 62.5%;
+    height: 100%;
+}
+
+body {
+    background: #f4f7f7;
+}
+
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+    display: block;
+}
+
+ol,
+ul {
+    list-style: none;
+}
+
+blockquote,
+q {
+    quotes: none;
+}
+
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+    content: '';
+    content: none;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+img {
+    border: 0;
+}
+
+sub {
+    vertical-align: bottom;
+}
+
+sup {
+    vertical-align: top;
+}
+
+i,
+em {
+    font-style: normal;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6 {
+    font-weight: normal;
+}
+
+a {
+    text-decoration: none;
+    color: #333;
+}
+
+input {
+    outline: none;
+    font-family: Microsoft YaHei, HeiTi SC;
+    color: #666;
+}
+
+input[type=button],
+input[type=submit],
+input[type=file],
+button {
+    cursor: pointer;
+    -webkit-appearance: none;
+}
+
+.clear {
+    height: 0px;
+    line-height: 0px;
+    clear: both;
+    overflow: hidden;
+    font-size: 0px;
+}
+
+.clearfix:after {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: "";
+    clear: both;
+    height: 0;
+}
+
+
+/* Hides from IE-mac */
+
+* html .clearfix {
+    height: 1%;
+    zoom: 1;
+}
+
+
+/* End hide from IE-mac */
+
+.show {
+    display: block;
+}
+
+.hide {
+    display: none;
+}
+
+.fl {
+    float: left;
+}
+
+.fr {
+    float: right;
+}
+
+.tc {
+    text-align: center;
+}
+
+.tr {
+    text-align: right;
+}
+
+.flex_box {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    display: -ms-flexbox;
+}
+
+.boxwrap {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+
+/*清楚移动端浏览器对表单的默认样式*/
+
+input[type="search"],
+input[type="tel"],
+textarea {
+    border: 0;
+    resize: none;
+    outline: none;
+    /*清除移动浏览默认的样式*/
+    -webkit-appearance: none;
+}
+
+*,
+::before,
+::after {
+    padding: 0;
+    margin: 0;
+    /*去除在所有的浏览器当中点击过后有一个高亮的效果*/
+    /*击*/
+    -webkit-tap-highlight-color: transparent;
+    /*我们把他设置透明*/
+    tap-highlight-color: transparent;
+    /*我们需要设置所有的元素宽度以边框开始计算*/
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+table {
+    border-collapse: collapse;
+    empty-cells: show;
+    font-size: inherit;
+    border-spacing: 0;
+    text-align: center;
+}
+
+input,
+button,
+textarea,
+select {
+    font-size: 100%
+}
+
+body,
+input,
+button,
+textarea,
+select,
+option {
+    font-size: normal
+}
+
+a,
+input,
+textarea {
+    outline: 0;
+    text-decoration: none;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0)
+}
+
+li,
+img,
+label,
+input {
+    vertical-align: middle
+}
+
+body {
+    font-size: 1em;
+    background-color: #faeca8;
+}
+
+::-webkit-input-placeholder {
+    /* WebKit browsers */
+    color: #a9a9a9;
+    font-size: 16px;
+}
+
+:-moz-placeholder {
+    /* Mozilla Firefox 4 to 18 */
+    color: #a9a9a9;
+    font-size: 16px;
+}
+
+::-moz-placeholder {
+    /* Mozilla Firefox 19+ */
+    color: #a9a9a9;
+    font-size: 16px;
+}
+
+:-ms-input-placeholder {
+    /* Internet Explorer 10+ */
+    color: #a9a9a9;
+    font-size: 16px;
+}

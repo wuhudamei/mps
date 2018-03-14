@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizMaterialsChoiceChangeBillDao">
+    
+	<sql id="bizMaterialsChoiceChangeBillColumns">
+		a.id AS "id",
+		a.order_id AS "orderId",
+		a.order_number AS "orderNumber",
+		a.change_bill_code AS "changeBillCode",
+		a.change_reason AS "changeReason",
+		a.change_apply_date AS "changeApplyDate",
+		a.designer_name AS "designerName",
+		a.change_checked_date AS "changeCheckedDate",
+		a.checker_name AS "checkerName",
+		a.add_item_total_amount AS "addItemTotalAmount",
+		a.reduce_item_total_amount AS "reduceItemTotalAmount",
+		a.change_bill_total_amount AS "changeBillTotalAmount",
+		a.remarks AS "remarks",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="bizMaterialsChoiceChangeBillJoins">
+	</sql>
+    
+	<select id="get" resultType="cn.damei.entity.modules.BizMaterialsChoiceChangeBill">
+		SELECT 
+			a.id AS "id",
+			a.order_id AS "orderId",
+			a.order_number AS "orderNumber",
+			a.change_bill_code AS "changeBillCode",
+			a.change_reason AS "changeReason",
+			a.add_item_total_amount AS "addItemTotalAmount",
+			a.reduce_item_total_amount AS "reduceItemTotalAmount",
+			a.change_bill_total_amount AS "changeBillTotalAmount",
+			b.id AS "orderId",
+			b.contract_number AS "contractNumber",
+			b.customer_name AS "customerName",
+			b.customer_phone AS "customerPhone",
+			b.community_name AS "communityName",
+			b.build_number AS "buildNumber",
+			b.build_unit AS "buildUnit",
+			b.build_room AS "buildRoom",
+			b.designer_name AS "orderDesignerName",
+			b.designer_phone AS "orderDesignerPhone",
+			b.item_manager AS "itemManager"
+		FROM biz_materials_choice_change_bill a
+		LEFT JOIN biz_order b ON b.order_number = a.order_number
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="cn.damei.entity.modules.BizMaterialsChoiceChangeBill">
+		SELECT
+			a.id AS "id",
+			a.order_number AS "orderNumber",
+			a.change_bill_code AS "changeBillCode",
+			b.id AS "orderId",
+			b.store_id AS "storeId",
+			b.customer_name AS "customerName",
+			b.customer_phone AS "customerPhone",
+			b.community_name AS "communityName",
+			b.build_number AS "buildNumber",
+			b.build_unit AS "buildUnit",
+			b.build_room AS "buildRoom",
+			b.designer_name AS "orderDesignerName",
+			b.designer_phone AS "orderDesignerPhone",
+			b.item_manager AS "itemManager",
+			c.`name` AS "storeName"
+		FROM
+			biz_materials_choice_change_bill a
+		LEFT JOIN biz_order b ON b.order_number = a.order_number
+		LEFT JOIN sys_office c ON c.id = b.store_id AND c.del_flag = 0
+		
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="storeId != null and storeId != ''">
+				AND b.store_id = #{storeId}
+			</if>
+			<if test="changeBillCode != null and changeBillCode != ''">
+				AND a.change_bill_code LIKE CONCAT('%','${changeBillCode}','%' )
+			</if>
+			<if test="orderNumber != null and orderNumber != ''">
+				AND a.order_number LIKE CONCAT('%','${orderNumber}','%' )
+			</if>
+			<if test="customerName != null and customerName != ''">
+				AND b.customer_name LIKE CONCAT('%','${customerName}','%' )
+			</if>
+			<if test="customerPhone != null and customerPhone != ''">
+				AND b.customer_phone LIKE CONCAT('%','${customerPhone}','%' )
+			</if>
+			<if test="communityName != null and communityName != ''">
+				AND b.community_name LIKE CONCAT('%','${communityName}','%' )
+			</if>
+			<if test="orderDesignerName != null and orderDesignerName != ''">
+				AND b.designer_name LIKE CONCAT('%','${orderDesignerName}','%' )
+			</if>
+			<if test="orderDesignerPhone != null and orderDesignerPhone != ''">
+				AND b.designer_phone LIKE CONCAT('%','${orderDesignerPhone}','%' )
+			</if>
+			<if test="itemManager != null and itemManager != ''">
+				AND b.item_manager LIKE CONCAT('%','${itemManager}','%' )
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="cn.damei.entity.modules.BizMaterialsChoiceChangeBill">
+		SELECT 
+			<include refid="bizMaterialsChoiceChangeBillColumns"/>
+		FROM biz_materials_choice_change_bill a
+		<include refid="bizMaterialsChoiceChangeBillJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO biz_materials_choice_change_bill(
+			id,
+			order_id,
+			order_number,
+			change_bill_code,
+			change_reason,
+			change_apply_date,
+			designer_name,
+			change_checked_date,
+			checker_name,
+			add_item_total_amount,
+			reduce_item_total_amount,
+			change_bill_total_amount,
+			remarks,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag
+		) VALUES (
+			#{id},
+			#{orderId},
+			#{orderNumber},
+			#{changeBillCode},
+			#{changeReason},
+			#{changeApplyDate},
+			#{designerName},
+			#{changeCheckedDate},
+			#{checkerName},
+			#{addItemTotalAmount},
+			#{reduceItemTotalAmount},
+			#{changeBillTotalAmount},
+			#{remarks},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE biz_materials_choice_change_bill SET 	
+			order_id = #{orderId},
+			order_number = #{orderNumber},
+			change_bill_code = #{changeBillCode},
+			change_reason = #{changeReason},
+			change_apply_date = #{changeApplyDate},
+			designer_name = #{designerName},
+			change_checked_date = #{changeCheckedDate},
+			checker_name = #{checkerName},
+			add_item_total_amount = #{addItemTotalAmount},
+			reduce_item_total_amount = #{reduceItemTotalAmount},
+			change_bill_total_amount = #{changeBillTotalAmount},
+			remarks = #{remarks},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE biz_materials_choice_change_bill SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+	<!-- 删除选材变更单 -->
+	<delete id="deleteMaterialsChoiceChangeBill" parameterType="int">
+		DELETE
+		FROM
+			biz_materials_choice_change_bill
+		WHERE
+			id = #{0}
+	
+	</delete>
+	
+	<!-- 根据订单编号查询该订单下所有的变更单 -->
+	<select id="findChangeBillMessage" parameterType="java.lang.String" resultType="cn.damei.entity.modules.BizMaterialsChoiceChangeBill">
+		SELECT 
+			a.id AS "id",
+			a.order_id AS "orderId",
+			a.order_number AS "orderNumber",
+			a.change_bill_code AS "changeBillCode",
+			a.change_reason AS "changeReason",
+			a.change_apply_date AS "changeApplyDate",
+			a.designer_name AS "designerName",
+			a.change_checked_date AS "changeCheckedDate",
+			a.checker_name AS "checkerName"
+		FROM biz_materials_choice_change_bill a
+		WHERE a.order_number = #{0}
+	
+	</select>
+</mapper>

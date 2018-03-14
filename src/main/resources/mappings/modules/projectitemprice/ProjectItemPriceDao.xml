@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.ProjectItemPriceDao">
+    
+	<sql id="projectItemPriceColumns">
+		a.id AS "itemPriceId",
+		a.store_id AS "storeId",
+		a.project_intem_id AS "projectIntemId",
+		a.project_intem_price AS "projectIntemPrice",
+		a.project_intem_version AS "projectIntemVersion",
+		a.effect_date AS "effectDate",
+		a.project_intem_price_remarks AS "projectIntemPriceRemarks",
+		a.remarks AS "remarks",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="projectItemPriceJoins">
+		LEFT JOIN sys_office o2 ON o2.id = a.store_id
+	</sql>
+    
+	<select id="get" resultType="ProjectItemPrice">
+		SELECT 
+			<include refid="projectItemPriceColumns"/>
+		FROM biz_project_intem_price a
+		<include refid="projectItemPriceJoins"/>
+		WHERE a.id = #{itemPriceId}
+	</select>
+	
+	<select id="findList" resultType="ProjectItemPrice">
+		SELECT 
+			<include refid="projectItemPriceColumns"/>,
+			c.project_intem_code,
+			c.project_intem_name,
+			c.valuation_method,
+			a.project_intem_cost_price
+		FROM 
+			biz_project_intem c
+  		LEFT JOIN 
+  			biz_project_intem_price a ON c.id = a.project_intem_id
+  		LEFT JOIN 
+  			sys_office o2 ON o2.id = a.store_id
+		<where>
+			(a.del_flag = #{DEL_FLAG_NORMAL} OR a.del_flag IS NULL)
+			and  c.id = #{projectIntemId}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="ProjectItemPrice">
+		SELECT 
+			<include refid="projectItemPriceColumns"/>
+		FROM biz_project_intem_price a
+		<include refid="projectItemPriceJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO biz_project_intem_price(
+			store_id,
+			project_intem_id,
+			project_intem_price,
+			project_intem_version,
+			effect_date,
+			project_intem_price_remarks,
+			remarks,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag,
+			project_intem_cost_price
+		) VALUES (
+			#{storeId},
+			#{projectIntemId},
+			#{projectIntemPrice},
+			#{projectIntemVersion},
+			#{effectDate},
+			#{projectIntemPriceRemarks},
+			#{remarks},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag},
+			#{projectIntemCostPrice}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE biz_project_intem_price SET 	
+			store_id = #{storeId},
+			project_intem_id = #{projectIntemId},
+			project_intem_price = #{projectIntemPrice},
+			project_intem_version = #{projectIntemVersion},
+			effect_date = #{effectDate},
+			project_intem_price_remarks = #{projectIntemPriceRemarks},
+			remarks = #{remarks},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE id = #{itemPriceId}
+	</update>
+	
+	<update id="delete">
+		delete from  biz_project_intem_price 
+		WHERE id = #{itemPriceId}
+	</update>
+	
+	
+	<select id="setMaxVersion" resultType="int" parameterType="cn.damei.entity.modules.ProjectItemPrice">
+		SELECT 
+			MAX(project_intem_version) 
+		from 
+			biz_project_intem_price  
+		where 
+			store_id = #{storeId} 
+		and 
+			project_intem_id = #{projectIntemId}	 
+	</select>
+
+	<select id="checkedDate" resultType="boolean">
+		  select count(*) from biz_project_intem_price a where a.project_intem_id = #{projectIntemId} and a.effect_date = #{effectDate} and a.store_id = #{storeId}
+	</select>
+
+</mapper>

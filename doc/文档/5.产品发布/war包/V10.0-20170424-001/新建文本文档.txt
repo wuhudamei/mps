@@ -1,0 +1,2 @@
+insert into `sys_sequence` (`name`, `prefix`, `current_value`, `increment`, `maxlength`, `remark`) values('KQ','KQ','19','1','6','¿¼ÇÚµ¥±àºÅ');
+insert into `sys_sequence` (`name`, `prefix`, `current_value`, `increment`, `maxlength`, `remark`) values('KQPC','KQPC','20','1','3','¿¼ÇÚÅú´Î±àºÅ');

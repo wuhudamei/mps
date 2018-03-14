@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizEngineeringDepartmentDao">
+    
+	<sql id="bizEngineeringDepartmentColumns">
+		a.id AS "id",
+		a.name AS "name",
+		a.group_id AS "groupId",
+		a.leader AS "leader",
+		a.job_dispatcher AS "jobDispatcher",
+		a.material_dispatcher AS "materialDispatcher",
+		a.inspector AS "inspector",
+		a.manager AS "manager",
+		a.store_id AS "storeId",
+		a.del_flag AS "delFlag",
+		a.project_mode as "projectMode"
+	</sql>
+	
+	<sql id="bizEngineeringDepartmentJoins">
+	</sql>
+    
+	<select id="get" resultType="BizEngineeringDepartment">
+		SELECT 
+			<include refid="bizEngineeringDepartmentColumns"/>
+		FROM biz_engineering_department a
+		<include refid="bizEngineeringDepartmentJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="BizEngineeringDepartment">
+		SELECT 
+			<include refid="bizEngineeringDepartmentColumns"/>
+		FROM biz_engineering_department a
+		<include refid="bizEngineeringDepartmentJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="name != null and name != ''">
+				AND a.name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{name}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{name}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{name},'%')</if>
+			</if>
+            <if test="name != null and name != ''">
+                AND a.name like CONCAT('%','${name}','%')
+            </if>   
+            <if test="storeId != null and storeId != ''">
+                AND a.store_id = #{storeId}
+            </if>
+			<if test="leader != null and leader != ''">
+				AND a.leader = #{leader}
+			</if>
+			<if test="projectMode != null and projectMode != ''">
+				AND a.project_mode = #{projectMode}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="BizEngineeringDepartment">
+		SELECT 
+			<include refid="bizEngineeringDepartmentColumns"/>
+		FROM biz_engineering_department a
+		<include refid="bizEngineeringDepartmentJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	<select id="findByStoreId" resultType="BizEngineeringDepartment">
+		SELECT 
+			<include refid="bizEngineeringDepartmentColumns"/>
+		FROM biz_engineering_department a
+		<where>
+			a.del_flag = 0 and store_id=#{storeId}
+		</where>		
+		
+	</select>
+    <select id="findEngDepList" resultType="DropModel">
+        SELECT
+        id   AS 'value',
+        NAME AS 'label'
+        FROM biz_engineering_department WHERE del_flag=0
+    </select>
+    
+    <select id="findAllEngDepList" resultType="DropModel">
+        SELECT
+        id   AS 'value',
+        NAME AS 'label'
+        FROM biz_engineering_department WHERE del_flag=0
+    </select>
+    
+    <select id="findEngDepListWithUserConditions" resultType="DropModel" parameterType="int">
+        SELECT
+        id   AS 'value',
+        NAME AS 'label'
+        FROM biz_engineering_department WHERE del_flag=0
+        and id   in
+        <foreach collection="list" item="_parameter" index="index"
+            open="(" close=")" separator=",">
+            #{_parameter}
+        </foreach>
+        
+    </select>
+    <select id="findEngDepListOnlyIndustry" resultType="DropModel">
+        SELECT
+        id   AS 'value',
+        NAME AS 'label'
+        FROM biz_engineering_department WHERE del_flag=0
+        and project_mode = 1 
+    </select>
+    
+    <!-- 根据门店查询工程部显示到页面 -->
+    <select id="findEngDepListByStoreId" resultType="DropModel">
+        SELECT
+        id   AS 'value',
+        NAME AS 'label'
+        FROM biz_engineering_department WHERE del_flag=0 and store_id = #{0}
+    </select>
+    <select id="findEngDepListByStoreId1" resultType="DropModel">
+        SELECT
+        id   AS 'value',
+        NAME AS 'label'
+        FROM biz_engineering_department WHERE del_flag=0
+    </select>
+    
+    <select id="findEngDepListByMap" resultType="DropModel">
+    	select 
+    		a.id AS 'value',
+    		a.name AS 'label'
+    	from biz_engineering_department a
+    	<where>
+    		a.store_id = #{storeId} and del_flag='0'
+    		<if test="projectMode != null">
+    			and a.project_mode = #{projectMode}
+    		</if>
+    		<if test="ids != null">
+    			AND a.id in 
+    			<foreach collection="ids" item="id" index="index" open="(" close=")" separator=",">
+            		#{id}
+       			 </foreach>
+    		</if>
+    	</where>
+    </select>
+    
+    <select id="findByEmployeeId" resultType="java.lang.Integer">
+    	SELECT DISTINCT(engin_depart_id) FROM biz_engin_depart_employee_position where employee_id = #{0}
+    </select>
+    <select id="findAll" resultType="java.lang.Integer">
+    	select id from biz_engineering_department where del_flag ='0'
+    </select>
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO biz_engineering_department(
+			name,
+			group_id,
+			leader,
+			job_dispatcher,
+			material_dispatcher,
+			inspector,
+			manager,
+			store_id,
+			del_flag,
+			project_mode
+		) VALUES (
+			#{name},
+			#{groupId},
+			#{leader},
+			#{jobDispatcher},
+			#{materialDispatcher},
+			#{inspector},
+			#{manager},
+			#{storeId},
+			#{delFlag},
+			#{projectMode}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE biz_engineering_department SET 	
+			name = #{name},
+			group_id = #{groupId},
+			leader = #{leader},
+			job_dispatcher = #{jobDispatcher},
+			material_dispatcher = #{materialDispatcher},
+			inspector = #{inspector},
+			manager = #{manager},
+			store_id = #{storeId},
+			project_mode = #{projectMode}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE biz_engineering_department SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+
+	<select id="findCheckNodeByStoreIdAndProjectModel" resultType="DropModel">
+
+		SELECT
+			a.id as "value",
+			a.qc_check_node_name as "label"
+		FROM
+			biz_qc_check_node a
+		WHERE
+			a.`status` = 1
+			AND a.project_mode = #{1}
+			AND a.store_id = #{0}
+
+
+	</select>
+</mapper>

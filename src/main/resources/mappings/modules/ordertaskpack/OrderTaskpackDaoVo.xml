@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.OrderTaskpackDaoVo">
+    
+	<select id="getByOrderIdAndTaskpacksgeId" resultType="OrderTaskpackVo">
+		SELECT 
+		t.package_name as packageName,
+		p.procedure_no as procedureNo,
+		p.procedure_name as procedureName,
+		p.budget_number as budgetNumber,
+		p.labor_price AS laborPrice,
+		d.label as label,
+		p.accessories_price AS accessoriesPrice,
+		p.synthesize_price as synthesizePrice,
+		p.labor_budget_amount AS laborBudgetAmount,
+		p.auxiliary_materials_budget_amount AS auxiliaryMaterialsBudgetAmount,
+		p.labor_auxiliary_materials_budget_amount as laborAuxiliaryMaterialsBudgetAmount,
+		p.remarks as remarks
+		FROM biz_order b LEFT JOIN biz_order_taskpackage t ON t.order_id=b.id
+		LEFT JOIN biz_order_taskpackage_procedure p ON p.taskpackage_id=t.id
+		LEFT JOIN biz_procedure z ON z.procedure_no = p.procedure_no
+		LEFT JOIN sys_dict d ON z.measurement_unit = d.value AND d.type = 'biz_unit'
+		WHERE b.id = #{id}
+		ORDER BY t.PACKAGE_CODE 
+	</select>
+	
+	<select id="getByOrderIdAndTaskpacksgeId1" resultType="OrderTaskpackVo">
+		SELECT 
+			t.package_name AS packageName,
+			p.procedure_no AS procedureNo,
+			p.procedure_name AS procedureName,
+			p.budget_number AS budgetNumber,
+			d.label AS label,
+			p.labor_price AS laborPrice,
+			p.accessories_price AS accessoriesPrice,
+			p.synthesize_price AS synthesizePrice,
+			p.labor_budget_amount AS laborBudgetAmount,
+			p.auxiliary_materials_budget_amount AS auxiliaryMaterialsBudgetAmount,
+			p.labor_auxiliary_materials_budget_amount as laborAuxiliaryMaterialsBudgetAmount,
+			p.remarks AS remarks
+		FROM biz_order b LEFT JOIN biz_order_taskpackage t ON t.order_id=b.id
+		LEFT JOIN biz_order_taskpackage_procedure p ON p.taskpackage_id=t.id
+		LEFT JOIN biz_procedure z ON z.procedure_no = p.procedure_no
+		LEFT JOIN sys_dict d ON z.measurement_unit = d.value AND d.type = 'biz_unit'
+		WHERE b.id = #{0}
+		AND t.id = #{1}
+		ORDER BY t.PACKAGE_CODE 
+	</select>
+	
+	<select id="getByOrderIdAndNo" resultType="OrderTaskpackVo">
+		SELECT
+			p.id AS "id",
+			t.package_name AS packageName,
+			p.procedure_no AS procedureNo,
+			p.procedure_name AS procedureName,
+			p.budget_number AS budgetNumber,
+			d.label AS label,
+			p.labor_price AS "laborPrice",
+			p.accessories_price AS "accessoriesPrice",
+			p.synthesize_price AS synthesizePrice,
+			p.labor_budget_amount as "laborBudgetAmount",
+			p.auxiliary_materials_budget_amount AS auxiliaryMaterialsBudgetAmount,
+			p.labor_auxiliary_materials_budget_amount AS laborAuxiliaryMaterialsBudgetAmount,
+			p.remarks AS remarks
+		FROM
+			biz_order b
+		LEFT JOIN biz_order_taskpackage t ON t.order_id = b.id
+		LEFT JOIN biz_order_taskpackage_procedure p ON p.taskpackage_id = t.id
+		LEFT JOIN biz_procedure z ON z.procedure_no = p.procedure_no
+		LEFT JOIN sys_dict d ON z.measurement_unit = d.value AND d.type = 'biz_unit'
+		WHERE b.id = #{0}
+		AND t.id = #{1}
+		ORDER BY t.PACKAGE_CODE 
+	</select>
+</mapper>

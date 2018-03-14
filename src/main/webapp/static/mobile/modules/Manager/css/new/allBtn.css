@@ -1,0 +1,19 @@
+.pl_2em{padding-left: 2em;}
+.pl_4em{padding-left: 4em;}
+.mb30{margin-bottom: .3rem;}
+.bor_dashed{border-bottom: 1px dashed #ccc;}
+.btn_wrapper{
+    width: 5.7rem;
+    padding-top: .3rem;
+    padding-bottom: .3rem;
+    margin: 0 auto;
+}
+.btnBlueBorder{width: 3.4rem;height: .7rem;line-height: .7rem;text-align: center;font-size: .28rem;color: #0780ec;
+	border: 1px solid #0780ec;display: block;box-sizing: border-box;border-radius:.35rem;margin: 0 auto;}
+.border_top{border-top: 1px solid #e5e5e5;}
+.border_btm{border-bottom: 1px solid #e5e5e5;}
+.col_e90f0f{color: #e90f0f;}
+.btnBlueOne{float: left;width: 2.6rem;height: .7rem;line-height: .7rem;color: #fff;
+    text-align: center;background: #0780ec;font-size: .28rem;border-radius: .35rem;}
+.btnBlueTwo{float: right;width: 2.6rem;height: .7rem;line-height: .7rem;color: #0780ec;text-align: center;
+	font-size: .28rem;border-radius: .35rem;border: 1px solid #0780ec;box-sizing: border-box;}

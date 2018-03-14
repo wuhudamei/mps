@@ -1,0 +1,471 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.WallRecheckDao">
+    
+	<sql id="wallRecheckColumns">
+		a.id AS "id",
+		a.order_id AS "orderId",
+		a.square_budget AS "squareBudget",
+		a.square_quota AS "squareQuota",
+		a.square_purchase AS "squarePurchase",
+		a.square_measure AS "squareMeasure",
+		a.plan_measure_date AS "planMeasureDate",
+		a.real_measure_date AS "realMeasureDate",
+		a.measure_remarks AS "measureRemarks",
+		a.price AS "price",
+		a.assess_square_error_1 AS "assessSquareError1",
+		a.assess_square_error_2 AS "assessSquareError2",
+		a.assess_amount_1 AS "assessAmount1",
+		a.assess_amount_2 AS "assessAmount2",
+		a.assess_person_name_1 AS "assessPersonName1",
+		a.assess_person_name_2 AS "assessPersonName2",
+		a.status AS "status",
+		a.status_describe AS "statusDescribe",
+		a.status_datetime AS "statusDatetime",
+		a.status_operate_employee_id AS "statusOperateEmployeeId",
+		a.recheck_remarks AS "recheckRemarks",
+		a.remarks AS "remarks",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="wallRecheckJoins">
+	</sql>
+    <!-- 	根据订单id查询复尺单信息 -->
+	<select id="getorderId" resultType="cn.damei.entity.modules.WallRecheck">
+		SELECT 
+			<include refid="wallRecheckColumns"/>
+		FROM biz_wall_floor_tile_recheck a
+		<include refid="wallRecheckJoins"/>
+		WHERE a.order_id = #{orderId}
+		order by id  desc  limit 1
+	</select>
+
+	<select id="get" resultType="cn.damei.entity.modules.WallRecheck">
+		SELECT 
+			<include refid="wallRecheckColumns"/>
+		FROM biz_wall_floor_tile_recheck a
+		<include refid="wallRecheckJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="cn.damei.entity.modules.WallRecheck">
+		SELECT 
+			<include refid="wallRecheckColumns"/>
+		FROM biz_wall_floor_tile_recheck a
+		<include refid="wallRecheckJoins"/>
+		<where>
+
+			<if test="orderId != null and orderId != ''">
+				AND a.order_id = #{orderId}
+			</if>
+			<if test="squareBudget != null and squareBudget != ''">
+				AND a.square_budget = #{squareBudget}
+			</if>
+			<if test="squarePurchase != null and squarePurchase != ''">
+				AND a.square_purchase = #{squarePurchase}
+			</if>
+			<if test="measureRemarks != null and measureRemarks != ''">
+				AND a.measure_remarks = #{measureRemarks}
+			</if>
+			<if test="price != null and price != ''">
+				AND a.price = #{price}
+			</if>
+			<if test="status != null and status != ''">
+				AND a.status = #{status}
+			</if>
+
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	<select id="findListall" resultType="cn.damei.entity.modules.WallRecheck">
+			SELECT
+				s.id AS storeId,
+				o.engin_depart_id AS orderacceptarea,
+				#区域 
+				o.project_mode AS projectMode,
+				#工程模式 
+				o.item_manager AS itemManager,
+				#项目经理 
+				o.order_number AS orderNmber,
+				#订单编号 
+				o.designer_name AS designerName,
+				#设计名称
+				CONCAT(
+					o.customer_address,
+					'-',
+					o.community_name,
+					'-',
+					o.build_number,
+					'-',
+					o.build_unit,
+					'-',
+					o.build_room,
+					'-',
+					o.customer_name
+				) AS "coveredAdd",#地址
+				CONCAT(
+					o.customer_address,
+					'-',
+					o.community_name,
+					'-',
+					o.build_number,
+					'-',
+					o.build_unit,
+					'-',
+					o.build_room
+				
+				) AS "coveredAdd1",
+				#客户地址
+				o.contract_end_date AS contractenddate,
+				#竣工日期
+				o.customer_name AS customername,
+				# 客户姓名 
+				o.order_inspector AS orderinspector,
+				#质检姓名 
+				o.is_scrap as  isScrap , 
+				#0否 1是
+				o.auditor_name AS auditorName,
+				a.id AS "id",
+				a.order_id AS "orderId",
+				a.square_budget AS "squareBudget",
+				a.square_quota AS "squareQuota",
+				a.square_purchase AS "squarePurchase",
+				a.square_measure AS "squareMeasure",
+				a.plan_measure_date AS "planMeasureDate",
+				a.real_measure_date AS "realMeasureDate",
+<!-- 				od.disclose_date AS "realMeasureDate", -->
+				a.measure_remarks AS "measureRemarks",
+				a.price AS "price",
+				a.assess_square_error_1 AS "assessSquareError1",
+				a.assess_square_error_2 AS "assessSquareError2",
+				a.assess_amount_1 AS "assessAmount1",
+				a.assess_amount_2 AS "assessAmount2",
+				a.assess_person_name_1 AS "assessPersonName1",
+				a.assess_person_name_2 AS "assessPersonName2",
+				a. STATUS AS "status",
+				a.status_describe AS "statusDescribe",
+				a.status_datetime AS "statusDatetime",
+				a.status_operate_employee_id AS "statusOperateEmployeeId",
+				a.recheck_remarks AS "recheckRemarks",
+				a.remarks AS "remarks",
+				a.create_by AS "createBy.id",
+				a.create_date AS "createDate",
+				a.update_by AS "updateBy.id",
+				a.update_date AS "updateDate",
+				a.del_flag AS "delFlag"
+			FROM
+				biz_wall_floor_tile_recheck a
+			LEFT JOIN biz_order o ON o.id = a.order_id
+			LEFT JOIN sys_office s ON o.store_id = s.id
+			LEFT JOIN  biz_order_disclose od ON od.order_id=a.order_id
+		<include refid="wallRecheckJoins"/>
+		<where>
+			
+			<if test="id != null and id != ''">
+				AND a.id = #{id}
+			</if>
+			<if test="storeId != null and storeId != ''">
+				AND s.id = #{storeId}
+			</if>
+			<if test="projectMode != null and projectMode != ''">
+				AND o.project_mode = #{projectMode}
+			</if>
+			<if test="orderacceptarea != null and orderacceptarea != ''">
+				AND o.engin_depart_id = #{orderacceptarea}
+			</if>
+			<if test="orderNmber != null and orderNmber != ''">
+				and o.order_number like CONCAT('%','${orderNmber}','%')
+			</if>
+			<if test="itemManager != null and itemManager != ''">
+				and o.item_manager like CONCAT('%','${itemManager}','%')
+			</if>
+			<if test="coveredAdd != null and coveredAdd != ''">
+				and o.customer_name like CONCAT('%','${coveredAdd}','%')
+			</if>
+			<if test="designerName != null and designerName != ''">
+				and o.designer_name like CONCAT('%','${designerName}','%')
+			</if>
+			<if test="beginContractEndDate != null and beginContractEndDate != ''">
+				AND o.contract_end_date &gt;= #{beginContractEndDate}
+			</if>
+			<if test="endContractEndDate != null and endContractEndDate != ''">
+				AND o.contract_end_date &lt;= #{endContractEndDate}
+			</if>
+			<if test="isScrap != null and isScrap != ''">
+				AND o.is_scrap = #{isScrap}
+			</if>
+			<if test="status != null and status != ''">
+				AND a.status = #{status}
+			</if>
+			<if test="status == null or status == ''">
+				AND a.status != 90
+			</if>
+			<if test="beginPromiseComDate != null and endPromiseComDate != null and beginPromiseComDate != '' and endPromiseComDate != ''">
+				AND a.plan_measure_date BETWEEN #{beginPromiseComDate} AND #{endPromiseComDate}
+			</if>
+
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="cn.damei.entity.modules.WallRecheck">
+		SELECT 
+			<include refid="wallRecheckColumns"/>
+		FROM biz_wall_floor_tile_recheck a
+		<include refid="wallRecheckJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO biz_wall_floor_tile_recheck(
+			id,
+			order_id,
+			square_budget,
+			square_quota,
+			square_purchase,
+			square_measure,
+			plan_measure_date,
+			real_measure_date,
+			measure_remarks,
+			price,
+			assess_square_error_1,
+			assess_square_error_2,
+			assess_amount_1,
+			assess_amount_2,
+			assess_person_name_1,
+			assess_person_name_2,
+			status,
+			status_describe,
+			status_datetime,
+			status_operate_employee_id,
+			recheck_remarks,
+			remarks,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag
+		) VALUES (
+			#{id},
+			#{orderId},
+			#{squareBudget},
+			#{squareQuota},
+			#{squarePurchase},
+			#{squareMeasure},
+			#{planMeasureDate},
+			#{realMeasureDate},
+			#{measureRemarks},
+			#{price},
+			#{assessSquareError1},
+			#{assessSquareError2},
+			#{assessAmount1},
+			#{assessAmount2},
+			#{assessPersonName1},
+			#{assessPersonName2},
+			#{status},
+			#{statusDescribe},
+			#{statusDatetime},
+			#{statusOperateEmployeeId},
+			#{recheckRemarks},
+			#{remarks},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE biz_wall_floor_tile_recheck SET 	
+			order_id = #{orderId},
+			square_budget = #{squareBudget},
+			square_quota = #{squareQuota},
+			square_purchase = #{squarePurchase},
+			square_measure = #{squareMeasure},
+			plan_measure_date = #{planMeasureDate},
+			real_measure_date = #{realMeasureDate},
+			measure_remarks = #{measureRemarks},
+			price = #{price},
+			assess_square_error_1 = #{assessSquareError1},
+			assess_square_error_2 = #{assessSquareError2},
+			assess_amount_1 = #{assessAmount1},
+			assess_amount_2 = #{assessAmount2},
+			assess_person_name_1 = #{assessPersonName1},
+			assess_person_name_2 = #{assessPersonName2},
+			status = #{status},
+			status_describe = #{statusDescribe},
+			status_datetime = #{statusDatetime},
+			status_operate_employee_id = #{statusOperateEmployeeId},
+			recheck_remarks = #{recheckRemarks},
+			remarks = #{remarks},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+<!-- 	同意复尺 -->
+	<update id="agreRecheckUpdate">
+		UPDATE biz_wall_floor_tile_recheck SET 	
+
+			plan_measure_date = #{planMeasureDate},
+			status = "40",
+			status_describe = "同意复尺",
+			status_datetime =now(),
+			recheck_remarks = #{recheckRemarks},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+<!-- 	认可改变的sql -->
+	<update id="agreRecheckUpdate1">
+		UPDATE biz_wall_floor_tile_recheck SET 	
+
+			status_describe = #{statusDescribe},
+			status = "65",
+			status_describe = "设计师已认可",
+			status_datetime =now(),
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+<!-- 	设计师确定 -->
+	<update id="agreRecheckUpdate2">
+		UPDATE biz_wall_floor_tile_recheck SET 	
+
+			status = "60",
+			status_datetime =now(),
+			status_describe = "设计师已确定",
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+<!-- 	设计师不同意复尺结果 -->
+	<update id="NotagreRecheckUpdate2">
+		UPDATE biz_wall_floor_tile_recheck SET 	
+
+			status = "30",
+			status_datetime =now(),
+			status_describe = "设计师不同意",
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+<!-- 审核 -->
+	<update id="updateExamine">
+		UPDATE biz_wall_floor_tile_recheck SET 	
+
+			assess_square_error_1 = #{assessSquareError1},
+			assess_square_error_2 = #{assessSquareError2},
+			assess_amount_1 = #{assessAmount1},
+			assess_amount_2 = #{assessAmount2},
+			assess_person_name_1 = #{assessPersonName1},
+			assess_person_name_2 = #{assessPersonName2},
+			status = "70",
+			status_describe = "已分责",
+			status_datetime =now(),
+			recheck_remarks = #{recheckRemarks},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM biz_wall_floor_tile_recheck
+		WHERE id = #{id}
+	</update>
+	
+	<!-- 根据订单id查询复尺单详情 -->
+	<select id="findwallRecheckMessage" resultType="cn.damei.entity.modules.WallRecheck">
+	
+		SELECT
+			a.id AS "id",
+			a.order_id AS "orderId",
+			a.square_budget AS "squareBudget",
+			a.square_quota AS "squareQuota",
+			a.square_purchase AS "squarePurchase",
+			a.square_measure AS "squareMeasure",
+			a.plan_measure_date AS "planMeasureDate",
+			a.real_measure_date AS "realMeasureDate",
+			a.measure_remarks AS "measureRemarks",
+			a.price AS "price",
+			a.assess_square_error_1 AS "assessSquareError1",
+			a.assess_square_error_2 AS "assessSquareError2",
+			a.assess_amount_1 AS "assessAmount1",
+			a.assess_amount_2 AS "assessAmount2",
+			a.assess_person_name_1 AS "assessPersonName1",
+			a.assess_person_name_2 AS "assessPersonName2",
+			a. STATUS AS "status",
+			a.status_describe AS "statusDescribe",
+			a.status_datetime AS "statusDatetime",
+			a.status_operate_employee_id AS "statusOperateEmployeeId",
+			a.recheck_remarks AS "recheckRemarks",
+			a.remarks AS "remarks",
+			a.create_by AS "createBy.id",
+			a.create_date AS "createDate",
+			a.update_by AS "updateBy.id",
+			a.update_date AS "updateDate",
+			a.del_flag AS "delFlag"
+		FROM
+			biz_wall_floor_tile_recheck a
+		WHERE
+			a.`status` != 90
+		AND a.order_id = #{0}
+	
+	</select>
+	
+	<!-- 根据订单id查询复尺单详情 -->
+	<select id="getempName" resultType="String">
+	
+		select e.realName from biz_employee  e where e.id=#{0} 
+
+	
+	</select>
+	
+		<!-- 根据订单id查询实测面积 -->
+	<select id="findSquareActual" resultType="java.lang.Double">
+	SELECT  a.wall_floor_tile_measure_square FROM  biz_order_disclose a  where a.order_id=#{0}  ORDER BY id desc  LIMIT 1
+	
+	</select>
+		<!-- 根据订单id查询实测面积 -->
+	<select id="findSquareActualtow" resultType="cn.damei.entity.modules.WallRecheck">
+	SELECT  a.wall_floor_tile_measure_square as squareMeasure ,  a.disclose_date as planMeasureDate  FROM  biz_order_disclose a  where a.order_id=#{0}  ORDER BY id desc  LIMIT 1
+	
+	</select>
+		<!-- 根据订单id查询实测面积 -->
+	<select id="querySquate" resultType="java.lang.Double">
+	
+	select a.square_measure from biz_wall_floor_tile_recheck  a where a.order_id=#{0}   AND a.`status`='90'   ORDER BY id DESC    LIMIT 1;
+	
+	</select>
+		<!-- 根据订单id查询实测面积 -->
+	<select id="findWallRecheck" resultType="cn.damei.entity.modules.WallRecheck">
+	SELECT  a.wall_floor_tile_measure_square  as  squareActual ,a.disclose_date as disclose FROM  biz_order_disclose a  where a.order_id=#{0}  ORDER BY id desc  LIMIT 1
+	
+	</select>
+	
+</mapper>

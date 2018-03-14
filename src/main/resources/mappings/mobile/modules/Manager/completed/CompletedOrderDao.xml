@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.mobile.Manager.CompletedOrderDao">
+    
+	<sql id="completedOrderColumns">
+		t.ID AS "id",
+		t.ORDER_NUMBER AS "orderNumber",
+		t.CONTRACT_NUMBER AS "contractNumber",
+		t.CUSTOMER_TYPE AS "customerType",
+		t.CUSTOMER_DESCRIPTION AS "customerDescription",
+		t.CUSTOMER_NAME AS "customerName",
+		t.CUSTOMER_PHONE AS "customerPhone",
+		t.COMMUNITY_NAME AS "communityName",
+		t.BUILD_NUMBER AS "buildNumber",
+		t.BUILD_UNIT AS "buildUnit",
+		t.BUILD_ROOM AS "buildRoom",
+		t.MAP_COORDINATE AS "mapCoordinate",
+		t.SALE_TYPE AS "saleType",
+		t.AREA AS "area",
+		t.BUILD_TYPE AS "buildType",
+		t.HOUSE_TYPE AS "houseType",
+		t.HOUSE_IS_NEW AS "houseIsNew",
+		t.IS_ELEVATOR AS "isElevator",
+		t.DESIGNER_NAME AS "designerName",
+		t.DESIGNER_PHONE AS "designerPhone",
+		t.ORDER_REPORTER_NAME AS "orderReporterName",
+		t.ORDER_REPORTER_PHONE AS "orderReporterPhone",
+		t.SERVICE_NAME AS "serviceName",
+		t.SERVICE_PHONE AS "servicePhone",
+		t.CONTRACT_START_DATE AS "contractStartDate",
+		t.CONTRACT_END_DATE AS "contractEndDate",
+		t.COVERED_AREA AS "coveredArea",
+		t.CONTRACT_AREA AS "contractArea",
+		t.CONTRACT_TIME AS "contractTime",
+		t.SIGN_CONTRACT_DATE AS "signContractDate",
+		t.ORDER_STATUS_NUMBER AS "orderStatusNumber",
+		t.ORDER_STATUS_DESCRIPTION AS "orderStatusDescription",
+		t.ORDER_INSPECTOR AS "orderInspector",
+		t.CREATE_BY AS "createBy.id",
+		t.CREATE_DATE AS "createDate",
+		t.UPDATE_BY AS "updateBy.id",
+		t.UPDATE_DATE AS "updateDate",
+		t.REMARKS AS "remarks",
+		t.DEL_FLAG AS "delFlag",
+		t.ITEM_MANAGER AS "itemManager",
+		t.STORE_ID AS "storeId",
+		t.CUS_MANAGER AS "cusManager",
+		t.ORDERTASKPACK_STATUS AS "orderTaskPackStatus",
+		t.ACTUAL_START_DATE AS actualStartDate,
+		t.ACTUAL_END_DATE AS actualEndDate,
+		t.ITEM_MANAGER_ID AS "itemManagerId",
+		t.SIGN_FLAG AS "signFlag",
+		t.DELAY_TYPE AS "delayType",
+		t.ORDER_INSPECTOR_ID AS "orderInspectorId",
+		t.PROVINCE AS "province",
+		t.CITY AS "city",
+		t.COUNTY AS "county",
+		t.DETAIL_ADDRESS AS "detailAddress",
+		t.BIZ_ORDER_ACCEPT_AREA AS "bizOrderAcceptArea",
+		t.project_mode AS "projectMode"
+	</sql>
+	
+	<select id="get" resultType="cn.damei.entity.mobile.Manager.CompletedOrder" parameterType="java.lang.Integer">
+		SELECT 
+    	<include refid="completedOrderColumns"/> 
+    	FROM BIZ_ORDER t
+    	WHERE t.ID = #{0}
+	</select>
+	
+	<select id="getByID" resultType="cn.damei.entity.mobile.Manager.CompletedOrder" parameterType="java.lang.Integer">
+		SELECT 
+    	<include refid="completedOrderColumns"/>,
+    	e.REALNAME AS "managerRealName",
+    	e.PHONE AS "managerPhone"
+    	FROM BIZ_ORDER t,BIZ_EMPLOYEE e
+    	WHERE t.ID = #{0}
+    	AND e.ID = t.ITEM_MANAGER_ID
+	</select>
+	
+	<!-- 通过项目经理ID查出所有订单 -->
+    <select id="queryList" parameterType="cn.damei.entity.mobile.Manager.CompletedOrder" resultType="cn.damei.entity.mobile.Manager.CompletedOrder">
+    	SELECT 
+    	<include refid="completedOrderColumns"/> 
+    	FROM BIZ_ORDER t  
+    	WHERE t.ITEM_MANAGER_ID = #{0}
+    	AND t.ORDER_STATUS_NUMBER &gt;= '200'
+    	AND t.ORDER_STATUS_NUMBER &lt;= '400'
+    	ORDER BY t.CREATE_DATE DESC
+    </select>
+    
+	<select id="getByOrderId" resultType="cn.damei.entity.mobile.Manager.CompletedOrder" parameterType="java.lang.Integer">
+		SELECT 
+    	<include refid="completedOrderColumns"/> 
+    	FROM BIZ_ORDER t  
+    	<where>
+    		t.ID = #{0}
+    	</where>
+    	ORDER BY CONTRACT_START_DATE ASC
+	</select>
+	
+	<update id="updateByStatus">
+		UPDATE BIZ_ORDER SET 
+			ORDER_STATUS_NUMBER = #{0},
+			ORDER_STATUS_DESCRIPTION = #{1}
+		WHERE ID = #{2} 
+	</update>
+</mapper>

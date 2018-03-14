@@ -1,0 +1,8 @@
+/webapp/WEB-INF/classes/com/thinkgem/jeesite/modules/purchase/entity/BizPurchaseMainPanel.class
+/webapp/WEB-INF/classes/com/thinkgem/jeesite/modules/purchase/entity/BizPurchaseVo.class
+/mdn/src/main/resources/mappings/modules/purchase/BizPurchaseMainPanelDao.xml
+/mdn/src/main/resources/mappings/modules/purchase/BizPurchaseVoDao.xml
+/mdn/src/main/webapp/WEB-INF/views/modules/purchase/bizPurchaseList.jsp
+/mdn/src/main/webapp/WEB-INF/views/modules/purchase/bizPurchaseMainPanelList.jsp
+/mdn/src/main/webapp/WEB-INF/views/modules/purchase/bizPurchaseSandList.jsp
+/mdn/src/main/webapp/WEB-INF/views/mobile/modules/Manager/materialManagement/wallFloorNew/wallSub.jsp

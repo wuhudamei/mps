@@ -1,0 +1,231 @@
+.g-start{
+	width: 100%;
+	/*height: 100%;*/
+	background: #eee;
+}
+.g-start section.start_section{
+	padding-top: 0.8rem;
+}
+.g-start h3{
+	/*height: 0.8rem;*/
+	line-height: 0.8rem;
+	background-image: url(../images/details_icon.png);
+	background-repeat: no-repeat;
+	background-position: .2rem .3rem;
+	background-size: 0.2rem 0.2rem;
+	font-size: 0.3rem;
+	font-weight: bold;
+	color: #333;
+	padding-left: 0.5rem;
+}
+.g-start section.start_section ul{
+	margin: 0 0.1rem;
+	padding: 0.2rem;
+	background-color: #fff;
+	border-radius: 0.1rem;
+	position: relative;
+	clear: both;
+	margin-bottom: 0.2rem;
+	position: relative;
+}
+.g-start section.start_section ul:after{
+	content: "";
+	display: inline-block;
+	position: absolute;
+	top: -0.4rem;
+	left: 4rem;
+	width: 0;
+	height: 0;
+	border: none;
+	border-left: 0.20rem solid transparent;
+	border-right: 0.20rem solid transparent;
+	border-bottom: 0.4rem solid #fff;
+	/*vertical-align: 9px;*/
+}
+.g-start ul li{
+	line-height: 0.6rem;
+	margin-bottom: .2rem;
+}
+.g-start ul li span{
+	font-size: 0.28rem;
+	height: 0.6rem;
+	line-height: 0.6rem;
+	color: #666;
+	float: left;
+	/*text-align: right;*/
+}
+.g-start ul li p{
+	font-size: 0.28rem;
+	color: #333;
+	overflow: hidden;
+}
+.g-start ul li p label{
+	display: inline-block;
+    width: 1.3rem;
+    text-align: left;
+}
+input[type="radio"] {
+  margin: 3px 3px 3px 5px;
+  display: none;
+}
+label {
+  padding-left: .3rem;
+  cursor: pointer;
+  background: url(../images/radio1.png) no-repeat left center;
+  background-size: .24rem .24rem;
+}
+label.checked {
+  background: url(../images/radio2.png) no-repeat left center;
+  background-size: .24rem .24rem;
+}
+.g-start ul li p input.date{
+	border: none;
+	width: 2.2rem;
+	line-height: .44rem;
+	padding: .05rem .12rem;
+	border: 1px solid #9cf;
+	border-radius: 0.1rem;
+	background-image: url(../images/canlender.png);
+	background-repeat: no-repeat;
+	background-size: .3rem .32rem;
+	background-position: 1.64rem center;
+}
+
+.g-start ul li p.col_blue{
+	color: #00f;
+}
+.g-start textarea{
+	width: 3.9rem;
+	height: 1.08rem;
+	resize: none;
+	border: 1px solid #9cf;
+	border-radius: 0.1rem;
+	padding: 0.1rem;
+	color: #333;
+	line-height: 1.3em;
+}
+#start{
+	display: block;
+	width: 3.08rem;
+	height: .7rem;
+	line-height: .7rem;
+	text-align: center;
+	color: #fff;
+	font-size: .28rem;
+	background: #0780ec;
+	border-radius: .1rem;
+	margin: .5rem auto;
+}
+.both{clear: both;}
+#divDate{
+	z-index: 9;
+	width: 2.08rem;
+	height: 2.08rem;
+}
+.calendar .calMain{
+	width: 100%;
+	height: inherit;
+}
+.calendar .calMain .calTitle{
+	height: 14%;
+}
+/*下拉菜单css*/
+label{
+	font-size: 0.28rem;
+	height: 0.6rem;
+	line-height: 0.6rem;
+	color: #666;
+	float: left;
+	text-align: right;
+}
+select{
+	font-size: 0.28rem;
+	color: #333;
+	overflow: hidden;
+	display: block;
+	border: none;
+	width: 1.84rem;
+	height: 0.34rem;
+	line-height: .34rem;
+	padding: .05rem .12rem;
+	border: 1px solid #9cf;
+	border-radius: 0.1rem;
+}
+select{
+	width: 2.8rem;
+	height: .5rem;
+	line-height: .5rem;
+	border-radius: 0;
+}
+option{
+	font-size: .28rem;
+	color: #333;
+}
+p.up{
+	position: relative;
+	overflow: hidden;
+}
+img.postage_btn{
+	width: 1.4rem;
+	height: 1.4rem;
+}
+p.up input{
+	opacity: 0;
+	width: 100%;
+	font-size: 100px;
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 1.4rem;
+}
+
+/*上传图片*/
+.camera{
+	/*width: 33%;*/
+	width: 1.4rem;
+    float: left;
+    height: 1.4rem;
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+    margin-right: .5%;
+}
+.camera input{
+	opacity: 0;
+    width: 100%;
+    height: 100%;
+    font-size: 100px;
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.pic_container{width: 100%;margin-top: .3rem;float: right;}
+.pic{
+	width: 33%;
+	float: left;
+	/*height:140px;*/
+	padding: 0;
+	position: relative;
+	overflow: hidden;
+	margin-right: .5%;
+}
+.pic:nth-of-type(3n){
+	margin-right: 0;
+}
+.pic img{
+	width: 100%;
+}
+.delBtn{
+	display: block;
+	font-size: .28rem;
+	color: #0780ec;
+	border: 1px solid #0780ec;
+	margin: 0 auto .40rem;
+	/*height: .42rem;*/
+	line-height: .42rem;
+	width: 46%;
+	text-align: center;
+}
+.day-day{width:2.2rem;height:.46rem;border:1px solid #0780ec;font-size:.28rem;padding:.05rem .12rem;
+	border-radius: .1rem;}

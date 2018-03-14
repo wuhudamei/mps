@@ -1,0 +1,141 @@
+.g-account{
+	width: 100%;
+	height: 100%;
+	background: #eee;
+}
+.g-account section.account_section{
+	/*padding-top: 0.8rem;*/
+	margin-bottom: 5rem;
+}
+.g-account h3{
+	height: 0.8rem;
+	line-height: 0.8rem;
+	background-image: url(../images/details_icon.png);
+	background-repeat: no-repeat;
+	background-position: 0.2rem center;
+	background-size: 0.2rem 0.2rem;
+	font-size: 0.3rem;
+	font-weight: bold;
+	color: #333;
+	padding-left: 0.5rem;
+}
+.g-account section.account_section ul{
+	margin-left: .2rem;
+	margin-right: .2rem;
+	background-color: #fff;
+	border-radius: 0.1rem;
+	position: relative;
+	clear: both;
+	margin-bottom: 0.2rem;
+	position: relative;
+}
+.g-account .normal{
+	border-bottom: 1px solid #ccc;
+}
+.g-account ul.front li{
+	line-height: 0.4rem;
+	padding-left: .2rem;
+	padding-top: .2rem;
+}
+.g-account ul.front li:last-of-type{padding-bottom: .2rem;}
+.g-account ul.front li span{
+	font-size: 0.28rem;
+	line-height: 0.4rem;
+	color: #666;
+	float: left;
+	text-align: right;
+}
+.g-account ul.front li p{
+	font-size: 0.28rem;
+	color: #333;
+	overflow: hidden;
+}
+.g-account a.money{
+	display: block;
+	margin: 0 auto;
+	background-color: #fff;
+	background-image: url(../images/task_bg.png);
+	background-repeat: no-repeat;
+	background-size: 0.16rem 0.29rem;
+	background-position: 94% center;
+	border-radius: 0.1rem;
+	position: relative;
+	clear: both;
+	margin-bottom: 0.2rem;
+}
+.g-account .detail{
+	font-size: .24rem;
+	color: #0780ec;
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	right: 10%;
+}
+.g-account .pics{
+	display: block;
+	background-color: #fff;
+	background-image: url(../images/task_bg.png);
+	background-repeat: no-repeat;
+	background-size: 0.16rem 0.29rem;
+	background-position: 94% center;
+	padding: .2rem;
+	margin-left: .2rem;
+	margin-right: .2rem;
+	border-radius: 0.1rem;
+	font-size: .28rem;
+	color: #333;
+}
+.g-account .table{
+	border-radius: 0;
+	border-bottom-left-radius: .1rem;
+	border-bottom-right-radius: .1rem;
+}
+
+.g-account .table li{
+	font-size: .28rem;
+	border-bottom: 1px solid #80bef5;
+}
+.g-account .table li:first-child{
+	line-height: .76rem;
+	padding-left: .2rem;
+	padding-right: .2rem;
+	text-align: center;
+	background: #9cccf7;
+	border-bottom: 0;
+	font-size: .24rem;
+	color: #666;
+}
+.g-account .table li:last-child{
+	border-bottom: 0;
+}
+.g-account .table li span{
+	display: inline-block;
+	width: 50%;
+	box-sizing: border-box;
+	height: .76rem;
+	line-height: .76rem;
+	text-align: center;
+	border-right: 1px solid #80bef5;
+	float: left;
+	color: #666;
+}
+.g-account .table li span.borderrgt0{border-right: 0;color: #333;}
+.g-account .table li span.wid33{width: 33%;}
+.g-account .table li span.wid67{width: 67%;}
+.g-account .table li span:last-child{
+	color: #333;
+	border-right: 0;
+}
+.g-account .table li span.col_red{color: #f00;}
+/*底部按钮*/
+footer{width: 100%;height: .86rem;background: #0780ec;position: fixed;bottom: 0;}
+footer a{float: left;width: 50%;height: .86rem;}
+.btn{display: block;margin-top: .23rem;height: .4rem;line-height: .4rem;color: #fff;text-align: center;}
+.watch_btn{border-right: 1px solid #b4b4b4;box-sizing: border-box;}
+.font28{font-size: .28rem;}
+/*分配金额详情*/
+.g-mask{background: rgba(0,0,0,.4);}
+
+.table:last-child li:last-child{margin-bottom: 200px;}
+.col_red{color:#f00;}
+.pad3{padding: .3rem;}

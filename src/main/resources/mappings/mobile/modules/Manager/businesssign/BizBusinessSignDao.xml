@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.mobile.Manager.BizBusinessSignDao">
+    
+	<sql id="bizBusinessSignColumns">
+		a.id AS "id",
+		a.sign_type AS "signType",
+		a.related_business_id_int AS "relatedBusinessIdInt",
+		a.related_business_id_varchar AS "relatedBusinessIdVarchar",
+		a.sign_employee_id AS "signEmployeeId",
+		a.sign_datetime AS "signDatetime",
+		a.sign_address AS "signAddress",
+		a.sign_xy AS "signXy",
+		a.sign_error_distance AS "signErrorDistance",
+		a.remarks AS "remarks",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<insert id="insert">
+		INSERT INTO biz_business_sign(
+			id,
+			sign_type,
+			related_business_id_int,
+			related_business_id_varchar,
+			sign_employee_id,
+			sign_datetime,
+			sign_address,
+			sign_xy,
+			sign_error_distance,
+			remarks,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag
+		) VALUES (
+			#{id},
+			#{signType},
+			#{relatedBusinessIdInt},
+			#{relatedBusinessIdVarchar},
+			#{signEmployeeId},
+			#{signDatetime},
+			#{signAddress},
+			#{signXy},
+			#{signErrorDistance},
+			#{remarks},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE biz_business_sign SET 	
+			sign_type = #{signType},
+			related_business_id_int = #{relatedBusinessIdInt},
+			related_business_id_varchar = #{relatedBusinessIdVarchar},
+			sign_employee_id = #{signEmployeeId},
+			sign_datetime = #{signDatetime},
+			sign_address = #{signAddress},
+			sign_xy = #{signXy},
+			sign_error_distance = #{signErrorDistance},
+			remarks = #{remarks},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<!-- 根据orderId、packId、signType、managerId查询项目经理验收时签到信息 -->
+   <select id="queryEmployeeIsCheck" parameterType="java.util.Map"
+   			resultType="cn.damei.entity.mobile.Manager.BizBusinessSign">
+   		select <include refid="bizBusinessSignColumns"/>
+   		from biz_business_sign a where a.related_business_id_int = #{packId} and a.sign_type = #{signType} and a.sign_employee_id = #{employeeId}
+   </select>
+   <select id="getCheckDatetimeByOrderId" parameterType="String">
+   		select b.check_datetime from biz_qc_bill b
+			left join biz_qc_check_node n
+			on b.qc_check_node_id = n.id
+			where 	b.order_id=#{parameter}
+			b.status = 10 and n.qc_check_node_index = '6'
+   </select>
+   <select id="getOrderIdBypPackId" parameterType="String" resultType="String">
+   		select order_id from biz_order_taskpackage where id=#{parameter}
+   </select>
+   <select id="insertDayOrderByBizBusinessSign" parameterType="cn.damei.entity.mobile.Manager.BizBusinessSign">
+		insert into biz_pm_attend_day_order(
+			order_id,
+			pm_employee_id,
+			sign_datetime,
+			sign_error_distance,
+			is_valid,
+			sign_step,
+			create_by,
+			create_date
+		)values(
+			#{orderId},
+			#{signEmployeeId},
+			#{signDatetime},
+			#{signErrorDistance},
+			#{isValid},
+			#{signStep},
+			#{managerId},
+			NOW()
+		)
+	</select>
+	<update id="updateDayOrderByBizBusinessSign" parameterType="cn.damei.entity.mobile.Manager.BizBusinessSign">
+		update biz_pm_attend_day_order set
+		sign_datetime = #{signDatetime},
+		sign_error_distance = #{signErrorDistance},
+		is_valid = #{isValid},
+		update_date = NOW()
+		where order_id=#{orderId} and pm_employee_id=#{managerId}	
+			and TO_DAYS(sign_datetime)=TO_DAYS(str_to_date(signDateTime,'%Y-%m-%d %H:%i:%s'))
+	</update>
+</mapper>

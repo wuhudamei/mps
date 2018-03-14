@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BreakProblemDao">
+    
+	
+	<select id="findList" resultType="cn.damei.entity.modules.BreakProblem">
+		SELECT
+			b.store_id AS "storeId",
+			b.break_describe AS "breakDescribe",
+			c.qc_check_item_name AS "qcCheckItemName",
+			d.qc_check_kind_name AS "qcCheckKindName",
+			g.project_mode AS "projectMode",
+		 	( CASE g.project_mode
+			  WHEN 1 THEN '产业'
+			  WHEN 2 THEN '传统'
+			  WHEN 3 THEN '准产业' END
+			  ) as "projectModeName",
+		 	s.`name` as "storeName",
+		 	a.qc_check_item_break_id as "qcCheckItemBreakId",
+			COUNT(a.id) AS "breakTimes"
+		
+		FROM
+			biz_qc_bill_check_item_break a
+			INNER JOIN biz_qc_check_item_break b ON a.qc_check_item_break_id = b.id
+			INNER JOIN biz_qc_check_item c ON b.qc_check_item_id = c.id
+			INNER JOIN biz_qc_check_kind d ON c.qc_check_kind_id = d.id
+			INNER JOIN biz_qc_bill_check_item e ON a.qc_bill_check_item_id = e.id
+			INNER JOIN biz_qc_bill f ON e.qc_bill_id = f.id
+			INNER JOIN biz_order g ON f.order_id = g.id
+		 	LEFT JOIN sys_office s on s.id =  g.store_id
+		<where>
+				1=1
+			<if test="storeId != null and storeId != ''">
+				AND b.store_id = #{storeId}
+			</if>
+			<if test="projectMode != null and projectMode != ''">
+				AND g.project_mode = #{projectMode}
+			</if>
+			<if test="qcCheckItemBreakId != null and qcCheckItemBreakId != ''">
+				AND 	a.qc_check_item_break_id =  #{qcCheckItemBreakId}
+			</if>
+			<if test="beginCheckDatetime != null and endCheckDatetime != null and beginCheckDatetime != '' and endCheckDatetime != ''">
+				AND f.check_datetime BETWEEN #{beginCheckDatetime} AND #{endCheckDatetime}
+			</if>
+			GROUP BY
+				a.qc_check_item_break_id
+			ORDER BY
+				COUNT(a.id) DESC
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				,${page.orderBy}
+			</when>
+		</choose>
+	</select>
+	
+	
+ 
+	
+	<select id="queryBreakProblemListbreakProblem" resultType="cn.damei.entity.modules.BreakProblem">
+		 select
+		 qbc.create_date   quCreateDate,
+		 so.`name` AS "storeName",
+		 o.project_mode projectMode,
+		 ( CASE o.project_mode
+		 WHEN 1 THEN '产业'
+		 WHEN 2 THEN '传统'
+		 WHEN 3 THEN '准产业' END
+		 ) as "projectModeName",
+		 o.engin_depart_id enginDepartId,
+		 ed.`name`  enginDepartName,
+		 CONCAT(
+		 o.customer_address,
+		 '-',
+		 o.community_name,
+		 '-',
+		 o.build_number,
+		 '-',
+		 o.build_unit,
+		 '-',
+		 o.build_room
+		 
+		 ) AS "customerAddr",#小区
+		 o.customer_name customerName,
+		 o.order_inspector orderInspector,
+		 o.item_manager itemManager,
+		 e1.realName   workerGroupName , #工人组
+		 ee.realName  mnagerPerson #项目经理
+		 from biz_qc_bill_check_item_break a
+		 LEFT JOIN	biz_qc_bill_check_item qbc ON qbc.id= a.qc_bill_check_item_id
+		 LEFT JOIN biz_qc_bill qb on qbc.qc_bill_id=qb.id
+		 LEFT JOIN biz_order o ON qb.order_id=o.id
+		 LEFT JOIN sys_office so ON  so.id = o.store_id
+		 LEFT JOIN biz_emgrouprelation  be on  be.groupId =qbc.worker_group_id  and be.is_leader='1'
+		 LEFT JOIN biz_employee e1 on e1.id=be.empId
+		 LEFT JOIN biz_employee ee on ee.id = qbc.project_manager_id
+		 LEFT JOIN biz_engineering_department ed on  ed.id =o.engin_depart_id
+		 <where>
+				1=1  and o.id IS not NULL
+			 
+			  <if test="storeId != null and storeId != ''">
+					AND o.store_id = #{storeId}
+			  </if>
+			  <if test="projectMode != null and projectMode != ''">
+					AND o.project_mode = #{projectMode}
+			  </if>
+			  <if test="qcCheckItemBreakId != null and qcCheckItemBreakId != ''">
+					AND 	a.qc_check_item_break_id =  #{qcCheckItemBreakId}
+			  </if>
+			  <if test="beginCheckDatetime != null and endCheckDatetime != null and beginCheckDatetime != '' and endCheckDatetime != ''">
+					AND qb.check_datetime BETWEEN #{beginCheckDatetime} AND #{endCheckDatetime}
+			  </if>
+			
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				,${page.orderBy}
+			</when>
+		</choose>
+		 ORDER BY  	qbc.create_date   desc
+	</select>
+	
+	
+	
+	
+	
+</mapper>

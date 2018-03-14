@@ -1,0 +1,5 @@
+
+1.  \mdn\src\main\webapp\WEB-INF\classes\com\thinkgem\jeesite\modules\attend\web
+2.  \mdn\src\main\webapp\WEB-INF\classes\com\thinkgem\jeesite\modules\attend\dao
+3.  \mdn\src\main\resources\mappings\modules\attend\BizPmAttendMonthDao.xml
+4.  \mdn\src\main\webapp\WEB-INF\classes\com\thinkgem\jeesite\modules\attend\service

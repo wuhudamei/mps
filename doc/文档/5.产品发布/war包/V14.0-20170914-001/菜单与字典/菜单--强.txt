@@ -1,0 +1,25 @@
+菜单新增：（接单管理优化-徐强）
+       1.订单安装项
+       接单预算-接单管理-接单列表-订单安装项
+        名称：订单安装项
+        链接：/projectOrderList/materialInstallItem
+        权限标识：projectOrderList:projectOrderList:edit
+       2.图纸
+       接单预算-接单管理-订单主材完善-图纸
+       链接：
+       权限标识：bizarea:bizArea:picture
+       3.墙地砖
+       接单预算-接单管理-订单主材完善-墙地砖
+       名称：墙地砖
+       链接：
+       权限标识：bizarea:bizArea:wall
+       4.附件
+       接单预算-接单管理-订单主材完善-附件
+       名称：附件
+       链接：
+       权限标识：bizarea:bizArea:Enclosure
+       5.主材安装项
+       接单预算-接单管理-订单主材完善-主材安装项
+       名称：主材安装项
+       链接：
+       权限标识：bizarea:bizArea:main,projectOrderList:projectOrderList:edit

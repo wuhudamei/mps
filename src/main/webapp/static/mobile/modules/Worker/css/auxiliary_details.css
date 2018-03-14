@@ -1,0 +1,51 @@
+.g-auxiliary_details{
+	width: 100%;
+	height: 100%;
+	background: #eee;
+}
+.g-auxiliary_details .details_sec{
+	padding-top: .8rem;
+	margin: 0 auto 2rem;
+	width: 95%;
+}
+.g-auxiliary_details .details_lists{
+	margin-top: .2rem;
+}
+.g-auxiliary_details p.mertia{
+	background: #9cccf7;
+	padding-left: .2rem;
+	height: .76rem;
+	line-height: .76rem;
+	font-size: .28rem;
+	color: #333;
+}
+.g-auxiliary_details p.money{
+	background: #fff;
+	padding-left: .2rem;
+	height: .76rem;
+	line-height: .76rem;
+	font-size: .28rem;
+	color: #666;
+	border-bottom-left-radius: .1rem;
+	border-bottom-right-radius: .1rem;
+}
+.g-auxiliary_details footer{
+	position: fixed;
+	bottom: 0;
+	background: #fff;
+	width: 100%;
+	height: .94rem;
+	border-top: 1px solid #ccc;
+}
+.g-auxiliary_details footer p{
+	text-align: center;
+}
+.g-auxiliary_details footer p:first-child{
+	font-size: .28rem;
+	color: #f00;
+	line-height: .58rem;
+}
+.g-auxiliary_details footer p:last-child{
+	font-size: .24rem;
+	color: #666;
+}

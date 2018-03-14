@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="cn.damei.dao.modules.BizTaskPackageAuxiliaryMaterialsDao">
+
+	<sql id="bizTaskPackageAuxiliaryMaterialsColumns">
+		a.id AS "id",
+		a.store_id AS "storeId",
+		a.project_mode AS
+		"projectMode",
+		a.biz_task_package_templat_id AS
+		"bizTaskPackageTemplatId",
+		a.biz_auxiliary_materials_no AS
+		"bizAuxiliaryMaterialsNo",
+		a.create_by AS "createBy.id",
+		a.create_date
+		AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS
+		"updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+
+	<sql id="bizTaskPackageAuxiliaryMaterialsJoins">
+	</sql>
+
+	<select id="get" resultType="BizTaskPackageAuxiliaryMaterials">
+		SELECT
+		<include refid="bizTaskPackageAuxiliaryMaterialsColumns" />
+		FROM biz_task_package_auxiliary_materials a
+		<include refid="bizTaskPackageAuxiliaryMaterialsJoins" />
+		WHERE a.id = #{id}
+	</select>
+
+	<select id="findList" resultType="BizTaskPackageAuxiliaryMaterials">
+		SELECT
+		<include refid="bizTaskPackageAuxiliaryMaterialsColumns" />,
+		b.auxiliary_materials_name AS "bizAuxiliaryMaterialsName"
+		FROM biz_task_package_auxiliary_materials a
+		INNER JOIN
+		biz_auxiliary_materials b on b.auxiliary_materials_no =
+		a.biz_auxiliary_materials_no
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="storeId != null and storeId != ''">
+				AND a.store_id = #{storeId}
+			</if>
+			<if
+				test="bizTaskPackageTemplatId != null and bizTaskPackageTemplatId != ''">
+				AND a.biz_task_package_templat_id = #{bizTaskPackageTemplatId}
+			</if>
+			<if test="projectMode != null and projectMode != ''">
+				AND a.project_mode=#{projectMode}
+			</if>
+
+			<if
+				test="bizAuxiliaryMaterialsNo != null and bizAuxiliaryMaterialsNo != ''">
+				AND a.biz_auxiliary_materials_no=#{bizAuxiliaryMaterialsNo}
+			</if>
+
+			<if
+				test="bizAuxiliaryMaterialsName != null and bizAuxiliaryMaterialsName != ''">
+				AND b.auxiliary_materials_name like
+				<if test="dbName == 'oracle'">'%'||#{bizAuxiliaryMaterialsName}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{bizAuxiliaryMaterialsName}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{bizAuxiliaryMaterialsName},'%')</if>
+
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+
+	<select id="findAllList" resultType="BizTaskPackageAuxiliaryMaterials">
+		SELECT
+		<include refid="bizTaskPackageAuxiliaryMaterialsColumns" />
+		FROM biz_task_package_auxiliary_materials a
+		<include refid="bizTaskPackageAuxiliaryMaterialsJoins" />
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+
+	<select id="checkTaskPackageByTemplateId" resultType="BizTaskPackageAuxiliaryMaterials">
+		SELECT
+		<include refid="bizTaskPackageAuxiliaryMaterialsColumns" />
+		FROM `biz_task_package_auxiliary_materials` a,biz_auxiliary_materials
+		b
+		where a.biz_task_package_templat_id=#{0}
+		and a.biz_auxiliary_materials_no=b.auxiliary_materials_no
+		and b.is_sand_cement='1' and b.del_flag='0' and a.del_flag='0'
+	</select>
+
+	<insert id="insert">
+		INSERT INTO biz_task_package_auxiliary_materials(
+		store_id,
+		project_mode,
+		biz_task_package_templat_id,
+		biz_auxiliary_materials_no,
+		create_by,
+		create_date,
+		update_by,
+		update_date,
+		remarks,
+		del_flag
+		) VALUES (
+		#{storeId},
+		#{projectMode},
+		#{bizTaskPackageTemplatId},
+		#{bizAuxiliaryMaterialsNo},
+		#{createBy.id},
+		#{createDate},
+		#{updateBy.id},
+		#{updateDate},
+		#{remarks},
+		#{delFlag}
+		)
+	</insert>
+
+	<update id="update">
+		UPDATE biz_task_package_auxiliary_materials SET
+		store_id = #{storeId},
+		project_mode=#{projectMode},
+		biz_task_package_templat_id = #{bizTaskPackageTemplatId},
+		biz_auxiliary_materials_no = #{bizAuxiliaryMaterialsNo},
+		update_by = #{updateBy.id},
+		update_date = #{updateDate},
+		remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+
+	<update id="delete">
+		UPDATE biz_task_package_auxiliary_materials SET
+		del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+
+</mapper>

@@ -1,0 +1,781 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.ItemManagerDao">
+
+    <select id="get" resultType="cn.damei.entity.modules.ItemManager">
+        SELECT
+        	a.id             AS "id",
+	        a.no             AS "no",
+	        a.loginname      AS "loginname",
+	        a.realname       AS "realname",
+	        a.phone          AS "phone",
+	        a.empType        AS "empType",
+	        a.idcardno       AS "idcardno",
+	      	a.pointXy        AS "pointXy",
+	        a.address        AS "address",
+	        a.headpic        AS "headpic",
+	        a.star           AS "star",
+	        a.sort           AS "sort",
+	        a.nps            AS "nps",
+	        a.orderArea      AS "orderarea",
+	        a.houseType      As "houseType",
+	        a.orderStop      AS "orderstop",
+	        a.storeid        AS "storeid",
+			a.del_flag		AS 'delFlag',
+			a.project_mode  AS "projectMode"
+        FROM 
+        	biz_employee a
+        WHERE a.id = #{id}
+    </select>
+
+    <select id="findList" resultType="cn.damei.entity.modules.ItemManager">
+        SELECT
+      	 	a.id             AS "id",
+	        a.no             AS "no",
+	        a.loginname      AS "loginname",
+	        a.realname       AS "realname",
+	        a.phone          AS "phone",
+	        a.empType        AS "empType",
+	        a.idcardno       AS "idcardno",
+	      	a.pointXy        AS "pointXy",
+	        a.address        AS "address",
+	        a.headpic        AS "headpic",
+	        a.star           AS "star",
+	        a.sort           AS "sort",
+	        a.nps            AS "nps",
+	        a.orderArea      AS "orderarea",
+	        a.houseType      As "houseType",
+	        a.orderStop      AS "orderstop",
+	        a.storeid        AS "storeid",
+			a.del_flag		AS 'delFlag',
+			a.project_mode  AS "projectMode"
+        FROM biz_employee a
+        <where>
+        	a.del_flag=0
+       		<if test="projectMode != null and projectMode != ''">
+        		AND a.project_mode = #{projectMode}
+        	</if>
+            <if test="storeid != null and storeid != ''">
+                AND a.storeid = #{storeid}
+            </if>
+            <if test="no != null and no != ''">
+                AND a.no like CONCAT('%','${no}','%' )  
+            </if>
+            <if test="loginname != null and loginname != ''">
+                AND a.loginname like CONCAT('%','${loginname}','%' )
+            </if>
+            <if test="realname != null and realname != ''">
+                AND a.realname LIKE
+                	<if test="dbName == 'oracle'">'%'||#{realname}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{realname}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{realname},'%')</if>
+            </if>
+            <if test="phone != null and phone != ''">
+                AND a.phone like CONCAT('%','${phone}','%' )
+            </if>
+            <if test="empType != null and empType != ''">
+                AND a.empType = #{empType}
+            </if>
+            <if test="houseType != null and houseType != ''">
+                AND a.houseType = #{houseType}
+            </if>
+        </where>
+        <choose>
+            <when
+                test="page !=null and page.orderBy != null and page.orderBy != ''">
+                ORDER BY ${page.orderBy}
+            </when>
+            <otherwise>
+            	ORDER BY a.sort DESC,a.star DESC,a.nps DESC
+            </otherwise>
+        </choose>
+    </select>
+    
+    <select id="findListForOrder" resultType="cn.damei.entity.modules.ItemManager">
+         SELECT
+      	 	a.id             AS "id",
+	        a.no             AS "no",
+	        a.loginname      AS "loginname",
+	        a.realname       AS "realname",
+	        a.phone          AS "phone",
+	        a.empType        AS "empType",
+	        a.idcardno       AS "idcardno",
+	      	a.pointXy        AS "pointXy",
+	        a.address        AS "address",
+	        a.headpic        AS "headpic",
+	        a.star           AS "star",
+	        a.sort           AS "sort",
+	        a.nps            AS "nps",
+	        a.orderArea      AS "orderarea",
+	        a.houseType      As "houseType",
+	        a.orderStop      AS "orderstop",
+	        a.storeid        AS "storeid",
+			a.del_flag		AS 'delFlag',
+			a.project_mode  AS "projectMode",
+			a.exchange_order_times AS "exchangeOrderTimes",
+			<!-- (select count(m.id) from biz_employee m where m.managerId = a.id and m.empType = '2') as "workerIntroduceCount", -->
+			(round(6378.138*2*asin(sqrt(pow(sin( (SUBSTRING_INDEX(a.pointXy,',',1)*pi()/180 - #{orderPointy}*pi()/180)/2),2)+cos( SUBSTRING_INDEX(a.pointXy,',',1)*pi()/180)*cos(#{orderPointy}*pi()/180)* pow(sin(( SUBSTRING_INDEX(a.pointXy,',',-1)*pi()/180 - #{orderPointx}*pi()/180)/2),2)))*1000)/1000) AS "distance",
+			m.workerIntroduceCount AS "workerIntroduceCount",
+			IFNULL(n.buildingCount,0) AS "buildingCount",
+			IFNULL(n1.orderCount,0) AS "orderCount",
+			IFNULL(n2.totalCount,0) AS "totalCount",
+			concat(
+				TRUNCATE (
+					(
+						(IFNULL(n.buildingCount,0)) / (n2.totalCount)
+					) * 100,
+					2
+				),
+				'%'
+			) AS "totalCountWeight"
+			<!-- round(6378.138*2*asin(sqrt(pow(sin( (SUBSTRING_INDEX(a.pointXy,',',1)*pi()/180 - #{orderPointy}*pi()/180)/2),2)+cos( SUBSTRING_INDEX(a.pointXy,',',1)*pi()/180)*cos(#{orderPointy}*pi()/180)* pow(sin(( SUBSTRING_INDEX(a.pointXy,',',-1)*pi()/180 - #{orderPointx}*pi()/180)/2),2)))*1000) -->
+			<!--(select count(*) from biz_order c where c.item_manager_id = a.id and c.order_status_number in ('120','125','130','200','300','310')) as "buildingCount",
+			(select count(*) from biz_order c where c.item_manager_id = a.id) as "orderCount",
+			(select 
+				CASE 
+					WHEN c.star is null THEN b.star0 
+					WHEN c.star = 0 THEN b.star0 
+					WHEN c.star = 1 THEN b.star1
+					WHEN c.star = 2 THEN b.star3
+					WHEN c.star = 3 THEN b.star3
+					WHEN c.star = 4 THEN b.star4
+					WHEN c.star = 5 THEN b.star5
+				END 
+			from 
+				biz_star b, biz_employee c where b.store_id = c.storeId and c.id = a.id and b.project_mode = #{projectMode}) AS "totalCount",
+			concat(truncate(((select count(*) from biz_order c where c.item_manager_id = a.id and c.order_status_number in ('120','125','130','200','300','310'))/
+				(select 
+					CASE 
+						WHEN c.star is null THEN b.star0 
+						WHEN c.star = 0 THEN b.star0 
+						WHEN c.star = 1 THEN b.star1
+						WHEN c.star = 2 THEN b.star3
+						WHEN c.star = 3 THEN b.star3
+						WHEN c.star = 4 THEN b.star4
+						WHEN c.star = 5 THEN b.star5
+					END 
+				from 
+					biz_star b, biz_employee c where b.store_id = c.storeId and c.id=a.id and b.project_mode = #{projectMode} )),2)*100,'%') as "totalCountWeight"-->
+			FROM biz_employee a
+			<if test="projectMode != '' and projectMode != null">
+				INNER JOIN biz_engin_depart_employee_position t on t.employee_id = a.id and t.engin_depart_id = #{enginDepartId} and t.position_type ='5'
+			</if>
+        	LEFT JOIN (
+						SELECT
+							m.managerId,
+							count(m.id) AS "workerIntroduceCount"
+						FROM
+							biz_employee m
+						WHERE
+							m.empType = '2'
+						GROUP BY
+							m.managerId
+					) m ON m.managerId = a.id
+			LEFT JOIN (
+				SELECT
+					c.item_manager_id,
+					count(c.id) AS "buildingCount"
+				FROM
+					biz_order c
+				WHERE
+					c.order_status_number = 200
+					AND c.is_scrap = 0
+				GROUP BY
+					c.item_manager_id
+			) n ON n.item_manager_id = a.id
+			LEFT JOIN (
+				SELECT
+					c.item_manager_id,
+					count(c.id) AS "orderCount"
+				FROM
+					biz_order c
+				WHERE
+					c.is_scrap = 0
+				GROUP BY
+					c.item_manager_id
+			) n1 ON n1.item_manager_id = a.id
+			LEFT JOIN (
+				SELECT
+					(
+						CASE
+						WHEN c.star IS NULL THEN
+							b.star0
+						WHEN c.star = 0 THEN
+							b.star0
+						WHEN c.star = 1 THEN
+							b.star1
+						WHEN c.star = 2 THEN
+							b.star3
+						WHEN c.star = 3 THEN
+							b.star3
+						WHEN c.star = 4 THEN
+							b.star4
+						WHEN c.star = 5 THEN
+							b.star5
+						END
+					) AS "totalCount",
+					c.id
+				FROM
+					biz_star b,
+					biz_employee c
+				WHERE
+					b.store_id = c.storeId
+				<if test="projectMode != '' and projectMode != null">
+					AND b.project_mode = #{projectMode}
+				</if>
+				GROUP BY
+					c.id
+			) n2 ON n2.id = a.id
+        <where>
+        	a.del_flag=0
+       		<if test="projectMode != null and projectMode != ''">
+        		AND a.project_mode = #{projectMode}
+        	</if>
+            <if test="storeid != null and storeid != ''">
+                AND a.storeid = #{storeid}
+            </if>
+            <if test="realname != null and realname != ''">
+                AND a.realname LIKE
+                	<if test="dbName == 'oracle'">'%'||#{realname}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{realname}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{realname},'%')</if>
+            </if>
+            <if test="empType != null and empType != ''">
+                AND a.empType = #{empType}
+            </if>
+            <if test="houseType != null and houseType != ''">
+                AND a.houseType = #{houseType}
+            </if>
+            <if test="orderstop != null and orderstop != ''">
+                AND a.orderStop = #{orderstop}
+            </if>
+            <!-- 过滤订单量大于承接量的项目经理 -->
+            <![CDATA[	and ifnull(n.buildingCount,0) < ifnull(n2.totalCount,0) ]]>  
+        </where>
+        <choose>
+            <when
+                test="page !=null and page.orderBy != null and page.orderBy != ''">
+                ORDER BY ${page.orderBy}
+            </when>
+            <otherwise>
+            	ORDER BY a.sort DESC,a.star DESC,a.nps DESC,(round(6378.138*2*asin(sqrt(pow(sin( (SUBSTRING_INDEX(a.pointXy,',',1)*pi()/180 - #{orderPointy}*pi()/180)/2),2)+cos( SUBSTRING_INDEX(a.pointXy,',',1)*pi()/180)*cos(#{orderPointy}*pi()/180)* pow(sin(( SUBSTRING_INDEX(a.pointXy,',',-1)*pi()/180 - #{orderPointx}*pi()/180)/2),2)))*1000)/1000) ASC
+            </otherwise>
+        </choose>
+    </select>
+    
+    <select id="findListForOrder1" resultType="cn.damei.entity.modules.ItemManager">
+         SELECT
+      	 	a.id             AS "id",
+	        a.no             AS "no",
+	        a.loginname      AS "loginname",
+	        a.realname       AS "realname",
+	        a.phone          AS "phone",
+	        a.empType        AS "empType",
+	        a.idcardno       AS "idcardno",
+	      	a.pointXy        AS "pointXy",
+	        a.address        AS "address",
+	        a.headpic        AS "headpic",
+	        a.star           AS "star",
+	        a.sort           AS "sort",
+	        a.nps            AS "nps",
+	        a.orderArea      AS "orderarea",
+	        a.houseType      As "houseType",
+	        a.orderStop      AS "orderstop",
+	        a.storeid        AS "storeid",
+			a.del_flag		AS 'delFlag',
+			a.project_mode  AS "projectMode",
+			a.exchange_order_times AS "exchangeOrderTimes",
+			<!-- (select count(m.id) from biz_employee m where m.managerId = a.id and m.empType = '2') as "workerIntroduceCount", -->
+			(round(6378.138*2*asin(sqrt(pow(sin( (SUBSTRING_INDEX(a.pointXy,',',1)*pi()/180 - #{orderPointy}*pi()/180)/2),2)+cos( SUBSTRING_INDEX(a.pointXy,',',1)*pi()/180)*cos(#{orderPointy}*pi()/180)* pow(sin(( SUBSTRING_INDEX(a.pointXy,',',-1)*pi()/180 - #{orderPointx}*pi()/180)/2),2)))*1000)/1000) AS "distance",
+			m.workerIntroduceCount AS "workerIntroduceCount",
+			IFNULL(n.buildingCount,0) AS "buildingCount",
+			IFNULL(n1.orderCount,0) AS "orderCount",
+			IFNULL(n2.totalCount,0) AS "totalCount",
+			concat(
+				TRUNCATE (
+					(
+						(IFNULL(n.buildingCount,0)) / (n2.totalCount)
+					) * 100,
+					2
+				),
+				'%'
+			) AS "totalCountWeight"
+			<!-- round(6378.138*2*asin(sqrt(pow(sin( (SUBSTRING_INDEX(a.pointXy,',',1)*pi()/180 - #{orderPointy}*pi()/180)/2),2)+cos( SUBSTRING_INDEX(a.pointXy,',',1)*pi()/180)*cos(#{orderPointy}*pi()/180)* pow(sin(( SUBSTRING_INDEX(a.pointXy,',',-1)*pi()/180 - #{orderPointx}*pi()/180)/2),2)))*1000) -->
+			<!--(select count(*) from biz_order c where c.item_manager_id = a.id and c.order_status_number in ('120','125','130','200','300','310')) as "buildingCount",
+			(select count(*) from biz_order c where c.item_manager_id = a.id) as "orderCount",
+			(select 
+				CASE 
+					WHEN c.star is null THEN b.star0 
+					WHEN c.star = 0 THEN b.star0 
+					WHEN c.star = 1 THEN b.star1
+					WHEN c.star = 2 THEN b.star3
+					WHEN c.star = 3 THEN b.star3
+					WHEN c.star = 4 THEN b.star4
+					WHEN c.star = 5 THEN b.star5
+				END 
+			from 
+				biz_star b, biz_employee c where b.store_id = c.storeId and c.id = a.id and b.project_mode = #{projectMode}) AS "totalCount",
+			concat(truncate(((select count(*) from biz_order c where c.item_manager_id = a.id and c.order_status_number in ('120','125','130','200','300','310'))/
+				(select 
+					CASE 
+						WHEN c.star is null THEN b.star0 
+						WHEN c.star = 0 THEN b.star0 
+						WHEN c.star = 1 THEN b.star1
+						WHEN c.star = 2 THEN b.star3
+						WHEN c.star = 3 THEN b.star3
+						WHEN c.star = 4 THEN b.star4
+						WHEN c.star = 5 THEN b.star5
+					END 
+				from 
+					biz_star b, biz_employee c where b.store_id = c.storeId and c.id=a.id and b.project_mode = #{projectMode} )),2)*100,'%') as "totalCountWeight"-->
+			FROM biz_employee a
+			INNER JOIN biz_engin_depart_employee_position t on t.employee_id = a.id and t.engin_depart_id = #{enginDepartId} and t.position_type ='5'
+        	LEFT JOIN (
+						SELECT
+							m.managerId,
+							count(m.id) AS "workerIntroduceCount"
+						FROM
+							biz_employee m
+						WHERE
+							m.empType = '2'
+						GROUP BY
+							m.managerId
+					) m ON m.managerId = a.id
+			LEFT JOIN (
+				SELECT
+					c.item_manager_id,
+					count(c.id) AS "buildingCount"
+				FROM
+					biz_order c
+				WHERE
+					c.order_status_number = 200
+					AND c.is_scrap = 0
+				GROUP BY
+					c.item_manager_id
+			) n ON n.item_manager_id = a.id
+			LEFT JOIN (
+				SELECT
+					c.item_manager_id,
+					count(c.id) AS "orderCount"
+				FROM
+					biz_order c
+				WHERE c.is_scrap = 0
+				GROUP BY
+					c.item_manager_id
+			) n1 ON n1.item_manager_id = a.id
+			LEFT JOIN (
+				SELECT
+					(
+						CASE
+						WHEN c.star IS NULL THEN
+							b.star0
+						WHEN c.star = 0 THEN
+							b.star0
+						WHEN c.star = 1 THEN
+							b.star1
+						WHEN c.star = 2 THEN
+							b.star3
+						WHEN c.star = 3 THEN
+							b.star3
+						WHEN c.star = 4 THEN
+							b.star4
+						WHEN c.star = 5 THEN
+							b.star5
+						END
+					) AS "totalCount",
+					c.id
+				FROM
+					biz_star b,
+					biz_employee c
+				WHERE
+					b.store_id = c.storeId
+				AND b.project_mode = #{projectMode}
+				GROUP BY
+					c.id
+			) n2 ON n2.id = a.id
+        <where>
+        	a.del_flag=0
+       		<if test="projectMode != null and projectMode != ''">
+        		AND a.project_mode = #{projectMode}
+        	</if>
+            <if test="storeid != null and storeid != ''">
+                AND a.storeid = #{storeid}
+            </if>
+            <if test="realname != null and realname != ''">
+                AND a.realname LIKE
+                	<if test="dbName == 'oracle'">'%'||#{realname}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{realname}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{realname},'%')</if>
+            </if>
+            <if test="empType != null and empType != ''">
+                AND a.empType = #{empType}
+            </if>
+            <if test="houseType != null and houseType != ''">
+                AND a.houseType = #{houseType}
+            </if>
+            <if test="orderstop != null and orderstop != ''">
+                AND a.orderStop = #{orderstop}
+            </if>
+        </where>
+        <choose>
+            <when
+                test="page !=null and page.orderBy != null and page.orderBy != ''">
+                ORDER BY ${page.orderBy}
+            </when>
+            <otherwise>
+            	ORDER BY a.sort DESC,a.star DESC,a.nps DESC,(round(6378.138*2*asin(sqrt(pow(sin( (SUBSTRING_INDEX(a.pointXy,',',1)*pi()/180 - #{orderPointy}*pi()/180)/2),2)+cos( SUBSTRING_INDEX(a.pointXy,',',1)*pi()/180)*cos(#{orderPointy}*pi()/180)* pow(sin(( SUBSTRING_INDEX(a.pointXy,',',-1)*pi()/180 - #{orderPointx}*pi()/180)/2),2)))*1000)/1000) ASC
+            </otherwise>
+        </choose>
+    </select>
+    
+    <select id="findTotalCountByStar" resultType="int">
+    	
+    	select 
+    		CASE
+    			WHEN a.star is null THEN b.star0 
+    			WHEN a.star = 0 THEN b.star0 
+				WHEN a.star = 1 THEN b.star1
+				WHEN a.star = 2 THEN b.star3
+				WHEN a.star = 3 THEN b.star3
+				WHEN a.star = 4 THEN b.star4
+				WHEN a.star = 5 THEN b.star5
+			END AS "totalCount" 
+		from 
+			biz_employee a, biz_star b 
+		where 
+			b.store_id = a.storeId and a.id = #{0} and b.project_mode = #{1}
+    </select>
+    
+    
+     <select id="findListForOrderTradition" resultType="cn.damei.entity.modules.ItemManager">
+         SELECT
+      	 	a.id             AS "id",
+	        a.no             AS "no",
+	        a.loginname      AS "loginname",
+	        a.realname       AS "realname",
+	        a.phone          AS "phone",
+	        a.empType        AS "empType",
+	        a.idcardno       AS "idcardno",
+	      	a.pointXy        AS "pointXy",
+	        a.address        AS "address",
+	        a.headpic        AS "headpic",
+	        a.star           AS "star",
+	        a.sort           AS "sort",
+	        a.nps            AS "nps",
+	        a.orderArea      AS "orderarea",
+	        a.houseType      As "houseType",
+	        a.orderStop      AS "orderstop",
+	        a.storeid        AS "storeid",
+			a.del_flag		AS 'delFlag',
+			a.project_mode  AS "projectMode",
+			<!-- (select count(m.id) from biz_employee m where m.managerId = a.id and m.empType = '2') as "workerIntroduceCount", -->
+			(round(6378.138*2*asin(sqrt(pow(sin( (SUBSTRING_INDEX(a.pointXy,',',1)*pi()/180 - #{orderPointy}*pi()/180)/2),2)+cos( SUBSTRING_INDEX(a.pointXy,',',1)*pi()/180)*cos(#{orderPointy}*pi()/180)* pow(sin(( SUBSTRING_INDEX(a.pointXy,',',-1)*pi()/180 - #{orderPointx}*pi()/180)/2),2)))*1000)/1000) AS "distance",
+			m.workerIntroduceCount AS "workerIntroduceCount",
+			IFNULL(n.buildingCount,0) AS "buildingCount",
+			IFNULL(n1.orderCount,0) AS "orderCount",
+			IFNULL(n2.totalCount,0) AS "totalCount",
+			concat(
+				TRUNCATE (
+					(
+						(IFNULL(n.buildingCount,0)) / (n2.totalCount)
+					) * 100,
+					2
+				),
+				'%'
+			) AS "totalCountWeight"
+			<!-- round(6378.138*2*asin(sqrt(pow(sin( (SUBSTRING_INDEX(a.pointXy,',',1)*pi()/180 - #{orderPointy}*pi()/180)/2),2)+cos( SUBSTRING_INDEX(a.pointXy,',',1)*pi()/180)*cos(#{orderPointy}*pi()/180)* pow(sin(( SUBSTRING_INDEX(a.pointXy,',',-1)*pi()/180 - #{orderPointx}*pi()/180)/2),2)))*1000) -->
+			<!-- (select count(*) from biz_order c where c.item_manager_id = a.id and c.order_status_number in ('120','125','130','200','300','310')) as "buildingCount",
+			(select count(*) from biz_order c where c.item_manager_id = a.id) as "orderCount",
+			(select 
+				CASE 
+					WHEN c.star is null THEN b.star0 
+					WHEN c.star = 0 THEN b.star0 
+					WHEN c.star = 1 THEN b.star1
+					WHEN c.star = 2 THEN b.star3
+					WHEN c.star = 3 THEN b.star3
+					WHEN c.star = 4 THEN b.star4
+					WHEN c.star = 5 THEN b.star5
+				END 
+			from 
+				biz_star b, biz_employee c where b.store_id = c.storeId and c.id = a.id and b.project_mode = #{projectMode}) AS "totalCount",
+			concat(truncate(((select count(*) from biz_order c where c.item_manager_id = a.id and c.order_status_number in ('120','125','130','200','300','310'))/
+				(select 
+					CASE 
+						WHEN c.star is null THEN b.star0 
+						WHEN c.star = 0 THEN b.star0 
+						WHEN c.star = 1 THEN b.star1
+						WHEN c.star = 2 THEN b.star3
+						WHEN c.star = 3 THEN b.star3
+						WHEN c.star = 4 THEN b.star4
+						WHEN c.star = 5 THEN b.star5
+					END 
+				from 
+					biz_star b, biz_employee c where b.store_id = c.storeId and c.id=a.id and b.project_mode = #{projectMode} )),2)*100,'%') as "totalCountWeight" -->
+			FROM biz_employee a
+			LEFT JOIN (
+				SELECT
+					m.managerId,
+					count(m.id) AS "workerIntroduceCount"
+				FROM
+					biz_employee m
+				WHERE
+					m.empType = '2'
+				GROUP BY
+					m.managerId
+			) m ON m.managerId = a.id
+			LEFT JOIN (
+				SELECT
+					c.item_manager_id,
+					count(c.id) AS "buildingCount"
+				FROM
+					biz_order c
+				WHERE
+					c.order_status_number = 200
+					AND c.is_scrap = 0
+				GROUP BY
+					c.item_manager_id
+			) n ON n.item_manager_id = a.id
+			LEFT JOIN (
+				SELECT
+					c.item_manager_id,
+					count(c.id) AS "orderCount"
+				FROM
+					biz_order c
+				WHERE
+					c.is_scrap = 0
+				GROUP BY
+					c.item_manager_id
+			) n1 ON n1.item_manager_id = a.id
+			LEFT JOIN (
+				SELECT
+					(
+						CASE
+						WHEN c.star IS NULL THEN
+							b.star0
+						WHEN c.star = 0 THEN
+							b.star0
+						WHEN c.star = 1 THEN
+							b.star1
+						WHEN c.star = 2 THEN
+							b.star3
+						WHEN c.star = 3 THEN
+							b.star3
+						WHEN c.star = 4 THEN
+							b.star4
+						WHEN c.star = 5 THEN
+							b.star5
+						END
+					) AS "totalCount",
+					c.id
+				FROM
+					biz_star b,
+					biz_employee c
+				WHERE
+					b.store_id = c.storeId
+				 <if test="projectMode != '' and projectMode != null">
+					 AND b.project_mode = #{projectMode}
+				 </if>
+
+				GROUP BY
+					c.id
+			) n2 ON n2.id = a.id
+        <where>
+        	a.del_flag=0
+			<if test="projectMode != null and projectMode != ''">
+				AND a.project_mode = #{projectMode}
+			</if>
+            <if test="storeid != null and storeid != ''">
+                AND a.storeid = #{storeid}
+            </if>
+            <if test="realname != null and realname != ''">
+                AND a.realname LIKE
+                	<if test="dbName == 'oracle'">'%'||#{realname}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{realname}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{realname},'%')</if>
+            </if>
+            <if test="empType != null and empType != ''">
+                AND a.empType = #{empType}
+            </if>
+            <if test="houseType != null and houseType != ''">
+                AND a.houseType = #{houseType}
+            </if>
+            <if test="orderstop != null and orderstop != ''">
+                AND a.orderStop = #{orderstop}
+            </if>
+            <![CDATA[	and ifnull(n.buildingCount,0) < ifnull(n2.totalCount,0) ]]>  
+        </where>
+        <choose>
+            <when
+                test="page !=null and page.orderBy != null and page.orderBy != ''">
+                ORDER BY ${page.orderBy}
+            </when>
+            <otherwise>
+            	ORDER BY a.sort DESC,a.star DESC,a.nps DESC,(round(6378.138*2*asin(sqrt(pow(sin( (SUBSTRING_INDEX(a.pointXy,',',1)*pi()/180 - #{orderPointy}*pi()/180)/2),2)+cos( SUBSTRING_INDEX(a.pointXy,',',1)*pi()/180)*cos(#{orderPointy}*pi()/180)* pow(sin(( SUBSTRING_INDEX(a.pointXy,',',-1)*pi()/180 - #{orderPointx}*pi()/180)/2),2)))*1000)/1000) ASC
+            </otherwise>
+        </choose>
+    </select>
+    
+    <select id="findListForOrderTradition1" resultType="cn.damei.entity.modules.ItemManager">
+         SELECT
+      	 	a.id             AS "id",
+	        a.no             AS "no",
+	        a.loginname      AS "loginname",
+	        a.realname       AS "realname",
+	        a.phone          AS "phone",
+	        a.empType        AS "empType",
+	        a.idcardno       AS "idcardno",
+	      	a.pointXy        AS "pointXy",
+	        a.address        AS "address",
+	        a.headpic        AS "headpic",
+	        a.star           AS "star",
+	        a.sort           AS "sort",
+	        a.nps            AS "nps",
+	        a.orderArea      AS "orderarea",
+	        a.houseType      As "houseType",
+	        a.orderStop      AS "orderstop",
+	        a.storeid        AS "storeid",
+			a.del_flag		AS 'delFlag',
+			a.project_mode  AS "projectMode",
+			<!-- (select count(m.id) from biz_employee m where m.managerId = a.id and m.empType = '2') as "workerIntroduceCount", -->
+			(round(6378.138*2*asin(sqrt(pow(sin( (SUBSTRING_INDEX(a.pointXy,',',1)*pi()/180 - #{orderPointy}*pi()/180)/2),2)+cos( SUBSTRING_INDEX(a.pointXy,',',1)*pi()/180)*cos(#{orderPointy}*pi()/180)* pow(sin(( SUBSTRING_INDEX(a.pointXy,',',-1)*pi()/180 - #{orderPointx}*pi()/180)/2),2)))*1000)/1000) AS "distance",
+			m.workerIntroduceCount AS "workerIntroduceCount",
+			IFNULL(n.buildingCount,0) AS "buildingCount",
+			IFNULL(n1.orderCount,0) AS "orderCount",
+			IFNULL(n2.totalCount,0) AS "totalCount",
+			concat(
+				TRUNCATE (
+					(
+						(IFNULL(n.buildingCount,0)) / (n2.totalCount)
+					) * 100,
+					2
+				),
+				'%'
+			) AS "totalCountWeight"
+			<!-- round(6378.138*2*asin(sqrt(pow(sin( (SUBSTRING_INDEX(a.pointXy,',',1)*pi()/180 - #{orderPointy}*pi()/180)/2),2)+cos( SUBSTRING_INDEX(a.pointXy,',',1)*pi()/180)*cos(#{orderPointy}*pi()/180)* pow(sin(( SUBSTRING_INDEX(a.pointXy,',',-1)*pi()/180 - #{orderPointx}*pi()/180)/2),2)))*1000) -->
+			<!-- (select count(*) from biz_order c where c.item_manager_id = a.id and c.order_status_number in ('120','125','130','200','300','310')) as "buildingCount",
+			(select count(*) from biz_order c where c.item_manager_id = a.id) as "orderCount",
+			(select 
+				CASE 
+					WHEN c.star is null THEN b.star0 
+					WHEN c.star = 0 THEN b.star0 
+					WHEN c.star = 1 THEN b.star1
+					WHEN c.star = 2 THEN b.star3
+					WHEN c.star = 3 THEN b.star3
+					WHEN c.star = 4 THEN b.star4
+					WHEN c.star = 5 THEN b.star5
+				END 
+			from 
+				biz_star b, biz_employee c where b.store_id = c.storeId and c.id = a.id and b.project_mode = #{projectMode}) AS "totalCount",
+			concat(truncate(((select count(*) from biz_order c where c.item_manager_id = a.id and c.order_status_number in ('120','125','130','200','300','310'))/
+				(select 
+					CASE 
+						WHEN c.star is null THEN b.star0 
+						WHEN c.star = 0 THEN b.star0 
+						WHEN c.star = 1 THEN b.star1
+						WHEN c.star = 2 THEN b.star3
+						WHEN c.star = 3 THEN b.star3
+						WHEN c.star = 4 THEN b.star4
+						WHEN c.star = 5 THEN b.star5
+					END 
+				from 
+					biz_star b, biz_employee c where b.store_id = c.storeId and c.id=a.id and b.project_mode = #{projectMode} )),2)*100,'%') as "totalCountWeight" -->
+			FROM biz_employee a
+			LEFT JOIN (
+				SELECT
+					m.managerId,
+					count(m.id) AS "workerIntroduceCount"
+				FROM
+					biz_employee m
+				WHERE
+					m.empType = '2'
+				GROUP BY
+					m.managerId
+			) m ON m.managerId = a.id
+			LEFT JOIN (
+				SELECT
+					c.item_manager_id,
+					count(c.id) AS "buildingCount"
+				FROM
+					biz_order c
+				WHERE
+					c.order_status_number = 200
+					AND c.is_scrap = 0
+				GROUP BY
+					c.item_manager_id
+			) n ON n.item_manager_id = a.id
+			LEFT JOIN (
+				SELECT
+					c.item_manager_id,
+					count(c.id) AS "orderCount"
+				FROM
+					biz_order c
+				WHERE c.is_scrap = 0
+				GROUP BY
+					c.item_manager_id
+			) n1 ON n1.item_manager_id = a.id
+			LEFT JOIN (
+				SELECT
+					(
+						CASE
+						WHEN c.star IS NULL THEN
+							b.star0
+						WHEN c.star = 0 THEN
+							b.star0
+						WHEN c.star = 1 THEN
+							b.star1
+						WHEN c.star = 2 THEN
+							b.star3
+						WHEN c.star = 3 THEN
+							b.star3
+						WHEN c.star = 4 THEN
+							b.star4
+						WHEN c.star = 5 THEN
+							b.star5
+						END
+					) AS "totalCount",
+					c.id
+				FROM
+					biz_star b,
+					biz_employee c
+				WHERE
+					b.store_id = c.storeId
+				AND b.project_mode = #{projectMode}
+				GROUP BY
+					c.id
+			) n2 ON n2.id = a.id
+        <where>
+        	a.del_flag=0
+            <if test="storeid != null and storeid != ''">
+                AND a.storeid = #{storeid}
+            </if>
+            <if test="projectMode != '' and projectMode != null">
+            	and a.project_mode = #{projectMode}
+            </if>
+            <if test="realname != null and realname != ''">
+                AND a.realname LIKE
+                	<if test="dbName == 'oracle'">'%'||#{realname}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{realname}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{realname},'%')</if>
+            </if>
+            <if test="empType != null and empType != ''">
+                AND a.empType = #{empType}
+            </if>
+            <if test="houseType != null and houseType != ''">
+                AND a.houseType = #{houseType}
+            </if>
+            <if test="orderstop != null and orderstop != ''">
+                AND a.orderStop = #{orderstop}
+            </if>
+        </where>
+        <choose>
+            <when
+                test="page !=null and page.orderBy != null and page.orderBy != ''">
+                ORDER BY ${page.orderBy}
+            </when>
+            <otherwise>
+            	ORDER BY a.sort DESC,a.star DESC,a.nps DESC,(round(6378.138*2*asin(sqrt(pow(sin( (SUBSTRING_INDEX(a.pointXy,',',1)*pi()/180 - #{orderPointy}*pi()/180)/2),2)+cos( SUBSTRING_INDEX(a.pointXy,',',1)*pi()/180)*cos(#{orderPointy}*pi()/180)* pow(sin(( SUBSTRING_INDEX(a.pointXy,',',-1)*pi()/180 - #{orderPointx}*pi()/180)/2),2)))*1000)/1000) ASC
+            </otherwise>
+        </choose>
+    </select>
+    
+</mapper>

@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizProcedureDao">
+    
+	<sql id="bizProcedureColumns">
+		a.id AS "id",
+		a.procedure_no AS "procedureNo",
+		a.procedure_name AS "procedureName",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.is_other_flag AS "isOtherFlag",
+		a.measurement_unit AS "measurementUnit",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.is_enable AS "isEnable",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="bizProcedureJoins">
+	</sql>
+    
+	<select id="get" resultType="BizProcedure">
+		SELECT 
+			<include refid="bizProcedureColumns"/>
+		FROM biz_procedure a
+		<include refid="bizProcedureJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="getByProcedureNo" resultType="BizProcedure">
+		SELECT 
+			<include refid="bizProcedureColumns"/>
+		FROM biz_procedure a
+		<include refid="bizProcedureJoins"/>
+		WHERE a.procedure_no = #{0}
+	</select>
+	
+	<select id="getByBatchProcedureNo" resultType="BizProcedure">
+		SELECT 
+			<include refid="bizProcedureColumns"/>
+		FROM biz_procedure a
+		<include refid="bizProcedureJoins"/>
+		WHERE a.procedure_no in
+		<foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+	</select>
+	
+	<select id="findList" resultType="BizProcedure">
+		SELECT 
+			<include refid="bizProcedureColumns"/>
+		FROM biz_procedure a
+		<include refid="bizProcedureJoins"/>
+		<where>
+		    a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="procedureNo != null and procedureNo != ''">
+				AND a.procedure_no LIKE 
+					<if test="dbName == 'oracle'">'%'||#{procedureNo}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{procedureNo}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{procedureNo},'%')</if>
+			</if>
+			<if test="procedureName != null and procedureName != ''">
+				AND a.procedure_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{procedureName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{procedureName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{procedureName},'%')</if>
+			</if>
+			<if test="beginDate != null and beginDate != ''">
+				AND a.create_date &gt;= #{beginDate}
+			</if>
+				<if test="endDate != null and endDate != ''">
+				AND a.create_date &lt;= #{endDate}
+			</if>
+			<if test="isOtherFlag != null and isOtherFlag != ''">
+				AND a.is_other_flag = #{isOtherFlag}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="BizProcedure">
+		SELECT 
+			<include refid="bizProcedureColumns"/>
+		FROM biz_procedure a
+		<include refid="bizProcedureJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO biz_procedure(
+			procedure_no,
+			procedure_name,
+			create_by,
+			create_date,
+			is_other_flag,
+			measurement_unit,
+			update_by,
+			update_date,
+			remarks,
+			is_enable,
+			del_flag
+		) VALUES (
+			#{procedureNo},
+			#{procedureName},
+			#{createBy.id},
+			#{createDate},
+			#{isOtherFlag},
+			#{measurementUnit},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{isEnable},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE biz_procedure SET 	
+			procedure_no = #{procedureNo},
+			procedure_name = #{procedureName},
+			is_other_flag = #{isOtherFlag},
+			measurement_unit = #{measurementUnit},
+			remarks = #{remarks},
+			is_enable = #{isEnable},
+			del_flag = #{delFlag}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE biz_procedure SET 
+			del_flag = #{DEL_FLAG_DELETE},
+			is_enable = #{isEnable}
+		WHERE id = #{id}
+	</update>
+	
+	<select id="findAllProcedure" resultType="DropModel" >
+        SELECT
+      	  a.id AS 'value',
+     	  CONCAT(a.procedure_name,' ',a.procedure_no) AS 'label'
+        FROM biz_procedure a
+        where 
+        	a.del_flag ='0' and a.is_enable = '1'
+    </select>
+	<select id="findProcedureById" resultType="cn.damei.entity.modules.OrderTaskpackVo">
+		SELECT
+			a.id as "id",
+			a.procedure_name as "procedureName",
+			a.procedure_no as "procedureNo",
+			d.label as "label",
+			b.synthesize_price as "synthesizePrice",
+			a.remarks as "remarks"
+		from biz_procedure a 
+		INNER JOIN biz_procedure_price b on a.procedure_no = b.procedure_no and b.effective_date = ( SELECT MAX(c.effective_date) FROM biz_procedure_price c WHERE c.effective_date &lt;= #{2} and c.procedure_no = a.procedure_no and c.store_id = #{1} and c.del_flag = '0')
+		INNER JOIN sys_dict d on a.measurement_unit = d.value AND d.type = 'biz_unit'
+		where a.id = #{0}
+		and b.del_flag = '0'
+	</select>
+	
+	<select id="findTaskpackageProcedureById" resultType="cn.damei.entity.modules.OrderTaskpackGenVo">
+		select 
+			a.procedure_name as "procedureName",
+			a.procedure_no as "procedureNo",
+			a.measurement_unit as "measurementUnit",
+			a.remarks as "remarks",
+			b.accessories_price as "accessoriesPrice",
+			b.labor_price as "laborPrice",
+			b.synthesize_price as "synthesizePrice"
+		from biz_procedure a
+		INNER JOIN biz_procedure_price b on a.procedure_no = b.procedure_no and b.effective_date = ( SELECT MAX(c.effective_date) FROM biz_procedure_price c WHERE c.effective_date &lt;= #{2} and c.procedure_no = a.procedure_no and c.store_id = #{1} and c.del_flag = '0')
+		where a.id= #{0}
+		and b.del_flag = '0'
+	</select>
+</mapper>

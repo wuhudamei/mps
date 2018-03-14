@@ -1,0 +1,8 @@
+字典
+			 
+			
+		菜单
+			材料调度>墙地砖面积审核>墙地砖退货记录     /materialwallfloor/wallFloorReturn/list    materialwallfloor:wallFloorReturn:view
+			
+			材料调度>墙地砖面积审核>设计师处罚记录   /materialwallfloor/wallRecheck/listExamineLog     materialwallfloor:wallRecheck:view
+			

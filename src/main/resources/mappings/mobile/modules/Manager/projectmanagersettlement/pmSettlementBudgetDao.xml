@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="cn.damei.dao.mobile.Manager.PmSettlementBudgetDao">
+	<select id="queryPmSettlementBudgetByManagerId"
+		resultType="cn.damei.entity.mobile.Manager.PmSettlementBudget">
+		SELECT
+		t.*
+		FROM
+		(
+		(
+		SELECT
+		a.id AS "orderId",
+		a.customer_name AS
+		"customerName",
+		a.community_name AS "communityName",
+		a.build_number AS
+		"buildNumber",
+		a.build_unit AS "buildUnit",
+		a.build_room AS "buildRoom",
+		10 AS "settleBillType",
+		c.accept_check_datetime AS
+		"acceptCheckDatetime",
+		a.item_manager_id AS "pmEmployeeId"
+		FROM
+		biz_order a
+		INNER JOIN
+		biz_pm_settle_check_node_cnfg b ON a.store_id = b.store_id
+		AND
+		a.project_mode = b.project_mode
+		AND settle_role = 1
+		AND settle_node = 1
+		AND b.is_enabled = 1
+		INNER JOIN biz_qc_bill c ON c.qc_check_node_id =
+		b.qc_check_node_id
+		AND c.`status` = 10
+		AND c.order_id = a.id
+		where
+		a.item_manager_id = #{managerId} and a.project_mode = 1
+		)
+		UNION
+		(
+		SELECT
+		a.id AS "orderId",
+		a.customer_name AS "customerName",
+		a.community_name AS "communityName",
+		a.build_number AS "buildNumber",
+		a.build_unit AS "buildUnit",
+		a.build_room AS "buildRoom",
+		20 AS "settleBillType",
+		c.accept_check_datetime AS "acceptCheckDatetime",
+		a.item_manager_id AS "pmEmployeeId"
+		FROM
+		biz_order a
+		INNER
+		JOIN biz_pm_settle_check_node_cnfg b ON a.store_id = b.store_id
+		AND
+		a.project_mode = b.project_mode
+		AND settle_role = 1
+		AND settle_node = 2
+		AND b.is_enabled = 1
+		INNER JOIN biz_qc_bill c ON c.qc_check_node_id =
+		b.qc_check_node_id
+		AND c.`status` IN(10,30)
+		AND c.order_id = a.id
+		WHERE
+		a.order_status_number &lt; 340 and a.item_manager_id = #{managerId} and a.project_mode = 1
+		)
+		)
+		t
+	</select>
+
+	<select id="checkQcBillByOrderId" resultType="int">
+		SELECT
+		count(*)
+		FROM
+		biz_order a
+		INNER JOIN biz_pm_settle_check_node_cnfg b ON a.store_id = b.store_id
+		AND a.project_mode = b.project_mode
+		AND settle_role = 1
+		AND settle_node = 1
+		AND b.is_enabled = 1
+		INNER JOIN biz_qc_bill c ON c.qc_check_node_id = b.qc_check_node_id
+		AND c.`status` = 30
+		AND c.order_id = a.id
+		where a.id = #{orderId}
+	</select>
+</mapper>

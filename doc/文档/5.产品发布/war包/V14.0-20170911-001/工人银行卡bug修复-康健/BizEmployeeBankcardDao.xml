@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizEmployeeBankcardDao">
+    
+	<sql id="bizEmployeeBankcardColumns">
+		a.id AS "id",
+		a.store_id AS "storeId",
+		a.emp_id AS "empId",
+		a.id_card_no AS "idCardNo",
+		a.bank_id AS "bankId",
+		a.branch_bank AS "branchBank",
+		a.bank_card_no AS "bankCardNo",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag",
+		a.bank_no AS "bankNo",
+		a.bank_name As "bankName",
+		a.province_name as "provinceName"
+	</sql>
+	
+	<sql id="bizEmployeeBankcardJoins">
+	</sql>
+    
+	<select id="get" resultType="BizEmployeeBankcard">
+		SELECT 
+			<include refid="bizEmployeeBankcardColumns"/>
+		FROM biz_employee_bankcard a
+		<include refid="bizEmployeeBankcardJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="BizEmployeeBankcard">
+		SELECT 
+			a.id AS "id",
+			a.store_id AS "storeId",
+			a.emp_id AS "empId",
+			a.id_card_no AS "idCardNo",
+			a.bank_id AS "bankId",
+			a.branch_bank AS "branchBank",
+			a.bank_card_no AS "bankCardNo",
+			a.create_by AS "createBy.id",
+			a.create_date AS "createDate",
+			a.update_by AS "updateBy.id",
+			a.update_date AS "updateDate",
+			a.remarks AS "remarks",
+			a.del_flag AS "delFlag",
+			a.bank_no AS "bankNo",
+			a.bank_name As "bankName",
+			a.province_name as "provinceName",
+			b.realName as "empRealName"
+		FROM biz_employee_bankcard a
+		inner join biz_employee b on a.emp_id = b.id
+		<include refid="bizEmployeeBankcardJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="storeId != null and storeId != ''">
+				AND a.store_id = #{storeId}
+			</if>
+			<if test="empId != null and empId != ''">
+				AND a.emp_id = #{empId}
+			</if>
+			<if test="idCardNo != null and idCardNo != ''">
+				AND a.id_card_no like '%${idCardNo}%'
+			</if>
+			<if test="bankNo != null and bankNo != ''">
+				AND a.bank_no = #{bankNo}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAll" resultType="BizEmployeeBankcard">
+		SELECT 
+			<include refid="bizEmployeeBankcardColumns"/>
+		FROM biz_employee_bankcard a
+		<include refid="bizEmployeeBankcardJoins"/>
+		<where>
+			a.del_flag = 0 or a.del_flag is null
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="BizEmployeeBankcard">
+		SELECT 
+			<include refid="bizEmployeeBankcardColumns"/>
+		FROM biz_employee_bankcard a
+		<include refid="bizEmployeeBankcardJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO biz_employee_bankcard(
+			store_id,
+			emp_id,
+			id_card_no,
+			bank_id,
+			branch_bank,
+			bank_card_no,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag,
+			bank_no,
+			bank_name,
+			province_name
+		) VALUES (
+			#{storeId},
+			#{empId},
+			#{idCardNo},
+			#{bankId},
+			#{branchBank},
+			#{bankCardNo},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag},
+			#{bankNo},
+			#{bankName},
+			#{provinceName}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE biz_employee_bankcard SET 	
+			store_id = #{storeId},
+			emp_id = #{empId},
+			id_card_no = #{idCardNo},
+			bank_id = #{bankId},
+			branch_bank = #{branchBank},
+			bank_card_no = #{bankCardNo},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks},
+			bank_no = #{bankNo},
+			bank_name = #{bankName},
+			province_name =#{provinceName}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE biz_employee_bankcard SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+	<select id="queryRelationMessage" resultType="cn.damei.entity.modules.BizEmployeeBankcardRelation">
+		select 
+			a.id AS "id",
+			a.employee_bankcard_id AS "employeeBankcardId",
+			a.related_idcard_no AS "relationIdCardNo",
+			a.related_name AS "relationName",
+			b.emp_id AS "employeeId",
+			b.id_card_no AS "idCardNo",
+			b.bank_card_no AS "bankCardNo"
+		from 
+			biz_employee_bankcard_related_idcard a,
+			biz_employee_bankcard b
+		where 
+			a.employee_bankcard_id = b.id 
+		and a.employee_bankcard_id = #{0}
+	</select>
+	
+	<delete id="deleteRelation">
+		delete from biz_employee_bankcard_related_idcard
+		where id = #{0}
+	</delete>
+	
+	<insert id="addRelation">
+		insert into biz_employee_bankcard_related_idcard(
+			employee_bankcard_id,
+			related_idcard_no,
+			related_name
+		)values(
+			#{0},
+			#{2},
+			#{1}
+		)
+	</insert>
+	
+	<select id="queryBizEmployeeBankcard" resultType="cn.damei.entity.modules.BizEmployeeBankcard2">
+		a.id AS "id",
+		a.store_id AS "storeId",
+		a.emp_id AS "empId",
+		a.id_card_no AS "idCardNo",
+		a.bank_id AS "bankId",
+		a.branch_bank AS "branchBank",
+		a.bank_card_no AS "bankCardNo",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</select>
+	
+	<select id="getByBankcard" resultType ="cn.damei.entity.modules.BizEmployeeBankcard2">
+		select 
+			a.id AS "id",
+			a.store_id AS "storeId",
+			a.emp_id AS "empId",
+			a.id_card_no AS "idCardNo",
+			a.bank_id AS "bankId",
+			a.branch_bank AS "branchBank",
+			a.bank_card_no AS "bankCardNo"
+		FROM biz_employee_bankcard a
+		where a.bank_card_no = #{0} and a.del_flag = 0
+	</select>
+	
+	<select id ="checkIdCard"  parameterType="String" resultType="java.util.HashMap">
+	SELECT
+	(
+		SELECT
+			1
+		FROM
+			biz_employee a
+		WHERE
+			a.idCardNo = #{_parameter}
+		LIMIT 1
+	) as "first",
+	(
+		SELECT
+			1
+		FROM
+			biz_employee_bankcard_related_idcard b
+		WHERE
+			b.related_idcard_no =  #{_parameter}
+		LIMIT 1
+	) as "second"
+FROM
+	DUAL
+	</select>
+	
+	<!--检查银行卡是否重复  -->
+	<select id="checkBankCard" parameterType="string" resultType="String">
+		SELECT id FROM biz_employee_bankcard WHERE bank_card_no =#{bankCardNo} AND `del_flag` = '0';
+	</select>
+	
+</mapper>

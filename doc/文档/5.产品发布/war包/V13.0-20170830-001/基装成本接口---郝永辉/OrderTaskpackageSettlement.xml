@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.mobile.Manager.OrderTaskpackageSettlementDao">
+	
+	<insert id="insert">
+		INSERT INTO biz_order_taskpackage_settlement(
+			id,
+			settlement_no,
+			order_taskpackage_id,
+			check_date,
+			is_qualified,
+			is_delay,
+			delay_days,
+			delay_amerce,
+			is_manage_punish,
+			punish_amerce,
+			punish_reason,
+			auxiliary_materials_deduct_amount,
+			guarantee_money_amount,
+			settlement_amount,
+			status,
+			status_date,
+			refused_reason,
+			remarks,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag,
+			is_need_recheck,
+			store_id,
+			qc_punish_money_amount,
+			reward_amount,
+			sand_cement_deduct_amount,
+			settle_style,
+			worker_group_settle_amount,
+			pm_materials_settle_amount,
+			labor_auxiliary_materials_settle_amount,
+			labor_settle_amount,
+			auxiliary_materials_settle_amount,
+			auxiliary_materials_deduct_amount_supplier_price,
+			auxiliary_materials_deduct_amount_wangzhen_price,
+			sand_cement_deduct_amount_supplier_price,
+			sand_cement_deduct_amount_wangzhen_price
+		) VALUES (
+			#{id},
+			#{settlementNo},
+			#{orderTaskpackageId},
+			#{checkDate},
+			#{isQualified},
+			#{isDelay},
+			#{delayDays},
+			#{delayAmerce},
+			#{isManagePunish},
+			#{punishAmerce},
+			#{punishReason},
+			#{auxiliaryMaterialsAmount},
+			#{guaranteeMoneyAmount},
+			#{settlementAmount},
+			#{status},
+			#{statusDate},
+			#{refusedReason},
+			#{remarks},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag},
+			#{isNeedRecheck},
+			#{storeId},
+			#{qcPunishMoneyAmount},
+			#{rewardAmount},
+			#{sandCementAmount},
+			#{settleStyle},
+			#{workerGroupSettleAmount},
+			#{pmMaterialsSettleAmount},
+			#{laborAuxiliaryMaterialsSettleAmount},
+			#{laborSettleAmount},
+			#{auxiliaryMaterialsSettleAmount},
+			#{auxiliaryMaterialsDeductAmountSupplierPrice},
+			#{auxiliaryMaterialsDeductAmountWangzhenPrice},
+			#{sandCementDeductAmountSupplierPrice},
+			#{sandCementDeductAmountWangzhenPrice}
+		)
+	</insert>
+	
+	<!--查询结算单确认验收信息  -->
+	<select id="queryTaskpackageSettlement" parameterType="java.lang.Integer" 
+		resultType="cn.damei.entity.mobile.Manager.OrderTaskpackageVo">
+		select 
+		a.id as "id",
+		a.order_id as "order_id",
+		a.group_id as "groupId",
+		a.customer_message as "customerMessage",
+		a.customer_name as "customerName",
+		a.package_name as "packageName",
+		a.group_realname as "realName",
+		b.phone as "phone",
+		c.house_type as "houseType",
+		c.covered_area as "coveredArea",
+		a.package_stateId as "packageStateId",
+		a.task_package_templat_id as "taskPackageTemplatId",
+		d.is_quality_guarantee as "isQualityGuarantee",
+		d.quality_guarantee_rate as "qualityGuaranteeRate",
+		a.emp_groupid as "empGroupid",
+		s.guarantee_money_amount as "guaranteeMoneyAmount",
+		a.settle_style as "settleStyle"
+		from biz_order_taskpackage a 
+		left join biz_employee b on a.group_id = b.id
+		left join biz_order c on a.order_id = c.id
+		left join biz_task_package_templat d on a.task_package_templat_id = d.id
+		LEFT JOIN biz_order_taskpackage_settlement s on s.order_taskpackage_id = a.id
+		where a.id = #{id}
+	</select>
+	
+	<!--查询分配薪酬员工列表-->
+	<select id="queryTaskpackageEmpDetail" parameterType="java.lang.Integer" resultType="cn.damei.entity.mobile.Manager.EmpTaskpackageSettlement">
+		select 
+		b.id,
+		b.realName,
+		a.is_leader as "isLeader"  
+		from biz_employee b inner join biz_emgrouprelation a on b.id = a.empId where a.groupId = #{groupId} and b.del_flag = '0'
+	</select>
+	
+	<!--更新结算单时，查询分配薪酬员工列表-->
+	<select id="queryUpdateTaskpackageEmpDetail" parameterType="java.util.Map" resultType="cn.damei.entity.mobile.Manager.EmpTaskpackageSettlement">
+		select b.id,b.realName,a.is_leader as "isLeader",c.payment_amount as "paymentAmount",c.remarks as "remarks",c.id as "settlementDetailId"
+		from biz_employee b inner join biz_emgrouprelation a on b.id = a.empId 
+		left join biz_order_taskpackage_settlement_detail c on b.id = c.employee_id and c.order_taskpackage_id = #{orderTaskpackageId} and c.settlement_id = #{settlementId}
+		where a.groupId = #{groupId} and b.del_flag = '0'
+	</select>
+	
+	<!--根据编号查结算单-->
+	<select id="queryTaskpackageSettlementByNo" parameterType="java.lang.String" resultType="cn.damei.entity.mobile.Manager.OrderTaskpackageSettlement">
+		select a.id AS "id",a.settlement_no AS "settlementNo",a.order_taskpackage_id AS "orderTaskpackageId",
+			a.check_date AS "checkDate",a.is_qualified AS "isQualified",a.is_delay AS "isDelay",
+			a.delay_days AS "delayDays",a.delay_amerce AS "delayAmerce",a.is_manage_punish AS "isManagePunish",
+			a.punish_amerce AS "punishAmerce",a.punish_reason AS "punishReason",a.auxiliary_materials_deduct_amount AS "auxiliaryMaterialsAmount",a.guarantee_money_amount AS "guaranteeMoneyAmount",
+			a.settlement_amount AS "settlementAmount",a.status as "status",a.status_date as "statusDate",
+			a.refused_reason as "refusedReason",a.remarks as "remarks",a.create_by as "createBy",a.create_date as "createDate",a.update_by as "updateBy",
+			a.update_date as "updateDate",a.del_flag as "delFlag",a.is_need_recheck as "isNeedRecheck",a.store_id as "storeId",a.recheck_datetime as "recheckDatetime",
+			a.qc_punish_money_amount as "qcPunishMoneyAmount",a.reward_amount as "rewardAmount"
+		from biz_order_taskpackage_settlement a where a.settlement_no = #{settlementNo}
+	</select>
+	
+	<select id="get" resultType="cn.damei.entity.mobile.Manager.OrderTaskpackageSettlement">
+		select 
+		id as "id",
+		settlement_no as "settlementNo",
+		order_taskpackage_id as "orderTaskpackageId",
+		check_date as "checkDate",
+		is_qualified as "isQualified",
+		is_delay as "isDelay",
+		delay_days as "delayDays",
+		delay_amerce as "delayAmerce",
+		is_manage_punish as "isManagePunish",
+		punish_amerce as "punishAmerce",
+		punish_reason as "punishReason",
+		auxiliary_materials_deduct_amount as "auxiliaryMaterialsAmount",
+		guarantee_money_amount as "guaranteeMoneyAmount",
+		settlement_amount as "settlementAmount",
+		status as "status",
+		status_date as "statusDate",
+		refused_reason as "refusedReason",
+		remarks as "remarks",
+		create_by as "createBy.id",
+		create_date as "createDate",
+		update_by as "updateBy.id",
+		update_date as "updateDate",
+		del_flag as "delFlag",
+		is_need_recheck as "isNeedRecheck",
+		store_id as "storeId",
+		recheck_datetime as "recheckDatetime",
+		qc_punish_money_amount as "qcPunishMoneyAmount",
+		reward_amount as "rewardAmount",
+		sand_cement_deduct_amount as "sandCementAmount",
+		company_deduct_amount as "companyDeductAmount",
+		company_deduct_reason as "companyDeductReason",
+		settle_style as "settleStyle",
+		worker_group_settle_amount as "workerGroupSettleAmount",
+		pm_materials_settle_amount as "pmMaterialsSettleAmount",
+		labor_auxiliary_materials_settle_amount as "laborAuxiliaryMaterialsSettleAmount",
+		labor_settle_amount as "laborSettleAmount",
+		auxiliary_materials_settle_amount as "auxiliaryMaterialsSettleAmount",
+		auxiliary_materials_deduct_amount_supplier_price as "auxiliaryMaterialsDeductAmountSupplierPrice",
+		auxiliary_materials_deduct_amount_wangzhen_price as "auxiliaryMaterialsDeductAmountWangzhenPrice",
+		sand_cement_deduct_amount_supplier_price as "sandCementDeductAmountSupplierPrice",
+		sand_cement_deduct_amount_wangzhen_price as "sandCementDeductAmountWangzhenPrice"
+		from biz_order_taskpackage_settlement
+		where id=#{id}
+	</select>
+	
+	<!--根据任务包id查询结算单-->
+	<select id="queryTaskpackageSettlementByOrderTaskpackageId" resultType="cn.damei.entity.mobile.Manager.OrderTaskpackageSettlement">
+		select 
+		id as "id",
+		settlement_no as "settlementNo",
+		order_taskpackage_id as "orderTaskpackageId",
+		check_date as "checkDate",
+		is_qualified as "isQualified",
+		is_delay as "isDelay",
+		delay_days as "delayDays",
+		delay_amerce as "delayAmerce",
+		is_manage_punish as "isManagePunish",
+		punish_amerce as "punishAmerce",
+		punish_reason as "punishReason",
+		auxiliary_materials_deduct_amount as "auxiliaryMaterialsAmount",
+		guarantee_money_amount as "guaranteeMoneyAmount",
+		settlement_amount as "settlementAmount",
+		status as "status",
+		status_date as "statusDate",
+		refused_reason as "refusedReason",
+		remarks as "remarks",
+		create_by as "createBy.id",
+		create_date as "createDate",
+		update_by as "updateBy.id",
+		update_date as "updateDate",
+		del_flag as "delFlag",
+		is_need_recheck as "isNeedRecheck",
+		store_id as "storeId",
+		recheck_datetime as "recheckDatetime",
+		qc_punish_money_amount as "qcPunishMoneyAmount",
+		reward_amount as "rewardAmount",
+		sand_cement_deduct_amount as "sandCementAmount",
+		company_deduct_amount as "companyDeductAmount",
+		company_deduct_reason as "companyDeductReason",
+		settle_style as "settleStyle",
+		worker_group_settle_amount as "workerGroupSettleAmount",
+		pm_materials_settle_amount as "pmMaterialsSettleAmount",
+		labor_auxiliary_materials_settle_amount as "laborAuxiliaryMaterialsSettleAmount",
+		labor_settle_amount as "laborSettleAmount",
+		auxiliary_materials_settle_amount as "auxiliaryMaterialsSettleAmount"
+		from biz_order_taskpackage_settlement
+		where order_taskpackage_id=#{orderTaskpackageId}
+	</select>
+	
+	<!--修改结算单-->
+	<update id="update">
+		update 
+		biz_order_taskpackage_settlement 
+		set 
+		settlement_no=#{settlementNo},
+		order_taskpackage_id=#{orderTaskpackageId},
+			check_date=#{checkDate},
+			is_qualified=#{isQualified},
+			is_delay=#{isDelay},
+			delay_days=#{delayDays},
+			delay_amerce=#{delayAmerce},
+			is_manage_punish=#{isManagePunish},
+			punish_amerce=#{punishAmerce},
+			punish_reason=#{punishReason},
+			auxiliary_materials_deduct_amount=#{auxiliaryMaterialsAmount},
+			guarantee_money_amount=#{guaranteeMoneyAmount},
+			settlement_amount=#{settlementAmount},
+			status=#{status},
+			status_date=#{statusDate},
+			refused_reason=#{refusedReason},
+			remarks=#{remarks},
+			update_by=#{updateBy.id},
+			update_date=#{updateDate},
+			del_flag=#{delFlag},
+			is_need_recheck=#{isNeedRecheck},
+			store_id=#{storeId},
+			qc_punish_money_amount=#{qcPunishMoneyAmount},
+			reward_amount=#{rewardAmount},
+			sand_cement_deduct_amount=#{sandCementAmount},
+			company_deduct_amount=#{companyDeductAmount},
+			company_deduct_reason=#{companyDeductReason},
+			ensure_amount_datetime=#{ensureAmountDatetime},
+			settle_style = #{settleStyle},
+			worker_group_settle_amount = #{workerGroupSettleAmount},
+			pm_materials_settle_amount = #{pmMaterialsSettleAmount},
+			labor_auxiliary_materials_settle_amount = #{laborAuxiliaryMaterialsSettleAmount},
+			labor_settle_amount = #{laborSettleAmount},
+			auxiliary_materials_settle_amount = #{auxiliaryMaterialsSettleAmount},
+			auxiliary_materials_deduct_amount_supplier_price = #{auxiliaryMaterialsDeductAmountSupplierPrice},
+			auxiliary_materials_deduct_amount_wangzhen_price = #{auxiliaryMaterialsDeductAmountWangzhenPrice},
+			sand_cement_deduct_amount_supplier_price = #{sandCementDeductAmountSupplierPrice},
+			sand_cement_deduct_amount_wangzhen_price = #{sandCementDeductAmountWangzhenPrice}
+		where id=#{id}
+	</update>
+
+	<!--任务包验收时查询质检罚款金额-->
+	<select id="queryQcWorkerPublishAmountTotal" parameterType="java.lang.Integer" resultType="java.lang.Double">
+		select IFNULL(sum(worker_punish_amount),0) from biz_qc_bill_check_item a where a.worker_punish_order_taskpackage_id = #{orderTaskpackageId}
+	</select>
+</mapper>
+   

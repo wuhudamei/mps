@@ -1,0 +1,30 @@
+增加字典：
+            		键值   标签     类型        描述     排序   
+           
+			4	已验收合格	install_status	安装单状态	100	
+			401	验收不合格	install_status	安装单状态	110
+			
+			1	发生变更	        delay_reason	主材安装-延期原因	10	
+			2	材料未送到	delay_reason	主材安装-延期原因	20	
+			3	工人不够	        delay_reason	主材安装-延期原因	30	
+			4	物业不让施工	delay_reason	主材安装-延期原因	40	
+			5	其他		delay_reason	主材安装-延期原因	50
+
+
+			1	未安装完毕	unqualified_reason	主材安装_不合格原因	10	
+			2	有色差		unqualified_reason	主材安装_不合格原因	20	
+			3	缝隙大小不一	unqualified_reason	主材安装_不合格原因	30	
+			4	有磕碰		unqualified_reason	主材安装_不合格原因	40	
+			5	损坏无法使用	unqualified_reason	主材安装_不合格原因	50	
+			6	有划痕		unqualified_reason	主材安装_不合格原因	60	
+			7	样子不对	        unqualified_reason	主材安装_不合格原因	70	
+			8	安装脱胶	        unqualified_reason	主材安装_不合格原因	80	
+			9	尺寸不对	        unqualified_reason	主材安装_不合格原因	90	
+			10	设计不合理	unqualified_reason	主材安装_不合格原因	100	
+			11	垃圾未清理	unqualified_reason	主材安装_不合格原因	110	
+			12	货品未送达	unqualified_reason	主材安装_不合格原因	120	
+			13	安装错误	        unqualified_reason	主材安装_不合格原因	130	
+			14	缺少零部件	unqualified_reason	主材安装_不合格原因	140	
+			15	产品质量问题	unqualified_reason	主材安装_不合格原因	150	
+			16	其他		unqualified_reason	主材安装_不合格原因	160
+  

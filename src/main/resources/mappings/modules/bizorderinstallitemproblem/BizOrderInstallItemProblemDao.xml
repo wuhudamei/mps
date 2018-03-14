@@ -1,0 +1,497 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizOrderInstallItemProblemDao">
+    
+	<sql id="bizOrderInstallItemProblemColumns">
+		a.id AS "id",
+		a.business_only_mark_int AS "businessOnlyMarkId",
+		a.problem_type_id AS "problemTypeId",
+		a.is_delay AS "isDelay",
+		a.delay_days AS "delayDays",
+		a.problem_describe AS "problemDescribe",
+		a.status AS "status",
+		a.remarks AS "remarks",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag",
+		a.business_type AS "businessType",
+		a.expect_solve_datetime AS "expectSolveDatetime",
+		a.incharge_name AS "inchargeName",
+		a.punish_score AS "punishScore",
+		a.punish_money AS "punishMoney",
+		a.punish_remarks AS "punishRemarks"
+	</sql>
+	
+	<sql id="bizOrderInstallItemProblemJoins">
+	</sql>
+    
+	<select id="get" resultType="cn.damei.entity.modules.BizOrderInstallItemProblem">
+		SELECT 
+			<include refid="bizOrderInstallItemProblemColumns"/>
+		FROM biz_business_problem a
+		<include refid="bizOrderInstallItemProblemJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="cn.damei.entity.modules.BizOrderInstallItemProblem">
+		SELECT 
+			<include refid="bizOrderInstallItemProblemColumns"/>
+		FROM biz_business_problem a
+		<include refid="bizOrderInstallItemProblemJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="cn.damei.entity.modules.BizOrderInstallItemProblem">
+		SELECT 
+			<include refid="bizOrderInstallItemProblemColumns"/>
+		FROM biz_business_problem a
+		<include refid="bizOrderInstallItemProblemJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO biz_business_problem(
+			id,
+			business_only_mark_int,
+			problem_type_id,
+			is_delay,
+			delay_days,
+			problem_describe,
+			status,
+			remarks,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag,
+			business_type,
+			expect_solve_datetime,
+			incharge_name,
+			punish_score,
+			punish_money,
+			punish_remarks
+		) VALUES (
+			#{id},
+			#{businessOnlyMarkId},
+			#{problemTypeId},
+			#{isDelay},
+			#{delayDays},
+			#{problemDescribe},
+			#{status},
+			#{remarks},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag},
+			#{businessType},
+			#{expectSolveDatetime},
+			#{inchargeName},
+			#{punishScore},
+			#{punishMoney},
+			#{punishRemarks}
+		)
+	</insert>
+	<insert id="insert1" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO biz_business_problem(
+			id,
+			business_only_mark_int,
+			problem_type_id,
+			is_delay,
+			delay_days,
+			problem_describe,
+			status,
+			remarks,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag,
+			business_type,
+			expect_solve_datetime,
+			incharge_name,
+			punish_score,
+			punish_money,
+			punish_remarks
+		) VALUES (
+			#{id},
+			#{businessOnlyMarkId},
+			#{problemTypeId},
+			#{isDelay},
+			#{delayDays},
+			#{problemDescribe},
+			#{status},
+			#{remarks},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag},
+			#{businessType},
+			#{expectSolveDatetime},
+			#{inchargeName},
+			#{punishScore},
+			#{punishMoney},
+			#{punishRemarks}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE biz_business_problem SET 	
+			business_only_mark_int = #{businessOnlyMarkId},
+			problem_type_id = #{problemTypeId},
+			is_delay = #{isDelay},
+			delay_days = #{delayDays},
+			problem_describe = #{problemDescribe},
+			status = #{status},
+			remarks = #{remarks},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			business_type = #{businessType}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE biz_business_problem SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+	<!-- 如果问题上报日志保存失败，删除问题上报 -->
+	<delete id="deleteProblem" parameterType="int">
+		
+		DELETE
+		FROM
+			biz_business_problem
+		WHERE
+			id = #{0}
+	</delete>
+	
+	
+	<!-- 查询该订单5分钟内提交问题上报的数量 -->
+	<select id="findProblemCount" parameterType="cn.damei.entity.modules.BizOrderInstallItemProblem" resultType="int">
+		
+		SELECT 
+			COUNT(1)
+		FROM biz_business_problem a
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			AND DATE_ADD(a.create_date,INTERVAL 5 MINUTE) &gt; NOW()
+			<if test="businessOnlyMarkId != null and businessOnlyMarkId != ''">
+				AND  a.business_only_mark_int = #{businessOnlyMarkId}
+			</if>
+			<if test="businessType != null and businessType != ''">
+				AND  a.business_type = #{businessType}
+			</if>
+		</where>
+	
+	
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<!-- 工程安装问题上报详情 -->
+	<select id="getOrderInstallItemProblemVo" resultType="cn.damei.entity.modules.BizOrderInstallItemProblemVo">
+		SELECT 
+			a.id as "id",
+			a.business_only_mark_int as "businessOnlyMarkId",
+			a.is_delay as "isDelay",
+			a.delay_days as "delayDays",
+			a.problem_describe as "problemDescribe",
+			a.problem_type_id as "problemTypeId",
+			a.status as "status",
+			a.create_date as "createDate",
+			b.install_item_name as "installItemName",
+			c.store_id as "storeId",
+			c.community_name as "communityName",
+			c.build_number as "buildNumber",
+			c.build_unit as "buildUnit",
+			c.build_room as "buildRoom",
+			c.customer_name as "customerName",
+			c.customer_phone as "customerPhone",
+			c.item_manager as "itemManager",
+			c.project_mode as "projectMode",
+			d.phone as "itemManagerPhone",
+			e.type_name as "problemTypeName"
+		From biz_business_problem a 
+		LEFT JOIN biz_order_install_plan b on b.id = a.business_only_mark_int
+		LEFT JOIN biz_order c on c.id = b.order_id
+		LEFT JOIN biz_employee d on d.id = c.item_manager_id
+		LEFT JOIN biz_business_problem_type e on e.id = a.problem_type_id
+		WHERE a.id = #{0}
+	</select>
+	
+	<!-- 工程安装问题上报申请 -->
+	<select id="queryOrderInstallItemProblemVoList" resultType="cn.damei.entity.modules.BizOrderInstallItemProblemVo">
+		SELECT 
+			a.id as "id",
+			a.business_only_mark_int as "businessOnlyMarkId",
+			a.is_delay as "isDelay",
+			a.delay_days as "delayDays",
+			a.problem_describe as "problemDescribe",
+			a.problem_type_id as "problemTypeId",
+			a.status as "status",
+			a.create_date as "createDate",
+			b.install_item_name as "installItemName",
+			c.store_id as "storeId",
+			g.`name` AS "storeName",
+			c.id AS "orderId",
+			c.community_name as "communityName",
+			c.build_number as "buildNumber",
+			c.build_unit as "buildUnit",
+			c.build_room as "buildRoom",
+			c.customer_name as "customerName",
+			c.customer_phone as "customerPhone",
+			c.item_manager as "itemManager",
+			c.project_mode as "projectMode",
+			j.label AS "statusName",
+			d.phone as "itemManagerPhone",
+			e.type_name as "problemTypeName",
+			<!-- IFNULL(q.picturesCount,0) AS "picturesCount", -->
+			m.project_install_item_id AS "projectInstallItemId"
+		From biz_business_problem a 
+		LEFT JOIN biz_order_install_plan b on b.id = a.business_only_mark_int
+		LEFT JOIN biz_order c on c.id = b.order_id
+		LEFT JOIN biz_employee d on d.id = c.item_manager_id
+		LEFT JOIN biz_business_problem_type e on e.id = a.problem_type_id
+		LEFT JOIN sys_office g ON g.id = c.store_id AND g.del_flag = #{DEL_FLAG_NORMAL}
+		LEFT JOIN sys_dict j ON j.`value` = a.`status` AND j.type = 'install_item_problem_status' AND j.del_flag = #{DEL_FLAG_NORMAL}
+		<!-- LEFT JOIN (select p.business_id_int,count(1) AS "picturesCount" from biz_business_pic p where p.business_type = #{pictureType} GROUP BY p.business_id_int) q ON q.business_id_int = a.id -->
+		LEFT JOIN biz_order_install_item m ON b.order_install_item_id = m.id
+		
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="businessType != null and businessType != ''">
+				AND  (a.business_type = #{businessType} OR a.business_type IS NULL)
+			</if>
+			<if test="storeId != null and storeId != ''">
+				AND  c.store_id = #{storeId}
+			</if>
+			<if test="customerName != null and customerName != ''">
+				AND  c.customer_name like concat('%',#{customerName},'%')
+			</if>
+			<if test="itemManager != null and itemManager != ''">
+				AND  c.item_manager like concat('%',#{itemManager},'%')
+			</if>
+			<if test="status != null and status != ''">
+				AND  a.status = #{status}
+			</if>
+			<if test="installItemName != null and installItemName != ''">
+                AND  b.install_item_sequence = #{installItemName}
+            </if>
+			<if test="problemTypeId != null and problemTypeId != ''">
+				AND  a.problem_type_id = #{problemTypeId}
+			</if>
+			<if test="projectMode != null and projectMode != ''">
+				AND  c.project_mode = #{projectMode}
+			</if>
+			<if test="beginCreateDate != null and beginCreateDate != ''">
+				AND a.create_date &gt;= #{beginCreateDate}
+			</if>
+			<if test="endCreateDate != null and endCreateDate != ''">
+				AND a.create_date &lt;= #{endCreateDate}
+			</if>
+			<if test="projectInstallItemIdList != null">
+				AND m.project_install_item_id  IN 
+				<foreach collection="projectInstallItemIdList" item="item" open="("  separator="," close=")" index="index">
+					#{item}
+				</foreach>
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.create_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="queryInstallItemProblemTypeList" resultType="cn.damei.entity.modules.DropModel">
+		select 
+			id AS 'value',
+			type_name AS 'label'
+		from biz_business_problem_type 
+		where store_id = #{storeId} and project_mode = #{projectMode} and is_enabled = #{isEnabled} and business_type = #{businessType}
+	</select>
+	
+	<select id="queryById" resultType="cn.damei.entity.modules.BizOrderInstallItemProblemVo">
+		SELECT 
+			a.id as "id",
+			a.business_only_mark_int as "businessOnlyMarkId",
+			a.is_delay as "isDelay",
+			a.delay_days as "delayDays",
+			a.problem_describe as "problemDescribe",
+			a.problem_type_id as "problemTypeId",
+			a.status as "status",
+			b.install_item_name as "installItemName",
+			c.store_id as "storeId",
+			c.community_name as "communityName",
+			c.build_number as "buildNumber",
+			c.build_unit as "buildUnit",
+			c.build_room as "buildRoom",
+			c.customer_name as "customerName",
+			c.customer_phone as "customerPhone",
+			c.item_manager as "itemManager",
+			c.project_mode as "projectMode",
+			d.phone as "itemManagerPhone",
+			e.type_name as "problemTypeName",
+			f.problem_solve_notes as "problemSolveNotes"
+		From biz_business_problem a 
+		LEFT JOIN biz_order_install_plan b on b.id = a.business_only_mark_int
+		LEFT JOIN biz_order c on c.id = b.order_id
+		LEFT JOIN biz_employee d on d.id = c.item_manager_id
+		LEFT JOIN biz_business_problem_type e on e.id = a.problem_type_id
+		INNER JOIN biz_business_problem_log f on f.business_problem_id = a.id and f.status = '30'
+		WHERE a.id = #{0}
+	</select>
+	
+	<!-- 工程安装问题上报查询 -->
+	<select id="queryOrderInstallItemProblemVoList3" resultType="cn.damei.entity.modules.BizOrderInstallItemProblemVo">
+		SELECT 
+			a.id as "id",
+			a.business_only_mark_int as "businessOnlyMarkId",
+			a.is_delay as "isDelay",
+			a.delay_days as "delayDays",
+			a.problem_describe as "problemDescribe",
+			a.problem_type_id as "problemTypeId",
+			a.status as "status",
+			a.create_date as "createDate",
+			b.install_item_name as "installItemName",
+			c.store_id as "storeId",
+			c.community_name as "communityName",
+			c.build_number as "buildNumber",
+			c.build_unit as "buildUnit",
+			c.build_room as "buildRoom",
+			c.customer_name as "customerName",
+			c.customer_phone as "customerPhone",
+			c.item_manager as "itemManager",
+			c.order_inspector as "orderInspector",
+			c.project_mode as "projectMode",
+			c.contract_start_date as "contractStartDate",
+			c.contract_end_date as "contractEndDate",
+			c.designer_name as "designerName",
+			c.designer_phone as "designerPhone",
+			d.phone as "itemManagerPhone",
+			f.phone as "inspectorPhone",
+			e.type_name as "problemTypeName",
+			<!-- m.create_date as "projectCreateDate",
+			m.status as "logStatus",
+			m.problem_solve_notes as "projectNote", -->
+			n2.create_date as "materialCreateDate",
+			n2.problem_solve_notes as "materialNote",
+			s.name as "name",
+			j.label AS "statusName",
+			g.project_install_item_id AS "projectInstallItemId"
+			<!-- IFNULL(q.picturesCount,0) AS "picturesCount" -->
+		From biz_business_problem a 
+		LEFT JOIN biz_order_install_plan b on b.id = a.business_only_mark_int
+		LEFT JOIN biz_order c on c.id = b.order_id
+		LEFT JOIN biz_employee d on d.id = c.item_manager_id
+		LEFT JOIN biz_employee f on f.id = c.order_inspector_id 
+		LEFT JOIN biz_business_problem_type e on e.id = a.problem_type_id
+		<!-- LEFT JOIN biz_business_problem_log m on business_problem_id = a.id and m.problem_solve_role = '2' 
+		LEFT JOIN biz_business_problem_log n on n.business_problem_id = a.id and n.problem_solve_role = '3'
+		LEFT JOIN (select p.business_id_int,count(1) AS "picturesCount" from biz_business_pic p where p.business_type = #{pictureType} GROUP BY p.business_id_int) q ON q.business_id_int = a.id -->
+		LEFT JOIN (SELECT n.business_problem_id,MAX(n.id)AS "id" FROM biz_business_problem_log n WHERE n.problem_solve_role = '3' GROUP BY n.business_problem_id) n1 ON n1.business_problem_id = a.id
+		LEFT JOIN biz_business_problem_log n2 ON n2.id = n1.id
+		LEFT JOIN sys_office s on s.id = c.store_id AND s.del_flag = #{DEL_FLAG_NORMAL}
+		LEFT JOIN sys_dict j ON j.`value` = a.`status` AND j.type = 'install_item_problem_status' AND j.del_flag = #{DEL_FLAG_NORMAL}
+		LEFT JOIN biz_order_install_item g ON b.order_install_item_id = g.id
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="businessType != null and businessType != ''">
+				AND  (a.business_type = #{businessType} OR a.business_type IS NULL)
+			</if>
+			<if test="storeId != null and storeId != ''">
+				AND  c.store_id = #{storeId}
+			</if>
+			<if test="customerName != null and customerName != ''">
+				AND  c.customer_name like concat('%',#{customerName},'%')
+			</if>
+			<if test="itemManager != null and itemManager != ''">
+				AND  c.item_manager like concat('%',#{itemManager},'%')
+			</if>
+			<if test="problemTypeId != null and problemTypeId != ''">
+				AND  a.problem_type_id = #{problemTypeId}
+			</if>
+			<if test="projectMode != null and projectMode != ''">
+				AND  c.project_mode = #{projectMode}
+			</if>
+			<if test="beginCreateDate != null and beginCreateDate != ''">
+				AND a.create_date &gt;= #{beginCreateDate} 
+			</if>
+			<if test="endCreateDate != null and endCreateDate != ''">
+				AND a.create_date &lt;= #{endCreateDate}
+			</if>
+			<!-- <if test="beginProjectCreateDate != null and beginProjectCreateDate != ''">
+				AND m.create_date &gt;= #{beginProjectCreateDate} 
+			</if>
+			<if test="endProjectCreateDate != null and endProjectCreateDate != ''">
+				AND m.create_date &lt;= #{endProjectCreateDate}
+			</if> -->
+			<if test="beginMaterialCreateDate != null and beginMaterialCreateDate != ''">
+				AND n2.create_date &gt;= #{beginMaterialCreateDate} 
+			</if>
+			<if test="endMaterialCreateDate != null and endMaterialCreateDate != ''">
+				AND n2.create_date &lt;= #{endMaterialCreateDate}
+			</if>
+			<if test="projectInstallItemIdList != null">
+				AND g.project_install_item_id  IN 
+				<foreach collection="projectInstallItemIdList" item="item" open="("  separator="," close=")" index="index">
+					#{item}
+				</foreach>
+			</if>
+			<if test="paramStatus != null">
+				AND a.status in
+				<foreach item="item" index="index" collection="paramStatus" open="(" separator="," close=")">
+              	  #{item}
+           		</foreach>
+			</if>
+			<if test="phones != null">
+			  AND c.DESIGNER_PHONE IN
+				<foreach collection="phones" item="item" open="("  separator="," close=")" index="index">
+					#{item}
+				</foreach> 
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.create_date DESC
+			</otherwise>
+		</choose>
+	</select>
+</mapper>

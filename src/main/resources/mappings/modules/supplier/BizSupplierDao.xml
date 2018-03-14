@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizSupplierDao">
+    
+	<sql id="bizSupplierColumns">
+		a.id AS "id",
+		a.supplier_no AS "supplierNo",
+		a.supplier_name AS "supplierName",
+		a.contacts AS "contacts",
+		a.contacts_phone AS "contactsPhone",
+		a.email AS "email",
+		a.status AS "status",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.install_item_type AS "installitemtype",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="bizSupplierJoins">
+	</sql>
+    
+	<select id="get" resultType="BizSupplier">
+		SELECT 
+			<include refid="bizSupplierColumns"/>
+		FROM biz_supplier a
+		<include refid="bizSupplierJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="BizSupplier">
+		SELECT 
+			<include refid="bizSupplierColumns"/>
+		FROM biz_supplier a
+		<include refid="bizSupplierJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="supplierName != null and supplierName != ''">
+				AND a.supplier_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{supplierName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{supplierName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{supplierName},'%')</if>
+			</if>
+			<if test="installitemtype != null and installitemtype != ''">
+				AND a.install_item_type=#{installitemtype}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+<!-- 	根据供应商业务分类查询 -->
+	<select id="queryajaxgetSupplier" resultType="BizSupplier">
+		SELECT 
+			<include refid="bizSupplierColumns"/>
+			FROM biz_supplier a
+		<include refid="bizSupplierJoins"/>
+		<where>
+				a.status='1'
+			<if test="projectInstallItemName != null and projectInstallItemName != ''">
+				AND a.install_item_type=#{projectInstallItemName}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findListByPhone" resultType="BizSupplier">
+		SELECT 
+			<include refid="bizSupplierColumns"/>
+		FROM biz_supplier a
+		where
+		a.del_flag = '0'
+		AND a.status='1'
+		AND a.contacts_phone=#{0}
+	</select>
+	
+	<select id="findAllList" resultType="BizSupplier">
+		SELECT 
+			<include refid="bizSupplierColumns"/>
+		FROM biz_supplier a
+		<include refid="bizSupplierJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO biz_supplier(
+			supplier_no,
+			supplier_name,
+			contacts,
+			contacts_phone,
+			email,
+			status,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			install_item_type,
+			del_flag
+		) VALUES (
+			#{supplierNo},
+			#{supplierName},
+			#{contacts},
+			#{contactsPhone},
+			#{email},
+			#{status},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{installitemtype},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE biz_supplier SET 	
+			supplier_name = #{supplierName},
+			contacts = #{contacts},
+			contacts_phone = #{contactsPhone},
+			email = #{email},
+			status = #{status},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			install_item_type = #{installitemtype}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE biz_supplier SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

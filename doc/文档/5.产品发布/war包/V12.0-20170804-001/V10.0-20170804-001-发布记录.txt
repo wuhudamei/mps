@@ -1,0 +1,43 @@
+打包名称：mdn.war
+打包版本：V10.0-20170804-001
+
+
+功能新增：
+
+	1、准产业--刘川
+	2、预投诉(内部投诉)模块--小冷
+	3、延期单--雷力明
+
+
+
+数据库表结构变更：
+
+	1、执行文件夹名【数据库表结构变更】内的【jeesite_table-v13.0_01_zhunchanye.sql】
+					       【jeesite_table-v13.0_kangjian_yanqidan.sql】
+					       【jeesite_table-v13.0_meihao_tousu_2.0.sql】
+					       【jeesite_table-v13.0_02_tousu_2.0.sql】脚本
+
+
+数据库表数据变更：
+
+	1、执行文件夹名【数据库表数据变更】内的【biz_order_delay_category.sql】
+					       【gongrenlishishuju.sql】
+					       【zhunchanyelishishuju.sql】
+					       【tousulaiyuan.sql】
+					       【tousulaiyuan2.sql】
+					       【tousulaiyuan3.sql】脚本
+
+	
+	
+
+	
+
+	
+
+
+	
+
+
+
+
+	 

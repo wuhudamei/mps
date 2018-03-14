@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizMainMaterialsDao">
+    
+	<sql id="bizMainMaterialsColumns">
+		a.id AS "id",
+		a.store_id AS "storeId",
+		a.main_materials_no AS "mainMaterialsNo",
+		a.main_materials_name AS "mainMaterialsName",
+		a.emp_work_type AS "empWorkType",
+		a.category_id AS "categoryId",
+		a.specifications AS "specifications",
+		a.measurement_unit AS "measurementUnit",
+		a.status AS "status",
+		a.brands AS "brands",
+		a.pic_url AS "picUrl",
+		a.remarks AS "remarks",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag",
+		a.sort_index As "sortIndex",
+		a.is_counted As "isCounted"
+	</sql>
+	
+	<sql id="bizMainMaterialsJoins">
+	</sql>
+    
+	<select id="get" resultType="cn.damei.entity.modules.BizMainMaterials">
+		SELECT 
+			<include refid="bizMainMaterialsColumns"/>
+		FROM biz_main_materials a
+		<include refid="bizMainMaterialsJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="cn.damei.entity.modules.BizMainMaterials">
+		SELECT 
+			<include refid="bizMainMaterialsColumns"/>
+		FROM biz_main_materials a
+		<include refid="bizMainMaterialsJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="storeId != null and storeId != ''">
+				AND a.store_id = #{storeId}
+			</if>
+			<if test="mainMaterialsNo != null and mainMaterialsNo != ''">
+				and a.main_materials_no like CONCAT('%','${mainMaterialsNo}','%' )
+			</if>
+			<if test="mainMaterialsName != null and mainMaterialsName != ''">
+				and a.main_materials_name like CONCAT('%','${mainMaterialsName}','%' )
+			</if>
+			<if test="categoryId != null and categoryId != ''">
+				AND a.category_id = #{categoryId}
+			</if>
+			<if test="status != null and status != ''">
+				AND a.status = #{status}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY  case WHEN IFNULL(a.sort_index,'')='' THEN 0 else 1 end DESC , 
+					a.sort_index asc, a.update_date asc
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="cn.damei.entity.modules.BizMainMaterials">
+		SELECT 
+			<include refid="bizMainMaterialsColumns"/>
+		FROM biz_main_materials a
+		<include refid="bizMainMaterialsJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY  case WHEN IFNULL(a.sort_index,'')='' THEN 0 else 1 end DESC , 
+					a.sort_index asc, a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO biz_main_materials(
+			id,
+			store_id,
+			main_materials_no,
+			main_materials_name,
+			emp_work_type,
+			category_id,
+			specifications,
+			measurement_unit,
+			status,
+			brands,
+			pic_url,
+			remarks,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag,
+			sort_index,
+			is_counted
+		) VALUES (
+			#{id},
+			#{storeId},
+			#{mainMaterialsNo},
+			#{mainMaterialsName},
+			#{empWorkType},
+			#{categoryId},
+			#{specifications},
+			#{measurementUnit},
+			#{status},
+			#{brands},
+			#{picUrl},
+			#{remarks},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag},
+			#{sortIndex},
+			#{isCounted}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE biz_main_materials SET 	
+			store_id = #{storeId},
+			main_materials_no = #{mainMaterialsNo},
+			main_materials_name = #{mainMaterialsName},
+			emp_work_type = #{empWorkType},
+			category_id = #{categoryId},
+			specifications = #{specifications},
+			measurement_unit = #{measurementUnit},
+			status = #{status},
+			brands = #{brands},
+			pic_url = #{picUrl},
+			remarks = #{remarks},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			store_id = #{storeId},
+			sort_index = #{sortIndex},
+			is_counted = #{isCounted}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE biz_main_materials SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

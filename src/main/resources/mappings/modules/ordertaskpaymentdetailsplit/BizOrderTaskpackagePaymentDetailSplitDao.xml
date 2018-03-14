@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="cn.damei.dao.modules.BizOrderTaskpackagePaymentDetailSplitDao">
+
+	<sql id="bizOrderTaskpackagePaymentDetailSplitColumns">
+		a.id AS "id",
+		a.order_taskpackage_payment_detail_id AS
+		"orderTaskpackagePaymentDetailId",
+		a.salary_employee_id AS
+		"salaryEmployeeId",
+		a.employee_bankcard_id AS "employeeBankcardId",
+		a.employee_bankcard_related_idcard_id AS
+		"employeeBankcardRelatedIdcardId",
+		a.salary_employee_name AS
+		"salaryEmployeeName",
+		a.salary_employee_idcard_no AS
+		"salaryEmployeeIdcardNo",
+		a.salary_employee_bankcard AS
+		"salaryEmployeeBankcard",
+		a.pay_amount_total AS "payAmountTotal",
+		a.related_name AS "relatedName",
+		a.related_idcard_no AS
+		"relatedIdcardNo",
+		a.pay_amount_split AS "payAmountSplit",
+		a.remarks AS
+		"remarks",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag
+		AS "delFlag"
+	</sql>
+
+	<sql id="bizOrderTaskpackagePaymentDetailSplitJoins">
+	</sql>
+
+	<select id="get"
+		resultType="cn.damei.entity.modules.BizOrderTaskpackagePaymentDetailSplit">
+		SELECT
+		<include refid="bizOrderTaskpackagePaymentDetailSplitColumns" />
+		FROM biz_order_taskpackage_payment_detail_split a
+		<include refid="bizOrderTaskpackagePaymentDetailSplitJoins" />
+		WHERE a.id = #{id}
+	</select>
+
+	<select id="findList"
+		resultType="cn.damei.entity.modules.BizOrderTaskpackagePaymentDetailSplit">
+		SELECT
+		<include refid="bizOrderTaskpackagePaymentDetailSplitColumns" />
+		FROM biz_order_taskpackage_payment_detail_split a
+		<include refid="bizOrderTaskpackagePaymentDetailSplitJoins" />
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+
+	<select id="findAllList"
+		resultType="cn.damei.entity.modules.BizOrderTaskpackagePaymentDetailSplit">
+		SELECT
+		<include refid="bizOrderTaskpackagePaymentDetailSplitColumns" />
+		FROM biz_order_taskpackage_payment_detail_split a
+		<include refid="bizOrderTaskpackagePaymentDetailSplitJoins" />
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+
+	<insert id="insert">
+		INSERT INTO
+		biz_order_taskpackage_payment_detail_split(
+		id,
+		order_taskpackage_payment_detail_id,
+		salary_employee_id,
+		employee_bankcard_id,
+		employee_bankcard_related_idcard_id,
+		salary_employee_name,
+		salary_employee_idcard_no,
+		salary_employee_bankcard,
+		pay_amount_total,
+		related_name,
+		related_idcard_no,
+		pay_amount_split,
+		remarks,
+		create_by,
+		create_date,
+		update_by,
+		update_date,
+		del_flag
+		) VALUES (
+		#{id},
+		#{orderTaskpackagePaymentDetailId},
+		#{salaryEmployeeId},
+		#{employeeBankcardId},
+		#{employeeBankcardRelatedIdcardId},
+		#{salaryEmployeeName},
+		#{salaryEmployeeIdcardNo},
+		#{salaryEmployeeBankcard},
+		#{payAmountTotal},
+		#{relatedName},
+		#{relatedIdcardNo},
+		#{payAmountSplit},
+		#{remarks},
+		#{createBy.id},
+		#{createDate},
+		#{updateBy.id},
+		#{updateDate},
+		#{delFlag}
+		)
+	</insert>
+
+	<update id="update">
+		UPDATE biz_order_taskpackage_payment_detail_split SET
+		order_taskpackage_payment_detail_id =
+		#{orderTaskpackagePaymentDetailId},
+		salary_employee_id = #{salaryEmployeeId},
+		employee_bankcard_id = #{employeeBankcardId},
+		employee_bankcard_related_idcard_id = #{employeeBankcardRelatedIdcardId},
+		salary_employee_name = #{salaryEmployeeName},
+		salary_employee_idcard_no = #{salaryEmployeeIdcardNo},
+		salary_employee_bankcard = #{salaryEmployeeBankcard},
+		pay_amount_total = #{payAmountTotal},
+		related_name = #{relatedName},
+		related_idcard_no = #{relatedIdcardNo},
+		pay_amount_split = #{payAmountSplit},
+		remarks = #{remarks},
+		update_by = #{updateBy.id},
+		update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+
+	<update id="delete">
+		UPDATE biz_order_taskpackage_payment_detail_split SET
+		del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+
+	<delete id="deleteBySummaryId" parameterType="java.lang.Integer">
+		<!-- delete FROM biz_order_taskpackage_payment_detail_split WHERE order_taskpackage_payment_detail_id 
+			IN ( SELECT id FROM biz_order_taskpackage_payment_detail WHERE order_taskpackage_payment_id 
+			IN ( SELECT order_taskpackage_payment_id FROM biz_order_taskpackage_payment_summary_rel 
+			WHERE order_taskpackage_payment_summary_id = #{summaryId} ) ) -->
+		<!-- 
+		delete FROM biz_order_taskpackage_payment_detail_split WHERE
+		order_taskpackage_payment_detail_id IN (
+		SELECT
+		a.id
+		FROM
+		biz_order_taskpackage_payment_detail a
+		INNER JOIN biz_order_taskpackage_payment_summary_rel b ON
+		a.order_taskpackage_payment_id = b.order_taskpackage_payment_id
+		AND b.order_taskpackage_payment_summary_id = #{summaryId}
+		ORDER BY a.id
+		) -->
+		
+		DELETE FROM biz_order_taskpackage_payment_detail_split WHERE order_taskpackage_payment_detail_id = #{summaryId}
+	</delete>
+
+	<select id="findPaymentDetailSplitBySummaryId"
+		resultType="cn.damei.entity.modules.BizOrderTaskpackagePaymentDetailSplitVo">
+		<!-- 
+		select
+		id AS "id",
+		order_taskpackage_payment_detail_id AS "orderTaskpackagePaymentDetailId",
+		salary_employee_id AS "salaryEmployeeId",
+		employee_bankcard_id as "employeeBankcardId",
+		employee_bankcard_related_idcard_id as "employeeBankcardRelatedIdcardId",
+		salary_employee_name as "salaryEmployeeName",
+		salary_employee_idcard_no as "salaryEmployeeIdcardNo",
+		salary_employee_bankcard as "salaryEmployeeBankcard",
+		pay_amount_total as "payAmountTotal",
+		related_name as "relatedName",
+		related_idcard_no as "relatedIdcardNo",
+		pay_amount_split as "payAmountSplit"
+		from
+		biz_order_taskpackage_payment_detail_split
+		where order_taskpackage_payment_detail_id in
+		(
+		select id from
+		biz_order_taskpackage_payment_detail
+		where order_taskpackage_payment_id in
+		(select order_taskpackage_payment_id from
+		biz_order_taskpackage_payment_summary_rel where
+		order_taskpackage_payment_summary_id = #{summaryId}) AND `status` != 93)  -->
+		
+		SELECT
+			d.id AS "id",
+			d.order_taskpackage_payment_detail_id AS "orderTaskpackagePaymentDetailId",
+			d.salary_employee_id AS "salaryEmployeeId",
+			d.employee_bankcard_id AS "employeeBankcardId",
+			d.employee_bankcard_related_idcard_id AS "employeeBankcardRelatedIdcardId",
+			d.salary_employee_name AS "salaryEmployeeName",
+			d.salary_employee_idcard_no AS "salaryEmployeeIdcardNo",
+			d.salary_employee_bankcard AS "salaryEmployeeBankcard",
+			d.pay_amount_total AS "payAmountTotal",
+			d.related_name AS "relatedName",
+			d.related_idcard_no AS "relatedIdcardNo",
+			d.pay_amount_split AS "payAmountSplit"
+		FROM
+			biz_order_taskpackage_payment_detail_split d
+		INNER JOIN (
+			SELECT
+				id
+			FROM
+				biz_order_taskpackage_payment_detail b
+			INNER JOIN (
+				SELECT
+					order_taskpackage_payment_id
+				FROM
+					biz_order_taskpackage_payment_summary_rel
+				WHERE
+					order_taskpackage_payment_summary_id = #{summaryId}
+			) a ON a.order_taskpackage_payment_id = b.order_taskpackage_payment_id
+			AND `status` != 93
+		) c ON c.id = d.order_taskpackage_payment_detail_id		
+	</select>
+
+	<select id="queryPaymentDetailSplitByRelateIdCard"
+		resultType="cn.damei.entity.modules.BizOrderTaskpackagePaymentDetailSplit">
+		select
+		id AS "id",
+		order_taskpackage_payment_detail_id AS "orderTaskpackagePaymentDetailId",
+		salary_employee_id AS "salaryEmployeeId",
+		employee_bankcard_id as "employeeBankcardId",
+		employee_bankcard_related_idcard_id as "employeeBankcardRelatedIdcardId",
+		salary_employee_name as "salaryEmployeeName",
+		salary_employee_idcard_no as "salaryEmployeeIdcardNo",
+		salary_employee_bankcard as "salaryEmployeeBankcard",
+		pay_amount_total as "payAmountTotal",
+		related_name as "relatedName",
+		related_idcard_no as "relatedIdcardNo",
+		pay_amount_split as "payAmountSplit"
+		from
+		biz_order_taskpackage_payment_detail_split
+		where
+		order_taskpackage_payment_detail_id not in
+		(select id
+		from
+		biz_order_taskpackage_payment_detail
+		where order_taskpackage_payment_id in
+		(select order_taskpackage_payment_id from
+		biz_order_taskpackage_payment_summary_rel where
+		order_taskpackage_payment_summary_id = #{1}))
+		and DATE_FORMAT(create_date,"%Y-%m") = DATE_FORMAT(now(),"%Y-%m")
+		and related_idcard_no = #{0}
+	</select>
+
+	<update id="updateDetailSplitById">
+		UPDATE biz_order_taskpackage_payment_detail_split SET
+		pay_amount_split = #{1},
+		update_date = now()
+		WHERE id = #{0}
+	</update>
+
+	<select id="queryPaymentAmountSplit" parameterType="java.util.Map"
+		resultType="java.lang.Double">
+		SELECT IFNULL(SUM(a.pay_amount_split),0)
+		FROM
+		biz_order_taskpackage_payment_detail_split a
+		WHERE
+		a.employee_bankcard_related_idcard_id =
+		#{employeeBankcardRelatedIdcardId} and
+		date_format(a.create_date,'%Y-%m') = #{createDate}
+	</select>
+
+	<!--批量新增 -->
+	<insert id="insertBatch" parameterType="java.util.List">
+		INSERT INTO biz_order_taskpackage_payment_detail_split(
+		id,
+		order_taskpackage_payment_detail_id,
+		salary_employee_id,
+		employee_bankcard_id,
+		employee_bankcard_related_idcard_id,
+		salary_employee_name,
+		salary_employee_idcard_no,
+		salary_employee_bankcard,
+		pay_amount_total,
+		related_name,
+		related_idcard_no,
+		pay_amount_split,
+		remarks,
+		create_by,
+		create_date,
+		update_by,
+		update_date,
+		del_flag
+		) VALUES
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(#{item.id},
+			#{item.orderTaskpackagePaymentDetailId},
+			#{item.salaryEmployeeId},
+			#{item.employeeBankcardId},
+			#{item.employeeBankcardRelatedIdcardId},
+			#{item.salaryEmployeeName},
+			#{item.salaryEmployeeIdcardNo},
+			#{item.salaryEmployeeBankcard},
+			#{item.payAmountTotal},
+			#{item.relatedName},
+			#{item.relatedIdcardNo},
+			#{item.payAmountSplit},
+			#{item.remarks},
+			#{item.createBy.id},
+			#{item.createDate},
+			#{item.updateBy.id},
+			#{item.updateDate},
+			#{item.delFlag})
+		</foreach>
+	</insert>
+	
+	<select id="queryPaymentDetailId" resultType="java.lang.Integer">
+		SELECT
+			a.id 
+		FROM
+			biz_order_taskpackage_payment_detail a
+		INNER JOIN biz_order_taskpackage_payment_summary_rel b ON a.order_taskpackage_payment_id = b.order_taskpackage_payment_id
+		AND b.order_taskpackage_payment_summary_id = #{id}
+		ORDER BY
+			a.id		
+	</select>
+</mapper>

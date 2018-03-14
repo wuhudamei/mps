@@ -1,0 +1,7 @@
+BizProjectProgressBoning.class   --->com\thinkgem\jeesite\modules\projectprogressboning\entity
+BizProjectProgressBoningController.class    --->com\thinkgem\jeesite\modules\projectprogressboning\web
+BizProjectProgressBoningDao.class   --->com\thinkgem\jeesite\modules\projectprogressboning\dao
+BizProjectProgressBoningService.class  --->com\thinkgem\jeesite\modules\projectprogressboning\service
+ProjectProgressBoningQuartz.class  --->com\thinkgem\jeesite\Quartz
+BizProjectProgressBoningDao.xml    --->resources\mappings\modules\projectprogressboning
+bizProjectProgressBoningList.jsp   --->views\modules\projectprogressboning

@@ -1,0 +1,37 @@
+.total{position: absolute;top: .88rem;left: 0;background: #f6f6f6;/*padding-left: 4%;padding-right: 4%;*/width: 100%;box-sizing: border-box;}
+.nav_bar{display: block;height: .52rem;text-align: center;
+	border: 1px solid #e5e5e5;box-sizing: border-box;border-radius: .26rem;margin-top: .24rem;
+	background-color: #f3f2f2; position: relative;}
+.select{line-height: .52rem;}
+.select_btn{width: .27rem;height: .14rem;position: absolute;right: .3rem;top: .19rem;}
+.members{margin-top: .24rem;margin-bottom: 300px;}
+.dot_line{border-bottom: 1px dotted #e1e1e1;}
+.shadow{box-shadow: 0 0.03rem 0.2rem #dcdcdc;}
+.mask,.mask1{position: fixed;top: 0;left: 0;width: 100%;height: 100%;z-index: 9;background: rgba(0,0,0,.5);}
+.nav_sec{position: relative;margin-left: 4%;margin-right: 4%;}
+.nav_box{ position: relative;width: 100%;}
+.options{position: absolute; width: 100%;top: .7rem;padding-left: .24rem;padding-right: .24rem;box-sizing: border-box;border-radius: .1rem;}
+.options a{display: block;height: .7rem;line-height: .7rem;width: 100%;border-bottom: 1px solid #e4e4e4;text-align: center;}
+.options a:last-child{border-bottom: none;}
+
+.member_li{border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;position: relative;margin-bottom: .24rem;}
+.mar_btm3{margin-bottom: .3rem;}
+.mar_btm24{margin-bottom: .24rem;}
+.fl_left{float: left;}
+.tele_btn{display: block;width: .57rem;height: .58rem;position: absolute;top: .48rem;right: .12rem;}
+.tele_btn img{width: 100%;}
+.wtc_btn{color: #fff;display: block;width: 3.3rem;height: .58rem;line-height: .58rem;background: #ff9800;border-radius: .29rem;
+    text-align: center;margin: .3rem auto;}
+.item{background-image: url(../images/constructionSite/icon-new.png);background-position: left top;background-repeat: no-repeat;
+    background-size: 0.64rem 0.82rem;}
+.wrapper{margin-left: .6rem;margin-right: .6rem;border-radius: .1rem;margin-top: 45%;}
+.col_lb{color: #2d2b2b;}
+.tit_mask{line-height: 1rem;border-bottom: 1px solid #e5e5e5;box-sizing: border-box;text-align: center;font-weight: bold;}
+.contact{width: 80%;margin: 0 auto;height: 1rem;line-height: 1rem;box-sizing: border-box;}
+.contact:first-of-type{border-bottom: 1px solid #e5e5e5;}
+.tele_mask{background: #ff9800;display: inline-block;float: right;height: .44rem;padding-left: .3rem;padding-right: .3rem;
+    line-height: .44rem;border-radius: .22rem;margin-top: .28rem;}
+.tele_mask span{font-size: .22rem;color: #fff;}
+.tele_icon{width: .27rem;height: .25rem;margin-top: .06rem;margin-right: .06rem;}
+.shut_btn{display: block;border-top: 1px solid #e5e5e5;color: #0780ec;font-size: .32rem;height: 1rem;line-height: 1rem;
+    text-align: center;}

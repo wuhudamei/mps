@@ -1,0 +1,1 @@
+update biz_qc_check_node a set a.is_for_basicwork=0

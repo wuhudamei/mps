@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.ManagerSignDao">
+    
+    <sql id="columns">
+    A.ID AS "id" ,
+	A.sign_pic AS "signPic" ,
+	A.sign_date AS "signDate",
+	A.sign_address AS "signAddress",
+	A.sign_distance AS "signDistance",
+	A.manager_id As "managerId",
+	A.manager_name AS "managerName",
+	A.customer_info AS "customerInfo"
+    
+    </sql>
+	
+	<select id="findList" resultType="cn.damei.entity.modules.ManagerSign">
+	SELECT A.ID AS "id" ,
+	B.order_number AS "orderNumber",
+	B.project_mode as "orderProjectMode",
+	C.`name` AS "storeName" ,
+	A.sign_pic AS "signPic" ,
+	A.sign_date AS "signDate",
+	A.sign_address AS "signAddress",
+	A.sign_distance AS "signDistance",
+	A.manager_id As "managerId",
+	A.manager_name AS "managerName",
+	A.customer_info AS "customerInfo"
+	FROM biz_sign A , biz_order B,sys_office C 
+	
+		<where>
+		
+		A.order_id = B.ID AND B.store_id = C.id
+		AND A.signType = "1"
+		<!-- 签到日期条件 -->
+			
+			<if test="signDate1 != null and signDate1 != '' ">
+				AND a.sign_date &gt; #{signDate1} 
+			</if>
+			
+			<if test="signDate2 != null and signDate2 != ''">
+				AND a.sign_date &lt; #{signDate2}
+			</if>
+			<!-- 距离条件 -->
+			<if test="conditionDistance1 != null and conditionDistance1 != '' and conditionDistance1 != null and conditionDistance1 != ''">
+				AND a.sign_distance BETWEEN #{conditionDistance1} AND #{conditionDistance2}
+			</if>
+			<!-- 项目经理条件 -->
+			<if test="managerName != null and managerName != ''">
+				AND a.manager_name like  concat('%',#{managerName},'%')
+			</if>
+			
+			<!-- 门店条件 -->
+			<if test="storeId != null and storeId != ''">
+				AND C.id = #{storeId}
+			</if>
+			<!-- 工程模式条件 -->
+			<if test="orderProjectMode != null and orderProjectMode != ''">
+				AND B.project_mode = #{orderProjectMode}
+			</if>
+			<!-- 订单编号 -->
+			<if test="orderNumber != null and orderNumber != ''">
+				AND  B.order_number like  concat('%',#{orderNumber},'%')
+			</if>
+			
+		</where>
+			order by  a.sign_date desc
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	<select id="findList1" resultType="cn.damei.entity.modules.BizPmAttendDayOrder" parameterType="cn.damei.entity.modules.BizPmAttendDayOrder">
+		select 
+		a.id as "id",
+		a.order_id as "orderId",
+		a.pm_employee_id as  "pmEmployeeId",
+		a.sign_datetime  as "signDatetime",
+		a.sign_error_distance as "signErrorDistance",
+		a.is_valid as "isValid",
+		a.sign_step as "signStep",
+		b.item_manager   as "managerName",
+		b.customer_address as "customerAddress",
+		b.community_name as "communityName",
+		b.build_number as "buildNumber",
+		b.build_unit as "buildUnit",
+		b.build_room  as "buildRoom",
+		b.store_id as "storeId",
+		b.project_mode as "orderProjectMode",		
+		b.order_number as "orderNumber",
+		b.customer_name as "customerName",
+		b.engin_depart_id as "engineDepartId",
+		a.sign_id as "signId"
+		 from biz_pm_attend_day_order a ,biz_order b
+		 <where>
+			 a.order_id=b.id 
+			<if test="isValid != null and isValid != '' ">
+				AND a.is_valid = #{isValid} 
+			</if>
+			<if test="signDate1 != null and signDate1 != '' ">
+				AND a.sign_datetime &gt;= #{signDate1} 
+			</if>
+			
+			<if test="signDate2 != null and signDate2 != ''">
+				AND a.sign_datetime &lt;= #{signDate2}
+			</if>
+			<if test="conditionDistance1 != null and conditionDistance1 != '' ">
+				AND a.sign_error_distance &gt;= #{conditionDistance1} 
+			</if>
+			
+			<if test="conditionDistance2 != null and conditionDistance2 != ''">
+				AND a.sign_error_distance &lt;=#{conditionDistance2}
+			</if>
+			<!-- 门店条件 -->
+			<if test="storeId != null and storeId != ''">
+				AND b.store_id = #{storeId}
+			</if>
+			<!-- 区域 -->
+			<if test="engineDepartId != null and engineDepartId != ''">
+				AND b.engin_depart_id = #{engineDepartId}
+			</if>
+			<!-- 工程模式条件 -->
+			<if test="orderProjectMode != null and orderProjectMode != ''">
+				AND b.project_mode = #{orderProjectMode}
+			</if>
+			<if test="orderNumber != null and orderNumber != ''">
+				AND b.order_number  like  concat('%',#{orderNumber},'%')
+			</if>
+			<if test="managerName != null and managerName != ''">
+				AND b.item_manager like  concat('%',#{managerName},'%')
+			</if>
+			<if test="customerName != null and customerName != ''">
+				AND b.customer_name like  concat('%',#{customerName},'%')
+			</if>
+			<if test="customerAddress != null and customerAddress != ''">
+				AND (concat(b.customer_address,b.community_name,b.build_number,b.build_unit,b.build_room) like  concat('%',#{customerAddress},'%'))
+			</if>
+			
+		</where>
+	</select>
+	<select id="get" resultType="cn.damei.entity.modules.ManagerSign" parameterType="int">
+	SELECT <include refid="columns"/>
+	
+	from biz_sign A where A.id=#{id} 
+	</select>
+	<update id="updateIsValiddById">
+		update  biz_pm_attend_day_order set is_valid=#{1}
+		where id=#{0}
+	</update>
+	<select id="getMonthStatusByDayOrderId" resultType="String">
+		select m.status from biz_pm_attend_day_order d,biz_pm_attend_month_order o,biz_pm_attend_month m 
+			where  d.order_id=o.order_id 
+			and d.pm_employee_id=o.pm_employee_id 
+			and o.pm_attend_month_id=m.id and d.id=#{parameter}
+	</select>
+	<select id="isApplyAttendMonth" resultType="boolean">
+		SELECT
+			count(b.attend_month)
+		FROM biz_pm_attend_day_order a
+		LEFT JOIN biz_pm_attend_month b ON a.pm_employee_id = b.pm_employee_id
+		WHERE a.id = #{0} AND b.attend_month = DATE_FORMAT(NOW(),'%Y-%c') AND b.status != '35'
+	</select>
+</mapper>

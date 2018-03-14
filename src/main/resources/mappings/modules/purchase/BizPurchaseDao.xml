@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizPurchaseDao">
+    
+	<sql id="bizPurchaseColumns">
+		a.id AS "id",
+		a.order_id AS "orderId",
+		a.purchase_code AS "purchaseCode",
+		a.purchase_type AS "purchaseType",
+		a.receiver_name AS "receiverName",
+		a.receiver_phone AS "receiverPhone",
+		a.apply_receive_time AS "applyReceiveTime",
+		a.apply_employee AS "applyEmployee",
+		a.apply_time AS "applyTime",
+		a.status AS "status",
+		a.total_price AS "totalPrice",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag",
+		a.remarks AS "remarks",
+		a.transfer_supplier_datetime AS "transferSupplierDatetime"
+	</sql>
+	
+	<sql id="bizPurchaseJoins">
+	</sql>
+    
+	<select id="get" resultType="cn.damei.entity.modules.BizPurchase">
+		SELECT 
+			<include refid="bizPurchaseColumns"/>
+		FROM biz_purchase a
+		<include refid="bizPurchaseJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+<!-- 	
+	<select id="findList" resultTycn.damei.entity.modules.BizPurchasehase">
+		SELECT 
+			<include refid="bizPurchaseColumns"/>
+		FROM biz_purchase a
+		<include refid="bizPurchaseJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="purchaseCode != null and purchaseCode != ''">
+				AND a.purchase_code = #{purchaseCode}
+			</if>
+			<if test="beginApplyReceiveTime != null and endApplyReceiveTime != null and beginApplyReceiveTime != '' and endApplyReceiveTime != ''">
+				AND a.apply_receive_time BETWEEN #{beginApplyReceiveTime} AND #{endApplyReceiveTime}
+			</if>
+			<if test="beginApplyTime != null and endApplyTime != null and beginApplyTime != '' and endApplyTime != ''">
+				AND a.apply_time BETWEEN #{beginApplyTime} AND #{endApplyTime}
+			</if>
+			<if test="status != null and status != ''">
+				AND a.status = #{status}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultTycn.damei.entity.modules.BizPurchasehase">
+		SELECT 
+			<include refid="bizPurchaseColumns"/>
+		FROM biz_purchase a
+		<include refid="bizPurchaseJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select> -->
+	
+	<insert id="insert">
+		INSERT INTO biz_purchase(
+			order_id,
+			purchase_code,
+			purchase_type,
+			receiver_name,
+			receiver_phone,
+			apply_receive_time,
+			apply_employee,
+			apply_time,
+			status,
+			total_price,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag,
+			remarks
+		) VALUES (
+			#{orderId},
+			#{purchaseCode},
+			#{purchaseType},
+			#{receiverName},
+			#{receiverPhone},
+			#{applyReceiveTime},
+			#{applyEmployee},
+			#{applyTime},
+			#{status},
+			#{totalPrice},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag},
+			#{remarks}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE biz_purchase SET 	
+			order_id = #{orderId},
+			purchase_type = #{purchaseType},
+			receiver_name = #{receiverName},
+			receiver_phone = #{receiverPhone},
+			apply_receive_time = #{applyReceiveTime},
+			apply_employee = #{applyEmployee},
+			apply_time = #{applyTime},
+			status = #{status},
+			total_price = #{totalPrice},
+			create_by = #{createBy.id},
+			create_date = #{createDate},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			del_flag = #{delFlag},
+			remarks = #{remarks},
+			transfer_supplier_datetime = #{transferSupplierDatetime}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="updateStatusById">
+		UPDATE biz_purchase SET
+			status = '40'
+		WHERE id = #{id}
+	</update>
+	
+	<update id="updateStatus1ById">
+		UPDATE biz_purchase SET
+			status = #{1},
+			receive_all_goods_datetime = #{2}
+		WHERE id = #{0}
+	</update>
+	<update id="updateStatus2ById">
+		UPDATE biz_purchase SET
+			status = #{1}
+		WHERE id = #{0}
+	</update>
+	
+	<update id="updateMainPanelStatus">
+		UPDATE biz_purchase SET 	
+			status_describe = #{statusDescribe},
+			status = #{status}
+		WHERE id = #{id}
+	</update>
+	
+	<!-- 判断项目经理的中期结算单是否已存在 -->
+	<select id="findSettlementIsExist" parameterType="int" resultType="int">
+	
+		SELECT
+			COUNT(1)
+		FROM
+			biz_pm_pre_industry_settle_bill a
+		WHERE
+			a.order_id = #{0}
+		AND a.settle_bill_type = 1
+
+	</select>
+	
+	
+	
+</mapper>

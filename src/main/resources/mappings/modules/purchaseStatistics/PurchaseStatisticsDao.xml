@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.PurchaseStatisticsDao">
+   	
+   	<!-- 材料统计表 -->
+   	<select id="findList" resultType="cn.damei.entity.modules.PurchaseStatistics">
+   		SELECT
+			a.id AS "storeId",
+			a.`name` AS "storeName",
+			b.`value` AS "projectMode",
+			b.label AS "projectModeName"
+		FROM
+			sys_office a
+		INNER JOIN sys_dict b ON b.type = 'project_mode'
+		AND b.del_flag = 0
+		<where>
+				a.parent_id = 1
+			AND a.del_flag = 0
+			<if test="storeId != null and storeId != ''">
+				AND a.id = #{storeId}
+			</if>
+			<if test="projectMode != null and projectMode != ''">
+				AND b.`value` = #{projectMode}
+			</if>
+			ORDER BY
+				a.id ASC,
+				b.`value` ASC
+		</where>
+		
+   	</select>
+   	
+   	<!-- 辅料、开关面板、墙地砖、沙子水泥 发货申请单数 -->
+   	<select id="findApplyList" resultType="cn.damei.entity.modules.PurchaseStatistics">
+   		
+   		SELECT
+			d.purchase_type AS "type",
+			COUNT(d.id) AS "typeCount"
+		FROM
+			biz_order c
+		INNER JOIN biz_purchase d ON c.id = d.order_id
+		<where>
+				c.del_flag = 0
+			AND d.`status` = 10
+			<if test="storeId != null and storeId != ''">
+				AND c.store_id = #{storeId}
+			</if>
+			<if test="projectMode != null and projectMode != ''">
+				AND c.project_mode = #{projectMode}
+			</if>
+			<if test="beginDateTime != null and beginDateTime != ''">
+				AND d.apply_time &gt;= #{beginDateTime}
+			</if>
+			<if test="endDateTime != null and endDateTime != ''">
+				AND d.apply_time &lt;= #{endDateTime}
+			</if>
+			GROUP BY
+				d.purchase_type
+		</where>
+		
+   	</select>
+   	
+   	<!-- 辅料、开关面板、墙地砖、沙子水泥 转给供应商单数 -->
+   	<select id="findTransferSupplierList" resultType="cn.damei.entity.modules.PurchaseStatistics">
+   		
+   		SELECT
+			d.purchase_type AS "type",
+			COUNT(d.id) AS "typeCount"
+		FROM
+			biz_order c
+		INNER JOIN biz_purchase d ON c.id = d.order_id
+		<where>
+				c.del_flag = 0
+			AND d.`status` = 40
+			<if test="storeId != null and storeId != ''">
+				AND c.store_id = #{storeId}
+			</if>
+			<if test="projectMode != null and projectMode != ''">
+				AND c.project_mode = #{projectMode}
+			</if>
+			<if test="beginDateTime != null and beginDateTime != ''">
+				AND d.transfer_supplier_datetime &gt;= #{beginDateTime}
+			</if>
+			<if test="endDateTime != null and endDateTime != ''">
+				AND d.transfer_supplier_datetime &lt;= #{endDateTime}
+			</if>
+			GROUP BY
+				d.purchase_type
+		</where>
+		
+   	</select>
+   
+   	<!-- 辅料、开关面板、墙地砖、沙子水泥  收货单数 -->
+   	<select id="findReceiveList" resultType="cn.damei.entity.modules.PurchaseStatistics">
+   		
+   		
+   		SELECT
+			b.purchase_type AS "type",
+			COUNT(c.id) AS "typeCount"
+		FROM
+			biz_order a
+		INNER JOIN biz_purchase b ON a.id = b.order_id
+		INNER JOIN biz_purchase_receive_bill c ON b.id = c.purchase_id
+		<where>
+				c.del_flag = 0
+			AND a.del_flag = 0
+			AND b.`status` != 21
+			<if test="storeId != null and storeId != ''">
+				AND a.store_id = #{storeId}
+			</if>
+			<if test="projectMode != null and projectMode != ''">
+				AND a.project_mode = #{projectMode}
+			</if>
+			<if test="beginDateTime != null and beginDateTime != ''">
+				AND c.create_date &gt;= #{beginDateTime}
+			</if>
+			<if test="endDateTime != null and endDateTime != ''">
+				AND c.create_date &lt;= #{endDateTime}
+			</if>
+			GROUP BY 
+				b.purchase_type
+		</where>
+		
+   	</select>
+   	
+   	
+   	<!-- 标化、筒灯灯带  申请单数 -->
+   	<select id="findStandardApplyList" resultType="cn.damei.entity.modules.PurchaseStatistics">
+   		
+   		SELECT
+			b.receive_bill_type AS "type",
+			COUNT(b.id) AS "typeCount"
+		FROM
+			biz_order a
+		INNER JOIN biz_materials_standard_receive_bill b ON a.id = b.order_id
+		<where>
+				a.del_flag = 0
+			AND b.del_flag = 0
+			AND b. STATUS = 10
+			<if test="storeId != null and storeId != ''">
+				AND a.store_id = #{storeId}
+			</if>
+			<if test="projectMode != null and projectMode != ''">
+				AND a.project_mode = #{projectMode}
+			</if>
+			<if test="beginDateTime != null and beginDateTime != ''">
+				AND b.apply_datetime &gt;= #{beginDateTime}
+			</if>
+			<if test="endDateTime != null and endDateTime != ''">
+				AND b.apply_datetime &lt;= #{endDateTime}
+			</if>
+			GROUP BY 
+				b.receive_bill_type
+		</where>
+		
+   	</select>
+   	<!-- 标化、筒灯灯带  领取单数 -->
+   	<select id="findStandardReceiveList" resultType="cn.damei.entity.modules.PurchaseStatistics">
+   		
+   		SELECT
+			b.receive_bill_type AS "type",
+			COUNT(b.id) AS "typeCount"
+		FROM
+			biz_order a
+		INNER JOIN biz_materials_standard_receive_bill b ON a.id = b.order_id
+		<where>
+				a.del_flag = 0
+			AND b.del_flag = 0
+			AND b. STATUS = 20
+			<if test="storeId != null and storeId != ''">
+				AND a.store_id = #{storeId}
+			</if>
+			<if test="projectMode != null and projectMode != ''">
+				AND a.project_mode = #{projectMode}
+			</if>
+			<if test="beginDateTime != null and beginDateTime != ''">
+				AND b.operate_datetime &gt;= #{beginDateTime}
+			</if>
+			<if test="endDateTime != null and endDateTime != ''">
+				AND b.operate_datetime &lt;= #{endDateTime}
+			</if>
+			GROUP BY 
+				b.receive_bill_type
+		</where>
+		
+   	</select>
+   
+</mapper>

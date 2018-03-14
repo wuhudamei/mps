@@ -1,0 +1,8 @@
+增加字典：
+            键值   标签                           类型                     描述           排序   
+            10    已交款（实收>应收）             collection_status        交款状态         10
+            20    已交款（0<=实收-应收<=1000）        collection_status     交款状态         20
+            30    已交款（特批）                   collection_status        交款状态         30 
+            40    人工手动确认已交款                   collection_status        交款状态      40
+            1     二期款                           collection_type          交款类别          1 
+            2     尾款                           collection_type          交款类别            2 

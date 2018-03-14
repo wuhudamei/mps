@@ -1,0 +1,392 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.ComplaintForOtherDepartMentDealDao">
+
+    <select id="get"
+            resultType="cn.damei.entity.modules.ComplaintForOtherDepartMentDeal">
+        SELECT
+            a.complaint_employee_id as "complaintPersonId",
+            a.complaint_source as "complaintSource",
+            b.item_manager_id as "managerId",
+            d.realName as "managerName",
+            d.phone as "managerPhone",
+            b.order_inspector_id as "pqcId",
+            e.realName as "pqcName",
+            e.phone as "pqcPhone",
+            c.realName as "complaintPersonName",
+            c.phone as "complaintPersonPhone",
+            b.customer_name as "customerName",
+            concat_ws("-",b.community_name,b.build_number,b.build_unit,b.build_room) as "customerAddress"
+        FROM
+            `biz_order_complaint_pre` a LEFT JOIN biz_order b on a.order_id =b.id
+            LEFT JOIN biz_employee c on a.complaint_employee_id = c.id
+            LEFT JOIN biz_employee d on b.item_manager_id = d.id
+            LEFT JOIN biz_employee e on b.order_inspector_Id = e.id
+
+        where a.id =#{id}
+    </select>
+
+    <select id="findList"
+            resultType="cn.damei.entity.modules.ComplaintForOtherDepartMentDeal">
+        SELECT
+        b.store_id as "storeId",
+        a.id as "id",
+        b.order_number as "orderNumber",
+        b.project_mode as "projectMode",
+        d.NAME AS "departName",
+        CONCAT_WS(
+        "-",
+        b.community_name,
+        b.build_number,
+        b.build_unit,
+        b.build_room
+        ) AS "customerAddress",
+        b.customer_name as "customerName",
+        b.customer_phone as "customerPhone",
+        c.realName as "managerName",
+        c.phone as "managerPhone",
+        a.create_date as "createDate",
+        a.complaint_status as "status",
+        e.realName as "complaintPersonName"
+        FROM
+        biz_order_complaint_pre a
+        LEFT JOIN biz_order b ON a.order_id = b.id
+        LEFT JOIN biz_employee c ON b.item_manager_id = c.id
+        LEFT JOIN biz_engineering_department d ON b.engin_depart_id = d.id
+        LEFT JOIN biz_employee e on a.complaint_employee_id = e.id
+
+        where 1=1
+        <if test="storeId!=null and storeId!=''">
+
+            and b.store_id = #{storeId}
+
+        </if>
+        <if test="projectMode!=null and projectMode!=''">
+
+            and b.project_mode = #{projectMode}
+
+        </if>
+        <if test="departId!=null and departId!=''">
+
+            and b.engin_depart_id = #{departId}
+
+        </if>
+
+
+        <if test="orderNumber!=null and orderNumber!=''">
+
+            and b.order_number = #{orderNumber}
+
+        </if>
+
+
+        <if test="status!=null and status!=''">
+
+            and a.complaint_status = #{status}
+
+        </if>
+
+        <if test="customerName!=null and customerName!=''">
+
+            and b.customer_name like concat ('%',#{customerName},'%')
+
+        </if>
+        <if test="managerName!=null and managerName!=''">
+
+            and c.realName like concat ('%',#{managerName},'%')
+
+        </if>
+        <if test="complaintSource!=null and complaintSource!=''">
+
+            and a.complaint_source =#{complaintSource}
+
+        </if>
+        <if test="startDate!=null and startDate!=''">
+
+            and a.create_date >=#{startDate}
+
+        </if>
+        <if test="endDate!=null and endDate!=''">
+
+            and a.create_date  &lt;= #{endDate}
+
+        </if>
+
+
+
+
+
+        <choose>
+            <when test="page !=null and page.orderBy != null and page.orderBy != ''">
+                ORDER BY ${page.orderBy}
+            </when>
+            <otherwise>
+                ORDER BY a.create_date DESC
+            </otherwise>
+        </choose>
+    </select>
+
+
+    <update id="updatePreComplaintStatus" parameterType="map">
+        UPDATE biz_order_complaint_pre a
+        SET a.status_datetime  = now(),
+            a.status_describe  = #{statusDescribe}, a.status_deal_employee_id = #{dealEmployeeId},
+            a.complaint_status = #{status}
+        WHERE
+            a.id = #{id}
+
+
+    </update>
+
+
+    <select id="findOrderInfoByPreComplaintId" resultType="map" parameterType="String">
+        SELECT
+            a.complaint_describe AS "describe",
+            b.realName           AS "complaintName",
+            a.complaint_source   AS "complaintSource",
+            b.phone              AS "complaintPhone",
+            d.`name`             AS "storeName",
+            d.id                 AS "storeId",
+            c.id                 AS "orderId",
+            c.customer_name      AS "customerName",
+            c.customer_phone     AS "customerPhone",
+            c.item_manager       AS "managerName",
+            c.order_inspector    AS "pqcName",
+            c.project_mode       AS "projectMode",
+            CONCAT_WS(
+                    "-",
+                    c.build_number,
+                    c.build_unit,
+                    c.build_room
+            )                    AS "customerInfo",
+            c.order_number       AS "orderNumber",
+            c.community_name     AS "communityName"
+
+            from
+            `biz_order_complaint_pre` a
+            LEFT JOIN biz_employee b ON a.complaint_employee_id = b.id
+            INNER JOIN biz_order c ON a.order_id = c.id
+            INNER JOIN sys_office d ON c.store_id = d.id
+
+
+        WHERE
+            a.id = #{_parameter}
+
+
+    </select>
+
+    <select id="selectPicByPreId" parameterType="String" resultType="map">
+       select e.pic_url as "url", e.id as "id" from  biz_business_pic e where  e.business_id_int =#{_parameter}  AND e.business_type = 113
+
+
+    </select>
+
+
+
+    <delete id="deletePrePic" parameterType="String">
+        delete from biz_business_pic where id =#{_parameter}
+
+    </delete>
+
+    <select id="findComplaintTypeByStoreId" parameterType="String" resultType="map">
+
+        SELECT
+            a.id        AS "typeId",
+            a.type_name AS "typeName"
+
+        FROM
+            biz_complaint_problem_type a
+
+
+        WHERE a.is_enabled = 1
+              AND a.store_id = #{_parameter}
+
+    </select>
+
+
+    <select id="findComplaintItemByTypeId" parameterType="String" resultType="map">
+        SELECT
+            a.id           AS "itemId",
+            a.item_name    AS "itemName",
+            b.templat_name AS "packName",
+            c.label        AS "dealPersonType"
+        FROM
+            biz_complaint_problem_type q
+            LEFT JOIN biz_complaint_problem_item a ON q.id = a.complaint_problem_type_id
+            LEFT JOIN biz_task_package_templat b ON q.task_package_templat_id = b.id
+            LEFT JOIN sys_dict c ON q.deal_person_type = c.`value`
+                                    AND c.type = 'deal_person_type'
+        WHERE
+            q.id = #{_parameter}
+
+    </select>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <insert id="saveComplaintInfo" parameterType="map" useGeneratedKeys="true" keyProperty="id">
+
+        INSERT INTO biz_order_complaint (
+            order_id,
+            complaint_source,
+            data_input_channel,
+
+            complaint_person_name,
+            complaint_person_phone,
+            status,
+            complaint_person_employee_id,
+            related_business_type,
+            related_business_id_int,
+            create_date
+
+
+        ) VALUES (
+
+            #{orderId},
+            #{complaintSource},
+            #{dataInputChannel},
+            #{complaintPersonName},
+            #{complaintPersonPhone},
+            #{status},
+            #{complaintPersonEmployeeId},
+            #{relatedBusinessType},
+            #{relatedBusinessId},
+            #{createDate}
+
+
+        )
+
+    </insert>
+
+
+    <insert id="saveComplaintProblem" parameterType="map" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO biz_order_complaint_problem (
+            order_complaint_id,
+            complaint_problem_type_id,
+            task_package_templat_id,
+            order_taskpackage_id,
+            complaint_role_type,
+            complaint_problem_describe,
+            status,
+            create_date
+
+        ) VALUES (
+
+            #{orderComplaintId},
+            #{complaintProblemTypeId},
+            #{taskPackageTemplatId},
+            #{orderTaskpackageId},
+            #{complaintRoleType},
+            #{complaintProblemDescribe},
+            #{status},
+            #{createDate}
+
+        )
+
+    </insert>
+
+
+    <insert id="saveProblemAndItemMapping" parameterType="map">
+        INSERT INTO biz_order_complaint_problem_item (
+
+            order_complaint_problem_id,
+            complaint_problem_item_id,
+            create_date
+
+        ) VALUES (
+
+            #{orderComplaintProblemId},
+            #{complaintProblemItemId},
+            #{createDate}
+
+        )
+    </insert>
+
+
+    <insert id="saveProblemHandleInfo" parameterType="map">
+        INSERT INTO biz_order_complaint_problem_deal (
+
+            order_complaint_problem_id,
+            deal_person_type,
+            deal_employee_id,
+            deal_status,
+            deal_status_datetime,
+
+            create_date
+
+        ) VALUES (
+
+            #{orderComplaintProblemId},
+            #{dealPersonType},
+            #{dealEmployeeId},
+            #{dealStatus},
+            #{dealStatusDatetime},
+
+            #{createDate}
+
+
+        )
+
+        
+    </insert>
+    
+    <select id="selectInfoByTypeId" parameterType="String" resultType="map">
+        SELECT
+            a.deal_person_type "dealPersonType",
+            a.task_package_templat_id as "taskPackageTemplatId"
+
+        FROM
+            biz_complaint_problem_type a
+        WHERE
+            a.id = #{_parameter}
+
+
+    </select>
+
+
+
+    <select id="findPackInfoByTemplateIdAndOrderId" resultType="map">
+
+        SELECT
+            a.id as "packId"
+        FROM
+            biz_order_taskpackage a
+        WHERE
+            a.order_id =#{0}
+            AND a.task_package_templat_id =#{1}
+
+    </select>
+
+
+    <select id="findWorkerInfo" resultType="String">
+        SELECT
+
+            c.empId
+        FROM
+            biz_order_taskpackage a
+            LEFT JOIN biz_employeegroup b on a.group_id = b.id
+            LEFT JOIN biz_emgrouprelation c on b.id = c.groupId
+        WHERE
+            a.order_id = #{0}
+            AND a.task_package_templat_id = #{1}
+
+
+    </select>
+</mapper>

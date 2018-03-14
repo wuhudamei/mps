@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.mobile.Manager.OrderFinishProjectBillDao">
+    
+	<sql id="orderFinishProjectBillColumns">
+		t.ID AS "id",
+		t.ORDER_ID AS "orderId",
+		t.ORDER_FINISH_PROJECT_BILL_CODE AS "orderFinishProjectBillCode",
+		t.REAL_FINISH_PROJECT_DATE AS "realFinishProjectDate",
+		t.APPLY_EMPLOYEE_ID AS "applyEmployeeId",
+		t.APPLY_DATETIME AS "applyDatetime",
+		t.CHECK_EMPLOYEE_ID AS "checkEmployeeId",
+		t.CHECK_WORDS AS "checkWords",
+		t.STATUS AS "status",
+		t.REMARKS AS "remarks",
+		t.CREATE_DATE AS "createDate",
+		t.UPDATE_DATE AS "updateDate",
+		t.DEL_FLAG AS "delFlag"
+	</sql>
+	
+	<select id="queryListByOrderID" resultType="cn.damei.entity.mobile.Manager.OrderFinishProjectBill">
+		SELECT
+			<include refid="orderFinishProjectBillColumns"/> 
+		FROM BIZ_ORDER_FINISH_PROJECT_BILL t
+		WHERE t.ORDER_ID = #{0}
+	</select>
+	
+	<select id="getByOrderID" resultType="cn.damei.entity.mobile.Manager.OrderFinishProjectBill">
+		SELECT
+			<include refid="orderFinishProjectBillColumns"/> 
+		FROM BIZ_ORDER_FINISH_PROJECT_BILL t
+		WHERE t.ORDER_ID = #{0}
+	</select>
+	
+	<insert id="insertBill" parameterType="cn.damei.entity.mobile.Manager.OrderFinishProjectBill">
+	<selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER">
+		SELECT LAST_INSERT_ID()
+	</selectKey>
+		INSERT INTO BIZ_ORDER_FINISH_PROJECT_BILL(
+			ID,
+			ORDER_ID,
+			ORDER_FINISH_PROJECT_BILL_CODE,
+			REAL_FINISH_PROJECT_DATE,
+			APPLY_EMPLOYEE_ID,
+			APPLY_DATETIME,
+			CHECK_EMPLOYEE_ID,
+			CHECK_WORDS,
+			STATUS,
+			REMARKS,
+			CREATE_DATE,
+			UPDATE_DATE,
+			DEL_FLAG
+		) VALUES (
+			#{id},
+			#{orderId},
+			#{orderFinishProjectBillCode},
+			#{realFinishProjectDate},
+			#{applyEmployeeId},
+			#{applyDatetime},
+			#{checkEmployeeId},
+			#{checkWords},
+			#{status},
+			#{remarks},
+			#{createDate},
+			#{updateDate},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="updateByMore">
+		UPDATE BIZ_ORDER_FINISH_PROJECT_BILL SET 
+			REAL_FINISH_PROJECT_DATE = str_to_date(#{0},'%Y-%m-%d %H:%i:%s'),
+			APPLY_EMPLOYEE_ID = #{2},
+			UPDATE_DATE = str_to_date(#{3},'%Y-%m-%d %H:%i:%s')
+		WHERE ORDER_ID = #{1} 
+	</update>
+
+
+
+	<delete id="deleteUselessPicsByRelatedId" parameterType="String">
+		delete from  biz_business_pic where business_id_int = #{_parameter}
+		and business_type in (101,102,103)
+
+
+	</delete>
+</mapper>

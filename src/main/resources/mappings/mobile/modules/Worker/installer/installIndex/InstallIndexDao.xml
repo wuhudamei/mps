@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.mobile.Worker.InstallIndexDao">
+	
+	
+	<!-- 查询工人组的施工单   未完工的数量 -->
+	<select id="findUnfinishedCount" parameterType="int" resultType="int">
+		SELECT
+			COUNT(1)
+		FROM
+			biz_supplier_install_construct_bill a
+		WHERE a.`status` IN (10,20)
+		AND a.employee_group_id = #{0}
+		AND a.del_flag = 0
+	</select>
+	
+	
+	<!-- 查询工人组的施工单   未完工的数量 -->
+	<select id="findFinishedCount" parameterType="int" resultType="int">
+		SELECT
+			COUNT(1)
+		FROM
+			biz_supplier_install_construct_bill a
+		WHERE a.`status` IN (30,50)
+		AND a.employee_group_id = #{0}
+		AND a.del_flag = 0
+	</select>
+	
+	
+	
+	
+</mapper>

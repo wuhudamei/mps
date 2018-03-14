@@ -1,0 +1,764 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="cn.damei.dao.modules.InspectorConfirmDao">
+
+
+	<select id="findList"
+		resultType="cn.damei.entity.modules.InspectorConfirm">
+		SELECT
+		a.id AS "qcBillId",
+		b.id AS "orderId",
+		a.qc_bill_code AS
+		"qcBillCode",
+		a.qc_check_node_id AS "qcCheckNodeId",
+		c.qc_check_node_name AS "qcCheckNodeName",
+		a.accept_check_datetime AS
+		"acceptCheckDatetime",
+		b.store_id AS "storeId",
+		b.community_name AS
+		"communityName",
+		b.build_number AS "buildNumber",
+		b.build_unit AS
+		"buildUnit",
+		b.build_room AS "buildRoom",
+		b.customer_name AS
+		"customerName",
+		b.project_mode AS "projectMode",
+		b.item_manager AS
+		"itemManager",
+		b.item_manager_id AS "itemManagerId",
+		d.name as
+		"departmentName",
+		e.realName AS "checkEmployeeName"
+		FROM
+		biz_qc_bill a
+		inner join biz_order b on a.order_id = b.id
+		inner join
+		biz_qc_check_node c on a.qc_check_node_id = c.id
+		left join
+		biz_engineering_department d on d.id = b.engin_depart_id
+		left join
+		biz_employee e on e.id = a.check_employee_id
+		<where>
+			<!-- a.order_id = b.id AND a.qc_check_node_id = c.id AND -->
+			a.is_recheck = #{isRecheck}
+			AND a.qc_bill_type = #{qcBillType}
+			AND
+			a.`status` = #{status}
+			<if test="storeId != null and storeId != ''">
+				AND b.store_id = #{storeId}
+			</if>
+			<if test="projectMode != null and projectMode != ''">
+				AND b.project_mode = #{projectMode}
+			</if>
+			<if test="customerName != null and customerName != ''">
+				AND b.customer_name LIKE
+				<if test="dbName == 'oracle'">'%'||#{customerName}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{customerName}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{customerName},'%')</if>
+			</if>
+			<if
+				test="beginAcceptCheckDatetime != null and endAcceptCheckDatetime != null and beginAcceptCheckDatetime != '' and endAcceptCheckDatetime != ''">
+				AND a.accept_check_datetime BETWEEN #{beginAcceptCheckDatetime}
+				AND #{endAcceptCheckDatetime}
+			</if>
+			<if test="enginDepartIds != null">
+				AND b.engin_depart_id in
+				<foreach item="item" index="index" collection="enginDepartIds"
+					open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+			ORDER BY a.create_date DESC
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				,${page.orderBy}
+			</when>
+		</choose>
+	</select>
+
+	<!-- 查看质检员验收图片 -->
+	<select id="findPic"
+		parameterType="cn.damei.entity.modules.ReportCheckDetailsPic"
+		resultType="cn.damei.entity.modules.ReportCheckDetailsPic">
+		SELECT
+		pic_url AS "picUrl"
+		FROM
+		biz_business_pic
+		WHERE
+		business_type = #{businessType}
+		AND business_id_int = #{businessIdInt}
+	</select>
+
+	<!-- 更新约检验收单 -->
+	<update id="updateQcBill"
+		parameterType="cn.damei.entity.modules.InspectorConfirm">
+		UPDATE biz_qc_bill SET
+		status = #{status},
+		review_status =
+		#{reviewStatus},
+		review_remark = #{reviewRemark},
+		review_datetime =
+		#{reviewDatetime}
+		WHERE id = #{qcBillId}
+	</update>
+
+	<!-- 插入结算单类目明细 -->
+	<insert id="saveDetail"
+		parameterType="cn.damei.entity.modules.PmSettleCategoryDetail">
+		INSERT INTO biz_pm_settle_category_detail(
+		id,
+		order_id,
+		pm_employee_id,
+		settle_category,
+		settle_amount,
+		settle_status,
+		settle_status_datetime,
+		settle_remark,
+		related_business_id,
+		remarks,
+		create_by,
+		create_date,
+		update_by,
+		update_date,
+		del_flag,
+		settle_role,
+		related_business_id_varchar
+		)
+		VALUES (
+		#{id},
+		#{orderId},
+		#{pmEmployeeId},
+		#{settleCategory},
+		#{settleAmount},
+		#{settleStatus},
+		#{settleStatusTime},
+		#{settleRemark},
+		#{relatedBussinessId},
+		#{remarks},
+		#{createBy.id},
+		#{createDate},
+		#{updateBy.id},
+		#{updateDate},
+		#{delFlag},
+		#{settleRole},
+		#{relatedBusinessIdVarchar}
+		)
+	</insert>
+
+	<!-- 批量插入结算单类目明细 -->
+	<insert id="saveDetailAll" parameterType="java.util.List">
+		INSERT INTO biz_pm_settle_category_detail(
+		id,
+		order_id,
+		pm_employee_id,
+		settle_category,
+		settle_amount,
+		settle_status,
+		settle_status_datetime,
+		settle_remark,
+		related_business_id,
+		remarks,
+		create_by,
+		create_date,
+		update_by,
+		update_date,
+		del_flag,
+		settle_role,
+		related_business_id_varchar
+		) VALUES
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(
+			#{item.id},
+			#{item.orderId},
+			#{item.pmEmployeeId},
+			#{item.settleCategory},
+			#{item.settleAmount},
+			#{item.settleStatus},
+			#{item.settleStatusTime},
+			#{item.settleRemark},
+			#{item.relatedBussinessId},
+			#{item.remarks},
+			#{item.createBy.id},
+			#{item.createDate},
+			#{item.updateBy.id},
+			#{item.updateDate},
+			#{item.delFlag},
+			#{item.settleRole},
+			#{item.relatedBusinessIdVarchar}
+			)
+		</foreach>
+	</insert>
+
+	<!-- 从biz_pm_star_commission_cnfg_snap(项目经理结算比例快照信息)中获取数据，通过订单id -->
+	<select id="findFirst" parameterType="int"
+		resultType="cn.damei.entity.modules.BizPmStarCommissionCnfgSnap">
+		SELECT
+		a.id AS "id",
+		a.order_id AS "orderId",
+		a.store_id AS
+		"storeId",
+		a.pm_employee_id AS "pmEmployeeId",
+		a.is_old_new AS
+		"isOldNew",
+		a.star_lever AS "starLever",
+		a.commission_amount AS
+		"commissionAmount",
+		a.commission_rate_midway AS "commissionRateMidway",
+		a.commission_rate_complete AS "commissionRateComplete",
+		a.create_date
+		AS "createDate"
+		FROM
+		biz_pm_star_commission_cnfg_snap a,
+		biz_order b
+		WHERE
+		a.order_id = b.id
+		AND a.store_id = b.store_id
+		AND a.pm_employee_id
+		= b.item_manager_id
+		AND a.is_old_new = b.house_is_new
+		AND b.id = #{0}
+		ORDER BY a.create_date DESC LIMIT 1
+	</select>
+
+	<select id="queryManagerCommissionByOrderId"
+		resultType="cn.damei.entity.modules.BizPmStarCommissionCnfgSnap">
+
+		<!-- SELECT a.id as "orderId", a.order_number as "orderNumber", a.community_name 
+			as "communityName", a.build_number as "buildNumber", a.build_room as "buildRoom", 
+			a.build_unit as "buildUnit", a.customer_name as "customerName", a.customer_phone 
+			as "customerPhone", a.item_manager as "itemManager", b.star_lever as "starLever", 
+			b.commission_amount as "commissionAmount", b.commission_rate_midway as "commissionRateMidway", 
+			b.commission_rate_complete as "commissionRateComplete", c.create_date as 
+			"sendOrderDate" FROM biz_order a LEFT JOIN biz_pm_star_commission_cnfg_snap 
+			b ON a.id = b.order_id LEFT JOIN biz_order_distribute_log c on c.order_id 
+			= a.id and c.distributed_employee_id = a.item_manager_id where a.id=#{orderId} 
+			ORDER BY c.create_date desc LIMIT 1 -->
+		SELECT
+		a.id AS "orderId",
+		a.order_number AS "orderNumber",
+		a.community_name AS "communityName",
+		a.build_number AS "buildNumber",
+		a.build_room AS "buildRoom",
+		a.build_unit AS "buildUnit",
+		a.customer_name AS "customerName",
+		a.customer_phone AS "customerPhone",
+		a.item_manager_id AS "pmEmployeeId",
+		a.item_manager AS "itemManager",
+		b.star_lever AS "starLever",
+		b.commission_amount AS "commissionAmount",
+		b.commission_rate_midway AS "commissionRateMidway",
+		b.commission_rate_complete AS "commissionRateComplete",
+		b.is_old_new AS
+		"isOldNew",
+		c.create_date AS "sendOrderDate",
+		em.phone as
+		"itemManagerPhone"
+		FROM
+		biz_order a
+		left join biz_employee em on
+		a.item_manager_id = em.id
+		INNER JOIN (
+		SELECT
+		s.order_id,
+		s.star_lever,
+		s.commission_amount,
+		s.commission_rate_complete,
+		s.commission_rate_midway,
+		s.is_old_new
+		FROM
+		biz_pm_star_commission_cnfg_snap s
+		INNER JOIN biz_order o on s.order_id
+		= o.id AND s.pm_employee_id = o.item_manager_id and o.house_is_new =
+		s.is_old_new
+		WHERE
+		s.order_id = #{orderId}
+		ORDER BY
+		s.create_date DESC
+		LIMIT 1
+		) b ON a.id = b.order_id
+		INNER JOIN (
+		SELECT
+		l.order_id,
+		l.create_date
+		FROM
+		biz_order_distribute_log l
+		WHERE
+		l.order_id =
+		#{orderId}
+		ORDER BY
+		l.create_date DESC
+		LIMIT 1
+		) c ON c.order_id = a.id
+		WHERE
+		a.id = #{orderId}
+	</select>
+
+
+	<select id="queryManagerCommissionByParam" parameterType="java.util.Map"
+		resultType="cn.damei.entity.modules.BizPmStarCommissionCnfgSnap">
+
+		SELECT
+		a.id AS "orderId",
+		a.order_number AS "orderNumber",
+		a.community_name AS "communityName",
+		a.build_number AS "buildNumber",
+		a.build_room AS "buildRoom",
+		a.build_unit AS "buildUnit",
+		a.customer_name AS "customerName",
+		a.customer_phone AS "customerPhone",
+		b.pm_employee_id AS "pmEmployeeId",
+		b.realName AS "itemManager",
+		b.star_lever AS "starLever",
+		b.commission_amount AS "commissionAmount",
+		b.commission_rate_midway AS "commissionRateMidway",
+		b.commission_rate_complete AS "commissionRateComplete",
+		b.is_old_new AS
+		"isOldNew",
+		c.create_date AS "sendOrderDate",
+		b.phone as
+		"itemManagerPhone"
+		FROM
+		biz_order a
+		<!-- left join biz_employee em on a.item_manager_id = em.id -->
+		INNER JOIN (
+		SELECT
+		s.order_id,
+		s.star_lever,
+		s.commission_amount,
+		s.commission_rate_complete,
+		s.commission_rate_midway,
+		s.is_old_new,
+		s.pm_employee_id,
+		em.realName,
+		em.phone
+		FROM
+		biz_pm_star_commission_cnfg_snap s
+		INNER JOIN biz_order o on s.order_id
+		= o.id and o.house_is_new = s.is_old_new
+		left join biz_employee em on
+		s.pm_employee_id = em.id
+		WHERE
+		s.order_id = #{orderId}
+		and
+		s.pm_employee_id = #{pmEmployeeId}
+		ORDER BY
+		s.create_date DESC
+		LIMIT 1
+		) b
+		ON a.id = b.order_id
+		INNER JOIN (
+		SELECT
+		l.order_id,
+		l.create_date
+		FROM
+		biz_order_distribute_log l
+		WHERE
+		l.order_id = #{orderId}
+		ORDER BY
+		l.create_date DESC
+		LIMIT 1
+		) c ON c.order_id = a.id
+		WHERE
+		a.id =
+		#{orderId}
+	</select>
+
+	<!-- 从biz_pm_settle_category_detail(质检罚款明细)中获取数据 -->
+	<select id="findSecond"
+		parameterType="cn.damei.entity.modules.PmSettleCategoryDetail"
+		resultType="cn.damei.entity.modules.PmSettleCategoryDetail">
+		SELECT
+		a.id,
+		a.pm_employee_id,
+		a.settle_category,
+		a.settle_amount,
+		a.settle_status,
+		a.settle_status_datetime,
+		a.settle_remark,
+		a.related_business_id
+		FROM
+		biz_pm_settle_category_detail a,
+		biz_order b
+		WHERE
+		a.order_id = b.id
+		AND
+		a.pm_employee_id = b.item_manager_id
+		AND a.settle_category =
+		#{settleCategory}
+		AND a.settle_status = #{settleStatus}
+		AND b.id =
+		#{orderId}
+	</select>
+	<!-- 查询项目经理的结算类目金额 -->
+	<select id="queryManangerPenalty" parameterType="java.util.Map"
+		resultType="double">
+		SELECT ifnull(sum(settle_amount),0)
+		from
+		biz_pm_settle_category_detail
+		where
+		settle_category=#{settleCategory} and order_id=#{orderId}
+		<if test="settleStatus != null  and settleStatus != ''">
+			and settle_status=#{settleStatus}
+		</if>
+		<if test="settleRole != null and settleRole != ''">
+			and settle_role=#{settleRole}
+		</if>
+		<if test="pmEmployeeId != null and pmEmployeeId != ''">
+			and pm_employee_id = #{pmEmployeeId}
+		</if>
+	</select>
+
+	<select id="queryPmPunishByParam" parameterType="java.util.Map"
+		resultType="cn.damei.entity.modules.QcBillCheckItemInfo">
+		SELECT
+		c.qc_bill_code AS "qcBillCode",
+		e.qc_check_kind_name
+		AS
+		"qcCheckKindName",
+		d.qc_check_item_name AS "qcCheckItemName",
+		b.punish_money_amount_real AS "punishMoneyAmountReal",
+		b.create_date AS
+		"subDate",
+		em.realName as "pmEmpName"
+		FROM
+		biz_pm_settle_category_detail
+		a
+		LEFT JOIN
+		biz_qc_bill_check_item b on a.related_business_id = b.id
+		LEFT JOIN
+		biz_qc_bill c on b.qc_bill_id = c.id
+		LEFT JOIN
+		biz_qc_check_item d on
+		d.id=b.qc_check_item_id
+		LEFT JOIN
+		biz_qc_check_kind e on
+		d.qc_check_kind_id = e.id
+		LEFT JOIN biz_employee
+		em on em.id = a.pm_employee_id
+		WHERE
+		a.order_id = #{orderId}
+		AND
+		a.settle_category = #{settleCategory}
+		AND a.settle_role = #{settleRole}
+		AND a.settle_status = #{settleStatus}
+		<if test="pmEmployeeId != null and pmEmployeeId != ''">
+			AND a.pm_employee_id = #{pmEmployeeId}
+		</if>
+	</select>
+
+	<!-- 更新biz_pm_settle_category_detail中（质检罚款明细） -->
+	<update id="updateDetail"
+		parameterType="cn.damei.entity.modules.PmSettleCategoryDetail">
+		UPDATE biz_pm_settle_category_detail SET
+		settle_status =
+		#{settleStatus},
+		settle_status_datetime = #{settleStatusTime},
+		update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+
+	<!-- 批量更新biz_pm_settle_category_detail中（质检罚款明细 -->
+	<update id="updateDetailAll"
+		parameterType="cn.damei.entity.modules.PmSettleCategoryDetail">
+		<!-- UPDATE biz_pm_settle_category_detail a INNER JOIN biz_order b ON a.order_id 
+			= b.id AND a.pm_employee_id = b.item_manager_id SET a.settle_status = #{lastSettleStatus}, 
+			a.settle_status_datetime = #{settleStatusTime}, a.update_by = #{updateBy.id}, 
+			a.update_date = #{updateDate} WHERE a.settle_category = #{settleCategory} 
+			AND a.settle_status = #{settleStatus} AND a.settle_role = #{settleRole} AND 
+			b.id = #{orderId} -->
+		UPDATE biz_pm_settle_category_detail a
+		SET
+		a.settle_status =
+		#{lastSettleStatus},
+		a.settle_status_datetime = #{settleStatusTime},
+		a.update_by =
+		#{updateBy.id},
+		a.update_date = #{updateDate}
+		WHERE
+		a.settle_category =
+		#{settleCategory}
+		AND a.settle_status =
+		#{settleStatus}
+		AND
+		a.settle_role = #{settleRole}
+		AND a.order_id =
+		#{orderId}
+	</update>
+
+	<!-- 从biz_materials_standard_receive_bill(标化辅料录入表)中获取数据，通过订单id -->
+	<select id="findThree" parameterType="int"
+		resultType="cn.damei.entity.modules.BizMaterialsStandardReceiveBill">
+		SELECT
+		a.id AS "id",
+		a.store_id AS "storeId",
+		a.order_id AS
+		"orderId",
+		a.materials_standard_receive_bill_code AS
+		"materialsStandardReceiveBillCode",
+		a.receive_datetime AS
+		"receiveDatetime",
+		b.item_manager_id AS "receiveEmployeeId",
+		a.receive_bill_amount AS "receiveBillAmount",
+		a.is_settled AS
+		"isSettled"
+		FROM
+		biz_materials_standard_receive_bill a,
+		biz_order b
+		WHERE
+		a.order_id = b.id
+		AND a.store_id = b.store_id
+		AND (a.is_settled = 0 or
+		a.is_settled is NULL)
+		AND a.`status` = '20'
+		AND
+		b.id =#{orderId}
+
+	</select>
+
+	<select id="queryMaterialsStandardByOrderId"
+		resultType="cn.damei.entity.modules.BizOrderMaterialsStandard">
+		SELECT
+		a.id as "id",
+		a.materials_standard_receive_bill_code
+		as
+		"materialsStandardReceiveBillCode",
+		b.materials_type as
+		"materialsType",
+		b.materials_name as "materialsName",
+		b.materials_unit
+		as "materialsUnit",
+		b.materials_price as "materialsPrice",
+		b.receive_number as "receiveNumberTotal",
+		b.materials_amount as
+		"materialsAmount",
+		em.realName AS "applyEm",
+		a.apply_datetime AS "applyDatetime"
+		FROM
+		biz_materials_standard_receive_bill a
+		INNER JOIN
+		biz_materials_standard_receive_detail b ON a.id =
+		b.materials_standard_receive_bill_id
+		LEFT JOIN biz_employee em on em.id
+		= a.apply_employee_id
+		WHERE
+		a.order_id = #{orderId}
+		AND a.`status` = '20'
+		ORDER
+		BY
+		b.materials_standard_receive_bill_id,
+		b.materials_standard_id
+	</select>
+	<!-- 更新biz_materials_standard_receive_bill中状态 -->
+	<update id="updateMaterials"
+		parameterType="cn.damei.entity.modules.BizMaterialsStandardReceiveBill">
+		UPDATE biz_materials_standard_receive_bill SET
+		is_settled = #{isSettled},
+		update_by = #{updateBy.id},
+		update_date =
+		#{updateDate}
+		WHERE id = #{id}
+	</update>
+
+	<!-- 从biz_pm_ownpay_cnfg_snap(自主支配快照信息)中获取数据，通过订单id -->
+	<select id="findFour" parameterType="int"
+		resultType="cn.damei.entity.modules.BizPmOwnpayCnfgSnap">
+		SELECT
+		a.id AS "id",
+		a.store_id AS "storeId",
+		a.order_id AS
+		"orderId",
+		a.is_old_new AS "isOldNew",
+		a.project_mode AS "projectMode",
+		a.ownpay_name AS "ownpayName",
+		a.unit AS "unit",
+		a.amount AS "amount",
+		b.item_manager_id AS "itemManagerId"
+		FROM
+		biz_pm_ownpay_cnfg_snap a,
+		biz_order b
+		WHERE
+		a.order_id = b.id
+		AND a.store_id = b.store_id
+		AND
+		a.project_mode = b.project_mode
+		AND a.is_old_new = b.house_is_new
+		AND
+		b.id = #{0}
+
+	</select>
+
+	<select id="queryManagerOwnpay" resultType="double">
+		SELECT
+		ifnull(sum(a.amount),0)
+		FROM
+		biz_pm_ownpay_cnfg_snap a,
+		biz_order b
+		WHERE
+		a.order_id = b.id
+		AND
+		a.store_id = b.store_id
+		AND a.project_mode =
+		b.project_mode
+		AND
+		a.is_old_new = b.house_is_new
+		AND b.id = #{0}
+	</select>
+
+	<select id="queryPmOwnpayCnfgSnapByOrderId"
+		resultType="cn.damei.entity.modules.BizPmOwnpayCnfgSnap">
+		SELECT
+		a.ownpay_name as "ownpayName",
+		a.unit as "unit",
+		a.amount as "amount",
+		a.remarks as "remarks"
+		FROM
+		biz_pm_ownpay_cnfg_snap a,
+		biz_order b
+		WHERE
+		a.order_id = b.id
+		AND
+		a.store_id = b.store_id
+		AND a.project_mode =
+		b.project_mode
+		AND
+		a.is_old_new = b.house_is_new
+		AND b.id = #{orderId}
+	</select>
+
+
+	<!-- 从biz_qc_longway_commission_cnfg_snap(质检员远程费提成快照信息)中获取数据，通过订单id -->
+	<select id="findFive" parameterType="int"
+		resultType="cn.damei.entity.modules.BizQcLongwayCommissionCnfgSnap">
+		SELECT
+		a.id AS "id",
+		a.store_id AS "storeId",
+		a.order_id AS
+		"orderId",
+		a.qc_employee_id AS "pmEmployeeId",
+		a.commission_amount AS
+		"commissionAmount",
+		a.commission_rate_midway AS "commissionRateMidway",
+		a.commission_rate_complete AS "commissionRateComplete",
+		a.is_enabled AS
+		"isEnabled",
+		a.remarks AS "remarks",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag",
+		c.star AS
+		"starLevel"
+		FROM
+		biz_qc_longway_commission_cnfg_snap a,
+		biz_order b,
+		biz_employee c
+		WHERE
+		b.id = #{0}
+		AND a.order_id = b.id
+		AND a.store_id =
+		b.store_id
+		AND
+		a.qc_employee_id = b.order_inspector_id
+		AND a.is_enabled =
+		'1'
+		AND c.id
+		= a.qc_employee_id
+		ORDER BY
+		a.create_date DESC
+		LIMIT 1
+
+	</select>
+
+	<!-- 从biz_qc_star_commission_cnfg_snap(质检员星级配置快照信息)中获取数据，通过订单id -->
+	<select id="findSix" parameterType="int"
+		resultType="cn.damei.entity.modules.BizQcStarCommissionCnfgSnap">
+		SELECT
+		a.id AS "id",
+		a.store_id AS "storeId",
+		a.order_id AS
+		"orderId",
+		a.pm_employee_id AS "pmEmployeeId",
+		a.is_old_new AS
+		"isOldNew",
+		a.house_type AS "houseType",
+		a.star_level AS "starLevel",
+		a.commission_amount AS "commissionAmount",
+		a.commission_rate_midway AS
+		"commissionRateMidway",
+		a.commission_rate_complete AS
+		"commissionRateComplete",
+		a.is_enabled AS "isEnabled",
+		a.remarks AS
+		"remarks",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag
+		AS "delFlag"
+		FROM
+		biz_qc_star_commission_cnfg_snap a,
+		biz_order b
+		WHERE
+		a.order_id = #{0}
+		AND a.order_id = b.id
+		AND a.store_id = b.store_id
+		AND
+		a.pm_employee_id = b.order_inspector_id
+		AND a.is_old_new =
+		b.house_is_new
+		AND a.house_type = b.build_type
+		ORDER BY
+		a.create_date
+		DESC
+		LIMIT 1
+
+	</select>
+
+	<select id="findById"
+		resultType="cn.damei.entity.modules.InspectorConfirm">
+		SELECT
+			a.id AS "qcBillId",
+			b.id AS "orderId",
+			a.qc_bill_code AS "qcBillCode",
+			a.qc_check_node_id AS "qcCheckNodeId",
+			c.qc_check_node_name AS "qcCheckNodeName",
+			a.accept_check_datetime AS "acceptCheckDatetime",
+			a.review_remark AS "reviewRemark",
+			b.store_id AS "storeId",
+			b.community_name AS "communityName",
+			b.build_number AS "buildNumber",
+			b.build_unit AS "buildUnit",
+			b.build_room AS "buildRoom",
+			b.customer_name AS "customerName",
+			b.project_mode AS "projectMode",
+			b.item_manager AS "itemManager",
+			b.item_manager_id AS "itemManagerId",
+			a.status AS "status"
+		FROM
+			biz_qc_bill a
+		inner join biz_order b on a.order_id = b.id
+		inner join biz_qc_check_node c on a.qc_check_node_id = c.id
+		where a.id = #{0}
+	</select>
+
+	<select id="checkQcCheck" resultType="int" parameterType="java.util.Map">
+		SELECT
+		count(*)
+		FROM
+		biz_order a
+		INNER JOIN biz_pm_settle_check_node_cnfg b ON a.store_id = b.store_id
+		AND a.project_mode = b.project_mode
+		AND settle_role = 1
+		AND settle_node = #{settleNode}
+		AND b.is_enabled = 1
+		AND b.qc_check_node_id = #{qcCheckNodeId}
+		WHERE
+		a.id = #{orderId}
+	</select>
+</mapper>

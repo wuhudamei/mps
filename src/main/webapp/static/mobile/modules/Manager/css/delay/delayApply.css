@@ -1,0 +1,44 @@
+.pt112{padding-top: 1.12rem;}
+.bor_top_ddd{border-top: 1px solid #ddd;}
+.wid60per{width: 60%;}
+.rela{position: relative;}
+.chooseBtn{font-size: .3rem;color: #0780ec;position: absolute;right: .3rem;top: .3rem;padding-right: .36rem;
+	background: url(../../img/chooseRgtBtn.png) no-repeat;background-size: .16rem .27rem;background-position: right center;}
+.date1 {
+    width: 4.62rem;
+    line-height: .46rem;
+    padding: .05rem .12rem;
+    box-sizing: content-box;
+    border: 1px solid #9cccf7;
+    background-image: url(../../img/canlender.png);
+    background-repeat: no-repeat;
+    background-size: .3rem .32rem;
+    background-position: 4.4rem center;
+    color: #999;
+    font-size: .24rem;
+}
+.instruc {
+    width: 4.62rem;
+    height: 1.06rem;
+    padding: .1rem .12rem;
+    line-height: 1.3em;
+    display: inline-block;
+    vertical-align: middle;
+    border: #9cccf7 solid 1px;
+    resize: none;
+    color: #333;
+    font-size: .26rem;
+    box-shadow: 0 0.05rem 0.1rem #dedede inset;
+    background: #f8f8f8;
+}
+.pt32{padding-top: .32rem;}
+.pb32{padding-bottom: .32rem;}
+
+.col_a8a8a8{color: #a8a8a8;}
+
+.btmContainer{background: #fff;position: absolute;bottom: 0;width: 100%;
+	padding-bottom: .42rem;height: 2.7rem;overflow: scroll;}
+.pt28{padding-top: .28rem;}
+.pb28{padding-bottom: .28rem;}
+.align_ctr{text-align: center;}
+.bor_btm_cdcdcd{border-bottom: 1px solid #cdcdcd;}

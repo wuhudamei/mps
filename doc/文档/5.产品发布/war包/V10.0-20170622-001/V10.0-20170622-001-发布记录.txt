@@ -1,0 +1,50 @@
+ 打包名称：mdn.war
+打包版本：V10.0-20170622-001
+
+功能变更：
+	1、人员拉黑还原功能（胡汉伟）
+	2、订单明细查询优化（武轶博）
+	3、传统结算缺陷修复（梅浩）
+	4、复检修复与优化（梅浩）
+
+功能新增：
+	1、约检计划开发【梅浩】
+	2、【接口】材料和主材验收接口打通到订单流转
+	3、【接口】选材结果打通到生产系统
+	
+
+菜单新增：
+	1、名称：主材安装项二级类目关系列表
+	   链接：/materialMappingRelation/list
+
+	2、选材系统
+
+		名称：选材变更单
+		链接：/bizmaterialschoicechangebill/bizMaterialsChoiceChangeBill/preList
+		权限标识：bizmaterialschoicechangebill:bizMaterialsChoiceChangeBill:view,bizma
+
+		名称：选材清单
+		链接：/bizmaterialchoicebill/bizMaterialsChoiceBill/preList
+		权限标识：bizmaterialchoicebill:bizMaterialsChoiceBill:view,bizmaterialchoicebill:bizMaterialsChoiceBill:edit
+
+		名称：选材类目明细查询
+		链接：/bizmaterialschoicebillitem/bizMaterialsChoiceBillItem/preList
+		权限标识：bizmaterialschoicebillitem:bizMaterialsChoiceBillItem:view,bizmaterialschoicebillitem:bizMaterialsChoiceBillItem:edit
+
+
+	
+数据库表结构变更：
+		注意哦！！先执行表结构变更的脚本，在执行表数据变更的脚本
+		1、先执行文件夹名【脚本】内的【jeesite_table-v12.0_06_jiekou_xuancai.sql】脚本
+		
+
+数据库表数据变更：
+		请按顺序执行：
+  二级配置表：  1、执行文件夹名【数据处理】内的【ejmlpeizhi20170622zkj.sql】脚本
+    二级字典：  2、执行文件夹名【数据处理】内的【ejmlzidian20170622zkj.sql】脚本
+	接口：	3、执行文件夹名【接口】内的【fcjiekou20170622cgh1.sql】脚本
+	接口：	4、执行文件夹名【接口】内的【fcjiekou20170622cgh2.sql】脚本	
+		
+		
+
+	

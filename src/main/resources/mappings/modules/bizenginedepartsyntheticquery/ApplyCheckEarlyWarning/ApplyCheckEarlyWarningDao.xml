@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.ApplyCheckEarlyWarningQueryDao">
+
+
+
+    <select id="findList" resultType="cn.damei.entity.modules.ApplyCheckEarlyWarningQueryEntity">
+        SELECT
+        count(b.id) as "delayOrderCount",
+        c.qc_check_node_name as "constructionScheduleName",
+        c.store_id as "storeId",
+        c.project_mode as "projectMode",
+        b.qc_check_node_id as "nodeId"
+        FROM
+        biz_order a
+        LEFT JOIN biz_qc_bill b ON a.id = b.order_id
+        AND a.order_status_number &lt; 340
+        and a.create_date &gt; '2017-03-01'
+        AND b.qc_bill_type = 1
+        AND b.`status`&lt; 10
+        AND b.is_recheck = 0
+        right JOIN biz_qc_check_node c ON b.qc_check_node_id = c.id
+
+        and c.store_id =a.store_id
+        and c.project_mode = a.project_mode
+        <if test="constructionScheduleName != null and constructionScheduleName != ''">
+            and  c.qc_check_node_name like CONCAT('%',#{constructionScheduleName},'%')
+        </if>
+        AND (
+        DATE_ADD(
+        a.actual_start_date,
+        INTERVAL days_to_check DAY
+        ) &lt; CURDATE()
+        ) = 1
+
+        where
+        c.del_flag = 0
+        AND c. STATUS = 1
+        <if test="storeId != null and storeId != ''">
+            AND c.store_id = #{storeId}
+        </if>
+
+        <if test="projectMode != null and projectMode != ''">
+            AND c.project_mode = #{projectMode}
+        </if>
+        GROUP BY
+        c.id
+
+
+    </select>
+
+
+
+</mapper>
+

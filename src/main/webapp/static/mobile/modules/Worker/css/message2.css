@@ -1,0 +1,17 @@
+.msg_nav{height: .76rem;width: 100%;padding-top: .9rem;}
+.nav_a{float: left;width: 50%;height: inherit;}
+.nav_a span{float: left;width: 100%;height: inherit;text-align: center;line-height: .76rem;box-sizing: border-box;}
+.msg_nav .active{color: #0780ec;border-bottom: 1px solid #0780ec;}
+.list li{position: relative;}
+.list a:last-child li{border-bottom: none;}
+.red_rnd{position: absolute;top: .45rem;left: .2rem;width: .1rem;height: .1rem;background: #f00;border-radius: 50%;}
+.time{position: absolute;bottom: .3rem;right: .3rem;}
+.msg_content{line-height: 1.5em;/* padding-top: .4rem; */padding-bottom: .2rem;}
+.showDetail{position: absolute;right: .3rem;bottom: .2rem;text-align: center;font-size: .28rem;color: #0780ec;}
+.load{text-align: center;margin-top: .3rem;margin-bottom: 5rem;height: .3rem;line-height: .3rem;}
+.msg_count{font-size: .18rem;color: #fff;background: #f00;width: .3rem;height: .24rem;line-height: .24rem;
+	text-align: center;border-radius: 50%;position: absolute;top: .07rem;right: 28%;}
+.msg_countmine{font-size: .18rem;color: #fff;background: #f00;width: .3rem;height: .24rem;line-height: .24rem;
+	text-align: center;border-radius: 50%;position: absolute;top: .07rem;right: 43%;}
+.msg_btn{position:relative;}
+.msg_countmine{position: absolute;top: .07rem;left: 70%;}

@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizMaterialsStandardNumberSquareDao">
+    
+	<sql id="bizMaterialsStandardNumberSquareColumns">
+		a.id AS "id",
+		a.materials_standard_id AS "materialsStandardId",
+		a.square_min AS "squareMin",
+		a.square_max AS "squareMax",
+		a.number_rule_code AS "numberRuleCode",
+		a.remarks AS "remarks",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag",
+		a.number_rule_describe AS "numberRuleDescribe"
+	</sql>
+	
+	<sql id="bizMaterialsStandardNumberSquareJoins">
+	</sql>
+    
+	<select id="get" resultType="cn.damei.entity.modules.BizMaterialsStandardNumberSquare">
+		SELECT 
+			<include refid="bizMaterialsStandardNumberSquareColumns"/>
+		FROM biz_materials_standard_number_square a
+		<include refid="bizMaterialsStandardNumberSquareJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="cn.damei.entity.modules.BizMaterialsStandardNumberSquare">
+		SELECT 
+			<include refid="bizMaterialsStandardNumberSquareColumns"/>
+		FROM biz_materials_standard_number_square a
+		<include refid="bizMaterialsStandardNumberSquareJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="cn.damei.entity.modules.BizMaterialsStandardNumberSquare">
+		SELECT 
+			<include refid="bizMaterialsStandardNumberSquareColumns"/>
+		FROM biz_materials_standard_number_square a
+		<include refid="bizMaterialsStandardNumberSquareJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO biz_materials_standard_number_square(
+			id,
+			materials_standard_id,
+			square_min,
+			square_max,
+			number_rule_code,
+			remarks,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag,
+			number_rule_describe
+		) VALUES (
+			#{id},
+			#{materialsStandardId},
+			#{squareMin},
+			#{squareMax},
+			#{numberRuleCode},
+			#{remarks},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag},
+			#{numberRuleDescribe}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE biz_materials_standard_number_square SET 	
+			square_min = #{squareMin},
+			square_max = #{squareMax},
+			number_rule_code = #{numberRuleCode},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			number_rule_describe = #{numberRuleDescribe}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE biz_materials_standard_number_square SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	<select id="getIdByMaterialsId" resultType="java.lang.String">
+			SELECT
+				id
+			FROM
+				biz_materials_standard_number_square
+			WHERE
+				materials_standard_id = #{materialsId}
+	</select>
+</mapper>

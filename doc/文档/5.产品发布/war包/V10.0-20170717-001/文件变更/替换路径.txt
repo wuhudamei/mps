@@ -1,0 +1,1 @@
+WEB-INF\views\mobile\modules\Manager\materialManagement\wall_submit.jsp

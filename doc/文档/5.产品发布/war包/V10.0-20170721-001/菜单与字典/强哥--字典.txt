@@ -1,0 +1,11 @@
+1、王磊--派单管理优化
+
+	键值	标签			类型			描述		排序	
+	105	105--确认接收订单	order_status_new	订单状态	105	
+	110	110--已生成预算		order_status_new	订单状态	110	
+	120	120--已派项目经理	order_status_new	订单状态	120	
+	125	125--已派质检员		order_status_new	订单状态	125	
+	130	130--已现场交底		order_status_new	订单状态	130	
+	200	200--施工中		order_status_new	订单状态	200	
+	300	300--已申请竣工		order_status_new	订单状态	300	
+	310	310--质检竣工审核不通过	order_status_new	订单状态	310	

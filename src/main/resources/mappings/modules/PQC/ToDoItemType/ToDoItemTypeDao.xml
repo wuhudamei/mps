@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.ToDoItemTypeDao">
+    
+	
+    
+	 <select id="get" resultType="ToDoItemTypeEntity">
+		select 1 from dual
+	</select>
+	
+	<select id="findList" resultType="ToDoItemTypeEntity">
+		select 
+			a.rownum as "rowNo",
+			a.store_id as "storeId",
+			b.name as "storeName",
+			a.project_mode as "projectMode",
+			a.todo_item_code as "toDoItemCode",
+			a.todo_item_name as "toDoItemName",
+			a.days_to_remind as "daysToRemind",
+			a.business_step as "businessStep",
+			a.is_to_remind as "isToRemind",
+			a.todo_item_generate_style as "toDoItemGenerateStyle",
+			a.todo_item_remarks as "toDoItemRemarks",
+			a.create_by as "remarks",
+			a.create_date as "createDate",
+			a.update_by as "createBy",
+			a.update_date as "updateDate",
+			a.del_flag as "delFlag",
+			a.sort_index as "sortIndex",
+			a.related_business_type as "relatedBusinessType",
+			a.related_business_id as "relatedBusinessId"
+		from ( select   (@i:=@i+1)   as   rownum,bb.*   from   biz_todo_item_type bb,(select   @i:=0)   as   it  )  a 
+		inner join sys_office so on a.store_id =so.id
+		<if test="storeId !='' and storeId != null">
+			 and  a.store_id = #{storeId}
+		 </if>
+		 <if test="project_mode !='' and project_mode != null">
+			 and  a.project_mode = #{projectMode}
+		 </if>
+		  <if test="business_step !='' and business_step != null">
+			  and  a.business_step like CONCAT('%','${businessStep}','%' )  
+		 </if> 
+		 <if test="todo_item_name !='' and todo_item_name != null">
+			 and  a.todo_item_name like CONCAT('%','${toDoItemName}','%' ) 
+		 </if>
+		  <if test="todo_item_generate_style !='' and todo_item_generate_style != null">
+			 and  a.todo_item_generate_style = #{toDoItemGenerateStyle}
+		 </if> <if test="is_to_remind !='' and is_to_remind != null">
+			 and  a.is_to_remind = #{isToRemind}
+		 </if>
+		 order by a.sort_index 
+	</select>
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		insert into biz_todo_item_type(
+			id,
+			store_id,
+			project_mode,
+			todo_item_code,
+			todo_item_name,
+			days_to_remind,
+			business_step,
+			is_to_remind,
+			todo_item_generate_style,
+			todo_item_remarks,
+			remarks,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag,
+			related_business_type,
+			related_business_id
+		) values(
+			#{id},
+			#{storeId},
+			#{projectMode},
+			#{toDoItemCode},
+			#{toDoItemName},
+			#{daysToRemind},
+			#{businessStep},
+			#{isToRemind},
+			#{toDoItemGenerateStyle},
+			#{toDoItemRemarks},
+			#{remarks},
+			#{createBy},
+			#{createDate},
+			#{updateBy},
+			#{updateDate},
+			#{delFlag},
+			#{relatedBusinessType},
+			#{relatedbusinessId}
+		)
+	</insert>
+	<update id="update">
+		update biz_todo_item_type set
+			store_id  = #{storeId},
+			project_mode=#{projectMode},
+			todo_item_code=#{toDoItemCode},
+			todo_item_name=#{toDoItemName},
+			days_to_remind=#{daysToRemind},
+			business_step=#{businessStep},
+			is_to_remind=#{isToRemind},
+			todo_item_generate_style=#{toDoItemGenerateStyle},
+			todo_item_remarks=#{toDoItemRemarks},
+			remarks=#{remarks},
+			create_by=#{createBy},
+			create_date=#{createDate},
+			update_by=#{updateBy},
+			update_date=#{updateDate},
+			del_flag=#{delFlag},
+			related_business_type=#{relatedBusinessType},
+			related_business_id=#{relatedbusinessId}
+		where id=#{id}
+	</update>
+	<update id="updateViewdByObj">
+		update biz_todo_item set
+			is_viewd  = #{isViewed}
+		where id=#{toDoItemCode}
+	</update>
+
+
+
+
+</mapper>

@@ -1,0 +1,6 @@
+﻿质检管理>质检报告管理>检查项查询     /quality/bizQcBillCheckItem/list    quality:bizQcBillCheckItem:view
+质检管理>统计报表>工人组违规问题统计     /qualitygroupmanger/qcItemGroupManger/list    qualitygroupmanger:qcItemGroupManger:view
+质检管理>统计报表>项目经理违规问题统计     /qualitygroupmanger/qcItemGroupManger/listManagerall    qualitygroupmanger:qcItemGroupManger:view
+		
+			
+			

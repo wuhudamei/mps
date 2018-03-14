@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.mobile.Manager.OrderTaskpackageAuxiliaryMaterialsDao">
+
+	<!--查询结算单确认验收信息  -->
+	<insert id="insert">
+		INSERT INTO biz_order_taskpackage_auxiliary_materials(
+			id,
+			order_id,
+			order_taskpackage_id,
+			auxiliary_materials_no,
+			used_count,
+			price,
+			supplier_price,
+			wangzhen_price,
+			is_sand_cement
+		) VALUES (
+			#{id},
+			#{orderId},
+			#{orderTaskpackageId},
+			#{auxiliaryMaterialsNo},
+			#{usedCount},
+			#{price},
+			#{supplierPrice},
+			#{wangzhenPrice},
+			#{isSandCement}
+		)
+	</insert>
+	
+	<!--修改改结算单-->
+	<update id="updateOrderTaskpackageAuxiliaryMaterials" parameterType="cn.damei.entity.mobile.Manager.OrderTaskpackageAuxiliaryMaterials">
+		update biz_order_taskpackage_auxiliary_materials set used_count=#{usedCount} where id=#{id}
+	</update>
+	
+	<!--根据id查询-->
+	<select id="get" resultType="cn.damei.entity.mobile.Manager.OrderTaskpackageAuxiliaryMaterials">
+		select id as "id",order_id as "orderId",order_taskpackage_id as "orderTaskpackageId",
+			auxiliary_materials_no as "auxiliaryMaterialsNo",used_count as "usedCount"
+		from biz_order_taskpackage_auxiliary_materials where id=#{id}
+	</select>
+	<!-- 查询出有效结算单下的所有辅料信息 -->
+	<select id="queryAuxiliaryMaterialByPassOrderTaskpackageSettle" resultType="cn.damei.entity.mobile.Manager.OrderTaskpackageAuxiliaryMaterials">
+        SELECT
+        a.id as "id",
+        a.order_id as "orderId",
+        a.order_taskpackage_id as "orderTaskpackageId",
+	    a.auxiliary_materials_no as "auxiliaryMaterialsNo",
+	    a.used_count as "usedCount",
+	    a.price as "price",
+	    a.supplier_price as "supplierPrice",
+	    a.wangzhen_price as "wangzhenPrice"
+        FROM 
+        biz_order_taskpackage_auxiliary_materials a,
+        biz_auxiliary_materials am
+        where 
+       (a.del_flag = '0' or a.del_flag is null)
+       	AND a.auxiliary_materials_no=am.auxiliary_materials_no
+        and (a.is_sand_cement is null OR a.is_sand_cement='0')
+        and am.id in (
+           select ams.auxiliary_materials_id 
+             from 
+            biz_auxiliary_materials_supplier_rel ams 
+            where ams.supplier_id=#{supplierId})
+        and a.order_taskpackage_id in 
+        (SELECT 
+			d.order_taskpackage_id
+		FROM
+		 biz_order_taskpackage_settlement d ,
+		 biz_business_status_log b,
+		 biz_order_taskpackage c
+		where 
+		d.order_taskpackage_id = b.business_only_mark_int
+		and c.id=d.order_taskpackage_id
+		and c.store_id= #{storeId}
+		and b.business_status='80' 
+		and b.business_type='601' 
+		and b.status_datetime BETWEEN #{startDate} AND #{endDate}
+		AND d.id not IN(
+         SELECT
+			r.order_taskpackage_settlement_id
+		FROM
+			biz_auxiliary_materials_verify_settlement_rel r,
+			biz_auxiliary_materials_verify v
+		WHERE
+			r.auxiliary_materials_verify_id = v.id
+		    AND v.supplier_id = #{supplierId}
+		    and v.status != '15'
+         )
+		)
+    </select>
+
+	<!--根据任务包id和辅料编号查询条数-->
+	<select id="queryCountByTaskIdAndAuxiliaryNo" parameterType="java.util.Map" resultType="java.lang.Integer">
+		select count(*) from biz_order_taskpackage_auxiliary_materials where order_taskpackage_id = #{orderTaskpackageId} and auxiliary_materials_no = #{auxiliaryMaterialsNo}
+	</select>
+</mapper>
+   

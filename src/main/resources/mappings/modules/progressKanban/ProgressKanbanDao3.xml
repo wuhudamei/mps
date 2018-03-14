@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.ProgressKanban3Dao">
+    
+	<sql id="kanban3Columns">
+		a.ID AS "id",
+		a.ORDER_NUMBER AS "orderNumber",
+		a.CONTRACT_NUMBER AS "contractNumber",
+		a.CUSTOMER_TYPE AS "customerType",
+		a.CUSTOMER_DESCRIPTION AS "customerDescription",
+		a.CUSTOMER_NAME AS "customerName",
+		a.CUSTOMER_PHONE AS "customerPhone",
+		a.COMMUNITY_NAME AS "communityName",
+		a.BUILD_NUMBER AS "buildNumber",
+		a.BUILD_UNIT AS "buildUnit",
+		a.BUILD_ROOM AS "buildRoom",
+		a.MAP_COORDINATE AS "mapCoordinate",
+		a.SALE_TYPE AS "saleType",
+		a.AREA AS "area",
+		a.BUILD_TYPE AS "buildType",
+		a.HOUSE_TYPE AS "houseType",
+		a.HOUSE_IS_NEW AS "houseIsNew",
+		a.IS_ELEVATOR AS "isElevator",
+		a.DESIGNER_NAME AS "designerName",
+		a.DESIGNER_PHONE AS "designerPhone",
+		a.ORDER_REPORTER_NAME AS "orderReporterName",
+		a.ORDER_REPORTER_PHONE AS "orderReporterPhone",
+		a.SERVICE_NAME AS "serviceName",
+		a.SERVICE_PHONE AS "servicePhone",
+		a.CONTRACT_START_DATE AS "contractStartDate",
+		a.CONTRACT_END_DATE AS "contractEndDate",
+		a.COVERED_AREA AS "coveredArea",
+		a.CONTRACT_AREA AS "contractArea",
+		a.CONTRACT_TIME AS "contractTime",
+		a.SIGN_CONTRACT_DATE AS "signContractDate",
+		a.ORDER_STATUS_NUMBER AS "orderStatusNumber",
+		a.ORDER_STATUS_DESCRIPTION AS "orderStatusDescription",
+		a.ORDER_INSPECTOR AS "orderInspector",
+		a.CREATE_BY AS "createBy.id",
+		a.CREATE_DATE AS "createDate",
+		a.UPDATE_BY AS "updateBy.id",
+		a.UPDATE_DATE AS "updateDate",
+		a.REMARKS AS "remarks",
+		a.DEL_FLAG AS "delFlag",
+		a.ITEM_MANAGER AS "itemManager",
+		a.STORE_ID AS "storeId",
+		a.CUS_MANAGER AS "cusManager",
+		a.ORDERTASKPACK_STATUS AS "orderTaskPackStatus",
+		a.ACTUAL_START_DATE AS actualStartDate,
+		a.ACTUAL_END_DATE AS actualEndDate,
+		a.ITEM_MANAGER_ID AS "itemManagerId",
+		a.SIGN_FLAG AS "signFlag",
+		a.DELAY_TYPE AS "delayType",
+		a.ORDER_INSPECTOR_ID AS "orderInspectorId",
+		a.PROJECT_MODE AS "projectMode"
+	</sql>
+    
+	<select id="findOrderByStoreId" resultType="cn.damei.entity.modules.ProgressKanban3">
+       SELECT
+       		a.id AS "id",
+			a.CONTRACT_NUMBER AS "contractNumber",
+			a.CUSTOMER_NAME AS "customerName",
+			a.CUSTOMER_PHONE AS "customerPhone",
+			a.CUSTOMER_ADDRESS AS "customerAddress",
+			a.DESIGNER_NAME AS "designerName",
+			a.DESIGNER_PHONE AS "designerName",
+			(SELECT p.REALNAME FROM BIZ_EMPLOYEE p WHERE p.ID = a.ITEM_MANAGER_ID) AS "managerName",
+			(SELECT p.PHONE FROM BIZ_EMPLOYEE p WHERE p.ID = a.ITEM_MANAGER_ID) AS "managerPhone",
+			(SELECT p.REALNAME FROM BIZ_EMPLOYEE p WHERE p.ID = a.ORDER_INSPECTOR_ID) AS "inspectorName",
+			(SELECT p.PHONE FROM BIZ_EMPLOYEE p WHERE p.ID = a.ORDER_INSPECTOR_ID) AS "inspectorPhone",
+			a.CONTRACT_START_DATE AS "contractStartDate",
+			a.CONTRACT_END_DATE AS "contractEndDate",
+			a.CONTRACT_AREA AS "contractArea"
+		FROM BIZ_ORDER a
+		WHERE a.STORE_ID = #{storeId}
+		ORDER BY a.ACTUAL_START_DATE ASC
+    </select>
+    
+	<select id="get" resultType="cn.damei.entity.modules.ProgressKanban3">
+		SELECT 
+			<include refid="kanban3Columns"/>
+		FROM BIZ_ORDER a
+		WHERE a.ID = #{id}
+	</select>
+	
+	<select id="findList" resultType="cn.damei.entity.modules.ProgressKanban3">
+		SELECT 
+			<include refid="kanban3Columns"/>,
+			(SELECT b.realName FROM BIZ_EMPLOYEE b WHERE b.ID = a.ITEM_MANAGER_ID) AS "managerName",
+			(SELECT e.realName FROM BIZ_EMPLOYEE e WHERE e.ID = a.ORDER_INSPECTOR_ID) AS "inspectorName",
+			DATEDIFF(a.ACTUAL_START_DATE, a.CONTRACT_START_DATE) AS "actualDelayDays",
+			DATEDIFF(b.DISCLOSE_DATE,a.CONTRACT_START_DATE) AS "discloseDays"
+		FROM BIZ_ORDER a,BIZ_ORDER_DISCLOSE b,BIZ_EMPLOYEE y
+		<where>
+			b.ORDER_ID = a.ID
+			AND a.DEL_FLAG = #{DEL_FLAG_NORMAL}
+			AND y.ID = a.ITEM_MANAGER_ID
+			<if test="orderNumber != null and orderNumber != ''">
+				AND a.ORDER_NUMBER = #{orderNumber}
+			</if>
+			<if test="managerName != null and managerName != ''">
+				AND y.REALNAME LIKE CONCAT('%',#{managerName},'%')
+			</if>
+			<if test="projectMode != null and projectMode != ''">
+				AND a.PROJECT_MODE = #{projectMode}
+			</if>
+			<if test="storeId != null and storeId != ''">
+				AND a.STORE_ID = #{storeId}
+			</if>
+			<if test="houseIsNew != null and houseIsNew != ''">
+				AND a.HOUSE_IS_NEW = #{houseIsNew}
+			</if>
+			<if test="actualBegin != null and actualBegin != ''">
+				AND a.ACTUAL_START_DATE &gt;= str_to_date(#{actualBegin}, '%Y-%m-%d %H:%i:%s')
+			</if>
+			<if test="actualEnd != null and actualEnd != ''">
+				AND a.ACTUAL_START_DATE &lt;= str_to_date(#{actualEnd}, '%Y-%m-%d %H:%i:%s')
+			</if> 
+			<if test="orderTaskPackStatus != null and orderTaskPackStatus != ''">
+				AND a.ORDERTASKPACK_STATUS = #{orderTaskPackStatus}
+			</if>
+			<if test="customerName != null and customerName != ''">
+				AND a.CUSTOMER_NAME = #{customerName}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.ACTUAL_START_DATE ASC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="cn.damei.entity.modules.ProgressKanban3">
+		SELECT 
+			<include refid="kanban3Columns"/>
+		WHERE BIZ_ORDER a
+		AND a.DEL_FLAG = #{DEL_FLAG_NORMAL}
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.ACTUAL_START_DATE ASC
+			</otherwise>
+		</choose>
+	</select>
+</mapper>

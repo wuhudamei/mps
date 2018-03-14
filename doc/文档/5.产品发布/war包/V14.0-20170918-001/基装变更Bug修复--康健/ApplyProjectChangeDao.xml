@@ -1,0 +1,461 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="cn.damei.dao.mobile.Manager.ApplyProjectChangeDao">
+
+
+
+	<!-- 施工订单list -->
+	<select id="findOrderList" parameterType="int"
+		resultType="cn.damei.entity.mobile.Manager.ApplyProjectChangeEntity">
+		SELECT
+		a.id AS "orderId",
+		a.contract_start_date AS "contractStartDate",
+		a.customer_address AS "customerAddress",
+		a.community_name AS "xiaoqu",
+		a.build_number AS "lou",
+		a.build_unit AS "danyuan",
+		a.build_room AS
+		"shi",
+		a.customer_name AS "customerName",
+		a.order_status_description AS
+		"orderStatus",
+		a.order_status_number,
+		a.is_scrap as "isScrap",
+		(select count(1) from
+		biz_project_change_bill b where b.order_id =a.id) AS
+		"orderCount"
+		FROM
+		biz_order a
+		WHERE
+		a.order_status_number <![CDATA[  < '300' ]]>
+		AND a.item_manager_id = #{_parameter}
+		ORDER BY
+		a.contract_start_date
+		DESC
+	</select>
+
+	<select id="findOrderCount" parameterType="int" resultType="int">
+		select count(1) from biz_project_change_bill where order_id =
+		#{_parameter}
+
+
+	</select>
+
+
+
+	<!-- ===========================================施工项============================================================ -->
+
+	<resultMap
+		type="cn.damei.entity.mobile.Manager.ProjectItemType"
+		id="itemType">
+		<result property="itemTypeId" column="id" />
+		<result property="itemTypeName" column="project_intem_type_name" />
+
+		<collection property="itemList" resultMap="item"></collection>
+	</resultMap>
+
+
+
+	<resultMap
+		type="cn.damei.entity.mobile.Manager.ProjectItem"
+		id="item">
+
+		<result property="itemId" column="itemId" />
+		<result property="itemName" column="project_intem_name" />
+		<result property="itemPrice" column="project_intem_price" />
+		<result property="count" column="count" />
+		<association property="itemType" resultMap="itemType"></association>
+
+	</resultMap>
+
+
+
+
+	<select id="findAllProjectTypes"
+		resultType="cn.damei.entity.mobile.Manager.ProjectItemType">
+		SELECT
+		b.id as "itemTypeId",
+		b.project_intem_type_name as "itemTypeName"
+		FROM
+		biz_project_intem_type b
+		WHERE
+		b.`status` = '1'
+
+
+	</select>
+
+
+
+
+
+
+
+
+	<!-- 增项 只有套餐外 -->
+	<select id="findAddItemList"
+		resultType="cn.damei.entity.mobile.Manager.ProjectItem">
+
+
+		SELECT
+		A.id AS "itemId",
+		A.project_intem_name as "itemName",
+		COUNT(c.id) AS "count"
+
+		FROM
+		`biz_project_intem` A
+
+
+		LEFT JOIN biz_project_intem_price c ON a.id = c.project_intem_id
+		AND c.effect_date  <![CDATA[  <  ]]> now()
+		WHERE
+		a.project_intem_mold = '1'
+		AND a.group_type = '2'
+		AND a. STATUS = '1'
+		and a.project_intem_type_id = #{itemTypeId}
+		GROUP BY
+		a.id
+
+
+	</select>
+	<!-- 减项 套餐内外 -->
+	<select id="findMinusInnerItemList"  resultType="cn.damei.entity.mobile.Manager.ProjectItem"
+		parameterType="cn.damei.entity.mobile.Manager.ProjectItem">
+		SELECT
+		A.id as "itemId",
+		A.project_intem_name  as "itemName",
+		COUNT(c.id) as "count"
+
+		FROM
+		`biz_project_intem` A 
+		LEFT JOIN
+		biz_project_intem_price c on
+		a.id = c.project_intem_id
+		and c.effect_date  <![CDATA[  <  ]]>
+		now()
+		where
+		a.project_intem_mold = '2' and
+		a.group_type = #{groupType}
+		and
+		a.status ='1'
+		and a.project_intem_type_id = #{itemTypeId}
+		GROUP BY a.id
+
+	</select>
+
+
+
+
+
+
+	<!-- 根据施工项id ,查询施工项的详情 -->
+	<select id="findItemDetailById" parameterType="int"
+		resultType="cn.damei.entity.mobile.Manager.ProjectItem">
+		SELECT
+		a.id AS "itemId",
+		a.project_intem_name AS "itemName",
+		a.project_intem_unit AS "itemUnit",
+		e.project_intem_price AS
+		"itemPrice",
+		a.group_type AS "groupType",
+		a.project_intem_detail AS
+		"itemDetail",
+		a.project_intem_mold AS "itemWay",
+		t.id as "typeId",
+		t.project_intem_type_name as "itemTypeName",
+		a.project_intem_code as
+		"itemCode"
+		FROM
+		biz_project_intem a,
+		biz_project_intem_type t,
+		(
+		SELECT
+		d.id,
+		d.project_intem_price,
+		d.project_intem_version
+		FROM
+		biz_project_intem_price d
+		WHERE
+		d.project_intem_id = #{_parameter}
+		AND
+		d.project_intem_version = (
+		SELECT
+		MAX(c.project_intem_version)
+		FROM
+		biz_project_intem_price c
+		WHERE
+		#{_parameter} = c.project_intem_id
+		AND
+		c.effect_date  <![CDATA[  <  ]]>
+		NOW()
+		)
+		) e
+		WHERE
+		a.id = #{_parameter}
+		and
+		a.project_intem_type_id =t.id
+
+	</select>
+
+
+
+	<!--============================================ 变更单 编号生成============================================ -->
+	<!--============================================ 变更单 编号生成============================================ -->
+	<!--============================================ 变更单 编号生成============================================ -->
+	<!--============================================ 变更单 编号生成============================================ -->
+	<select id="getCode"
+		resultType="cn.damei.entity.mobile.Inspector.ReCheckCode">
+		SELECT bussiness_type as "bussinessType",
+		last_seiralnum as
+		"lastSeiralnum",
+		generate_time as "generateTime"
+		from biz_seiralnum
+		where bussiness_type ="BG"
+	</select>
+
+
+	<update id="updateCode"
+		parameterType="cn.damei.entity.mobile.Inspector.ReCheckCode">
+		update biz_seiralnum set last_seiralnum =
+		#{lastSeiralnum} where
+		bussiness_type = "BG"
+	</update>
+
+	<insert id="saveCode">
+		insert into biz_seiralnum
+		(bussiness_type,last_seiralnum,generate_time)
+		values('BG','0','2017-11-18 10:00:00');
+	</insert>
+
+
+
+	<insert id="saveProjectBill"
+		parameterType="cn.damei.entity.mobile.Manager.ApplyProjectChangeEntity">
+		<selectKey resultType="int" order="AFTER" keyColumn="id"
+			keyProperty="projectChangeId">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+
+		INSERT INTO biz_project_change_bill(
+		order_id,
+		project_change_bill_code,
+		change_reason,
+		apply_date,
+		add_item_total_price,
+		sub_item_total_price,
+		status
+
+		)values (
+		#{orderId},
+		#{projectChangeCode},
+		#{changeReason},
+		#{applyDate},
+		#{addItemTotalPrice},
+		#{minusItemTotalPrice},
+		#{status}
+
+		)
+
+	</insert>
+
+
+
+
+	<insert id="saveProjectItem"
+		parameterType="cn.damei.entity.mobile.Manager.ProjectItem">
+		insert into biz_project_change_bill_item (
+		project_change_bill_id,
+		project_intem_type_name,
+		project_intem_id,
+		project_intem_mold,
+		project_intem_code,
+		project_intem_name,
+		project_intem_unit,
+		group_type,
+		project_intem_detail,
+		project_intem_amount,
+		explain_words,
+		project_intem_price
+
+		) values (
+		#{changeBillId},
+		#{itemTypeName},
+		#{itemId},
+		#{itemWay},
+		#{itemCode},
+		#{itemName},
+		#{itemUnit},
+		#{groupType},
+		#{itemDetail},
+		#{itemCount},
+		#{itemDescription},
+		#{itemPrice}
+		)
+	</insert>
+	<update id="updateProjectBillMoney"
+		parameterType="cn.damei.entity.mobile.Manager.ApplyProjectChangeEntity">
+		update biz_project_change_bill set add_item_total_price
+		=
+		#{addItemTotalPrice} ,sub_item_total_price =#{minusItemTotalPrice}
+		where id = #{projectChangeId}
+	</update>
+
+
+	<!-- 根据orderId 查询施工变更申请记录 -->
+	<select id="findProjectApplyByOrderId" parameterType="int"
+		resultType="cn.damei.entity.mobile.Manager.ApplyProjectChangeEntity">
+
+		SELECT
+		a.id AS "projectChangeId",
+		a.order_id as "orderId",
+		a.apply_date as "applyDate",
+		a.sub_item_total_price as
+		"minusItemTotalPrice",
+		a.add_item_total_price as "addItemTotalPrice",
+		a.`status` as "status",
+		b.label as "statusName"
+		FROM
+		biz_project_change_bill a,
+		sys_dict b
+		WHERE
+		a.order_id = #{_parameter}
+
+		and a.`status` = b.`value`
+		and b.type =
+		'change_single_status'
+	</select>
+
+
+	<!-- 根据Id查变更单 -->
+	<select id="findChangeBillDetailById" parameterType="int"
+		resultType="cn.damei.entity.mobile.Manager.ApplyProjectChangeEntity">
+		SELECT
+		a.id AS "projectChangeId",
+		a.change_reason as
+		"changeReason",
+		COUNT(e.id) as "signaturePic",
+		a.order_id as "orderId"
+		FROM
+		`biz_project_change_bill` a
+		LEFT JOIN biz_business_pic e ON a.`id`=e.business_id_int AND e.business_type='105'
+		where
+		a.id=#{_parameter}
+	</select>
+
+	<!-- 根据变更单id ,查询变更项 -->
+
+
+	<select id="findChangeItemByChangeBillId" parameterType="int"
+		resultType="cn.damei.entity.mobile.Manager.ProjectItem">
+		SELECT
+		a.project_intem_id AS "itemId",
+		a.project_intem_name
+		AS "itemName",
+		a.project_intem_unit AS "itemUnit",
+		a.group_type AS
+		"groupType",
+		a.explain_words AS "itemDescription",
+		a.project_intem_mold
+		AS "itemWay",
+		a.project_intem_code AS "itemCode",
+		a.project_intem_amount AS "itemCount",
+		a.project_change_bill_id AS
+		"changeBillId",
+		a.project_intem_price as "itemPrice"
+		FROM
+		biz_project_change_bill_item a
+		WHERE
+		a.project_change_bill_id =
+		#{_parameter}
+
+	</select>
+
+
+
+
+	<delete id="deleteChangeBillById" parameterType="int">
+		delete from
+		biz_project_change_bill where id = #{_parameter}
+
+
+	</delete>
+	<delete id="deleteChangeItemByBillId" parameterType="int">
+
+		delete from
+		biz_project_change_bill_item where project_change_bill_id =
+		#{_parameter}
+
+	</delete>
+
+
+	<!-- 根据Id查变更单,审核不通过的数据 -->
+	<select id="findChangeBillDetailByIdAndStatus" parameterType="int"
+		resultType="cn.damei.entity.mobile.Manager.ApplyProjectChangeEntity">
+		SELECT
+		a.id AS "projectChangeId",
+		a.change_reason AS
+		"changeReason",
+		a.order_id AS "orderId",
+		a.check_employee_id AS
+		"checkManId",
+		b.realName AS "checkManName",
+		a.check_datetime AS "checkDate",
+		c.label AS "statusName",
+		a. STATUS AS "status",
+		check_words AS
+		"checkWords"
+		FROM
+		`biz_project_change_bill` a
+		LEFT JOIN biz_employee b ON
+		a.check_employee_id = b.id
+		LEFT JOIN sys_dict c ON a.`status` =
+		c.`value`
+		WHERE
+		a.id = #{_parameter}
+		AND c.type = 'change_single_status'
+
+	</select>
+
+	<select id="findCountByItemId" parameterType="int" resultType="int">
+		SELECT count(1) from biz_project_intem_price where project_intem_id =
+		#{_parameter}
+	</select>
+
+
+	<select id="findCustomerNameByprojectChangeId" parameterType="int"
+		resultType="String">
+		SELECT A.CUSTOMER_NAME from biz_order a where a.id in
+		(select order_id from
+		biz_project_change_bill where id =#{_parameter} )
+	</select>
+
+
+
+
+	<select id="findMessageInfoByOrderId" parameterType="int"
+		resultType="cn.damei.common.utils.phoneMessage.MessageEmployeePhoneAndId">
+
+		SELECT
+		a.community_name AS "xiaoqu",
+		a.build_number AS "lou",
+		a.build_unit AS "danyuan",
+		a.build_room AS "shi",
+		a.customer_name AS
+		"customerName",
+		a.customer_phone AS "customerPhone",
+		a.designer_name AS
+		"designerName",
+		a.designer_phone AS "designerPhone"
+		FROM
+		BIZ_ORDER A
+		WHERE
+		a.id = #{_parameter}
+
+	</select>
+	<update id="updatePicBusinessId" >
+		UPDATE biz_business_pic a SET a.business_id_int = #{0} 
+		where a.business_id_int = #{1} 
+		and a.business_type='105'
+	</update>
+
+</mapper>

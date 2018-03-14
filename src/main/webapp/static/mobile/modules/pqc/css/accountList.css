@@ -1,0 +1,19 @@
+.list{height: 1rem;line-height: 1rem;background-image: url(../images/money-mid.png);background-repeat: no-repeat;
+    background-size: .47rem .47rem;background-position: .38rem center;margin-bottom: .24rem;}
+.finish{height: 1rem;line-height: 1rem;background-image: url(../images/money-finish.png);background-repeat: no-repeat;
+    background-size: .41rem .45rem;background-position: .41rem center;}
+.zhong{height: 1rem;line-height: 1rem;background-image: url(../images/money-zhong.png);background-repeat: no-repeat;
+    background-size: .46rem .46rem;background-position: .41rem center;}
+.jun{height: 1rem;line-height: 1rem;background-image: url(../images/money-jun.png);background-repeat: no-repeat;
+    background-size: .46rem .46rem;background-position: .41rem center;}
+.descript{padding-left: 1.16rem;}
+.numbers{float: right;padding-right: .3rem;}
+.tot-money{font-size: .8rem;color: #0780ec;font-weight: bold;}
+.yuan{color: #0780ec;}
+.tot-area{text-align: center;margin-top: 1.4rem;margin-bottom: 300px;}
+/*.pad_top20{padding-top: 2rem;}*/
+.month-check{display: block;width: 2.46rem;height: .54rem;line-height: .54rem;text-align: center;margin: 0 auto .3rem;
+		background: #a88daa;border-radius: .27rem;color: #fff;}
+.spread-rgt{background-image: url(../images/spread-rgt.png);background-repeat: no-repeat;
+    background-size: .18rem .1rem;background-position: left center;display: inline-block;width: .18rem;height: inherit;
+    float: right;padding-right: .3rem;}

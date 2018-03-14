@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizMainMaterialsSupplierRelDao">
+    
+	<sql id="bizMainMaterialsSupplierRelColumns">
+		a.id AS "id",
+		a.main_materials_id AS "mainMaterialsId",
+		a.supplier_id AS "supplierId",
+		a.supplier_no AS "supplierNo",
+		a.supplier_cycle AS "supplierCycle",
+		a.supplier_price AS "supplierPrice",
+		a.labor_price AS "laborPrice",
+		a.version AS "version",
+		a.effective_date AS "effectiveDate",
+		a.remarks AS "remarks",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="bizMainMaterialsSupplierRelJoins">
+	</sql>
+    
+    <select id="getMaxVersion" resultType="java.lang.Integer">
+		SELECT 
+			MAX(a.version)
+		FROM biz_main_materials_supplier_rel a
+		WHERE a.main_materials_id= #{mainMaterialsId} AND a.supplier_id=#{supplierId}
+	</select>
+    
+	<select id="get" resultType="cn.damei.entity.modules.BizMainMaterialsSupplierRel">
+		SELECT 
+			<include refid="bizMainMaterialsSupplierRelColumns"/>
+		FROM biz_main_materials_supplier_rel a
+		<include refid="bizMainMaterialsSupplierRelJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="cn.damei.entity.modules.BizMainMaterialsSupplierRel">
+		SELECT 
+			<include refid="bizMainMaterialsSupplierRelColumns"/>
+		FROM biz_main_materials_supplier_rel a
+		<include refid="bizMainMaterialsSupplierRelJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="mainMaterialsId != null">
+				and a.main_materials_id = #{mainMaterialsId}
+			</if>
+			<if test="effectiveDate != null and effectiveDate != ''">
+				AND a.effective_date = #{effectiveDate}
+			</if>
+			<if test="supplierId != null and supplierId != ''">
+				AND a.supplier_id = #{supplierId}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="cn.damei.entity.modules.BizMainMaterialsSupplierRel">
+		SELECT 
+			<include refid="bizMainMaterialsSupplierRelColumns"/>
+		FROM biz_main_materials_supplier_rel a
+		<include refid="bizMainMaterialsSupplierRelJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO biz_main_materials_supplier_rel(
+			id,
+			main_materials_id,
+			supplier_id,
+			supplier_no,
+			supplier_cycle,
+			supplier_price,
+			labor_price,
+			version,
+			effective_date,
+			remarks,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag
+		) VALUES (
+			#{id},
+			#{mainMaterialsId},
+			#{supplierId},
+			#{supplierNo},
+			#{supplierCycle},
+			#{supplierPrice},
+			#{laborPrice},
+			#{version},
+			#{effectiveDate},
+			#{remarks},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE biz_main_materials_supplier_rel SET 	
+			main_materials_id = #{mainMaterialsId},
+			supplier_id = #{supplierId},
+			supplier_no = #{supplierNo},
+			supplier_cycle = #{supplierCycle},
+			supplier_price = #{supplierPrice},
+			labor_price = #{laborPrice},
+			version = #{version},
+			effective_date = #{effectiveDate},
+			remarks = #{remarks},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE biz_main_materials_supplier_rel SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

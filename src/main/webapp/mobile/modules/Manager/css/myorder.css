@@ -1,0 +1,135 @@
+.myorder{
+	width: 100%;
+	height: 100%;
+	background: #eee;
+}
+.myorder header.myorder_header{
+	width: 100%;
+	height: 0.8rem;
+	background: #09f;
+	position: fixed;
+	z-index: 9;
+}
+.myorder #myorder_back_btn{
+	display: block;
+	width: 0.2rem;
+	height: 0.34rem;
+	background-image: url(../images/back_icon.png);
+	background-size: 0.2rem 0.34rem;
+	position: absolute;
+	left: 0.3rem;
+	top: 0.23rem;
+}
+.myorder h2.myorder_title{
+	text-align: center;
+	color: #fff;
+	font-size: 0.34rem;
+	height: inherit;
+	line-height: 0.8rem;
+}
+/*deader ending*/
+.myorder nav.order_nav{
+	width: 100%;
+	height: 0.4rem;
+	padding-top: 0.18rem;
+	padding-bottom: 0.18rem;
+	background-color: #fff;
+	position: fixed;
+	top: 0.8rem;
+	z-index: 9;
+}
+.myorder nav.order_nav a{
+	display: inline-block;
+	width: 50%;
+	height: 0.4rem;
+	line-height: 0.4rem;
+	font-size: 0.24rem;
+	color: #666;
+	text-align: center;
+	box-sizing: border-box;
+	float: left;
+}
+.myorder nav.order_nav a:first-child{
+	border-right: 1px solid #ccc;
+}
+.myorder nav.order_nav a.active{
+	color: #09f;
+}
+.myorder nav.order_nav a.selected{
+	color: #09f;
+}
+.myorder nav.order_nav .options{
+	z-index: 9;
+	width: 100%;
+	background-color: #fff;
+}
+.myorder nav.order_nav .options a{
+	width: 100%;
+	height: 0.76rem;
+	line-height: 0.76rem;
+	display: block;
+	text-align: center;
+	/*font-weight: bold;*/
+	font-size: 0.24rem;
+	color: #666;
+	background-color: #fff;
+	border-bottom: 1px solid #ccc;
+}
+.myorder nav.order_nav .options a:last-child{
+	border: none;
+	box-shadow: 0 0.05rem 0.1rem #999;
+}
+/*导航结束*/
+.myorder .order_list{
+	padding-top: 1.67rem;
+	margin-left: 0.1rem;
+	margin-right: 0.1rem;
+}
+.myorder a.order_section{
+	display: block;
+	/*width: 7.1rem;*/
+	/*height: 2.2rem;*/
+	margin: 0 auto;
+	background-color: #fff;
+	background-image: url(../images/task_bg.png);
+	background-repeat: no-repeat;
+	background-size: 0.16rem 0.29rem;
+	background-position: 94% center;
+	box-shadow: 0.1rem 0.1rem 0.1rem #ccc;
+	border-radius: 0.1rem;
+	position: relative;
+	clear: both;
+	margin-bottom: 0.2rem;
+}
+/*.myorder a.order_section:last-child{
+	margin-bottom: 5rem;
+}*/
+.myorder a.order_section ul{
+	margin-left: 0.2rem;
+	margin-right: 0.6rem;
+}
+.myorder a.order_section ul li{
+	width: 5.5rem;
+	line-height: 0.6rem;
+}
+.myorder a.order_section ul li span{
+	font-size: 0.28rem;
+	height: 0.6rem;
+	line-height: 0.6rem;
+	color: #666;
+	float: left;
+}
+.myorder a.order_section ul li p{
+	/*float: left;*/
+	font-size: 0.28rem;
+	color: #333;
+	overflow: hidden;
+	/*line-height: 0.6rem;*/
+	/*width: 3.7rem;*/
+}
+.myorder a.order_section ul li p.col_blue{
+	color: #00f;
+}
+.myorder .order_list{
+	margin-bottom: 5rem;
+}

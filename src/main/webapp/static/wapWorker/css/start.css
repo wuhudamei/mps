@@ -1,0 +1,127 @@
+.g-start{
+	width: 100%;
+	height: 100%;
+	background: #eee;
+}
+.g-start header.start_header{
+	width: 100%;
+	height: 0.8rem;
+	background: #09f;
+	position: fixed;
+	z-index: 9;
+}
+#back_btn{
+	display: block;
+	width: 0.2rem;
+	height: 0.34rem;
+	background-image: url(../images/back_icon.png);
+	background-size: 0.2rem 0.34rem;
+	position: absolute;
+	left: 0.3rem;
+	top: 0.23rem;
+}
+.g-start h2.start_title{
+	text-align: center;
+	color: #fff;
+	font-size: 0.34rem;
+	height: inherit;
+	line-height: 0.8rem;
+}
+/*header ending*/
+.g-start section.start_section{
+	padding-top: 0.8rem;
+}
+.g-start h3{
+	height: 0.8rem;
+	line-height: 0.8rem;
+	background-image: url(../images/details_icon.png);
+	background-repeat: no-repeat;
+	background-position: 0.2rem center;
+	background-size: 0.2rem 0.2rem;
+	font-size: 0.3rem;
+	font-weight: bold;
+	color: #333;
+	padding-left: 0.5rem;
+}
+.g-start section.start_section ul{
+	width: 6.7rem;
+	margin: 0 auto;
+	padding: 0.2rem;
+	background-color: #fff;
+	box-shadow: 0.1rem 0.1rem 0.1rem #ccc;
+	border-radius: 0.1rem;
+	position: relative;
+	clear: both;
+	margin-bottom: 0.2rem;
+	position: relative;
+}
+.g-start section.start_section ul:after{
+	content: "";
+	display: inline-block;
+	position: absolute;
+	top: -0.4rem;
+	left: 4rem;
+	width: 0;
+	height: 0;
+	border: none;
+	border-left: 0.20rem solid transparent;
+	border-right: 0.20rem solid transparent;
+	border-bottom: 0.4rem solid #fff;
+	/*vertical-align: 9px;*/
+}
+.g-start ul li{
+	line-height: 0.6rem;
+}
+.g-start ul li span{
+	font-size: 0.28rem;
+	height: 0.6rem;
+	line-height: 0.6rem;
+	color: #666;
+	float: left;
+	/*text-align: right;*/
+}
+.g-start ul li p{
+	font-size: 0.28rem;
+	color: #333;
+	overflow: hidden;
+}
+/*211 46*/
+.g-start ul li p input[type="date"]{
+	border: none;
+	width: 2.08rem;
+	height: 0.44rem;
+	border: 1px solid #9cf;
+	border-radius: 0.1rem;
+}
+	/*::-webkit-datetime-edit { padding: 1px; background: url(); }*/
+/*::-webkit-datetime-edit-fields-wrapper { background-color: #eee; }*/
+::-webkit-datetime-edit-text { color: #999;}
+::-webkit-datetime-edit-year-field { color: #999; }
+::-webkit-datetime-edit-month-field { color: #999; }
+::-webkit-datetime-edit-day-field { color: #999; }
+/*::-webkit-inner-spin-button { visibility: hidden; }*/
+::-webkit-calendar-picker-indicator {
+    border: 1px solid #9cf;
+    border-radius: 0.1rem;
+    /*box-shadow: inset 0 1px #fff, 0 1px #eee;*/
+    background-color: #eee;
+    background-image: -webkit-linear-gradient(top, #f0f0f0, #e6e6e6);
+    color: #666;
+}
+.g-start ul li p.col_blue{
+	color: #00f;
+}
+
+
+
+textarea{
+	width: 3.9rem;
+	height: 1.08rem;
+	border: 1px solid #9cf;
+	border-radius: 0.1rem;
+	padding-top: 0.1rem;
+	padding-bottom: 0.1rem;
+	color: #333;
+	text-indent: 2em;
+	line-height: 0.4rem;
+}

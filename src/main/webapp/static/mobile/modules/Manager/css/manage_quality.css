@@ -1,0 +1,18 @@
+.g_quality ul.info_ul li:first-child{
+	background-image: url(../images/qulity_icon1.png);
+	background-repeat: no-repeat;
+	background-size: 0.3rem 0.32rem;
+	background-position: 0.3rem center;
+}
+.g_quality ul.info_ul li:nth-child(2){
+	background-image: url(../images/qulity_icon2.png);
+	background-repeat: no-repeat;
+	background-size: 0.3rem 0.32rem;
+	background-position: 0.3rem center;
+}
+.g_quality ul.info_ul li:nth-child(3){
+	background-image: url(../images/qulity_icon3.png);
+	background-repeat: no-repeat;
+	background-size: 0.3rem 0.32rem;
+	background-position: 0.3rem center;
+}

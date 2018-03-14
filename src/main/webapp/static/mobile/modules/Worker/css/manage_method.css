@@ -1,0 +1,12 @@
+.mar_btm300{margin-bottom: 300px;}
+.pad_top88{padding-top: .88rem;}
+.list-line{display: block;border-top: 1px solid #ccc;border-bottom: 1px solid #ccc;}
+.mar_top26{margin-top: .26rem;}
+.list-text{line-height: 1.4em;font-size: .3rem;color: #333;padding-top: .39rem;padding-bottom: .39rem;margin-left: 12%;width: 88%;box-sizing: border-box;}
+.gc_shigong{background-image: url(../images/method/shigonggongyi.png);background-repeat: no-repeat;background-size: 0.42rem 0.44rem;background-position: 4% center;}
+.gc_daode{background-image: url(../images/method/daode.png);background-repeat: no-repeat;background-size: 0.41rem 0.38rem;background-position: 4% center;}
+.gc_kehutiyan{background-image: url(../images/method/kehutiyan.png);background-repeat: no-repeat;background-size: 0.39rem 0.39rem;background-position: 4% center;}
+.gc_zhiliang{background-image: url(../images/method/zhiliang.png);background-repeat: no-repeat;background-size: 0.4rem 0.4rem;background-position: 4% center;}
+.gc_jindu{background-image: url(../images/method/jindu.png);background-repeat: no-repeat;background-size: 0.39rem 0.39rem;background-position: 4% center;}
+.gc_safety{background-image: url(../images/method/safety.png);background-repeat: no-repeat;background-size: 0.4rem 0.38rem;background-position: 4% center;}
+.gc_chengpin{background-image: url(../images/method/chengpin.png);background-repeat: no-repeat;background-size: 0.39rem 0.41rem;background-position: 4% center;}

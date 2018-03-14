@@ -1,0 +1,41 @@
+.list-line{height: .98rem;display: block;padding-left: ;}
+.gc_again{
+	background-image: url(../images/gc_again.png);
+    background-repeat: no-repeat;
+    background-size: 0.39rem 0.42rem;
+    background-position: 4% center;
+}
+.gc_apply{
+	background-image: url(../images/gc_apply.png);
+    background-repeat: no-repeat;
+    background-size: 0.47rem 0.46rem;
+    background-position: 4% center;
+}
+.gc_question{
+	background-image: url(../images/gc_question.png);
+    background-repeat: no-repeat;
+    background-size: 0.47rem 0.46rem;
+    background-position: 4% center;
+}
+.gc_yanshou{
+	background-image: url(../images/gc_yanshou.png);
+    background-repeat: no-repeat;
+    background-size: 0.47rem 0.46rem;
+    background-position: 4% center;
+}
+.list-text{
+	float: left;
+    margin-left: 12%;
+    width: 88%;
+    height: inherit;
+    line-height: 0.88rem;
+    border-bottom: 1px solid #ccc;
+    box-sizing: border-box;
+    background-image: url(../images/rightArrow.png);
+    background-repeat: no-repeat;
+    background-size: 0.14rem 0.26rem;
+    background-position: 94% center;
+    font-size: .3rem;
+    color: #333;
+}
+.list-line:last-child li{border: none;}

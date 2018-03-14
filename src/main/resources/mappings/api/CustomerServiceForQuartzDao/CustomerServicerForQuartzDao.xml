@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.CustomerServiceForQuartzDao">
+
+
+    <select id="customerServiceDataIsExist" parameterType="String" resultType="String">
+
+        SELECT
+        a.work_order_code
+
+        FROM
+        `biz_cus_service_problem` a
+        WHERE
+        a.work_order_code IN (
+
+        <foreach collection="list" item="item" separator="," index="">
+
+            #{item}
+
+        </foreach>
+
+
+        )
+    </select>
+
+
+    <insert id="saveCustomerServiceData" parameterType="java.util.List">
+
+        insert into biz_cus_service_problem (
+        store_id,
+        store_code,
+        work_order_code,
+        order_code ,
+
+        customer_address,
+        customer_name,
+        customer_mobile,
+
+
+        problem_create_datetime,
+        problem_describe,
+
+
+        liable_department_code,
+        complaintType,
+        important_degree_code_1,
+
+        photo_url,
+        create_date,
+
+        question_type1,
+        question_type2,
+        work_source,
+        del_flag
+
+
+        )values
+
+
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+
+            (select id from sys_office where `code`=#{item.companyName}),
+            #{item.companyName},
+            #{item.workOrderCode},
+            #{item.orderNo},
+
+            #{item.customerAddress},
+            #{item.customerName},
+            #{item.customerMobile},
+            #{item.problemCreateDate},
+            #{item.problem},
+
+            #{item.departId},
+            #{item.complaintTypeName},
+            #{item.importantDegree1Id},
+
+
+            #{item.photo},
+            #{item.createDate},
+
+            #{item.questionType1ObjectMapName},
+            #{item.questionType2ObjectMapName},
+            #{item.sourceObjectName},
+            #{item.del_flag}
+            )
+
+        </foreach>
+
+    </insert>
+
+
+    <update id="updateCustomerServiceData" parameterType="map">
+        update biz_cus_service_problem set
+        store_code =
+        <foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+            when #{item.workOrderCode} then #{item.companyName}
+        </foreach>
+        ,customer_address=
+        <foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+            when #{item.workOrderCode} then #{item.customerAddress}
+        </foreach>
+
+        ,customer_name=
+
+        <foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+            when #{item.workOrderCode} then #{item.customerName}
+        </foreach>
+
+
+        ,customer_mobile=
+        <foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+            when #{item.workOrderCode} then #{item.customerMobile}
+        </foreach>
+
+
+        ,contractor_name=
+        <foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+            when #{item.workOrderCode} then #{item.contractorName}
+        </foreach>
+
+
+        ,contractor_mobile=
+        <foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+            when #{item.workOrderCode} then #{item.contractorMobile}
+        </foreach>
+        ,supervisor_name=
+        <foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+            when #{item.workOrderCode} then #{item.supervisorName}
+        </foreach>
+
+
+        ,supervisor_mobile=
+        <foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+            when #{item.workOrderCode} then #{item.supervisorMobile}
+        </foreach>
+
+        , problem_create_datetime=
+        <foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+            when #{item.workOrderCode} then #{item.problemCreateDate}
+        </foreach>
+
+
+        , problem_describe=
+        <foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+            when #{item.workOrderCode} then #{item.problem}
+        </foreach>
+
+
+        , liable_department_code=
+        <foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+            when #{item.workOrderCode} then #{item.departId}
+        </foreach>
+
+
+        ,liable_type_code_1=
+        <foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+            when #{item.workOrderCode} then #{item.liableTypeId}
+        </foreach>
+
+
+        ,liable_type_code_2=
+        <foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+            when #{item.workOrderCode} then #{item.liableType2Id}
+        </foreach>
+
+
+        ,important_degree_code_1=
+        <foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+            when #{item.workOrderCode} then #{item.importantDegree1Id}
+        </foreach>
+
+
+        ,important_degree_code_2=
+        <foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+            when #{item.workOrderCode} then #{item.importantDegree2Id}
+        </foreach>
+
+
+        , photo_url=
+        <foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+            when #{item.workOrderCode} then #{item.photo}
+        </foreach>
+
+
+        , update_date=
+        <foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+            when #{item.workOrderCode} then #{item.problemCreateDate}
+        </foreach>
+
+
+        where work_order_code in
+        <foreach collection="list" index="index" item="item" separator="," open="(" close=")">
+            #{item.workOrderCode}
+        </foreach>
+
+
+    </update>
+
+
+    <update id="update" parameterType="map">
+        UPDATE biz_cus_service_problem
+        SET
+            store_code              = #{companyName},
+            customer_address        = #{customerAddress},
+            customer_name           = #{customerName},
+
+            customer_mobile         = #{customerMobile},
+
+            order_code              = #{orderNo},
+            contractor_name         = #{contractorName},
+
+            contractor_mobile       = #{contractorMobile},
+            supervisor_name         = #{supervisorName},
+
+
+            supervisor_mobile       = #{supervisorMobile},
+
+            problem_create_datetime = #{problemCreateDate},
+
+            problem_describe        = #{problem},
+
+
+            liable_department_code  = #{departId},
+
+            complaintType      = #{complaintTypeName},
+
+
+
+
+
+            important_degree_code_1 = #{importantDegree1Id},
+
+
+
+
+            photo_url               = #{photo},
+
+
+            update_date             = #{problemCreateDate},
+            question_type1          = #{questionType1ObjectMapName},
+            question_type2          = #{questionType2ObjectMapName},
+            work_source             = #{sourceObjectName}
+
+
+        WHERE work_order_code = #{workOrderCode}
+
+
+    </update>
+
+
+</mapper>

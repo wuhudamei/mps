@@ -1,0 +1,20 @@
+菜单新增：(二期款)
+    菜单路径： 结算查询—结算确认交款查询  
+    菜单名称： 结算确认交款查询   
+    链接： /bizOrderFinanceCollection/bizOrderFinanceCollection/openBizOrderFinanceCollectionList
+
+    菜单路径： 结算查询—接口传递客户款查询
+    菜单名称： 接口传递客户款查询 
+    链接： /bizOrderFinanceCollection/bizOrderFinanceCollection/openBizPrePmSettleFinList
+
+
+工人评价2.0--刘川
+
+1、名称：工人组星级调整
+   链接：/empStar/empStarAdjustment/list
+
+2、名称：星级分数区间设置
+   链接：/starSetting/starRatingSetting/list
+
+3、名称：工人组分数查询
+   链接：/workerScore/workerScoreSelect/list

@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.mobile.Worker.InstallProblemDao">
+	
+	
+	<!-- 查询施工单列表(问题上报) -->
+	<select id="findInstallConstructBillProblemList" parameterType="cn.damei.entity.mobile.Worker.InstallItem" resultType="cn.damei.entity.mobile.Worker.InstallItem">
+	
+		SELECT
+			a.id AS "constructBillId",
+			a.construct_bill_code AS "constructBillCode",
+			a.`status` AS "constructBillStatus",
+			a.employee_group_id AS "employeeGroupId",
+			b.id AS "installBillId",
+			IFNULL(DATE_FORMAT(b.supplier_confirm_into_date,'%Y-%m-%d'),"") AS "supplierConfirmIntoDateString",
+			IFNULL(DATE_FORMAT(b.supplier_confirm_complete_date,'%Y-%m-%d'),"") AS "supplierConfirmCompleteDateString",
+			c.id AS "orderInstallPlanId",
+			c.install_item_name AS "installItemName",
+			d.id AS "orderId",
+			d.community_name AS "communityName",
+			d.build_number AS "buildNumber",
+			d.build_unit AS "buildUnit",
+			d.build_room AS "buildRoom",
+			d.detail_address AS "detailAddress",
+			d.item_manager_id AS "itemManagerId",
+			e.realName AS "itemManagerName",
+			e.phone AS "itemManagerPhone",
+			f.label AS "constructBillStatusName"
+		FROM
+			biz_supplier_install_construct_bill a
+		INNER JOIN biz_supplier_install_bill b ON a.supplier_install_bill_id = b.id
+		INNER JOIN biz_order_install_plan c ON b.order_install_plan_id = c.id
+		INNER JOIN biz_order d ON c.order_id = d.id
+		LEFT JOIN biz_employee e ON d.item_manager_id = e.id
+		LEFT JOIN sys_dict f ON f.`value` = a.`status`
+		AND f.type = 'supplier_install_construct_bill_status'
+		AND f.del_flag = 0
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="employeeGroupId != null and employeeGroupId != ''">
+				AND a.employee_group_id = #{employeeGroupId}
+			</if>
+			<if test="constructBillStatusList != null">
+				AND a.`status` IN 
+				<foreach collection="constructBillStatusList" item="item" open="("  separator="," close=")" index="index">
+					#{item}
+				</foreach>
+			</if>
+			<if test="text != null and text !=''">
+				and (c.install_item_name like CONCAT('%','${text}','%' )  or e.realName like CONCAT('%','${text}','%' ))
+			</if>
+			ORDER BY a.construct_bill_code DESC
+		</where>
+	
+	
+	</select>
+
+	<!-- 根据施工单id查询相关信息(问题上报) -->	
+	<select id="findInstallConstructBillMessage" parameterType="int" resultType="cn.damei.entity.mobile.Worker.InstallItem">
+	
+		SELECT
+			a.id AS "constructBillId",
+			a.construct_bill_code AS "constructBillCode",
+			a.`status` AS "constructBillStatus",
+			a.employee_group_id AS "employeeGroupId",
+			b.id AS "installBillId",
+			c.id AS "orderInstallPlanId",
+			c.install_item_name AS "installItemName",
+			d.id AS "orderId",
+			d.store_id AS "storeId",
+			d.project_mode AS "projectMode",
+			d.community_name AS "communityName",
+			d.build_number AS "buildNumber",
+			d.build_unit AS "buildUnit",
+			d.build_room AS "buildRoom"
+		FROM
+			biz_supplier_install_construct_bill a
+		INNER JOIN biz_supplier_install_bill b ON a.supplier_install_bill_id = b.id
+		INNER JOIN biz_order_install_plan c ON b.order_install_plan_id = c.id
+		INNER JOIN biz_order d ON c.order_id = d.id
+		WHERE a.id = #{0}
+	
+	</select>
+	
+	
+	<!-- 查询该订单5分钟内提交问题上报的数量 -->
+	<select id="findProblemCount" parameterType="cn.damei.entity.modules.BizOrderInstallItemProblem" resultType="int">
+		
+		SELECT 
+			COUNT(1)
+		FROM biz_business_problem a
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			AND DATE_ADD(a.create_date,INTERVAL 5 MINUTE) &gt; NOW()
+			<if test="businessOnlyMarkId != null and businessOnlyMarkId != ''">
+				AND  a.business_only_mark_int = #{businessOnlyMarkId}
+			</if>
+			<if test="businessType != null and businessType != ''">
+				AND  a.business_type = #{businessType}
+			</if>
+		</where>
+	
+	
+	</select>
+	
+	<!-- 动态加载墙地砖问题上报记录页面 -->
+	<select id="findProblemLogList" parameterType="cn.damei.entity.modules.BizOrderInstallItemProblem" resultType="cn.damei.entity.modules.BizOrderInstallItemProblem">
+			SELECT
+				a.id AS "id",
+				a.business_only_mark_int AS "businessOnlyMarkId",
+				a.is_delay AS "isDelay",
+				a.delay_days AS "delayDays",
+				a.problem_describe AS "problemDescribe",
+				a.problem_type_id AS "businessType",
+				a. STATUS AS "status",
+				a.create_date AS "createDate",
+				IFNULL(DATE_FORMAT(a.create_date,'%Y-%m-%d %H:%i:%S'),"") AS "createDateString",
+				e.type_name AS "typeName"
+			FROM
+				biz_business_problem a
+			LEFT JOIN biz_business_problem_type e ON e.id = a.problem_type_id
+			WHERE
+				a.business_only_mark_int = #{businessOnlyMarkId}
+			AND a.business_type = #{businessType}
+			ORDER BY a.create_date DESC
+	
+	</select>
+	
+	<!-- 查看图片 -->
+	<select id="findPic" parameterType="cn.damei.entity.mobile.Inspector.ReportCheckDetailsPic" resultType="cn.damei.entity.mobile.Inspector.ReportCheckDetailsPic">
+		SELECT
+			id AS "picId",
+			business_type AS "businessType",
+			business_id_int AS "businessIdInt",
+			business_id_varchar AS "businessIdVarchar",
+			pic_type AS "picType",
+			pic_index AS "picIndex",
+			pic_url AS "picUrl",
+			pic_datetime AS "picDatetime"
+		FROM
+			biz_business_pic
+		WHERE
+			business_id_int = #{businessIdInt}
+		AND business_type = #{businessType}
+	</select>
+	
+</mapper>

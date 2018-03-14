@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.MaterialMappingRelationDao">
+    
+		<select id="findMainItem" resultType="cn.damei.entity.modules.BaseEntity">
+			SELECT a.id as "value",a.install_item_name as "label" FROM biz_project_install_item a
+			 WHERE 
+			 a.is_on = 1 
+			 AND a.store_id = #{0}
+			 and a.project_mode = #{1}
+			 UNION
+			SELECT a.value,a.label FROM sys_dict a WHERE a.type='principal_mapping'
+		</select>
+		<select id="findOneCategory" resultType="cn.damei.entity.modules.BaseEntity">
+			SELECT a.id AS "value",a.category_name AS "label" FROM biz_materials_choice_category a WHERE a.category_level = #{0}
+		</select>
+		<select id="findTowCategory" resultType="cn.damei.entity.modules.BaseEntity">
+			SELECT a.id AS "value",a.category_name AS "label" 
+			FROM biz_materials_choice_category a 
+			WHERE 
+			a.parent_id = #{1} AND a.category_level = #{0}
+		</select>
+		<insert id="insertChoiceCategory">
+			insert into biz_materials_choice_category_install_item 
+			(order_install_item_id,materials_choice_category_id,create_by,create_date,update_by,update_date,del_flag)
+			values
+			<foreach collection="list" item="item" index="index" separator="," >  
+        		(#{item.installItemId},#{item.categoryTwo},
+        		#{item.createBy.id},
+				#{item.createDate},
+				#{item.updateBy.id},
+				#{item.updateDate},
+				#{item.delFlag}
+        		)  
+    		</foreach> 
+		</insert>
+		<select id="findList" resultType ="cn.damei.entity.modules.MaterialMappingRelation">
+			SELECT 
+			a.id,
+			d.store_id AS "storeId",
+			f.`name` AS "storeName",
+			d.project_mode AS "projectMode",
+			g.label AS "projectModeName",
+			c.category_name AS "categoryOneName",
+			b.category_name AS "categoryTwoName",
+			d.install_item_name AS "installItemName",
+			e.name AS "userName",
+			a.update_date AS "mtime" 
+			FROM biz_materials_choice_category_install_item a 
+			LEFT JOIN biz_materials_choice_category b ON a.materials_choice_category_id = b.id
+			LEFT JOIN biz_materials_choice_category c ON c.id = b.parent_id
+			LEFT JOIN biz_project_install_item d ON a.order_install_item_id = d.id
+			LEFT JOIN sys_user e ON e.id = a.update_by
+			LEFT JOIN sys_office f ON f.id = d.store_id
+			LEFT JOIN sys_dict g ON g.`value` = d.project_mode AND g.type = 'project_mode' AND g.del_flag = 0
+			<where>
+			 	a.del_flag = 0
+				<if test = "storeId != null and storeId != ''">
+					and d.store_id = #{storeId}
+				</if>
+				<if test = "categoryOne != null and categoryOne != ''">
+					and c.id = #{categoryOne}
+				</if>
+				<if test = "categoryTwo != null and categoryTwo != ''">
+					and b.id = #{categoryTwo}
+				</if>
+				<if test = "installItemId != null and installItemId != ''">
+					and d.id = #{installItemId}
+				</if>
+				<if test = "projectMode != null and projectMode != ''">
+					and d.project_mode = #{projectMode}
+				</if>
+			</where>
+		</select>
+		<!--删除 -->
+		<delete id = "deleteRelation">
+			DELETE FROM biz_materials_choice_category_install_item  WHERE id = #{0}
+		</delete>
+
+		
+</mapper>

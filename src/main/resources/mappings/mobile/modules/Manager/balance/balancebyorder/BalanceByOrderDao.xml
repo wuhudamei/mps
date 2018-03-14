@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="cn.damei.dao.mobile.Manager.BalanceByOrderDao">
+
+
+	<sql id="allOrderSignColumns">
+
+		a.id As "id" ,
+		a.item_manager_id As "itemManagerId" ,
+		a.customer_name AS "customerName" ,
+		a.community_name AS "communityName" ,
+		a.build_number AS "buildNumber" ,
+		a.build_unit AS "buildUnit" ,
+		a.build_room As "buildRoom" ,
+		a.contract_start_date AS "contractStartDate",
+		a.contract_end_date AS "contractEndDate" ,
+		a.actual_start_date AS "actualStartDate",
+		a.contract_time AS "contractTime",
+		a.order_status_description AS "orderStatus",
+		a.map_coordinate As "mapAddress" ,
+		a.sign_flag AS "signFlag"
+
+	</sql>
+	<!-- 根据项目经理id 查询订单 -->
+	<!-- <select id="orderByManagerId" parameterType="int" resultTycn.damei.entity.mobile.Manager.OrderSignVognVo">
+		SELECT <include refid="allOrderSignColumns"/> FROM biz_order a where a.id 
+		in (select b.order_id from biz_pm_settle_bill b where b.status=50 and b.settle_role 
+		=1 ) and a.item_manager_id = #{_parameter} ORDER BY a.create_date DESC </select> -->
+
+	<select id="orderByManagerId"
+		resultType="cn.damei.entity.mobile.Manager.PmSettlementBudget">
+		SELECT
+		a.id AS "orderId",
+		a.customer_name AS "customerName",
+		a.community_name AS "communityName",
+		a.build_number AS "buildNumber",
+		a.build_unit AS "buildUnit",
+		a.build_room AS "buildRoom",
+		SUM(IFNULL(b.total_amount, 0)) AS 'totalAmount'
+		FROM
+		biz_pm_settle_bill b
+		INNER JOIN biz_order a ON b.order_id = a.id
+		WHERE
+		b.`status` = 50
+		AND b.settle_role = 1
+		AND b.pm_employee_id = #{pmEmployeeId}
+		<if test="queryParam != null and queryParam != ''">
+			and (a.customer_name like
+			<if test="dbName == 'oracle'">'%'||#{queryParam}||'%'</if>
+			<if test="dbName == 'mssql'">'%'+#{queryParam}+'%'</if>
+			<if test="dbName == 'mysql'">concat('%',#{queryParam},'%')</if>
+			or a.community_name like
+			<if test="dbName == 'oracle'">'%'||#{queryParam}||'%'</if>
+			<if test="dbName == 'mssql'">'%'+#{queryParam}+'%'</if>
+			<if test="dbName == 'mysql'">concat('%',#{queryParam},'%')</if>
+			)
+		</if>
+		GROUP BY b.order_id
+		ORDER BY a.get_order_datetime DESC
+	</select>
+
+
+
+
+
+
+	<!-- 根据订单id ,经理id ,查询该经理的结算详情 biz_pm_settle_bill -->
+
+	<select id="findBalanceDetailByOrderId"
+		parameterType="cn.damei.entity.mobile.Manager.OrderSignVo"
+		resultType="cn.damei.entity.mobile.Manager.balanceDetail">
+
+		select id as "balanceId" ,
+		biz_pm_settle_bill_code as "balanceCode" ,
+		order_id as "orderId" ,
+		pm_employee_id as "managerId" ,
+		project_mode as "projectMode" ,
+		settle_datetime as "balanceDate" ,
+		midway_commission_amount as "midBalanceMoney" ,
+		complete_commission_amount as "completeBalanceMoney" ,
+		ownpay_amount as "freePayMoney" ,
+		materials_standard_amount as "materialsStandardAmount" ,
+		midway_qc_check_punish_amount as "midFineMoney" ,
+		complet_qc_check_punish_amount as "comleteFineMoney" ,
+		guarantee_money_amount as "guaranteMoney",
+		material_selfbuy_reimburse_amount as "materialSelfbuyReimburseAmount",
+		total_amount as "totalMoney",
+		midway_auxiliary_materials_settle_amount AS "midwayAuxiliaryMaterialsDeductAmount",
+		complete_auxiliary_materials_settle_amount AS
+		"completeAuxiliaryMaterialsDeductAmount",
+		midway_reward_amount as "midwayRewardAmount",
+		midway_punish_amount as "midwayPunishAmount",
+		complete_reward_amount as "completeRewardAmount",
+		complete_punish_amount as "completePunishAmount"
+		from biz_pm_settle_bill where order_id =#{id}
+		and pm_employee_id=#{itemManagerId} and settle_role =1
+	</select>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</mapper>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.MainPanelDao">
+   	
+   	<select id="findListByPurchaseId" resultType="cn.damei.entity.modules.MainPanel">
+   		
+   		SELECT 
+	   		a.id AS "id",
+	   		a.purchase_id AS "purchaseId",
+	   		a.order_id AS "orderId",
+	   		a.main_mate_code AS "mainMaterialsCode",
+	   		a.main_mate_count AS "mainMateCount",
+	   		a.remarks AS "remarks",
+	   		a.submmit_status AS "submmitStatus",
+	   		a.main_materials_name AS "mainMaterialsName",
+	   		a.emp_work_type AS "empWorkType",
+	   		a.category_id AS "categoryId",
+	   		<!-- b.category_name AS "categoryName", -->
+	   		a.specifications AS "specifications",
+	   		a.measurement_unit AS "measurementUnit",
+	   		a.brands AS "brands",
+	   		a.pic_url AS "picUrl",
+	   		a.received_main_mate_count as "receivedCount",
+	   		a.owed_main_mate_count as "owedCount"
+   		FROM 
+   			biz_purchase_main_mate a
+   		WHERE 
+   			a.category_id = (select b.id from biz_material_category b
+where b.category_name like '开关面板') and a.purchase_id = #{0}
+   		
+   	</select>
+</mapper>

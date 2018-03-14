@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizPurchaseMainPanelDao">
+	
+	<select id="get" resultType="cn.damei.entity.modules.BizPurchaseMainPanel">
+		SELECT
+			a.id AS "id",
+			a.order_id AS "orderId",
+			a.apply_time AS "applyTime",
+			a.apply_receive_time AS "applyReceiveTime",
+			a.purchase_code AS "purchaseCode",
+			a.purchase_type AS "purchaseType",
+			a.receiver_name AS "receiverName",
+			a.receiver_phone AS "receiverPhone",
+			a.apply_employee AS "applyEmployee",
+			c.realName   AS "applyName",
+			a.status AS "status",
+			a.remarks AS "remarks",
+			a.total_price AS "totalPrice",
+			b.store_id AS "storeId",
+			b.customer_name AS "customerName",
+			b.customer_phone AS "customerPhone",
+			b.customer_address AS "customerAddress",
+			b.community_name AS "communityName",
+			b.build_number AS "buildNumber",
+			b.build_unit AS "buildUnit",
+			b.build_room AS "buildRoom",
+			b.item_manager AS "itemManager",
+			b.item_manager_id AS "itemManagerId",
+			b.project_mode AS "projectMode",
+			a.over_number AS "overNumber",
+			d.phone as "itemManagerPhone",
+			a.over_reason_type AS "overReasonType",
+			a.over_reason_words AS "overReasonWords",
+			a.purchase_count_total AS "purchaseCountTotal",
+			a.status_describe AS "statusDescribe",
+			CEIL(CASE WHEN b.contract_area &lt; 71 THEN 71 * 0.47 ELSE b.contract_area * 0.47 END) AS "standardCountTotal"
+
+		FROM biz_purchase a
+		INNER JOIN biz_order b ON a.order_id = b.id
+		LEFT JOIN biz_employee c ON c.id = a.apply_employee
+		LEFT JOIN biz_employee d ON b.item_manager_id = d.id
+		
+		where  a.id = #{id}
+		
+	</select>
+	
+	
+	
+	
+	<select id="findList"  resultType="cn.damei.entity.modules.BizPurchaseMainPanel">
+		SELECT
+		a.id AS "id",
+		a.order_id AS "orderId",
+		a.apply_time AS "applyTime",
+		a.apply_receive_time AS "applyReceiveTime",
+		a.purchase_code AS "purchaseCode",
+		a.purchase_type AS "purchaseType",
+		a.receiver_name AS "receiverName",
+		a.receiver_phone AS "receiverPhone",
+		a.apply_employee AS "applyEmployee",
+		c.realName   AS "applyName",
+		c.phone AS "applyEmployeePhone",
+		a.status AS "status",
+		a.remarks AS "remarks",
+		a.total_price AS "totalPrice",
+		b.store_id AS "storeId",
+		b.customer_name AS "customerName",
+		b.customer_phone AS "customerPhone",
+		b.customer_address AS "customerAddress",
+		b.community_name AS "communityName",
+		b.build_number AS "buildNumber",
+		b.build_unit AS "buildUnit",
+		b.build_room AS "buildRoom",
+		b.item_manager AS "itemManager",
+		b.item_manager_id AS "itemManagerId",
+		b.project_mode AS "projectMode",
+		b.order_number AS "orderNumber",
+		b.is_scrap AS "isScrap",		
+		d.phone as "itemManagerPhone",
+		a.over_number AS "overNumber",
+		a.over_reason_type AS "overReasonType",
+		a.over_reason_words AS "overReasonWords",
+		a.purchase_count_total AS "purchaseCountTotal",
+		b.contract_area AS "contractArea",
+		CEIL(CASE WHEN b.contract_area &lt; 71 THEN 71 * 0.47 ELSE b.contract_area * 0.47 END) AS "standardCountTotal"
+		FROM
+			biz_purchase a <!-- , biz_order b ,biz_employee c -->
+		INNER JOIN biz_order b on a.order_id = b.id
+		LEFT JOIN biz_employee d on d.id = b.item_manager_id
+		LEFT JOIN biz_employee c on c.id = a.apply_employee
+		<where>
+			<!-- a.order_id = b.id AND c.id = a.apply_employee -->
+			<if test="beginApplyReceiveTime != null and beginApplyReceiveTime != ''">
+				AND a.apply_receive_time &gt;= #{beginApplyReceiveTime} 
+			</if>
+			<if test="endApplyReceiveTime != null and endApplyReceiveTime != ''">
+				AND a.apply_receive_time &lt;= #{endApplyReceiveTime}
+			</if>
+			<if test="beginApplyTime != null and beginApplyTime != ''">
+				AND a.apply_time &gt;= #{beginApplyTime} 
+			</if>
+			<if test="endApplyTime != null and endApplyTime != ''">
+				AND a.apply_time &lt;=  #{endApplyTime}
+			</if>
+
+			<if test="purchaseCode != null and purchaseCode != ''">
+				AND a.purchase_code LIKE
+				<if test="dbName == 'oracle'">'%'||#{purchaseCode}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{purchaseCode}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{purchaseCode},'%')</if>
+			</if>
+			<if test="status != null and status != ''">
+				AND a.status = #{status}
+			</if>
+			<if test="itemManager != null and itemManager != ''">
+				AND b.item_manager LIKE
+				<if test="dbName == 'oracle'">'%'||#{itemManager}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{itemManager}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{itemManager},'%')</if>
+			</if>
+			<if test="customerName != null and customerName != ''">
+				AND b.customer_name LIKE
+				<if test="dbName == 'oracle'">'%'||#{customerName}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{customerName}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{customerName},'%')</if>
+			</if>
+			<if test="isScrap != null and isScrap != ''">
+				AND b.is_scrap = #{isScrap}
+			</if>
+			<if test="orderNumber != null and orderNumber != ''">
+				AND b.order_number = #{orderNumber}
+			</if>
+			<if test="storeId != null and storeId != ''">
+				AND b.store_id = #{storeId}
+			</if>
+			<if test="purchaseType != null and purchaseType != ''">
+				AND a.purchase_type = #{purchaseType}
+			</if>		
+			<if test="projectMode != null and projectMode != ''">
+				AND b.project_mode = #{projectMode}
+			</if>					
+		</where>	
+			order by a.apply_time desc
+	</select>
+
+	<select id="queryPurchaseApplyIndex"  resultType="cn.damei.entity.modules.BizPurchaseMainPanel">
+		SELECT
+			a.id AS "id",
+			n.groupRow AS "purchaseApplyIndex"
+		FROM
+			biz_purchase a
+		LEFT JOIN (
+			SELECT
+				m.id,
+				(
+					@group_row := CASE
+					WHEN @order_id = m.order_id THEN
+					@group_row + 1
+					ELSE
+					1
+					END
+				) AS "groupRow",
+				(@order_id := m.order_id) AS "parent_code"
+			FROM
+				biz_purchase m,
+				(
+					SELECT
+					@group_row := 0 ,@order_id := ''
+				) f
+			WHERE
+				m.`status` != 21
+				AND m.purchase_type = #{purchaseType}
+			ORDER BY
+				m.order_id ASC,
+				m.apply_time ASC
+		) n ON n.id = a.id
+		<where>
+			a.purchase_type = #{purchaseType}
+			<if test="purchaseIds != null">
+				AND a.id IN
+				<foreach collection="purchaseIds" item="item" open="("  separator="," close=")" index="index">
+					#{item}
+				</foreach>
+			</if>
+		</where>
+
+	</select>
+	
+	<select id="findList1"  resultType="cn.damei.entity.modules.BizPurchaseMainPanel">
+		SELECT
+			a.id AS "id",
+			a.order_id AS "orderId",
+			a.apply_time AS "applyTime",
+			a.apply_receive_time AS "applyReceiveTime",
+			a.purchase_code AS "purchaseCode",
+			a.purchase_type AS "purchaseType",
+			a.receiver_name AS "receiverName",
+			a.receiver_phone AS "receiverPhone",
+			a.apply_employee AS "applyEmployee",
+			c.realName   AS "applyName",
+			a.status AS "status",
+			a.remarks AS "remarks",
+			a.total_price AS "totalPrice",
+			b.store_id AS "storeId",
+			b.customer_name AS "customerName",
+			b.customer_phone AS "customerPhone",
+			b.customer_address AS "customerAddress",
+			b.community_name AS "communityName",
+			b.build_number AS "buildNumber",
+			b.build_unit AS "buildUnit",
+			b.build_room AS "buildRoom",
+			b.item_manager AS "itemManager",
+			b.item_manager_id AS "itemManagerId",
+			a.over_number AS "overNumber",
+			a.over_reason_type AS "overReasonType",
+			a.over_reason_words AS "overReasonWords"
+		FROM
+			biz_purchase a
+		INNER JOIN biz_order b ON a.order_id = b.id
+		LEFT JOIN biz_employee c ON c.id = a.apply_employee
+		WHERE
+			b.item_manager_id = #{0}
+		AND a.purchase_type = #{1}
+		AND a. STATUS IN ('10', '40', '70')
+		ORDER BY
+			a.apply_time DESC
+			
+	</select>
+</mapper>

@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizTaskPackageWorkPlanTemplatRelDao">
+    
+	<sql id="bizTaskPackageWorkPlanTemplatRelColumns">
+		a.id AS "id",
+		a.templat_id AS "bizTaskPackageWorkPlanTemplat.id",
+		a.store_id AS "storeId",
+		a.package_order AS "packageOrder",
+		a.task_package_id AS "taskPackageId",
+		a.begin_day AS "beginDay",
+		a.end_day AS "endDay",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="bizTaskPackageWorkPlanTemplatRelJoins">
+		LEFT JOIN biz_task_package_work_plan_templat b ON b.id = a.templat_id
+	</sql>
+    
+	<select id="get" resultType="BizTaskPackageWorkPlanTemplatRel">
+		SELECT 
+			<include refid="bizTaskPackageWorkPlanTemplatRelColumns"/>
+		FROM biz_task_package_work_plan_templat_rel a
+		<include refid="bizTaskPackageWorkPlanTemplatRelJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="getByStroeIdAndDelflag" resultType="BizTaskPackageWorkPlanTemplatRel">
+		SELECT 
+			r.begin_day AS "beginDay",
+			r.end_day AS "endDay"
+		FROM biz_task_package_work_plan_templat_rel r 
+		LEFT JOIN biz_task_package_templat p on p.id = r.task_package_id 
+		WHERE r.templat_id = (SELECT p.id FROM biz_task_package_work_plan_templat p
+		WHERE p.store_id = #{0} AND p.project_mode = #{3} AND p.is_new_house = #{1} AND p.del_flag = '0' AND p.status = '1' ORDER BY p.create_date DESC LIMIT 1)
+		AND r.del_flag = '0'
+		AND p.no = #{2}
+	</select>
+	
+	<select id="findList" resultType="BizTaskPackageWorkPlanTemplatRel">
+		SELECT 
+			<include refid="bizTaskPackageWorkPlanTemplatRelColumns"/>
+		FROM biz_task_package_work_plan_templat_rel a
+		<include refid="bizTaskPackageWorkPlanTemplatRelJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="bizTaskPackageWorkPlanTemplat != null and bizTaskPackageWorkPlanTemplat.id != null and bizTaskPackageWorkPlanTemplat.id != ''">
+				AND a.templat_id = #{bizTaskPackageWorkPlanTemplat.id}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.create_date ASC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="BizTaskPackageWorkPlanTemplatRel">
+		SELECT 
+			<include refid="bizTaskPackageWorkPlanTemplatRelColumns"/>
+		FROM biz_task_package_work_plan_templat_rel a
+		<include refid="bizTaskPackageWorkPlanTemplatRelJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.create_date ASC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO biz_task_package_work_plan_templat_rel(
+			templat_id,
+			store_id,
+			package_order,
+			task_package_id,
+			begin_day,
+			end_day,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag
+		) VALUES (
+			#{bizTaskPackageWorkPlanTemplat.id},
+			#{storeId},
+			#{packageOrder},
+			#{taskPackageId},
+			#{beginDay},
+			#{endDay},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE biz_task_package_work_plan_templat_rel SET 	
+			package_order = #{packageOrder},
+			task_package_id = #{taskPackageId},
+			begin_day = #{beginDay},
+			end_day = #{endDay},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE biz_task_package_work_plan_templat_rel SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		<choose>
+			<when test="id !=null and id != ''">
+				WHERE id = #{id}
+			</when>
+			<otherwise>
+				WHERE templat_id = #{bizTaskPackageWorkPlanTemplat.id}
+			</otherwise>
+		</choose>
+	</update>
+	
+</mapper>

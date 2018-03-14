@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="cn.damei.dao.modules.BizAssessRuleDao">
+	<sql id="bizAssessRuleColumns">
+		a.id as "id",
+		a.store_id as "storeId",
+		a.project_mode as
+		"projectMode",
+		a.biz_assess_rule_type_id as "bizAssessRuleTypeId",
+		a.biz_assess_rule_describe as "bizAssessRuleDescribe",
+		a.reward_punish_amount as "rewardPunishAmount",
+		a.reward_punish_score
+		as "rewardPunishScore",
+		a.reward_punish_target_employee_type as
+		"rewardPunishTargetEmployeeType",
+		a.is_enabled as "isEnabled",
+		a.remarks as "remarks",
+		a.create_by as "createBy",
+		a.create_date as
+		"createDate",
+		a.update_by as "updateBy",
+		a.update_date as "updateDate",
+		a.del_flag as "delFlag"
+	</sql>
+
+	<select id="get"
+		resultType="cn.damei.entity.modules.BizAssessRule">
+		SELECT
+		<include refid="bizAssessRuleColumns" />
+		FROM
+		biz_assess_rule a
+		WHERE a.id = #{id}
+	</select>
+
+	<select id="findList"
+		resultType="cn.damei.entity.modules.BizAssessRule">
+		SELECT
+		<include refid="bizAssessRuleColumns" />,
+		b.type_name as "bizAssessRuleTypeName"
+		FROM
+		biz_assess_rule a
+		INNER JOIN biz_assess_rule_type b on a.biz_assess_rule_type_id = b.id
+		<where>
+		   a.del_flag = #{DEL_FLAG_NORMAL}
+		   <if test="storeId != null and storeId != ''">
+				AND a.store_id = #{storeId}
+			</if>
+			<if test="projectMode != null and projectMode != ''">
+				AND a.project_mode = #{projectMode}
+			</if>
+			<if test="bizAssessRuleTypeId != null and bizAssessRuleTypeId != ''">
+			    AND a.biz_assess_rule_type_id = #{bizAssessRuleTypeId}
+			</if>
+			<if test="rewardPunishTargetEmployeeType != null and rewardPunishTargetEmployeeType !=''">
+			   AND a.reward_punish_target_employee_type like 
+			   <if test="dbName == 'oracle'">'%'||#{rewardPunishTargetEmployeeType}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{rewardPunishTargetEmployeeType}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{rewardPunishTargetEmployeeType},'%')</if>
+			</if>
+			<if test="bizAssessRuleDescribe != null and bizAssessRuleDescribe != ''">
+				AND a.biz_assess_rule_describe LIKE
+				<if test="dbName == 'oracle'">'%'||#{bizAssessRuleDescribe}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{bizAssessRuleDescribe}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{bizAssessRuleDescribe},'%')</if>
+			</if>
+			<if test="isEnabled != null and isEnabled != ''">
+			    AND a.is_enabled = #{isEnabled}
+			</if>
+		</where>
+	</select>
+
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id"
+		keyColumn="id">
+		INSERT INTO biz_assess_rule (
+		id,
+		store_id,
+		project_mode,
+		biz_assess_rule_type_id,
+		biz_assess_rule_describe,
+		reward_punish_amount,
+		reward_punish_score,
+		reward_punish_target_employee_type,
+		is_enabled,
+		remarks,
+		create_by,
+		create_date,
+		update_by,
+		update_date,
+		del_flag
+		) VALUES (
+		#{id},
+		#{storeId},
+		#{projectMode},
+		#{bizAssessRuleTypeId},
+		#{bizAssessRuleDescribe},
+		#{rewardPunishAmount},
+		#{rewardPunishScore},
+		#{rewardPunishTargetEmployeeType},
+		#{isEnabled},
+		#{remarks},
+		#{createBy.id},
+		#{createDate},
+		#{updateBy.id},
+		#{updateDate},
+		#{delFlag}
+		)
+	</insert>
+
+	<update id="update">
+		update biz_assess_rule set
+		store_id = #{storeId},
+		project_mode = #{projectMode},
+		biz_assess_rule_type_id =
+		#{bizAssessRuleTypeId},
+		biz_assess_rule_describe =
+		#{bizAssessRuleDescribe},
+		reward_punish_amount = #{rewardPunishAmount},
+		reward_punish_score = #{rewardPunishScore},
+		reward_punish_target_employee_type =
+		#{rewardPunishTargetEmployeeType},
+		is_enabled = #{isEnabled},
+		remarks
+		=#{remarks},
+		update_by = #{updateBy.id},
+		update_date = #{updateDate}
+		where id = #{id}
+	</update>
+</mapper>

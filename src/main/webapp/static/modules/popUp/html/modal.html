@@ -1,0 +1,1134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>弹层--四种形式</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="../../../vendor/bootstrap-table/bootstrap-table.min.css" rel="stylesheet" type="text/css" />
+    <link href="../../../vendor/bootstrap-datetimepicker/css/datetimepicker.css" rel="stylesheet" type="text/css">
+    <link href="../css/style.css" rel="stylesheet" type="text/css" />
+    <link href="../css/swiper.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <table id="contentTable" class="table table-striped table-bordered table-condensed">
+                <thead>
+                    <tr>
+                        <th>序号</th>
+                        <th>门店</th>
+                        <th>工程模式</th>
+                        <th>提交申请时间</th>
+                        <th>期望复尺日期</th>
+                        <th>供应商确认时间</th>
+                        <th>回复</th>
+                        <th>顾客</th>
+                        <th>合同开工日期</th>
+                        <th>合同竣工日期</th>
+                        <th>选材清单</th>
+                        <th>操作</th>
+                        <th>交底照片</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>
+                            北京丰台店
+                        </td>
+                        <td>
+                            产业
+                        </td>
+                        <td>
+                            2017-8-18 15:11:51
+                        </td>
+                        <td>
+                            2017-8-21
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+                        </td>
+                        <td>海淀区京泉馨苑东里-18-1-401-赵文艳</td>
+                        <td>
+                            2017-07-30
+                        </td>
+                        <td>
+                            2017-10-30
+                        </td>
+                        <td>
+                            <a href="#" data-toggle="modal" data-target="#myModal-view">
+                            表格</a>
+                        </td>
+                        <td>
+                            <a href="#" data-toggle="modal" data-target="#myModal-manage">输入框</a>
+                            <a href="#" data-toggle="modal" data-target="#myModal-notice">提示语</a>
+                        </td>
+                        <td>
+                            <a href="#" data-toggle="modal" data-target="#myModal-photo">图片</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- /.container-fluid -->
+    <!-- Modal -->
+    <!-- 表格弹层 -->
+    <div class="modal _large fade disN" id="myModal-view" tabindex="-4" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+                    <h4 class="modal-title text-center" id="myModalLabel">订单选材清单</h4>
+                </div>
+                <div class="modal-body">
+                    <h4 class="modal-title text-center">基本信息</h4>
+                    <table class="table table-striped table-bordered table-condensed">
+                        <tbody>
+                            <tr>
+                                <td class="col-md-6">
+                                    订单编号：BJ1170716054
+                                </td>
+                                <td class="col-md-6">
+                                    客户姓名：赵文艳
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="col-md-6">
+                                    客户地址：海淀区京泉馨苑东里-18-1-401
+                                </td>
+                                <td class="col-md-6">
+                                    客户电话：13693092029
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="col-md-6">
+                                    设计师姓名：崔建松
+                                </td>
+                                <td class="col-md-6">
+                                    设计师电话：18201406519
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="col-md-6">
+                                    合同编号：BJ1170716054
+                                </td>
+                                <td class="col-md-6">
+                                    项目经理姓名：汪学锋
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <h4 class="modal-title text-center">选材清单</h4>
+                    <table class="table table-striped table-bordered table-condensed" style="display:inline-block; height: 300px; overflow-y: scroll">
+                        <thead>
+                            <tr class="row">
+                                <th>类型</th>
+                                <th>二级类目</th>
+                                <th>品牌</th>
+                                <th>型号</th>
+                                <th>属性</th>
+                                <th>供应商</th>
+                                <th>单位</th>
+                                <th>规格</th>
+                                <th>位置</th>
+                                <th>预算用量1</th>
+                                <th>预算用量2</th>
+                                <th>损耗系数</th>
+                                <th>含损耗用量</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="row">
+                                <td>
+                                    软饰
+                                </td>
+                                <td>
+                                    窗帘(布)
+                                </td>
+                                <td>
+                                    柚子茶布艺
+                                </td>
+                                <td>
+                                    TF002-11
+                                </td>
+                                <td>
+                                    2.8m定高
+                                </td>
+                                <td>
+                                    美得你窗帘
+                                </td>
+                                <td>
+                                    m
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                    全房
+                                </td>
+                                <td>
+                                    1
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                    1.0
+                                </td>
+                            </tr>
+                            <tr class="row">
+                                <td>
+                                    软饰
+                                </td>
+                                <td>
+                                    窗帘(布)
+                                </td>
+                                <td>
+                                    柚子茶布艺
+                                </td>
+                                <td>
+                                    TF002-23
+                                </td>
+                                <td>
+                                    2.8m定高
+                                </td>
+                                <td>
+                                    美得你窗帘
+                                </td>
+                                <td>
+                                    m
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                    书房
+                                </td>
+                                <td>
+                                    2
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                    2.0
+                                </td>
+                            </tr>
+                            <tr class="row">
+                                <td>
+                                    软饰
+                                </td>
+                                <td>
+                                    窗帘(布)
+                                </td>
+                                <td>
+                                    柚子茶布艺
+                                </td>
+                                <td>
+                                    TF007-1
+                                </td>
+                                <td>
+                                    2.8m定高
+                                </td>
+                                <td>
+                                    美得你窗帘
+                                </td>
+                                <td>
+                                    m
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                    客厅,主卧
+                                </td>
+                                <td>
+                                    5
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                    5.0
+                                </td>
+                            </tr>
+                            <tr class="row">
+                                <td>
+                                    软饰
+                                </td>
+                                <td>
+                                    窗帘(布)
+                                </td>
+                                <td>
+                                    柚子茶布艺
+                                </td>
+                                <td>
+                                    TF002-11
+                                </td>
+                                <td>
+                                    2.8m定高
+                                </td>
+                                <td>
+                                    美得你窗帘
+                                </td>
+                                <td>
+                                    m
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                    全房
+                                </td>
+                                <td>
+                                    1
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                    1.0
+                                </td>
+                            </tr>
+                            <tr class="row">
+                                <td>
+                                    软饰
+                                </td>
+                                <td>
+                                    窗帘(布)
+                                </td>
+                                <td>
+                                    柚子茶布艺
+                                </td>
+                                <td>
+                                    TF002-23
+                                </td>
+                                <td>
+                                    2.8m定高
+                                </td>
+                                <td>
+                                    美得你窗帘
+                                </td>
+                                <td>
+                                    m
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                    书房
+                                </td>
+                                <td>
+                                    2
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                    2.0
+                                </td>
+                            </tr>
+                            <tr class="row">
+                                <td>
+                                    软饰
+                                </td>
+                                <td>
+                                    窗帘(布)
+                                </td>
+                                <td>
+                                    柚子茶布艺
+                                </td>
+                                <td>
+                                    TF007-1
+                                </td>
+                                <td>
+                                    2.8m定高
+                                </td>
+                                <td>
+                                    美得你窗帘
+                                </td>
+                                <td>
+                                    m
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                    客厅,主卧
+                                </td>
+                                <td>
+                                    5
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                    5.0
+                                </td>
+                            </tr>
+                            <tr class="row">
+                                <td>
+                                    软饰
+                                </td>
+                                <td>
+                                    窗帘(布)
+                                </td>
+                                <td>
+                                    柚子茶布艺
+                                </td>
+                                <td>
+                                    TF002-11
+                                </td>
+                                <td>
+                                    2.8m定高
+                                </td>
+                                <td>
+                                    美得你窗帘
+                                </td>
+                                <td>
+                                    m
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                    全房
+                                </td>
+                                <td>
+                                    1
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                    1.0
+                                </td>
+                            </tr>
+                            <tr class="row">
+                                <td>
+                                    软饰
+                                </td>
+                                <td>
+                                    窗帘(布)
+                                </td>
+                                <td>
+                                    柚子茶布艺
+                                </td>
+                                <td>
+                                    TF002-23
+                                </td>
+                                <td>
+                                    2.8m定高
+                                </td>
+                                <td>
+                                    美得你窗帘
+                                </td>
+                                <td>
+                                    m
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                    书房
+                                </td>
+                                <td>
+                                    2
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                    2.0
+                                </td>
+                            </tr>
+                            <tr class="row">
+                                <td>
+                                    软饰
+                                </td>
+                                <td>
+                                    窗帘(布)
+                                </td>
+                                <td>
+                                    柚子茶布艺
+                                </td>
+                                <td>
+                                    TF007-1
+                                </td>
+                                <td>
+                                    2.8m定高
+                                </td>
+                                <td>
+                                    美得你窗帘
+                                </td>
+                                <td>
+                                    m
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                    客厅,主卧
+                                </td>
+                                <td>
+                                    5
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                    5.0
+                                </td>
+                            </tr>
+                            <tr class="row">
+                                <td>
+                                    软饰
+                                </td>
+                                <td>
+                                    窗帘(布)
+                                </td>
+                                <td>
+                                    柚子茶布艺
+                                </td>
+                                <td>
+                                    TF002-11
+                                </td>
+                                <td>
+                                    2.8m定高
+                                </td>
+                                <td>
+                                    美得你窗帘
+                                </td>
+                                <td>
+                                    m
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                    全房
+                                </td>
+                                <td>
+                                    1
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                    1.0
+                                </td>
+                            </tr>
+                            <tr class="row">
+                                <td>
+                                    软饰
+                                </td>
+                                <td>
+                                    窗帘(布)
+                                </td>
+                                <td>
+                                    柚子茶布艺
+                                </td>
+                                <td>
+                                    TF002-23
+                                </td>
+                                <td>
+                                    2.8m定高
+                                </td>
+                                <td>
+                                    美得你窗帘
+                                </td>
+                                <td>
+                                    m
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                    书房
+                                </td>
+                                <td>
+                                    2
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                    2.0
+                                </td>
+                            </tr>
+                            <tr class="row">
+                                <td>
+                                    软饰
+                                </td>
+                                <td>
+                                    窗帘(布)
+                                </td>
+                                <td>
+                                    柚子茶布艺
+                                </td>
+                                <td>
+                                    TF007-1
+                                </td>
+                                <td>
+                                    2.8m定高
+                                </td>
+                                <td>
+                                    美得你窗帘
+                                </td>
+                                <td>
+                                    m
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                    客厅,主卧
+                                </td>
+                                <td>
+                                    5
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                    5.0
+                                </td>
+                            </tr>
+                            <tr class="row">
+                                <td>
+                                    软饰
+                                </td>
+                                <td>
+                                    窗帘(布)
+                                </td>
+                                <td>
+                                    柚子茶布艺
+                                </td>
+                                <td>
+                                    TF002-11
+                                </td>
+                                <td>
+                                    2.8m定高
+                                </td>
+                                <td>
+                                    美得你窗帘
+                                </td>
+                                <td>
+                                    m
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                    全房
+                                </td>
+                                <td>
+                                    1
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                    1.0
+                                </td>
+                            </tr>
+                            <tr class="row">
+                                <td>
+                                    软饰
+                                </td>
+                                <td>
+                                    窗帘(布)
+                                </td>
+                                <td>
+                                    柚子茶布艺
+                                </td>
+                                <td>
+                                    TF002-23
+                                </td>
+                                <td>
+                                    2.8m定高
+                                </td>
+                                <td>
+                                    美得你窗帘
+                                </td>
+                                <td>
+                                    m
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                    书房
+                                </td>
+                                <td>
+                                    2
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                    2.0
+                                </td>
+                            </tr>
+                            <tr class="row">
+                                <td>
+                                    软饰
+                                </td>
+                                <td>
+                                    窗帘(布)
+                                </td>
+                                <td>
+                                    柚子茶布艺
+                                </td>
+                                <td>
+                                    TF007-1
+                                </td>
+                                <td>
+                                    2.8m定高
+                                </td>
+                                <td>
+                                    美得你窗帘
+                                </td>
+                                <td>
+                                    m
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                    客厅,主卧
+                                </td>
+                                <td>
+                                    5
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                    5.0
+                                </td>
+                            </tr>
+                            <tr class="row">
+                                <td>
+                                    软饰
+                                </td>
+                                <td>
+                                    窗帘(布)
+                                </td>
+                                <td>
+                                    柚子茶布艺
+                                </td>
+                                <td>
+                                    TF002-11
+                                </td>
+                                <td>
+                                    2.8m定高
+                                </td>
+                                <td>
+                                    美得你窗帘
+                                </td>
+                                <td>
+                                    m
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                    全房
+                                </td>
+                                <td>
+                                    1
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                    1.0
+                                </td>
+                            </tr>
+                            <tr class="row">
+                                <td>
+                                    软饰
+                                </td>
+                                <td>
+                                    窗帘(布)
+                                </td>
+                                <td>
+                                    柚子茶布艺
+                                </td>
+                                <td>
+                                    TF002-23
+                                </td>
+                                <td>
+                                    2.8m定高
+                                </td>
+                                <td>
+                                    美得你窗帘
+                                </td>
+                                <td>
+                                    m
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                    书房
+                                </td>
+                                <td>
+                                    2
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                    2.0
+                                </td>
+                            </tr>
+                            <tr class="row">
+                                <td>
+                                    软饰
+                                </td>
+                                <td>
+                                    窗帘(布)
+                                </td>
+                                <td>
+                                    柚子茶布艺
+                                </td>
+                                <td>
+                                    TF007-1
+                                </td>
+                                <td>
+                                    2.8m定高
+                                </td>
+                                <td>
+                                    美得你窗帘
+                                </td>
+                                <td>
+                                    m
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                    客厅,主卧
+                                </td>
+                                <td>
+                                    5
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                    5.0
+                                </td>
+                            </tr>
+                            <tr class="row">
+                                <td>
+                                    软饰
+                                </td>
+                                <td>
+                                    窗帘(布)
+                                </td>
+                                <td>
+                                    柚子茶布艺
+                                </td>
+                                <td>
+                                    TF002-11
+                                </td>
+                                <td>
+                                    2.8m定高
+                                </td>
+                                <td>
+                                    美得你窗帘
+                                </td>
+                                <td>
+                                    m
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                    全房
+                                </td>
+                                <td>
+                                    1
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                    1.0
+                                </td>
+                            </tr>
+                            <tr class="row">
+                                <td>
+                                    软饰
+                                </td>
+                                <td>
+                                    窗帘(布)
+                                </td>
+                                <td>
+                                    柚子茶布艺
+                                </td>
+                                <td>
+                                    TF002-23
+                                </td>
+                                <td>
+                                    2.8m定高
+                                </td>
+                                <td>
+                                    美得你窗帘
+                                </td>
+                                <td>
+                                    m
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                    书房
+                                </td>
+                                <td>
+                                    2
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                    2.0
+                                </td>
+                            </tr>
+                            <tr class="row">
+                                <td>
+                                    软饰
+                                </td>
+                                <td>
+                                    窗帘(布)
+                                </td>
+                                <td>
+                                    柚子茶布艺
+                                </td>
+                                <td>
+                                    TF007-1
+                                </td>
+                                <td>
+                                    2.8m定高
+                                </td>
+                                <td>
+                                    美得你窗帘
+                                </td>
+                                <td>
+                                    m
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                    客厅,主卧
+                                </td>
+                                <td>
+                                    5
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                    5.0
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.modal -->
+    <!-- 输入框弹层 -->
+    <div class="modal fade disN" id="myModal-manage" tabindex="-3" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+                    <h4 class="modal-title text-center" id="myModalLabel">昌平区宏福苑南一区-10-4-303</h4>
+                </div>
+                <div class="modal-body">
+                    <form action="" role="form">
+                        <fieldset>
+                            <div class="form-group">
+                                <label for="content" class="col-md-3">复尺内容：</label>
+                                <div class="input-group date col-md-5">窗帘</div>
+                            </div>
+                            <div class="form-group">
+                                <label for="dtp_input1" class="col-md-3 control-label">供应商确认时间：</label>
+                                <div class="input-append date form_datetime2">
+                                    <input size="16" type="text" value="" readonly="">
+                                    <span class="add-on"><i class="icon-th"></i></span>
+                                </div>
+                                <input type="hidden" id="dtp_input1" value="" />
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputFile" class="col-md-3">回复：</label>
+                                <div class="input-group date col-md-5">
+                                    <textarea maxlength="200"></textarea>
+                                </div>
+                            </div>
+                            <div class="form-btn text-center">
+                                <button type="submit" class="btn btn-primary col-md-3">保存</button>
+                                <button type="submit" class="btn btn-default col-md-3">返回</button>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.modal -->
+    <!-- 警告弹层 -->
+    <div class="modal fade disN" tabindex="-2" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+                    <h4 class="modal-title text-center" id="myModalLabel">错误提示</h4>
+                </div>
+                <div class="modal-body">
+                    <form action="" role="form">
+                        <fieldset>
+                            <div class="form-group">
+                                <div class="input-group text-center clearfix"><i class="icon icon-notice pull-left">icon</i> <span class="pull-left content-txt">提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息</span>
+                                </div>
+                            </div>
+                            <div class="form-btn text-center">
+                                <button type="submit" class="btn btn-primary col-md-3">确定</button>
+                                <button type="submit" class="btn btn-default col-md-3">取消</button>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.modal -->
+    <!-- 图片弹层 -->
+    <div class="modal _large fade disN" id="myModal-photo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+                    <h4 class="modal-title text-center" id="myModalLabel">交底照片浏览</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="swiper-container swiper-item01" id="swiper-item01">
+                        <div class="swiper-wrapper clearfix">
+                            <!-- <a href="javascript:void(0)" class="swiper-slide"><img src="../images/img1.jpg" alt=""></a>
+                            <a href="javascript:void(0)" class="swiper-slide"><img src="../images/img2.jpg" alt=""></a>
+                            <a href="javascript:void(0)" class="swiper-slide"><img src="../images/img3.jpg" alt=""></a>
+                            <a href="javascript:void(0)" class="swiper-slide"><img src="../images/img4.jpg" alt=""></a> -->
+                        </div>
+                        <div class="swiper-button-next"></div>
+                        <div class="swiper-button-prev"></div>
+                        <div class="swiper-pagination swiper-pagination-fraction">
+                            <span class="swiper-pagination-current">1</span> / <span class="swiper-pagination-total">10</span>
+                        </div>
+                    </div>
+                    <!--/.swiper-container-->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.modal -->
+    <!-- 面积取值说明弹层 -->
+    <div class="modal fade _large disN" id="myModal-notice" tabindex="-2" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+                    <h4 class="modal-title text-center" id="myModalLabel">面积取值说明</h4>
+                </div>
+                <div class="modal-body">
+                    <form action="" role="form">
+                        <fieldset>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="clearfix">
+                                        <div class="txt-left pull-left">木&nbsp;地&nbsp;板&nbsp;面&nbsp;积：</div>
+                                        <div class="txt-right pull-left">泥瓦工程任务包结算单中的1个工序【GX000041-水泥砂浆地面找平施工】的【结算工程量】</div>
+                                    </div>
+                                    <div class="margin-top10 clearfix">
+                                        <div class="txt-left pull-left">地砖预算面积：</div>
+                                        <div class="txt-right pull-left">
+                                            <p>泥瓦工程任务包结算单中的5个工序【GX000264--地砖铺贴（宽边＜200mm）、</p>
+                                            <p>GX000161--地砖铺贴（200≦宽边＜300mm）、</p>
+                                            <p>GX000100--地砖铺贴（宽边≥300mm）、</p>
+                                            <p>GX000267--地砖斜铺/拼花（宽边
+                                                < 450）、</p>
+                                                    <p>GX000266--地砖斜铺/拼花（宽边≥450）】的【<span class="text-red">预算工程量</span>】之和</p>
+                                        </div>
+                                    </div>
+                                    <div class="margin-top10 clearfix">
+                                        <div class="txt-left pull-left">地砖结算面积：</div>
+                                        <div class="txt-right pull-left">
+                                            <p>泥瓦工程任务包结算单中的5个工序【GX000264--地砖铺贴（宽边＜200mm）、</p>
+                                            <p>GX000161--地砖铺贴（200≦宽边＜300mm）、</p>
+                                            <p>GX000100--地砖铺贴（宽边≥300mm）、</p>
+                                            <p>GX000267--地砖斜铺/拼花（宽边
+                                                < 450）、</p>
+                                                    <p>GX000266--地砖斜铺/拼花（宽边≥450）】的【<span class="text-red">结算工程量</span>】之和</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.form-group -->
+                            <div class="form-btn text-center">
+                                <button type="submit" class="btn btn-primary col-md-3">返回</button>
+                            </div>
+                            <!-- /.form-btn -->
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.modal -->
+    <script type="text/javascript" src="../../../vendor/jquery/jquery-2.2.4.min.js"></script>
+    <script type="text/javascript" src="../../../vendor/bootstrap/js/bootstrap.min.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="../../../vendor/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+    <script type="text/javascript" src="../../../vendor/jquery/swiper.min.js"></script>
+    <script type="text/javascript">
+    $("#myModal-manage").on("shown.bs.modal", function() {
+        $(".form_datetime2").datetimepicker({
+            format: "dd MM yyyy - hh:ii"
+        });
+    });
+
+    $("#myModal-photo").on("shown.bs.modal", function() {
+        var mySwiper01 = new Swiper('#swiper-item01', {
+            zoom: true,
+            speed: 800,
+            // loop: true, //可选选项，开启循环
+            paginationClickable: true,
+            noSwiping: true,
+            noSwipingClass: 'stop-swiping',
+            nextButton: '.swiper-button-next',
+            prevButton: '.swiper-button-prev',
+            pagination: '.swiper-pagination',
+            paginationType: 'fraction'
+        });
+        $('.swiper-button-prev').on('click', function(e) {
+            e.preventDefault();
+            mySwiper01.slidePrev();
+        })
+        $('.swiper-button-next').on('click', function(e) {
+            e.preventDefault();
+            mySwiper01.slideNext();
+        })
+    });
+    </script>
+</body>
+
+</html>

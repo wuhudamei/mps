@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.ExchangeOrderDetailsDao">
+	
+	<sql id="detailsColumn">
+		
+		b.update_date AS "exChangeDate",
+		a.realName AS "oldLeaderName",
+		a2.realName AS "newLeaderName",
+		c.customer_name AS "customer",
+		b.reason_type AS "reasonType",
+		b.reason_remarks AS "reasonRemarks", 
+		c.community_name AS "communityName",
+		c.build_number AS "buildNumber",
+		c.build_unit AS "buildUnit",
+		c.build_room AS "buildRoom"
+	</sql>
+	
+	<select id="selectDetailsPageById" resultType="cn.damei.entity.modules.ExchangeOrderDetails" parameterType="cn.damei.entity.modules.ExchangeOrderDetails">
+		SELECT <include refid="detailsColumn"/>,
+		d.package_name AS "packageName"
+		
+		FROM biz_order_distribute_log b 
+		
+		INNER JOIN biz_employee a
+		ON (a.id = b.old_employee_id)
+		LEFT JOIN biz_employee a2 
+		ON(b.distributed_employee_id = a2.id)
+		
+		INNER JOIN biz_order c
+		ON(b.order_id = c.id)
+		
+		INNER JOIN biz_order_taskpackage d
+		ON(b.order_taskpackage_id=d.id)
+		
+		WHERE b.distribute_type ='302'
+		
+		AND b.old_employee_id = #{oldEmployeeId}
+		<if test="startExChangeDate != null and startExChangeDate != ''">
+            AND b.update_date  &gt;= #{startExChangeDate}
+        </if>
+        <if test="endExChangeDate != null and endExChangeDate != ''">
+            AND b.update_date &lt;= #{endExChangeDate}
+        </if>
+		ORDER BY a.update_date ASC
+	</select>
+	
+	<select id="selectManagerDetailsPageById" resultType="cn.damei.entity.modules.ExchangeOrderDetails" parameterType="cn.damei.entity.modules.ExchangeOrderDetails">
+		SELECT <include refid="detailsColumn"/>
+		
+		FROM biz_order_distribute_log b
+		
+		INNER JOIN biz_employee a
+		ON (a.id = b.old_employee_id)
+		LEFT JOIN biz_employee a2 
+		ON(b.distributed_employee_id = a2.id)
+		
+		INNER JOIN biz_order c
+		ON(b.order_id = c.id)
+		
+		WHERE b.distribute_type ='102'
+		
+		AND b.old_employee_id = #{oldEmployeeId}
+		<if test="startExChangeDate != null and startExChangeDate != ''">
+            AND b.update_date  &gt;= #{startExChangeDate}
+        </if>
+        <if test="endExChangeDate != null and endExChangeDate != ''">
+            AND b.update_date &lt;= #{endExChangeDate}
+        </if>
+
+		ORDER BY a.update_date ASC
+		
+	</select>
+	
+	<select id="selectInspectorDetailsPageById" resultType="cn.damei.entity.modules.ExchangeOrderDetails" parameterType="cn.damei.entity.modules.ExchangeOrderDetails">
+		SELECT <include refid="detailsColumn"/>
+		
+		FROM biz_order_distribute_log b
+		
+		INNER JOIN biz_employee a 
+		ON (a.id = b.old_employee_id)
+		LEFT JOIN biz_employee a2 
+		ON(b.distributed_employee_id = a2.id)
+		
+		INNER JOIN biz_order c
+		ON(b.order_id = c.id)
+		
+		WHERE b.distribute_type ='202'
+		
+		AND b.old_employee_id = #{oldEmployeeId}
+		
+		ORDER BY a.update_date ASC
+	</select>
+
+</mapper>

@@ -1,0 +1,3 @@
+键值	标签		类型				描述		排序	
+0	未签订协议	is_sign_employee_agreement	工人协议	10	
+1	已签订协议	is_sign_employee_agreement	工人协议	20	

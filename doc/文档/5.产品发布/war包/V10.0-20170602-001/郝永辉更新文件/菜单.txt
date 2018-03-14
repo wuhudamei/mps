@@ -1,0 +1,3 @@
+    菜单名称                                   连接                                    排序
+
+工人评价分数查询      /evaluate/bizEvalWorkGrade/openBizEvalWorkGradePage               70

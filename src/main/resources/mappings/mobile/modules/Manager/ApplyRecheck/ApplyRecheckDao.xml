@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.mobile.Manager.ApplyRecheckDao">
+
+
+
+<!-- 根据经理id ,查询订单下的质检单中的复检单 -->
+<select id="findRecheckList" parameterType="int" resultType="cn.damei.entity.mobile.Manager.ApplyRecheckEntity">
+	SELECT
+		A.customer_address AS "orderCustomerAddress",
+		a.customer_name AS "orderCustomerName",
+		a.actual_start_date AS "actualContractStartDate",
+		A.contract_time AS "contractDays",
+		w.id AS "recheckId",
+		w.related_qc_bill_id AS "relatedBillId",
+		w.`status` AS "recheckStatus",
+		w.qc_bill_type AS "recheckType"
+	FROM
+		biz_qc_bill w LEFT JOIN
+		biz_order A
+			ON w.order_id = a.id
+			   AND (w. STATUS = 1 OR w. STATUS = 3)
+			   AND w.is_recheck = 1
+	WHERE
+		a.item_manager_id =#{managerId}
+
+</select>
+
+
+
+
+<!-- 查询合格不合格的检查项 -->
+<select id="selectCheckItemByRecheckId" parameterType="int" resultType="cn.damei.entity.mobile.Manager.ApplyRecheckEntity">
+
+SELECT
+	a.qc_check_item_id as "checkItemId", 
+	a.qc_bill_id as "recheckId",
+	a.is_passed as "isPassed",
+	b.qc_check_item_name as "checkItemName",
+	a.limit_date_repaire_check_style as "changeWay"
+FROM
+	biz_qc_bill_check_item a,
+	biz_qc_check_item b
+WHERE
+	a.qc_check_item_id = b.id
+AND a.qc_bill_id = #{recheckId} order by a.is_passed
+
+</select>
+
+
+
+
+
+
+	<!-- 保存经理申请复检 图片到数据库 -->
+	<insert id="savePic" parameterType="cn.damei.entity.mobile.Inspector.ReportCheckDetailsPic">
+		INSERT INTO biz_business_pic (
+				business_type,
+				business_id_int,
+				pic_url,
+				pic_datetime
+		)
+		values(
+				#{businessType},
+				#{businessIdInt},
+				#{picUrl},
+				#{picDatetime}
+		)
+	
+	</insert>
+
+
+
+<update id="updateRecheckStatus" parameterType="cn.damei.entity.mobile.Manager.ApplyRecheckEntity">
+update biz_qc_bill set status= #{recheckStatus} ,expect_check_datetime  =#{hopeApplyDate} ,apply_employee_id=#{managerId} where id=#{recheckId}
+
+
+</update>
+
+
+
+
+</mapper>

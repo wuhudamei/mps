@@ -1,0 +1,26 @@
+打包名称：mdn.war
+打包版本：V10.0-20170522-001（增量）
+
+功能新增（增量）：
+	1、工程统计日报查询
+	2、质检节点报表
+
+菜单变更（增量）：
+
+	1、工程统计日报查询
+	名称：工程统计日报查询
+	链接：/engineDepartSyntheticQuery/smallstatisticsPrelist
+	权限标识：enginedepartsyntheticquery:enginedepartsyntheticquery:view
+
+	2、质检节点报表
+	名称：质检节点报表
+	链接：/engineDepartSyntheticQuery/pqcSyntheticQuery
+	权限标识：pqcSyntheticQuery:pqcSyntheticQuery:view
+
+文件变更（增量）：
+
+	替换文件【综合查询-mh】文件夹的【EngineDepartSyntheticQueryService.java】文件，替换路径在【路径.txt】文本内
+
+数据库表结构变更：
+无
+	

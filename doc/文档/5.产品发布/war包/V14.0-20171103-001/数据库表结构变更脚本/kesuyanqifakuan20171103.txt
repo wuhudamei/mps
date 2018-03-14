@@ -1,0 +1,22 @@
+sql:
+	1.改变数据结构
+		DROP TABLE IF EXISTS biz_pro_complaint_forfeit;
+		create table biz_pro_complaint_forfeit
+		(
+		   id                   int(11) not null auto_increment,
+		   order_id             int(11) comment '订单id',
+		   order_complaint_problem_item_id int(11) comment '事项id',
+		   order_complaint_problem_id int(11) comment '投诉问题id',
+		   promise_com_date     datetime comment '计划完成时间',
+		   actual_com_date      datetime comment '实际完成时间',
+		   punish_money         decimal(9,2) comment '惩罚金额',
+		   exa_opinion          varchar(255) comment '审批意见',
+		   status               char(2) comment '状态',
+		   remarks              varchar(255) comment '备注',
+		   create_by            varchar(64) comment '创建人',
+		   create_date          datetime comment '创建时间',
+		   update_by            varchar(64) comment '更新人',
+		   update_date          datetime comment '更新时间',
+		   del_flag              char(1) comment '删除标志',
+		   primary key (id)
+		) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;

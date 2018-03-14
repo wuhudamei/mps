@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+        namespace="cn.damei.dao.mobile.Manager.ManagerTraditionSettleDao">
+
+
+    <sql id="myOrderColumns">
+        a.id AS "orderId",
+        a.customer_name AS "customerName",
+        a.customer_phone AS "customerPhone",
+        a.community_name AS "communityName",
+        a.build_number AS "buildNumber",
+        a.build_unit AS "buildUnit",
+        a.build_room AS "buildRoom",
+        a.order_status_number AS "orderStatusNumber",
+        a.order_status_description AS "orderStatusDescription",
+        a.item_manager AS "itemManager",
+        a.store_id AS "storeId",
+        a.item_manager_id AS "itemManagerId"
+    </sql>
+
+    <select id="findSettleOrderList" parameterType="cn.damei.entity.mobile.Manager.ManagerTraditionSettleEntity" resultType="cn.damei.entity.mobile.Manager.ManagerTraditionSettleEntity">
+
+        SELECT
+            a.id AS "orderId",
+            a.customer_name AS "customerName",
+            a.customer_phone AS "customerPhone",
+            a.community_name AS "communityName",
+            a.build_number AS "buildNumber",
+            a.build_unit AS "buildUnit",
+            a.build_room AS "buildRoom",
+            a.order_status_number AS "orderStatusNumber",
+            a.order_status_description AS "orderStatusDescription",
+            a.item_manager AS "itemManager",
+            a.store_id AS "storeId",
+            a.item_manager_id AS "itemManagerId"
+        FROM
+            biz_order a where a.item_manager_id=#{itemManagerId}
+        and a.project_mode =2
+        <if test="text!=null and text!=''">
+            and (a.community_name like CONCAT('%',#{text},'%' )  or a.customer_name like CONCAT('%',#{text},'%' ) )
+        </if>
+        ORDER BY a.create_date desc
+    </select>
+
+
+
+    <!--订单和结算单resultMap映射  -->
+
+    <resultMap id="orderInfoResultMap" type="cn.damei.entity.mobile.Manager.ManagerTraditionSettleEntity">
+        <result column="id" property="orderId"></result>
+        <result column="store_id" property="storeId"></result>
+        <collection property="settleList" resultMap="settleInfoListResultMap"></collection>
+    </resultMap>
+
+
+    <resultMap id="settleInfoListResultMap" type="cn.damei.entity.mobile.Manager.ManagerNormalSettle">
+        <result column="receive_money_type" property="receiveMoneyType"></result>
+        <result column="settle_index" property="settleIndex"></result>
+        <result column="settle_node_name" property="settleNodeName"></result>
+        <result column="qc_check_node_id" property="qcCheckNodeId"></result>
+        <result column="is_required" property="isRequired"></result>
+        <result column="settleId" property="settleNodeId"></result>
+        <result column="isCheckNodeDone" property="isCheckNodeDone"></result>
+        <result column="isMoneyReceive" property="isMoneyReceive"></result>
+        <result column="settleStatus" property="settleStatus"></result>
+        <result column="settleId" property="settleId"></result>
+        <result column="nodeIndex" property="nodeIndex"></result>
+        <result column="settleStatusName" property="settleStatusName"></result>
+       <association property="orderEntity" resultMap="orderInfoResultMap"></association>
+    </resultMap>
+
+
+
+
+    <!--质检单验收状态10,结算类型,是否确认收款,字典,门店关联,节点关联 -->
+    <select id="findSettleInfoByOrderId" parameterType="int" resultMap="orderInfoResultMap">
+        SELECT
+            a.id,
+            a.store_id,
+            b.receive_money_type,
+            b.settle_index,
+            b.settle_node_name,
+            b.qc_check_node_id,
+            b.is_required,
+            b.id AS "settleNodeId",
+            (
+                SELECT
+                    n.qc_check_node_index
+                FROM
+                    biz_qc_check_node n
+                WHERE
+                    n.id = b.qc_check_node_id
+            ) AS "nodeIndex",
+            (
+                SELECT
+                    count(1)
+                FROM
+                    biz_qc_bill q
+                WHERE
+                    q.order_id = a.id
+                    AND q.qc_check_node_id = b.qc_check_node_id
+                    AND q.`status` >= 10
+            ) AS "isCheckNodeDone",
+            (
+                SELECT
+                    count(1)
+                FROM
+                    biz_pre_pm_settle_finance_receive_moeny m
+                WHERE
+                    m.order_id = a.id
+                    AND m.receive_money_type = b.receive_money_type
+            ) AS "isMoneyReceive",
+            (
+                SELECT
+                    d.label
+                FROM
+                    biz_normal_pm_settle s,
+                    sys_dict d
+                WHERE
+                    s.settle_status = d.`value`
+                    AND d.type = 'settle_status'
+                    AND s.order_id = a.id
+                    AND s.normal_pm_settle_node_id = b.id
+            ) AS "settleStatusName",
+            (
+                SELECT
+                    s.id
+                FROM
+                    biz_normal_pm_settle s
+                WHERE
+                    s.order_id = a.id
+                    AND s.normal_pm_settle_node_id = b.id
+            ) AS "settleId",
+            (
+                SELECT
+                    s.settle_status
+                FROM
+                    biz_normal_pm_settle s
+                WHERE
+                    s.order_id = a.id
+                    AND s.normal_pm_settle_node_id = b.id
+            ) AS "settleStatus"
+        FROM
+            biz_order a
+            LEFT JOIN `biz_normal_pm_settle_node` b ON a.store_id = b.store_id
+        WHERE
+            a.id = #{_parameter}
+        ORDER BY
+            b.settle_index ASC
+
+
+    </select>
+
+
+
+
+    <select id="findSettleInfoDetailByIndexAndOrderId" parameterType="String" resultType="cn.damei.entity.mobile.Manager.ManagerTraditionSettleEntity">
+select <include refid="myOrderColumns"></include>,
+        c.settle_node_name as "checkNodeName",
+        c.id as "settleNodeId"
+from  	biz_order a
+        LEFT JOIN biz_normal_pm_settle_node c ON c.store_id = a.store_id
+        AND c.settle_index = #{1}
+        WHERE
+        a.id = #{0}
+    </select>
+
+
+    <select id="findSettleInfoDetailBySettleId" parameterType="String" resultType="cn.damei.entity.mobile.Manager.ManagerNormalSettle">
+        SELECT
+            a.id AS "orderEntity.orderId",
+            a.order_number AS "orderEntity.orderNumber",
+            a.customer_name AS "orderEntity.customerName",
+            a.community_name AS "orderEntity.communityName",
+            a.build_number AS "orderEntity.buildNumber",
+            a.build_unit AS "orderEntity.buildUnit",
+            a.build_room AS "orderEntity.buildRoom",
+            a.order_status_number AS "orderEntity.orderStatusNumber",
+            a.order_status_description AS "orderEntity.orderStatusDescription",
+            a.store_id AS "orderEntity.storeId",
+            e.realName AS "orderEntity.orderInspector",
+            e.phone AS "orderEntity.orderInspectorPhone",
+            e2.realName AS "orderEntity.itemManager",
+            e2.phone AS "orderEntity.managerPhone",
+            d.label as "settleStatusName",
+            b.settle_status as  "settleStatus",
+            c.settle_node_name AS "settleNodeName",
+            b.apply_datetime AS "applyTime",
+            b.settle_remarks AS "orderEntity.settleApplyRemarks",
+            e3.realName AS "checkManName",
+            b.check_reply AS "checkReply",
+            b.status_datetime AS "checkTime",
+            b.settle_amount AS "settleAmount",
+            p.pic_url as "picUrl",
+            b.id as "settleId"
+        FROM
+            biz_order a
+            INNER JOIN biz_employee e ON a.order_inspector_id = e.id
+            INNER JOIN biz_employee e2 ON a.item_manager_id = e2.id
+            LEFT JOIN biz_normal_pm_settle b ON a.id = b.order_id
+            LEFT JOIN biz_employee e3 ON b.check_employee_id = e3.id
+            INNER JOIN biz_normal_pm_settle_node c ON b.normal_pm_settle_node_id = c.id
+            INNER JOIN sys_dict d on b.settle_status = d.`value`
+            and d.type ='settle_status'
+            LEFT JOIN biz_business_pic p on b.id = p.business_id_int and p.business_type='666'
+        WHERE
+            b.id = #{_parameter}
+
+
+
+    </select>
+
+
+
+    <insert id="saveSettleApplyInfo" parameterType="cn.damei.entity.mobile.Manager.ManagerNormalSettle">
+        <selectKey resultType="int" keyColumn="id" keyProperty="settleId" order="AFTER">
+            SELECT LAST_INSERT_ID();
+
+        </selectKey>
+
+        insert into biz_normal_pm_settle (
+            store_id,
+            order_id,
+            normal_pm_settle_node_id,
+            settle_remarks,
+            apply_employee_id,
+            apply_datetime,
+            settle_status,
+            status_datetime,
+            create_by,
+            create_date,
+            del_flag
+
+
+        )VALUES (
+            #{orderEntity.storeId},
+            #{orderEntity.orderId},
+            #{orderEntity.settleNodeId},
+            #{orderEntity.settleApplyRemarks},
+            #{applyEmpId},
+            #{applyTime},
+            #{settleStatus},
+            #{statusDateTime},
+            #{createBy},
+            #{createDate},
+            0
+
+
+        )
+
+    </insert>
+
+    <select id="checkIsSettleExist" resultType="int">
+        select count(1) from biz_normal_pm_settle a where a.order_id=#{0} and a.normal_pm_settle_node_id=#{1}
+
+
+
+    </select>
+
+</mapper>

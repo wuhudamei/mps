@@ -1,0 +1,21 @@
+.mar_top24{margin-top: .24rem;}
+.mar_left46{margin-left: .46rem;}
+.border_left{border-left: 1px solid #ccc;}
+.pad_rgt36{padding-left: .36rem;}
+.relative{position: relative;}
+
+.blue-left{width: .34rem;height: .34rem;background: url(../images/blue-left.png);background-size: .34rem;position: absolute;
+	top: 0;left: -.17rem;}
+.wrapper{background-color: #fff;border: 1px solid #eaeaea;padding: .24rem .3rem;}
+.noRead{background-image: url(../images/read-no.png);
+	background-repeat: no-repeat;background-size: .68rem .47rem;background-position: 95% .24rem;}
+.pad_btm24{padding-bottom: .24rem;border-bottom: 1px solid #eaeaea;}
+.tele_btn{
+    display: block;
+    width: .57rem;
+    height: .58rem;
+    position: absolute;
+    top: 50%;
+    right: .3rem;
+}
+.tele_btn img{width: 100%;}

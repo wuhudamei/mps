@@ -1,0 +1,16 @@
+.mask{position: fixed;top: 0;left: 0;bottom: 0;right: 0;background: rgba(0,0,0,.4);}
+.bg_f{background: #fff;}
+.maskA .maskContent{width: 58%;top: 28%;left: 21%;position: absolute;box-sizing: border-box;padding:8px;}
+.maskA .maskContent li{width: 50%;}
+.font14{font-size: 14px;}
+.mb18{margin-bottom: 18px;}
+.fl{float: left;}
+
+.maskA .readInput{width: 30%;line-height: 24px;font-size: 14px;color: #666;background: #e5e5e5;border: 1px solid #0780ec;}
+.maskA .dateInput{width: 30%;line-height: 24px;font-size: 14px;color: #666;border: 1px solid #0780ec;}
+
+.maskA .btnWrapper{padding: 20px 80px;}
+.maskA .btnBlueBorder{width: 80px;height: 30px;line-height: 30px;text-align: center;font-size: 14px;color: #0780ec;
+	border: 1px solid #0780ec;display: block;box-sizing: border-box;border-radius:15px;margin: 0 auto;float: right;}
+.maskA .btnBlueBg{width: 80px;height: 30px;line-height: 30px;text-align: center;font-size: 14px;color: #fff;
+	background: #0780ec;display: block;box-sizing: border-box;border-radius:15px;margin: 0 auto;float: left;}

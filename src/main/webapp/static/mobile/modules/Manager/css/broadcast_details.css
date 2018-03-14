@@ -1,0 +1,23 @@
+.tit_line{height: .78rem;line-height: .78rem;border-bottom: 1px solid #ccc;}
+.com_icon{display: inline-block;width: .32rem;height: .32rem;background: url(../images/com_icon.png) no-repeat;background-size: .32rem;
+	vertical-align:-4px;}
+.pic_icon{background: url(../images/pic_icon.png) no-repeat;background-size: .32rem;}
+.com_lis{position: relative;}
+.com_lis li{line-height: .6rem;}
+.com_lis li span{float: left;line-height: .6rem;}
+#tele{display: block;width: 1.42rem;height: 0.46rem;position: absolute;right: 10%;top: 36%;}
+.phone{width: 1.42rem;height: .46rem;}
+.pic_tot{padding-left: .11rem;padding-top: .2rem;padding-bottom: .2rem;margin-bottom: 300px;}
+.pic_wrapper{width: 33.3%;float: left;padding-right: .09rem;box-sizing: border-box;text-align: center;padding-bottom: .2rem;}
+/*.pic_wrapper:nth-child(3n){padding-right: 0;}*/
+.pic_container{width: 100%;}
+.pic_wrapper p{line-height: .4rem;}
+.pic_container img{width: 100%;}
+.show_btn{padding: .1rem .3rem;border: 1px solid #0780ec; color: #0780ec;font-size: .28rem;}
+.sure_btn{display: block;width: 100%;height: .86rem;line-height: .86rem;background: #0780ec;
+	font-size: .28rem;text-align: center;color: #fff;position: fixed;bottom: 0;}
+.up {width: .6rem;float: right;height: .6rem;position: relative;overflow: hidden;margin-top: .09rem;
+    margin-right: .3rem;}
+.up img {width: 100%;height: 100%;position: absolute;top: 0;left: 0;}
+.up input {opacity: 0;width: 100%;font-size: 100px;position: absolute;top: 0;left: 0;}
+.font20{font-size: .2rem;}

@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="cn.damei.dao.mobile.Manager.BizOrderTaskpackageProcedureDao">
+
+	<!-- 查询工程清单 -->
+	<select id="queryOrderTaskpackageProcedure" parameterType="java.util.Map"
+		resultType="cn.damei.entity.mobile.Manager.BizOrderTaskpackageProcedure">
+		select
+		a.id as "id",
+		a.taskpackage_id as "taskpackageId",
+		a.package_name as "packageName",
+		a.procedure_name as "procedureName",
+		a.measurement_unit as "measurementUnit",
+		b.label as "measurementUnitLabel",
+		a.budget_number as "budgetNumber",
+		a.recheck_number as "recheckNumber",
+		a.settlement_number as "settlementNumber",
+		a.real_number as "realNumber",
+		a.synthesize_price as "synthesizePrice",
+		a.accessories_price as "accessoriesPrice",
+		a.labor_price as "laborPrice",
+		a.remarks as "remarks",
+		a.recheck_remarks as "recheckRemarks",
+		a.modify_number_reason as "modifyNumberReason",
+		a.labor_budget_amount as "laborDudgetAmount",
+		a.labor_settle_amount as "laborSettleAmount",
+		a.auxiliary_materials_budget_amount as "auxiliaryMaterialsBudgetAmount",
+		a.auxiliary_materials_settle_amount as
+		"auxiliaryMaterialsSettleAmount",
+		a.labor_auxiliary_materials_budget_amount as
+		"laborAuxiliaryMaterialsBudgetAmount",
+		a.labor_auxiliary_materials_settle_amount as
+		"laborAuxiliaryMaterialsSettleAmount"
+		from
+		biz_order_taskpackage_procedure a
+		left join sys_dict b on a.measurement_unit = b.value
+		where
+		a.taskpackage_id = #{taskpackageId} and b.type = #{measurementUnitType} and
+		a.budget_number &lt;>0 order by a.procedure_no asc
+	</select>
+
+	<select id="queryOrderTaskpackageProcedure1" parameterType="java.util.Map"
+		resultType="cn.damei.entity.mobile.Manager.BizOrderTaskpackageProcedure">
+		select
+		a.id as "id",
+		a.taskpackage_id as "taskpackageId",
+		a.package_name as "packageName",
+		a.procedure_name as "procedureName",
+		a.measurement_unit as "measurementUnit",
+		b.label as "measurementUnitLabel",
+		a.budget_number as "budgetNumber",
+		a.real_number as "realNumber",
+		a.synthesize_price as "synthesizePrice",
+		a.accessories_price as "accessoriesPrice",
+		a.labor_price as "laborPrice",
+		a.remarks as "remarks",
+		a.recheck_number as "recheckNumber",
+		a.settlement_number as "settlementNumber",
+		a.recheck_remarks as "recheckRemarks",
+		a.modify_number_reason as "modifyNumberReason",
+		a.labor_budget_amount as "laborDudgetAmount",
+		a.labor_settle_amount as "laborSettleAmount",
+		a.auxiliary_materials_budget_amount as "auxiliaryMaterialsBudgetAmount",
+		a.auxiliary_materials_settle_amount as
+		"auxiliaryMaterialsSettleAmount",
+		a.labor_auxiliary_materials_budget_amount as
+		"laborAuxiliaryMaterialsBudgetAmount",
+		a.labor_auxiliary_materials_settle_amount as
+		"laborAuxiliaryMaterialsSettleAmount"
+		from
+		biz_order_taskpackage_procedure a
+		left join sys_dict b on a.measurement_unit = b.value
+		where
+		a.taskpackage_id = #{taskpackageId} and a.real_number > 0 and b.type =
+		#{measurementUnitType} order by a.procedure_no asc
+	</select>
+
+	<!--根据id查询 -->
+	<select id="get"
+		resultType="cn.damei.entity.mobile.Manager.BizOrderTaskpackageProcedure">
+		SELECT a.id as "id",a.taskpackage_id as
+		"taskpackageId",a.package_name as "packageName",
+		a.procedure_no as "procedureNo",a.procedure_name as "procedureName",a.recheck_number
+		as "recheckNumber",
+		a.measurement_unit as "measurementUnit",a.labor_price as
+		"laborPrice",a.settlement_number as "settlementNumber",
+		a.accessories_price as "accessoriesPrice",a.synthesize_price as
+		"synthesizePrice",a.recheck_remarks as "recheckRemarks",
+		a.budget_number as "budgetNumber",a.real_number as "realNumber",
+		a.remarks as "remarks",a.create_by AS "createBy.id",a.create_date AS
+		"createDate",
+		a.update_by AS "updateBy.id",a.update_date AS "updateDate",a.del_flag AS
+		"delFlag",
+		a.labor_budget_amount as "laborDudgetAmount",
+		a.labor_settle_amount as "laborSettleAmount",
+		a.auxiliary_materials_budget_amount as "auxiliaryMaterialsBudgetAmount",
+		a.auxiliary_materials_settle_amount as
+		"auxiliaryMaterialsSettleAmount",
+		a.labor_auxiliary_materials_budget_amount as
+		"laborAuxiliaryMaterialsBudgetAmount",
+		a.labor_auxiliary_materials_settle_amount as
+		"laborAuxiliaryMaterialsSettleAmount"
+		FROM biz_order_taskpackage_procedure a
+		WHERE a.id = #{id}
+	</select>
+
+	<!--更新 -->
+	<update id="update">
+		UPDATE biz_order_taskpackage_procedure SET
+		id=#{id},
+		taskpackage_id=#{taskpackageId},
+		package_name=#{packageName},
+		procedure_no=#{procedureNo},
+		procedure_name=#{procedureName},
+		measurement_unit=#{measurementUnit},
+		labor_price=#{laborPrice},
+		accessories_price=#{accessoriesPrice},
+		synthesize_price=#{synthesizePrice},
+		budget_number=#{budgetNumber},
+		real_number=#{realNumber},
+		recheck_number=#{recheckNumber},
+		settlement_number=#{settlementNumber},
+		remarks=#{remarks},
+		recheck_remarks=#{recheckRemarks},
+		update_by=#{updateBy.id},
+		update_date=#{updateDate},
+		del_flag=#{delFlag},
+		modify_number_reason=#{modifyNumberReason},
+		labor_budget_amount = #{laborDudgetAmount},
+		labor_settle_amount = #{laborSettleAmount},
+		auxiliary_materials_budget_amount = #{auxiliaryMaterialsBudgetAmount},
+		auxiliary_materials_settle_amount = #{auxiliaryMaterialsSettleAmount},
+		labor_auxiliary_materials_settle_amount = #{laborAuxiliaryMaterialsSettleAmount},
+		labor_auxiliary_materials_budget_amount = #{laborAuxiliaryMaterialsBudgetAmount}
+		WHERE id = #{id}
+	</update>
+</mapper>

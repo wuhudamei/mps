@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.EngineeringDepartmentEmployeePositionDao">
+    
+	<insert id="insertList" parameterType="java.util.List">
+		INSERT INTO biz_engin_depart_employee_position(
+			id,
+			engin_depart_id,
+			position_type,
+			employee_id,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag
+		) VALUES
+		<foreach collection="list" item="item" index="index" separator=",">
+			(#{item.id},
+			#{item.enginDepartId},
+			#{item.positionType},
+			#{item.employeeId},
+			#{item.createBy.id},
+			#{item.createDate},
+			#{item.updateBy.id},
+			#{item.updateDate},
+			#{item.remarks},
+			#{item.delFlag})
+		</foreach>
+	</insert>
+	
+	<delete id = "deleteByDepartmentId">
+		delete from biz_engin_depart_employee_position
+		where engin_depart_id = #{0}
+	</delete>
+</mapper>

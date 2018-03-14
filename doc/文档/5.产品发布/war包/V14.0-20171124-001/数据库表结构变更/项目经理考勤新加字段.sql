@@ -1,0 +1,1 @@
+alter table biz_pm_attend_day_order ADD column sign_id int(11) comment '¿¼ÇÚ¼ÇÂ¼id';

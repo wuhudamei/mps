@@ -1,0 +1,490 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizPmAttendSalaryBillDao">
+    
+	<sql id="bizPmAttendSalaryBillColumns">
+		a.pm_attend_salary_bill_code AS "pmAttendSalaryBillCode",
+		a.pm_attend_salary_summary_bill_id AS "pmAttendSalarySummaryBillId",
+		a.pm_attend_month_id AS "pmAttendMonthId",
+		a.pm_employee_id AS "pmEmployeeId",
+		a.pm_star AS "pmStar",
+		a.pm_star_salary AS "pmStarSalary",
+		a.pm_star_salary_min AS "pmStarSalaryMin",
+		a.pm_star_salary_attend_full_default AS "pmStarSalaryAttendFullDefault",
+		a.pm_star_salary_attend_default AS "pmStarSalaryAttendDefault",
+		a.pm_star_salary_real_default AS "pmStarSalaryRealDefault",
+		a.pm_star_salary_attend_full AS "pmStarSalaryAttendFull",
+		a.pm_star_salary_attend AS "pmStarSalaryAttend",
+		a.pm_star_salary_punish AS "pmStarSalaryPunish",
+		a.pm_star_salary_real AS "pmStarSalaryReal",
+		a.status AS "status",
+		a.status_datetime AS "statusDatetime",
+		a.status_employee_id AS "statusEmployeeId",
+		a.status_describe AS "statusDescribe",
+		a.remarks AS "remarks",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="bizPmAttendSalaryBillJoins">
+	</sql>
+    
+	<select id="get" resultType="BizPmAttendSalaryBill">
+		SELECT 
+			<include refid="bizPmAttendSalaryBillColumns"/>
+		FROM biz_pm_attend_salary_bill a
+		<include refid="bizPmAttendSalaryBillJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="BizPmAttendSalaryBill">
+		SELECT 
+			<include refid="bizPmAttendSalaryBillColumns"/>
+		FROM biz_pm_attend_salary_bill a
+		<include refid="bizPmAttendSalaryBillJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="BizPmAttendSalaryBill">
+		SELECT 
+			<include refid="bizPmAttendSalaryBillColumns"/>
+		FROM biz_pm_attend_salary_bill a
+		<include refid="bizPmAttendSalaryBillJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO biz_pm_attend_salary_bill(
+			pm_attend_salary_bill_code,
+			pm_attend_salary_summary_bill_id,
+			pm_attend_month_id,
+			pm_employee_id,
+			pm_star,
+			pm_star_salary,
+			pm_star_salary_min,
+			pm_star_salary_attend_full_default,
+			pm_star_salary_attend_default,
+			pm_star_salary_real_default,
+			pm_star_salary_attend_full,
+			pm_star_salary_attend,
+			pm_star_salary_punish,
+			pm_star_salary_real,
+			status,
+			status_datetime,
+			status_employee_id,
+			status_describe,
+			remarks,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag
+		) VALUES (
+			#{pmAttendSalaryBillCode},
+			#{pmAttendSalarySummaryBillId},
+			#{pmAttendMonthId},
+			#{pmEmployeeId},
+			#{pmStar},
+			#{pmStarSalary},
+			#{pmStarSalaryMin},
+			#{pmStarSalaryAttendFullDefault},
+			#{pmStarSalaryAttendDefault},
+			#{pmStarSalaryRealDefault},
+			#{pmStarSalaryAttendFull},
+			#{pmStarSalaryAttend},
+			#{pmStarSalaryPunish},
+			#{pmStarSalaryReal},
+			#{status},
+			#{statusDatetime},
+			#{updateBy.empId},
+			#{statusDescribe},
+			#{remarks},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE biz_pm_attend_salary_bill SET 	
+			pm_attend_salary_bill_code = #{pmAttendSalaryBillCode},
+			pm_attend_salary_summary_bill_id = #{pmAttendSalarySummaryBillId},
+			pm_attend_month_id = #{pmAttendMonthId},
+			pm_employee_id = #{pmEmployeeId},
+			pm_star = #{pmStar},
+			pm_star_salary = #{pmStarSalary},
+			pm_star_salary_min = #{pmStarSalaryMin},
+			pm_star_salary_attend_full_default = #{pmStarSalaryAttendFullDefault},
+			pm_star_salary_attend_default = #{pmStarSalaryAttendDefault},
+			pm_star_salary_real_default = #{pmStarSalaryRealDefault},
+			pm_star_salary_attend_full = #{pmStarSalaryAttendFull},
+			pm_star_salary_attend = #{pmStarSalaryAttend},
+			pm_star_salary_punish = #{pmStarSalaryPunish},
+			pm_star_salary_real = #{pmStarSalaryReal},
+			status = #{status},
+			status_datetime = #{statusDatetime},
+			status_employee_id = #{statusEmployeeId},
+			status_describe = #{statusDescribe},
+			remarks = #{remarks},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		delete from biz_pm_attend_salary_bill
+		WHERE id = #{salaryBillId}
+	</update>
+	
+	<select id="findSalaryBillAuditingList" resultType="BizPmAttendSalaryBill">
+		select 
+		DISTINCT
+			a.id AS "salaryBillId",
+			b.id AS "pmAttendMonthId",
+			c.store_id AS "storeId",
+			c.id AS "enginDepartId",
+			e.`name` AS "departmentName",
+			d.realName AS "itemManager",
+			d.id AS "itemManagerId",
+			d.phone AS "phone",
+			b.attend_month AS "attendMonth",
+			a.pm_star AS "pmStar",
+			a.pm_star_salary AS "pmStarSalary",
+			a.pm_attend_salary_bill_code AS "pmAttendSalaryBillCode",
+			b.must_sign_times AS "countDay",
+			b.real_sign_times AS "sjCountDay",
+			b.owed_sign_times AS "wcDay",
+			a.pm_star_salary_punish AS "pmStarSalaryPunish",
+		  	b.attend_rate AS "attendRate",
+			a.pm_star_salary_real AS "pmStarSalaryReal",
+			a.`status` AS "status",
+			IFNULL(b.actual_value_total,0) AS "actualValueTotal"
+		from biz_pm_attend_salary_bill a
+		inner join biz_pm_attend_month b on a.pm_attend_month_id = b.id
+		inner JOIN biz_engineering_department c ON find_in_set(b.pm_employee_id,c.manager)
+		inner JOIN biz_employee d ON d.id = b.pm_employee_id
+		inner join biz_engineering_department e on e.id = c.id
+		<where>
+			<if test="storeId != '' and storeId != null">
+				and c.store_id = #{storeId}
+			</if>
+			<if test="enginDepartId != '' and enginDepartId != null">
+				and c.id = #{enginDepartId}
+			</if>
+			<if test="attendRateStart != '' and attendRateStart != null and attendRateEnd != '' and attendRateEnd != null">
+				and b.attend_rate BETWEEN #{attendRateStart} and #{attendRateEnd}
+			</if>
+			<if test="attendMonth != '' and attendMonth != null">
+				and b.attend_month = #{attendMonth}
+			</if>
+			<if test="itemManager != '' and itemManager != null">
+				and d.realName like
+					<if test="dbName == 'oracle'">'%'||#{itemManager}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{itemManager}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{itemManager},'%')</if>
+			</if>
+			<if test="pmAttendSalarySummaryBillId != '' and pmAttendSalarySummaryBillId != null">
+				and a.pm_attend_salary_summary_bill_id = #{pmAttendSalarySummaryBillId}
+			</if>
+			and a.del_flag = 0
+			and (a.`status` = 30 or a.`status`=90)
+		</where>
+	</select>
+	
+	<select id="findSalaryBillAuditingDetail" resultType="BizPmAttendSalaryBill">
+		select 
+		DISTINCT
+			a.id AS "salaryBillId",
+			b.id AS "pmAttendMonthId",
+			c.store_id AS "storeId",
+			c.id AS "enginDepartId",
+			e.`name` AS "departmentName",
+			d.realName AS "itemManager",
+			d.id AS "itemManagerId",
+			d.phone AS "phone",
+			b.attend_month AS "attendMonth",
+			a.pm_star AS "pmStar",
+			a.pm_star_salary AS "pmStarSalary",
+			a.pm_attend_salary_bill_code AS "pmAttendSalaryBillCode",
+			b.must_sign_times AS "countDay",
+			b.real_sign_times AS "sjCountDay",
+			b.owed_sign_times AS "wcDay",
+			a.pm_star_salary_punish AS "pmStarSalaryPunish",
+		  	b.attend_rate AS "attendRate",
+			a.pm_star_salary_real AS "pmStarSalaryReal",
+			a.`status` AS "status",
+			ifnull(b.actual_value_total,0) AS "actualValueTotal"
+		from biz_pm_attend_salary_bill a
+		inner join biz_pm_attend_month b on a.pm_attend_month_id = b.id
+		inner JOIN biz_engineering_department c ON find_in_set(b.pm_employee_id,c.manager)
+		inner JOIN biz_employee d ON d.id = b.pm_employee_id
+		inner join biz_engineering_department e on e.id = c.id
+		<where>
+			<if test="pmAttendSalarySummaryBillId != '' and pmAttendSalarySummaryBillId != null">
+				and a.pm_attend_salary_summary_bill_id = #{pmAttendSalarySummaryBillId}
+			</if>
+			<if test="status != '' and status != null">
+				and a.status = #{status}
+			</if>
+			and a.del_flag = 0
+		</where>
+	</select>
+	
+	<update id="updateStatus">
+		update biz_pm_attend_salary_bill t set t.status = #{status}
+		<if test="pmAttendSalarySummaryBillId != '' and pmAttendSalarySummaryBillId != null">
+			,t.pm_attend_salary_summary_bill_id = #{pmAttendSalarySummaryBillId}
+		</if>
+		where t.id = #{salaryBillId}
+	</update>
+
+	<update id="updateStatusByIds" >
+		update biz_pm_attend_salary_bill t set t.status = 40
+		<!--<if test="pmAttendSalarySummaryBillId != '' and pmAttendSalarySummaryBillId != null">
+			,t.pm_attend_salary_summary_bill_id = #{pmAttendSalarySummaryBillId}
+		</if>-->
+		where t.id in
+		<foreach collection="list" index="index" item="item" separator="," open="(" close=")">
+			#{item.salaryBillId}
+		</foreach>
+	</update>
+	
+	<select id="findSalaryBillAuditingBatchList" resultType="BizPmAttendSalaryBill">
+		select 
+		DISTINCT
+			a.id AS "salaryBillId",
+			b.id AS "pmAttendMonthId",
+			c.store_id AS "storeId",
+			c.id AS "enginDepartId",
+			e.`name` AS "departmentName",
+			d.realName AS "itemManager",
+			d.id AS "itemManagerId",
+			d.phone AS "phone",
+			b.attend_month AS "attendMonth",
+			a.pm_star AS "pmStar",
+			a.pm_star_salary AS "pmStarSalary",
+			a.pm_attend_salary_bill_code AS "pmAttendSalaryBillCode",
+			a.pm_star_salary_attend_default AS "pmStarSalaryAttendDefault",
+			b.must_sign_times AS "countDay",
+			b.real_sign_times AS "sjCountDay",
+			b.owed_sign_times AS "wcDay",
+			a.pm_star_salary_punish AS "pmStarSalaryPunish",
+		  	b.attend_rate AS "attendRate",
+			a.pm_star_salary_real AS "pmStarSalaryReal",
+			a.`status` AS "status",
+			DATE_FORMAT(b.attend_start_date,'%Y-%m-%d') AS "attendRateStart",
+			DATE_FORMAT(b.attend_end_date,'%Y-%m-%d') AS "attendRateEnd",
+			a.pm_star_salary_real AS "pmStarSalaryReal",
+			ifnull(b.actual_value_total,0) actualValueTotal
+		from biz_pm_attend_salary_bill a
+		inner join biz_pm_attend_month b on a.pm_attend_month_id = b.id
+		inner JOIN biz_engineering_department c ON find_in_set(b.pm_employee_id,c.manager)
+		inner JOIN biz_employee d ON d.id = b.pm_employee_id
+		inner join biz_engineering_department e on e.id = c.id
+		<where>
+			<if test="storeId != '' and storeId != null">
+				and c.store_id = #{storeId}
+			</if>
+			<if test="enginDepartId != '' and enginDepartId != null">
+				and c.id = #{enginDepartId}
+			</if>
+			<if test="attendRateStart != '' and attendRateStart != null and attendRateEnd != '' and attendRateEnd != null">
+				and b.attend_rate BETWEEN #{attendRateStart} and #{attendRateEnd}
+			</if>
+			<if test="attendMonth != '' and attendMonth != null">
+				and b.attend_month = #{attendMonth}
+			</if>
+			<if test="itemManagerId != '' and itemManagerId != null">
+				and d.id = #{itemManagerId}
+			</if>
+			<if test="itemManager != '' and itemManager != null">
+				and d.realName like
+				<if test="dbName == 'oracle'">'%'||#{itemManager}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{itemManager}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{itemManager},'%')</if>
+			</if>
+			and a.del_flag = 0
+			and a.`status` = '40'
+		</where>
+	</select>
+	
+	<select id="findSalaryBillAuditingBatchList2" resultType="BizPmAttendSalaryBill">
+		select 
+		DISTINCT
+			a.id AS "salaryBillId",
+			b.id AS "pmAttendMonthId",
+			c.store_id AS "storeId",
+			c.id AS "enginDepartId",
+			e.`name` AS "departmentName",
+			d.realName AS "itemManager",
+			d.id AS "itemManagerId",
+			d.phone AS "phone",
+			b.attend_month AS "attendMonth",
+			a.pm_star AS "pmStar",
+			a.pm_star_salary AS "pmStarSalary",
+			a.pm_attend_salary_bill_code AS "pmAttendSalaryBillCode",
+			a.pm_star_salary_attend_default AS "pmStarSalaryAttendDefault",
+			b.must_sign_times AS "countDay",
+			b.real_sign_times AS "sjCountDay",
+			a.pm_star_salary_punish AS "pmStarSalaryPunish",
+		  	b.attend_rate AS "attendRate",
+			a.pm_star_salary_real AS "pmStarSalaryReal",
+			a.`status` AS "status",
+			DATE_FORMAT(b.attend_start_date,'%Y-%m-%d') AS "attendRateStart",
+			DATE_FORMAT(b.attend_end_date,'%Y-%m-%d') AS "attendRateEnd",
+			datediff(DATE_FORMAT(b.attend_end_date,'%Y-%m-%d'),DATE_FORMAT(b.attend_start_date,'%Y-%m-%d'))+1 AS "wcDay",
+			a.pm_star_salary_real AS "pmStarSalaryReal"
+		from biz_pm_attend_salary_bill a
+		inner join biz_pm_attend_month b on a.pm_attend_month_id = b.id
+		inner JOIN biz_engineering_department c ON find_in_set(b.pm_employee_id,c.manager)
+		inner JOIN biz_employee d ON d.id = b.pm_employee_id
+		inner join biz_engineering_department e on e.id = c.id
+		<where>
+			<if test="storeId != '' and storeId != null">
+				and c.store_id = #{storeId}
+			</if>
+			<if test="enginDepartId != '' and enginDepartId != null">
+				and c.id = #{enginDepartId}
+			</if>
+			<if test="attendRateStart != '' and attendRateStart != null and attendRateEnd != '' and attendRateEnd != null">
+				and b.attend_rate BETWEEN #{attendRateStart} and #{attendRateEnd}
+			</if>
+			<if test="attendMonth != '' and attendMonth != null">
+				and b.attend_month = #{attendMonth}
+			</if>
+			<if test="itemManagerId != '' and itemManagerId != null">
+				and d.id = #{itemManagerId}
+			</if>
+			and a.del_flag = 0
+			and a.`status` = '60'
+		</where>
+		order by b.attend_month desc
+	</select>
+	
+	<update id="updateStatusBySummaryId">
+		update biz_pm_attend_salary_bill t set t.status = #{status}
+		where t.pm_attend_salary_summary_bill_id = #{pmAttendSalarySummaryBillId}
+	</update>
+	
+	<select id="findSalaryBillAuditingDetailList" resultType="BizPmAttendSalaryBill">
+		select 
+		DISTINCT
+			a.id AS "salaryBillId",
+			b.id AS "pmAttendMonthId",
+			c.store_id AS "storeId",
+			c.id AS "enginDepartId",
+			e.`name` AS "departmentName",
+			d.realName AS "itemManager",
+			d.id AS "itemManagerId",
+			d.phone AS "phone",
+			b.attend_month AS "attendMonth",
+			a.pm_star AS "pmStar",
+			a.pm_star_salary AS "pmStarSalary",
+			a.pm_attend_salary_bill_code AS "pmAttendSalaryBillCode",
+			b.must_sign_times AS "countDay",
+			b.real_sign_times AS "sjCountDay",
+			b.owed_sign_times AS "wcDay",
+			a.pm_star_salary_punish AS "pmStarSalaryPunish",
+		  	b.attend_rate AS "attendRate",
+			a.pm_star_salary_real AS "pmStarSalaryReal",
+			a.`status` AS "status"
+		from biz_pm_attend_salary_bill a
+		inner join biz_pm_attend_month b on a.pm_attend_month_id = b.id
+		inner JOIN biz_engineering_department c ON find_in_set(b.pm_employee_id,c.manager)
+		inner JOIN biz_employee d ON d.id = b.pm_employee_id
+		inner join biz_engineering_department e on e.id = c.id
+		<where>
+			<if test="pmAttendSalarySummaryBillId != '' and pmAttendSalarySummaryBillId != null">
+				and a.pm_attend_salary_summary_bill_id = #{pmAttendSalarySummaryBillId}
+			</if>
+			<if test="itemManager != '' and itemManager != null">
+				and d.realName like
+					<if test="dbName == 'oracle'">'%'||#{itemManager}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{itemManager}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{itemManager},'%')</if>
+			</if>
+			<if test="attendMonth != '' and attendMonth != null">
+				and b.attend_month = #{attendMonth}
+			</if>
+			<if test="status != '' and status != null">
+				and a.status = #{status}
+			</if>
+			<if test="storeId != '' and storeId != null">
+				and c.store_id = #{storeId}
+			</if>
+			<if test="enginDepartId != '' and enginDepartId != null">
+				and c.id = #{enginDepartId}
+			</if>
+			and a.status >= 30
+			and a.del_flag = 0
+		</where>
+	</select>
+	
+	<select id="findAttendSalaryList" resultType="BizPmAttendSalaryBill">
+		select <include refid="bizPmAttendSalaryBillColumns"/>
+		 from biz_pm_attend_salary_bill a
+		 inner join biz_pm_attend_month b on a.pm_attend_month_id = b.id
+		 where a.pm_employee_id = #{pmEmployeeId}
+		 and b.attend_month = #{attendMonth}
+		 and a.status != '90'
+	</select>
+	
+	<select id="findSalaryBill" resultType="BizPmAttendSalaryBill">
+		select <include refid="bizPmAttendSalaryBillColumns"/> from biz_pm_attend_salary_summary_bill c
+		left join biz_pm_attend_salary_summary_bill_rel b on c.id = b.pm_attend_salary_summary_bill_id
+		left join biz_pm_attend_salary_bill a on a.id = b.pm_attend_salary_bill_id
+		 where a.id = #{salaryBillId}
+		and a.status != '90'
+	</select>
+	
+	<!-- <delete id="deleSalaryBill">
+		delete from biz_pm_attend_salary_bill
+		where id = #{salaryBillId}
+	</delete> -->
+	
+	<delete id="deleteSalaryBillRel">
+		delete from biz_pm_attend_salary_summary_bill_rel
+		where pm_attend_salary_bill_id = #{salaryBillId}
+	</delete>
+	
+	<delete id="deleteSalarySummary">
+		delete from biz_pm_attend_salary_summary_bill
+		where status = '30'
+	</delete>
+	
+	<delete id="deletePmAttendSalaryBill">
+		delete from biz_pm_attend_salary_summary_bill
+		where id = #{pmAttendSalarySummaryBillId}
+	</delete>
+	
+	<delete id="deletePmAttendSalaryBillRel">
+		delete from biz_pm_attend_salary_summary_bill_rel
+		where pm_attend_salary_summary_bill_id = #{pmAttendSalarySummaryBillId}
+	</delete>
+	
+</mapper>

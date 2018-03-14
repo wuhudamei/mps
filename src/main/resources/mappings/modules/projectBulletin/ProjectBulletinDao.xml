@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.ProjectBulletinDao">
+    
+	<sql id="projectBulletinColumns">
+		a.id AS "id",
+		a.order_number AS "orderNumber",
+		a.contract_number AS "contractNumber",
+		a.customer_type AS "customerType",
+		a.customer_address AS "customerAddress",
+		a.actual_start_date AS "actualStartDate",
+		a.actual_end_date AS "actualEndDate",
+		a.customer_description AS "customerDescription",
+		a.item_manager_id AS "itemManagerId",
+		a.sign_flag AS "signFlag",
+		a.delay_type AS "delayType",
+		a.order_inspector_id AS "orderInspectorId",
+		a.customer_name AS "customerName",
+		a.customer_phone AS "customerPhone",
+		a.community_name AS "communityName",
+		a.build_number AS "buildNumber",
+		a.build_unit AS "buildUnit",
+		a.build_room AS "buildRoom",
+		a.map_coordinate AS "mapCoordinate",
+		a.sale_type AS "saleType",
+		a.area AS "area",
+		a.build_type AS "buildType",
+		a.house_type AS "houseType",
+		a.house_is_new AS "houseIsNew",
+		a.is_elevator AS "isElevator",
+		a.designer_name AS "designerName",
+		a.designer_phone AS "designerPhone",
+		a.order_reporter_name AS "orderReporterName",
+		a.order_reporter_phone AS "orderReporterPhone",
+		a.service_name AS "serviceName",
+		a.service_phone AS "servicePhone",
+		a.contract_start_date AS "contractStartDate",
+		a.contract_end_date AS "contractEndDate",
+		a.covered_area AS "coveredArea",
+		a.contract_area AS "contractArea",
+		a.contract_time AS "contractTime",
+		a.sign_contract_date AS "signContractDate",
+		a.order_status_number AS "orderStatusNumber",
+		a.order_status_description AS "orderStatusDescription",
+		a.order_inspector AS "orderInspector",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag",
+		a.item_manager AS "itemManager",
+		a.store_id AS "storeId",
+		a.cus_manager AS "cusManager",
+		a.ordertaskpack_status AS "ordertaskpackStatus",
+		a.PROJECT_MODE AS "projectMode"
+	</sql>
+	
+	<sql id="projectBulletinJoins">
+	</sql>
+	
+	<select id="getByIdAndNodePlanOrderId" resultType="cn.damei.entity.modules.ProjectBulletin">
+		SELECT 
+			<include refid="projectBulletinColumns"/>,
+			p.NODE_NAME AS "nodeName",
+			p.NODE_INDEX AS "nodeIndex",
+			p.REAL_DONE_DATE AS "nodeRealDoneDate",
+			p.ID AS "nodeId",
+			(SELECT count(z.ID) FROM BIZ_NODE_PLAN_PIC z WHERE z.NODE_PLAN_ID=p.ID) AS "nodePlanPicCount"
+		FROM BIZ_ORDER a
+		LEFT JOIN BIZ_NODE_PLAN p ON p.ORDER_ID = a.ID
+		WHERE a.ID = #{0}
+		AND p.IS_DONE = '1'
+	</select>
+	
+	<select id="getByShowViewOrderId" resultType="cn.damei.entity.modules.ProjectBulletin">
+		SELECT 
+			<include refid="projectBulletinColumns"/>,
+			p.NODE_NAME AS "nodeName",
+			p.NODE_INDEX AS "nodeIndex",
+			p.ID AS "nodeId",
+			p.IS_DONE AS "isDone",
+			p.REAL_DONE_DATE AS "nodeRealDoneDate",
+			(DATEDIFF(p.REAL_DONE_DATE, a.ACTUAL_START_DATE)) AS "doneDate"
+		FROM BIZ_ORDER a
+		LEFT JOIN BIZ_NODE_PLAN p ON p.ORDER_ID = a.ID
+		WHERE a.ID = #{0}
+		ORDER BY p.NODE_INDEX ASC
+	</select>
+    
+    <select id="getById" resultType="cn.damei.entity.modules.ProjectBulletin">
+		SELECT 
+			<include refid="projectBulletinColumns"/>
+		FROM biz_order a
+		WHERE a.id = #{id}
+	</select>
+    
+	<select id="get" resultType="cn.damei.entity.modules.ProjectBulletin">
+		SELECT 
+			<include refid="projectBulletinColumns"/>
+		FROM biz_order a
+		<include refid="projectBulletinJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="cn.damei.entity.modules.ProjectBulletin">
+		SELECT 
+			<include refid="projectBulletinColumns"/>,
+			n.NODE_NAME AS "nodeName",
+			n.NODE_INDEX AS "nodeIndex",
+			y.REALNAME AS "managerName"
+		FROM BIZ_ORDER a,BIZ_NODE_PLAN n,BIZ_EMPLOYEE y
+		<where>
+			a.DEL_FLAG = #{DEL_FLAG_NORMAL}
+			AND n.IS_DONE = '1'
+			AND n.ORDER_ID = a.ID
+			AND y.ID = a.ITEM_MANAGER_ID
+			AND n.NODE_INDEX = (SELECT MAX(b.NODE_INDEX) FROM BIZ_NODE_PLAN b WHERE b.IS_DONE = '1' AND b.ORDER_ID = a.ID)
+			<if test="orderNumber != null and orderNumber != ''">
+				AND a.ORDER_NUMBER LIKE CONCAT('%',#{orderNumber},'%')
+			</if>
+			<if test="projectMode != null and projectMode != ''">
+				AND a.PROJECT_MODE = #{projectMode}
+			</if>
+			<if test="customerName != null and customerName != ''">
+				AND a.CUSTOMER_NAME LIKE CONCAT('%',#{customerName},'%')
+			</if>
+			<if test="nodeIndex != null and nodeIndex != ''">
+				AND n.NODE_INDEX = #{nodeIndex}
+			</if>
+			<if test="contractBegin != null and contractBegin != ''">
+				AND a.CONTRACT_START_DATE &gt;= #{contractBegin}
+			</if>
+			<if test="contractEnd != null and contractEnd != ''">
+				AND a.CONTRACT_START_DATE &lt;= #{contractEnd}
+			</if>
+			<if test="actualBegin != null and actualBegin != ''">
+				AND a.ACTUAL_START_DATE &gt;= #{actualBegin}
+			</if>
+			<if test="actualEnd != null and actualEnd != ''">
+				AND a.ACTUAL_START_DATE &lt;= #{actualEnd}
+			</if>
+			<if test="managerName != null and managerName != ''">
+				AND y.REALNAME LIKE CONCAT('%',#{managerName},'%')
+			</if>
+			<if test="storeId != null and storeId != ''">
+				AND a.STORE_ID = #{storeId}
+			</if>
+			<if test="houseIsNew != null and houseIsNew != ''">
+				AND a.HOUSE_IS_NEW = #{houseIsNew}
+			</if>
+			<if test="ordertaskpackStatus != null and ordertaskpackStatus != ''">
+				AND a.ORDERTASKPACK_STATUS = #{ordertaskpackStatus}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.CREATE_DATE DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="cn.damei.entity.modules.ProjectBulletin">
+		SELECT 
+			<include refid="projectBulletinColumns"/>
+		FROM biz_order a
+		<include refid="projectBulletinJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO biz_order(
+			id,
+			order_number,
+			contract_number,
+			customer_type,
+			customer_address,
+			actual_start_date,
+			actual_end_date,
+			customer_description,
+			item_manager_id,
+			sign_flag,
+			delay_type,
+			order_inspector_id,
+			customer_name,
+			customer_phone,
+			community_name,
+			build_number,
+			build_unit,
+			build_room,
+			map_coordinate,
+			sale_type,
+			area,
+			build_type,
+			house_type,
+			house_is_new,
+			is_elevator,
+			designer_name,
+			designer_phone,
+			order_reporter_name,
+			order_reporter_phone,
+			service_name,
+			service_phone,
+			contract_start_date,
+			contract_end_date,
+			covered_area,
+			contract_area,
+			contract_time,
+			sign_contract_date,
+			order_status_number,
+			order_status_description,
+			order_inspector,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag,
+			item_manager,
+			store_id,
+			cus_manager,
+			ordertaskpack_status
+		) VALUES (
+			#{id},
+			#{orderNumber},
+			#{contractNumber},
+			#{customerType},
+			#{customerAddress},
+			#{actualStartDate},
+			#{actualEndDate},
+			#{customerDescription},
+			#{itemManagerId},
+			#{signFlag},
+			#{delayType},
+			#{orderInspectorId},
+			#{customerName},
+			#{customerPhone},
+			#{communityName},
+			#{buildNumber},
+			#{buildUnit},
+			#{buildRoom},
+			#{mapCoordinate},
+			#{saleType},
+			#{area},
+			#{buildType},
+			#{houseType},
+			#{houseIsNew},
+			#{isElevator},
+			#{designerName},
+			#{designerPhone},
+			#{orderReporterName},
+			#{orderReporterPhone},
+			#{serviceName},
+			#{servicePhone},
+			#{contractStartDate},
+			#{contractEndDate},
+			#{coveredArea},
+			#{contractArea},
+			#{contractTime},
+			#{signContractDate},
+			#{orderStatusNumber},
+			#{orderStatusDescription},
+			#{orderInspector},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag},
+			#{itemManager},
+			#{storeId},
+			#{cusManager},
+			#{ordertaskpackStatus}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE biz_order SET 	
+			order_number = #{orderNumber},
+			contract_number = #{contractNumber},
+			customer_type = #{customerType},
+			customer_address = #{customerAddress},
+			actual_start_date = #{actualStartDate},
+			actual_end_date = #{actualEndDate},
+			customer_description = #{customerDescription},
+			item_manager_id = #{itemManagerId},
+			sign_flag = #{signFlag},
+			delay_type = #{delayType},
+			order_inspector_id = #{orderInspectorId},
+			customer_name = #{customerName},
+			customer_phone = #{customerPhone},
+			community_name = #{communityName},
+			build_number = #{buildNumber},
+			build_unit = #{buildUnit},
+			build_room = #{buildRoom},
+			map_coordinate = #{mapCoordinate},
+			sale_type = #{saleType},
+			area = #{area},
+			build_type = #{buildType},
+			house_type = #{houseType},
+			house_is_new = #{houseIsNew},
+			is_elevator = #{isElevator},
+			designer_name = #{designerName},
+			designer_phone = #{designerPhone},
+			order_reporter_name = #{orderReporterName},
+			order_reporter_phone = #{orderReporterPhone},
+			service_name = #{serviceName},
+			service_phone = #{servicePhone},
+			contract_start_date = #{contractStartDate},
+			contract_end_date = #{contractEndDate},
+			covered_area = #{coveredArea},
+			contract_area = #{contractArea},
+			contract_time = #{contractTime},
+			sign_contract_date = #{signContractDate},
+			order_status_number = #{orderStatusNumber},
+			order_status_description = #{orderStatusDescription},
+			order_inspector = #{orderInspector},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks},
+			item_manager = #{itemManager},
+			store_id = #{storeId},
+			cus_manager = #{cusManager},
+			ordertaskpack_status = #{ordertaskpackStatus}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE biz_order SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

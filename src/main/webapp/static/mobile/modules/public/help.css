@@ -1,0 +1,196 @@
+/* 特殊约定 下划线「_***」的样式是不能单独使用的，它们都必须配合父亲，或者兄弟元素使用 */
+
+
+/* 基础样式，放在最后 */
+
+._fullwidth {
+    width: 100%;
+    text-align: center;
+}
+
+._disabled {
+    cursor: not-allowed;
+    opacity: .5;
+    filter: alpha(opacity=50);
+}
+
+._ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+._ellipsis2 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+._ellipsis3 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+._block {
+    display: block;
+}
+
+.circle {
+    border-radius: 50%;
+}
+
+
+/*  Border */
+
+.border-bottom {
+    border-bottom: 1px solid #ccc;
+}
+
+.border-top {
+    border-top: 1px solid #ccc;
+}
+
+.border-top0 {
+    border-top: 0 !important;
+}
+
+.border-top-dashed {
+    border-top: 1px dashed #ccc !important;
+}
+
+
+/* Float */
+
+.clearfix {
+    *zoom: 1;
+}
+
+.clearfix:after,
+.clearfix:before {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.pull-left {
+    float: left;
+    display: inline;
+}
+
+.pull-right {
+    float: right;
+    display: inline;
+}
+
+.pad10 {
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+.pad20 {
+    padding-left: 2rem;
+    padding-right: 2rem;
+}
+
+.padlr-30 {
+    padding-left: .3rem;
+    padding-right: .3rem;
+}
+
+.pad5 {
+    padding-left: .5rem;
+    padding-right: .5rem;
+}
+
+.pb20 {
+    padding-bottom: 0.20rem;
+}
+
+.mb30 {
+    margin-bottom: .3rem;
+}
+
+.pt112 {
+    padding-top: 1.12rem;
+}
+
+.shadow {
+    box-shadow: 0 0.05rem 0.1rem #dcdcdc;
+}
+
+
+/* Text */
+
+.text-center {
+    text-align: center !important;
+}
+
+.text-left {
+    text-align: left !important;
+}
+
+.text-right {
+    text-align: right;
+}
+
+
+/* Space */
+
+.space-10 {
+    height: .1rem;
+}
+
+.space-20 {
+    height: .2rem;
+}
+
+.text-space span {
+    margin-left: .2rem;
+    margin-right: .2rem;
+}
+
+
+/* Show Modle */
+
+.hidden {
+    visibility: hidden !important;
+}
+
+.show {
+    visibility: visible !important;
+}
+
+.disB {
+    display: block !important;
+}
+
+.disN {
+    display: none !important;
+}
+
+.disIB {
+    display: inline-block !important;
+}
+
+
+/* Background */
+
+.bg-grey {
+    background: #aaaaaa;
+}
+
+.bg-primary {
+    background: #ccc;
+}
+
+
+/* 全局样式,Vue编辑结束前不显示 */
+
+[v-cloak] {
+    display: none;
+}

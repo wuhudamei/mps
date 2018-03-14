@@ -1,0 +1,1 @@
+alter table biz_node_plan ADD column plan_check_time datetime comment '计划考核日期';

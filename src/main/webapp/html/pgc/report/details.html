@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <meta content="email=no" name="format-detection">
+    <title>质检报告</title>
+    <link rel="stylesheet" type="text/css" href="../../../static/mobile/modules/public/style.css" />
+</head>
+
+<body>
+    <div class="wrap">
+        <header>
+            <a class="back_btn" href="javascript:;"></a>
+            <h2 class="title">质检报告</h2>
+        </header>
+        <!-- /header -->
+        <section>
+            <div class="sec pt112 mb30 shadow">
+                <ul class="item-content">
+                    <li class="clearfix"><span class="item-name pull-left">顾客信息：</span><span class="item-text pull-left">鹿港嘉苑鹿港嘉苑鹿港嘉苑-10-3-2001- 张三</span></li>
+                    <li class="clearfix"><span class="item-name pull-left">项目经理：</span><span class="item-text pull-left">韩振刚</span></li>
+                    <li class="clearfix"><span class="item-name pull-left">质 检 员：</span><span class="item-text pull-left">叶伟作</span></li>
+                    <li class="clearfix"><span class="item-name pull-left">检查内容：</span><span class="item-text pull-left">水电工程</span></li>
+                    <li class="clearfix"><span class="item-name pull-left">检查时间：</span><span class="item-text pull-left">2016-12-22</span></li>
+                    <li class="clearfix"><span class="item-name pull-left">实际得分：</span><span class="item-text pull-left">90(总分100)</span></li>
+                </ul>
+                <div class="item-img"><a href="javascript:void(0)" class="flex flex-between"><span>照片数量：8张</span><span class="text-blue">查看照片<i class="icon icon-arrow-right _blue">icon</i></span></a></div>
+            </div>
+            <div class="sec">
+                <div class="flex flex-between item-title">
+                    <span class="text-default">1、施工现场</span>
+                    <span> 合格 <a href="javascript:void(0)" class="details _down">详情</a></span>
+                </div>
+                <ul class="item-content disN">
+                    <li class="clearfix">
+                        <span class="item-name pull-left">违规形式：</span><span class="item-text pull-left">未穿工服</span>
+                    </li>
+                    <li class="clearfix">
+                        <div class="item-name pull-left">处理方式：</div>
+                        <div class="item-text pull-left">
+                            <p>警告</p>
+                            <p>限期整改-现场复检-2016-10-25</p>
+                            <p>罚款-200元</p>
+                        </div>
+                    </li>
+                    <li class="clearfix">
+                        <div class="item-name pull-left">责 任 人：</div>
+                        <div class="item-text pull-left">
+                            <p>张丰丰(项目经理)</p>
+                            <p>营销保护及全屋放样-李林(工人)</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="sec">
+                <div class="flex flex-between item-title">
+                    <span class="text-default">2、工服</span>
+                    <span> 不合格 <a href="javascript:void(0)" class="details _down">详情</a></span>
+                </div>
+                <ul class="item-content">
+                    <li class="clearfix">
+                        <span class="item-name pull-left">违规形式：</span><span class="item-text pull-left">未穿工服</span>
+                    </li>
+                    <li class="clearfix">
+                        <div class="item-name pull-left">处理方式：</div>
+                        <div class="item-text pull-left">
+                            <p>警告</p>
+                            <p>限期整改-现场复检-2016-10-25</p>
+                            <p>罚款-200元</p>
+                        </div>
+                    </li>
+                    <li class="clearfix">
+                        <div class="item-name pull-left">责 任 人：</div>
+                        <div class="item-text pull-left">
+                            <p>张丰丰(项目经理)</p>
+                            <p>营销保护及全屋放样-李林(工人)</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </section>
+        <!-- /section -->
+        <div style="padding-bottom:300px;"></div>
+    </div>
+    <!-- /.wrap -->
+    <!--公共弹层背景  class 「_in」 显示弹层背景-->
+    <div class="alertMask">
+    </div>
+    <!-- /.alertMask -->
+    <!--公共弹层  class 「_in」 显示弹层内容-->
+    <div class="maskWrapper">
+        <div class="maskTit">提 示</div>
+        <div class="maskContent">
+            <p class="text-center">您确认做<span class="text-red">【合格】</span>验收提交吗？</p>
+        </div>
+        <div class="maskBtns">
+            <button class="maskBtnOne" type="button">确定</button>
+        </div>
+    </div>
+    <!-- /.maskWrapper -->
+    <div class="maskWrapper">
+        <div class="maskTit">通 知</div>
+        <div class="maskContent">
+            <p class="flex flex-between pad10"><span><input type="radio" checked="checked" class="item-option">合格</span><span><input type="radio" class="item-option">不合格</span></p>
+        </div>
+        <div class="maskBtns twoBtns clearfix">
+            <button class="maskBtn" type="button">确 定</button>
+            <button class="maskBtn" type="button">取 消</button>
+        </div>
+    </div>
+    <!-- /.maskWrapper -->
+    <script type="text/javascript" src="../../../static/mobile/modules/home/js/lib/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="../../../static/mobile/modules/home/js/utils/calcRootFontSize.js"></script>
+    <script>
+        $(document).on('click', '.details', function() {
+            if ($(this).hasClass('_down')) {
+                $(this).removeClass('_down').addClass('_up');
+                $('.item-content').removeClass('disN');
+            } else {
+                $(this).removeClass('_up').addClass('_down');
+                $('.item-content').addClass('disN');
+            }
+        });
+    </script>
+</body>
+
+</html>

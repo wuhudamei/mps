@@ -1,0 +1,398 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="cn.damei.dao.modules.BizOrderTaskpackagePaymentDetailDao">
+
+	<sql id="bizOrderTaskpackagePaymentDetailColumns">
+		a.id AS "id",
+		a.order_taskpackage_payment_id AS
+		"orderTaskpackagePaymentId",
+		a.employee_id AS "employeeId",
+		a.amount AS
+		"amount",
+		a.status AS "status",
+		a.status_datetime AS "statusDatetime",
+		a.pay_datetime AS "payDatetime"
+	</sql>
+
+	<sql id="bizOrderTaskpackagePaymentDetailJoins">
+	</sql>
+
+	<select id="get"
+		resultType="cn.damei.entity.modules.BizOrderTaskpackagePaymentDetail">
+		SELECT
+		<include refid="bizOrderTaskpackagePaymentDetailColumns" />
+		FROM biz_order_taskpackage_payment_detail a
+		<include refid="bizOrderTaskpackagePaymentDetailJoins" />
+		WHERE a.id = #{id}
+	</select>
+
+	<select id="findList"
+		resultType="cn.damei.entity.modules.BizOrderTaskpackagePaymentDetail">
+		SELECT
+		<include refid="bizOrderTaskpackagePaymentDetailColumns" />
+		FROM biz_order_taskpackage_payment_detail a
+		<include refid="bizOrderTaskpackagePaymentDetailJoins" />
+		<where>
+
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+
+	<select id="findAllList"
+		resultType="cn.damei.entity.modules.BizOrderTaskpackagePaymentDetail">
+		SELECT
+		<include refid="bizOrderTaskpackagePaymentDetailColumns" />
+		FROM biz_order_taskpackage_payment_detail a
+		<include refid="bizOrderTaskpackagePaymentDetailJoins" />
+		<where>
+
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+
+	<select id="findByPaymentId"
+		resultType="cn.damei.entity.modules.BizOrderTaskpackagePaymentDetail">
+		SELECT
+		<include refid="bizOrderTaskpackagePaymentDetailColumns" />
+		FROM biz_order_taskpackage_payment_detail a
+		<include refid="bizOrderTaskpackagePaymentDetailJoins" />
+		WHERE a.order_taskpackage_payment_id = #{0} AND a.`status` != 93
+	</select>
+
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+		INSERT INTO biz_order_taskpackage_payment_detail(
+		id,
+		order_taskpackage_payment_id,
+		employee_id,
+		amount,
+		status,
+		status_datetime,
+		pay_datetime,
+		remarks,
+		create_by,
+		create_date,
+		update_by,
+		update_date,
+		del_flag
+		) VALUES (
+		#{id},
+		#{orderTaskpackagePaymentId},
+		#{employeeId},
+		#{amount},
+		#{status},
+		#{statusDatetime},
+		#{payDatetime},
+		#{remarks},
+		#{createBy.id},
+		#{createDate},
+		#{updateBy.id},
+		#{updateDate},
+		#{delFlag}
+		)
+	</insert>
+
+	<update id="update">
+		UPDATE biz_order_taskpackage_payment_detail SET
+		order_taskpackage_payment_id = #{orderTaskpackagePaymentId},
+		employee_id = #{employeeId},
+		amount = #{amount},
+		status = #{status},
+		status_datetime = #{statusDatetime},
+		pay_datetime = #{payDatetime}
+		WHERE id = #{id}
+	</update>
+
+	<update id="delete">
+		DELETE FROM biz_order_taskpackage_payment_detail
+		WHERE id = #{id}
+	</update>
+
+	<!--查询单个批次下所有员工所有总金额 -->
+	<select id="queryEmployeeAllAmount" parameterType="java.lang.Integer"
+		resultType="cn.damei.entity.modules.BizOrderTaskpackagePaymentDetaiVo">
+		<!-- select employee_id as "employeeId",IFNULL(sum(amount),0) as "allAmount" 
+			from biz_order_taskpackage_payment_detail where order_taskpackage_payment_id 
+			in (select order_taskpackage_payment_id from biz_order_taskpackage_payment_summary_rel 
+			where order_taskpackage_payment_summary_id = #{summaryId}) group by employee_id -->
+
+		SELECT
+		a.employee_id AS "employeeId",
+		IFNULL(sum(a.amount), 0) AS
+		"allAmount"
+		FROM
+		biz_order_taskpackage_payment_detail a
+		INNER JOIN (
+		SELECT
+		b.order_taskpackage_payment_id
+		FROM
+		biz_order_taskpackage_payment_summary_rel b
+		WHERE
+		b.order_taskpackage_payment_summary_id = #{summaryId}
+		) c on
+		c.order_taskpackage_payment_id = a.order_taskpackage_payment_id
+		GROUP
+		BY
+		a.employee_id
+	</select>
+
+	<!--查询单个批次下单个员工所属的付款明细id -->
+	<select id="queryEmployeePaymentDetailId" parameterType="java.util.Map"
+		resultType="cn.damei.entity.modules.BizOrderTaskpackagePaymentDetail">
+		select id as "id",order_taskpackage_payment_id as "orderTaskpackagePaymenId",employee_id 
+			as "employeeId",amount as "amount" from biz_order_taskpackage_payment_detail 
+			where order_taskpackage_payment_id in (select order_taskpackage_payment_id 
+			from biz_order_taskpackage_payment_summary_rel where order_taskpackage_payment_summary_id 
+			= #{summaryId}) and employee_id = #{employeeId} 
+		<!-- SELECT
+		a.id AS "id",
+		a.order_taskpackage_payment_id AS
+		"orderTaskpackagePaymenId",
+		a.employee_id AS "employeeId",
+		a.amount AS
+		"amount"
+		FROM
+		biz_order_taskpackage_payment_detail a
+		INNER JOIN (
+		SELECT
+		b.order_taskpackage_payment_id
+		FROM
+		biz_order_taskpackage_payment_summary_rel b
+		WHERE
+		b.order_taskpackage_payment_summary_id = #{summaryId}
+		) c on
+		a.order_taskpackage_payment_id = c.order_taskpackage_payment_id
+		WHERE
+		employee_id = #{employeeId} -->
+	</select>
+
+	<!--根据付款单明细合并id查询付款单明细 -->
+	<select id="queryPaymentDetailByMergeId" parameterType="java.lang.Integer"
+		resultType="cn.damei.entity.modules.BizOrderTaskpackagePaymentDetail">
+		<!-- SELECT <include refid="bizOrderTaskpackagePaymentDetailColumns" /> 
+			FROM biz_order_taskpackage_payment_detail a WHERE a.id in (select b.order_taskpackage_payment_detail_id 
+			from biz_order_taskpackage_payment_detail_merge_rel b where b.order_taskpackage_payment_detail_merge_id=#{mergeId}) -->
+
+		SELECT
+		<include refid="bizOrderTaskpackagePaymentDetailColumns" />
+		FROM
+		biz_order_taskpackage_payment_detail a
+		INNER JOIN (
+		SELECT
+		b.order_taskpackage_payment_detail_id
+		FROM
+		biz_order_taskpackage_payment_detail_merge_rel b
+		WHERE
+		b.order_taskpackage_payment_detail_merge_id = #{mergeId}
+		) c ON
+		c.order_taskpackage_payment_detail_id = a.id
+	</select>
+
+	<!--根据付款单id查询条数 -->
+	<select id="queryPaymentDetailCountBySummaryId" parameterType="java.lang.Integer"
+		resultType="cn.damei.entity.modules.BizOrderTaskpackagePaymentDetaiVo">
+		<!-- select order_taskpackage_payment_id as "orderTaskpackagePaymentId",count(*) 
+			as "count" from biz_order_taskpackage_payment_detail where order_taskpackage_payment_id 
+			in (select order_taskpackage_payment_id from biz_order_taskpackage_payment_summary_rel 
+			where order_taskpackage_payment_summary_id = #{summaryId}) group by order_taskpackage_payment_id -->
+
+		SELECT
+		a.order_taskpackage_payment_id AS "orderTaskpackagePaymentId",
+		count(*) AS "count"
+		FROM
+		biz_order_taskpackage_payment_detail a INNER
+		JOIN(
+		SELECT
+		b.order_taskpackage_payment_id
+		FROM
+		biz_order_taskpackage_payment_summary_rel b
+		WHERE
+		b.order_taskpackage_payment_summary_id = #{summaryId}
+		) c ON
+		c.order_taskpackage_payment_id = a.order_taskpackage_payment_id
+		GROUP
+		BY
+		a.order_taskpackage_payment_id
+	</select>
+
+	<!--查询一个付款单下状态为已付款的付款明细条数 -->
+	<select id="queryPaymentDetailCountByPaymentIdAndStatus"
+		parameterType="java.util.Map" resultType="java.lang.Integer">
+		select count(*) from
+		biz_order_taskpackage_payment_detail where
+		order_taskpackage_payment_id = #{paymentId} and status = #{status}
+	</select>
+
+	<!--查询一个批次下所有付款单明细 -->
+	<select id="queryPaymentDetailBySummaryId" parameterType="java.lang.Integer"
+		resultType="cn.damei.entity.modules.BizOrderTaskpackagePaymentDetail">
+		<!-- select id AS "id",order_taskpackage_payment_id AS "orderTaskpackagePaymentId",employee_id 
+			AS "employeeId",amount AS "amount", status AS "status",status_datetime AS 
+			"statusDatetime",pay_datetime AS "payDatetime" from biz_order_taskpackage_payment_detail 
+			where order_taskpackage_payment_id in (select order_taskpackage_payment_id 
+			from biz_order_taskpackage_payment_summary_rel where order_taskpackage_payment_summary_id 
+			= #{summaryId}) -->
+		SELECT
+		a.id AS "id",
+		a.order_taskpackage_payment_id AS "orderTaskpackagePaymentId",
+		a.employee_id AS "employeeId",
+		a.amount AS "amount",
+		a.`status` AS "status",
+		a.status_datetime AS "statusDatetime",
+		a.pay_datetime AS "payDatetime"
+		FROM
+		biz_order_taskpackage_payment_detail a INNER JOIN(
+		SELECT
+		b.order_taskpackage_payment_id
+		FROM
+		biz_order_taskpackage_payment_summary_rel b
+		WHERE
+		b.order_taskpackage_payment_summary_id = #{summaryId}
+		) c on c.order_taskpackage_payment_id = a.order_taskpackage_payment_id
+		WHERE a.`status` != 93
+	</select>
+
+	<select id="querySumAmountBySummaryIdAndEmployeeId"
+		parameterType="java.util.Map" resultType="java.lang.Double">
+		select IFNULL(SUM(amount),0)
+		from biz_order_taskpackage_payment_detail
+		where employee_id =
+		#{employeeId} and order_taskpackage_payment_id in
+		(select
+		order_taskpackage_payment_id from
+		biz_order_taskpackage_payment_summary_rel where
+		order_taskpackage_payment_summary_id = #{summaryId})
+	</select>
+
+	<select id="query1ByEmployeeIdAndStatus"
+		resultType="cn.damei.entity.modules.PaymentDetailForBook">
+		SELECT
+		a.employee_id AS "employeeId",
+		a.pay_datetime as
+		"payDateTime",
+		a.amount as "amount",
+		b.order_taskpackage_payment_type AS
+		"paymentType",
+		c.status_date as "statusDate",
+		d.customer_message as
+		"customerMessage",
+		d.customer_name as "customerName"
+		FROM
+		biz_order_taskpackage_payment_detail a
+		INNER JOIN
+		biz_order_taskpackage_payment b ON
+		a.order_taskpackage_payment_id =
+		b.id
+		INNER JOIN
+		biz_order_taskpackage_settlement c ON
+		b.order_taskpackage_settlement_id = c.id
+		INNER JOIN
+		biz_order_taskpackage d ON c.order_taskpackage_id = d.id
+		WHERE
+		a.status
+		= #{1}
+		and a.employee_id = #{0}
+		order by a.pay_datetime desc
+	</select>
+
+	<select id="query2ByEmployeeIdAndStatus"
+		resultType="cn.damei.entity.modules.PaymentDetailForBook">
+		SELECT
+		a.employee_id AS "employeeId",
+		a.pay_datetime as
+		"payDateTime",
+		a.amount as "amount",
+		b.order_taskpackage_payment_type AS
+		"paymentType",
+		c.status_date as "statusDate",
+		d.customer_message as
+		"customerMessage",
+		d.customer_name as "customerName"
+		FROM
+		biz_order_taskpackage_payment_detail a
+		INNER JOIN
+		biz_order_taskpackage_payment b ON
+		a.order_taskpackage_payment_id =
+		b.id
+		INNER JOIN
+		biz_order_taskpackage_settlement c ON
+		b.order_taskpackage_settlement_id = c.id
+		INNER JOIN
+		biz_order_taskpackage d ON c.order_taskpackage_id = d.id
+		WHERE
+		a.status
+		= #{1}
+		and a.employee_id = #{0}
+		order by c.status_date desc
+	</select>
+
+
+	<select id="queryAmountByEmployeeIdAndStatus" resultType="java.lang.Double">
+		select
+		IFNULL(sum(case when amount is null then 0 else amount end),0)
+		from
+		biz_order_taskpackage_payment_detail
+		where status = #{1}
+		and
+		employee_id
+		= #{0}
+	</select>
+
+	<select id="queryOrderTaskpackagePaymentDetailEmployeeAmount"
+		parameterType="java.lang.Integer"
+		resultType="cn.damei.entity.modules.BizOrderTaskpackagePaymentDetail">
+		select b.realName as "realName",a.amount from
+		biz_order_taskpackage_payment_detail a left join biz_employee b on
+		a.employee_id = b.id where a.order_taskpackage_payment_id =
+		#{orderTaskpackagePaymentId}
+	</select>
+
+	<insert id="insertList">
+		INSERT INTO biz_order_taskpackage_payment_detail(
+		id,
+		order_taskpackage_payment_id,
+		employee_id,
+		amount,
+		status,
+		status_datetime,
+		pay_datetime,
+		remarks,
+		create_by,
+		create_date,
+		update_by,
+		update_date,
+		del_flag
+		) VALUES
+		<foreach collection="list" index="index" item="item"
+			separator=",">
+			(
+			#{item.id},
+			#{item.orderTaskpackagePaymentId},
+			#{item.employeeId},
+			#{item.amount},
+			#{item.status},
+			#{item.statusDatetime},
+			#{item.payDatetime},
+			#{item.remarks},
+			#{item.createBy.id},
+			#{item.createDate},
+			#{item.updateBy.id},
+			#{item.updateDate},
+			#{item.delFlag}
+			)
+		</foreach>
+	</insert>
+
+</mapper>

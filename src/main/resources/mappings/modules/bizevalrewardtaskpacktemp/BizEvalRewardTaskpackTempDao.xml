@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizEvalRewardTaskpackTempDao">
+    
+	<sql id="bizEvalRewardTaskpackTempColumns">
+		a.id AS "id",
+		a.eval_reward_cfg_id AS "evalRewardCfgId",
+		a.taskpack_temp_id AS "taskpackTempId",
+		a.remarks AS "remarks",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="bizEvalRewardTaskpackTempJoins">
+	</sql>
+    
+	<select id="get" resultType="cn.damei.entity.modules.BizEvalRewardTaskpackTemp">
+		SELECT 
+			<include refid="bizEvalRewardTaskpackTempColumns"/>
+		FROM biz_eval_reward_taskpack_temp a
+		<include refid="bizEvalRewardTaskpackTempJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="cn.damei.entity.modules.BizEvalRewardTaskpackTemp">
+		SELECT 
+			<include refid="bizEvalRewardTaskpackTempColumns"/>
+		FROM biz_eval_reward_taskpack_temp a
+		<include refid="bizEvalRewardTaskpackTempJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="cn.damei.entity.modules.BizEvalRewardTaskpackTemp">
+		SELECT 
+			<include refid="bizEvalRewardTaskpackTempColumns"/>
+		FROM biz_eval_reward_taskpack_temp a
+		<include refid="bizEvalRewardTaskpackTempJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO biz_eval_reward_taskpack_temp(
+			id,
+			eval_reward_cfg_id,
+			taskpack_temp_id,
+			remarks,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag
+		) VALUES (
+			#{id},
+			#{evalRewardCfgId},
+			#{taskpackTempId},
+			#{remarks},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE biz_eval_reward_taskpack_temp SET 	
+			eval_reward_cfg_id = #{evalRewardCfgId},
+			taskpack_temp_id = #{taskpackTempId},
+			remarks = #{remarks},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE biz_eval_reward_taskpack_temp SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+
+	<select id="queryTaskpackTempIdByEvalRewardCfgId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+		select taskpack_temp_id from biz_eval_reward_taskpack_temp where eval_reward_cfg_id = #{evalRewardCfgId}
+	</select>
+
+	<select id="queryEvalRewardTaskpackTempByRewardCfgId" parameterType="java.lang.Integer" resultType="java.lang.String">
+		select b.templat_name
+		from biz_eval_reward_taskpack_temp a
+		left join biz_task_package_templat b on a.taskpack_temp_id = b.id
+		where a.eval_reward_cfg_id = #{evalRewardCfgId}
+	</select>
+</mapper>

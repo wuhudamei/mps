@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="cn.damei.dao.modules.BizEmGroupRelationDao">
+	<insert id="insertEmpGroupRelation">
+		INSERT INTO biz_emgrouprelation(
+		empId,
+		groupId,
+		is_leader,
+		salary_ratio
+		) VALUES (
+		#{empId},
+		#{groupId},
+		#{isLeader},
+		#{salaryRatio}
+		)
+	</insert>
+
+
+
+
+
+	<select id="findList" resultType="BizEmgrouprelation">
+		SELECT emr.empId,emp.realname AS empName,emp.no,dic.`label` AS workType ,emr.is_leader AS
+		isLeader,emr.salary_ratio AS salaryRatio,emp.managerId
+		,emr.id
+		FROM biz_emgrouprelation AS emr
+		INNER JOIN `biz_employee` AS emp ON emp.id=emr.empId
+		INNER JOIN `sys_dict` AS dic
+		ON
+		dic.value=emp.workType
+		
+		where emr.groupId=#{groupId} and dic.`type`='emp_work_type'
+
+	</select>
+
+	
+
+	
+	<delete id="deleteRelation" parameterType="int">
+        delete from biz_emgrouprelation where id=#{id}
+    </delete>
+    
+    <delete id="deleteEmgrouprelationByGroupId">
+        DELETE FROM biz_emgrouprelation
+        WHERE groupId = #{id}
+    </delete>
+</mapper>

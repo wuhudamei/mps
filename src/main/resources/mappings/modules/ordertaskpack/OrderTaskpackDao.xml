@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.OrderTaskpackDao">
+    
+	<sql id="orderTaskpackColumns">
+		a.id AS "id",
+		a.order_number AS "orderNumber",
+		a.contract_number AS "contractNumber",
+		a.customer_type AS "customerType",
+		a.customer_description AS "customerDescription",
+		a.customer_name AS "customerName",
+		a.customer_phone AS "customerPhone",
+		a.community_name AS "communityName",
+		a.build_number AS "buildNumber",
+		a.build_unit AS "buildUnit",
+		a.build_room AS "buildRoom",
+		a.map_coordinate AS "mapCoordinate",
+		a.sale_type AS "saleType",
+		a.area AS "area",
+		a.build_type AS "buildType",
+		a.house_type AS "houseType",
+		a.house_is_new AS "houseIsNew",
+		a.is_elevator AS "isElevator",
+		a.designer_name AS "designerName",
+		a.designer_phone AS "designerPhone",
+		a.order_reporter_name AS "orderReporterName",
+		a.order_reporter_phone AS "orderReporterPhone",
+		a.service_name AS "serviceName",
+		a.service_phone AS "servicePhone",
+		a.contract_start_date AS "contractStartDate",
+		a.contract_end_date AS "contractEndDate",
+		a.covered_area AS "coveredArea",
+		a.contract_area AS "contractArea",
+		a.contract_time AS "contractTime",
+		a.sign_contract_date AS "signContractDate",
+		a.order_status_number AS "orderStatusNumber",
+		a.order_status_description AS "orderStatusDescription",
+		a.order_inspector AS "orderInspector",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag",
+		a.item_manager AS "itemManager",
+		a.store_id AS "storeId",
+		a.cus_manager AS "cusManager",
+		a.ordertaskpack_status AS "ordertaskpackStatus",
+		a.actual_start_date AS actualStartDate,
+		a.actual_end_date AS actualEndDate,
+		a.item_manager_id AS "itemManagerId",
+		a.project_mode AS "projectMode",
+		a.customer_address AS "customerAddress"
+	</sql>
+	
+	<sql id="orderTaskpackJoins">
+	</sql>
+    
+	<select id="get" resultType="OrderTaskpack">
+		SELECT 
+			<include refid="orderTaskpackColumns"/>
+		FROM biz_order a
+		<include refid="orderTaskpackJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="getByOrderId" resultType="OrderTaskpack">
+		SELECT 
+			<include refid="orderTaskpackColumns"/>
+		FROM biz_order a
+		WHERE a.id = #{0}
+	</select>
+	<!--待生成任务包订单  -->
+	<select id="findList" resultType="OrderTaskpack">
+		SELECT 
+			<include refid="orderTaskpackColumns"/>,
+			b.name AS "departmentName",
+			d.createName,
+			d.taskpackageTime
+		FROM biz_order a
+		left join biz_engineering_department b on a.engin_depart_id = b.id
+		LEFT JOIN (
+			select c.order_id,s.`name` AS "createName",min(c.create_date) AS "taskpackageTime" from biz_order_taskpackage c
+			LEFT JOIN sys_user s ON s.id = c.create_by GROUP BY c.order_id
+		) d ON d.order_id = a.id		
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			and a.is_scrap = '0'
+			<!-- AND a.project_mode = '1' -->
+			<if test="orderStatusNumber != null and orderStatusNumber != ''">
+				AND a.order_status_number &gt;= #{orderStatusNumber}
+			</if>
+			<if test="ordertaskpackStatus != null and ordertaskpackStatus != ''">
+				AND a.orderTaskPack_status = #{ordertaskpackStatus}
+			</if>
+			<if test="orderNumber != null and orderNumber != ''">
+				AND a.order_number = #{orderNumber}
+			</if>
+			<if test="itemManager != null and itemManager != ''">
+				AND a.item_manager = #{itemManager}
+			</if>
+			<if test="customerName != null and customerName != ''">
+				AND a.customer_name LIKE concat('%',#{customerName},'%')
+			</if>
+			<if test="projectMode != null and projectMode != ''">
+				AND a.project_mode = #{projectMode}
+			</if> 
+			<if test="projectMode == null or projectMode == ''">
+			    AND a.project_mode in (1,4)
+			</if>
+			<if test="storeId != null and storeId != ''">
+				AND a.store_id = #{storeId}
+			</if>
+			
+			<if test="endTaskpackageTime != null and endTaskpackageTime != ''">
+				AND d.taskpackageTime &lt;= STR_TO_DATE(#{endTaskpackageTime},'%Y-%m-%d %H:%i:%s')
+			</if>
+			<if test="startTaskpackageTime != null and startTaskpackageTime != ''">
+				AND d.taskpackageTime &gt;= STR_TO_DATE(#{startTaskpackageTime},'%Y-%m-%d %H:%i:%s')
+			</if>			
+			<if test="orderStatusNumbers != null">
+				AND a.order_status_number in
+				<foreach item="item" index="index" collection="orderStatusNumbers" open="(" separator="," close=")">
+              	  #{item}
+           		</foreach>
+			</if>
+			<if test="enginDepartIds != null">
+				AND a.engin_depart_id in
+				<foreach item="item" index="index" collection="enginDepartIds" open="(" separator="," close=")">
+              	  #{item}
+           		</foreach>
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.create_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	
+	<!--已生成任务包订单  -->
+	<select id="myFindList" resultType="OrderTaskpack">
+		SELECT 
+			<include refid="orderTaskpackColumns"/>,
+			b.name AS "departmentName",
+			d.createName,
+			d.taskpackageTime
+		FROM biz_order a
+		left join biz_engineering_department b on a.engin_depart_id = b.id
+		LEFT JOIN (
+			select c.order_id,s.`name` AS "createName",min(c.create_date) AS "taskpackageTime" from biz_order_taskpackage c
+			LEFT JOIN sys_user s ON s.id = c.create_by GROUP BY c.order_id
+		) d ON d.order_id = a.id		
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="orderStatusNumber != null and orderStatusNumber != ''">
+				AND a.order_status_number &gt;= #{orderStatusNumber}
+			</if>
+			<if test="ordertaskpackStatus != null and ordertaskpackStatus != ''">
+				AND a.orderTaskPack_status = #{ordertaskpackStatus}
+			</if>
+			<if test="orderNumber != null and orderNumber != ''">
+				AND a.order_number = #{orderNumber}
+			</if>
+			<if test="itemManager != null and itemManager != ''">
+				AND a.item_manager = #{itemManager}
+			</if>
+			<if test="customerName != null and customerName != ''">
+				AND a.customer_name LIKE concat('%',#{customerName},'%')
+			</if>
+			<if test="projectMode != null and projectMode != ''">
+				AND a.project_mode = #{projectMode}
+			</if> 
+			<if test="projectMode == null or projectMode == ''">
+			    AND a.project_mode in (1,4)
+			</if>
+			<if test="storeId != null and storeId != ''">
+				AND a.store_id = #{storeId}
+			</if>
+			
+			<if test="endTaskpackageTime != null and endTaskpackageTime != ''">
+				AND d.taskpackageTime &lt;= STR_TO_DATE(#{endTaskpackageTime},'%Y-%m-%d %H:%i:%s')
+			</if>
+			<if test="startTaskpackageTime != null and startTaskpackageTime != ''">
+				AND d.taskpackageTime &gt;= STR_TO_DATE(#{startTaskpackageTime},'%Y-%m-%d %H:%i:%s')
+			</if>			
+			<if test="orderStatusNumbers != null">
+				AND a.order_status_number in
+				<foreach item="item" index="index" collection="orderStatusNumbers" open="(" separator="," close=")">
+              	  #{item}
+           		</foreach>
+			</if>
+			<if test="isScrap != null and isScrap != ''">
+				AND a.is_scrap  = #{isScrap}
+			</if>
+			<if test="enginDepartIds != null">
+				AND a.engin_depart_id in
+				<foreach item="item" index="index" collection="enginDepartIds" open="(" separator="," close=")">
+              	  #{item}
+           		</foreach>
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.create_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	
+	<select id="findAllList" resultType="OrderTaskpack">
+		SELECT 
+			<include refid="orderTaskpackColumns"/>
+		FROM biz_order a
+		<include refid="orderTaskpackJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<update id="delete">
+		UPDATE biz_order SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="updateByOrderStatusAndTaskpackageStatus">
+		UPDATE biz_order SET 
+			order_status_number = #{0},
+			order_status_description = #{1},
+			orderTaskPack_status = #{2}
+		WHERE id = #{3}
+	</update>
+	<update id="updateIsCreateTaskpackage">
+		UPDATE biz_order SET 
+			orderTaskPack_status = #{0}
+		WHERE id = #{1}
+	</update>
+	
+	<update id="updateManager">
+		UPDATE 
+			biz_order_taskpackage a 
+		SET 
+			a.item_customer = #{1},
+			a.item_manager_id = #{2}
+		WHERE
+			a.order_id = #{0} 
+	</update>
+	
+	<!-- 任务包审核	    修改任务包 -->
+	<update id="updateTotal">
+		UPDATE BIZ_ORDER_TASKPACKAGE a SET 
+			a.labor_auxiliary_materials_budget_amount = #{0},
+			a.labor_budget_amount = #{2},
+			a.auxiliary_materials_budget_amount = #{3}
+		WHERE
+			a.ID = #{1} 
+	</update>
+	
+	<select id="getOrderStatus" parameterType="java.lang.Integer" resultType="cn.damei.entity.modules.Dict">
+		select * from sys_dict where del_flag = '0' and type='order_status' AND `value` >= #{number} order by sort asc
+	</select>
+	
+	<select id="getStayOrdCount" parameterType="cn.damei.entity.modules.OrderTaskpack" resultType="java.lang.Integer">
+		SELECT
+			count(1) 
+		FROM
+			biz_order b
+		WHERE
+			b.project_mode in (1,4)
+		AND b.del_flag = 0
+		and b.is_scrap = 0
+		<if test="storeId != null and storeId != ''">
+			AND b.store_id = #{storeId}
+		</if>
+		<if test="ordertaskpackStatus != null and ordertaskpackStatus != ''">
+			AND b.orderTaskPack_status = #{ordertaskpackStatus}
+		</if>
+	</select>
+</mapper>

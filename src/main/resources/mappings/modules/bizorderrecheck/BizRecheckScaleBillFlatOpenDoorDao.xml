@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizRecheckScaleBillFlatOpenDoorDao">
+    
+	<sql id="bizRecheckScalFlatOpenDoorColumns">
+		t.ID AS "id",
+		t.RECHECK_SCALE_BILL_ID AS "recheckScaleBillId",
+		t.POSITION AS "position",
+		t.PACKAGE_COVER AS "packageCover",
+		t.IN_OUT_OPEN AS "inOutOpen",
+		t.OPEN_DIRECTION AS "openDirection",
+		t.WIDTH AS "width",
+		t.HEIGHT AS "height",
+		t.THICKNESS AS "thickness",
+		t.REMARKS AS "remarks",
+		t.CREATE_DATE AS "createDate",
+		t.UPDATE_DATE AS "updateDate",
+		t.DEL_FLAG AS "delFlag"
+	</sql>
+	
+	<select id="get" resultType="cn.damei.entity.modules.BizRecheckScaleBillFlatOpenDoor" parameterType="java.lang.Integer">
+		SELECT 
+    	<include refid="bizRecheckScalFlatOpenDoorColumns"/> 
+    	FROM BIZ_RECHECK_SCALE_BILL_FLAT_OPEN_DOOR t
+    	WHERE t.ID = #{0}
+	</select>
+	
+	<select id="getByRecheckID" resultType="cn.damei.entity.modules.BizRecheckScaleBillFlatOpenDoor">
+		SELECT 
+    	<include refid="bizRecheckScalFlatOpenDoorColumns"/> 
+    	FROM BIZ_RECHECK_SCALE_BILL_FLAT_OPEN_DOOR t
+    	WHERE t.RECHECK_SCALE_BILL_ID = #{0}
+	</select>
+	
+</mapper>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizEmployeeBankcardDao2">
+   
+	<insert id="insert">
+		INSERT INTO biz_employee_bankcard(
+			store_id,
+			emp_id,
+			id_card_no,
+			bank_id,
+			branch_bank,
+			bank_card_no,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag,
+			bank_no,
+			bank_name,
+			province_name
+		) VALUES (
+			#{storeId},
+			#{empId},
+			#{idCardNo},
+			#{bankId},
+			#{branchBank},
+			#{bankCardNo},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag},
+			#{bankNo},
+			#{bankName},
+			#{provinceName}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE biz_employee_bankcard SET 	
+			store_id = #{storeId},
+			emp_id = #{empId},
+			id_card_no = #{idCardNo},
+			bank_id = #{bankId},
+			branch_bank = #{branchBank},
+			bank_card_no = #{bankCardNo},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks},
+			bank_no = #{bankNo},
+			bank_name = #{bankName},
+			province_name =#{provinceName}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE biz_employee_bankcard SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+	<!--根据员工id查询-->
+	<select id="queryEmployeeBankcardByEmpId" parameterType="java.lang.Integer" resultType="cn.damei.entity.modules.BizEmployeeBankcard2">
+		select a.id as "id",a.store_id as "storeId",a.emp_id as "empId",a.id_card_no as "idCardNo",a.bank_id as "bankId",
+			a.branch_bank as "branchBank",a.bank_card_no as "bankCardNo",b.realName as "empRealName"
+		from biz_employee_bankcard a
+		left join biz_employee b on a.emp_id = b.id
+		where a.emp_id = #{empId} and a.del_flag='0'
+	</select>
+</mapper>

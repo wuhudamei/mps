@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizWallFloorTileOrderCountDao">
+    
+	<sql id="bizWallFloorTileOrderCountColumns">
+		a.id AS "id",
+		a.order_id AS "orderId",
+		a.square_budget AS "squareBudget",
+		a.square_purchase_total AS "squarePurchaseTotal",
+		a.square_return AS "squareReturn",
+		a.square_purchase_real AS "squarePurchaseReal",
+		a.square_settle AS "squareSettle",
+		a.square_measure AS "squareMeasure",
+		a.remarks AS "remarks",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="bizWallFloorTileOrderCountJoins">
+	</sql>
+    
+	<select id="get" resultType="cn.damei.entity.modules.BizWallFloorTileOrderCount">
+		SELECT 
+			<include refid="bizWallFloorTileOrderCountColumns"/>
+		FROM biz_wall_floor_tile_order_count a
+		<include refid="bizWallFloorTileOrderCountJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="cn.damei.entity.modules.BizWallFloorTileOrderCount">
+		SELECT 
+			<include refid="bizWallFloorTileOrderCountColumns"/>
+		FROM biz_wall_floor_tile_order_count a
+		<include refid="bizWallFloorTileOrderCountJoins"/>
+		<where>
+			
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="cn.damei.entity.modules.BizWallFloorTileOrderCount">
+		SELECT 
+			<include refid="bizWallFloorTileOrderCountColumns"/>
+		FROM biz_wall_floor_tile_order_count a
+		<include refid="bizWallFloorTileOrderCountJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO biz_wall_floor_tile_order_count(
+			id,
+			order_id,
+			square_budget,
+			square_purchase_total,
+			square_return,
+			square_purchase_real,
+			square_settle,
+			square_measure,
+			remarks,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag
+		) VALUES (
+			#{id},
+			#{orderId},
+			#{squareBudget},
+			#{squarePurchaseTotal},
+			#{squareReturn},
+			#{squarePurchaseReal},
+			#{squareSettle},
+			#{squareMeasure},
+			#{remarks},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE biz_wall_floor_tile_order_count SET 	
+			order_id = #{orderId},
+			square_budget = #{squareBudget},
+			square_purchase_total = #{squarePurchaseTotal},
+			square_return = #{squareReturn},
+			square_purchase_real = #{squarePurchaseReal},
+			square_settle = #{squareSettle},
+			square_measure = #{squareMeasure},
+			remarks = #{remarks},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM biz_wall_floor_tile_order_count
+		WHERE id = #{id}
+	</update>
+	
+	<!-- 根据订单编号查询订单的相关信息 -->
+	<select id="findOrderMessage" resultType="cn.damei.entity.modules.BizWallFloorTileOrderCount">
+		
+		SELECT
+			a.id AS "orderId",
+			a.project_mode AS "projectMode",
+			b.id AS "id",
+			b.square_budget AS "squareBudget",
+			b.square_purchase_total AS "squarePurchaseTotal",
+			b.square_return AS "squareReturn",
+			b.square_purchase_real AS "squarePurchaseReal",
+			b.square_settle AS "squareSettle",
+			b.square_measure AS "squareMeasure",
+			b.remarks AS "remarks",
+			b.create_by AS "createBy.id",
+			b.create_date AS "createDate",
+			b.update_by AS "updateBy.id",
+			b.update_date AS "updateDate",
+			b.del_flag AS "delFlag"
+		FROM
+			biz_order a
+		LEFT JOIN biz_wall_floor_tile_order_count b ON a.id = b.order_id
+		WHERE
+			a.order_number = #{0}
+		AND a.del_flag = 0
+		LIMIT 1
+	
+	
+	</select>
+	
+	
+</mapper>

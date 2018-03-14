@@ -1,0 +1,17 @@
+
+菜单新增：
+	1、名称：约检节点验收统计
+	   链接：/arrangecheckstatisticsq/arrangeCheckStatisticsQ
+	   权限标识：arrangecheckstatisticsq:arrangeCheckStatisticsQ:view
+
+	2、名称：派项目经理明细
+	   链接：/sendItemMgrDetail/sendItemMgrDetail/list
+	   权限标识：sendItemMgrDetail:sendItemMgrDetail:view
+
+	3、名称：自选材料报销设置
+	   链接：/bizmaterialselfbuy/bizMaterialSelfbuy/preList
+	   权限标识：bizmaterialselfbuy:bizMaterialSelfbuy:view,bizmaterialselfbuy:bizMaterialSelfbuy:edit
+
+	4、名称：自采材料报销申请审核
+	   链接：/bizmaterialselfbuyreimburse/bizMaterialSelfbuyReimburse/preList
+	   权限标识：bizmaterialselfbuyreimburse:bizMaterialSelfbuyReimburse:view,bizmaterialselfbuyreimburse:bizMaterialSelfbuyReimburse:edit

@@ -1,0 +1,1 @@
+delete from biz_eval_score where id = '40681';

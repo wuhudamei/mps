@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.mobile.Manager.ConfirmStartDao">
+    
+	<sql id="confirmStartOrderColumns">
+		a.id AS "id",
+		a.order_number AS "orderNumber",
+		a.contract_number AS "contractNumber",
+		a.customer_type AS "customerType",
+		a.customer_description AS "customerDescription",
+		a.customer_name AS "customerName",
+		a.customer_phone AS "customerPhone",
+		a.customer_address AS "customerAddress",
+		a.community_name AS "communityName",
+		a.build_number AS "buildNumber",
+		a.build_unit AS "buildUnit",
+		a.build_room AS "buildRoom",
+		a.map_coordinate AS "mapCoordinate",
+		a.sale_type AS "saleType",
+		a.area AS "area",
+		a.build_type AS "buildType",
+		a.house_type AS "houseType",
+		a.house_is_new AS "houseIsNew",
+		a.is_elevator AS "isElevator",
+		a.designer_name AS "designerName",
+		a.designer_phone AS "designerPhone",
+		a.order_reporter_name AS "orderReporterName",
+		a.order_reporter_phone AS "orderReporterPhone",
+		a.service_name AS "serviceName",
+		a.service_phone AS "servicePhone",
+		a.contract_start_date AS "contractStartDate",
+		a.contract_end_date AS "contractEndDate",
+		a.covered_area AS "coveredArea",
+		a.contract_area AS "contractArea",
+		a.contract_time AS "contractTime",
+		a.sign_contract_date AS "signContractDate",
+		a.order_status_number AS "orderStatusNumber",
+		a.order_status_description AS "orderStatusDescription",
+		a.order_inspector AS "orderInspector",
+		a.create_by AS "createBy",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "del_flag",
+		a.item_manager AS "item_manager",
+		a.store_id AS "storeId",
+		a.cus_manager AS "cusManager",
+		a.orderTaskPack_status AS "orderTaskPackStatus",
+		a.actual_start_date AS "actualStartDate",
+		a.actual_end_date AS "actualEndDate",
+		a.item_manager_id AS "item_managerId",
+		a.sign_flag AS "signFlag",
+		a.project_mode AS "projectMode"
+	</sql>
+	
+	<!-- 通过项目经理ID查出所有订单 -->
+    <select id="queryList" parameterType="cn.damei.entity.mobile.Manager.ConfirmStartOrder" resultType="cn.damei.entity.mobile.Manager.ConfirmStartOrder">
+    	SELECT 
+    	<include refid="confirmStartOrderColumns"/> ,b.id as "discloseId"
+    	FROM BIZ_ORDER a  left join biz_order_disclose b on a.id = b.order_id
+    	WHERE a.ITEM_MANAGER_ID = #{0}
+    	AND a.ORDER_STATUS_NUMBER &lt; '200'
+    	ORDER BY a.CREATE_DATE ASC
+    </select>
+    
+    <select id="queryByManagerIdList" parameterType="cn.damei.entity.mobile.Manager.ConfirmStartOrder" resultType="cn.damei.entity.mobile.Manager.ConfirmStartOrder">
+    SELECT
+	a.ID AS "id",
+	a.COMMUNITY_NAME AS "communityName",
+	a.BUILD_NUMBER AS "buildNumber",
+	a.BUILD_UNIT AS "buildUnit",
+	a.BUILD_ROOM AS "buildRoom",
+	a.CUSTOMER_NAME AS "customerName",
+	a.ACTUAL_START_DATE AS "actualStartDate",
+	a.CONTRACT_TIME AS "contractTime",
+	NODE_INDEX.NODE_NAME AS "nodePlanNodeName",
+	NODE_PLAN.NODE_INDEX AS "nodePlanNodeIndex",
+	NODE_PLAN.ID AS "nodePlanId",
+	NODE_INDEX.NODE_INDEX AS "nodeIndexIndex",
+	NODE_INDEX.ORDER_ID AS "nodeIndexOrderId"
+FROM
+	BIZ_ORDER a
+LEFT JOIN (
+	SELECT
+		p.NODE_INDEX,
+		p.ORDER_ID,
+		p.NODE_NAME,
+		p.IS_DONE,
+		p.ID
+	FROM
+		BIZ_NODE_PLAN p
+	INNER JOIN (
+		SELECT
+			z.order_id,
+			MAX(z.NODE_INDEX) AS "node_index"
+		FROM
+			BIZ_NODE_PLAN z
+		WHERE
+			z.IS_DONE = '1'
+		GROUP BY
+			z.order_id
+	) pz ON p.order_id = pz.order_id
+	AND p.node_index = pz.node_index
+	WHERE
+		p.is_done = '1'
+) AS NODE_PLAN ON a.ID = NODE_PLAN.ORDER_ID
+LEFT JOIN (
+	SELECT
+		plan.NODE_INDEX,
+		plan.ORDER_ID,
+		plan.NODE_NAME,
+		plan.IS_DONE,
+		plan.ID
+	FROM
+		BIZ_NODE_PLAN plan
+	INNER JOIN (
+		SELECT
+			pl.order_id,
+			MAX(pl.NODE_INDEX) AS "node_index"
+		FROM
+			BIZ_NODE_PLAN pl
+		WHERE
+			pl.IS_DONE = '0'
+		GROUP BY
+			pl.ORDER_ID
+	) pp ON plan.order_id = pp.order_id
+	AND plan.node_index = pp.node_index
+	WHERE
+		plan.IS_DONE = '0'
+) AS NODE_INDEX ON NODE_INDEX.ORDER_ID = a.ID
+WHERE
+	a.ITEM_MANAGER_ID = #{0}
+AND a.ORDER_STATUS_NUMBER >= '200'
+AND a.ORDER_STATUS_NUMBER &lt; '300'
+ORDER BY
+	a.CREATE_DATE DESC
+    </select>
+    
+	<select id="getByOrderId" resultType="cn.damei.entity.mobile.Manager.ConfirmStartOrder" parameterType="java.lang.Integer">
+		SELECT 
+    	<include refid="confirmStartOrderColumns"/> 
+    	from biz_order a  
+    	<where>
+    		a.id = #{0}
+    	</where>
+    	ORDER BY CONTRACT_START_DATE ASC
+	</select>
+	
+	<select id="getByManagerId" resultType="cn.damei.entity.mobile.Manager.ConfirmStartOrder" parameterType="java.lang.Integer">
+		SELECT 
+    	<include refid="confirmStartOrderColumns"/> 
+    	from biz_order a  
+    	<where>
+    		a.id = #{0}
+    	</where>
+    	ORDER BY CONTRACT_START_DATE ASC
+	</select>
+    
+	<update id="updateByOrderStatusNumber">
+		UPDATE BIZ_ORDER SET 
+			ORDER_STATUS_NUMBER = #{0},
+			ORDER_STATUS_DESCRIPTION = #{1},
+			ACTUAL_START_DATE = #{2}
+		WHERE ID = #{3} 
+	</update>
+	
+	<update id="updateOrderModified">
+		update biz_order set is_modified_by_hand = #{0} where id = #{1}
+	</update>
+	
+</mapper>

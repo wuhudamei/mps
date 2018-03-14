@@ -1,0 +1,186 @@
+body {
+    background-color: #fff
+}
+
+.wrap{
+    width: 100%;
+    height: 100%;
+    position: relative
+}
+
+.wrap .Black {
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: rgba(0,0,0,.6);
+    width: 100%;
+    height: 100%
+}
+
+.wrap .Black .center {
+    padding: 15px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 600px;
+    height: 450px;
+    margin-left: -300px;
+    margin-top: -225px;
+    background: #fff;
+    color: #666
+}
+
+.wrap .Black .center h2 {
+    font-size: 20px;
+    text-align: center;
+    line-height: 40px
+}
+
+.wrap .Black .center .cen_t {
+    width: 100%
+}
+
+.wrap .Black .center .cen_t p {
+    line-height: 30px;
+    font-size: 16px;
+    text-align: center;
+    margin-bottom: 12px
+}
+
+.wrap .Black .center .cen_t p input {
+    width: 50%;
+    line-height: 30px;
+    padding-left: 10px;
+    border-radius: 3px;
+    border: #ccc solid 1px
+}
+
+.wrap .Black .center .cen_t .tab,.wrap .Black .center .cen_t .tab_bot {
+    width: 90%;
+    margin-left: 5%;
+    height: 272px;
+    overflow: auto;
+    border: #ccc solid 1px;
+    margin-top: 20px
+}
+
+.wrap .Black .center .cen_t .tab_big{
+    height: 300px;
+    font-size:14px;
+}
+
+.wrap .Black .center .cen_t .tab table,.wrap .Black .center .cen_t .tab_bot table {
+    width: 100%
+}
+
+.wrap .Black .center .cen_t .tab table tr td,.wrap .Black .center .cen_t .tab_bot table tr td {
+    line-height: 25px;
+    height: 25px;
+    border: #f1f1f1 solid 1px
+}
+
+.wrap .Black .center .cen_t .tab table .del,.wrap .Black .center .cen_t .tab_bot table .del {
+    color: #3da5ee;
+    text-decoration: underline;
+    cursor: pointer
+}
+
+.wrap .Black .center .cen_t .tab_bot {
+    height: 75px
+}
+
+.wrap .Black .center .cen_t .cen_btn {
+    position: absolute;
+    width: 100%;
+    bottom: 20px;
+    text-align: center;
+    line-height: 30px
+}
+
+.wrap .Black .center .cen_t .cen_btn span {
+    width: 120px;
+    display: inline-block;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 3px
+}
+
+.wrap .Black .center .cen_t .cen_btn .btn_y {
+    background: #3da5ee;
+    color: #fff
+}
+
+.wrap .Black .center .cen_t .cen_btn .btn_n {
+    margin-left: 50px;
+    border: solid 1px #3da5ee;
+    color: #3da5ee
+}
+
+.wrap .Black .center .cen_t .cen_tex {
+    width: 90%;
+    margin-left: 5%;
+    font-size: 16px;
+    line-height: 30px;
+    clear: both;
+}
+
+.wrap .Black .center .cen_t .cen_tex .span_l {
+    display: block;
+    line-height: 30px;
+    float: left;
+    width: 18%;
+    text-align: right;
+    vertical-align: middle
+}
+
+.wrap .Black .center .cen_t .cen_tex .span_r {
+    width:65%;
+    text-align: left;
+    vertical-align: middle;
+    position: relative;
+    margin-bottom: 8px
+}
+
+.wrap .Black .center .cen_t .cen_tex .span_r input {
+    width: 90%;
+    background: 0 0
+}
+
+.wrap .Black .center .cen_t .cen_tex .span_r .cen_order {
+    width: 60%
+}
+
+.wrap .Black .center .cen_t .cen_tex .span_r .addorder {
+    background: #3da5ee;
+    border: #3da5ee solid 1px;
+    color: #fff;
+    width: 25%;
+    display: block;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 3px;
+    float: right;
+    margin-right: 10%;
+    vertical-align: middle
+}
+
+.wrap .Black .center .cen_t .cen_tex .span_r i {
+    background: url(../images/canlender.png) no-repeat;
+    background-size: 100% 100%;
+    width: 15px;
+    height: 16px;
+    position: absolute;
+    right: 10%;
+    top: 50%;
+    margin-top: -8px
+}
+
+.wrap .Black .center .cen_t .cen_tex .span_r textarea {
+    width: 90%;
+    height: 50px;
+    padding: 5px 15px;
+    line-height: 20px;
+    font-size: 12px;
+    border: #ccc solid 1px;
+    border-radius: 3px
+}

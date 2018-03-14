@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="cn.damei.dao.modules.BizBusinessRewardPunishDao">
+	<select id="queryBusinessRewardPunishByParam" parameterType="java.util.Map"
+		resultType="cn.damei.entity.modules.BizBusinessRewardPunish">
+		SELECT
+		a.id AS "id",
+		a.reward_punish_type AS "rewardPunishType",
+		a.employee_type AS "employeeType",
+		a.employee_Id AS "employeeId",
+		a.related_business_type AS "relatedBusinessType",
+		a.related_business_id_int AS "relatedBusinessIdInt",
+		a.related_business_id_varchar AS "relatedBusinessIdVarchar",
+		a.reward_punish_amount AS "rewardPunishAmount",
+		a.reward_punish_remarks AS "rewardPunishRemarks",
+		a.reward_punish_datetime as "rewardPunishDatetime",
+		a.reward_punish_status AS "rewardPunishStatus",
+		a.status_datetime AS "statusDatetime",
+		a.settle_stage AS "settleStage",
+		a.settle_type AS "settleType",
+		a.settle_id AS "settleId",
+		a.remarks AS "remarks",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag"
+		FROM
+		`biz_business_reward_punish` a
+		WHERE
+		a.related_business_id_int = #{orderId}
+		and a.employee_type = #{employeeType}
+		and a.related_business_type=#{relatedBusinessType}
+		and a.reward_punish_type = #{rewardPunishType}
+	</select>
+	
+	<select id="get" 
+		resultType="cn.damei.entity.modules.BizBusinessRewardPunish">
+		SELECT
+		a.id AS "id",
+		a.reward_punish_type AS "rewardPunishType",
+		a.employee_type AS "employeeType",
+		a.employee_Id AS "employeeId",
+		a.related_business_type AS "relatedBusinessType",
+		a.related_business_id_int AS "relatedBusinessIdInt",
+		a.related_business_id_varchar AS "relatedBusinessIdVarchar",
+		a.reward_punish_amount AS "rewardPunishAmount",
+		a.reward_punish_remarks AS "rewardPunishRemarks",
+		a.reward_punish_datetime as "rewardPunishDatetime",
+		a.reward_punish_status AS "rewardPunishStatus",
+		a.status_datetime AS "statusDatetime",
+		a.settle_stage AS "settleStage",
+		a.settle_type AS "settleType",
+		a.settle_id AS "settleId",
+		a.remarks AS "remarks",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag"
+		FROM
+		`biz_business_reward_punish` a
+		WHERE
+		a.id=#{id}
+	</select>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO biz_business_reward_punish (
+		id,
+		reward_punish_type,
+		employee_type,
+		employee_Id,
+		related_business_type,
+		related_business_id_int,
+		related_business_id_varchar,
+		reward_punish_amount,
+		reward_punish_remarks,
+		reward_punish_datetime,
+		reward_punish_status,
+		status_datetime,
+		settle_stage,
+		settle_type,
+		settle_id,
+		remarks,
+		create_by,
+		create_date,
+		update_by,
+		update_date,
+		del_flag
+		) VALUES (
+		#{id},
+		#{rewardPunishType},
+		#{employeeType},
+		#{employeeId},
+		#{relatedBusinessType},
+		#{relatedBusinessIdInt},
+		#{relatedBusinessIdVarchar},
+		#{rewardPunishAmount},
+		#{rewardPunishRemarks},
+		#{rewardPunishDatetime},
+		#{rewardPunishStatus},
+		#{statusDatetime},
+		#{settleStage},
+		#{settleType},
+		#{settleId},
+		#{remarks},
+		#{createBy.id},
+		#{createDate},
+		#{updateBy.id},
+		#{updateDate},
+		#{delFlag}
+		)
+	</insert>
+
+	<update id="update">
+		update biz_business_reward_punish SET
+		reward_punish_type = #{rewardPunishType},
+		employee_type = #{employeeType},
+		employee_Id = #{employeeId},
+		related_business_type = #{relatedBusinessType},
+		related_business_id_int = #{relatedBusinessIdInt},
+		related_business_id_varchar = #{relatedBusinessIdVarchar},
+		reward_punish_amount = #{rewardPunishAmount},
+		reward_punish_remarks = #{rewardPunishRemarks},
+		reward_punish_datetime = #{rewardPunishDatetime},
+		reward_punish_status = #{rewardPunishStatus},
+		status_datetime = #{statusDatetime},
+		settle_stage = #{settleStage},
+		settle_type = #{settleType},
+		settle_id = #{settleId},
+		remarks = #{remarks},
+		update_by = #{updateBy.id},
+		update_date = #{updateDate}
+		where id = #{id}
+	</update>
+</mapper>

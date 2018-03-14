@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.mobile.Manager.ReceivedPanelDao">
+	<select id="queryPanelByPurchaseId" resultType="cn.damei.entity.mobile.Manager.ReceivedPanel">
+		SELECT 
+			a.id as "id",
+			a.order_id as "orderId",
+			a.purchase_id as "purchaseId",
+			a.main_mate_code as "mateCode",
+			a.main_mate_count as "count",
+			a.remarks as "remarks",
+			a.submmit_status as "submitStatus",
+			a.main_materials_name as "name",
+			a.emp_work_type as "empWorkType",
+			a.category_id as "categoryId",
+			a.specifications as "specifications",
+			a.measurement_unit as "unit",
+			a.brands as "brands",
+			a.pic_url as "picUrl",
+			a.received_main_mate_count as "receivedCount",
+			a.owed_main_mate_count as "owedCount"
+		from biz_purchase_main_mate a
+		where a.purchase_id = #{0} and a.owed_main_mate_count &lt;>0 and a.category_id = (select b.id from biz_material_category b
+		where b.category_name like '开关面板') 
+	</select>
+	
+	<select id="queryPanelById" resultType="cn.damei.entity.mobile.Manager.ReceivedPanel">
+		
+		SELECT 
+			a.id as "id",
+			a.order_id as "orderId",
+			a.purchase_id as "purchaseId",
+			a.main_mate_code as "mateCode",
+			a.main_mate_count as "count",
+			a.remarks as "remarks",
+			a.submmit_status as "submitStatus",
+			a.main_materials_name as "name",
+			a.emp_work_type as "empWorkType",
+			a.category_id as "categoryId",
+			a.specifications as "specifications",
+			a.measurement_unit as "unit",
+			a.brands as "brands",
+			a.pic_url as "picUrl",
+			a.received_main_mate_count as "receivedCount",
+			a.owed_main_mate_count as "owedCount"
+		from biz_purchase_main_mate a
+		where a.id = #{0} and a.category_id = (select b.id from biz_material_category b
+		where b.category_name like '开关面板')  
+	</select>
+	
+	<update id="updateCount">
+		update 
+			biz_purchase_main_mate 
+		set
+			received_main_mate_count = #{1},
+			owed_main_mate_count = #{2} 
+		where id = #{0}
+	</update>
+	
+	
+	<select id="queryPanelByReceiveBillId" resultType="cn.damei.entity.mobile.Manager.ReceivedPanel">
+		SELECT 
+			a.received_count as "receivedNumber",
+			b.id as "id",
+			b.order_id as "orderId",
+			b.purchase_id as "purchaseId",
+			b.main_mate_code as "mateCode",
+			b.main_mate_count as "count",
+			b.remarks as "remarks",
+			b.submmit_status as "submitStatus",
+			b.main_materials_name as "name",
+			b.emp_work_type as "empWorkType",
+			b.category_id as "categoryId",
+			b.specifications as "specifications",
+			b.measurement_unit as "unit",
+			b.brands as "brands",
+			b.pic_url as "picUrl",
+			b.received_main_mate_count as "receivedCount",
+			b.owed_main_mate_count as "owedCount"
+	 	from biz_purchase_receive_bill_product a 
+		INNER JOIN biz_purchase_main_mate b on a.purchase_product_id = b.id 
+		and b.category_id = (select b.id from biz_material_category b
+			where b.category_name like '开关面板') 
+		WHERE a.purchase_receive_bill_id = #{0}
+	</select>
+</mapper>

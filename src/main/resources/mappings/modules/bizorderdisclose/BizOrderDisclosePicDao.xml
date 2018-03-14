@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizOrderDisclosePicDao">
+    
+	<sql id="bizOrderDisclosePicColumns">
+		a.ID AS "id",
+		a.ORDER_DISCLOSE_ID AS "orderDiscloseId",
+		a.ORDER_DISCLOSE_PIC_TYPE AS "orderDisclosePicType",
+		a.PIC_URL AS "picUrl"
+	</sql>
+    
+	<select id="get" resultType="cn.damei.entity.modules.BizOrderDisclosePic">
+		SELECT 
+			<include refid="bizOrderDisclosePicColumns"/>
+		FROM BIZ_ORDER_DISCLOSE_PIC a
+		WHERE a.ID = #{id}
+	</select>
+	
+	<select id="getByOrderDiscloseId" resultType="cn.damei.entity.modules.BizOrderDisclosePic">
+		SELECT 
+			<include refid="bizOrderDisclosePicColumns"/>
+		FROM BIZ_ORDER_DISCLOSE_PIC a
+		WHERE a.ORDER_DISCLOSE_ID = #{0}
+	</select>
+	
+	<select id="getByOrderId" resultType="cn.damei.entity.modules.BizOrderDisclosePic">
+		SELECT 
+			<include refid="bizOrderDisclosePicColumns"/>
+		FROM BIZ_ORDER_DISCLOSE_PIC a
+		WHERE a.ID = #{0}
+	</select>
+	
+	<select id="findList" resultType="cn.damei.entity.modules.BizOrderDisclosePic">
+		SELECT 
+			<include refid="bizOrderDisclosePicColumns"/>
+		FROM BIZ_ORDER_DISCLOSE_PIC a
+		<where>
+			<!-- <if test="orderNumber != null and orderNumber != ''">
+				AND a.ORDER_NUMBER = #{orderNumber}
+			</if> -->
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY d.DISCLOSE_DATE DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="cn.damei.entity.modules.BizOrderDisclosePic">
+		SELECT 
+			<include refid="bizOrderDisclosePicColumns"/>
+		FROM BIZ_ORDER_DISCLOSE_PIC a
+		WHERE a.DEL_FLAG = #{DEL_FLAG_NORMAL}
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY d.DISCLOSE_DATE DESC
+			</otherwise>
+		</choose>
+	</select>
+</mapper>

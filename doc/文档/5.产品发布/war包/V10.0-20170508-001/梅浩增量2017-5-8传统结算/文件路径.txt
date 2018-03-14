@@ -1,0 +1,1 @@
+src\main\resources\mappings\mobile\modules\Manager\managerTraditionSettle\managerTraditionSettleDao.xml

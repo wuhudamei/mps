@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizMaterialsSwitchByOrderDao">
+
+	<select id="findList"  resultType="cn.damei.entity.modules.BizMaterialsSwitchByOrder">
+		select 
+		bo.store_id AS storeId,
+		bo.id AS orderId,
+		bo.order_number AS orderNumber,
+		bo.customer_name AS customerName,
+		bo.item_manager AS itemManager,
+		ifnull(bp.shenqingCishu,0)  applyTimes,
+		bo.engin_depart_id AS enginDepartId,
+		bp.receive_all_goods_datetime AS finalReceiveTime,
+		bp.id AS purchaseId,
+		bed.`name` AS enginDepartName,
+		bo.update_date,
+		bp.apply_time AS applyTime,
+		bp.`status` AS status
+		from biz_order bo
+		left join 
+		(select order_id,count(*)AS shenqingCishu,purchase_type,receive_all_goods_datetime,id,del_flag,`status`,
+		apply_time
+		from biz_purchase where purchase_type='2'
+		GROUP BY order_id) bp 
+		on bp.order_id=bo.id
+		left join
+	    biz_engineering_department bed on bed.id=bo.engin_depart_id
+		<where>
+			 bo.order_status_number&gt;=200
+			<if test="purchaseStatusList != null">
+				AND bp.`status` IN
+				<foreach collection="purchaseStatusList" item="item" open="("  separator="," close=")" index="index">
+					#{item}
+				</foreach>
+			</if>
+			<if test="applyTimeBegin != null and applyTimeBegin != ''">
+				AND bp.apply_time &gt;= #{applyTimeBegin}
+			</if>
+			<if test="applyTimeEnd != null and applyTimeEnd != ''">
+				AND bp.apply_time &lt;= #{applyTimeEnd}
+			</if>
+			<if test="finalReceiveTimeBegin != null and finalReceiveTimeBegin != ''">
+				AND bp.receive_all_goods_datetime &gt;= #{finalReceiveTimeBegin} 
+			</if>
+			<if test="finalReceiveTimeEnd != null and finalReceiveTimeEnd != ''">
+				AND bp.receive_all_goods_datetime &lt;= #{finalReceiveTimeEnd}
+			</if>
+			<if test="orderNumber != null and orderNumber != ''">
+				AND bo.order_number = #{orderNumber}
+			</if>
+			<if test="itemManager != null and itemManager != ''">
+				AND bo.item_manager LIKE
+				<if test="dbName == 'oracle'">'%'||#{itemManager}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{itemManager}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{itemManager},'%')</if>
+			</if>
+			<if test="customerName != null and customerName != ''">
+				AND bo.customer_name LIKE
+				<if test="dbName == 'oracle'">'%'||#{customerName}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{customerName}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{customerName},'%')</if>
+			</if>
+			<if test="storeId != null and storeId != ''">
+				AND bo.store_id = #{storeId}
+			</if>
+			<if test="enginDepartId != null and enginDepartId != ''">
+				AND bo.engin_depart_id = #{enginDepartId}
+			</if>
+		</where>	
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				order by ${page.orderBy}
+			</when>
+			<otherwise>
+				order by bo.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findByOrderId"  resultType="cn.damei.entity.modules.BizMaterialsSwitchByOrder">
+		select 
+			bo.store_id AS storeId,
+			bo.id AS orderId,
+			bo.order_number AS orderNumber,
+			bo.customer_name AS customerName,
+			bo.item_manager AS itemManager,
+			ifnull(bp.shenqingCishu,0)  applyTimes,
+			bo.engin_depart_id AS enginDepartId,
+			bp.receive_all_goods_datetime AS finalReceiveTime,
+			bp.id AS purchaseId,
+			bed.`name` AS enginDepartName,
+			bo.project_mode AS projectMode,
+			bo.order_status_description AS orderStatus,
+			bo.customer_address AS customerAddress
+		from biz_order bo
+		left join 
+			(select order_id,count(*)AS shenqingCishu,purchase_type,receive_all_goods_datetime,id,del_flag
+			from biz_purchase where purchase_type='2'
+			GROUP BY order_id) bp 
+			on bp.order_id=bo.id
+		left join
+		    biz_engineering_department bed on bed.id=bo.engin_depart_id
+		where 
+			bo.id=#{orderId}
+	</select>
+	
+	<select id="findHejiByOrderId"  resultType="cn.damei.entity.modules.BizMaterialsSwitchByOrder">
+		SELECT
+			bp.purchase_code AS purchaseCode,
+			bp.apply_receive_time AS applyReceiveTime,
+			bp.apply_time AS applyTime,
+			a.purchase_id AS "purchaseId",
+			a.order_id AS "orderId",
+			a.main_mate_code AS "auxiMateCode",
+			sum(a.main_mate_count) AS "auxiMateCount",
+			a.main_materials_name AS "auxiMaterialName",
+			a.category_id AS "categoryId",
+			a.specifications AS "specifications",
+			a.measurement_unit AS "measurementUnit",
+			a.brands AS "brands",
+			sum(a.received_main_mate_count) AS "receivedAuxiMateCount",
+			sum(a.owed_main_mate_count) AS "owedAuxiMateCount",
+			bp.`status`
+		FROM
+			biz_purchase bp
+		LEFT JOIN biz_purchase_main_mate a ON bp.id = a.purchase_id
+		WHERE
+			bp.purchase_type = '2'
+		AND bp.`status`!='21'
+		AND bp.order_id =#{orderId}
+		GROUP BY a.main_mate_code
+	</select>
+	
+	<select id="findMingxiByOrderId"  resultType="cn.damei.entity.modules.BizMaterialsSwitchByOrder">
+		SELECT
+			bp.purchase_code AS purchaseCode,
+			bp.apply_receive_time AS applyReceiveTime,
+			bp.apply_time AS applyTime,
+			a.purchase_id AS "purchaseId",
+			a.order_id AS "orderId",
+			a.main_mate_code AS "auxiMateCode",
+			a.main_mate_count AS "auxiMateCount",
+			a.main_materials_name AS "auxiMaterialName",
+			a.category_id AS "categoryId",
+			a.specifications AS "specifications",
+			a.measurement_unit AS "measurementUnit",
+			a.brands AS "brands",
+			a.received_main_mate_count AS "receivedAuxiMateCount",
+			a.owed_main_mate_count AS "owedAuxiMateCount",
+			bp.`status`
+		FROM
+			biz_purchase bp
+		LEFT JOIN biz_purchase_main_mate a ON bp.id = a.purchase_id
+		WHERE
+			bp.purchase_type = '2'
+		AND bp.order_id =#{orderId}
+		ORDER BY
+			bp.apply_time DESC
+	</select>
+	
+	<select id="export"  resultType="cn.damei.entity.modules.BizMaterialsSwitchByOrder">
+		select 
+			bp.purchase_code As purchaseCode,
+			DATE_FORMAT(bp.apply_receive_time,'%Y-%m-%d %H:%i:%s') As applyReceiveTime,
+			DATE_FORMAT(bp.apply_time,'%Y-%m-%d %H:%i:%s') AS applyTime,
+			a.main_mate_code AS "auxiMateCode",
+			a.main_mate_count AS "auxiMateCount",
+			a.main_materials_name AS "auxiMaterialName",
+			a.category_id AS "categoryId",
+			a.specifications AS "specifications",
+			a.measurement_unit AS "measurementUnit",
+			a.brands AS "brands",
+			a.received_main_mate_count AS "receivedAuxiMateCount",
+			a.owed_main_mate_count AS "owedAuxiMateCount",
+			b.customer_address AS customerAddress,
+			b.customer_name AS customerName,
+			be.phone AS phone,
+			bp.receive_all_goods_datetime AS finalReceiveTime,
+			b.order_number AS orderNumber,
+			be.realName AS realName,
+			k.labor_price AS "laborPrice"
+		from biz_purchase bp
+		LEFT JOIN biz_purchase_main_mate a on bp.id=a.purchase_id
+		LEFT JOIN biz_order b on b.id=bp.order_id
+		LEFT JOIN biz_employee be on be.id=b.item_manager_id
+		LEFT JOIN biz_main_materials p on p.main_materials_no=a.main_mate_code
+		LEFT JOIN biz_main_materials_supplier_rel k on p.id=k.main_materials_id
+		<where>
+			bp.purchase_type='2'
+			<if test="purchaseStatusList != null">
+				AND bp.`status` IN
+				<foreach collection="purchaseStatusList" item="item" open="("  separator="," close=")" index="index">
+					#{item}
+				</foreach>
+			</if>
+			<if test="applyTimeBegin != null and applyTimeBegin != ''">
+				AND bp.apply_time &gt;= #{applyTimeBegin}
+			</if>
+			<if test="applyTimeEnd != null and applyTimeEnd != ''">
+				AND bp.apply_time &lt;= #{applyTimeEnd}
+			</if>
+			<if test="finalReceiveTimeBegin != null and finalReceiveTimeBegin != ''">
+				AND bp.receive_all_goods_datetime &gt;= #{finalReceiveTimeBegin} 
+			</if>
+			<if test="finalReceiveTimeEnd != null and finalReceiveTimeEnd != ''">
+				AND bp.receive_all_goods_datetime &lt;= #{finalReceiveTimeEnd}
+			</if>
+			<if test="orderNumber != null and orderNumber != ''">
+				AND b.order_number = #{orderNumber}
+			</if>
+			<if test="itemManager != null and itemManager != ''">
+				AND b.item_manager LIKE
+				<if test="dbName == 'oracle'">'%'||#{itemManager}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{itemManager}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{itemManager},'%')</if>
+			</if>
+			<if test="customerName != null and customerName != ''">
+				AND b.customer_name LIKE
+				<if test="dbName == 'oracle'">'%'||#{customerName}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{customerName}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{customerName},'%')</if>
+			</if>
+			<if test="storeId != null and storeId != ''">
+				AND b.store_id = #{storeId}
+			</if>
+			<if test="enginDepartId != null and enginDepartId != ''">
+				AND b.engin_depart_id = #{enginDepartId}
+			</if>
+		</where>	
+		order by bp.receive_all_goods_datetime desc
+	</select>
+
+	<select id="findPurchaseStatus"  resultType="cn.damei.entity.modules.Dict">
+		SELECT
+		`value`,
+		label
+		FROM
+		sys_dict
+		WHERE
+		type = 'purchase_status'
+		AND
+		VALUE
+		IN (40, 70, 90)
+	</select>
+	
+</mapper>

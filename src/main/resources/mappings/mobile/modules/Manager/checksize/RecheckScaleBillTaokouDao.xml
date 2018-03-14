@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.mobile.Manager.RecheckScaleBillTaokouDao">
+    
+	<sql id="recheckScalBillTaokouColumns">
+		t.ID AS "id",
+		t.RECHECK_SCALE_BILL_ID AS "recheckScaleBillId",
+		t.POSITION AS "position",
+		t.PACKAGE_COVER AS "packageCover",
+		t.HOLE_WIDTH AS "holeWidth",
+		t.HOLE_HEIGHT AS "holeHeight",
+		t.HOLE_THICKNESS AS "holeThickness",
+		t.REMARKS AS "remarks",
+		t.CREATE_DATE AS "createDate",
+		t.UPDATE_DATE AS "updateDate",
+		t.DEL_FLAG AS "delFlag"
+	</sql>
+	
+	<select id="get" resultType="cn.damei.entity.mobile.Manager.RecheckScaleBillTaokou" parameterType="java.lang.Integer">
+		SELECT 
+    	<include refid="recheckScalBillTaokouColumns"/> 
+    	FROM BIZ_RECHECK_SCALE_BILL_TAOKOU t
+    	WHERE t.ID = #{0}
+	</select>
+	
+	<select id="getByRecheckID" resultType="cn.damei.entity.mobile.Manager.RecheckScaleBillTaokou" parameterType="java.lang.Integer">
+		SELECT 
+    	<include refid="recheckScalBillTaokouColumns"/> 
+    	FROM BIZ_RECHECK_SCALE_BILL_TAOKOU t
+    	WHERE t.RECHECK_SCALE_BILL_ID = #{0}
+	</select>
+	
+	<insert id="insert" parameterType="cn.damei.entity.mobile.Manager.RecheckScaleBillTaokou">
+		INSERT INTO BIZ_RECHECK_SCALE_BILL_TAOKOU(
+			ID,
+			RECHECK_SCALE_BILL_ID,
+			POSITION,
+			PACKAGE_COVER,
+			HOLE_WIDTH,
+			HOLE_HEIGHT,
+			HOLE_THICKNESS,
+			REMARKS,
+			CREATE_DATE,
+			UPDATE_DATE,
+			DEL_FLAG
+		) VALUES (
+			#{id},
+			#{recheckScaleBillId},
+			#{position},
+			#{packageCover},
+			#{holeWidth},
+			#{holeHeight},
+			#{holeThickness},
+			#{remarks},
+			#{createDate},
+			#{updateDate},
+			#{delFlag}
+		)
+	</insert>
+	
+	<insert id="insertTaokou" parameterType="cn.damei.entity.mobile.Manager.RecheckScaleBillTaokou">
+		INSERT INTO BIZ_RECHECK_SCALE_BILL_TAOKOU(
+			ID,
+			RECHECK_SCALE_BILL_ID,
+			POSITION,
+			PACKAGE_COVER,
+			HOLE_WIDTH,
+			HOLE_HEIGHT,
+			HOLE_THICKNESS,
+			REMARKS,
+			CREATE_DATE,
+			CREATE_BY,
+			UPDATE_DATE,
+			UPDATE_BY,
+			DEL_FLAG
+		) VALUES (
+			#{id},
+			#{recheckScaleBillId},
+			#{position},
+			#{packageCover},
+			#{holeWidth},
+			#{holeHeight},
+			#{holeThickness},
+			#{remarks},
+			#{createDate},
+			#{createPeo},
+			#{updateDate},
+			#{updatePeo},
+			#{delFlag}
+		)
+	</insert>
+</mapper>

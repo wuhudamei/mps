@@ -1,0 +1,61 @@
+.g-login{
+	width: 100%;
+	height: 100%;
+	background: -webkit-linear-gradient(#6ab3f4, #0780ec); /* Safari 5.1 - 6.0 */
+	background: -o-linear-gradient(#6ab3f4, #0780ec); /* Opera 11.1 - 12.0 */
+	background: -moz-linear-gradient(#6ab3f4, #0780ec); /* Firefox 3.6 - 15 */
+	background: linear-gradient(#6ab3f4, #0780ec); /* 标准的语法 */
+}
+.g-login .logo{
+	height: 1.44rem;
+	padding: 2.16rem 0 0.38rem;
+	text-align: center;
+}
+.g-login .logo img{
+	width: 1.44rem;
+	height: 1.44rem;
+}
+.g-login h3.logo_text{
+	text-align: center;
+	font-size: 0.28rem;
+	color: #fff;
+	margin-bottom: 1.24rem;
+}
+.g-login .login_form{
+	width: 5.7rem;
+	margin: 0 auto;
+	font-size: 0;
+}
+.g-login input{
+	-webkit-appearance: none;
+	width: 100%;
+	box-sizing: border-box;
+	border: 0;
+	border-bottom: 1px solid #fff;
+	padding-left: 0.6rem;
+	padding-bottom: 0.14rem;
+	font-size: 0.28rem;
+	color: #fff;
+}
+.g-login input[type="text"]{
+	background: url(../images/user.png) left 0rem no-repeat;
+	background-size: 0.28rem 0.36rem;
+}
+.g-login input[type="password"]{
+	background: url(../images/pwd_icon.png) left 0rem no-repeat;
+	background-size: 0.28rem 0.36rem;
+	margin-top: 0.5rem;
+}
+#user_login_btn{
+	display: block;
+	width: 100%;
+	height: 0.74rem;
+	line-height: 0.74rem;
+	margin: 0.9rem auto 0;
+	/*border: 0.02rem solid #fff;*/
+	background-color:#da641e; 
+	border-radius: 0.1rem;
+	text-align: center;
+	color: #fffefe;
+	font-size: 0.28rem;
+}

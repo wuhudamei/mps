@@ -1,0 +1,30 @@
+.g_info ul.info_ul li:first-child{
+	background-image: url(../images/task1_icon.png);
+	background-repeat: no-repeat;
+	background-size: 0.33rem 0.32rem;
+	background-position: 4% center;
+}
+.g_info ul.info_ul li:nth-child(2){
+	background-image: url(../images/task2_icon.png);
+	background-repeat: no-repeat;
+	background-size: 0.33rem 0.32rem;
+	background-position: 4% center;
+}
+.g_info ul.info_ul li:nth-child(3){
+	background-image: url(../images/task3_icon.png);
+	background-repeat: no-repeat;
+	background-size: 0.33rem 0.32rem;
+	background-position: 4% center;
+}
+.g_info ul.info_ul li:nth-child(4){
+	background-image: url(../images/task4_icon.png);
+	background-repeat: no-repeat;
+	background-size: 0.33rem 0.32rem;
+	background-position: 4% center;
+}
+.g_info ul.info_ul li:nth-child(5){
+	background-image: url(../images/task5_icon.png);
+	background-repeat: no-repeat;
+	background-size: 0.33rem 0.32rem;
+	background-position: 4% center;
+}

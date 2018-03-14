@@ -1,0 +1,8 @@
+MaterialsInfo.java
+/mdn/src/main/java/com/thinkgem/jeesite/mobile/modules/Inspector/materials/entity/MaterialsInfo.java
+
+MaterialsInfoDao.xml
+/mdn/src/main/resources/mappings/mobile/modules/Inspector/materials/MaterialsInfoDao.xml
+
+sandGet.jsp
+/mdn/src/main/webapp/WEB-INF/views/mobile/modules/Manager/sand/sandGet.jsp

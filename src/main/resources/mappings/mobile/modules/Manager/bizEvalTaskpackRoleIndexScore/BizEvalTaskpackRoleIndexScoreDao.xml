@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.mobile.Manager.BizEvalTaskpackRoleIndexScoreDao">
+	<sql id="bizEvalTaskpackRoleIndexScoreColumns">
+		a.id AS "id",
+		a.eval_score_role_id AS "evalScoreRoleId",
+		a.eval_activity_index_id AS "evalActivityIndexId",
+		a.got_score AS "gotScore",
+		a.remarks AS "remarks",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag"
+	</sql>
+
+	<select id="get" resultType="cn.damei.entity.mobile.Manager.EvalScoreRoleIndex">
+		SELECT
+		<include refid="bizEvalTaskpackRoleIndexScoreColumns"/>
+		FROM biz_eval_score_role_index a
+		WHERE a.id = #{id}
+	</select>
+
+	<insert id="insert">
+		INSERT INTO biz_eval_score_role_index(
+		id,
+		eval_score_role_id,
+		eval_activity_index_id,
+		got_score,
+		remarks,
+		create_by,
+		create_date,
+		update_by,
+		update_date,
+		del_flag
+		) VALUES (
+		#{id},
+		#{evalScoreRoleId},
+		#{evalActivityIndexId},
+		#{gotScore},
+		#{remarks},
+		#{createBy.id},
+		#{createDate},
+		#{updateBy.id},
+		#{updateDate},
+		#{delFlag}
+		)
+	</insert>
+
+	<insert id="insertBatch" parameterType="java.util.List">
+		INSERT INTO biz_eval_score_role_index(
+		id,
+		eval_score_role_id,
+		eval_activity_index_id,
+		got_score,
+		remarks,
+		create_by,
+		create_date,
+		update_by,
+		update_date,
+		del_flag
+		) VALUES
+		<foreach collection="list" item="item" index="index" separator="," >
+			(#{item.id},
+			#{item.evalScoreRoleId},
+			#{item.evalActivityIndexId},
+			#{item.gotScore},
+			#{item.remarks},
+			#{item.createBy.id},
+			#{item.createDate},
+			#{item.updateBy.id},
+			#{item.updateDate},
+			#{item.delFlag})
+		</foreach>
+	</insert>
+
+	<update id="update">
+		UPDATE biz_eval_score_role_index SET
+		eval_score_role_id = #{evalScoreRoleId},
+		eval_activity_index_id = #{evalActivityIndexId},
+		got_score = #{gotScore},
+		remarks = #{remarks},
+		update_by = #{updateBy.id},
+		update_date = #{updateDate},
+		del_flag = #{delFlag}
+		WHERE id = #{id}
+	</update>
+
+	<select id="querySettlementEval" parameterType="java.util.Map" resultType="cn.damei.entity.mobile.Manager.SettlementEvalStore">
+		select d.eval_total_score,e.index_name,a.got_score
+		from biz_eval_score_role_index a
+		left join biz_eval_score_role b on a.eval_score_role_id = b.id
+		left join biz_eval_score c on b.eval_score_id = c.id
+		left join biz_eval_activity_index d on a.eval_activity_index_id = d.id
+		left join biz_eval_index e on d.eval_index_id = e.id
+		where c.related_business_id = #{relatedBusinessId} and c.eval_type=#{evalType} and b.eval_role_type = #{evalRoleType}
+	</select>
+
+	<select id="querySumGotScoreByOrderTaskpackageId" parameterType="java.util.Map" resultType="java.lang.Double">
+		select SUM(c.got_score)
+		from biz_eval_score_role_index c
+		where c.eval_score_role_id in
+			(select b.id from biz_eval_score_role b where b.eval_score_id =
+					(select a.id from biz_eval_score a where a.related_business_id = #{relatedBusinessId} and a.eval_type= #{evalType}))
+	</select>
+</mapper>

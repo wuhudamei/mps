@@ -1,0 +1,2 @@
+INSERT INTO biz_business_status_log(business_type,business_only_mark_int,business_status,status_datetime,business_employee_id,create_by,create_date,update_by,update_date,del_flag)
+SELECT '1001',id,'20',DATE_ADD(create_date, INTERVAL 60 MINUTE),'1','1',DATE_ADD(create_date, INTERVAL 60 MINUTE),'1',DATE_ADD(create_date, INTERVAL 60 MINUTE),'0' FROM biz_order_taskpackage;

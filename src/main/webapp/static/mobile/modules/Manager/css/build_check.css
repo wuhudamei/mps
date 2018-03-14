@@ -1,0 +1,96 @@
+.g-build_apply{
+	width: 100%;
+	height: 100%;
+	background: #eee;
+}
+.g-build_apply > p{
+	text-align: center;
+}
+.g-build_apply > p.every{
+	font-size: .30rem;
+	color: #333;
+	padding-top: .80rem;
+	height: .70rem;
+	line-height: .70rem;
+}
+.g-build_apply > p.work_date{
+	font-size: .26rem;
+	color: #666;
+	margin-bottom: .2rem;
+}
+.g-build_apply .build_apply_list ul{
+	margin-left: 0.1rem;
+	margin-right: 0.1rem;
+	border-bottom-left-radius: .1rem;
+	border-bottom-right-radius: .1rem;
+	background: #fff;
+}
+.g-build_apply .build_apply_list ul li{
+	font-size: .28rem;
+	border-bottom: 1px solid #80bef5;
+	display: flex;
+	align-items: center;
+}
+.g-build_apply .build_apply_list ul li:first-child{
+	text-align: center;
+	background: #9cccf7;
+	border-bottom: 0;
+}
+.g-build_apply .build_apply_list ul li:last-child{
+	border-bottom: 0;
+}
+.g-build_apply .build_apply_list ul li > span{
+	display: -webkit-flex;
+	box-sizing: border-box;
+	padding-top: .2rem;
+	padding-bottom: .2rem;
+	text-align: center;
+	border-right: 1px solid #80bef5;
+	color: #666;
+	justify-content: center;
+}
+.g-build_apply .build_apply_list ul li:first-child > span{
+	color: #333;
+}
+.g-build_apply .build_apply_list ul li > .item{
+	width: 32%;
+}
+.g-build_apply .build_apply_list ul li > .date{
+	width: 34%;
+}
+.g-build_apply .build_apply_list ul li > .apply{
+	/*display: inline-block;*/
+	/*box-sizing: border-box;
+	height: .76rem;
+	line-height: .76rem;*/
+	text-align: center;
+	/*float: left;*/
+	width: 34%;
+	border: 0;
+	color: #0780ec;
+}
+.g-build_apply .build_apply_list ul li > .over{
+	text-align: left;
+	text-indent: 5%;
+	background-image: url(../images/wtc_btn.png);
+    background-repeat: no-repeat;
+    background-size: .16rem .29rem;
+    background-position: 90% center;
+}
+.g-build_apply .build_apply_list{
+	margin-bottom: 2rem;
+}
+.tip_sec{margin: .2rem;}
+.font30{font-size: .3rem;}
+.font26{font-size: .26rem;}
+.col_fe0{color: #fe0000;}
+.col_6{color: #666;}
+input.date{
+    border: none;
+    width: 100%;
+    text-indent: 10%;
+    height: inherit;
+   
+    color: #999;
+    font-size: .24rem;
+}

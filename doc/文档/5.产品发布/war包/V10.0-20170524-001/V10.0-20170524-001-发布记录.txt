@@ -1,0 +1,37 @@
+打包名称：mdn.war
+打包版本：V10.0-20170524-001
+
+功能变更：
+	1、修复未过滤删除的约检节点
+	2、修复财务付款报错问题
+
+功能新增：
+	1、材料调度问题上报
+	2、质检节点报表
+	3、待办-材料
+	4、材料预警
+	5、pc材料模块部分优化，项目经理修改为申请人，主材安装明细添加日志
+
+
+菜单变更：
+	1、武轶博：材料调度-问题上报
+		1.名称：墙地砖问题上报查询
+		  链接：/bizorderinstallitemproblem/wallAndFloor/problem/preList
+		  权限标识：wallAndFloorproblem:wallAndFloorproblem:view
+		2.名称：墙地砖问题处理
+		  链接：/bizorderinstallitemproblem/wallAndFloor/problem/preDealList
+		  权限标识：wallAndFloorproblem:wallAndFloorproblem:view
+	2.梅浩：预警检测
+		1.名称：约检验收预警查询
+		  链接：/ApplyCheckEarlyEarningQuery/prelist
+		  权限标识：ApplyCheckEarlyEarningQuery:ApplyCheckEarlyEarningQuery:view
+
+
+文件变更：
+	1、郝永辉--修复付款报错问题，替换文件在【郝永辉更新文件】内的【BizOrderTaskpackagePaymentDao.xml】文件，路径在【路径.txt】文本内
+	
+
+数据库表数据变更：
+	执行【武轶博数据变更】内的【jeesite_table-v10.0_14_zhucai_2.sql】【历史数据处理1.sql】
+【历史数据处理2.sql】脚本
+	

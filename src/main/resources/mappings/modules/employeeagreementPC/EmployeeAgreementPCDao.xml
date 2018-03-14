@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.EmployeeAgreementPCDao">
+    <select id="isSignEmployeeAgreement" resultType="cn.damei.entity.modules.EmployeeAgreementPC">
+    	SELECT 
+    		a.id,
+			a.employee_type,
+			a.employee_id,
+			a.is_sign_employee_agreement,
+			a.employee_agreement_sign_datetime,
+			a.employee_agreement_read_datetime
+		FROM biz_employee_agreement a 
+		WHERE a.employee_id = #{employeeId}
+		ORDER by a.is_sign_employee_agreement desc,a.create_date
+		limit 0,1;
+    </select>
+    
+    <insert id="insert">
+	    INSERT INTO biz_employee_agreement (
+				employee_type,
+				employee_id,
+				is_sign_employee_agreement,
+				employee_agreement_sign_datetime,
+				employee_agreement_read_datetime,
+				remarks,
+				create_by,
+				create_date,
+				update_by,
+				update_date,
+				del_flag
+			)VALUES(
+				#{employeeType},
+				#{employeeId},
+				#{isSignEmployeeAgreement},
+				#{employeeAgreementSignDatetime},
+				#{employeeAgreementReadDatetime},
+				#{remarks},
+				#{createBy.id},
+				#{createDate},
+				#{updateBy.id},
+				#{updateDate},
+				#{delFlag}
+		)
+    </insert>
+    
+    <update id="update">
+    	UPDATE biz_employee_agreement SET 
+	    	is_sign_employee_agreement = #{isSignEmployeeAgreement},
+	    	employee_agreement_read_datetime = now()
+    	where 
+    		employee_id = #{employeeId}
+    </update>
+    
+    
+    
+    <select id="findList" resultType="cn.damei.entity.modules.EmployeeAgreementPC">
+    SELECT 
+		a.id,
+		c.name as 'storeName',
+		CASE WHEN b.is_sign_employee_agreement IS NULL THEN 0 ELSE b.is_sign_employee_agreement END AS 'isSignEmployeeAgreement',
+		a.project_mode AS "projectMode",
+		a.realName,
+		a.phone,
+		a.workType,
+		b.employee_agreement_sign_datetime,
+		f.name AS 'elactricationName'
+	FROM biz_employee a
+	LEFT JOIN biz_employee_agreement b ON a.id = b.employee_id
+	LEFT JOIN sys_office c ON a.storeId = c.id
+	LEFT JOIN biz_emgrouprelation d ON a.id = d.empId
+	LEFT JOIN biz_employeegroup e ON d.groupId = e.id
+	LEFT JOIN biz_engineering_department f ON f.id = e.elactricationId
+	WHERE a.empType = '2'
+	<if test="storeId != null and storeId != ''">
+		and a.storeId = #{storeId}
+	</if>
+	<if test="elactricationId != null and elactricationId != ''">
+		and e.elactricationId = #{elactricationId}
+	</if>
+	<if test="realName != null and realName !=''">
+		and a.realName like concat('%',#{realName},'%')
+	</if>
+	<if test="phone !=null and phone != ''">
+		and a.phone = #{phone}
+	</if>
+	<if test="isSignEmployeeAgreement == 0 and isSignEmployeeAgreement != ''">
+		and (b.is_sign_employee_agreement is null or b.is_sign_employee_agreement = 0)
+	</if>
+	<if test="isSignEmployeeAgreement == 1 and isSignEmployeeAgreement != ''">
+		and b.is_sign_employee_agreement = 1
+	</if>
+    </select>
+</mapper>

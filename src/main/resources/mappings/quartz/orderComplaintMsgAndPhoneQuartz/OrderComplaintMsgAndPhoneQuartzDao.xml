@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+        namespace="cn.damei.dao.modules.OrderComplaintMsgAndPhoneQuartzDao">
+
+
+
+
+    <select id="getAllDataForQuartz" resultType="map">
+
+        SELECT
+            CONCAT_WS(
+                    "-",
+                    a.community_name,
+                    a.build_number,
+                    a.build_unit,
+                    a.build_room
+
+            ) AS "customerInfo",
+            a.customer_name as "customerName",
+
+            f.execute_time_limit AS "responseTime",
+            g.type_name AS "typeName",
+            GROUP_CONCAT(f.item_name) AS "itemName",
+            c.create_date AS "createDate",
+            h.id AS "handleId",
+            h.deal_employee_id AS "dealEmployeeId",
+            i.phone AS "dealEmployeePhone",
+            h.deal_person_type AS "dealPersonType"
+        FROM
+            biz_order a
+            INNER JOIN biz_order_complaint b ON a.id = b.order_id
+            LEFT JOIN biz_order_complaint_problem c ON b.id = c.order_complaint_id
+            LEFT JOIN biz_order_complaint_problem_item e ON c.id = e.order_complaint_problem_id
+            LEFT JOIN biz_complaint_problem_item f ON e.complaint_problem_item_id = f.id
+            LEFT JOIN biz_complaint_problem_type g ON f.complaint_problem_type_id = g.id
+            LEFT JOIN biz_order_complaint_problem_deal h ON c.id = h.order_complaint_problem_id
+            INNER JOIN biz_employee i ON i.id = h.deal_employee_id
+        WHERE
+            h.deal_status = 0
+            AND c.`status` = 10
+            and h.deal_person_type in(1,3)
+            AND f.response_time IS NOT NULL
+        GROUP BY
+            h.id
+        ORDER BY
+            h.create_date DESC
+
+
+    </select>
+
+</mapper>

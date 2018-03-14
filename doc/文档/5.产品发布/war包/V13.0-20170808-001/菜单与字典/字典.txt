@@ -1,0 +1,14 @@
+字典新增：
+	1、墙地砖
+                键值	标签	             类型	          描述	               排序	
+                 1	是	      dict_iscountsquare	墙地砖是否计算面积	10	
+                 0	否	      dict_iscountsquare	墙地砖是否计算面积	20
+                 10	待确定	             wall_status	墙地砖复尺状态	        10	
+                 20	已确定	             wall_status	墙地砖复尺状态	        20	
+                 90	已作废	             wall_status	墙地砖复尺状态	        30	
+                 30	已拒绝	             wall_status	墙地砖复尺状态	        30	
+                 40	同意复尺	     wall_status	墙地砖复尺状态	        40	
+                 50	项目经理已确认  	wall_status	墙地砖复尺状态	        50	
+                 60	设计师已确认	     wall_status	墙地砖复尺状态	        60	
+                 65	设计师已认可	     wall_status	墙地砖复尺状态	        70	
+                 70	已分责	             wall_status	墙地砖复尺状态	        80

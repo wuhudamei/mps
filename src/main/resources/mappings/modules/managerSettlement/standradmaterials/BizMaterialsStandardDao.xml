@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizMaterialsStandardDao">
+    <!--筒灯的 resultmap  -->
+    <resultMap id="LightMap" type="cn.damei.entity.modules.BizMaterialsStandard" >
+	    	<id column="id" property="id"/>
+	    	<result property="storeId" column="store_id"/>
+	    	<result property="materialsType" column="materials_type"/>
+	    	<result property="materialsName" column="materials_name"/>
+	    	<result property="materialsUnit" column="materials_unit"/>
+	    	<result property="materialsPrice" column="materials_price"/>
+	    	<result property="isEnabled" column="is_enabled"/>
+	    	<result property="remarks" column="remarks"/>
+	    	<result property="delFlag" column="del_flag"/>
+	    	<result property="maxReceiveNumber" column="max_receive_number"/>
+	    	<result property="isLimitMaxNumber" column="is_limit_max_number"/>
+    	<collection property="bizMaterialsStandardNumberSquareList" ofType="cn.damei.entity.modules.BizMaterialsStandardNumberSquare">
+	    	<id column="sId" property="id"/>
+	    	<result property="squareMin" column="square_min"/>
+	    	<result property="squareMax" column="square_max"/>
+	    	<result property="numberRuleCode" column="number_rule_code"/>   		
+	    	<result property="numberRuleDescribe" column="number_rule_describe"/>   		
+    	</collection>
+    	
+    </resultMap> 
+	<sql id="bizMaterialsStandardColumns">
+		a.id ,
+		a.store_id ,
+		a.materials_type,
+		a.materials_name ,
+		a.materials_unit ,
+		a.materials_price ,
+		a.is_enabled ,
+		a.remarks,
+		a.del_flag,
+		a.max_receive_number ,
+		a.is_limit_max_number
+	</sql>
+	<sql id="squareColumn">
+		b.id AS sId,
+		b.square_min,
+		b.square_max ,
+		b.number_rule_code ,
+		b.number_rule_describe
+	</sql>
+	<sql id="bizMaterialsStandardJoins">
+		LEFT JOIN  (
+			SELECT * FROM
+			biz_materials_standard_number_square
+			WHERE del_flag = '0'
+			)  b 
+		ON a.id = b.materials_standard_id
+	</sql>
+    
+	<select id="get" resultMap="LightMap">
+		SELECT 
+			<include refid="bizMaterialsStandardColumns"/>,
+			<include refid="squareColumn"/>
+		FROM biz_materials_standard a
+		<include refid="bizMaterialsStandardJoins"/>
+		WHERE a.id = #{id} 
+	</select>
+	
+	<select id="findList" resultMap="LightMap">
+		SELECT 
+			<include refid="bizMaterialsStandardColumns"/>,
+			<include refid="squareColumn"/>
+		FROM biz_materials_standard a
+		<include refid="bizMaterialsStandardJoins"/>
+		
+		<where>
+			<if test="storeId != null and storeId != ''">
+				AND a.store_id = #{storeId}
+			</if>
+			<if test="materialsLargeType==&quot;1&quot; ">
+				AND ( a.materials_large_type = '1' or a.materials_large_type is null)
+			</if>
+			<if test="materialsLargeType==&quot;2&quot;  ">
+				AND a.materials_large_type = '2'
+			</if>
+			
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="cn.damei.entity.modules.BizMaterialsStandard">
+		SELECT 
+			<include refid="bizMaterialsStandardColumns"/>
+		FROM biz_materials_standard a
+		<include refid="bizMaterialsStandardJoins"/>
+		<where>
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO biz_materials_standard(
+			id,
+			store_id,
+			materials_type,
+			materials_name,
+			materials_unit,
+			materials_price,
+			is_enabled,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag,
+			max_receive_number,
+			materials_large_type,
+			is_limit_max_number
+		) VALUES (
+			#{id},
+			#{storeId},
+			#{materialsType},
+			#{materialsName},
+			#{materialsUnit},
+			#{materialsPrice},
+			#{isEnabled},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag},
+			#{maxReceiveNumber},
+			#{materialsLargeType},
+			#{isLimitMaxNumber}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE biz_materials_standard SET 	
+			store_id = #{storeId},
+			materials_type = #{materialsType},
+			materials_name = #{materialsName},
+			materials_unit = #{materialsUnit},
+			materials_price = #{materialsPrice},
+			is_enabled = #{isEnabled},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks}
+			<if test="maxReceiveNumber!=null and maxReceiveNumber!=''">
+			,
+			max_receive_number=#{maxReceiveNumber}
+			</if>
+			<if test="isLimitMaxNumber!=null and isLimitMaxNumber!=''">
+			,
+			is_limit_max_number=#{isLimitMaxNumber}
+			</if>
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM biz_materials_standard
+		WHERE id = #{id}
+	</update>
+	
+	<select id="findMaterialsByStroeId" resultType ="DropModel">
+		SELECT
+      	  a.id AS 'value',
+     	  a.materials_name AS 'label'
+        FROM biz_materials_standard a
+        where 
+        	a.store_id = #{0} AND a.is_enabled = 1
+	</select>
+	
+	<select id="queryMaterialsByStoreId" resultType="cn.damei.entity.modules.BizMaterialsStandard">
+		SELECT 
+			<include refid="bizMaterialsStandardColumns"/>
+		FROM biz_materials_standard a
+		<include refid="bizMaterialsStandardJoins"/>
+		WHERE a.store_id = #{0} AND a.is_enabled = 1
+	</select>
+</mapper>

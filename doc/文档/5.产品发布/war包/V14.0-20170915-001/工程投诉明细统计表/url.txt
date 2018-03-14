@@ -1,0 +1,3 @@
+/mdn/src/main/java/com/thinkgem/jeesite/modules/bizcomplaintproblemitem/web/BizComplaintProblemItemController.class
+/mdn/src/main/resources/mappings/modules/bizcomplaintproblemitem/BizComplaintProblemItemDao.xml
+/mdn/src/main/webapp/WEB-INF/views/modules/bizcomplaintproblemitem/bizComplaintProblemItemDetailsList.jsp

@@ -1,0 +1,30 @@
+打包名称：mdn.war
+打包版本：V10.0-20170714-001
+	
+功能变更：
+	
+	1、工程投诉优化--梅浩--小冷
+	2、工人结算优化--汉伟--强哥
+	
+功能新增：
+	1、质检罚款修改功能--刘志明--刘川
+	2、客户满意度报表--旺财--小冷
+	
+
+数据库表结构变更：
+
+	1、执行文件夹名【数据库表结构脚本】内的【jeesite_table-v12.0_15_zhijian_fakuan_chehui.sql】
+
+	2、执行文件夹名【数据库表结构脚本】内的【jeesite_table-v12.0_15_wbkehumanyidubaobiao.sql】
+
+数据库表数据变更：
+
+	1、执行文件夹名【数据库表数据变更】内的【biz_cus_service_important_degree.sql】
+					       【biz_cus_service_liable_type.sql】脚本
+
+	
+
+
+
+
+	 

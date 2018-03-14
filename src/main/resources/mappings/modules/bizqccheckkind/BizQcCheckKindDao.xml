@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizQcCheckKindDao">
+    
+	<sql id="bizQcCheckKindColumns">
+		a.id AS "id",
+		a.store_id AS "storeId",
+		a.qc_check_kind_name AS "qcCheckKindName",
+		a.status AS "status",
+		a.project_mode AS "projectMode",
+		a.task_package_templat_id AS "taskPackageTemplatId"
+	</sql>
+	
+	<sql id="bizQcCheckKindJoins">
+	</sql>
+    
+	<select id="get" resultType="cn.damei.entity.modules.BizQcCheckKind">
+		SELECT 
+			<include refid="bizQcCheckKindColumns"/>
+		FROM biz_qc_check_kind a
+		<include refid="bizQcCheckKindJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="cn.damei.entity.modules.BizQcCheckKind">
+		SELECT
+		 a.id AS "id",
+		 a.store_id AS "storeId",
+		 a.qc_check_kind_name AS "qcCheckKindName",
+		 a.status AS "status",
+		 a.project_mode AS "projectMode",
+		 a.task_package_templat_id AS "taskPackageTemplatId",
+		 tpt.templat_name AS  templatName
+		FROM biz_qc_check_kind a
+		 LEFT JOIN biz_task_package_templat tpt  on tpt.id=a.task_package_templat_id
+		<include refid="bizQcCheckKindJoins"/>
+		<where>
+			
+			<if test="storeId != null and storeId != ''">
+				AND a.store_id = #{storeId}
+			</if>
+			<if test="projectMode != null and projectMode != ''">
+				AND a.project_mode = #{projectMode}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.status DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="cn.damei.entity.modules.BizQcCheckKind">
+		SELECT 
+			<include refid="bizQcCheckKindColumns"/>
+		FROM biz_qc_check_kind a
+		<include refid="bizQcCheckKindJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO biz_qc_check_kind(
+			id,
+			store_id,
+			qc_check_kind_name,
+			task_package_templat_id,
+			status,
+			project_mode,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag
+		) VALUES (
+			#{id},
+			#{storeId},
+			#{qcCheckKindName},
+			#{taskPackageTemplatId},
+			#{status},
+			#{projectMode},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE biz_qc_check_kind SET 	
+			store_id = #{storeId},
+			qc_check_kind_name = #{qcCheckKindName},
+			status = #{status},
+			project_mode = #{projectMode},
+			task_package_templat_id = #{taskPackageTemplatId},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE biz_qc_check_kind SET 	
+			status = #{status}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

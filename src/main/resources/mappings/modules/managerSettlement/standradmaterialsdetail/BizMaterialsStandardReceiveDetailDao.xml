@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizMaterialsStandardReceiveDetailDao">
+    
+	<sql id="bizMaterialsStandardReceiveDetailColumns">
+		a.id AS "id",
+		a.materials_standard_receive_bill_id AS "materialsStandardReceiveBillId",
+		a.materials_standard_id AS "materialsId",
+		a.materials_type AS "materialsType",
+		a.materials_name AS "materialsName",
+		a.materials_unit AS "materialsUnit",
+		a.materials_price AS "materialsPrice",
+		a.receive_number AS "receiveNumber",
+		a.materials_amount AS "materialsAmount"
+	</sql>
+	
+	<sql id="bizMaterialsStandardReceiveDetailJoins">
+	</sql>
+    
+	<select id="get" resultType="cn.damei.entity.modules.BizMaterialsStandardReceiveDetail">
+		SELECT 
+			<include refid="bizMaterialsStandardReceiveDetailColumns"/>
+		FROM biz_materials_standard_receive_detail a
+		<include refid="bizMaterialsStandardReceiveDetailJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findDetailsByBillId" resultType="cn.damei.entity.modules.BizMaterialsStandardReceiveDetail">
+		SELECT 
+			<include refid="bizMaterialsStandardReceiveDetailColumns"/>
+		FROM biz_materials_standard_receive_detail a
+		<include refid="bizMaterialsStandardReceiveDetailJoins"/>
+		where a.materials_standard_receive_bill_id = #{0}
+	</select>
+	
+	<select id="findList" resultType="cn.damei.entity.modules.BizMaterialsStandardReceiveDetail">
+		SELECT 
+			<include refid="bizMaterialsStandardReceiveDetailColumns"/>
+		FROM biz_materials_standard_receive_detail a
+		<include refid="bizMaterialsStandardReceiveDetailJoins"/>
+		<where>
+			<if test="materialsStandardReceiveBillId != null and materialsStandardReceiveBillId !=''">
+				AND a.materials_standard_receive_bill_id = #{materialsStandardReceiveBillId}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="cn.damei.entity.modules.BizMaterialsStandardReceiveDetail">
+		SELECT 
+			<include refid="bizMaterialsStandardReceiveDetailColumns"/>
+		FROM biz_materials_standard_receive_detail a
+		<include refid="bizMaterialsStandardReceiveDetailJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id = "findDetailsBySettleBillId" resultType="cn.damei.entity.modules.BizMaterialsStandardReceiveDetail">
+		SELECT 
+			<include refid="bizMaterialsStandardReceiveDetailColumns"/>
+		FROM biz_materials_standard_receive_detail a 
+		INNER JOIN biz_pm_settle_category_detail c on c.related_business_id = a.materials_standard_receive_bill_id
+		INNER JOIN biz_pm_settle_category_summary d on d.id = c.pm_settle_category_summary_id and d.pm_settle_bill_id = #{0} and d.settle_category ='1';
+	</select>
+	<insert id="insert">
+		INSERT INTO biz_materials_standard_receive_detail(
+			id,
+			materials_standard_id,
+			materials_standard_receive_bill_id,
+			materials_type,
+			materials_name,
+			materials_unit,
+			materials_price,
+			receive_number,
+			materials_amount,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag
+		) VALUES (
+			#{id},
+			#{materialsId},
+			#{materialsStandardReceiveBillId},
+			#{materialsType},
+			#{materialsName},
+			#{materialsUnit},
+			#{materialsPrice},
+			#{receiveNumber},
+			#{materialsAmount},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE biz_materials_standard_receive_detail SET 	
+			materials_standard_receive_bill_id = #{materialsStandardReceiveBillId},
+			materials_standard_id = #{materialsId},
+			materials_type = #{materialsType},
+			materials_name = #{materialsName},
+			materials_unit = #{materialsUnit},
+			materials_price = #{materialsPrice},
+			receive_number = #{receiveNumber},
+			materials_amount = #{materialsAmount},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM biz_materials_standard_receive_detail
+		WHERE id = #{id}
+	</update>
+	
+	<insert id="insert1" parameterType="java.util.List">
+		INSERT INTO biz_materials_standard_receive_detail (
+			id,
+			materials_standard_id,
+			materials_standard_receive_bill_id,
+			materials_type,
+			materials_name,
+			materials_unit,
+			materials_price,
+			receive_number,
+			materials_amount,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag
+		) VALUES
+		<foreach collection="list" item="item" index="index" separator=",">
+			(#{item.id},
+			#{item.materialsId},
+			#{item.materialsStandardReceiveBillId},
+			#{item.materialsType},
+			#{item.materialsName},
+			#{item.materialsUnit},
+			#{item.materialsPrice},
+			#{item.receiveNumber},
+			#{item.materialsAmount},
+			#{item.createBy.id},
+			#{item.createDate},
+			#{item.updateBy.id},
+			#{item.updateDate},
+			#{item.remarks},
+			#{item.delFlag})
+		</foreach>
+	</insert>
+	
+	<update id="update1" parameterType="java.util.List">
+		update biz_materials_standard_receive_detail set 
+		receive_number = 
+		<foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+			when #{item.id} then #{item.receiveNumber}
+		</foreach>
+		where id in
+		<foreach collection="list" index="index" item="item" separator="," open="(" close=")">
+			#{item.id}
+		</foreach>
+	</update>
+	
+	<update id="updateDetails">
+	
+		update biz_materials_standard_receive_detail set
+		materials_amount = #{2},receive_number = #{3} where materials_standard_id = #{0} and materials_standard_receive_bill_id =#{1}
+	</update>
+	
+	<update id="updateDtaileSnape" >
+		 UPDATE biz_materials_standard_receive_detail
+			SET apply_number_total_snap=#{applyNumberTotalSnap}，
+		receive_number_total_snap=#{receiveNumberTotalSnap}
+		WHERE materials_standard_receive_bill_id=#{materialsStandardReceiveBillId} 
+		AND materials_standard_id=#{materialsStandardId}
+	</update>
+	
+	<update id="updateDtaileApplySnape">
+				UPDATE biz_materials_standard_receive_detail bz
+		SET bz.apply_number_total_snap = bz.receive_number,
+		 bz.receive_number_total_snap = bz.receive_number
+		WHERE
+			materials_standard_receive_bill_id =#{billId}
+	</update>
+	<select id="getOrderId" resultType="String">
+				SELECT
+			order_id
+		FROM
+			biz_materials_standard_receive_bill
+		WHERE
+			id = #{billId}
+	</select>
+</mapper>

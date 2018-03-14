@@ -1,0 +1,8 @@
+.mar_btm300{margin-bottom: 300px;}
+.hgt76{height: .76rem;line-height: .76rem;}
+.pad_top88{padding-top: .88rem;}
+.tit-p{height: .76rem;line-height: .76rem;font-size: .26rem;color: #0780ec;padding-left: .3rem;border-bottom: 1px solid #ccc;}
+.two{display: block;border-bottom: 1px solid #e5e5e5;background-image: url(../images/method/two.png);
+    background-repeat: no-repeat;background-size: .29rem .28rem;background-position: 4% center;}
+.list-text{font-size: .28rem;color: #333;padding-top: .26rem;padding-bottom: .26rem;background-image: url(../images/rightArrow.png);
+    background-repeat: no-repeat;background-size: 0.14rem 0.26rem;background-position: 94% center;margin-left: 12%;width: 88%;}

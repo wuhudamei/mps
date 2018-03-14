@@ -1,0 +1,85 @@
+.g_info{
+	width: 100%;
+	height: 100%;
+	background-color: #eee;
+}
+.g_info .top{
+	width: 100%;
+	height: 2.78rem;
+	background-image: url(../images/info_titleMaster.png);
+	background-size: 100% 100%;
+}
+.g_info .user_info{
+	width: 100%;
+	height: 1.3rem;
+	position: relative;
+}
+.g_info .user_info img{
+	position: absolute;
+	left: 3.12rem;
+	top: 0.68rem;
+	width: 1.28rem;
+	height: 1.28rem;
+}
+.g_info .user_info > span{
+	position: absolute;
+	top: 2.1rem;
+	display: inline-block;
+	text-align: center;
+	width: 100%;
+}
+.g_info .user_info span.user_name{
+	font-size: 0.24rem;
+	color: #333;
+}
+.g_info ul.info_ul{
+	width: 100%;
+	margin-top: 0.2rem;
+	background-color: #fff;
+}
+.g_info ul.info_ul li{
+	height: 0.88rem;
+}
+/*质检领导app首页*/
+.select{
+	background-image: url(../images/select_icon.png);
+    background-repeat: no-repeat;
+    background-size: 0.3rem 0.32rem;
+    background-position: 4% center;
+}
+.recheck{
+	background-image: url(../images/repeat_icon.png);
+    background-repeat: no-repeat;
+    background-size: 0.26rem 0.32rem;
+    background-position: 4% center;
+}
+.report{
+	background-image: url(../images/report_icon.png);
+    background-repeat: no-repeat;
+    background-size: 0.26rem 0.32rem;
+    background-position: 4% center;
+}
+.swiper{
+	background-image: url(../images/swiper_icon.png);
+    background-repeat: no-repeat;
+    background-size: 0.33rem 0.33rem;
+    background-position: 4% center;
+}
+.g_info ul.info_ul li a{
+	float: left;
+    margin-left: 12%;
+    width: 88%;
+    height: inherit;
+    line-height: 0.88rem;
+    border-bottom: 1px solid #ccc;
+    box-sizing: border-box;
+    background-image: url(../images/rightArrow.png);
+    background-repeat: no-repeat;
+    background-size: 0.14rem 0.26rem;
+    background-position: 94% center;
+    font-size: 0.28rem;
+    color: #333;
+}
+.g_info ul.info_ul li:last-child a{
+	border: none;
+}

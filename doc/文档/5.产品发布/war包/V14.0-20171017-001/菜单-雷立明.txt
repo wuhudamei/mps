@@ -1,0 +1,15 @@
+
+菜单新增：
+       1.投诉事项报表
+       施工过程>工程投诉>投诉事项报表
+       名称：投诉事项报表
+       链接：/ordercomplan/problemItemReport/queryItemReport 
+       权限标识：ordercomplan:problemItemReport:view
+       
+	
+
+
+                
+            
+
+	

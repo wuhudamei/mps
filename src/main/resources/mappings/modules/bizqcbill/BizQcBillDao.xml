@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizQcBillDao">
+
+	<sql id="bizQcBillColumns">
+		a.id AS "qcBillId",
+		a.qc_bill_code AS "qcBillCode",
+		a.qc_bill_type AS "qcBillType",
+		a.is_recheck AS "isRecheck",
+		a.related_qc_bill_id AS "relatedQcBillId",
+		a.order_id AS "orderId",
+		a.qc_check_node_id AS "qcCheckNodeId",
+		a.apply_remarks AS
+		"applyRemarks",
+		a.status AS "status",
+		a.apply_employee_id AS
+		"applyEmployeeId",
+		a.check_employee_id AS "checkEmployeeId",
+		a.check_datetime AS "checkDatetime",
+		a.expect_check_datetime AS
+		"expectCheckDatetime",
+		a.accept_check_datetime AS
+		"acceptCheckDatetime",
+		a.total_score AS "totalScore",
+		a.got_score AS
+		"gotScore",
+		a.remarks AS "remarks",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag",
+		a.recheck_times
+		AS "recheckTimes"
+	</sql>
+
+
+	<select id="get"
+		resultType="cn.damei.entity.modules.BizQcBill">
+		SELECT
+		<include refid="bizQcBillColumns" />
+		FROM biz_qc_bill a
+		WHERE a.id = #{id}
+	</select>
+
+	<select id="findList"
+		resultType="cn.damei.entity.modules.BizQcBill">
+		SELECT
+		<include refid="bizQcBillColumns" />
+		,
+		b.community_name AS "communityName",
+		b.build_number AS "buildNumber",
+		b.build_unit AS "buildUnit",
+		b.build_room AS "buildRoom",
+		b.customer_name AS "customerName",
+		b.order_number AS "orderNumber",
+		b.store_id AS "storeId",
+		b.project_mode AS "projectMode",
+		c.realName AS
+		"managerRealName",
+		d.realName AS "inspectorRealName",
+		e.realName AS
+		"checkRealName",
+		b.order_inspector_id AS "orderInspectorId",
+		f.qc_check_node_name AS "qcCheckNodeName"
+		FROM
+		biz_qc_bill a
+		LEFT JOIN
+		biz_order b ON a.order_id = b.id
+		LEFT JOIN biz_employee c
+		ON
+		b.item_manager_id = c.id
+		LEFT JOIN biz_employee d ON
+		b.order_inspector_id = d.id
+		LEFT JOIN biz_employee e ON
+		a.check_employee_id = e.id
+		LEFT JOIN biz_qc_check_node f ON
+		a.qc_check_node_id = f.id
+
+		<where>
+
+			a.`status` &gt; 3
+			<if test="isEqual != null and isEqual != ''">
+				AND a.total_score != a.got_score
+			</if>
+			<if test="orderNumber != null and orderNumber != ''">
+				AND b.order_number = #{orderNumber}
+			</if>
+			<if test="qcBillCode != null and qcBillCode != ''">
+				AND a.qc_bill_code =#{qcBillCode}
+			</if>
+			<if test="storeId != null and storeId != ''">
+				AND b.store_id = #{storeId}
+			</if>
+			<if test="qcBillType != null and qcBillType != '' and qcBillType==1">
+				AND a.qc_bill_type =1
+				and a.is_recheck=0
+			</if>
+			<if test="qcBillType != null and qcBillType != '' and qcBillType==2">
+				AND a.qc_bill_type = 2
+				and a.is_recheck=0
+			</if>
+			<if test="qcBillType != null and qcBillType != '' and qcBillType==3">
+				AND a.is_recheck =0
+			</if>
+
+			<if test="orderInspectorId != null and orderInspectorId != ''">
+				AND b.order_inspector_id = #{orderInspectorId}
+			</if>
+			<if test="projectMode != null and projectMode != ''">
+				AND b.project_mode = #{projectMode}
+			</if>
+			<if test="customerName != null and customerName != ''">
+				AND b.customer_name LIKE
+				<if test="dbName == 'oracle'">'%'||#{customerName}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{customerName}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{customerName},'%')</if>
+			</if>
+			<if test="checkRealName != null and checkRealName != ''">
+				AND e.realName LIKE
+				<if test="dbName == 'oracle'">'%'||#{checkRealName}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{checkRealName}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{checkRealName},'%')</if>
+			</if>
+			<if test="inspectorRealName != null and inspectorRealName != ''">
+				AND d.realName LIKE
+				<if test="dbName == 'oracle'">'%'||#{inspectorRealName}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{inspectorRealName}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{inspectorRealName},'%')</if>
+			</if>
+			<if
+				test="beginCheckDatetime != null and endCheckDatetime != null and beginCheckDatetime != '' and endCheckDatetime != ''">
+				AND a.check_datetime >= #{beginCheckDatetime} AND
+				a.check_datetime &lt;= #{endCheckDatetime}
+			</if>
+			ORDER BY a.check_datetime DESC
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				,${page.orderBy}
+			</when>
+			<otherwise>
+				,a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+
+	<select id="queryQcBillByParam"
+		resultType="cn.damei.entity.modules.BizQcBill">
+		SELECT
+		<include refid="bizQcBillColumns" />
+		,
+		b.qc_check_node_name AS "qcCheckNodeName",
+		e.realName AS
+		"applyEmployeeName",
+		e1.realName AS "checkRealName"
+		FROM
+		biz_qc_bill a
+		INNER JOIN biz_qc_check_node b on a.qc_check_node_id = b.id
+		LEFT JOIN
+		biz_employee e on e.id = a.apply_employee_id
+		LEFT JOIN biz_employee e1
+		on e1.id=a.check_employee_id
+		WHERE
+		a.qc_bill_type = #{qcBillType}
+		AND
+		a.order_id = #{orderId}
+		AND b.qc_check_node_index = #{nodeInex}
+		AND a.is_recheck = 0
+	</select>
+
+
+	<select id="findBizQcBillByOrderId"
+		resultType="cn.damei.entity.modules.BizQcBill">
+		SELECT
+		<include refid="bizQcBillColumns" />
+		FROM
+		biz_qc_bill a
+		<where>
+			a.order_id = #{orderId}
+			AND a.`status` in ('6','9')
+			<if test="isEqual != null and isEqual != ''">
+				AND a.total_score != #{a.got_score}
+			</if>
+			<if test="qcBillCode != null and qcBillCode != ''">
+				AND a.qc_bill_code =#{qcBillCode}
+			</if>
+			<if test="qcBillType != null and qcBillType != ''">
+				AND a.qc_bill_type = #{qcBillType}
+			</if>
+			<if test="isRecheck != null and isRecheck != ''">
+				AND a.is_recheck = #{isRecheck}
+			</if>
+			<if
+				test="beginCheckDatetime != null and endCheckDatetime != null and beginCheckDatetime != '' and endCheckDatetime != ''">
+				AND a.accept_check_datetime BETWEEN #{beginCheckDatetime} AND
+				#{endCheckDatetime}
+			</if>
+			ORDER BY a.check_datetime DESC
+		</where>
+	</select>
+
+	<!-- 判断订单的项目经理结算关联约检节点是否审核通过 -->
+	<select id="checkSettleCheckNodeByOrderId" resultType="int">
+		SELECT
+		COUNT(*)
+		FROM
+		biz_qc_bill a
+		INNER JOIN biz_order b ON a.order_id = b.id
+		INNER JOIN biz_pm_settle_check_node_cnfg c ON b.store_id = c.store_id
+		AND b.project_mode = c.project_mode
+		AND a.qc_check_node_id = c.qc_check_node_id
+		where a.order_id = #{orderId}
+		AND a.is_recheck = "0"
+		AND a.`status` = "30"
+		AND a.review_status = 1
+		AND a.qc_bill_type =1
+		AND c.is_enabled = 1
+		AND c.del_flag = 0
+		AND c.settle_role = 1
+	</select>
+
+</mapper>

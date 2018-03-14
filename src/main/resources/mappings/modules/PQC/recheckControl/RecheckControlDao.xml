@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.RecheckControlDao">
+    
+	
+	<select id="findList" resultType="cn.damei.entity.modules.RecheckControl">
+		SELECT
+			b.store_id AS "storeId",
+			b.order_number AS "orderNumber",
+			b.community_name AS "communityName",
+			b.build_number AS "buildNumber",
+			b.build_unit AS "buildUnit",
+			b.build_room AS "buildRoom",
+			b.customer_name AS "customerName",
+			b.project_mode AS "projectMode",
+			a.id AS "qcBillId",
+			a.qc_bill_code AS "qcBillCode",
+			a.create_date AS "createDate",
+			a.expect_check_datetime AS "expectCheckDatetime",
+			a.check_datetime AS "checkDatetime",
+			a.recheck_times AS "recheckTimes",
+			a.`status` AS "status"
+		FROM
+			biz_qc_bill a
+			INNER JOIN biz_order b ON a.order_id = b.id
+		<where>
+			a.is_recheck = '1'
+			<if test="storeId != null and storeId != ''">
+				AND b.store_id = #{storeId}
+			</if>
+			<if test="orderNumber != null and orderNumber != ''">
+				AND  b.order_number LIKE CONCAT('%','${orderNumber}','%' )  
+			</if>
+
+			<if test="recheckTimes != null and recheckTimes != '' and recheckTimes!=0">
+				AND a.recheck_times =#{recheckTimes}
+			</if>
+
+			<if test="recheckTimes ==0">
+				AND  (a.recheck_times is null or a.recheck_times =0)
+			</if>
+
+
+			<if test="status != null and status != ''">
+				AND a.`status`=#{status}
+			</if>
+
+
+
+			<if test="projectMode != null and projectMode != ''">
+				AND b.project_mode = #{projectMode}
+			</if>
+
+
+			<if test="customerName != null and customerName != ''">
+				AND b.customer_name LIKE
+					<if test="dbName == 'oracle'">'%'||#{customerName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{customerName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{customerName},'%')</if>
+			</if>
+			
+			<if test="qcBillCode != null and qcBillCode != ''">
+				AND a.qc_bill_code LIKE
+				<if test="dbName == 'oracle'">'%'||#{qcBillCode}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{qcBillCode}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{qcBillCode},'%')</if>
+			</if>
+			<if test="beginCreateDate != null and endCreateDate != null and beginCreateDate != '' and endCreateDate != ''">
+				AND a.create_date BETWEEN #{beginCreateDate} AND #{endCreateDate}
+			</if>
+			ORDER BY a.create_date DESC
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				,${page.orderBy}
+			</when>
+		</choose>
+	</select>
+	
+	
+	
+	
+	
+</mapper>

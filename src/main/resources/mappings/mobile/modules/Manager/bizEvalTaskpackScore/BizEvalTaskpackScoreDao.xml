@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.mobile.Manager.BizEvalTaskpackScoreDao">
+	<sql id="bizEvalTaskpackScoreColumns">
+		a.id AS "id",
+		a.related_business_id AS "relatedBusinessId",
+		a.group_leader_employee_id AS "groupLeaderEmployeeId",
+		a.got_score AS "gotScore",
+		a.eval_status AS "evalStatus",
+		a.status_datetime AS "statusDatetime",
+		a.eval_start_datetime AS "evalStartDatetime",
+		a.remarks AS "remarks",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag",
+		a.eval_type AS "evalType"
+	</sql>
+
+	<select id="get" resultType="cn.damei.entity.mobile.Manager.EvalScore">
+		SELECT
+		<include refid="bizEvalTaskpackScoreColumns"/>
+		FROM biz_eval_score a
+		WHERE a.id = #{id}
+	</select>
+
+	<select id="queryByCondition" resultType="java.lang.Integer" parameterType="java.util.Map">
+		SELECT count(*)
+		FROM biz_eval_score a
+		WHERE a.related_business_id = #{relatedBusinessId} and a.eval_type= #{evalType}
+		<if test="evalStatus != null and evalStatus != '' ">
+		and a.eval_status = #{evalStatus}
+		</if>
+		
+	</select>
+
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO biz_eval_score(
+		id,
+		related_business_id,
+		group_leader_employee_id,
+		got_score,
+		eval_status,
+		status_datetime,
+		eval_start_datetime,
+		remarks,
+		create_by,
+		create_date,
+		update_by,
+		update_date,
+		del_flag,
+		eval_type
+		) VALUES (
+		#{id},
+		#{relatedBusinessId},
+		#{groupLeaderEmployeeId},
+		#{gotScore},
+		#{evalStatus},
+		#{statusDatetime},
+		#{evalStartDatetime},
+		#{remarks},
+		#{createBy.id},
+		#{createDate},
+		#{updateBy.id},
+		#{updateDate},
+		#{delFlag},
+		#{evalType}
+		)
+	</insert>
+
+	<update id="update">
+		UPDATE biz_eval_score SET
+		got_score = #{gotScore},
+		eval_status = #{evalStatus},
+		status_datetime = #{statusDatetime},
+		eval_start_datetime = #{evalStartDatetime},
+		update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+
+	<select id="queryEvalTaskpackScoreByMap" parameterType="java.util.Map" resultType="cn.damei.entity.mobile.Manager.EvalScore">
+		SELECT
+		<include refid="bizEvalTaskpackScoreColumns"/>
+		FROM biz_eval_score a
+		WHERE a.eval_status = #{evalStatus}
+		<!-- AND (SELECT COUNT(1) FROM biz_eval_score_role c WHERE a.id = c.eval_score_id AND c.eval_role_type = '101') = 1
+		AND ((SELECT COUNT(1) FROM biz_eval_score_role c WHERE a.id = c.eval_score_id AND c.eval_role_type = '201') = 0
+		or (SELECT COUNT(1) FROM biz_eval_score_role c WHERE a.id = c.eval_score_id AND c.eval_role_type = '301') = 0) -->
+    and timestampdiff(SECOND,a.eval_start_datetime,#{date}) > 43200
+	</select>
+	
+	<select id="queryEvalScoreByBusinessId" parameterType="java.util.Map" resultType="cn.damei.entity.mobile.Manager.EvalScore">
+       SELECT
+		<include refid="bizEvalTaskpackScoreColumns"/>
+		FROM biz_eval_score a
+		where a.related_business_id=#{relatedBusinessId} and a.eval_type=#{evalType}
+    </select>
+	<select id="queryCountByMap" parameterType="java.util.Map" resultType="java.lang.Integer">
+		select count(*) from biz_eval_score where related_business_id = #{relatedBusinessId} and eval_type = #{evalType}
+		<if test="evalStatus != null and evalStatus != '' ">
+		and eval_status = #{evalStatus}
+		</if>
+	</select>
+	
+	
+	<select id="findActivityRoleCycle" resultType="cn.damei.entity.modules.BizEvalActivity">
+		SELECT * FROM biz_eval_activity_role_cycle a WHERE a.eval_activity_id = #{0}
+	
+	</select>
+	
+	
+	<select id="queryEvalRoleOvertimeByMap" parameterType="java.util.Map" resultType="cn.damei.entity.mobile.Manager.EvalScore">
+		select a.id,a.create_date,a.eval_cycle_hours,
+		a.eval_role_type as 'evalType',
+		b.related_business_id as 'relatedBusinessId',
+		b.group_leader_employee_id as 'groupLeaderEmployeeId'
+	    from biz_eval_score_role a
+		left join biz_eval_score b on b.id = a.eval_score_id
+		where a.eval_status = #{evalStatus} and DATE_ADD(a.create_date, INTERVAL a.eval_cycle_hours HOUR) &lt; now();
+	</select>
+	
+	<update id="updateEvalRole">
+		update biz_eval_score_role a 
+		set a.eval_role_type = #{evalType},
+		a.eval_status = #{evalStatus},
+		a.update_date = now(),
+		a.eval_datetime = now(),
+		a.got_score = 0,
+		a.update_by = 1
+		 where a.id = #{id}
+	</update>
+	
+	<select id="findEvalScoreByEvalStatus" resultType="cn.damei.entity.mobile.Manager.EvalScore">
+		select 
+			a.id as 'id',
+			a.related_business_id as 'related_business_id',
+			a.eval_type as 'evalType',
+			a.eval_status as 'evalStatus',
+			a.group_leader_employee_id as 'groupLeaderEmployeeId'
+ 		from 
+ 			biz_eval_score a 
+ 		where 
+ 			a.eval_status in (0,1)
+	</select>
+	<select id="findEvalRoleByEvalScoreId" resultType="cn.damei.entity.mobile.Manager.EvalScore">
+		select a.eval_status as 'evalStatus' FROM biz_eval_score_role a where a.eval_score_id = #{0}
+	</select>
+	
+	
+</mapper>

@@ -1,0 +1,46 @@
+.pad_top120{padding-top: 1.2rem;}
+.col_0780ec{color: #0780ec;}
+.pl40{padding-left: .4rem;}
+.pr20{padding-right: .2rem;}
+.bor_top_e5{border-top: 1px solid #e5e5e5;}
+.mb24{margin-bottom: .24rem;}
+.pl38{padding-left: .38rem;}
+.ml52{margin-left: .52rem;}
+.bor_left_d7{border-left: 1px solid #d7d7d7;}
+
+
+.signIcon{background-image: url(../img/signList.png);background-repeat: no-repeat;background-color: #fff;
+	background-size: .43rem .43rem;width: .43rem;height: .43rem;position: absolute;top: 0;left: -.215rem;}
+.rela{position: relative;}
+.col_e50e09{color: #e50e09;}
+.bor_top_dashed{border-top: 1px dashed #ddd;}
+
+.distanceError{float: left;width: .47rem;height: .4rem;background: url(../img/distanceError.png);
+	background-size: .47rem .4rem;margin-right: .24rem;}
+.signState{float: left;width: .46rem;height: .4rem;background: url(../img/signState.png);
+	background-size: .46rem .4rem;margin-right: .24rem;}
+
+
+
+
+.bor_top_d{border-top: 1px solid #ddd;}
+.bor_btm_e6{border-bottom: 1px solid #e6e6e6;}
+.titP{padding-top: .25rem;padding-bottom: .2rem;border-bottom: 1px dashed #ccc;}
+.canlenderIcon{padding-left: .69rem;background: url(../../img/month.png) no-repeat;background-size: .39rem .39rem;}
+.blueLeft{padding-left: .42rem;height: .55rem;background: url(../../img/sub1.png) no-repeat;
+	background-size: .22rem .55rem;background-position: .05rem .05rem;margin-bottom: .14rem;}
+.orangeLeft{padding-left: .42rem;background: url(../../img/sub2.png) no-repeat;
+	background-size: .22rem .28rem;background-position: .05rem .05rem;margin-bottom: .14rem;}
+.pb64{padding-bottom: .64rem;}
+.mb24{margin-bottom: .24rem;}
+
+.tips {
+    margin-top: .28rem;
+    padding-left: .74rem;
+    padding-right: .5rem;
+    background-image: url(../../img/tipLeftIcon.png);
+    background-repeat: no-repeat;
+    background-size: .28rem .29rem;
+    background-position: .3rem .05rem;
+}
+.tipContent{font-size: .24rem;color: #c30606;line-height: 1.8em;}

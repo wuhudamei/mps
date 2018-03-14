@@ -1,0 +1,9 @@
+质检罚款修改
+	
+	1、名称：质检罚款修改
+	   链接：/qualityControlFineUpdate/list
+	   权限标识：qualityControlFineUpdate:qualityControlFineUpdate:view
+
+	2、名称：质检罚款修改日志查询
+	   链接：/qualityControlFineUpdate/loglist
+	   权限标识：qualityControlFineUpdateLog:qualityControlFineUpdateLog:view

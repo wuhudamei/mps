@@ -1,0 +1,58 @@
+.mar_btm30{margin-bottom: .3rem;}
+.col_5{color: #555;}
+.wrt{line-height: .72rem;width: 5.1rem;text-indent: 1em;font-size: .3rem;color: #444242;}
+.bor_eb{border: 1px solid #ebebeb;}
+.wrt_area{width: 5.1rem;height: 1.2rem;line-height: 1.3em;resize: none;text-indent: 1em;padding: .1rem;box-sizing: border-box;}
+.destiny{display: block;width: 2.14rem;line-height: .52rem;font-size: .2376rem;color: #0780ec;border: 1px solid #0780ec;
+	border-radius: .26rem;text-align: center;margin-left: 1.68rem;margin-top: .16rem;margin-bottom: .34rem;}
+.sub{display: block;width: 53%;line-height: .8rem;font-size: .3rem;color: #fff;background: #ff9800;margin: .9rem auto;
+	border-radius: .4rem;text-align: center;}
+.line_hgt12{line-height: 1.2rem;}
+.col_cb2307{color: #cb2307;}
+.pad_rgt10{padding-right: .1rem;}
+.font_fmy{font-family: 'SimHei';}
+.hide{visibility: hidden;}
+.singleBox{text-align: center;padding-top: .4rem;padding-bottom: .3rem;}
+input[type="radio"] {
+    margin: 3px 3px 3px 5px;
+    display: none;
+}
+label{
+	font-size: .28rem;
+	color: #333;
+    display: inline-block;
+    box-sizing: border-box;
+    padding-left: .44rem;
+    cursor: pointer;
+    background: url(../../img/return/check1.png) no-repeat left center;
+    background-size: .28rem .28rem;
+}
+.checked{
+    background: url(../../img/return/check2.png) no-repeat left center;
+    background-size: .28rem .28rem;
+}
+.chooseBox{text-align: center;width: 42%;margin: 0 auto;}
+.fl_l{float: left;}
+.fl_r{float: right;}
+.pad_left34{padding-left: .34rem;}
+.pad_rgt34{padding-right: .34rem;}
+.pad_top40{padding-top: .4rem;}
+.line_hgt175{line-height:1.75em;}
+
+
+/*mask*/
+.alertMask{position: fixed;top: 0;bottom: 0;left: 0;right: 0;background: rgba(0,0,0,.5);}
+.maskWrapper{width: 84%;margin: 30% auto 0;border-radius: .1rem;background: #fff;font-size: .32rem;}
+.col_3{color: #333}
+.col_6{color: #666;}
+.col_fdfcfa{color: #fdfcfa;}
+.col_0780ec{color: #0780ec;}
+.font28{font-size: .28rem;}
+.font33{font-size: .33rem;}
+.maskTit{height: 1rem;line-height: 1rem;text-align: center;}
+.maskContent{padding: .5rem;border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;line-height: 1.5em;}
+.maskBtns{width: 83%;margin: 0 auto;padding-bottom: .2rem;padding-top: .2rem;}
+.maskBtn{display: block;width: 47.6%;text-align: center;line-height: .76rem;}
+.maskBtn:first-child{background: #0780ec;border-radius: .1rem;float: left;}
+.maskBtn:last-child{border: 1px solid #0780ec;box-sizing: border-box;border-radius: .1rem;float: right;}
+.maskTel{width: .36rem;height: .36rem;vertical-align: -4px;}

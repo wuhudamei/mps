@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="cn.damei.dao.mobile.home.JobSiteDao">
+
+
+<resultMap type="cn.damei.entity.mobile.home.CustomerOrderVo" id="orderVoMap">
+<result property="orderId" column="orderId" />
+<result property="communityName" column="communityName" />
+<result property="buildNumber" column="buildNumber" />
+<result property="buildUnit" column="buildUnit" />
+<result property="buildRoom" column="buildRoom" />
+<result property="buildRoom" column="buildRoom" />
+<result property="customerName" column="customerName" />
+<collection property="broadcastList" resultMap="broadcastMap">
+</collection>
+</resultMap>
+
+<resultMap type="cn.damei.entity.mobile.home.CustomerBroadCastEntity" id="broadcastMap">
+<result property="broadcastName" column="broadcastName" />
+<result property="broadcastTime" column="broadcastTime" />
+<result property="broadcastId" column="broadcastId" />
+<collection property="picList" resultMap="picMap"></collection>
+</resultMap>
+
+<resultMap type="cn.damei.entity.mobile.home.BroadCastPicTwoEntity" id="picMap">
+<result column="picId" property="picId" />
+<result column="picUrl" property="picUrl" />
+
+</resultMap>
+
+
+
+<select id="findBroadCastWithOrderLimitByCustomerPhone" parameterType="cn.damei.entity.mobile.home.CustomerOrderVo" resultMap="orderVoMap" >
+SELECT
+	a.id AS "orderId",
+	a.community_name AS "communityName",
+	a.build_number AS "buildNumber",
+	a.build_unit AS "buildUnit",
+	a.build_room AS "buildRoom",
+	a.customer_name AS "customerName",
+	b.apply_datetime AS "broadcastTime",
+	b.cus_broadcast_bill_name as "broadcastName",
+	b.id as "broadcastId",
+	c.id AS "picId",
+	c.pic_url AS "picUrl"
+FROM
+	biz_order a
+LEFT JOIN biz_cus_broadcast_bill b ON a.id = b.order_id
+AND b.`status` = '20'
+LEFT JOIN biz_business_pic c ON b.id = c.business_id_int
+AND c.business_type = '501'
+AND C.remarks ='1'
+WHERE
+	a.customer_phone = #{customerPhone}
+	<if test="orderId!=null and orderId!=''">
+	and a.id =#{orderId}
+	
+	</if>
+
+
+
+
+</select>
+
+
+
+
+
+
+
+
+</mapper>
+
+

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="cn.damei.dao.modules.BizOrderChangeDao">
+
+    <select id="get" resultType="cn.damei.entity.modules.BizOrderChange">
+        SELECT
+		id AS "Id",
+		change_type AS "changeType",
+		change_amount AS "changeAmount",
+		change_account_rate AS "changeAccountRate",
+		change_account_amount AS "changeAccountAmount",
+		change_remarks AS "changeRemarks",
+		create_by AS "createBy.id",
+		create_date AS "createDate",
+		update_by AS "updateBy.id",
+		update_date AS "updateDate",
+		del_flag AS "delFlag"
+		FROM
+		`biz_order_change`
+		WHERE
+		id=#{id}
+    </select>
+	<select id="queryOrderChangeByParam"
+		resultType="cn.damei.entity.modules.BizOrderChange"
+		parameterType="java.util.Map">
+		SELECT
+		id AS "Id",
+		order_id AS "orderId",
+		change_type AS "changeType",
+		change_amount AS "changeAmount",
+		change_account_rate AS "changeAccountRate",
+		change_account_amount AS "changeAccountAmount",
+		change_remarks AS "changeRemarks",
+		create_by AS "createBy.id",
+		create_date AS "createDate",
+		update_by AS "updateBy.id",
+		update_date AS "updateDate",
+		del_flag AS "delFlag"
+		FROM
+		`biz_order_change`
+		WHERE
+		order_id = #{orderId}
+		AND change_type = #{changeType}
+	</select>
+
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO biz_order_change(
+		id,
+		order_id,
+		change_type,
+		change_amount,
+		change_account_rate,
+		change_account_amount,
+		change_remarks,
+		create_by,
+		create_date,
+		update_by,
+		update_date,
+		del_flag
+		)
+		VALUES (
+		#{id},
+		#{orderId},
+		#{changeType},
+		#{changeAmount},
+		#{changeAccountRate},
+		#{changeAccountAmount},
+		#{changeRemarks},
+		#{createBy.id},
+		#{createDate},
+		#{updateBy.id},
+		#{updateDate},
+		#{delFlag}
+		)
+	</insert>
+
+	<update id="update">
+		update biz_order_change SET
+		order_id=#{orderId},
+		change_type=#{changeType},
+		change_amount=#{changeAmount},
+		change_account_rate=#{changeAccountRate},
+		change_account_amount=#{changeAccountAmount},
+		change_remarks=#{changeRemarks},
+		update_by = #{updateBy.id},
+		update_date = #{updateDate}
+		where id = #{id}
+	</update>
+</mapper>

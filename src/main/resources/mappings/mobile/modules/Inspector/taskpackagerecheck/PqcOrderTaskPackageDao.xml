@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="cn.damei.dao.mobile.Inspector.PqcOrderTaskPackageDao">
+
+	<!--质检端 查询质检员下所有[待质检复核结算单]状态下的任务包 -->
+	<select id="queryTaskPackageByInspectorId" parameterType="java.util.Map"
+		resultType="cn.damei.entity.mobile.Inspector.PqcOrderTaskPackage">
+		SELECT b.id as "id", b.order_id as "orderId",b.package_name
+		as "packageName",b.order_task_package_code as "orderTaskPackageCode",
+		b.actual_startdate as "actualStartdate",b.actual_enddate as
+		"actualEnddate",b.customer_message as "customerMessage",
+		b.customer_name as "customerName",b.task_package_templat_id as
+		"taskPackageTemplatId",b.package_stateId as "packageStateId",
+		o.is_scrap as "isScrap"
+		FROM
+		biz_order_taskpackage b,biz_order o 
+		WHERE b.order_id in (select a.id from biz_order
+		a where a.order_inspector_id=#{inspectorId}) and b.package_stateId=
+		#{packageStateId}
+		and b.order_id=o.id
+		order by b.order_task_package_code
+		asc,b.actual_enddate asc;
+	</select>
+
+	<!--查询复核清单 -->
+	<select id="queryTaskPackageRecheck" parameterType="java.lang.Integer"
+		resultType="cn.damei.entity.mobile.Inspector.PqcOrderTaskpackageVo">
+		select a.id as "id",a.customer_message as
+		"customerMessage",a.customer_name as "customerName",a.package_name as
+		"packageName",
+		a.item_customer as "itemCustomer",b.phone as "phone",c.house_type as
+		"houseType",c.covered_area as "coveredArea"
+		from biz_order_taskpackage
+		a
+		left join biz_employee b on a.item_manager_id = b.id
+		left join biz_order c
+		on a.order_id = c.id
+		where a.id = #{id}
+	</select>
+
+	<!--根据订单任务包id更新状态 -->
+	<update id="updatePackageStateIdById"
+		parameterType="cn.damei.entity.mobile.Inspector.PqcOrderTaskPackage">
+		UPDATE biz_order_taskpackage SET
+		package_stateId = #{packageStateId},
+		package_statename = #{packageStatename},
+		update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+
+	<!--质检员复核完后给项目经理发短信 -->
+	<select id="querySmsMessageForManager" parameterType="java.lang.Integer"
+		resultType="cn.damei.entity.mobile.Inspector.PqcOrderTaskPackage">
+		select a.customer_message as
+		"customerMessage",a.customer_name as "customerName",b.customer_phone
+		as "customerPhone",
+		a.package_name as "packageName",a.item_manager_id as "managerId",c.phone as
+		"managerPhone",
+		b.order_inspector as "inspectorName",d.phone as "inspectorPhone",e.id as "settlementId"
+		from biz_order_taskpackage a
+		left join biz_order b on a.order_id = b.id
+		left join biz_employee c on a.item_manager_id = c.id
+		left join
+		biz_employee d on b.order_inspector_id = d.id
+		left join biz_order_taskpackage_settlement e on
+		a.id=e.order_taskpackage_id
+		where a.id=#{id}
+	</select>
+
+
+	<select id="queryOrderTaskPackageByParam" parameterType="java.util.Map"
+		resultType="cn.damei.entity.mobile.Inspector.PqcOrderTaskPackage">
+		SELECT
+		a.id AS "packageId",
+		a.order_id AS "orderId",
+		a.package_stateId AS "packageStateId"
+		FROM
+		biz_order_taskpackage a
+		INNER JOIN biz_task_package_templat b ON
+		a.task_package_templat_id = b.id
+		where a.order_id = #{orderId} and
+		b.task_package_type_id = #{type} and b.del_flag = 0
+	</select>
+</mapper>
+   

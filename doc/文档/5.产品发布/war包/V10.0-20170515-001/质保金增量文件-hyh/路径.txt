@@ -1,0 +1,13 @@
+BizGuaranteeMoneyPaidUsedDao.xml          ---->mappings\modules\qualityguaranteedeposit
+
+TaskPackageSettlementController.class     ---->com\thinkgem\jeesite\mobile\modules\Manager\taskpackageSettlement\web
+
+OrderTaskpackageSettlementService.class   ---->com\thinkgem\jeesite\mobile\modules\Manager\taskpackageSettlement\service
+
+BizOrderFinishProjectBillController.class ---->com\thinkgem\jeesite\modules\bizcompleted\web
+
+taskpackage_confirm.jsp                   ---->views\mobile\modules\Manager
+
+taskpackage_confirm_recheck.jsp           ---->views\mobile\modules\Manager
+
+taskpackage_confirm_update.jsp            ---->views\mobile\modules\Manager

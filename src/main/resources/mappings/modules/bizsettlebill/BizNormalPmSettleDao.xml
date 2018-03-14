@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizNormalPmSettleDao">
+    
+	<sql id="bizNormalPmSettleColumns">
+		a.id AS "id",
+		a.store_id AS "storeId",
+		a.order_id AS "orderId",
+		a.normal_pm_settle_node_id AS "normalPmSettleNodeId",
+		a.settle_remarks AS "settleRemarks",
+		a.apply_employee_id AS "applyEmployeeId",
+		a.apply_datetime AS "applyDatetime",
+		a.check_employee_id AS "checkEmployeeId",
+		a.settle_status AS "settleStatus",
+		a.status_datetime AS "statusDatetime",
+		a.check_reply AS "checkReply",
+		a.settle_amount AS "settleAmount",
+		a.remarks AS "remarks",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="bizNormalPmSettleJoins">
+	</sql>
+    
+	<select id="get" resultType="BizNormalPmSettle">
+		SELECT 
+			<include refid="bizNormalPmSettleColumns"/>
+		FROM biz_normal_pm_settle a
+		<include refid="bizNormalPmSettleJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="BizNormalPmSettle">
+
+		SELECT
+		c.`name` AS "storeName",
+		b.id as "settleId",
+		d.label AS "projectModeName",
+		b.apply_datetime AS "applyDatetime",
+		CONCAT_WS(
+		'-',
+		a.community_name,
+		a.build_number,
+		a.build_unit,
+		a.build_room
+		) AS "customerAddress",
+		a.order_number AS "orderNumber",
+		a.customer_name AS "customerName",
+		a.item_manager AS "managerName",
+		a.order_inspector AS "pqcName",
+		e.`name` AS "engineDepartName",
+		g.settle_node_name AS "settleNodeName",
+		b.settle_remarks AS "settleRemarks",
+		f.label AS "settleStatusName",
+		b.settle_status as  "settleStatus",
+		b.settle_amount as "settleAmount"
+		FROM
+		biz_order a
+		INNER JOIN biz_normal_pm_settle b on 	a.id = b.order_id
+		INNER JOIN sys_office c ON a.store_id = c.id
+		LEFT JOIN sys_dict d ON a.project_mode = d.`value`
+		AND d.type = 'project_mode'
+		LEFT JOIN biz_engineering_department e ON a.engin_depart_id = e.id
+		INNER JOIN sys_dict f ON b.settle_status = f.`value`
+		AND f.type = 'settle_status'
+		INNER JOIN biz_normal_pm_settle_node g ON b.normal_pm_settle_node_id = g.id
+
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="storeId != null and storeId != ''">
+				AND a.store_id = #{storeId}
+			</if>
+			<if test="projectMode != null and projectMode != ''">
+				AND a.project_mode = #{projectMode}
+			</if>
+			<if test="orderNumber != null and orderNumber != ''">
+				AND a.order_number = #{orderNumber}
+			</if>
+			<if test="engineDepartId != null and engineDepartId != ''">
+				AND a.engin_depart_id = #{engineDepartId}
+			</if>
+			<if test="settleNodeName != null and settleNodeName != ''">
+				AND g.settle_node_name = #{settleNodeName}
+			</if>
+			<if test="settleStatus != null and settleStatus != ''">
+				AND b.settle_status = #{settleStatus}
+			</if>
+			<if test="managerName != null and managerName != ''">
+				AND a.item_manager like concat('%', #{managerName},'%')
+			</if>
+			<if test="pqcName != null and pqcName != ''">
+				AND a.order_inspector  like concat('%', #{pqcName},'%')
+			</if><if test="customerName != null and customerName != ''">
+				AND a.customer_name  like concat('%', #{customerName},'%')
+			</if>
+			<if test="startApplyDate != null and startApplyDate != '' and  endApplyDate != null and endApplyDate != ''">
+				AND b.apply_datetime between #{startApplyDate} and #{endApplyDate}
+			</if>
+
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY b.apply_datetime DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="BizNormalPmSettle">
+		SELECT 
+			<include refid="bizNormalPmSettleColumns"/>
+		FROM biz_normal_pm_settle a
+		<include refid="bizNormalPmSettleJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY b.apply_datetime DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO biz_normal_pm_settle(
+			id,
+			store_id,
+			order_id,
+			normal_pm_settle_node_id,
+			settle_remarks,
+			apply_employee_id,
+			apply_datetime,
+			check_employee_id,
+			settle_status,
+			status_datetime,
+			check_reply,
+			settle_amount,
+			remarks,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag
+		) VALUES (
+			#{id},
+			#{storeId},
+			#{orderId},
+			#{normalPmSettleNodeId},
+			#{settleRemarks},
+			#{applyEmployeeId},
+			#{applyDatetime},
+			#{checkEmployeeId},
+			#{settleStatus},
+			#{statusDatetime},
+			#{checkReply},
+			#{settleAmount},
+			#{remarks},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE biz_normal_pm_settle SET 	
+
+
+
+			check_employee_id = #{checkEmployeeId},
+			settle_status = #{settleStatus},
+			status_datetime = #{statusDatetime},
+			check_reply = #{checkReply},
+			settle_amount = #{settleAmount},
+			remarks = #{remarks},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE id = #{settleId}
+	</update>
+	
+	<update id="delete">
+		UPDATE biz_normal_pm_settle SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+
+
+	<select id="findSettlePicBySettleId"  resultType="String">
+		SELECT
+			c.pic_url
+		FROM
+			biz_business_pic c
+		WHERE
+			c.business_id_int =#{0}
+			AND c.business_type = #{1}
+
+
+	</select>
+	<select id="findSettleNodeByStoreId"  resultType="String">
+		SELECT
+			a.settle_node_name
+		FROM
+			biz_normal_pm_settle_node a
+		WHERE
+			a.store_id =#{_parameter}
+		ORDER BY
+			a.settle_index
+
+
+	</select>
+
+
+	<select id="checkSettleIsExist" resultType="String">
+
+
+		select  a.settle_status from biz_normal_pm_settle a where a.id=#{0}
+</select>
+</mapper>

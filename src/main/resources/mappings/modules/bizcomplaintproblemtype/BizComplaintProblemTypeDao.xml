@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizComplaintProblemTypeDao">
+
+    <sql id="bizComplaintProblemTypeColumns">
+        a.id AS "id",
+        a.store_id AS "storeId",
+        a.type_name AS "typeName",
+        a.task_package_templat_id AS "taskPackageTemplatId",
+        a.deal_person_type AS "dealPersonType",
+        a.is_enabled AS "isEnabled",
+        a.remarks AS "remarks",
+        a.create_by AS "createBy.id",
+        a.create_date AS "createDate",
+        a.update_by AS "updateBy.id",
+        a.update_date AS "updateDate",
+        a.del_flag AS "delFlag"
+    </sql>
+
+    <sql id="bizComplaintProblemTypeJoins">
+    </sql>
+
+    <select id="get" resultType="BizComplaintProblemType">
+        SELECT
+        <include refid="bizComplaintProblemTypeColumns"/>
+        FROM biz_complaint_problem_type a
+        <include refid="bizComplaintProblemTypeJoins"/>
+        WHERE a.id = #{id}
+    </select>
+    <!-- 查询出所有的分类信息 -->
+    <select id="queryComTypeAll" resultType="BizComplaintProblemType">
+        SELECT
+        <include refid="bizComplaintProblemTypeColumns"/>
+        FROM biz_complaint_problem_type a
+        <include refid="bizComplaintProblemTypeJoins"/>
+        WHERE a.is_enabled = 1
+        <if test="storeId!=null and storeId!=''">
+            and a.store_id = #{storeId}
+        </if>
+          group by  a.type_name 
+    </select>
+
+	<!-- 根据Id任务包名称 -->
+    <select id="queryComTypeid" resultType="BizComplaintProblemType">
+    	SELECT
+        a.id AS "ComplaintProblemTypeId",
+        a.store_id AS "storeId",
+        a.type_name AS "typeName",
+        a.task_package_templat_id AS "taskPackageTemplatId",
+        a.deal_person_type AS "dealPersonType",
+        a.is_enabled AS "isEnabled",
+        a.remarks AS "remarks",
+        a.create_by AS "createBy.id",
+        a.create_date AS "createDate",
+        a.update_by AS "updateBy.id",
+        a.update_date AS "updateDate",
+        ot.package_name AS "packName",
+      	ot.id AS "packageId",
+		tpt.id AS "taskPackageTemplatId",
+      	tpt.templat_name AS "packagetemplatname",
+        a.del_flag AS "delFlag"
+        FROM  biz_complaint_problem_type a  LEFT JOIN   biz_task_package_templat tpt  on a.task_package_templat_id=tpt.id 
+				LEFT JOIN biz_order_taskpackage ot ON ot.task_package_templat_id = tpt.id  and  ot.order_id = #{orderId} 
+         WHERE    a.is_enabled = 1   and a.id=#{ComplaintProblemTypeId}
+
+
+    </select>
+
+	<!-- 根据名称查询ID -->
+    <select id="queryComTypeName" resultType="BizComplaintProblemType">
+    	SELECT
+        a.id AS "id",
+        a.store_id AS "storeId",
+        a.type_name AS "typeName",
+        a.task_package_templat_id AS "taskPackageTemplatId",
+        a.deal_person_type AS "dealPersonType",
+        a.is_enabled AS "isEnabled",
+        a.remarks AS "remarks",
+        a.create_by AS "createBy.id",
+        a.create_date AS "createDate",
+        a.update_by AS "updateBy.id",
+        a.update_date AS "updateDate",
+        ot.package_name AS "packName",
+      	ot.id AS "packageId",
+		tpt.id AS "taskPackageTemplatId",
+      	tpt.templat_name AS "packagetemplatname",
+        a.del_flag AS "delFlag"
+        FROM  biz_complaint_problem_type a  LEFT JOIN   biz_task_package_templat tpt  on a.task_package_templat_id=tpt.id 
+				LEFT JOIN biz_order_taskpackage ot ON ot.task_package_templat_id = tpt.id 
+         WHERE    a.is_enabled = 1   and a.type_name=#{typeName}   group by  a.type_name
+    </select>
+	<!-- 根据名称查询是否有任务包 -->
+    <select id="queryIsordertaskpackag" resultType="BizComplaintProblemType">
+   		SELECT
+        a.id AS "id",
+        a.store_id AS "storeId",
+        a.type_name AS "typeName",
+        a.task_package_templat_id AS "taskPackageTemplatId",
+        a.deal_person_type AS "dealPersonType",
+        a.is_enabled AS "isEnabled",
+        a.remarks AS "remarks",
+        a.create_by AS "createBy.id",
+        a.create_date AS "createDate",
+        a.update_by AS "updateBy.id",
+        a.update_date AS "updateDate",
+        a.del_flag AS "delFlag"
+        FROM biz_complaint_problem_type a   
+        <include refid="bizComplaintProblemTypeJoins"/>
+        WHERE  a.is_enabled = 1  and a.type_name=#{typeName}   group by  a.type_name
+    </select>
+    
+    <select id="findList" resultType="BizComplaintProblemType">
+        SELECT
+        a.id AS "id",
+        a.store_id AS "storeId",
+        a.type_name AS "typeName",
+        b.templat_name AS "packName",
+        a.deal_person_type AS "dealPersonType",
+        a.is_enabled AS "isEnabled",
+        a.remarks AS "remarks",
+        a.create_by AS "createBy.id",
+        a.create_date AS "createDate",
+        a.update_by AS "updateBy.id",
+        a.update_date AS "updateDate",
+        a.del_flag AS "delFlag"
+        FROM
+        biz_complaint_problem_type a
+        LEFT JOIN biz_task_package_templat b ON a.task_package_templat_id = b.id
+
+        where 1=1
+        <if test="storeId!=null and storeId!=''">
+            and a.store_id = #{storeId}
+        </if>
+
+        <choose>
+            <when test="page !=null and page.orderBy != null and page.orderBy != ''">
+                ORDER BY ${page.orderBy}
+            </when>
+            <otherwise>
+                ORDER BY a.is_enabled ASC
+            </otherwise>
+        </choose>
+    </select>
+
+
+    <select id="findAllList" resultType="BizComplaintProblemType">
+        SELECT
+        <include refid="bizComplaintProblemTypeColumns"/>
+        FROM biz_complaint_problem_type a
+        <include refid="bizComplaintProblemTypeJoins"/>
+        <where>
+            a.del_flag = #{DEL_FLAG_NORMAL}
+        </where>
+        <choose>
+            <when test="page !=null and page.orderBy != null and page.orderBy != ''">
+                ORDER BY ${page.orderBy}
+            </when>
+            <otherwise>
+                ORDER BY a.update_date DESC
+            </otherwise>
+        </choose>
+    </select>
+
+    <insert id="insert">
+        INSERT INTO biz_complaint_problem_type (
+
+            store_id,
+            type_name,
+            task_package_templat_id,
+            deal_person_type,
+            is_enabled,
+            remarks,
+            create_by,
+            create_date,
+            update_by,
+            update_date,
+            del_flag
+        ) VALUES (
+
+            #{storeId},
+            #{typeName},
+            #{taskPackageTemplatId},
+            #{dealPersonType},
+            #{isEnabled},
+            #{remarks},
+            #{createBy.id},
+            #{createDate},
+            #{updateBy.id},
+            #{updateDate},
+            #{delFlag}
+        )
+    </insert>
+
+    <update id="update">
+        UPDATE biz_complaint_problem_type
+        SET
+            store_id                = #{storeId},
+            type_name               = #{typeName},
+            task_package_templat_id = #{taskPackageTemplatId},
+            deal_person_type        = #{dealPersonType},
+            is_enabled              = #{isEnabled},
+            remarks                 = #{remarks},
+            update_by               = #{updateBy.id},
+            update_date             = #{updateDate}
+        WHERE id = #{id}
+    </update>
+
+    <update id="delete">
+        UPDATE biz_complaint_problem_type
+        SET
+            del_flag        = #{DEL_FLAG_DELETE}
+            , is_enabled = #{isEnabled}
+        WHERE id = #{id}
+    </update>
+
+
+    <select id="findPackByStoreId" parameterType="java.util.Map" resultType="map">
+
+        SELECT
+            a.id           AS "packId",
+            a.templat_name AS "packName"
+        FROM
+            biz_task_package_templat a
+        WHERE a.`status` = 1
+              AND a.store_id = #{storeId}
+        <if test="projectMode!=null and projectMode!=''">
+            and a.project_mode = #{projectMode}
+        </if>
+
+    </select>
+
+</mapper>

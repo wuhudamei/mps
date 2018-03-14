@@ -1,0 +1,136 @@
+.sec {
+    font-size: .3rem;
+}
+
+.item-title {
+    padding: .2rem .3rem;
+    background: #fff;
+    color: #999;
+    border-bottom: 1px solid #ccc;
+    position: relative;
+}
+
+.item-content {
+    padding: .2rem;
+    background: #fff;
+    border-bottom: 1px solid #ccc;
+}
+
+.item-content li {
+    margin-bottom: .3rem;
+}
+
+.item-name {
+    color: #999;
+    text-align: right;
+}
+
+.item-text {
+    width: 5rem;
+    color: #666;
+}
+
+.item-img {
+    color: #378afa;
+    font-size: .3rem;
+    text-align: center;
+    padding: .3rem;
+    background: #fff;
+}
+
+.item-content .item-name {
+    width: 2rem;
+}
+
+.details {
+    padding-right: .35rem;
+    padding-bottom: .08rem;
+    padding-left: .5rem;
+    color: #999;
+}
+
+._down {
+    background: url('../pqc/img/common/downArrow.png') no-repeat;
+    background-size: .2rem .11rem;
+    background-position: right center;
+}
+
+._up {
+    background: url('../pqc/img/common/upArrow.png') no-repeat;
+    background-size: .2rem .11rem;
+    background-position: right center;
+}
+
+.input-text {
+    width: 100%;
+    padding: .1rem;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+}
+
+.item-content .radio-box {
+    width: 4rem;
+}
+
+.label-checkbox {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    cursor: pointer;
+    -webkit-transition-duration: .1s;
+    transition-duration: .1s;
+}
+
+.label-checkbox .icon-form-checkbox {
+    width: .3rem;
+    height: .3rem;
+    position: relative;
+    -webkit-border-radius: 2px;
+    border-radius: 2px;
+    border: 1px solid #c7c7cc;
+    box-sizing: border-box;
+    margin-right: .2rem;
+    margin-top: .05rem;
+}
+
+.label-checkbox .icon-form-checkbox:after {
+    content: ' ';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -.15rem;
+    margin-top: -.15rem;
+    width: .3rem;
+    height: .3rem;
+}
+
+.label-checkbox input[type=checkbox],
+.label-checkbox input[type=radio] {
+    display: none;
+}
+
+.label-checkbox input[type=checkbox]:checked+i.icon-form-checkbox,
+.label-checkbox input[type=radio]:checked+i.icon-form-checkbox {
+    border: none;
+}
+
+.label-checkbox input[type=checkbox]:checked+i.icon-form-checkbox:after,
+.label-checkbox input[type=radio]:checked+i.icon-form-checkbox:after {
+    background: no-repeat center;
+    background-image: url("../pqc/img/common/checkbox.png");
+    background-size: 100% 100%;
+}
+
+.label-input {
+    padding: 0 .5rem;
+}
+
+.label-input input {
+    width: 90%;
+    margin-top: .1rem;
+}

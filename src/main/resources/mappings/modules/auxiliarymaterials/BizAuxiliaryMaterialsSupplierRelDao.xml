@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.modules.auxiliarymaterials.dao.BizAuxiliaryMaterialsSupplierRelDao">
+    
+	<sql id="bizAuxiliaryMaterialsSupplierRelColumns">
+		a.id AS "id",
+		a.auxiliary_materials_id AS "auxiliaryMaterialsId",
+		a.supplier_no AS "supplierNo",
+		a.supplier_id AS "supplierId",
+		a.supplier_cycle AS "supplierCycle",
+		a.supplier_price AS "supplierPrice",
+		a.labor_price AS "laborPrice",
+		a.version AS "version",
+		a.effective_date AS "effectiveDate",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="bizAuxiliaryMaterialsSupplierRelJoins">
+		LEFT JOIN biz_auxiliary_materials b ON b.id = a.auxiliary_materials_id
+	</sql>
+    
+	<select id="get" resultType="BizAuxiliaryMaterialsSupplierRel">
+		SELECT 
+			<include refid="bizAuxiliaryMaterialsSupplierRelColumns"/>
+		FROM biz_auxiliary_materials_supplier_rel a
+		<include refid="bizAuxiliaryMaterialsSupplierRelJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="BizAuxiliaryMaterialsSupplierRel">
+		SELECT 
+			<include refid="bizAuxiliaryMaterialsSupplierRelColumns"/>
+		FROM biz_auxiliary_materials_supplier_rel a
+		<include refid="bizAuxiliaryMaterialsSupplierRelJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="auxiliaryMaterialsId != null and auxiliaryMaterialsId != ''">
+				AND a.auxiliary_materials_id = #{auxiliaryMaterialsId}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.create_date ASC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="BizAuxiliaryMaterialsSupplierRel">
+		SELECT 
+			<include refid="bizAuxiliaryMaterialsSupplierRelColumns"/>
+		FROM biz_auxiliary_materials_supplier_rel a
+		<include refid="bizAuxiliaryMaterialsSupplierRelJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.create_date ASC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO biz_auxiliary_materials_supplier_rel(
+			auxiliary_materials_id,
+			supplier_no,
+			supplier_id,
+			supplier_cycle,
+			supplier_price,
+			labor_price,
+			version,
+			effective_date,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag
+		) VALUES (
+			#{auxiliaryMaterialsId},
+			#{supplierNo},
+			#{supplierId},
+			#{supplierCycle},
+			#{supplierPrice},
+			#{laborPrice},
+			#{version},
+			#{effectiveDate},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE biz_auxiliary_materials_supplier_rel SET 	
+			supplier_id = #{supplierId},
+			supplier_cycle = #{supplierCycle},
+			supplier_price = #{supplierPrice},
+			labor_price = #{laborPrice},
+			version = #{version},
+			effective_date = #{effectiveDate},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE biz_auxiliary_materials_supplier_rel SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		<choose>
+			<when test="id !=null and id != ''">
+				WHERE id = #{id}
+			</when>
+			<otherwise>
+				WHERE auxiliary_materials_id = #{auxiliaryMaterialsId}
+			</otherwise>
+		</choose>
+	</update>
+	
+</mapper>

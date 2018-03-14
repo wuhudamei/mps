@@ -1,0 +1,13 @@
+增量更新
+1.   SelectOrderDao.xml
+/mdn/src/main/resources/mappings/modules/selectorder/SelectOrderDao.xml
+
+2.   BizOrderQcBillDao.xml
+/mdn/src/main/resources/mappings/modules/bizqcbill/BizOrderQcBillDao.xml
+
+3.   BizOrderChecksizeDao.xml
+/mdn/src/main/resources/mappings/modules/bizorderchecksize/BizOrderChecksizeDao.xml
+
+4.   HomeReportDao.xml
+/mdn/src/main/resources/mappings/mobile/modules/home/report/HomeReportDao.xml
+

@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizBusinessSynProblemQueryDao">
+    
+	<sql id="bizBusinessProblemQueryColumns">
+		a.id AS "id",
+		a.business_only_mark_int AS "businessOnlyMarkInt",
+		a.problem_type_id AS "problemTypeId",
+		a.is_delay AS "isDelay",
+		a.delay_days AS "delayDays",
+		a.problem_describe AS "problemDescribe",
+		a.status AS "status",
+		a.remarks AS "remarks",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag",
+		a.business_type AS "businessType"
+	</sql>
+	
+	<sql id="bizBusinessProblemQueryJoins">
+	</sql>
+    
+	 <select id="get" resultType="BizBusinessProblemQuery">
+	select 1 from dual
+	</select>
+	
+	<select id="findList" resultType="cn.damei.entity.modules.BizBusinessSynProblemQuery">
+		SELECT
+			e.id  as "managerId",
+			e.storeId AS "storeId",
+			e.project_mode AS "projectMode",
+			e.realName AS "realName",
+			e.phone AS "managerPhone",
+			count(b.apply_employee_id) AS "managerCount"
+		FROM
+			biz_business_problem a
+		INNER JOIN biz_qc_bill b ON a.business_only_mark_int = b.id
+			<if test="start!=null and start!=''">
+				and a.create_date &gt;= #{start}
+			</if>
+			<if test="end!=null and end!=''">
+				and a.create_date &lt;= DATE_ADD(#{end},INTERVAL 1 day)
+			</if>
+		INNER JOIN biz_order o on b.order_id=o.id
+		INNER JOIN biz_employee e ON  o.item_manager_id = e.id
+			<if test="storeId!=null and storeId!=''">
+				and e.storeId =#{storeId}
+			</if>
+			<if test="projectMode!=null and projectMode!=''">
+				and e.project_mode =#{projectMode}
+			</if>
+			<if test="realName!=null and realName!=''">
+				and e.realName like  concat('%',#{realName},'%')
+			</if>
+		WHERE
+			a.business_type = 3
+		GROUP BY
+			e.id,
+			e.storeId,
+			e.project_mode
+		order by 
+			managerCount DESC
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+			, ${page.orderBy}
+			</when>
+			<otherwise>
+
+			</otherwise>
+		</choose>
+	</select>
+	
+
+
+	<select id="findItemManagerIssueReportDetailById" resultType="map"  parameterType="String">
+
+		SELECT
+		a.order_number AS "orderNumber",
+		a.customer_name AS "customerName",
+		a.order_inspector AS "pqcName",
+		a.store_id as "storeId",
+		a.project_mode as "projectMode",
+		d.id as "id",
+		CONCAT_WS(
+		"-",
+		a.community_name,
+		a.build_number,
+		a.build_unit,
+		a.build_room
+		) AS "customerInfo",
+		a.item_manager AS "managerName",
+		c.qc_check_node_name AS "qcCheckNodeName",
+		ifnull(
+		DATE_FORMAT(
+		b.expect_check_datetime,
+		'%Y-%m-%d'
+		),
+		"无"
+		) AS "qcExpectCheckDate",
+		DATE_FORMAT(
+		d.create_date,
+		'%Y-%m-%d'
+		) AS "problemCreateDate",
+		t.type_name AS "typeName"
+		FROM
+		biz_order a
+		INNER JOIN biz_qc_bill b ON a.id = b.order_id
+
+
+
+		AND b.qc_bill_type = 1
+		AND b.is_recheck = 0
+		LEFT JOIN biz_qc_check_node c ON b.qc_check_node_id = c.id
+
+
+		INNER JOIN biz_business_problem d ON d.business_only_mark_int = b.id
+		AND d.business_type = 3
+		INNER JOIN biz_business_problem_type t ON d.problem_type_id = t.id
+
+		where a.item_manager_id=#{_parameter}
+
+	</select>
+	
+</mapper>

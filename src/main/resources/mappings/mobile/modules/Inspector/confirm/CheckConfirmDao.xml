@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.mobile.Inspector.CheckConfirmDao">
+
+
+	<!-- 通过质检单id查询质检单 -->
+	<select id="findQcBillById" parameterType="int" resultType="cn.damei.entity.mobile.Inspector.CheckConfirm">
+	
+		SELECT
+			a.id AS "id",
+			b.id AS "orderId",
+			b.community_name AS "communityName",
+			b.build_number AS "buildNumber",
+			b.build_unit AS "buildUnit",
+			b.build_room AS "buildRoom",
+			b.customer_name AS "customerName",
+			b.customer_phone AS "customerPhone",
+			b.designer_phone AS "designerPhone",
+			b.project_mode AS "projectMode",
+			concat_ws("-",c.realName,c.phone) AS "managerRealName",
+			d.qc_check_node_name AS "qcCheckNodeName",
+			a.expect_check_datetime AS "expectCheckDatetime",
+			d.is_urge_pay AS "isUrgePay",
+			a.review_remark AS "checkWords",
+			a.`status` AS "status",
+			a.qc_check_node_id AS "qcCheckNodeId",
+			a.delay_reason_pm as "delayReasonPm",
+			a.plan_check_datetime as "planCheckDate"
+		FROM
+			biz_qc_bill a,
+			biz_order b,
+			biz_employee c,
+			biz_qc_check_node d
+		WHERE
+			a.id = #{id}
+		AND a.order_id = b.id
+		AND a.qc_check_node_id = d.id
+		AND c.id = a.apply_employee_id
+	
+	</select>
+	
+	<!-- 保存验收日期 -->
+	<update id="updateInform" parameterType="cn.damei.entity.mobile.Inspector.CheckConfirm">
+		UPDATE biz_qc_bill SET 	
+			status = #{status},
+			accept_check_datetime = #{acceptCheckDatetime},
+			update_date = #{updateDate},
+			delay_reason_qc =#{delayReasonQc}
+		WHERE id = #{id}
+	</update>
+	<!-- 保存验收日期 -->
+	<update id="updateOrderActualEndDateByCheckConfirm" parameterType="cn.damei.entity.mobile.Inspector.CheckConfirm">
+		UPDATE biz_order SET 	
+			actual_end_date = #{updateDate}
+		WHERE id = #{orderId}
+	</update>
+	<!-- 保存图片到数据库 -->
+	<insert id="savePic" parameterType="cn.damei.entity.mobile.Inspector.ReportCheckDetailsPic">
+		INSERT INTO biz_business_pic (
+				id ,
+				business_type,
+				business_id_int,
+				
+				business_id_varchar,
+				pic_type,
+				pic_index,
+				pic_url,
+				
+				pic_datetime,
+				create_date,
+				update_date,
+				del_flag
+		)
+		values(
+				#{picId},
+				#{businessType},
+				#{businessIdInt},
+				
+				#{businessIdVarchar},
+				#{picType},
+				#{picIndex},
+				#{picUrl},
+				
+				#{picDatetime},
+				#{createDate},
+				#{updateDate},
+				#{delFlag}
+		)
+	
+	</insert>
+	
+	<!-- 批量保存  保存图片到数据库 -->
+	<insert id="savePicAll" parameterType="java.util.List">
+		INSERT INTO biz_business_pic (
+				id ,
+				business_type,
+				business_id_int,
+				
+				business_id_varchar,
+				pic_type,
+				pic_index,
+				pic_url,
+				
+				pic_datetime,
+				create_date,
+				update_date,
+				del_flag
+		)
+		values
+		<foreach collection="list" item="item" index="index" separator="," >
+			(
+				#{item.picId},
+				#{item.businessType},
+				#{item.businessIdInt},
+				
+				#{item.businessIdVarchar},
+				#{item.picType},
+				#{item.picIndex},
+				#{item.picUrl},
+				
+				#{item.picDatetime},
+				#{item.createDate},
+				#{item.updateDate},
+				#{item.delFlag}
+			)
+		</foreach>
+		
+	</insert>
+	
+	<!-- 根据质检单id查询约检节点是否与付款单结算节点关联 -->
+	<select id="findCheckNodeRel" parameterType="int" resultType="int">
+		SELECT
+			COUNT(1)
+		FROM 
+			biz_qc_bill a
+			LEFT JOIN biz_order_taskpackage b ON b.order_id = a.order_id
+			LEFT JOIN biz_task_package_templat_check_node_rel c ON c.task_package_id = b.task_package_templat_id
+		WHERE 
+			a.id=#{0}
+			AND a.qc_check_node_id = c.qc_check_node_id
+		
+	
+	</select>
+	
+	<!-- 根据约检节点id查询是否与项目经理结算节点关联 -->
+	<select id="findSettleNodeRel" parameterType="int" resultType="int">
+		SELECT
+			COUNT(1)
+		FROM
+			biz_pm_settle_check_node_cnfg a,
+			biz_qc_check_node b
+		WHERE
+			b.project_mode = a.project_mode
+		AND a.store_id = b.store_id
+		AND a.qc_check_node_id = b.id
+		AND a.settle_node = '1'
+		AND b.id = #{0}
+	
+	</select>
+	
+	
+	<!-- 结算（工人，项目经理，质检员） -->
+	<select id="findSettlement" parameterType="int" resultType="cn.damei.entity.mobile.Inspector.CheckConfirm">
+		SELECT
+			a.id AS "id",
+			b.id AS "orderId",
+			b.order_number AS "orderNumber",
+			b.community_name AS "communityName",
+			b.build_number AS "buildNumber",
+			b.build_unit AS "buildUnit",
+			b.build_room AS "buildRoom",
+			b.customer_name AS "customerName",
+			b.customer_phone AS "customerPhone",
+			b.designer_phone AS "designerPhone",
+			b.project_mode AS "projectMode",
+			c.realName AS "managerRealName",
+			d.qc_check_node_name AS "qcCheckNodeName",
+			d.qc_check_node_index AS "qcCheckNodeIndex",
+			a.expect_check_datetime AS "expectCheckDatetime",
+			d.is_urge_pay AS "isUrgePay",
+			a.review_remark AS "checkWords",
+			a.`status` AS "status",
+			a.qc_check_node_id AS "qcCheckNodeId",
+			(
+				SELECT
+					COUNT(1)
+				FROM
+					biz_pm_settle_check_node_cnfg m
+				WHERE
+					d.project_mode = m.project_mode
+				AND m.store_id = d.store_id
+				AND m.qc_check_node_id = d.id
+				AND m.settle_node = '1'
+				AND m.settle_role = '1'
+			) AS "managerCount",
+			(
+				SELECT
+					COUNT(1)
+				FROM
+					biz_pm_settle_check_node_cnfg n
+				WHERE
+					d.project_mode = n.project_mode
+				AND n.store_id = d.store_id
+				AND n.qc_check_node_id = d.id
+				AND n.settle_node = '1'
+				AND n.settle_role = '2'
+			) AS "inspectorCount"
+		FROM
+			biz_qc_bill a,
+			biz_order b,
+			biz_employee c,
+			biz_qc_check_node d
+		WHERE
+			a.id = #{id}
+		AND a.order_id = b.id
+		AND a.qc_check_node_id = d.id
+		AND c.id = a.apply_employee_id
+	
+	</select>
+
+
+</mapper>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="cn.damei.dao.modules.InstallPlanQueryDao">
+
+	<select id="get" resultType="InstallPlanQuery">
+	</select>
+
+	<select id="findList" resultType="InstallPlanQuery">
+		SELECT
+		a.actual_start_date AS "actualStartDate",
+		a.store_id as "storeId",
+		a.id as "orderId",
+		a.project_mode AS "projectMode",
+		b.create_date AS "generateInstallPlanTime",
+		a.community_name AS "communityName",
+		a.build_number AS "buildNumber",
+		a.build_unit AS "buildUnit",
+		a.build_room AS "buildRoom",
+		a.customer_name AS "customerName",
+		a.item_manager AS "managerName",
+		a.contract_start_date AS "contractStartDate",
+		c.installCount AS "installCount"
+		FROM
+		biz_order a
+		inner join biz_order_confirm_startwork b on b.order_id = a.id
+		left join ( SELECT c.order_id, count(c.id) as installCount FROM biz_order_install_plan c group by order_id ) c on c.order_id = a.id
+		<where>
+			<if test="storeId != null and storeId != '' ">
+				and a.store_id = #{storeId}
+			</if>
+			<if test="projectMode !=null and projectMode!='' ">
+				and a.project_mode = #{projectMode}
+			</if>
+			<if test="customerName !=null and customerName!='' ">
+				and a.customer_name like concat ('%',#{customerName},'%')
+			</if>
+			<if test="managerName !=null and managerName!='' ">
+				and a.item_manager like concat ('%',#{managerName},'%')
+			</if>
+			<if test="startDate !=null and startDate!=''">
+				and b.create_date &gt; #{startDate}
+			</if>
+			<if test="endDate !=null and endDate!=''">
+				and b.create_date &lt; #{endDate}
+			</if>
+		</where>
+		ORDER BY
+		b.create_date DESC
+	</select>
+
+<select id="findDetailByOrderId" parameterType="int" resultType="InstallPlanQuery">
+
+SELECT
+		a.actual_start_date AS "actualStartDate",
+		a.project_mode AS "projectMode",
+		b.create_date AS "generateInstallPlanTime",
+		a.community_name AS "communityName",
+		a.build_number AS "buildNumber",
+		a.build_unit AS "buildUnit",
+		a.build_room AS "buildRoom",
+		a.customer_name AS "customerName",
+		a.item_manager AS "managerName",
+		a.contract_start_date AS "contractStartDate",
+		c.install_item_sequence as "installOrder",
+		c.install_item_name as "installName",
+		c.plan_into_date as "planIntoDate"
+FROM
+		biz_order a,
+		biz_order_confirm_startwork b,
+		biz_order_install_plan c
+WHERE
+		b.order_id = a.id
+	AND c.order_id = a.id
+		and a.id = #{id}
+	ORDER BY
+		c.install_item_sequence ASC
+
+</select>
+
+
+
+
+</mapper>

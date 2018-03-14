@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.mobile.Manager.BizEvalRewardTaskpackDao">
+	<sql id="bizEvalRewardTaskpackColumns">
+		a.id AS "id",
+		a.order_taskpackage_id AS "orderTaskpackageId",
+		a.group_leader_employee_id AS "groupLeaderEmployeeId",
+		a.reward_amount AS "rewardAmount",
+		a.reward_datetime AS "rewardDatetime",
+		a.remarks AS "remarks",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag"
+	</sql>
+
+	<select id="get" resultType="cn.damei.entity.mobile.Manager.BizEvalRewardTaskpack">
+		SELECT
+		<include refid="bizEvalRewardTaskpackColumns"/>
+		FROM biz_eval_reward_taskpack a
+		WHERE a.id = #{id}
+	</select>
+
+	<insert id="insert">
+		INSERT INTO biz_eval_reward_taskpack(
+		id,
+		order_taskpackage_id,
+		group_leader_employee_id,
+		reward_amount,
+		reward_datetime,
+		remarks,
+		create_by,
+		create_date,
+		update_by,
+		update_date,
+		del_flag
+		) VALUES (
+		#{id},
+		#{orderTaskpackageId},
+		#{groupLeaderEmployeeId},
+		#{rewardAmount},
+		#{rewardDatetime},
+		#{remarks},
+		#{createBy.id},
+		#{createDate},
+		#{updateBy.id},
+		#{updateDate},
+		#{delFlag}
+		)
+	</insert>
+
+	<update id="update">
+		UPDATE biz_eval_reward_taskpack SET
+		order_taskpackage_id = #{orderTaskpackageId},
+		group_leader_employee_id = #{groupLeaderEmployeeId},
+		reward_amount = #{rewardAmount},
+		reward_datetime = #{rewardDatetime},
+		remarks = #{remarks},
+		update_by = #{updateBy.id},
+		update_date = #{updateDate},
+		del_flag = #{delFlag}
+		WHERE id = #{id}
+	</update>
+
+	<select id="queryRewardAmount" resultType="java.lang.Double" parameterType="java.lang.Integer">
+		SELECT a.reward_amount
+		FROM biz_eval_reward_taskpack a
+		WHERE a.order_taskpackage_id = #{orderTaskpackageId}
+		ORDER BY a.create_date desc
+		limit 1
+	</select>
+
+	<select id="queryRewardAmountByGroupLeaderEmployeeId" resultType="cn.damei.entity.mobile.Manager.GroupLeaderEvalReward" parameterType="java.lang.Integer">
+		select a.reward_amount as "rewardAmount",a.reward_datetime as "rewardDatetime",b.item_customer as "itemCustomer",
+			c.community_name as "communityName",c.build_number as "buildNumber",c.build_unit as "buildUnit",
+			c.build_room as "buildRoom",c.customer_name as "customerName"
+		from biz_eval_reward_taskpack a
+		left join biz_order_taskpackage b on a.order_taskpackage_id = b.id
+		left join biz_order c on b.order_id = c.id
+		where a.group_leader_employee_id = #{groupLeaderEmployeeId} and a.reward_amount is not null and a.reward_amount &lt;> ''
+	</select>
+
+	<select id="queryEmployeeRewardDetail" resultType="cn.damei.entity.mobile.Manager.EmployeeRewardDetail" parameterType="java.lang.Integer">
+		select b.star_level,d.reward_amount,c.got_score
+		from biz_eval_reward_order_taskpack_rel a
+		INNER JOIN biz_eval_reward_star b on a.eval_reward_cfg_id = b.eval_reward_cfg_id
+		INNER JOIN biz_eval_score c on a.order_taskpack_id = c.related_business_id and c.eval_type='1'
+		INNER JOIN biz_eval_reward_taskpack d on a.order_taskpack_id = d.order_taskpackage_id
+		where a.order_taskpack_id = #{orderTaskpackId} and d.reward_amount = b.reward_amount
+	</select>
+</mapper>

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizProjectProgressSummaryDataDao">
+
+
+    <select id="findList" resultType="cn.damei.entity.modules.BizProjectProgressSummaryData">
+        SELECT
+            a.id AS "id",
+            a.order_id AS "orderId",
+            a.update_status AS "updateStatus"
+        FROM
+            biz_project_progress_summary_data a
+        INNER JOIN biz_order b ON a.order_id = b.id
+        LEFT JOIN biz_employee c ON b.item_manager_id = c.id
+        <where>
+            a.del_flag = #{DEL_FLAG_NORMAL}
+            <if test="updateStatus != null and updateStatus != ''">
+                AND a.update_status = #{updateStatus}
+            </if>
+            <if test="storeId != null and storeId != ''">
+                AND b.store_id = #{storeId}
+            </if>
+            <if test="projectMode != null and projectMode != ''">
+                AND b.project_mode = #{projectMode}
+            </if>
+            <if test="engineDepartId != null and engineDepartId != ''">
+                AND b.engin_depart_id =#{engineDepartId}
+            </if>
+            <if test="orderNumber != null and orderNumber != ''">
+                AND b.order_number LIKE CONCAT('%','${orderNumber}','%' )
+            </if>
+            <if test="itemManager != null and itemManager != ''">
+                AND c.realName LIKE CONCAT('%','${itemManager}','%' )
+            </if>
+            <if test="customerName != null and customerName != ''">
+                AND b.customer_name LIKE CONCAT('%','${customerName}','%' )
+            </if>
+            <if test="houseIsNew != null and houseIsNew != ''">
+                AND b.house_is_new = #{houseIsNew}
+            </if>
+            <if test="isScrap != null and isScrap != ''">
+                AND b.is_scrap = #{isScrap}
+            </if>
+            <if test="beginActualStartDate != null and beginActualStartDate != ''">
+                AND b.actual_start_date &gt;= #{beginActualStartDate}
+            </if>
+            <if test="endActualStartDate != null and endActualStartDate != ''">
+                AND b.actual_start_date &lt;= #{endActualStartDate}
+            </if>
+        </where>
+        <choose>
+            <when test="page !=null and page.orderBy != null and page.orderBy != ''">
+                ORDER BY ${page.orderBy}
+            </when>
+            <otherwise>
+                ORDER BY b.create_date DESC
+            </otherwise>
+        </choose>
+
+    </select>
+
+    <select id="queryCountByOrderId" resultType="int">
+        SELECT COUNT(*) FROM biz_project_progress_summary_data where order_id = #{orderId}
+    </select>
+
+
+    <select id="queryOrderByCondition2" resultType="cn.damei.entity.modules.Order2">
+        SELECT
+        a.id AS "id"
+        FROM  biz_order a
+        WHERE
+        a.del_flag = '0'
+        AND
+        a.order_status_number >= '200'
+        AND
+        (a.is_to_refresh_process_data is
+        null or a.is_to_refresh_process_data =
+        0)
+    </select>
+
+    <select id="queryOrderById" resultType="cn.damei.entity.modules.Order2">
+        SELECT
+        a.id AS "orderId",
+        a.order_status_number as "orderStatusNumber",
+        a.is_scrap as "isScrap"
+        FROM  biz_order a
+        WHERE  a.id = #{orderId}
+    </select>
+</mapper>

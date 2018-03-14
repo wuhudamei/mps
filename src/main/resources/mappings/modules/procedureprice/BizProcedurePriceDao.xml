@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizProcedurePriceDao">
+    
+	<sql id="bizProcedurePriceColumns">
+		a.id AS "id",
+		a.store_id AS "storeId",
+		a.project_mode AS "projectMode",
+		a.procedure_no AS "procedureNo",
+		a.labor_price AS "laborPrice",
+		a.accessories_price AS "accessoriesPrice",
+		a.synthesize_price AS "synthesizePrice",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag",
+		a.is_enable AS "isEnable",
+		a.version AS "version",
+		a.effective_date AS "effectiveDate"
+	</sql>
+	
+	<sql id="bizProcedurePriceJoins">
+		LEFT JOIN sys_office o2 ON o2.id = a.store_id
+	</sql>
+    
+	<select id="get" resultType="BizProcedurePrice">
+		SELECT 
+			<include refid="bizProcedurePriceColumns"/>
+		FROM biz_procedure_price a
+		<include refid="bizProcedurePriceJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="getByProcedureNo" resultType="BizProcedurePrice">
+		SELECT 
+		a.id AS "id",
+		a.store_id AS "storeId",
+		a.project_mode AS "projectMode",
+		a.procedure_no AS "procedureNo",
+		a.labor_price AS "laborPrice",
+		a.accessories_price AS "accessoriesPrice",
+		a.synthesize_price AS "synthesizePrice",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag",
+		a.is_enable AS "isEnable",
+		a.version AS "version",
+		a.effective_date as 'effective_date'
+		FROM biz_procedure_price a WHERE a.procedure_no= #{0} AND a.store_id= #{1} AND del_flag='0' AND a.project_mode=#{5}
+		AND a.effective_date = (
+			SELECT
+				MAX(effective_date)
+			FROM
+				biz_procedure_price
+			WHERE
+				effective_date &lt;= str_to_date(#{2}, '%Y-%m-%d %H:%i:%s')
+				and procedure_no = #{3}
+				AND store_id = #{4}
+				AND del_flag='0'
+				AND project_mode=#{5}
+		)
+		
+		
+	</select>
+	
+	<select id="findList" resultType="BizProcedurePrice">
+		SELECT 
+			<include refid="bizProcedurePriceColumns"/>
+		FROM biz_procedure_price a
+		<include refid="bizProcedurePriceJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="storeId != null and storeId != ''">
+				AND a.store_id = #{storeId}
+			</if>
+			<if test="procedureNo != null and procedureNo != ''">
+				AND a.procedure_no = #{procedureNo}
+			</if>
+			<if test="projectMode != null and projectMode != ''">
+			    AND a.project_mode = #{projectMode}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.id DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="BizProcedurePrice">
+		SELECT 
+			<include refid="bizProcedurePriceColumns"/>
+		FROM biz_procedure_price a
+		<include refid="bizProcedurePriceJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO biz_procedure_price(
+			store_id,
+			project_mode,
+			procedure_no,
+			labor_price,
+			accessories_price,
+			synthesize_price,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag,
+			is_enable,
+			version,
+			effective_date
+		) VALUES (
+			#{storeId},
+			#{projectMode},
+			#{procedureNo},
+			#{laborPrice},
+			#{accessoriesPrice},
+			#{synthesizePrice},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag},
+			#{isEnable},
+			#{version},
+			#{effectiveDate}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE biz_procedure_price SET 	
+			store_id = #{storeId},
+			project_mode = #{projectMode},
+			procedure_no = #{procedureNo},
+			labor_price = #{laborPrice},
+			accessories_price = #{accessoriesPrice},
+			synthesize_price = #{synthesizePrice},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks},
+			del_flag = #{delFlag},
+			is_enable = #{isEnable},
+			version = #{version},
+			effective_date = #{effectiveDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE biz_procedure_price SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

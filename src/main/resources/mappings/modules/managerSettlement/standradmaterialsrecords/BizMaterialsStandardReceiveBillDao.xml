@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizMaterialsStandardReceiveBillDao">
+	<sql id="bizMaterialsStandardReceiveBillColumns">
+		a.id AS "id",
+		a.store_id AS "storeId",
+		a.order_id AS "orderId",
+		a.materials_standard_receive_bill_code AS "materialsStandardReceiveBillCode",
+		a.receive_datetime AS "receiveDatetime",
+		a.receive_employee_id AS "receiveEmployeeId",
+		a.receive_bill_amount AS "receiveBillAmount",
+		a.is_settled AS "isSettled"
+	</sql>
+	
+	<sql id="bizMaterialsStandardReceiveBillJoins">
+	</sql>
+    
+	<select id="get" resultType="cn.damei.entity.modules.BizMaterialsStandardReceiveBill">
+		SELECT 
+			<include refid="bizMaterialsStandardReceiveBillColumns"/>
+		FROM biz_materials_standard_receive_bill a
+		<include refid="bizMaterialsStandardReceiveBillJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="cn.damei.entity.modules.BizMaterialsStandardReceiveBill">
+		SELECT 
+			<include refid="bizMaterialsStandardReceiveBillColumns"/>
+		FROM biz_materials_standard_receive_bill a
+		<include refid="bizMaterialsStandardReceiveBillJoins"/>
+		<where>
+			
+			<if test="storeId != null and storeId != ''">
+				AND a.store_id = #{storeId}
+			</if>
+			<if test="beginReceiveDatetime != null and endReceiveDatetime != null and beginReceiveDatetime != '' and endReceiveDatetime != ''">
+				AND a.receive_datetime BETWEEN #{beginReceiveDatetime} AND #{endReceiveDatetime}
+			</if>
+			<if test="receiveEmployeeId != null and receiveEmployeeId != ''">
+				AND a.receive_employee_id = #{receiveEmployeeId}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="cn.damei.entity.modules.BizMaterialsStandardReceiveBill">
+		SELECT 
+			<include refid="bizMaterialsStandardReceiveBillColumns"/>
+		FROM biz_materials_standard_receive_bill a
+		<include refid="bizMaterialsStandardReceiveBillJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO biz_materials_standard_receive_bill(
+			id,
+			store_id,
+			order_id,
+			materials_standard_receive_bill_code,
+			receive_datetime,
+			receive_employee_id,
+			receive_bill_amount,
+			is_settled,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag,
+			status
+		) VALUES (
+			#{id},
+			#{storeId},
+			#{orderId},
+			#{materialsStandardReceiveBillCode},
+			#{receiveDatetime},
+			#{receiveEmployeeId},
+			#{receiveBillAmount},
+			#{isSettled},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag},
+			#{status}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE biz_materials_standard_receive_bill SET 	
+			store_id = #{storeId},
+			order_id = #{orderId},
+			materials_standard_receive_bill_code = #{materialsStandardReceiveBillCode},
+			receive_datetime = #{receiveDatetime},
+			receive_employee_id = #{receiveEmployeeId},
+			receive_bill_amount = #{receiveBillAmount},
+			is_settled = #{isSettled},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks},
+			status = #{status}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM biz_materials_standard_receive_bill
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

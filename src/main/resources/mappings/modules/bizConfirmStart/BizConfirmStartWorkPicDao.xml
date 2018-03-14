@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizOrderConfirmStartworkPicDao">
+
+	<sql id="bizConfirmStartWorkPicColumns">
+		a.ID AS "id",
+		a.ORDER_CONFIRM_STARTWORK_ID AS "orderConfirmStartworkId",
+		a.PIC_URL AS "picUrl",
+		a.REMARKS AS "remarks",
+		a.CREATE_BY AS "createBy",
+		a.CREATE_DATE AS "createDate",
+		a.UPDATE_BY AS "updateBy",
+		a.UPDATE_DATE AS "updateDate",
+		a.DEL_FLAG AS "delFlag"
+	</sql>
+	
+	<select id="get" resultType="cn.damei.entity.modules.BizOrderConfirmStartworkPic">
+		SELECT 
+			<include refid="bizConfirmStartWorkPicColumns"/>
+		FROM BIZ_ORDER_CONFIRM_STARTWORK_PIC a
+		WHERE a.ID = #{id}
+	</select>
+	
+	<select id="getByConfirmStartWorkID" resultType="cn.damei.entity.modules.BizOrderConfirmStartworkPic">
+		SELECT 
+			<include refid="bizConfirmStartWorkPicColumns"/>
+		FROM BIZ_ORDER_CONFIRM_STARTWORK_PIC a
+		WHERE a.ORDER_CONFIRM_STARTWORK_ID = #{0}
+	</select>
+	
+	<select id="findList" resultType="cn.damei.entity.modules.BizOrderConfirmStartworkPic">
+		SELECT 
+			<include refid="bizConfirmStartWorkPicColumns"/>
+		FROM BIZ_ORDER_CONFIRM_STARTWORK_PIC a
+		<where>
+            <!-- <if test="projectMode != null and projectMode != ''">
+				AND a.PROJECT_MODE = #{projectMode}
+			</if>
+			<if test="orderNumber != null and orderNumber != ''">
+                AND a.ORDER_NUMBER LIKE concat('%',#{orderNumber}, '%')
+            </if>
+            <if test="storeId != null and storeId != ''">
+                AND a.STORE_ID = #{storeId}
+            </if>
+            <if test="customerName != null and customerName != ''">
+                AND a.CUSTOMER_NAME LIKE concat('%',#{customerName}, '%')
+            </if>
+            <if test="actualStartDateBegin != null and actualStartDateBegin != ''">
+                AND a.ACTUAL_START_DATE &gt;= #{actualStartDateBegin}
+            </if>
+            <if test="actualStartDateEnd != null and actualStartDateEnd != ''">
+                AND a.ACTUAL_START_DATE &lt;= #{actualStartDateEnd}
+            </if> -->
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.CREATE_DATE DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+</mapper>

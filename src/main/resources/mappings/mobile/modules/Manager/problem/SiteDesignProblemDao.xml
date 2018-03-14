@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.mobile.Manager.SiteDesignProblemDao">
+
+
+	<!-- 工地设计问题上报订单列表 -->
+	<select id="findOrderList" parameterType="cn.damei.entity.mobile.Manager.MaterialManagement"
+	resultType="cn.damei.entity.mobile.Manager.MaterialManagement">
+		SELECT
+			a.id AS "orderId",
+			a.order_number AS "orderNumber",
+			a.customer_address AS "customerAddress",
+			a.community_name AS "communityName",
+			a.build_number AS "buildNumber",
+			a.build_unit AS "buildUnit",
+			a.build_room AS "buildRoom",
+			a.customer_name AS "customerName",
+			a.customer_phone AS "customerPhone",
+			a.contract_time AS "contractTime",
+			a.contract_start_date AS "contractStartDate",
+			a.actual_start_date AS "actualStartDate",
+			a.order_status_number AS "orderStatusNumber",
+			a.order_status_description AS "orderStatusDescription"
+		FROM
+			biz_order a
+		<where>
+			a.item_manager_id = #{itemManagerId}
+			AND a.order_status_number &lt; #{orderStatusNumber}
+			<if test="text != null and text !=''">
+				and (a.community_name like CONCAT('%','${text}','%' )  or a.customer_name like CONCAT('%','${text}','%' ))
+			</if>
+			ORDER BY a.actual_start_date ASC
+		</where>
+	</select>
+	
+	<!-- 工地设计问题上报 详情列表 -->
+	<select id="findProblemLogList" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT
+			a.id AS "id",
+			a.business_only_mark_int AS "businessOnlyMarkId",
+			a.problem_describe AS "problemDescribe",
+			a. STATUS AS "status",
+			IFNULL(DATE_FORMAT(a.create_date,'%Y-%m-%d %H:%i:%S'),"") AS "createDate",
+			e.type_name AS "typeName",
+			IFNULL(DATE_FORMAT(a.expect_solve_datetime,'%Y-%m-%d'),"") AS "expectSolveDatetime",
+			a.incharge_name AS "inchargeName",
+			IFNULL(DATE_FORMAT(b.create_date,'%Y-%m-%d %H:%i:%S'),"") AS "logDate",
+			b.problem_solve_notes AS "problemSolveNotes",
+			IFNULL(m.picCount,0) AS "picCount"
+		FROM
+			biz_business_problem a
+		LEFT JOIN biz_business_problem_log b ON b.business_problem_id = a.id
+		AND b.problem_solve_role = #{businessProblemSolveRole}
+		AND b.`status` = #{businessProblemStatus}
+		LEFT JOIN biz_business_problem_type e ON e.id = a.problem_type_id
+		LEFT JOIN (SELECT c.business_id_int,COUNT(1) AS "picCount"FROM biz_business_pic c WHERE  c.business_type = #{businessType} GROUP BY c.business_id_int)m ON m.business_id_int = a.id
+		WHERE
+			a.business_only_mark_int = #{orderId}
+		AND a.business_type = #{businessProblemBusinessType}
+		ORDER BY
+			a.create_date DESC
+	
+	</select>
+	
+</mapper>
+   

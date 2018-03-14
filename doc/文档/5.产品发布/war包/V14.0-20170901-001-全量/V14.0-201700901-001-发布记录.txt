@@ -1,0 +1,44 @@
+打包名称：mdn.war
+打包版本：V14.0-20170901-001
+
+
+功能新增：
+	
+	1、工人评价1.5--张康健/刘志明
+
+	3、客户回访新增项目过滤--王硕
+	4、业主端增加登录日志--李万才
+	5、申请复尺数据处理--张康健
+功能变更：
+
+
+
+数据库表结构变更：
+	在文件夹【数据库表结构变更】
+	1、执行文件【数据库表结构变更】内的【jeesite_table-v14.0_02_gongren_pingjia.sql】
+	
+	3、执行文件【数据库表结构变更】内的【jeesite_table-v14.0_06_huifang.sql】
+	4、执行文件【数据库表结构变更】内的【jeesite_table-v14.0_waibao_yezhu_app.sql】
+
+数据库表数据处理：
+	在文件夹【数据库表数据变更】
+	1、执行文件【数据库表数据变更】内的【gongrenpingjialishishujuchuli.sql】
+	2、执行文件【数据库表数据变更】内的【jiaosepingjiazhuangtailishishujuchuli.sql】
+	
+
+脚本执行：
+	1、执行文件【申请复尺数据处理--张康健】内的【申请复尺历史数据处理.sql】
+
+	
+	
+	
+
+	
+
+
+	
+
+
+
+
+	 

@@ -1,0 +1,26 @@
+header{
+	width: 100%;
+	height: .88rem;
+	background: #09f;
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 2;
+}
+.back_btn{
+	display: block;
+	width: 0.2rem;
+	height: 0.34rem;
+	background-image: url(../../img/back_icon.png);
+	background-size: 0.2rem 0.34rem;
+	position: absolute;
+	left: 0.3rem;
+	top: 0.23rem;
+}
+.title{
+	text-align: center;
+	color: #fff;
+	font-size: .36rem;
+	height: inherit;
+	line-height: .88rem;
+}

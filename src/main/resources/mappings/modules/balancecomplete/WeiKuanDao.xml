@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.WeiKuanDao">
+
+
+
+	<select id="get"
+		resultType="cn.damei.entity.modules.WeiKuanEntity">
+		SELECT
+		a.id
+		FROM biz_order_finish_project_bill a
+		WHERE a.id =
+		#{id}
+	</select>
+
+	<select id="findList"
+		resultType="cn.damei.entity.modules.WeiKuanEntity">
+		SELECT
+		b.store_id AS "storeId",
+		b.order_number AS "orderNumber",
+		b.customer_name AS "customerName",
+		b.community_name AS "communityName",
+		b.build_unit AS "buildUnit",
+		b.build_number AS "buildNumber",
+		b.build_room AS "buildRoom",
+		b.item_manager AS "managerName",
+		b.engin_depart_id AS "engineDepartId",
+		a.apply_datetime AS
+		"applyDoneDate",
+		e.realName AS "jiesuanName",
+		a.real_finish_project_date AS "passDate",
+		a.order_id AS "orderId",
+		p.receive_money_amount AS paymentAmount,
+		p.receive_money_datetime AS
+		paymentDate,
+		en.`name` AS "engineDepartName"
+		FROM
+		biz_order_finish_project_bill a
+		LEFT JOIN
+		biz_pre_pm_settle_finance_receive_moeny p ON a.order_id =
+		p.order_id
+		AND p.receive_money_type = "2" AND p.del_flag = "0"
+		LEFT JOIN biz_order
+		b ON a.order_id = b.id
+		LEFT JOIN biz_engineering_department en ON en.id
+		= b.engin_depart_id
+		LEFT JOIN biz_employee e ON a.check_employee_id =
+		e.id
+		<where>
+			a.order_id NOT IN (
+			<!-- SELECT s.order_id FROM biz_pm_settle_bill s WHERE s.settle_bill_type 
+				= "2" AND s. STATUS >= 30 -->
+			SELECT
+			fc.order_id
+			FROM
+			biz_order_finance_collection fc
+			WHERE
+			fc.collection_type = 2
+			)
+			AND a.`status` >= "3"
+			<if test="storeId != null and storeId != ''">
+				AND b.store_id = #{storeId}
+			</if>
+			<if test="engineDepartId != null and engineDepartId != ''">
+				AND b.engin_depart_id = #{engineDepartId}
+			</if>
+			<if test="customerName != null and customerName != ''">
+				AND b.customer_name LIKE
+				CONCAT('%','${customerName}','%'
+				)
+			</if>
+			<if test="managerName != null and managerName != ''">
+				AND b.item_manager LIKE
+				CONCAT('%','${managerName}','%' )
+			</if>
+			<if test="start != null and end != null and start != '' and end != ''">
+				AND a.real_finish_project_date BETWEEN #{start} AND
+				#{end}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+
+
+</mapper>

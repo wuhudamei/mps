@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.PreSettleBilllogDao">
+    <sql id="orderColumn">
+    	a.store_id,
+    	a.project_mode,
+    	a.order_number,
+    	a.engin_depart_id as 'engineDepartId',
+		a.customer_name AS 'customerName',
+		a.community_name AS 'communityName',
+		a.build_number AS 'buildNumber',
+		a.build_unit AS 'buildUnit',
+		a.build_room AS 'buildRoom',
+		a.contract_area AS 'contractArea',
+		a.item_manager_id as 'itemManagerId',
+		a.order_inspector_id as 'orderInspectorId',
+		a.customer_phone as 'customerPhone'
+	</sql>
+	<sql id="industrySettlebBill">
+		b.id,
+		b.contract_amount,
+		b.midway_qc_check_punish_amount,
+		b.reward_amount,
+		b.punish_amount,
+		b.order_change_add_amount,
+		b.order_change_reduce_amount,
+		b.midway_basicwork_add_amount,
+		b.midway_materials_standard_amount,
+		b.midway_materials_auxiliary_amount,
+		b.midway_sand_cement_amount,
+		b.midway_switch_panel_amount,
+		b.midway_worker_salary_amount,
+		b.midway_material_carry_cost_amount,
+		b.midway_contract_settle_rate,
+		b.complete_guarantee_money_amount,
+		b.complete_longway_commission_amount,
+		b.contract_settle_amount,
+		b.real_settle_amount,
+		b.status,
+		b.status_describe,
+		b.settle_bill_type,
+		b.pm_pre_industry_settle_bill_code,
+		DATE_FORMAT(b.status_datetime,'%Y-%m-%d %H:%i:%S') as statusDatetime,
+		b.status_describe,
+		b.pm_pre_industry_settle_bill_code,
+		b.order_id
+	</sql>
+	<select id="findList" resultType="cn.damei.entity.mobile.Manager.ProjectManagerSettlement">
+		select 
+			<include refid="orderColumn"/>,
+			c.realName as 'itemManagerName',
+			c.phone as 'itemManagerPhone',
+			d.realName as 'orderInspectorName',
+			d.phone as 'orderInspectorPhone',
+			b.settle_bill_type,
+			b.id,
+			b.order_id
+		FROM
+			biz_pm_pre_industry_settle_bill b
+			INNER JOIN biz_order a ON a.id = b.order_id
+			INNER JOIN biz_employee c ON a.item_manager_id = c.id
+			INNER JOIN biz_employee d ON d.id = a.order_inspector_id
+		<where>
+			AND a.project_mode = 4
+			<if test="customerName != null and customerName != ''">
+				and a.customer_name like concat ('%',#{customerName},'%')
+			</if>
+			<if test="itemManagerName != null and itemManagerName != ''">
+				and c.realName like concat ('%',#{itemManagerName},'%')
+			</if>
+			<if test="orderNumber != null and orderNumber != ''">
+				and a.order_number like concat ('%',#{orderNumber},'%')
+			</if>
+			<!-- <if test="projectMode != null and projectMode != ''">
+				AND a.project_mode = #{projectMode}
+			</if> -->
+			<if test="storeId != null and storeId != ''">
+				AND a.store_id = #{storeId}
+			</if>
+			<if test="engineDepartId != null and engineDepartId != ''">
+				 and a.engin_depart_id = #{engineDepartId}
+			</if>
+			<if test="id != null and id != ''">
+			 	and  b.id = #{id}
+			</if>
+		</where>
+		group by b.order_id
+	</select>
+	
+	<select id="findBusinessOnlyMark" resultType="String">
+		SELECT a.id FROM biz_pm_pre_industry_settle_bill a WHERE a.order_id = #{orderId} and a.settle_bill_type = #{settleBillType}
+	</select>
+	
+	<select id="findQualityId" resultType="String">
+		SELECT a.id FROM biz_qc_bill a
+		LEFT JOIN biz_qc_check_node b ON a.qc_check_node_id = b.id
+		WHERE b.is_for_basicwork = 1 AND a.order_id = #{orderId}
+	</select>
+	
+	<select id="findOrderFinishBill" resultType="String">
+		select id from BIZ_ORDER_FINISH_PROJECT_BILL where order_id = #{orderId}
+	</select>
+</mapper>

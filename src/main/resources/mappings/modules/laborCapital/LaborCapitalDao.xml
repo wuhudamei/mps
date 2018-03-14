@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.LaborCapitalDao">
+    
+	<sql id="laborCapitalColumns">
+		a.store_id AS "storeId",
+		a.engin_depart_id AS "enginDepartId",
+		d.name AS "departmentName",
+		a.customer_name AS "custumer",
+		CONCAT(a.community_name,'-',a.build_number,'-',a.build_unit,'-',a.build_room) AS "customerAddress",
+		a.order_status_number AS "orderStatusNumber",
+		a.item_manager AS "itemManager",
+		a.order_inspector AS "inspectorName",
+		a.get_order_datetime AS "getOrderDatetime",
+		a.order_status_description AS "orderStatusDescription",
+		b.task_package_type AS "taskPackageType",
+		b.package_stateId AS "packageStateId",
+		b.package_name AS "packageName",
+		b.group_realname AS "groupLeaderName",
+		b.actual_startdate AS "actualStartdate",
+		b.actual_enddate AS "actualEnddate",
+		b.package_statename AS "packageStatename",
+		e.phone AS "groupLeaderPhone",
+		c.punish_amerce AS "punishAmerce",
+		c.delay_amerce AS "delayAmerce",
+		c.company_deduct_amount AS "companyDeductAmount"
+	</sql>
+	
+	<select id="findList" parameterType="cn.damei.entity.modules.LaborCapital" resultType="cn.damei.entity.modules.LaborCapital">
+		SELECT
+			<include refid="laborCapitalColumns"/>
+		FROM   biz_order a
+						
+		LEFT JOIN biz_order_taskpackage b
+		ON(b.order_id = a.id)
+		
+		LEFT JOIN biz_employee e
+		ON(b.group_id = e.id)
+		
+		LEFT JOIN biz_engineering_department d
+		ON(a.engin_depart_id = d.id) 
+						
+		 LEFT JOIN biz_order_taskpackage_settlement c 
+		 ON(b.id=c.order_taskpackage_id)
+		
+		<where>
+			<if test="storeId != null and storeId != ''">
+				AND a.store_id = #{storeId}
+			</if>
+			<if test="enginDepartId != null and enginDepartId != ''">
+				AND a.engin_depart_id = #{enginDepartId}
+			</if>
+			<if test="projectMode != null and projectMode != ''">
+				AND a.project_mode = #{projectMode}
+			</if>
+			<if test="custumer != null and custumer != ''">
+				AND a.customer_name LIKE CONCAT('%',#{custumer},'%')
+			</if>
+			<if test="customerAddress != null and customerAddress != ''">
+				AND CONCAT(a.community_name,'-',a.build_number,'-',a.build_unit,'-',a.build_room) LIKE CONCAT('%' #{customerAddress},'%')
+			</if>
+			<if test="orderStatusNumber != null and orderStatusNumber != ''">
+				AND a.order_status_number = #{orderStatusNumber}
+			</if>
+			<if test="itemManager != null and itemManager != ''">
+				AND a.item_manager LIKE CONCAT('%',#{itemManager},'%') 
+			</if>
+			<if test="taskPackageType != null and taskPackageType != ''">
+				AND b.task_package_type = #{taskPackageType}
+			</if>
+			<if test="packageStateId != null and packageStateId != ''">
+				AND b.package_stateId = #{packageStateId}
+			</if>
+			<if test="groupLeaderPhone != null and groupLeaderPhone != ''">
+				AND e.phone = #{groupLeaderPhone}
+			</if>
+		</where>
+		
+	</select>
+
+	<select id="exportQuery" resultType="cn.damei.entity.modules.LaborCapital">
+		SELECT
+			<include refid="laborCapitalColumns"/>
+		FROM biz_order a
+		  LEFT JOIN biz_order_taskpackage b
+			ON (b.order_id = a.id)
+		  LEFT JOIN biz_employee e
+			ON (b.group_id = e.id)
+		  LEFT JOIN biz_engineering_department d
+			ON (a.engin_depart_id = d.id)
+		  LEFT JOIN biz_order_taskpackage_settlement c
+			ON (b.id = c.order_taskpackage_id)
+        <where>
+            <if test="storeId != null and storeId != ''">
+                AND a.store_id = #{storeId}
+            </if>
+            <if test="enginDepartId != null and enginDepartId != ''">
+                AND a.engin_depart_id = #{enginDepartId}
+            </if>
+            <if test="projectMode != null and projectMode != ''">
+                AND a.project_mode = #{projectMode}
+            </if>
+            <if test="custumer != null and custumer != ''">
+                AND a.customer_name LIKE CONCAT('%',#{custumer},'%')
+            </if>
+            <if test="customerAddress != null and customerAddress != ''">
+                AND CONCAT(a.community_name,'-',a.build_number,'-',a.build_unit,'-',a.build_room) LIKE CONCAT('%' #{customerAddress},'%')
+            </if>
+            <if test="orderStatusNumber != null and orderStatusNumber != ''">
+                AND a.order_status_number = #{orderStatusNumber}
+            </if>
+            <if test="itemManager != null and itemManager != ''">
+                AND a.item_manager LIKE CONCAT('%',#{itemManager},'%')
+            </if>
+            <if test="taskPackageType != null and taskPackageType != ''">
+                AND b.task_package_type = #{taskPackageType}
+            </if>
+            <if test="packageStateId != null and packageStateId != ''">
+                AND b.package_stateId = #{packageStateId}
+            </if>
+            <if test="groupLeaderPhone != null and groupLeaderPhone != ''">
+                AND e.phone = #{groupLeaderPhone}
+            </if>
+        </where>
+
+
+	</select>
+
+	
+</mapper>

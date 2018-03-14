@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizOrderReportSendRuleServiceDao">
+    
+	<sql id="bizOrderReportSendRuleServiceColumns">
+		a.id AS "id",
+		a.send_rule_id AS "sendRuleId",
+		a.service_index AS "serviceIndex",
+		a.service_employee_id AS "serviceEmployeeId",
+		a.send_count AS "sendCount",
+		a.is_send_end AS "isSendEnd",
+		a.remarks AS "remarks",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	
+	<insert id="batchInsert" parameterType="java.util.List">  
+        INSERT INTO biz_order_report_send_rule_service(
+				send_rule_id,
+				service_index,
+				service_employee_id,
+				send_count,
+				is_send_end	,
+				remarks,
+				create_by,
+				create_date,
+				update_by,
+				update_date,
+				del_flag
+			) values
+        <foreach collection="list" separator="," index="index" item="item"> 
+            (
+             	#{item.sendRuleId},
+				#{item.serviceIndex},
+				#{item.serviceEmployeeId},
+				#{item.sendCount},
+				#{item.sendEnd},
+				#{item.remarks},
+				#{item.createBy.id},
+				#{item.createDate},
+				#{item.updateBy.id},
+				#{item.updateDate},
+				#{item.delFlag} 
+            ) 
+        </foreach>  
+    </insert> 
+	
+	<insert id="insert">
+		INSERT INTO biz_order_report_send_rule_service(
+			id,
+			send_rule_id,
+			service_index,
+			service_employee_id,
+			send_count,
+			is_send_end	,
+			remarks,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag
+		) VALUES (
+			#{id},
+			#{sendRuleId},
+			#{serviceIndex},
+			#{serviceEmployeeId},
+			#{sendCount},
+			#{isSendEnd},
+			#{remarks},
+			#{status},
+			#{remarks},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag}
+		)
+	</insert>
+	
+	<!-- 根据规则ID删除客服人员关系 -->
+	<delete id="deleteBySendRuleId" parameterType="java.lang.Integer">
+		delete from biz_order_report_send_rule_service where send_rule_id = #{sendRuleId}
+	</delete>
+	
+	<!-- 根据规则ID查询客服人员关系 -->
+	<select id="selectServiceMembersBySendRuleId" parameterType="java.lang.Integer" resultType="cn.damei.entity.modules.BizOrderReportSendRuleServiceMember">
+		select 
+			<include refid="bizOrderReportSendRuleServiceColumns" />,
+			b.realName,b.phone
+		from biz_order_report_send_rule_service a left join biz_employee b on a.service_employee_id = b.id
+		where send_rule_id = #{sendRuleId}
+	</select>
+	
+	<!-- 查询待执行规则相关客服人员 -->
+	<select id="selectServiceMembersForPendingRule" resultType="java.util.Map">
+		select  a.id,a.realName,a.phone,IFNULL(b.addFlag,'N' ) as addFlag
+		  from  biz_employee a 
+			left join 
+			(
+				select distinct service_employee_id,'Y' as addFlag from biz_order_report_send_rule_service 
+				 where send_rule_id in ( select id from biz_order_report_send_rule where status = '0' )
+			) b on a.id = b.service_employee_id
+		 where a.empType = 4 and a.employee_id_mapping_order_change_sys is not null
+	</select>
+	
+	<!-- 返单分配客服查询，获取当前分配情况 -->
+	<select id="selectOrderReportDistributionCustomer" resultType="java.util.Map">
+		select DISTINCT a.send_rule_id,b.max_service_index,ifnull(c.service_index,0) service_index
+		  from biz_order_report_send_rule_service a
+			left join  (
+				select send_rule_id,max(service_index ) max_service_index from biz_order_report_send_rule_service group by send_rule_id 
+			) b on a.send_rule_id = b.send_rule_id 
+			left join (
+				select send_rule_id,service_index from biz_order_report_send_rule_service where is_send_end = 1
+		  	) c on a.send_rule_id = c.send_rule_id 
+		 where a.send_rule_id = ( select id from biz_order_report_send_rule ors where ors.status = '1'   ORDER BY  ors.create_date DESC LIMIT 1   )
+	</select>
+	<!-- 清除当前规则的分配标示 -->
+	<update id="updateBySendRuleId" parameterType="java.lang.Integer">
+		update biz_order_report_send_rule_service
+		   set is_send_end = 0
+		where send_rule_id = #{sendRuleId}
+	</update>
+	
+	<!-- 分配客服操作 -->
+	<update id="distributionCustomer" parameterType="java.util.Map">
+		update biz_order_report_send_rule_service
+		   set 
+		   		send_count = send_count +1 ,
+		   		is_send_end = 1
+		where send_rule_id = #{sendRuleId} and service_index = #{serviceIndex}
+	</update>
+	
+	<!-- 根据分配信息返回客服人员信息 -->
+	<select id="selectCustomerServiceByMap" parameterType="java.util.Map" resultType="cn.damei.entity.modules.BizEmployee">
+		select a.service_employee_id as id,b.storeId as storeid,b.realName as realname ,b.phone,b.employee_id_mapping_order_change_sys as employeeIdMappingOrderChangeSys
+		  from biz_order_report_send_rule_service a 
+		 inner join biz_employee b on a.service_employee_id = b.id
+		 where a.send_rule_id = #{sendRuleId} and a.service_index = #{serviceIndex}
+	</select>
+</mapper>

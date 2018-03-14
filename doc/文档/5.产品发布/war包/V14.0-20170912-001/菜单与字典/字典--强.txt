@@ -1,0 +1,6 @@
+字典新增：（订单管理优化-徐强）   
+       键值	标签   	           类型     	             描述	       排序
+       1	信息不完整	refuse_reason_type	预备订单拒绝理由	10	
+       2	其他	        refuse_reason_type	预备订单拒绝理由	20
+       41	上墙砖	         main_material_type	主材类型                40	 
+       42       下墙砖           main_material_type	主材类型                50

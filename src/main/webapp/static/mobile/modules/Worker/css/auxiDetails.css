@@ -1,0 +1,9 @@
+.tit{height: .8rem;line-height: .8rem;background: #fff;}
+.icon-left{background: url(../images/auxi.png);display: inline-block;width: .31rem;height: .31rem;background-size: .31rem;
+	margin-left: .34rem;margin-right: .18rem;vertical-align: -4px;}
+.col_grey1{color: #525151;}
+.font4{font-size: .4rem;}
+.auxi-list{padding-top: .6rem;padding-bottom: .4rem;}
+.auxi-list p:first-child{padding-left: .24rem;margin-bottom: .34rem;}
+.auxi-list p:last-child{text-align: center;}
+section{margin-bottom: 300px;}

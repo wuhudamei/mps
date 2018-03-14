@@ -1,0 +1,1 @@
+UPDATE biz_business_problem SET business_type = 1

@@ -1,0 +1,19 @@
+.bg_bo{
+    background-color: #fff;
+    background-image: url(../../img/metri/bg_bo.png);
+    background-repeat: repeat-x;
+    background-position: left bottom;
+}
+.col_10{color: #101010;}
+.col_c20e0e{color: #c20e0e;}
+.pad_top24{padding-top: .24rem;}
+.pad_btm24{padding-bottom: .24rem;}
+.pad_left30{padding-left: .3rem;}
+.pad_rgt30{padding-right: .3rem;}
+.pad_top88{padding-top: .88rem;}
+.locate{text-align: center;}
+.bor_btm_ccc{border-bottom: 1px solid #ccc;}
+.bor_top_ea{border-top: 1px solid #eaeaea;}
+.bor_btm_ea{border-bottom: 1px solid #eaeaea;}
+
+.rela{position: relative;}

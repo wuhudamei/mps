@@ -1,0 +1,44 @@
+打包名称：增量
+打包版本：V14.0-20170830-001（增量）
+
+
+一、功能变更：
+
+	1、基装成本接口---郝永辉；
+	2、辅料接口历史数据处理---轶博
+
+二、新建文件路径：（增量）
+
+	1、classes\com\thinkgem\jeesite\api路径下新建baseLoadingCost文件夹
+	2、classes\com\thinkgem\jeesite\api\baseLoadingCost路径下新建dao、entity、service、web文件夹
+	3、resources\mappings\api路径下新建baseLoadingCost文件夹
+
+三、更新文件：（增量）
+	1、替换文件夹名【基装成本接口---郝永辉】内的【PackageInfo.class、PmSettleInfo.class】文件；
+	    替换路径在当前目录的文本【文件路径.txt】文本内；
+	2、替换文件夹名【基装成本接口---郝永辉】内的【PackageInfoDao.class、PmSettleInfoDao.class】文件；
+	    替换路径在当前目录的文本【文件路径.txt】文本内；
+	3、替换文件夹名【基装成本接口---郝永辉】内的【PackageInfoService.class、PmSettleInfoService.class】文件；
+	    替换路径在当前目录的文本【文件路径.txt】文本内；
+	4、替换文件夹名【基装成本接口---郝永辉】内的【BaseLoadingCostController.class】文件；
+	    替换路径在当前目录的文本【文件路径.txt】文本内；
+	5、替换文件夹名【基装成本接口---郝永辉】内的【OrderTaskpackageSettlement.class】文件；
+	    替换路径在当前目录的文本【文件路径.txt】文本内；
+	6、替换文件夹名【基装成本接口---郝永辉】内的【packageInfoDao.xml、PmSettleInfoDao.xml】文件；
+	    替换路径在当前目录的文本【文件路径.txt】文本内；
+  7、替换文件夹名【基装成本接口---郝永辉】内的【OrderTaskpackageSettlement.xml】文件；
+	    替换路径在当前目录的文本【文件路径.txt】文本内；
+	8、替换文件夹名【基装成本接口---郝永辉】内的【taskpackage_confirm.jsp、taskpackage_confirm_recheck.jsp、taskpackage_confirm_update.jsp】文件；
+	    替换路径在当前目录的文本【文件路径.txt】文本内；
+
+四、执行脚本
+	1、执行文件夹名【辅料接口历史数据处理---轶博】内的【基装验收接口数据.sql】文件；
+	2、执行文件夹名【辅料接口历史数据处理---轶博】内的【竣工验收接口数据.sql】文件；
+
+
+	
+
+
+
+
+	 

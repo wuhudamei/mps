@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.OrderCadfileDao">
+    
+	<sql id="orderCadfileColumns">
+		a.id AS "id",
+		a.order_id AS "orderId",
+		a.display_file_name AS "displayFileName",
+		a.file_name AS "fileName",
+		a.file_path AS "filePath",
+		a.version AS "version",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="orderCadfileJoins">
+		LEFT JOIN biz_order b ON a.order_id = b.id
+	</sql>
+    
+	<select id="get" resultType="cn.damei.entity.modules.OrderCadfile">
+		SELECT 
+			<include refid="orderCadfileColumns"/>
+		FROM biz_order_cadfile a
+		<include refid="orderCadfileJoins"/>
+		where 
+			a.id=#{id}
+	</select>
+	
+	<!-- <select id="findDtail" resultTycn.damei.entity.modules.OrderCadfilefile">
+		SELECT 
+			<include refid="orderCadfileColumns"/>
+		FROM biz_order_cadfile a
+		<include refid="orderCadfileJoins"/>
+		<where>
+		<if test="flag !=1">
+			a.id=#{id}
+		</if>
+		<if test="flag ==1">
+			AND a.order_number = #{orderNumber}
+		</if>
+		</where>
+	
+	</select> -->
+	
+	
+	<select id="findList" resultType="cn.damei.entity.modules.OrderCadfile">
+		SELECT 
+			<include refid="orderCadfileColumns"/>
+		FROM biz_order_cadfile a
+		<include refid="orderCadfileJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		<if test="orderId!=null and orderId != '' ">
+			AND a.order_id = #{orderId}
+		</if> 
+		<if test="orderNumber!=null and orderNumber != '' ">
+			AND a.order_number = #{orderNumber}
+		</if>
+		</where>
+		
+		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="cn.damei.entity.modules.OrderCadfile">
+		SELECT 
+			<include refid="orderCadfileColumns"/>
+		FROM biz_order_cadfile a
+		<include refid="orderCadfileJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO biz_order_cadfile(
+			id,
+			order_id,
+			order_number,
+			display_file_name,
+			file_name,
+			file_path,
+			version,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag
+		) VALUES (
+			#{id},
+			#{orderId},
+			#{orderNumber},
+			#{displayFileName},
+			#{fileName},
+			#{filePath},
+			#{version},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag}
+		)
+	</insert>
+
+	
+	<update id="update">
+		UPDATE biz_order_cadfile SET 	
+			order_id = #{orderId},
+			display_file_name = #{displayFileName},
+			file_name = #{fileName},
+			file_path = #{filePath},
+			version = #{version},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE biz_order_cadfile SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		where id= #{id}
+	</update>
+	
+	
+		<insert id="insertCadfile" parameterType="cn.damei.entity.modules.OrderCadfile">
+		INSERT INTO biz_order_cadfile(
+			id,
+			order_id,
+			order_number,
+			display_file_name,
+			file_name,
+			file_path,
+			version,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag
+		) VALUES (
+			#{id},
+			#{orderId},
+			#{orderNumber},
+			#{displayFileName},
+			#{fileName},
+			#{filePath},
+			#{version},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag}
+		)
+	</insert>
+	<update id="saveCadfile" parameterType="cn.damei.entity.modules.OrderCadfile">
+		UPDATE biz_order_cadfile SET 	
+			order_id = #{orderId},
+			display_file_name = #{displayFileName},
+			file_name = #{fileName},
+			file_path = #{filePath},
+			version = #{version},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+</mapper>

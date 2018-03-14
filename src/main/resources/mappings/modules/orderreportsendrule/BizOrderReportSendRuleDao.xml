@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizOrderReportSendRuleDao">
+    
+	<sql id="bizOrderReportSendRuleColumns">
+		a.id AS "id",
+		a.start_datetime AS "startDatetime",
+		a.end_datetime AS "endDatetime",
+		a.status AS "status",
+		a.remarks AS "remarks",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="bizOrderReportSendRuleJoins">
+	</sql>
+    
+	<select id="get" resultType="BizOrderReportSendRule">
+		SELECT 
+			<include refid="bizOrderReportSendRuleColumns"/>
+		FROM biz_order_report_send_rule a
+		<include refid="bizOrderReportSendRuleJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="selectByStatus" resultType="BizOrderReportSendRule" >
+		SELECT 
+			<include refid="bizOrderReportSendRuleColumns"/>,b.name AS "createName"
+		FROM biz_order_report_send_rule a 
+		left join sys_user b on a.create_by = b.id
+	   where a.status in (${_parameter})	order by start_datetime desc
+	</select>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO biz_order_report_send_rule(
+			id,
+			start_datetime,
+			end_datetime,
+			status,
+			remarks,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag
+		) VALUES (
+			#{id},
+			#{startDatetime},
+			#{endDatetime},
+			#{status},
+			#{remarks},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE biz_order_report_send_rule 
+		<set>
+			<if test=" startDatetime != null ">
+				start_datetime = #{startDatetime},
+			</if>
+			<if test=" endDatetime != null ">
+				end_datetime = #{endDatetime},
+			</if>
+			<if test=" status != null ">
+				status = #{status},
+			</if>
+		</set>	
+		WHERE id = #{id}
+	</update>
+	
+	<update id="updateRuleStatusByMap" parameterType="java.util.Map">
+		UPDATE biz_order_report_send_rule 
+		<set>
+			<if test=" setStatus != null ">
+				status = #{setStatus},
+			</if>
+			<if test=" endDatetime != null ">
+				end_datetime = #{endDatetime},
+			</if>
+		</set>
+		 where status = #{oldStatus}
+	</update>
+	
+	<update id="delete">
+		UPDATE biz_order_report_send_rule SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

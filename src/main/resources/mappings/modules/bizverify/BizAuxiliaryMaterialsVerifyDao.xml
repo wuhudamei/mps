@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="cn.damei.dao.modules.BizAuxiliaryMaterialsVerifyDao">
+	<sql id="verifyColumns">
+		a.id as "id",
+		a.store_id as "storeId",
+		a.verify_code as
+		"verifyCode",
+		a.generate_datetime as "generateDatetime",
+		a.start_date as
+		"startDate",
+		a.end_date as "endDate",
+		a.order_taskpackage_settlement_count as
+		"orderTaskpackageSettlementCount",
+		a.auxiliary_materials_supplier_price_amount as
+		"auxiliaryMaterialsSupplierPriceAmount",
+		a.auxiliary_materials_wangzhen_price_amount as
+		"auxiliaryMaterialsWangzhenPriceAmount",
+		a.auxiliary_materials_labor_price_amount as
+		"auxiliaryMaterialsLaborPriceAmount",
+		a.auxiliary_materials_count as
+		"auxiliaryMaterialsCount",
+		a.status as "status",
+		a.status_datetime as
+		"statusDatetime",
+		a.status_remark as "statusRemark",
+		a.status_operate_employee_id as "statusOperateEmployeeId",
+		a.cancel_reason as "cancelReason",
+		a.remarks AS "remarks",
+		a.create_by
+		AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS
+		"updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag"
+	</sql>
+	<sql id="verifyJoins">
+	</sql>
+	<select id="get"
+		resultType="cn.damei.entity.modules.BizAuxiliaryMaterialsVerify">
+		SELECT
+		<include refid="verifyColumns" />,
+		p.supplier_name as "supplierName"
+		FROM biz_auxiliary_materials_verify a
+		left join biz_supplier p on p.id= a.supplier_id
+		<include refid="verifyJoins" />
+		WHERE a.id =#{id}
+	</select>
+
+	<select id="findList"
+		resultType="cn.damei.entity.modules.BizAuxiliaryMaterialsVerify">
+		SELECT
+		<include refid="verifyColumns" />,
+		e.realName as "empName",
+		p.supplier_name as "supplierName"
+		FROM 
+		biz_auxiliary_materials_verify a 
+		left join biz_employee e on e.id=a.status_operate_employee_id
+		left join biz_supplier p on p.id= a.supplier_id
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="id != null and id != ''">
+				AND a.id =#{id}
+			</if>
+			<if test="supplierId != null and supplierId != ''">
+			  AND a.supplier_id =#{supplierId}
+			</if>
+            <if test="status == null || status == ''">
+            AND a.status != '15'
+            </if>
+            <if test="status != null and status != ''">
+            AND a.status =#{status}
+            </if>
+            <if test="empName != null and empName != ''">
+            AND e.realName LIKE CONCAT('%','${empName}','%' )
+            </if>
+			<if test="storeId != null and storeId != ''">
+				AND a.store_id = #{storeId}
+			</if>
+			<if test="verifyCode != null and verifyCode != ''">
+				AND a.verify_code LIKE CONCAT('%','${verifyCode}','%' )
+			</if>
+			<if test="startDate != null and endDate != null and startDate != '' and endDate != ''">
+				AND a.generate_datetime BETWEEN #{startDate} AND
+				#{endDate}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.create_date DESC
+			</otherwise>
+		</choose>
+	</select>
+
+
+	<select id="findAllList"
+		resultType="cn.damei.entity.modules.BizAuxiliaryMaterialsVerify">
+		SELECT
+		<include refid="verifyColumns" />
+		FROM biz_auxiliary_materials_verify a
+		<include refid="verifyJoins" />
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id"
+		keyColumn="id">
+		INSERT INTO biz_auxiliary_materials_verify(
+		id,
+		store_id,
+		verify_code,
+		generate_datetime,
+		start_date,
+		end_date,
+		order_taskpackage_settlement_count,
+		auxiliary_materials_supplier_price_amount,
+		auxiliary_materials_wangzhen_price_amount,
+		auxiliary_materials_labor_price_amount,
+		auxiliary_materials_count,
+		status,
+		status_datetime,
+		status_remark,
+		status_operate_employee_id,
+		cancel_reason,
+		remarks,
+		create_by,
+		create_date,
+		update_by,
+		update_date,
+		del_flag,
+		supplier_id
+		) VALUES (
+		#{id},
+		#{storeId},
+		#{verifyCode},
+		#{generateDatetime},
+		#{startDate},
+		#{endDate},
+		#{orderTaskpackageSettlementCount},
+		#{auxiliaryMaterialsSupplierPriceAmount},
+		#{auxiliaryMaterialsWangzhenPriceAmount},
+		#{auxiliaryMaterialsLaborPriceAmount},
+		#{auxiliaryMaterialsCount},
+		#{status},
+		#{statusDatetime},
+		#{statusRemark},
+		#{statusOperateEmployeeId},
+		#{cancelReason},
+		#{remarks},
+		#{createBy.id},
+		#{createDate},
+		#{updateBy.id},
+		#{updateDate},
+		#{delFlag},
+		#{supplierId}
+		)
+	</insert>
+
+	<update id="update">
+		UPDATE biz_auxiliary_materials_verify SET
+		store_id =
+		#{storeId},
+		verify_code = #{verifyCode},
+		generate_datetime =
+		#{generateDatetime},
+		start_date = #{startDate},
+		end_date = #{endDate},
+		order_taskpackage_settlement_count =
+		#{orderTaskpackageSettlementCount},
+		auxiliary_materials_supplier_price_amount =
+		#{auxiliaryMaterialsSupplierPriceAmount},
+		auxiliary_materials_wangzhen_price_amount =
+		#{auxiliaryMaterialsWangzhenPriceAmount},
+		auxiliary_materials_labor_price_amount =
+		#{auxiliaryMaterialsLaborPriceAmount},
+		auxiliary_materials_count =
+		#{auxiliaryMaterialsCount},
+		status = #{status},
+		status_datetime =
+		#{statusDatetime},
+		status_remark = #{statusRemark},
+		status_operate_employee_id = #{statusOperateEmployeeId},
+		cancel_reason
+		= #{cancelReason},
+		remarks = #{remarks},
+		update_by = #{updateBy.id},
+		update_date = #{updateDate}
+		WHERE id=#{id}
+	</update>
+
+	<update id="delete">
+		UPDATE biz_auxiliary_materials_verify SET
+		del_flag =
+		#{DEL_FLAG_DELETE}
+		WHERE id =#{id}
+	</update>
+
+</mapper>

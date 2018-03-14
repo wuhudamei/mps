@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizBusinessUrgePayDao">
+
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO biz_business_urge_pay (
+            related_business_type,
+            related_business_id_int,
+            urge_pay_type,
+            urge_pay_content,
+            urge_pay_channel,
+            status,
+            
+            status_datetime,
+            status_operator_employee_id,
+            urge_target_name,
+            urge_target_phone,
+            urge_target_name2,
+            urge_target_phone2,
+            
+            remarks,
+            create_by,
+            create_date,
+
+
+            del_flag
+        ) VALUES (
+            #{relatedBusinessType},
+            #{relatedBusinessIdInt},
+            #{urgePayType},
+            #{urgePayContent},
+            #{urgePayChannel},
+            #{status},
+            
+            NOW(),
+            #{statusOperatorEmployeeId},
+            #{urgeTargetName},
+            #{urgeTargetPhone},
+            #{urgeTargetName2},
+            #{urgeTargetPhone2},
+            
+            #{remarks},
+            #{createBy.id},
+            NOW(),
+
+            #{delFlag}
+        )
+    </insert>
+    <select id="getOrderInfo" resultType="cn.damei.entity.mobile.Manager.Backlog">
+		select  
+			o.id AS "orderId",
+			o.community_name AS 'communityName',
+			o.build_unit AS 'buildUnit',
+			o.build_number AS 'buildNumber',
+			o.build_room AS 'buildRoom',
+			o.customer_name AS "customerName",
+			o.customer_phone AS "customerPhone",
+			o.designer_name AS "designerName",
+			o.designer_phone AS "designerPhone",
+			o.item_manager AS "managerName"
+		from  biz_order o where o.id=#{id}
+	</select>
+</mapper>

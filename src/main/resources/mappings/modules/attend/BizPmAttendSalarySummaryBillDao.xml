@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizPmAttendSalarySummaryBillDao">
+    
+	<sql id="bizPmAttendSalarySummaryBillColumns">
+		a.id AS "id",
+		a.store_id AS "storeId",
+		a.project_mode AS "projectMode",
+		a.pm_attend_salary_summary_bill_code AS "pmAttendSalarySummaryBillCode",
+		a.salary_month AS "salaryMonth",
+		a.generated_datetime AS "generatedDatetime",
+		a.salray_bill_count AS "salrayBillCount",
+		a.salary_total_amount AS "salaryTotalAmount",
+		a.status AS "status",
+		a.status_datetime AS "statusDatetime",
+		a.status_employee_id AS "statusEmployeeId",
+		a.status_describe AS "statusDescribe",
+		a.remarks AS "remarks",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="bizPmAttendSalarySummaryBillJoins">
+	</sql>
+    
+	<select id="get" resultType="BizPmAttendSalarySummaryBill">
+		SELECT 
+			<include refid="bizPmAttendSalarySummaryBillColumns"/>
+		FROM biz_pm_attend_salary_summary_bill a
+		<include refid="bizPmAttendSalarySummaryBillJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="BizPmAttendSalarySummaryBill">
+		SELECT 
+			<include refid="bizPmAttendSalarySummaryBillColumns"/>
+		FROM biz_pm_attend_salary_summary_bill a
+		<include refid="bizPmAttendSalarySummaryBillJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="BizPmAttendSalarySummaryBill">
+		SELECT 
+			<include refid="bizPmAttendSalarySummaryBillColumns"/>
+		FROM biz_pm_attend_salary_summary_bill a
+		<include refid="bizPmAttendSalarySummaryBillJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO biz_pm_attend_salary_summary_bill(
+			store_id,
+			project_mode,
+			pm_attend_salary_summary_bill_code,
+			salary_month,
+			generated_datetime,
+			salray_bill_count,
+			salary_total_amount,
+			status,
+			status_datetime,
+			status_employee_id,
+			status_describe,
+			remarks,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag
+		) VALUES (
+			#{storeId},
+			#{projectMode},
+			#{pmAttendSalarySummaryBillCode},
+			#{salaryMonth},
+			#{generatedDatetime},
+			#{salrayBillCount},
+			#{salaryTotalAmount},
+			#{status},
+			#{statusDatetime},
+			#{updateBy.empId},
+			#{statusDescribe},
+			#{remarks},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE biz_pm_attend_salary_summary_bill SET 	
+			store_id = #{storeId},
+			project_mode = #{projectMode},
+			pm_attend_salary_summary_bill_code = #{pmAttendSalarySummaryBillCode},
+			salary_month = #{salaryMonth},
+			generated_datetime = #{generatedDatetime},
+			salray_bill_count = #{salrayBillCount},
+			salary_total_amount = #{salaryTotalAmount},
+			status = #{status},
+			status_datetime = #{statusDatetime},
+			status_employee_id = #{statusEmployeeId},
+			status_describe = #{statusDescribe},
+			remarks = #{remarks},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE biz_pm_attend_salary_summary_bill SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+	<insert id="insertBillRel" >
+		INSERT INTO biz_pm_attend_salary_summary_bill_rel(
+			pm_attend_salary_bill_id,
+			pm_attend_salary_summary_bill_id
+		) VALUES (
+			#{pmAttendSalaryBillId},	
+			#{pmAttendSalarySummaryBillId}	
+		)
+	</insert>
+	
+</mapper>

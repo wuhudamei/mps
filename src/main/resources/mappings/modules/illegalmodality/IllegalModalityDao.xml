@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="cn.damei.dao.modules.IllegalModalityDao">
+
+	<sql id="illegalModalityColumns">
+		a.id AS "id",
+		a.store_id AS "storeId",
+		a.project_mode as "projectMode",
+		a.qc_check_item_id AS
+		"checkKindId",
+		a.break_describe AS "breakDescribe",
+		a.is_required_remarks AS "isRequiredRemarks",
+		a.status AS "status"
+	</sql>
+
+	<sql id="illegalModalityJoins">
+	</sql>
+
+	<select id="get"
+		resultType="cn.damei.entity.modules.IllegalModality">
+		SELECT
+		a.id AS "id",
+		a.store_id AS "storeId",
+		b.project_mode as "projectMode",
+		a.qc_check_item_id AS "checkKindId",
+		a.break_describe AS "breakDescribe",
+		a.is_required_remarks AS "isRequiredRemarks",
+		a.status AS "status" ,
+		b.qc_check_item_name as "checkItemName",
+		d.name as "storeName",
+		c.qc_check_kind_name as "checkKindName"
+
+
+
+		FROM
+		biz_qc_check_item_break a,
+		biz_qc_check_item b,
+		biz_qc_check_kind c,
+		sys_office d
+		<include refid="illegalModalityJoins" />
+		where
+		a.qc_check_item_id = b.id and b.qc_check_kind_id = c.id and a.store_id = d.id and a.id =#{id}
+	</select>
+
+	<!-- page List页面 -->
+	<select id="findList"
+		resultType="cn.damei.entity.modules.IllegalModality">
+		SELECT a.id AS "id",
+		a.store_id AS "storeId",
+		b.project_mode as "projectMode",
+		a.qc_check_item_id AS
+		"checkKindId",
+		a.break_describe AS "breakDescribe",
+		a.is_required_remarks AS "isRequiredRemarks",
+		a. `STATUS` AS "status",
+		b.qc_check_item_name as "checkItemName",
+
+		c.qc_check_kind_name as "checkKindName"
+
+
+
+		FROM
+		biz_qc_check_item_break a,
+		biz_qc_check_item b,
+		biz_qc_check_kind c
+		<include refid="illegalModalityJoins" />
+		<where>
+			a.qc_check_item_id = b.id and b.qc_check_kind_id = c.id AND
+			b.id = #{checkItemId} 
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+
+	<select id="findAllList"
+		resultType="cn.damei.entity.modules.IllegalModality">
+		SELECT
+		<include refid="illegalModalityColumns" />
+		FROM biz_qc_check_item_break a
+		<include refid="illegalModalityJoins" />
+		<where>
+
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+
+	<insert id="insert">
+		INSERT INTO biz_qc_check_item_break(
+
+		store_id,
+		qc_check_item_id,
+		break_describe,
+		is_required_remarks,
+		status
+		) VALUES (
+
+		#{storeId},
+		#{checkItemId},
+		#{breakDescribe},
+		#{isRequiredRemarks},
+		#{status}
+		)
+	</insert>
+
+	<update id="update">
+		UPDATE biz_qc_check_item_break SET
+		store_id =
+		#{storeId},
+		qc_check_item_id = #{checkKindId},
+		break_describe =
+		#{breakDescribe},
+		is_required_remarks = #{isRequiredRemarks},
+		status =
+		#{status}
+		WHERE id = #{id}
+	</update>
+
+	<!-- 停启用 -->
+	<update id="delete"
+		parameterType="cn.damei.entity.modules.IllegalModality">
+		update biz_qc_check_item_break set
+
+
+		status = #{status}
+		WHERE
+		id = #{id}
+	</update>
+
+
+
+
+
+
+
+	<select id="getStoreKindItemInfoByIllegalModalityId"
+		parameterType="int"
+		resultType="cn.damei.entity.modules.IllegalModality">
+		SELECT
+		b.id AS "checkItemId",
+		b.qc_check_item_name AS "checkItemName",
+		c.qc_check_kind_name AS "checkKindName",
+		c.id AS "checkKindId",
+		d.`name` AS "storeName",
+		d.id AS "storeId",
+		b.project_mode as "projectMode"
+		FROM
+		biz_qc_check_item b,
+		biz_qc_check_kind c,
+		sys_office d
+		WHERE
+		b.qc_check_kind_id = c.id
+		AND b.store_id = d.id
+		AND b.id = #{checkItemId}
+
+
+
+	</select>
+
+
+
+
+
+
+
+
+</mapper>

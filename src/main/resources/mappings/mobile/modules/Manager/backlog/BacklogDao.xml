@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.mobile.Manager.BacklogDao">
+
+	<select id="findOrderTaskPackageByManagerId" resultType="cn.damei.entity.mobile.Manager.Backlog">
+		SELECT a.customer_name as 'customerName',c.id AS 'settlementId',b.id AS 'taskPackageId',b.package_name AS 'taskPackageName',a.community_name,a.build_number,a.build_unit,a.build_room ,b.package_stateId as 'status' FROM biz_order a
+		LEFT JOIN biz_order_taskpackage b ON a.id = b.order_id
+		LEFT JOIN biz_order_taskpackage_settlement c ON b.id = c.order_taskpackage_id
+		WHERE a.item_manager_id = #{0} AND b.package_stateId IN (#{1},#{2},#{3},#{4})
+	</select>
+	<select id="findAllOrderIDByID" resultType="String">
+		SELECT a.order_id
+	FROM biz_node_plan a
+		WHERE TIMESTAMPDIFF(DAY,a.plan_done_date,CURDATE()) >=  - 3
+   		 AND a.order_id IN(SELECT
+                        a.id
+                      FROM biz_order a
+                      WHERE a.item_manager_id = #{0})
+    AND a.node_index IN(2,3)
+	GROUP BY a.order_id
+	</select>
+	<select id="findNoApplyMaterialId" resultType="String">
+		SELECT a.order_id FROM biz_purchase a 
+		WHERE a.order_id IN 
+		<foreach collection="list" item="item" open="("  separator="," close=")" index="index">
+					#{item}
+		</foreach>
+		group by a.order_id
+	</select>
+	<select id="findNoApplyMaterial" resultType = "cn.damei.entity.mobile.Manager.Backlog">
+		SELECT a.purchase_type AS 'purchaseType',b.id AS 'orderId',b.community_name,b.build_number,b.build_unit,b.build_room,b.customer_name FROM biz_order b join (SELECT a.purchase_type FROM biz_purchase a WHERE a.purchase_type IN (1,5) GROUP BY a.purchase_type) a WHERE a.purchase_type IN (1,5) AND b.id in
+		<foreach collection="list" item="item" open="("  separator="," close=")" index="index">
+					#{item}
+		</foreach>
+	</select>
+	<select id="findNoApplyMaterialAll" resultType = "cn.damei.entity.mobile.Manager.Backlog">
+		SELECT a.id,COUNT(a.order_id),a.order_id,
+(CASE WHEN  a.purchase_type=1 THEN 5 ELSE 1 END) AS 'purchaseType',b.id AS 'OrderId',b.community_name,b.build_number,b.build_unit,b.build_room,b.customer_name FROM 
+		(
+		SELECT a.id,a.order_id,a.purchase_type
+		FROM biz_purchase a
+		WHERE a.order_id IN
+			<foreach collection="list" item="item" open="("  separator="," close=")" index="index">
+					#{item}
+			</foreach>
+		 AND a.purchase_type IN(1,5) AND a.status NOT IN (21)
+		GROUP BY a.order_id,a.purchase_type ) a
+		LEFT JOIN biz_order b ON b.id = a.order_id
+		GROUP BY a.order_id HAVING COUNT(a.order_id) = 1
+	</select>
+	
+	<select id = "findAllOrderNumber" resultType = "cn.damei.entity.mobile.Manager.Backlog">
+		SELECT
+			a.order_id,
+			a.purchaseType,
+			a.community_name,
+			a.build_number,
+			a.build_unit,
+			a.build_room,
+			a.customer_name,
+			count(b.id)
+		FROM
+			(
+				SELECT
+					a.order_id,
+					(
+						CASE
+						WHEN a.node_index = 2 THEN
+							1
+						ELSE
+							5
+						END
+					) purchaseType,
+					b.id,
+					b.community_name,
+					b.build_number,
+					b.build_unit,
+					b.build_room,
+					b.customer_name
+				FROM
+					biz_node_plan a
+				LEFT JOIN biz_order b ON b.id = a.order_id
+				WHERE
+					a.order_id IN (
+						SELECT
+							a.id
+						FROM
+							biz_order a
+						WHERE
+							a.item_manager_id = #{0} 
+							and a.order_status_number &lt; 340
+					)
+				AND a.node_index IN (2, 3)
+				AND TIMESTAMPDIFF(
+					DAY,
+					a.plan_done_date,
+					CURDATE()
+				) >= - 3
+			) a
+		LEFT JOIN biz_purchase b ON b.purchase_type = a.purchaseType 
+		AND b.order_id = a.order_id
+		GROUP BY
+			a.order_id,
+			a.purchaseType
+		HAVING
+			count(b.id) = 0
+	</select>
+	<select id="findOrderByManagerId" resultType="cn.damei.entity.mobile.Manager.Backlog">
+		select 
+			oo.id as "orderId",
+			oo.community_name AS 'communityName',
+			oo.build_unit AS 'buildUnit',
+			oo.build_number AS 'buildNumber',
+			oo.build_room AS 'buildRoom',
+			oo.customer_name AS "customerName"
+		 from biz_order oo where oo.id in
+		(select distinct o.id 
+		from biz_order o 
+		INNER JOIN biz_todo_item t on o.id=t.order_id 
+		and t.is_solved=0
+		and t.todo_item_remind_datetime is not null
+		and  DATEDIFF(t.todo_item_remind_datetime,CURDATE())&lt;= 0
+		and o.item_manager_id=#{managerId})
+		
+	</select>
+	<select id="findTodayTodo" resultType="cn.damei.entity.modules.ToDoItemEntity">
+		select 
+			a.id as "id",
+			a.todo_item_type_id as "toDoItemTypeId",
+			a.related_business_type as "relatedBusinessType",
+			a.related_business_id as "relatedBusinessId",
+			a.todo_item_employee_id as "toDoItemEmployeeId",
+			a.todo_item_remind_title as "toDoItemRemindTitle",
+			a.todo_item_deal_url as "toDoItemDealUrl",
+			a.todo_item_generated_datetime as "toDoItemGeneratedDatetime",
+			a.todo_item_remind_datetime as "toDoItemRemindDatetime",
+			a.todo_item_view_datetime as "toDoItemViewDatetime",
+			a.todo_item_deal_datetime as "toDoItemDealDatetime",
+			a.is_viewed as "isViewd",
+			a.is_solved as "isSolved",
+			a.remarks as "remarks",
+			a.create_by as "createBy",
+			a.create_date as "createDate",
+			a.update_by as "updateBy",
+			a.update_date as "updateDate",
+			a.del_flag as "delFlag"
+			
+		from  biz_todo_item  a 	where 
+		    a.todo_item_employee_id=#{0}
+		    and a.order_id=#{1}
+		    and a.is_solved=0
+			and  DATEDIFF(a.todo_item_remind_datetime,CURDATE())=0
+			and a.todo_item_remind_datetime is not null
+		 order by a.todo_item_remind_datetime desc 
+	</select>
+	<select id="findOtherTodo" resultType="cn.damei.entity.modules.ToDoItemEntity">
+		select 
+			a.id as "id",
+			a.todo_item_type_id as "toDoItemTypeId",
+			a.related_business_type as "relatedBusinessType",
+			a.related_business_id as "relatedBusinessId",
+			a.todo_item_employee_id as "toDoItemEmployeeId",
+			a.todo_item_remind_title as "toDoItemRemindTitle",
+			a.todo_item_deal_url as "toDoItemDealUrl",
+			a.todo_item_generated_datetime as "toDoItemGeneratedDatetime",
+			a.todo_item_remind_datetime as "toDoItemRemindDatetime",
+			a.todo_item_view_datetime as "toDoItemViewDatetime",
+			a.todo_item_deal_datetime as "toDoItemDealDatetime",
+			a.is_viewed as "isViewd",
+			a.is_solved as "isSolved",
+			a.remarks as "remarks",
+			a.create_by as "createBy",
+			a.create_date as "createDate",
+			a.update_by as "updateBy",
+			a.update_date as "updateDate",
+			a.del_flag as "delFlag"
+			
+		from biz_todo_item   a 	where 
+		   a.todo_item_employee_id=#{0}
+		   and a.order_id=#{1}
+		   and a.is_solved=0
+		   and  DATEDIFF(a.todo_item_remind_datetime,CURDATE())&lt; 0
+		   and a.todo_item_remind_datetime is not null
+		 order by a.todo_item_remind_datetime desc 
+	</select>
+	<select id="findTotalCountTodo" resultType="Integer">
+		select 
+			count(*)
+		from  biz_todo_item  a 	where 
+		    a.todo_item_employee_id=#{parameter}
+		    and a.is_solved=0
+		    and DATEDIFF(a.todo_item_remind_datetime,CURDATE())&lt;= 0
+			and a.todo_item_remind_datetime is not null
+	</select>
+	<select id="getErQiKuanInfo" resultType="cn.damei.entity.mobile.Manager.Backlog">
+		select  
+			t.id AS "id",
+			t.todo_item_remind_title AS "remindTitle", 
+			o.id AS "orderId",
+			o.community_name AS 'communityName',
+			o.build_unit AS 'buildUnit',
+			o.build_number AS 'buildNumber',
+			o.build_room AS 'buildRoom',
+			o.customer_name AS "customerName",
+			o.customer_phone AS "customerPhone",
+			o.designer_name AS "designerName",
+			o.designer_phone AS "designerPhone",
+			o.item_manager AS "managerName"
+		from biz_todo_item t
+		INNER JOIN biz_order o on o.id=t.order_id
+		INNER JOIN biz_business_urge_pay b on b.id=t.related_business_id
+		and t.related_business_type='999'
+		and b.id=#{id}
+	</select>
+	<select id="getErQiKuanInfoByItemId" resultType="cn.damei.entity.mobile.Manager.Backlog">
+		select  
+			t.id AS "id",
+			t.todo_item_remind_title AS "remindTitle", 
+			o.id AS "orderId",
+			o.community_name AS 'communityName',
+			o.build_unit AS 'buildUnit',
+			o.build_number AS 'buildNumber',
+			o.build_room AS 'buildRoom',
+			o.customer_name AS "customerName",
+			o.customer_phone AS "customerPhone",
+			o.designer_name AS "designerName",
+			o.designer_phone AS "designerPhone",
+			o.item_manager AS "managerName"
+		from biz_todo_item t
+		INNER JOIN biz_order o on o.id=t.order_id
+		and t.id=#{id}
+	</select>
+	
+</mapper>

@@ -1,0 +1,37 @@
+.home_ul li:first-child{
+	background-image: url(../images/0mete_icon.png);
+    background-repeat: no-repeat;
+    background-size: 0.32rem 0.32rem;
+    background-position: 0.3rem center;
+}
+.home_ul li:nth-child(2){
+	background-image: url(../images/0progess_icon.png);
+    background-repeat: no-repeat;
+    background-size: 0.32rem 0.32rem;
+    background-position: 0.3rem center;
+}
+.home_ul li:nth-child(3){
+	background-image: url(../images/0task_icon.png);
+    background-repeat: no-repeat;
+    background-size: 0.32rem 0.32rem;
+    background-position: 0.3rem center;
+}
+.home_ul li:nth-child(4){
+	background-image: url(../images/0qulity_icon.png);
+    background-repeat: no-repeat;
+    background-size: 0.3rem 0.32rem;
+    background-position: 0.3rem center;
+}
+.home_ul li:nth-child(5){
+	background-image: url(../images/0change_icon.png);
+    background-repeat: no-repeat;
+    background-size: 0.3rem 0.32rem;
+    background-position: 0.3rem center;
+}
+.home_ul li:nth-child(6){
+	background-image: url(../images/0budget_icon.png);
+    background-repeat: no-repeat;
+    background-size: 0.3rem 0.32rem;
+    background-position: 0.3rem center;
+}
+/*firstPage ending*/

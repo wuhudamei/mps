@@ -1,0 +1,18 @@
+主材申请后台逻辑调整--徐强
+
+1、主材可申请安装日期处理页面
+   链接：/modules/orderinstallplanadvanceapply/web/bizOrderInstallPlanAdvanceApply/preInstallPlanAdvanceApplyList
+   权限标识：orderinstallplanadvanceapply:bizOrderInstallPlanAdvanceApply:view,orderinstallplanadvanceapply:bizOrderInstallPlanAdvanceApply:edit
+
+2、主材可申请复尺日期处理页面
+   链接：/modules/orderinstallplanadvanceapply/web/bizOrderInstallPlanAdvanceApply/preChecksizeAdvanceApplyList
+   权限标识：orderinstallplanadvanceapply:bizOrderInstallPlanAdvanceApply:view,orderinstallplanadvanceapply:bizOrderInstallPlanAdvanceApply:edit
+
+3、主材可申请安装日期查询
+   链接：/modules/orderInstallPlanAdjustment/web/orderInstallPlanAdjustment/preInstallPlanQueryInstallList
+   权限标识：orderInstallPlanAdjustment:orderInstallPlanAdjustment:view,orderInstallPlanAdjustment:orderInstallPlanAdjustment:edit
+
+4、主材可申请复尺日期查询
+   链接：/modules/orderInstallPlanAdjustment/web/orderInstallPlanAdjustment/preInstallPlanQueryChecksizeList
+   权限标识：orderInstallPlanAdjustment:orderInstallPlanAdjustment:view,orderInstallPlanAdjustment:orderInstallPlanAdjustment:edit
+

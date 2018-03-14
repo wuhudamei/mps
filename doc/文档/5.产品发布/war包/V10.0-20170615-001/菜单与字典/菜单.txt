@@ -1,0 +1,10 @@
+菜单新增：
+	1、工程部主材工期统计
+	名称：工程部主材工期统计表
+	链接：/bizOrderInstallItemReport/bizOrderInstallItemReport/preList
+	权限标识：bizOrderInstallItemReport:bizOrderInstallItemReport:view
+
+	2、工人回访电话查询
+	名称：工人回访电话查询
+	链接：/laborCapital/laborCapital/queryOrderList
+	权限标识：laborCapital:laborCapital:view

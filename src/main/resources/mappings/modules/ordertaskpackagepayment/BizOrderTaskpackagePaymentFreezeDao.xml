@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="cn.damei.dao.modules.BizOrderTaskpackagePaymentFreezeDao">
+	<select id="findList"
+		resultType="cn.damei.entity.modules.BizOrderTaskpackagePaymentFreeze">
+		SELECT
+		a.create_date as "operatoTime",
+		u.`name` as
+		"operator",
+		a.frozen_remarks as "frozenRemarks",
+		b.order_taskpackage_payment_code as "bizOrderTaskpackagePaymentCode",
+		d.package_name as "bizOrderTaskpackageName",
+		d.customer_message as
+		"customerMessage",
+		d.customer_name as "customerName",
+		d.group_realname
+		as "groupName",
+		b.order_taskpackage_payment_type as
+		"orderTaskpackagePaymentType",
+		b.amount as "amount"
+		FROM
+		biz_order_taskpackage_payment_frozen_log a
+		LEFT JOIN
+		biz_order_taskpackage_payment b ON
+		a.biz_order_taskpackage_payment_id =
+		b.id
+		LEFT JOIN biz_order_taskpackage_settlement c on
+		b.order_taskpackage_settlement_id = c.id
+		LEFT JOIN
+		biz_order_taskpackage d on c.order_taskpackage_id = d.id
+		LEFT JOIN
+		sys_user u on u.id = a.create_by
+		where
+		a.biz_order_taskpackage_payment_id=#{bizOrderTaskpackagePaymentId}
+	</select>
+
+	<insert id="insert">
+		INSERT INTO biz_order_taskpackage_payment_frozen_log(
+		id,
+		biz_order_taskpackage_payment_id,
+		frozen_type,
+		frozen_remarks,
+		remarks,
+		create_by,
+		create_date,
+		update_by,
+		update_date,
+		del_flag
+		) VALUES (
+		#{id},
+		#{bizOrderTaskpackagePaymentId},
+		#{frozenType},
+		#{frozenRemarks},
+		#{remarks},
+		#{createBy.id},
+		#{createDate},
+		#{updateBy.id},
+		#{updateDate},
+		#{delFlag}
+		)
+	</insert>
+</mapper>

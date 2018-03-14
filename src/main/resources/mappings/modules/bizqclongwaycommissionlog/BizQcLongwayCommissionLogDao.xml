@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizQcLongwayCommissionLogDao">
+    
+	<sql id="bizQcLongwayCommissionLogColumns">
+		a.id AS "id",
+		a.order_id AS "orderId",
+		a.longway_commission_employee_id AS "longwayCommissionEmployeeId",
+		a.star_level AS "starLevel",
+		a.commission_node AS "commissionNode",
+		a.commission_amount AS "commissionAmount",
+		a.commission_rate AS "commissionRate",
+		a.commission_datetime AS "commissionDatetime",
+		a.remarks AS "remarks",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag",
+		a.longway_commission_type as "longwayCommissionType"
+	</sql>
+	
+	<sql id="bizQcLongwayCommissionLogJoins">
+	</sql>
+    
+	<select id="get" resultType="cn.damei.entity.modules.BizQcLongwayCommissionLog">
+		SELECT 
+			<include refid="bizQcLongwayCommissionLogColumns"/>
+		FROM biz_qc_longway_commission_log a
+		<include refid="bizQcLongwayCommissionLogJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="queryCommissionLogByParam" resultType="cn.damei.entity.modules.BizQcLongwayCommissionLog">
+	    SELECT 
+			<include refid="bizQcLongwayCommissionLogColumns"/>
+		FROM biz_qc_longway_commission_log a
+		WHERE a.order_id = #{orderId}
+		AND a.longway_commission_employee_id = #{longwayCommissionEmployeeId}
+		AND a.longway_commission_type = #{longwayCommissionType}
+	</select>
+	
+	<select id="findList" resultType="cn.damei.entity.modules.BizQcLongwayCommissionLog">
+		SELECT 
+			<include refid="bizQcLongwayCommissionLogColumns"/>
+		FROM biz_qc_longway_commission_log a
+		<include refid="bizQcLongwayCommissionLogJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="cn.damei.entity.modules.BizQcLongwayCommissionLog">
+		SELECT 
+			<include refid="bizQcLongwayCommissionLogColumns"/>
+		FROM biz_qc_longway_commission_log a
+		<include refid="bizQcLongwayCommissionLogJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO biz_qc_longway_commission_log(
+			id,
+			order_id,
+			longway_commission_employee_id,
+			star_level,
+			commission_node,
+			commission_amount,
+			commission_rate,
+			commission_datetime,
+			remarks,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag,
+			longway_commission_type
+		) VALUES (
+			#{id},
+			#{orderId},
+			#{longwayCommissionEmployeeId},
+			#{starLevel},
+			#{commissionNode},
+			#{commissionAmount},
+			#{commissionRate},
+			#{commissionDatetime},
+			#{remarks},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag},
+			#{longwayCommissionType}
+		)
+	</insert>
+	
+	<insert id="insert1" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO biz_qc_longway_commission_log(
+			order_id,
+			longway_commission_employee_id,
+			star_level,
+			commission_node,
+			commission_amount,
+			commission_rate,
+			commission_datetime,
+			remarks,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag,
+			longway_commission_type
+		) VALUES (
+			#{orderId},
+			#{longwayCommissionEmployeeId},
+			#{starLevel},
+			#{commissionNode},
+			#{commissionAmount},
+			#{commissionRate},
+			#{commissionDatetime},
+			#{remarks},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag},
+			#{longwayCommissionType}
+		)
+	</insert>
+	
+	
+	<update id="update">
+		UPDATE biz_qc_longway_commission_log SET 	
+			order_id = #{orderId},
+			longway_commission_employee_id = #{longwayCommissionEmployeeId},
+			star_level = #{starLevel},
+			commission_node = #{commissionNode},
+			commission_amount = #{commissionAmount},
+			commission_rate = #{commissionRate},
+			commission_datetime = #{commissionDatetime},
+			remarks = #{remarks},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			longway_commission_type = #{longwayCommissionType}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE biz_qc_longway_commission_log SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

@@ -1,0 +1,397 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizBusinessUrgeDao">
+    
+	<sql id="bizBusinessUrgeColumns">
+		a.id AS "id",
+		a.business_only_mark_int AS "businessOnlyMarkInt",
+		a.business_only_mark_varchar AS "businessOnlyMarkVarchar",
+		a.busines_type AS "businesType",
+		a.operate_type AS "operateType",
+		a.operate_content AS "operateContent",
+		a.operator_employee_id AS "operatorEmployeeId",
+		a.operator_type AS "operatorType",
+		a.operate_datetime AS "operateDatetime",
+		a.remarks AS "remarks",
+		a.create_by AS "createBy.id",
+		a.create_by AS "createId",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="bizBusinessUrgeJoins">
+	</sql>
+    
+	<select id="get" resultType="cn.damei.entity.modules.BizBusinessUrge">
+		SELECT 
+			<include refid="bizBusinessUrgeColumns"/>
+		FROM biz_business_urge a
+		<include refid="bizBusinessUrgeJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="cn.damei.entity.modules.BizBusinessUrge">
+		SELECT 
+			<include refid="bizBusinessUrgeColumns"/>,
+			b.label AS "businesTypeName",
+			c.label AS "operateTypeName",
+			d.label AS "operatorTypeName",
+			e.realName AS "operatorEmployeeName"
+		FROM biz_business_urge a
+		LEFT JOIN sys_dict b ON b.`value` = a.busines_type AND b.type = 'business_urge_business_type' AND b.del_flag = #{DEL_FLAG_NORMAL}
+		LEFT JOIN sys_dict c ON c.`value` = a.operate_type AND c.type = 'business_urge_operate_type' AND c.del_flag = #{DEL_FLAG_NORMAL}
+		LEFT JOIN sys_dict d ON d.`value` = a.operator_type AND d.type = 'business_urge_operator_type' AND d.del_flag = #{DEL_FLAG_NORMAL}
+		LEFT JOIN biz_employee e ON e.id = a.operator_employee_id 
+		<include refid="bizBusinessUrgeJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="operatorEmployeeId != null and operatorEmployeeId != ''">
+				AND a.operator_employee_id = #{operatorEmployeeId}
+			</if>
+			<if test="operateDatetime != null and operateDatetime != ''">
+				AND a.operate_datetime = #{operateDatetime}
+			</if>
+			<if test="businesType != null and businesType != ''">
+				AND a.busines_type = #{businesType}
+			</if>
+			<if test="operateType != null and operateType != ''">
+				AND a.operate_type = #{operateType}
+			</if>
+			<if test="operatorType != null and operatorType != ''">
+				AND a.operator_type = #{operatorType}
+			</if>
+			<if test="businessOnlyMarkInt != null and businessOnlyMarkInt != ''">
+				AND a.business_only_mark_int = #{businessOnlyMarkInt}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.operate_datetime ASC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="cn.damei.entity.modules.BizBusinessUrge">
+		SELECT 
+			<include refid="bizBusinessUrgeColumns"/>
+		FROM biz_business_urge a
+		<include refid="bizBusinessUrgeJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO biz_business_urge(
+			id,
+			business_only_mark_int,
+			business_only_mark_varchar,
+			busines_type,
+			operate_type,
+			operate_content,
+			operator_employee_id,
+			operator_type,
+			operate_datetime,
+			remarks,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag
+		) VALUES (
+			#{id},
+			#{businessOnlyMarkInt},
+			#{businessOnlyMarkVarchar},
+			#{businesType},
+			#{operateType},
+			#{operateContent},
+			#{operatorEmployeeId},
+			#{operatorType},
+			#{operateDatetime},
+			#{remarks},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE biz_business_urge SET 	
+			business_only_mark_int = #{businessOnlyMarkInt},
+			business_only_mark_varchar = #{businessOnlyMarkVarchar},
+			busines_type = #{businesType},
+			operate_type = #{operateType},
+			operate_content = #{operateContent},
+			operator_employee_id = #{operatorEmployeeId},
+			operator_type = #{operatorType},
+			operate_datetime = #{operateDatetime},
+			remarks = #{remarks},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE biz_business_urge SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+	<!-- 催促安装，一天最多允许催促次数  -->
+	<select id="findCount" resultType="int">
+		SELECT 
+			count(1)
+		FROM biz_business_urge a
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			AND TO_DAYS(a.operate_datetime) = TO_DAYS(NOW())
+			<if test="operatorEmployeeId != null and operatorEmployeeId != ''">
+				AND a.operator_employee_id = #{operatorEmployeeId}
+			</if>
+			<if test="businesType != null and businesType != ''">
+				AND a.busines_type = #{businesType}
+			</if>
+			<if test="operateType != null and operateType != ''">
+				AND a.operate_type = #{operateType}
+			</if>
+			<if test="operatorType != null and operatorType != ''">
+				AND a.operator_type = #{operatorType}
+			</if>
+			<if test="businessOnlyMarkInt != null and businessOnlyMarkInt != ''">
+				AND a.business_only_mark_int = #{businessOnlyMarkInt}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 催促回复5分钟校验 -->
+	<select id="findCountByfiveTime" resultType="int">
+		SELECT 
+			count(1)
+		FROM biz_business_urge a
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			AND DATE_ADD(a.operate_datetime,INTERVAL 5 MINUTE) &gt; NOW()
+			<if test="operatorEmployeeId != null and operatorEmployeeId != ''">
+				AND a.operator_employee_id = #{operatorEmployeeId}
+			</if>
+			<if test="businesType != null and businesType != ''">
+				AND a.busines_type = #{businesType}
+			</if>
+			<if test="operateType != null and operateType != ''">
+				AND a.operate_type = #{operateType}
+			</if>
+			<if test="operatorType != null and operatorType != ''">
+				AND a.operator_type = #{operatorType}
+			</if>
+			<if test="businessOnlyMarkInt != null and businessOnlyMarkInt != ''">
+				AND a.business_only_mark_int = #{businessOnlyMarkInt}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 墙地砖催促查询 -->
+	<select id="findWallAndFloorSelectList" resultType="cn.damei.entity.modules.WallAndFloorBusinessUrge">
+		SELECT
+			a.id AS "businessId",
+			a.busines_type AS "businesType",
+			a.operate_type AS "operateType",
+			a.operate_datetime AS "operateDatetime",
+			b.id AS "purchaseId",
+			b.purchase_code AS "purchaseCode",
+			b.`status` AS "purchaseStatus",
+			c.label AS "purchaseStatusName",
+			d.id AS "orderId",
+			d.community_name AS "communityName",
+			d.build_number AS "buildNumber",
+			d.build_unit AS "buildUnit",
+			d.build_room AS "buildRoom",
+			d.customer_name AS "customerName",
+			d.customer_phone AS "customerPhone",
+			d.item_manager_id AS "itemManagerId",
+			e.realName AS "itemManagerName",
+			e.phone AS "itemManagerPhone",
+			d.store_id AS "storeId",
+			f.`name` AS "storeName",
+			d.project_mode AS "projectMode",
+			h.label AS "projectModeName",
+			d.engin_depart_id AS "enginDepartId",
+			g. NAME AS "enginDepartName",
+			IFNULL(m1.urgeCount,0) AS "urgeCount"
+		FROM
+			biz_business_urge a
+		LEFT JOIN biz_purchase b ON b.id = a.business_only_mark_int
+		LEFT JOIN sys_dict c ON c.`value` = b.`status` AND c.type = 'purchase_status' AND c.del_flag = #{DEL_FLAG_NORMAL}
+		LEFT JOIN biz_order d ON d.id = b.order_id
+		LEFT JOIN biz_employee e ON e.id = d.item_manager_id
+		LEFT JOIN sys_office f ON f.id = d.store_id
+		LEFT JOIN biz_engineering_department g ON g.id = d.engin_depart_id AND g.del_flag = #{DEL_FLAG_NORMAL}
+		LEFT JOIN sys_dict h ON h.`value` = d.project_mode AND h.type = 'project_mode' AND h.del_flag = #{DEL_FLAG_NORMAL}
+		LEFT JOIN (SELECT m.business_only_mark_int,COUNT(1) AS "urgeCount" FROM biz_business_urge m WHERE m.busines_type = 2 AND m.operate_type = 1 GROUP BY m.business_only_mark_int) m1 ON m1.business_only_mark_int = b.id 
+			
+		
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			
+			<if test="businesType != null and businesType != ''">
+				AND a.busines_type = #{businesType}
+			</if>
+			<if test="operateType != null and operateType != ''">
+				AND a.operate_type = #{operateType}
+			</if>
+			<if test="beginOperateDatetime != null and beginOperateDatetime != ''">
+				AND a.operate_datetime &gt;= #{beginOperateDatetime}
+			</if>
+			<if test="endOperateDatetime != null and endOperateDatetime != ''">
+				AND a.operate_datetime &lt;= #{endOperateDatetime}
+			</if>
+			<if test="purchaseCode != null and purchaseCode != ''">
+				AND b.purchase_code LIKE CONCAT('%','${purchaseCode}','%' )
+			</if>
+			<if test="storeId != null and storeId != ''">
+				AND d.store_id = #{storeId}
+			</if>
+			<if test="projectMode != null and projectMode != ''">
+				AND d.project_mode = #{projectMode}
+			</if>
+			<if test="enginDepartId != null and enginDepartId != ''">
+				AND d.engin_depart_id =#{enginDepartId}
+			</if>
+			<if test="customerName != null and customerName != ''">
+				AND d.customer_name LIKE CONCAT('%','${customerName}','%' )
+			</if>
+			<if test="itemManagerName != null and itemManagerName != ''">
+				AND e.realName LIKE CONCAT('%','${itemManagerName}','%' )
+			</if>
+			
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.operate_datetime DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<!-- 主材催促查询 -->
+	<select id="findInstallSelectList" resultType="cn.damei.entity.modules.InstallBusinessUrge">
+		SELECT
+			a.id AS "businessId",
+			a.busines_type AS "businesType",
+			a.operate_type AS "operateType",
+			a.operate_datetime AS "operateDatetime",
+			b.id AS "installId",
+			b.install_item_name AS "installItemName",
+			b.apply_into_date AS "applyIntoDate",
+			b.supplier_confirm_into_date AS "supplierConfirmIntoDate",
+			d.id AS "orderId",
+			d.community_name AS "communityName",
+			d.build_number AS "buildNumber",
+			d.build_unit AS "buildUnit",
+			d.build_room AS "buildRoom",
+			d.customer_name AS "customerName",
+			d.customer_phone AS "customerPhone",
+			d.item_manager_id AS "itemManagerId",
+			e.realName AS "itemManagerName",
+			e.phone AS "itemManagerPhone",
+			d.store_id AS "storeId",
+			f.`name` AS "storeName",
+			d.project_mode AS "projectMode",
+			h.label AS "projectModeName",
+			d.engin_depart_id AS "enginDepartId",
+			g. NAME AS "enginDepartName",
+			IFNULL(m1.urgeCount,0) AS "urgeCount",
+			o.project_install_item_id AS "projectInstallItemId"
+		FROM
+			biz_business_urge a
+		LEFT JOIN biz_order_install_plan b ON b.id = a.business_only_mark_int
+		LEFT JOIN biz_order d ON d.id = b.order_id
+		LEFT JOIN biz_employee e ON e.id = d.item_manager_id
+		LEFT JOIN sys_office f ON f.id = d.store_id
+		LEFT JOIN biz_engineering_department g ON g.id = d.engin_depart_id AND g.del_flag = #{DEL_FLAG_NORMAL}
+		LEFT JOIN sys_dict h ON h.`value` = d.project_mode AND h.type = 'project_mode' AND h.del_flag = #{DEL_FLAG_NORMAL}
+		LEFT JOIN (SELECT m.business_only_mark_int,COUNT(1) AS "urgeCount" FROM biz_business_urge m WHERE m.busines_type = #{businesType} AND m.operate_type = #{operateType} GROUP BY m.business_only_mark_int) m1 ON m1.business_only_mark_int = b.id 
+		LEFT JOIN biz_order_install_item o ON b.order_install_item_id = o.id
+		
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			
+			<if test="businesType != null and businesType != ''">
+				AND a.busines_type = #{businesType}
+			</if>
+			<if test="operateType != null and operateType != ''">
+				AND a.operate_type = #{operateType}
+			</if>
+			<if test="beginOperateDatetime != null and beginOperateDatetime != ''">
+				AND a.operate_datetime &gt;= #{beginOperateDatetime}
+			</if>
+			<if test="endOperateDatetime != null and endOperateDatetime != ''">
+				AND a.operate_datetime &lt;= #{endOperateDatetime}
+			</if>
+			<if test="installItemName != null and installItemName != ''">
+				AND b.install_item_sequence = #{installItemName}
+			</if>
+			<if test="storeId != null and storeId != ''">
+				AND d.store_id = #{storeId}
+			</if>
+			<if test="projectMode != null and projectMode != ''">
+				AND d.project_mode = #{projectMode}
+			</if>
+			<if test="enginDepartId != null and enginDepartId != ''">
+				AND d.engin_depart_id =#{enginDepartId}
+			</if>
+			<if test="customerName != null and customerName != ''">
+				AND d.customer_name LIKE CONCAT('%','${customerName}','%' )
+			</if>
+			<if test="itemManagerName != null and itemManagerName != ''">
+				AND e.realName LIKE CONCAT('%','${itemManagerName}','%' )
+			</if>
+			<if test="projectInstallItemIdList != null">
+				AND o.project_install_item_id  IN 
+				<foreach collection="projectInstallItemIdList" item="item" open="("  separator="," close=")" index="index">
+					#{item}
+				</foreach>
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.operate_datetime DESC
+			</otherwise>
+		</choose>
+	</select>
+
+    <select id="findUnqualifiedAcceptLog" resultType="cn.damei.entity.modules.BizBusinessUrge" parameterType="map">
+        SELECT
+            a.create_date,
+            a.unqualified_reason_configure AS 'operateContent',
+            b.realName as 'operatorEmployeeName',
+            a.accept_remarks AS 'remarks',
+            a.accept_type as 'operateType'
+        FROM
+          biz_order_install_plan_accept_log a
+        LEFT JOIN biz_employee b ON b.id = a.operater_id
+        WHERE
+          a.order_install_plan_id = #{id}
+        order by a.accept_type
+    </select>
+	
+</mapper>

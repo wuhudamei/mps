@@ -1,0 +1,1 @@
+/mdn/src/main/resources/mappings/mobile/modules/Inspector/selectCheck/check/SelectCheckDao.xml

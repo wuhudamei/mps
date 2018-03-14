@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizOrderInstallPlanAdvanceApplyDao">
+    
+	<sql id="bizOrderInstallPlanAdvanceApplyColumns">
+		a.id AS "id",
+		a.order_id AS "orderId",
+		a.apply_type AS "applyType",
+		a.order_install_plan_id AS "orderInstallPlanId",
+		a.install_item_name AS "installItemName",
+		a.old_plan_apply_date AS "oldPlanApplyDate",
+		a.deal_status AS "dealStatus",
+		a.deal_employee_id AS "dealEmployeeId",
+		a.dela_time AS "delaTime",
+		a.remarks AS "remarks",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="bizOrderInstallPlanAdvanceApplyJoins">
+	</sql>
+    
+	<select id="get" resultType="cn.damei.entity.modules.BizOrderInstallPlanAdvanceApply">
+		SELECT 
+			a.id AS "id",
+			a.order_id AS "orderId",
+			a.apply_type AS "applyType",
+			a.order_install_plan_id AS "orderInstallPlanId",
+			a.install_item_name AS "installItemName",
+			a.old_plan_apply_date AS "oldPlanApplyDate",
+			a.deal_status AS "dealStatus",
+			a.deal_employee_id AS "dealEmployeeId",
+			a.dela_time AS "delaTime",
+			a.remarks AS "remarks",
+			a.create_by AS "createBy.id",
+			a.create_date AS "createDate",
+			a.update_by AS "updateBy.id",
+			a.update_date AS "updateDate",
+			a.del_flag AS "delFlag",
+			b.store_id AS "storeId",
+			b.project_mode AS "projectMode",
+			b.engin_depart_id AS "engineDepartId",
+			b.community_name AS "communityName",
+			b.build_number AS "buildNumber",
+			b.build_unit AS "buildUnit",
+			b.build_room AS "buildRoom",
+			b.order_number AS "orderNumber",
+			b.customer_name AS "customerName",
+			b.customer_phone AS "customerPhone",
+			b.item_manager AS "itemManager",
+			b.item_manager_id AS "itemManagerId",
+			c.phone AS "itemManagerPhone"
+		FROM 
+			biz_order_install_plan_advance_apply a
+		LEFT JOIN biz_order b ON a.order_id = b.id
+		LEFT JOIN biz_employee c ON b.item_manager_id = c.id
+		WHERE a.id = #{id}
+		
+	</select>
+	
+	<!-- 主材可申请安装日期处理页面 -->
+	<select id="findList" resultType="cn.damei.entity.modules.BizOrderInstallPlanAdvanceApply">
+		
+		SELECT
+			a.id AS "id",
+			a.order_id AS "orderId",
+			a.apply_type AS "applyType",
+			a.order_install_plan_id AS "orderInstallPlanId",
+			a.install_item_name AS "installItemName",
+			a.old_plan_apply_date AS "oldPlanApplyDate",
+			a.deal_status AS "dealStatus",
+			a.deal_employee_id AS "dealEmployeeId",
+			a.dela_time AS "delaTime",
+			a.remarks AS "remarks",
+			a.create_by AS "createBy.id",
+			a.create_date AS "createDate",
+			a.update_by AS "updateBy.id",
+			a.update_date AS "updateDate",
+			a.del_flag AS "delFlag",
+			b.store_id AS "storeId",
+			b.project_mode AS "projectMode",
+			b.engin_depart_id AS "engineDepartId",
+			b.community_name AS "communityName",
+			b.build_number AS "buildNumber",
+			b.build_unit AS "buildUnit",
+			b.build_room AS "buildRoom",
+			b.order_number AS "orderNumber",
+			b.customer_name AS "customerName",
+			b.customer_phone AS "customerPhone",
+			b.item_manager AS "itemManager",
+			b.item_manager_id AS "itemManagerId",
+			b.actual_start_date AS "actualStartDate",
+			c.`name` AS "storeName",
+			d.`name` AS "engineDepartName",
+			e.realName AS "dealEmployeeName",
+			n.label AS "projectModeName",
+		 	m.label AS "dealStatusName"
+		FROM
+			biz_order_install_plan_advance_apply a
+		LEFT JOIN biz_order b ON a.order_id = b.id
+		LEFT JOIN sys_office c ON b.store_id = c.id
+		LEFT JOIN biz_engineering_department d ON b.engin_depart_id = d.id
+		LEFT JOIN biz_employee e ON a.deal_employee_id = e.id
+		LEFT JOIN (SELECT n1.`value`,n1.label AS "label" FROM sys_dict n1 WHERE n1.type = 'project_mode' AND n1.del_flag = 0) n ON n.`value` = b.project_mode
+		LEFT JOIN (SELECT m1.`value`,m1.label AS "label" FROM sys_dict m1 WHERE m1.type = 'deal_status' AND m1.del_flag = 0) m ON m.`value` = a.deal_status
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			
+			<if test="dealStatus != null and dealStatus != ''">
+				AND a.deal_status = #{dealStatus}
+			</if>
+			<if test="applyType != null and applyType != ''">
+				AND a.apply_type = #{applyType}
+			</if>
+			<if test="storeId != null and storeId != ''">
+				AND b.store_id = #{storeId}
+			</if>
+			<if test="projectMode != null and projectMode != ''">
+				AND b.project_mode = #{projectMode}
+			</if>
+			<if test="engineDepartId != null and engineDepartId != ''">
+				AND b.engin_depart_id =#{engineDepartId}
+			</if>
+			<if test="orderNumber != null and orderNumber != ''">
+				AND b.order_number LIKE CONCAT('%','${orderNumber}','%' )
+			</if>
+			<if test="customerName != null and customerName != ''">
+				AND b.customer_name LIKE CONCAT('%','${customerName}','%' )
+			</if>
+			<if test="itemManager != null and itemManager != ''">
+				AND b.item_manager LIKE CONCAT('%','${itemManager}','%' )
+			</if>
+			
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.create_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="cn.damei.entity.modules.BizOrderInstallPlanAdvanceApply">
+		SELECT 
+			<include refid="bizOrderInstallPlanAdvanceApplyColumns"/>
+		FROM biz_order_install_plan_advance_apply a
+		<include refid="bizOrderInstallPlanAdvanceApplyJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO biz_order_install_plan_advance_apply(
+			id,
+			order_id,
+			apply_type,
+			order_install_plan_id,
+			install_item_name,
+			old_plan_apply_date,
+			deal_status,
+			deal_employee_id,
+			dela_time,
+			remarks,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag
+		) VALUES (
+			#{id},
+			#{orderId},
+			#{applyType},
+			#{orderInstallPlanId},
+			#{installItemName},
+			#{oldPlanApplyDate},
+			#{dealStatus},
+			#{dealEmployeeId},
+			#{delaTime},
+			#{remarks},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE biz_order_install_plan_advance_apply SET 	
+			order_id = #{orderId},
+			apply_type = #{applyType},
+			order_install_plan_id = #{orderInstallPlanId},
+			install_item_name = #{installItemName},
+			old_plan_apply_date = #{oldPlanApplyDate},
+			deal_status = #{dealStatus},
+			deal_employee_id = #{dealEmployeeId},
+			dela_time = #{delaTime},
+			remarks = #{remarks},
+			create_date = #{createDate},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE biz_order_install_plan_advance_apply SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+	
+	<!-- 查询是否已经提交过该主材安装项的提前申请(安装/复尺) -->
+	<select id="findInstallPlanAdvanceApplyLastRecord" resultType="cn.damei.entity.modules.BizOrderInstallPlanAdvanceApply">
+	
+		SELECT 
+			a.id AS "id",
+			a.order_id AS "orderId",
+			a.apply_type AS "applyType",
+			a.order_install_plan_id AS "orderInstallPlanId",
+			a.install_item_name AS "installItemName",
+			a.old_plan_apply_date AS "oldPlanApplyDate",
+			a.deal_status AS "dealStatus",
+			a.deal_employee_id AS "dealEmployeeId",
+			a.dela_time AS "delaTime"
+		FROM 
+			biz_order_install_plan_advance_apply a
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="applyType != null and applyType != ''">
+				AND a.apply_type = #{applyType}
+			</if>
+			<if test="orderInstallPlanId != null and orderInstallPlanId != ''">
+				AND a.order_install_plan_id = #{orderInstallPlanId}
+			</if>
+			LIMIT 1
+		</where>
+		
+		
+	</select>
+	
+	
+	<!-- 查询该安装项【提前申请】的次数 -->
+	<select id="findInstallPlanAdvanceApplyCount" resultType="cn.damei.entity.modules.BizOrderInstallPlanAdvanceApply">
+	
+		SELECT 
+			COUNT(1)
+		FROM 
+			biz_order_install_plan_advance_apply a
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="applyType != null and applyType != ''">
+				AND a.apply_type = #{applyType}
+			</if>
+			<if test="orderInstallPlanId != null and orderInstallPlanId != ''">
+				AND a.order_install_plan_id = #{orderInstallPlanId}
+			</if>
+		
+		</where>
+		
+		
+	</select>
+	
+	<!-- 生成新的【订单安装项】【安装】 -->
+	<update id="saveOrderInstallItemForInstallAdvanceApply">
+		UPDATE biz_order_install_item
+		SET 
+			days_to_apply_into = days_to_apply_into + #{advanceDays}
+		WHERE
+			order_id = #{orderId}
+	</update>
+	<!-- 生成新的【订单安装项计划】【安装】 -->
+	<update id="saveOrderInstallPlanForInstallAdvanceApply">
+		UPDATE biz_order_install_plan
+		SET 
+			plan_into_date = DATE_ADD(plan_into_date,INTERVAL #{advanceDays} DAY)
+		WHERE
+			order_id = #{orderId}
+	
+	</update>
+	<!-- 生成新的【订单安装项】【复尺】 -->
+	<update id="saveOrderInstallItemForChecksizeAdvanceApply">
+		UPDATE biz_order_install_item
+		SET 
+			days_plan_checksize = days_plan_checksize + #{advanceDays}
+		WHERE
+			order_id = #{orderId}
+		AND is_to_checksize = 1
+	
+	</update>
+	<!-- 生成新的【订单安装项计划】【复尺】 -->
+	<update id="saveOrderInstallPlanForChecksizeAdvanceApply">
+		UPDATE biz_order_install_plan a,biz_order_install_item b
+		SET 
+			a.allow_apply_checksize_date = DATE_ADD(a.allow_apply_checksize_date,INTERVAL #{advanceDays} DAY)
+		WHERE
+			a.order_id = #{orderId}
+		AND a.order_install_item_id = b.id
+		AND b.is_to_checksize = 1
+		
+	</update>
+</mapper>

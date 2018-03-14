@@ -1,0 +1,395 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizBizEmployeegroupVoDao">
+
+	
+
+	<select id="get" resultType="BizEmployeegroupVO">
+
+	</select>
+	
+	<select id="updateStar" >
+		UPDATE biz_employee be,
+		 (
+			SELECT
+				e.id,
+				bc.starScore
+			FROM
+				biz_employee e
+			LEFT JOIN (
+				SELECT
+					group_leader_employee_id,
+					avg(got_score) AS starScore,
+					update_date
+				FROM
+					biz_eval_score bes
+				INNER join
+				(select * from biz_eval_activity_order_taskpack_rel )cc 
+				on  cc.order_taskpack_id=bes.related_business_id
+				
+				GROUP BY
+					group_leader_employee_id
+			) bc ON bc.group_leader_employee_id = e.id
+		) bc
+		SET be.star_score = bc.starScore
+		WHERE
+			be.id = bc.id and be.id=#{0}
+	</select>
+	
+	<select id="getSumAvg" resultType="cn.damei.entity.modules.BizEmployeegroupVO">
+		select sum(got_score) As gotScore,group_leader_employee_id As groupEId,
+		count(*) As ciShu
+	    from biz_eval_score bes
+	    INNER join(select * from biz_eval_activity_order_taskpack_rel )cc 
+	    on  cc.order_taskpack_id=bes.related_business_id
+	    where bes.group_leader_employee_id is not null and bes.group_leader_employee_id=#{0}
+	    and bes.eval_status=2
+	    group by  group_leader_employee_id 
+	</select>
+	
+	<select id="selectStarLog" resultType="cn.damei.entity.modules.BizEmployeegroupVO">
+			select *from biz_employee_star_log where related_business_id=#{0}
+	</select>
+	
+	<select id="insertStarLog">
+		insert into biz_employee_star_log(employee_id,related_business_id,star_score_before,star_score_after,star_before,star_after,star_change_datetime) 
+			
+		SELECT
+			e.id,
+			bes.id As taskPackageId,
+     	    #{0} As starScoreBefore,
+     	    #{1} As starScoreAfter,
+     	    (select besc.star from biz_employee e,biz_employee_star_cnfg besc  
+			where besc.is_enabled=1 and e.storeId=besc.store_id and e.project_mode=besc.peoject_mode  and e.id=#{2}
+			and #{0}&gt;=besc.min_socre and #{0}&lt;besc.max_score GROUP BY e.id) As starBefore,
+			 (select besc.star from biz_employee e,biz_employee_star_cnfg besc  
+			where besc.is_enabled=1 and e.storeId=besc.store_id and e.project_mode=besc.peoject_mode  and e.id=#{2}
+			and #{1}&gt;=besc.min_socre and #{1}&lt;besc.max_score GROUP BY e.id) As starAfter,
+     	    bes.update_date AS changeTime
+		FROM biz_employeegroup eg	
+		LEFT JOIN biz_emgrouprelation egr ON  eg.id = egr.groupId AND egr.is_leader = '1'
+		LEFT JOIN biz_employee e ON egr.empId = e.id
+		LEFT JOIN
+		biz_engineering_department ep ON ep.id = eg.elactricationId
+		LEFT JOIN
+		sys_office so ON so.id = eg.storeId
+		LEFT JOIN biz_employee e1 ON e1.id = e.managerId
+		LEFT JOIN biz_eval_score bes ON bes.group_leader_employee_id = egr.empId
+		INNER join(select * from biz_eval_activity_order_taskpack_rel )cc 
+		on  cc.order_taskpack_id=bes.related_business_id
+		where
+			eg.state = 0
+			and e.empType =2
+			AND e.del_flag = 0
+			and e.id=#{2}
+		GROUP BY bes.id
+	</select>
+
+	<select id="updateStarGroup">
+			update biz_employeegroup ep
+			set ep.star=(
+				select besc.star from biz_employee e,biz_employee_star_cnfg besc  
+				where besc.is_enabled=1 and e.storeId=besc.store_id and e.project_mode=besc.peoject_mode  
+				and e.star_score&gt;=besc.min_socre and e.star_score&lt;besc.max_score and e.id=#{0} GROUP BY e.id )
+				where ep.groupId=#{0} 
+	</select>
+	
+	<select id="selectRealName" resultType="string">
+	select  realname As realname from biz_employee  where id=#{0}
+	</select>
+	
+	
+	<select id="getbyId" resultType="BizEmployeegroupVO">
+		select 
+		eg.id as id,
+		eg.storeId  as storeId,
+   		 eg.state as "state",
+		eg.star as  star,
+		eg.orderStop as orderstop,
+		e.realName as  leaderRealName,
+		e.phone as leaderPhone
+		from  biz_employeegroup eg  , biz_employee e       
+		where eg.groupId=e.id and   eg.id=#{recommendManagerName}
+	</select>
+	
+	<select id="selectChange" resultType="cn.damei.entity.modules.BizEmployeeStarLog">
+		select star_before As starBefore,
+		star_after As starAfter,
+		DATE_FORMAT(star_change_datetime, '%Y-%m-%d') As starChangeDatetime 
+	    from biz_employee_star_log besl
+		where  employee_id=#{0} and  DATE_FORMAT(besl.star_change_datetime,'%Y-%m-%d') BETWEEN #{1} and #{2}
+		GROUP BY related_business_id
+	</select>
+	
+	<select id="selectChangeStarList" resultType="cn.damei.entity.modules.BizEmployeegroupVO">
+	SELECT
+		besl.star_before As starBefore,
+		besl.star_after As starAfter,
+		eg.star as star,
+		besl.star_change_datetime As starChangeDatetime,
+		eg.id,
+		eg.storeId,
+        so.`name` storeName,
+ 		eg.star As star,
+        eg.elactricationId,
+        ep.`name` elactricationName,
+        egr.is_leader isLeader,
+        egr.empId,
+        e.realName AS leaderRealName,
+        e.workType,
+        e.`phone` AS leaderPhone,
+        eg.taskPackageId,
+        eg.orderStop as "orderstop",
+        eg.state as "state",
+        e1.realName as "recommendManagerName",
+		eg.project_mode,
+		eg.order_stop_reason as orderStopReason,
+		(select name from sys_user where id=eg.order_stop_operator_employee_id) as "orderStopOperatorEmployeeId",
+		eg.order_stop_reason_type as orderStopReasonType,
+		eg.order_stop_operate_datetime as "orderStopOperateDatetime"
+		FROM biz_employeegroup eg	
+		LEFT JOIN biz_emgrouprelation egr ON  eg.id = egr.groupId AND egr.is_leader = '1'
+		LEFT JOIN biz_employee e ON egr.empId = e.id
+		LEFT JOIN
+		biz_engineering_department ep ON ep.id = eg.elactricationId
+		LEFT JOIN
+		sys_office so ON so.id = eg.storeId
+		LEFT JOIN biz_employee e1 ON e1.id = e.managerId
+		left join (select * from biz_employee_star_log besl GROUP BY besl.related_business_id)besl on  besl.employee_id=e.id 
+		where
+			eg.state = 0
+			and e.empType =2
+			AND e.del_flag = 0
+			and e.id=#{0}
+			and DATE_FORMAT(besl.star_change_datetime,'%Y-%m-%d') BETWEEN #{1} and #{2}
+		GROUP BY related_business_id
+	</select>
+
+	<select id="findList" resultType="BizEmployeegroupVO">
+		SELECT
+		besl.star_change_reason_type As reason,
+		besl.star_change_describe As changeDescribe,
+		eg.id,
+		eg.storeId,
+        so.`name` storeName,
+ 		eg.star As star,
+        eg.elactricationId,
+        ep.`name` elactricationName,
+        egr.is_leader isLeader,
+        egr.empId,
+        e.realName AS leaderRealName,
+        e.workType,
+        e.`phone` AS leaderPhone,
+        eg.taskPackageId,
+        eg.orderStop as "orderstop",
+        eg.state as "state",
+        e1.realName as "recommendManagerName",
+		eg.project_mode,
+		eg.order_stop_reason as orderStopReason,
+		(select name from sys_user where id=eg.order_stop_operator_employee_id) as "orderStopOperatorEmployeeId",
+		eg.order_stop_reason_type as orderStopReasonType,
+		eg.order_stop_operate_datetime as "orderStopOperateDatetime"
+		FROM biz_employeegroup eg	
+		LEFT JOIN biz_emgrouprelation egr ON  eg.id = egr.groupId AND egr.is_leader = '1'
+		LEFT JOIN biz_employee e ON egr.empId = e.id
+		LEFT JOIN
+		biz_engineering_department ep ON ep.id = eg.elactricationId
+		LEFT JOIN
+		sys_office so ON so.id = eg.storeId
+		LEFT JOIN biz_employee e1 ON e1.id = e.managerId
+		left join (select * from biz_employee_star_log besl GROUP BY besl.employee_id)besl on  besl.employee_id=e.id 
+		<where>
+			eg.state = 0
+			and e.empType =2
+			AND e.del_flag = 0
+
+			<if test="orderstop != null and orderstop !='' or orderstop==0 ">
+				and eg.orderStop = #{orderstop}
+				and e.orderStop = #{orderstop}
+			</if>
+
+
+
+			<if test="taskPackageId != null and taskPackageId != ''">
+				AND eg.taskPackageId like CONCAT('%','${taskPackageId}','%')
+			</if>
+			<if test="empId != null and empId != ''">
+				AND  egr.empId = #{empId}
+			</if>
+			<if test="storeId != null and storeId != ''">
+				AND eg.storeId = #{storeId}
+			</if>
+			<if test="enginDepartIds != null and enginDepartIds != ''">
+				AND eg.elactricationId in
+				<foreach item="item" index="index" collection="enginDepartIds" open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+            <if test="workType != null and workType != ''">
+				<if test="workType == 100">
+					AND e.workType = 0
+				</if>
+                <if test="workType != 100">
+					AND e.workType = #{workType}
+				</if>
+            </if>
+			<if test="noInDepartment == 1">
+				AND (eg.elactricationId is null or eg.elactricationId = '')
+			</if>
+
+
+
+
+
+			<if test="projectMode != null and projectMode != ''">
+            AND eg.project_mode = #{projectMode}
+			</if>
+		</where>
+	</select>
+
+	<insert id="insert">
+		
+	</insert>
+
+	<update id="update">
+		
+	</update>
+
+	<update id="delete">
+
+	</update>
+	
+	<select id="findPackByGroupId" parameterType="list" resultType="BizEmployeegroupVO">
+		SELECT 
+	</select>
+	
+	<!-- 查询有工人组的任务包 (已分配) -->
+	<select id="findAllPackageWhomHasEmpGroups" parameterType="java.util.List"
+		resultType="cn.damei.entity.modules.OrderTaskpackage">
+		SELECT
+		a.id AS "id",
+		a.store_id AS "storeId",
+		a.order_id AS "orderId",
+		a.package_code AS "packageCode",
+		a.package_name AS "packageName",
+		a.plan_startdate AS "planStartdate",
+		a.plan_enddate AS "planEnddate",
+		a.actual_startdate AS "actualStartdate",
+		a.actual_enddate AS "actualEnddate",
+		a.package_stateId AS "packageStateId",
+		a.package_statename AS "packageStatename",
+		a.emp_groupid AS "empGroupid",
+		a.group_id AS "groupId",
+		a.group_realname AS "groupRealname",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag",
+		a.item_customer AS "itemCustomer",
+		a.task_package_type AS "taskPackageType",
+		a.dispatcher AS "dispatcher",
+		a.customer_name AS "customerName",
+		a.customer_message AS "customerMessage",
+		a.task_package_templat_id AS "taskTackageTempId"
+		
+		FROM biz_order_taskpackage a 
+		where 
+		
+		a.emp_groupid in 
+		<foreach collection="list" close=")" index="" item="item" open="(" separator="," >
+			#{item.workerGroupId}
+		</foreach>
+		and a.package_stateId in(50,60,70)
+	</select>
+	
+	
+	
+		<!--根据门店和工种查询工人组 -->
+		<select id="queryemployeegroup" resultType="BizEmployeegroupVO">
+
+			SELECT
+				eg.id,
+				eg.storeId,
+				so.`name` storeName,
+				eg.star,
+				eg.elactricationId,
+				ep.`name`  as elactricationName,
+				egr.is_leader isLeader,
+				egr.empId,
+			 	 e.realName	 AS leaderRealNamezhen,
+			  CONCAT(e.realName,'-',e.`phone`)	 AS leaderRealName,
+				e.workType,
+				e.`phone` AS leaderPhone,
+				eg.taskPackageId,
+				eg.orderStop AS "orderstop",
+				eg.state AS "state",
+				e1.realName AS "recommendManagerName"
+			FROM
+				biz_employeegroup eg
+			LEFT JOIN biz_emgrouprelation egr ON eg.id = egr.groupId
+			AND egr.is_leader = '1'
+			LEFT JOIN biz_employee e ON egr.empId = e.id
+			LEFT JOIN biz_engineering_department ep ON ep.id = eg.elactricationId
+			LEFT JOIN sys_office so ON so.id = eg.storeId
+			LEFT JOIN biz_employee e1 ON e1.id = e.managerId
+			WHERE
+				eg.state = 0
+			<if test="id != null and id != ''">
+				AND eg.id = #{id}
+			</if>
+			<if test="storeId != null and storeId != ''">
+				AND eg.storeId = #{storeId}
+			</if>
+			<if test="workType != null and workType != ''">
+				AND e.workType= #{workType}
+			</if>
+	</select>
+	
+	
+	
+	<!-- 查找可接任务包 -->
+	<select id="findFreeLeader" parameterType="BizEmployeegroupVO" resultType="BizEmployeegroupVO">
+		SELECT  a.orderStop AS "orderstop",
+				a.`groupId` AS "empId",
+				a.storeId AS "storeId",
+				c.`name` AS "elactricationName",
+				a.address AS "address",
+				d.`realName` AS "leaderRealName",
+				a.id AS "workerGroupId",
+				d.project_mode AS projectMode,
+				d.`phone` AS "leaderPhone"
+		FROM
+		biz_employeegroup a 
+		
+		INNER JOIN biz_employee d ON(a.`groupId`=d.`id`)
+		
+		INNER JOIN biz_engineering_department c ON a.elactricationId = c.id
+		
+		<where>
+				d.del_flag = '0' AND a.state = '0'
+			<if test="taskPackageId != null and taskPackageId != ''">
+				AND a.`taskPackageId` like concat('%',#{taskPackageId},'%')
+			</if>
+			
+			<if test="leaderRealName != null and leaderRealName != ''">
+				AND d.`realName` LIKE CONCAT('%',#{leaderRealName},'%')
+			</if>
+			
+			<if test="elactricationId != null and elactricationId != ''">
+				AND a.elactricationId = #{elactricationId}
+			</if>
+			<if test="storeId != null and storeId != ''">
+				AND a.storeId = #{storeId}
+			</if>
+			<if test="projectMode != null and projectMode != ''">
+				AND d.project_mode = #{projectMode}
+			</if>
+			<if test="projectMode == null or projectMode == ''">
+				AND d.project_mode in('1','4')
+			</if>
+		</where>
+		
+	</select>
+
+</mapper>

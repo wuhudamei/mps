@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizOrderChecksizeDao">
+    
+	<sql id="bizOrderChecksizeColumns">
+		a.id AS "id",
+		a.order_number AS "orderNumber",
+		a.customer_address AS "customerAddress",
+		a.community_name AS "communityName",
+		a.build_number AS "buildNumber",
+		a.build_unit AS "buildUnit",
+		a.build_room AS "buildRoom",
+		a.customer_name AS "customerName",
+		a.contract_start_date AS "contractStartDate",
+		a.contract_end_date AS "contractEndDate",
+		a.contract_time AS "contractTime",
+		a.order_status_number AS "orderStatusNumber",
+		a.order_status_description AS "orderStatusDescription",
+		a.item_manager AS "itemManager",
+		a.store_id AS "storeId",
+		a.item_manager_id AS "itemManagerId",
+		a.project_mode AS "projectMode",
+		
+		b.id AS "orderChecksizeId",
+		b.order_id AS "orderId",
+		b.checksize_type AS "checksizeType",
+		b.checksize_date AS "checksizeDate",
+		b.checksize_employee_id AS "checksizeEmployeeId",
+		b.DEL_FLAG AS "delFlag",
+		b.create_date AS "createDate",
+		b.supplier_confirm_date AS "supplierConfirmDate",
+		b.material_department_deal_datetime AS "materialDepartmentDealDatetime",
+		b.material_department_deal_employee_id AS "materialDepartmentDealEmployeeId",
+		b.material_department_deal_reply AS "materialDepartmentDealReply",
+		b.checksize_status AS "checksizeStatus"
+		
+	</sql>
+	
+    
+	<select id="get" resultType="cn.damei.entity.modules.BizOrderChecksizeEntity">
+		SELECT 
+			<include refid="bizOrderChecksizeColumns"/>
+		FROM biz_order_checksize b,biz_order a
+		WHERE a.id = b.order_id AND b.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="cn.damei.entity.modules.BizOrderChecksizeEntity">
+		SELECT 
+			<include refid="bizOrderChecksizeColumns"/>,
+			d.phone AS "phone",
+			c.label AS "checksizeTypeName",
+			g.realName AS "materialDepartmentDealEmployeeName",
+			e.label AS "checksizeStatusName"
+			<!-- (SELECT COUNT(c.id) FROM biz_order_checksize_pic c WHERE c.order_checksize_id = b.id) AS "checksizePhoto" -->
+		FROM
+			biz_order_checksize b
+		INNER JOIN biz_order a ON a.id = b.order_id
+		LEFT JOIN biz_employee d ON d.id = a.item_manager_id
+		LEFT JOIN sys_dict c ON c.`value` = b.checksize_type AND c.type = 'check_scale' AND c.del_flag = 0
+		LEFT JOIN sys_dict e ON e.`value` = b.checksize_status AND e.type = 'checksize_status' AND e.del_flag = 0
+		LEFT JOIN sys_user f ON f.id = b.material_department_deal_employee_id
+		LEFT JOIN biz_employee g ON f.emp_id = g.id
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="orderNumber != null and orderNumber != ''">
+				AND a.ORDER_NUMBER  LIKE CONCAT('%','${orderNumber}','%' ) 
+			</if>
+			<if test="itemManager != null and itemManager != ''">
+				AND a.ITEM_MANAGER  LIKE CONCAT('%','${itemManager}','%' ) 
+			</if>
+			<if test="storeId != null and storeId != ''">
+				AND a.STORE_ID = #{storeId}
+			</if>
+			<if test="projectMode != null and projectMode != ''">
+				AND a.project_mode = #{projectMode}
+			</if>
+			<if test="customerName != null and customerName != ''">
+				AND a.CUSTOMER_NAME LIKE CONCAT('%','${customerName}','%' )
+			</if>
+			<if test="checksizeType != null and checksizeType != ''">
+				AND b.checksize_type = #{checksizeType}
+			</if>
+			<if test="checksizeStatus != null and checksizeStatus != ''">
+				AND b.checksize_status = #{checksizeStatus}
+			</if>
+			<if test="beginContractStartDate != null and beginContractStartDate != ''">
+				AND a.contract_start_date &gt;= #{beginContractStartDate}
+			</if>
+			<if test="endContractStartDate != null and endContractStartDate != ''">
+				AND a.contract_start_date &lt;= #{endContractStartDate}
+			</if>
+			<if test="beginChecksizeDate != null and beginChecksizeDate != ''">
+				AND b.checksize_date &gt;= #{beginChecksizeDate}
+			</if>
+			<if test="endChecksizeDate != null and endChecksizeDate != ''">
+				AND b.checksize_date &lt;= #{endChecksizeDate}
+			</if>
+			<if test="beginSupplierConfirmDate != null and beginSupplierConfirmDate != ''">
+				AND b.supplier_confirm_date &gt;= #{beginSupplierConfirmDate}
+			</if>
+			<if test="endSupplierConfirmDate != null and endSupplierConfirmDate != ''">
+				AND b.supplier_confirm_date &lt;= #{endSupplierConfirmDate}
+			</if>
+			<if test="beginCreateDate != null and beginCreateDate != ''">
+				AND b.create_date &gt;= #{beginCreateDate}
+			</if>
+			<if test="endCreateDate != null and endCreateDate != ''">
+				AND b.create_date &lt;= #{endCreateDate}
+			</if>
+			
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY b.create_date DESC,b.checksize_status ASC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="cn.damei.entity.modules.BizOrderChecksizeEntity">
+		SELECT 
+			<include refid="bizOrderChecksizeColumns"/>
+		FROM biz_order a,biz_order_checksize b
+		<where>
+			a.id = b.order_id
+			AND	a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY b.create_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<!-- 通过复尺表id查询复尺图片 -->
+	<select id="selectPicByOrderChecksizeId" parameterType="int" resultType="cn.damei.entity.modules.BizOrderChecksizePic">
+		SELECT 
+			c.id AS "id",
+			c.order_checksize_id AS "orderChecksizeId",
+			c.pic_url AS "picUrl"
+			
+		FROM biz_order_checksize_pic c
+		WHERE c.order_checksize_id = #{orderChecksizeId}
+	</select>
+	
+	<!-- 通过复尺表id查询详情 -->
+	<select id="selectDetailsByOrderChecksizeId" parameterType="int" resultType="cn.damei.entity.modules.BizOrderChecksizeEntity">
+		SELECT
+			a.customer_address AS "customerAddress",
+			a.community_name AS "communityName",
+			a.build_number AS "buildNumber",
+			a.build_unit AS "buildUnit",
+			a.build_room AS "buildRoom",
+			a.customer_name AS "customerName",
+			a.item_manager_id AS "itemManagerId",
+			d.realName AS "itemManager",
+			d.phone AS "phone",
+			b.id AS "orderChecksizeId",
+			b.checksize_type AS "checksizeType",
+			c.label AS "checksizeTypeName",
+			b.checksize_date AS "checksizeDate",
+			b.create_date AS "createDate",
+			b.checksize_employee_id AS "checksizeEmployeeId",
+			b.remarks AS "remarks",
+			b.supplier_confirm_date AS "supplierConfirmDate",
+			b.material_department_deal_datetime AS "materialDepartmentDealDatetime",
+			b.material_department_deal_employee_id AS "materialDepartmentDealEmployeeId",
+			g.realName AS "materialDepartmentDealEmployeeName",
+			b.material_department_deal_reply AS "materialDepartmentDealReply",
+			b.checksize_status AS "checksizeStatus",
+			e.label AS "checksizeStatusName"
+		FROM
+			biz_order_checksize b
+		INNER JOIN biz_order a ON a.id = b.order_id
+		LEFT JOIN biz_employee d ON d.id = a.item_manager_id
+		LEFT JOIN sys_dict c ON c.`value` = b.checksize_type AND c.type = 'check_scale' AND c.del_flag = 0
+		LEFT JOIN sys_dict e ON e.`value` = b.checksize_status AND e.type = 'checksize_status' AND e.del_flag = 0
+		LEFT JOIN sys_user f ON f.id = b.material_department_deal_employee_id
+		LEFT JOIN biz_employee g ON f.emp_id = g.id
+		WHERE
+			b.id = #{_parameter}
+	</select>
+	
+	<!-- 更新厂家复尺 -->
+	<update id="updateOrderChecksize">
+		UPDATE biz_order_checksize
+		SET 
+			checksize_status = #{checksizeStatus},
+			checksize_status_datetime = #{checksizeStatusDatetime}, 
+			supplier_confirm_date = #{supplierConfirmDate},
+			material_department_deal_datetime = #{materialDepartmentDealDatetime},
+			material_department_deal_employee_id = #{materialDepartmentDealEmployeeId},
+			material_department_deal_reply = #{materialDepartmentDealReply},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE
+			id = #{orderChecksizeId} 
+	</update>
+	
+	
+</mapper>

@@ -1,0 +1,1 @@
+UPDATE biz_materials_choice_category SET del_flag = 0 WHERE del_flag = 5

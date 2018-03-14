@@ -1,0 +1,15 @@
+*.iml
+*.ipr
+.idea
+.settings
+.classpath
+.project
+.buildpath
+logs
+target
+/uploads/
+*.bak
+*.md
+*/META-INF/*
+*/uploads/*
+/.idea/ workspace.xml

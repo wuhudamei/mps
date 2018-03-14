@@ -1,0 +1,254 @@
+.bxy_changeConstrucion_warp_con{
+    padding:0.24rem 0;
+    font-size: 0.28rem;
+}
+/*下拉框start*/
+.bxy_changeConstrucion_warp_con_top{
+    padding:0 0.3rem;
+
+}
+.bxySelect{
+    height: 100%;
+    height: 0.52rem;
+    width: 100%;
+    background-color: #f3f2f2;
+    border-radius: 10px;
+    position: relative;
+    text-align: center;
+}
+.selectChoice{
+    background: url("../images/arrow.png") no-repeat;
+    width: 0.27rem;
+    height: 0.14rem;
+    position: absolute;
+    left:83%;
+    top: 50%;
+    transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+    background-size: 100%;
+}
+.bxyArrow{
+    width: 16px;
+    height: 16px;
+    background: #ffffff;
+    position: absolute;
+    left: 83%;
+    background: #ffffff;
+    top: -8px;
+    transform: rotate(45deg);
+}
+
+.bxy_changeConstrucion_warp_con_top .bxySelectCon{
+    width: 100%;
+    height: 100%;
+    line-height: 0.52rem;
+    position: relative;
+    color: #333333;
+    font-family: 'Microsoft YaHei';
+}
+.bxySelect ul{
+    position: absolute;
+    left: 50%;
+    top:0.4rem;
+    transform: translateX(-50%);
+    -webkit-transform: translateX(-50%);
+    width: 100%;
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 0 0.26rem;
+    box-sizing: border-box;
+    position: relative;
+    z-index: 10;
+    display: none;
+    font-size: 0.24rem;
+}
+.bxySelect ul li{
+    height: 0.72rem;
+    line-height: 0.72rem;
+    border-bottom: 1px solid #e5e5e5;
+    color: #7f7f7f;
+}
+.bxySelect ul li:hover{
+    color: #0780ec;
+}
+.bxySelect ul li:last-child{
+    border-bottom: none;
+}
+/*下拉框end*/
+/*内容模块start*/
+.bxy_changeConstrucion_warp_con_bottom{
+    background: #f6f6f6;
+}
+.bxy_changeConstrucion_warp_con_bottom_con{
+    padding: 0.22rem  0.3rem;
+    background: #ffffff;
+    margin-top: 0.24rem;
+    position: relative;
+    border-bottom: 1px solid #dddddd;
+    border-top: 1px solid #dddddd;
+}
+.bxy_changeConstrucion_warp_con_bottom_con ul{
+    border-bottom: 1px dashed #cccccc;
+}
+.bxy_changeConstrucion_warp_con_bottom_con ul li{
+    color: #7f7f7f;
+    font-size: 0.3rem;
+    height: 0.5rem;
+    line-height: 0.5rem;
+}
+.bxy_changeConstrucion_warp_con_bottom_con ul li i{
+    width: 1.8rem;
+    display: inline-block;
+}
+.bxy_changeConstrucion_warp_con_bottom_con ul li span{
+    margin-left: 0.3rem;
+    color: #333333;
+}
+.changeConstrucion_tel{
+    position: absolute;
+    right: 0.3rem;
+    top: 0.24rem;
+    width: 0.57rem;
+
+}
+.changeConstrucion_tel img{
+    width: 100%;
+}
+.contentBtn{
+    width: 3.3rem;
+    height: 0.56rem;
+    border-radius: 24px;
+    background: #eb8c00;
+    text-align: center;
+    line-height: 0.56rem;
+    color: #ffffff;
+    margin: 0.34rem auto 0;
+}
+.contentBtn a{
+    width: 100%;
+    height: 100%;
+    color: #ffffff;
+}
+/*内容模块end*/
+
+/*变更详情页面start*/
+.bxy_changeConstrucion_xiangqing_warp{
+    /*padding: 0.18rem 0;*/
+}
+.bxy_changeConstrucion_xiangqing_warp_first,.bxy_changeConstrucion_xiangqing_warp_second{
+    margin-top: 0.18rem;
+    border-bottom:  1px solid #dddddd;
+    border-top:  1px solid #dddddd;
+    margin-bottom: 0.24rem;
+}
+.bxy_changeConstrucion_xiangqing_warp_second h3{
+    font-size: 0.3rem;
+    color: #0780ec;
+    height: 0.8rem;
+    line-height: 0.8rem;
+    background: #ffffff;
+    padding: 0 0.3rem;
+    border-bottom: 1px solid #e5e5e5;
+}
+.bxy_changeConstrucion_xiangqing_warp_first h3{
+    font-size: 0.3rem;
+    color: #0780ec;
+    height: 0.8rem;
+    line-height: 0.8rem;
+    background: #ffffff;
+    padding: 0 0.3rem;
+    border-bottom: 1px solid #e5e5e5;
+}
+.hangeConstrucion_xiangqing{
+    font-size: 0.28rem;
+    background: #ffffff;
+    color: #333333;
+}
+.infoBlue{
+    width: 0.05rem;
+    height: 0.27rem;
+    background: #0780ec;
+    display: inline-block;
+    margin-top: 0.05rem;
+    margin-right: 0.15rem;
+}
+.addressfo{
+    padding-left: 1.4rem;
+}
+.addressInfo{
+    padding-left: 1.6rem;
+
+}
+.mb30{
+    margin-bottom: 1.4rem;
+}
+.addressIn{
+    padding-left: 1.1rem;
+}
+.hangeConstrucion_xiangqing_des{
+    padding: 0.33rem 0.3rem 0.2rem;
+    position: relative;
+}
+.hangeConstrucion_time p{
+    line-height: 0.52rem;
+}
+.Crease{
+    background: url("../images/creaseIcon.png") no-repeat;
+}
+.addCrease{
+    background: url("../images/addIcon.png") no-repeat;
+}
+.Crease, .addCrease{
+    width: 0.37rem;
+    height: 0.36rem;
+    position: absolute;
+    right: 5.3%;
+    top: 10%;
+    background-size: 100%;
+}
+.hangeConstrucion_bottom{
+    width: 100%;
+    height: 0.88rem;
+    font-size: 0.28rem;
+    color: #ffffff;
+    background: #0780ec;
+    line-height: 0.88rem;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+}
+.hangeConstrucion_bottom ul  li{
+    width: 50%;
+    text-align: center;
+}
+.hangeConstrucion_bottom ul  .lineB{
+    height: 0.41rem;
+    width: 1px;
+    background: #b4b4b4;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    -webkit-transform: translate(-50%,-50%);
+}
+.bxy_advise_mask_con textarea{
+    width: 5.5rem;
+    min-height: 1.5rem;
+    background: #f6f6f6;
+    border-radius: 10px;
+    margin-top: 0.3rem;
+    box-shadow: 0 1px 8px rgba(0,0,0,0.1) inset;
+    font-size: 0.24rem;
+    color: #999999;
+    padding: 0.2rem 0.3rem;
+}
+.hangeConstrucion_time p:first-child{
+    color: #7f7f7f;
+}
+.border-btm {
+    border-bottom: 1px solid #ddd;
+}
+/* 清浮动 */
+.clearfix { /*display:block;*/ zoom:1; }
+.clearfix:after { content:"."; display:block; height:0; clear:both; visibility:hidden; font-size:0; }
+/*变更详情页面end*/

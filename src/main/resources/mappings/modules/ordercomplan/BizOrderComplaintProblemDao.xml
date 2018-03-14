@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizOrderComplaintProblemDao">
+    
+	<sql id="bizOrderComplaintProblemColumns">
+		a.id AS "id",
+		a.order_complaint_id AS "orderComplaintId",
+		a.complaint_problem_type_id AS "complaintProblemTypeId",
+		a.task_package_templat_id AS "taskPackageTemplatId",
+		a.order_taskpackage_id AS "orderTaskpackageId",
+		a.complaint_role_type AS "complaintRoleType",
+		a.complaint_problem_describe AS "complaintProblemDescribe",
+		a.status AS "status",
+		a.remarks AS "remarks",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="bizOrderComplaintProblemJoins">
+	</sql>
+<!--     查询工人信息 -->
+	<select id="queryProblemdeal" resultType="BizOrderComplaintProblem">
+				SELECT
+					ocp.id AS complaintProblemTypeId,
+					oc.id AS complaintId,
+					oc.order_id AS orderid,
+					o.order_number AS ordernumber,
+					o.item_manager_id AS itemmanagerid,
+					o.item_manager AS itemmanager,
+					o.order_inspector_id AS orderinspectorid,
+					o.order_inspector AS orderinspector,
+					o.customer_name AS customername,
+					CONCAT(
+						o.customer_address,
+											'-',
+						o.community_name,
+											'-',
+						o.build_number,
+											'-',
+						o.build_unit,
+											'-',
+						o.build_room
+						) AS custaddress,
+					ot.id AS packageid,
+					ot.package_name AS packagename,
+					tpt.id AS templatid,
+					tpt.templat_name templatname,
+					eg.id AS groupid,
+					eg.address AS groupaddress,
+				( select  GROUP_CONCAT(ege.empId) from   biz_emgrouprelation ege where ege.groupId = eg.id) as "empids"
+				FROM
+					biz_order_complaint_problem ocp
+				LEFT JOIN biz_order_complaint oc ON oc.id = ocp.order_complaint_id
+				LEFT JOIN biz_order o ON o.id = oc.order_id
+				LEFT JOIN biz_order_taskpackage ot ON  o.id = ot.order_id  and  ocp.task_package_templat_id = ot.task_package_templat_id
+				
+				LEFT JOIN biz_task_package_templat tpt ON ot.task_package_templat_id = tpt.id
+				LEFT JOIN biz_employeegroup eg ON ot.emp_groupid = eg.id
+				WHERE
+					1 = 1
+			<if test="id != null and id != ''">
+					AND ocp.id = #{id}
+			</if>
+			<if test="packageid != null and packageid != ''">
+				AND ot.id = #{packageid}
+			</if>
+		</select>
+		
+<!-- 		查詢項目經理和質檢信息 -->
+	<select id="queryDealPersonType1" resultType="BizOrderComplaintProblem">
+						SELECT
+					ocp.id AS complaintProblemTypeId,
+					oc.id AS complaintId,
+					oc.order_id AS orderid,
+					o.order_number AS ordernumber,
+					CONCAT(
+							o.customer_address,
+							'-',
+							o.community_name,
+							'-',
+							o.build_number,
+							'-',
+							o.build_unit,
+							'-',
+							o.build_room
+						) AS custaddress,
+					o.item_manager_id AS itemmanagerid,
+					o.item_manager AS itemmanager,
+					o.customer_name AS customername,
+					o.order_inspector_id AS orderinspectorid,
+					o.order_inspector AS orderinspector,
+					ee.phone AS itemmanagerIphone,
+					ee2.phone AS orderinspectoriphone
+				FROM
+					biz_order_complaint_problem ocp
+				LEFT JOIN biz_order_complaint oc ON oc.id = ocp.order_complaint_id
+				LEFT JOIN biz_order o ON o.id = oc.order_id
+				LEFT JOIN biz_employee ee ON o.item_manager_id = ee.id
+				LEFT JOIN biz_employee ee2 ON o.order_inspector_id = ee2.id
+				where
+					1 = 1
+			<if test="id != null and id != ''">
+					AND ocp.id = #{id}
+			</if>
+			
+		</select>
+		<!--根據投訴訂單查詢有多少個問題 -->
+	<select id="queryOerCoblemList" resultType="BizOrderComplaintProblem">
+					SELECT
+					oc.id AS orderComplaintId,
+					oc.order_id AS orderid,
+					ocp.id AS complaintProblemId,
+					cpt.id AS complaintProblemTypeId,
+					cpt.type_name AS complaintProblemName,
+					ot.id AS orderTaskpackageId,
+					tpt.id AS taskPackageTemplatId,
+					tpt.templat_name AS templatname
+				FROM
+					biz_order_complaint oc
+				LEFT JOIN biz_order_complaint_problem ocp ON ocp.order_complaint_id = oc.id
+				LEFT JOIN biz_complaint_problem_type cpt ON cpt.id = ocp.complaint_problem_type_id
+				LEFT JOIN biz_order_taskpackage ot ON ot.id = ocp.order_taskpackage_id
+				LEFT JOIN biz_task_package_templat tpt ON ot.task_package_templat_id = tpt.id
+				where
+					1 = 1
+			<if test="complaintProblemTypeId != null and complaintProblemTypeId != ''">
+					AND ocp.id = #{complaintProblemTypeId}
+			</if>
+		</select>
+	<select id="get" resultType="BizOrderComplaintProblem">
+		SELECT 
+			<include refid="bizOrderComplaintProblemColumns"/>
+		FROM biz_order_complaint_problem a
+		<include refid="bizOrderComplaintProblemJoins"/>
+		WHERE 1=1 
+			<if test="id != null and id != ''">
+				AND a.id = #{id}
+			</if>
+			<if test="complaintProblemTypeId != null and complaintProblemTypeId != ''">
+				AND a.complaint_problem_type_id = #{complaintProblemTypeId}
+			</if>
+			<if test="createDate != null and createDate != ''">
+				AND a.create_date = #{createDate}
+			</if>
+	</select>
+	
+	<select id="findList" resultType="BizOrderComplaintProblem">
+		SELECT 
+			<include refid="bizOrderComplaintProblemColumns"/>
+		FROM biz_order_complaint_problem a
+		<include refid="bizOrderComplaintProblemJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="orderComplaintId != null and orderComplaintId != ''">
+				AND a.order_complaint_id = #{orderComplaintId}
+			</if>
+			<if test="complaintProblemTypeId != null and complaintProblemTypeId != ''">
+				AND a.complaint_problem_type_id = #{complaintProblemTypeId}
+			</if>
+		
+			<if test="createDate != null and createDate != ''">
+				AND a.create_date = #{createDate}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="BizOrderComplaintProblem">
+		SELECT 
+			<include refid="bizOrderComplaintProblemColumns"/>
+		FROM biz_order_complaint_problem a
+		<include refid="bizOrderComplaintProblemJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	<select id="findPageList" resultType="BizOrderComplaintProblem">
+		SELECT 
+	
+	</select>
+	
+	<insert id="insert">
+	<selectKey keyColumn="id" keyProperty="id" order="AFTER" resultType="String">
+	select last_insert_id()
+	</selectKey>
+		INSERT INTO biz_order_complaint_problem(
+			id,
+			order_complaint_id,
+			complaint_problem_type_id,
+			task_package_templat_id,
+			order_taskpackage_id,
+			complaint_role_type,
+			complaint_problem_describe,
+			status,
+			remarks,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag
+		) VALUES (
+			#{id},
+			#{orderComplaintId},
+			#{complaintProblemTypeId},
+			#{taskPackageTemplatId},
+			#{orderTaskpackageId},
+			#{complaintRoleType},
+			#{complaintProblemDescribe},
+			#{status},
+			#{remarks},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE biz_order_complaint_problem SET 	
+			order_complaint_id = #{orderComplaintId},
+			complaint_problem_type_id = #{complaintProblemTypeId},
+			task_package_templat_id = #{taskPackageTemplatId},
+			order_taskpackage_id = #{orderTaskpackageId},
+			complaint_role_type = #{complaintRoleType},
+			complaint_problem_describe = #{complaintProblemDescribe},
+			status = #{status},
+			remarks = #{remarks},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE biz_order_complaint_problem SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

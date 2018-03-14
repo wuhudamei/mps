@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizOrderReportLogDao">
+
+
+
+
+    <insert id="saveSendLog" parameterType="cn.damei.entity.modules.OrderReportLogEntity" useGeneratedKeys="true" keyProperty="id">
+        insert into biz_order_report_send_log(
+            send_type,
+            order_report_id,
+            service_employee_id,
+            service_name,
+            service_phone,
+            operator_employee_id,
+            operate_datetime
+
+        )
+                values(
+                    #{logType},
+                    #{orderReportId},
+                    #{serviceId},
+                    #{serviceName},
+                    #{servicePhone},
+                    #{operateEmployeeId},
+                    #{operateDateTime}
+
+                )
+    </insert>
+
+    <insert id="saveInstoreLog" parameterType="cn.damei.entity.modules.OrderReportLogEntity" useGeneratedKeys="true" keyProperty="id">
+
+        insert into biz_order_report_instore_log(
+
+
+            operate_source,
+            order_report_id,
+
+            instore_type,
+            instore_datetime,
+            instore_remarks,
+
+            sign_datetime,
+
+            sign_remarks,
+            operator_name,
+            operator_phone,
+            operate_datetime
+
+        )VALUES (
+            #{operateSource},
+            #{orderReportId},
+            #{logType},
+            #{inStoreDateTime},
+            #{inStoreRemarks},
+
+            #{signBillDateTime},
+            #{signBillRemarks},
+
+            #{operateEmployeeName},
+            #{operateEmployeePhone},
+            #{operateDateTime}
+
+
+
+        )
+
+
+
+
+    </insert>
+
+
+
+    <insert id="saveSignLog" parameterType="cn.damei.entity.modules.OrderReportLogEntity" useGeneratedKeys="true" keyProperty="id">
+
+        insert into biz_order_report_sign_log(
+
+            sign_type,
+            order_report_id,
+            operate_source,
+            operator_employee_id,
+            operator_name,
+            operator_phone,
+            operate_datetime,
+            sign_datetime,
+            remarks,
+            create_date
+
+
+        )VALUES (
+            #{logType},
+            #{orderReportId},
+            #{operateSource},
+            #{operateEmployeeId},
+            #{operateEmployeeName},
+            #{operateEmployeePhone},
+            #{operateDateTime},
+            #{signBillDateTime},
+            #{signBillRemarks},
+            #{logDateTime}
+
+
+
+
+        )
+
+
+
+    </insert>
+
+
+
+
+
+    <insert id="saveLogRelatedOrderNumber" parameterType="java.util.Map"  useGeneratedKeys="true" keyProperty="id">
+
+        insert into biz_order_report_sign_log_related_order(
+
+           sign_log_id,
+            order_number,
+            create_by,
+            create_date
+
+        )VALUES (
+        #{logId},
+        #{orderNums},
+        #{createBy.id},
+        #{createDate}
+        )
+
+
+    </insert>
+</mapper>

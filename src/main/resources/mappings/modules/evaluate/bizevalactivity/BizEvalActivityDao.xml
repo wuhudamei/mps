@@ -1,0 +1,682 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="cn.damei.dao.modules.BizEvalActivityDao">
+
+	<sql id="bizEvalActivityColumns">
+		a.id AS "id",
+		a.store_id AS "storeId",
+		a.project_mode AS
+		"projectMode",
+		a.eval_target_type AS "evalTargetType",
+		a.eval_start_datetime AS "evalStartDatetime",
+		a.eval_end_datetime AS
+		"evalEndDatetime",
+		a.is_enabled AS "isEnabled",
+		a.remarks AS "remarks",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag
+		AS "delFlag"
+	</sql>
+
+	<sql id="bizEvalActivityJoins">
+	</sql>
+
+	<select id="get"
+		resultType="cn.damei.entity.modules.BizEvalActivity">
+		SELECT
+		<include refid="bizEvalActivityColumns" />
+		FROM biz_eval_activity a
+		<include refid="bizEvalActivityJoins" />
+		WHERE a.id = #{id}
+	</select>
+
+	<select id="findList"
+		resultType="cn.damei.entity.modules.BizEvalActivity">
+		SELECT
+		<include refid="bizEvalActivityColumns" />
+		FROM biz_eval_activity a
+		<include refid="bizEvalActivityJoins" />
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="storeId != null and storeId != ''">
+				AND a.store_id = #{storeId}
+			</if>
+			<if test="projectMode != null and projectMode != ''">
+				AND a.project_mode = #{projectMode}
+			</if>
+			<if test="evalTargetType != null and evalTargetType != ''">
+				AND a.eval_target_type = #{evalTargetType}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+
+	<select id="findAllList"
+		resultType="cn.damei.entity.modules.BizEvalActivity">
+		SELECT
+		<include refid="bizEvalActivityColumns" />
+		FROM biz_eval_activity a
+		<include refid="bizEvalActivityJoins" />
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT
+		INTO biz_eval_activity(
+		id,
+		store_id,
+		project_mode,
+		eval_target_type,
+		eval_start_datetime,
+		eval_end_datetime,
+		is_enabled,
+		remarks,
+		create_by,
+		create_date,
+		update_by,
+		update_date,
+		del_flag
+		) VALUES (
+		#{id},
+		#{storeId},
+		#{projectMode},
+		#{evalTargetType},
+		#{evalStartDatetime},
+		#{evalEndDatetime},
+		#{isEnabled},
+		#{remarks},
+		#{createBy.id},
+		#{createDate},
+		#{updateBy.id},
+		#{updateDate},
+		#{delFlag}
+		)
+	</insert>
+
+	<update id="update">
+		UPDATE biz_eval_activity SET
+		store_id = #{storeId},
+		project_mode = #{projectMode},
+		eval_target_type = #{evalTargetType},
+		eval_start_datetime = #{evalStartDatetime},
+		eval_end_datetime =
+		#{evalEndDatetime},
+		is_enabled = #{isEnabled},
+		remarks = #{remarks},
+		update_by = #{updateBy.id},
+		update_date = #{updateDate},
+		del_flag =
+		#{delFlag}
+		WHERE id = #{id}
+	</update>
+
+	<!-- 停启用 -->
+	<update id="isEnabled"
+		parameterType="cn.damei.entity.modules.BizEvalActivity">
+		UPDATE biz_eval_activity SET
+		is_enabled = #{isEnabled},
+		update_by = #{updateBy.id},
+		update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+
+	<!-- 删除之前与评价活动相关联的评价指标设置 -->
+	<delete id="deleteEvalActivity" parameterType="int">
+		DELETE FROM
+		biz_eval_activity
+		WHERE
+		id = #{0}
+	</delete>
+
+	<!-- 删除之前与评价活动相关联的任务包 -->
+	<delete id="deleteEvalActivityTaskpackTemp" parameterType="int">
+		DELETE FROM
+		biz_eval_activity_taskpack_temp
+		WHERE
+		eval_activity_id = #{0}
+	</delete>
+
+	<!-- 保存之后与评价活动相关联的任务包 -->
+	<insert id="saveEvalActivityTaskpackTemp" parameterType="java.util.List">
+		INSERT INTO biz_eval_activity_taskpack_temp(
+		id,
+		eval_activity_id,
+		taskpack_temp_id,
+		remarks,
+		create_by,
+		create_date,
+		update_by,
+		update_date,
+		del_flag
+		) VALUES
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(
+			#{item.id},
+			#{item.evalActivityId},
+			#{item.taskpackTempId},
+			#{item.remarks},
+			#{item.createBy.id},
+			#{item.createDate},
+			#{item.updateBy.id},
+			#{item.updateDate},
+			#{item.delFlag}
+			)
+		</foreach>
+	</insert>
+
+	<insert id="saveEvalActivityStage" parameterType="java.util.List">
+		INSERT INTO biz_eval_activity_stage(
+		id,
+		eval_activity_id,
+		related_stage,
+		related_qc_check_node_id,
+		remarks,
+		create_by,
+		create_date,
+		update_by,
+		update_date,
+		del_flag
+		) VALUES
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(
+			#{item.id},
+			#{item.evalActivityId},
+			#{item.relatedStage},
+			#{item.relatedQcCheckNodeId},
+			#{item.remarks},
+			#{item.createBy.id},
+			#{item.createDate},
+			#{item.updateBy.id},
+			#{item.updateDate},
+			#{item.delFlag}
+			)
+		</foreach>
+	</insert>
+
+	<!-- 删除之前与评价活动相关联的评价指标设置 -->
+	<delete id="deleteEvalActivityIndex" parameterType="int">
+		DELETE FROM
+		biz_eval_activity_index
+		WHERE
+		eval_activity_id = #{0}
+	</delete>
+
+	<!-- 保存之后与评价活动相关联的评价指标设置 -->
+	<insert id="saveEvalActivityIndex" parameterType="java.util.List">
+		INSERT INTO biz_eval_activity_index(
+		id,
+		eval_activity_id,
+		eval_role_type,
+		eval_index_id,
+		eval_total_score,
+		remarks,
+		create_by,
+		create_date,
+		update_by,
+		update_date,
+		del_flag
+		) VALUES
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(
+			#{item.id},
+			#{item.evalActivityId},
+			#{item.evalRoleType},
+			#{item.evalIndexId},
+			#{item.evalTotalScore},
+			#{item.remarks},
+			#{item.createBy.id},
+			#{item.createDate},
+			#{item.updateBy.id},
+			#{item.updateDate},
+			#{item.delFlag}
+			)
+		</foreach>
+	</insert>
+
+
+	<!-- 判断评价活动中的任务包是否已经存在 -->
+	<select id="isTaskpackage" parameterType="java.util.Map"
+		resultType="java.lang.Integer">
+		select count(*) from biz_eval_activity_taskpack_temp a where
+		a.eval_activity_id in
+		(select b.id from biz_eval_activity b where
+		b.is_enabled = #{isEnabled} and b.store_id = #{storeId} and
+		b.project_mode = #{projectMode} and b.eval_target_type =
+		#{evalTargetType}
+		and b.eval_start_datetime &lt;= #{evalEndDatetime}
+		and
+		b.eval_end_datetime >= #{evalStartDatetime})
+		and a.taskpack_temp_id
+		in
+		<foreach item="item" index="index" collection="list" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
+
+	<!-- 判断评价项目经理的活动中约检节点是否存在 -->
+	<select id="isCheckStage" parameterType="java.util.Map"
+		resultType="java.lang.Integer">
+		SELECT
+		COUNT(*)
+		FROM
+		biz_eval_activity_stage a
+		WHERE
+		a.eval_activity_id IN
+		(
+		select b.id from biz_eval_activity b where
+		b.is_enabled = #{isEnabled}
+		and b.store_id = #{storeId} and
+		b.project_mode = #{projectMode} and
+		b.eval_target_type =
+		#{evalTargetType}
+		and b.eval_start_datetime &lt;=
+		#{evalEndDatetime}
+		and
+		b.eval_end_datetime >= #{evalStartDatetime}
+		)
+		and
+		a.related_qc_check_node_id in
+		<foreach item="item" index="index" collection="list" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
+
+	<!-- 修改操作 查询已选择的任务包 -->
+	<select id="findEvalActivityTaskpackTemp" parameterType="int"
+		resultType="cn.damei.entity.modules.BizEvalActivityTaskpackTemp">
+		SELECT
+		a.id AS "id",
+		a.eval_activity_id AS "evalActivityId",
+		a.taskpack_temp_id AS "taskpackTempId"
+		FROM
+		biz_eval_activity_taskpack_temp a
+		WHERE
+		a.eval_activity_id = #{0}
+
+	</select>
+
+	<!-- 是否可以启用 -->
+	<select id="isEnabledEval" parameterType="java.lang.Integer"
+		resultType="java.lang.Integer">
+		select taskpack_temp_id from
+		biz_eval_activity_taskpack_temp where eval_activity_id = #{0}
+	</select>
+
+	<!-- 修改操作 查询已添加的评价指标设置 -->
+	<select id="findEvalActivityIndex" parameterType="int"
+		resultType="cn.damei.entity.modules.BizEvalActivityIndex">
+		SELECT
+		a.id,
+		a.eval_activity_id,
+		a.eval_role_type,
+		a.eval_index_id,
+		a.eval_total_score
+		FROM
+		biz_eval_activity_index a
+		WHERE
+		a.eval_activity_id = #{0}
+	</select>
+
+	<select id="queryEvalStage"
+		resultType="cn.damei.entity.modules.BizEvalActivityStage">
+		SELECT
+		a.id as "id",
+		a.eval_activity_id as "evalActivityId",
+		a.related_qc_check_node_id as "relatedQcCheckNodeId",
+		a.related_stage
+		as "relatedStage"
+		FROM
+		biz_eval_activity_stage a
+		WHERE
+		a.eval_activity_id
+		= #{0}
+	</select>
+
+	<select id="queryEvalIndexRoleScore" parameterType="java.util.Map"
+		resultType="cn.damei.entity.modules.BizEvalActivityIndex">
+		SELECT
+		i.id as "evalIndexId",
+		i.index_name as "indexName",
+		h.got_score as
+		"indexScore",
+		h.create_date as "evalDate"
+		from biz_eval_index i LEFT
+		JOIN (
+		SELECT
+		d.eval_index_id,
+		c.got_score,
+		b.create_date
+		FROM
+		biz_eval_score a
+		LEFT JOIN
+		biz_eval_score_role b ON
+		b.eval_score_id =
+		a.id
+		LEFT
+		JOIN
+		biz_eval_score_role_index c on
+		c.eval_score_role_id =
+		b.id
+		LEFT JOIN biz_eval_activity_index
+		d on d.id =
+		c.eval_activity_index_id
+		where
+		a.related_business_id=#{relatedBusinessId} and
+		a.eval_type=#{evalType} and b.eval_role_type in
+		<foreach item="item" index="index" collection="list" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+		) as h on h.eval_index_id=i.id
+		where i.store_id=#{storeId} and
+		i.project_mode=#{projectModel} and i.is_enabled = 1
+	</select>
+
+	<!-- 查询字典表 评价类型 -->
+	<select id="findDict" parameterType="String"
+		resultType="cn.damei.entity.modules.Dict">
+		SELECT
+		a.`value` AS "value",
+		a.label AS "label"
+		FROM
+		sys_dict a
+		WHERE
+		a.type = #{type}
+		ORDER BY
+		a.`value` ASC
+
+	</select>
+
+	<select id="queryIdByMap" parameterType="java.util.Map"
+		resultType="java.lang.Integer">
+		select a.id
+		from biz_eval_activity_taskpack_temp b inner
+		join biz_eval_activity a on b.eval_activity_id = a.id
+		where a.store_id
+		= #{storeId} and a.project_mode = #{projectMode} and
+		a.eval_target_type = #{rewardTargetType}
+		and a.eval_start_datetime
+		&lt;=#{rewardDatetime} and a.eval_end_datetime >= #{rewardDatetime}
+		and b.taskpack_temp_id = #{taskpackTempId} and a.is_enabled =
+		#{isEnabled}
+	</select>
+
+	<select id="queryBizEvalWorkGradeList"
+		resultType="cn.damei.entity.modules.BizEvalWorkGrade">
+		SELECT
+		b.store_id as "storeId",
+		b.project_mode as "projectMode",
+		b.engin_depart_id as
+		"enginDepartId",
+		ee.`name` as "enginDepartName",
+		a.group_realname as
+		"groupRealName",
+		a.customer_message as
+		"customerMessage",
+		a.customer_name as "customerName",
+		a.id as
+		"packageId",
+		a.package_name
+		as
+		"packageName",
+		e.eval_role_type as
+		"evalRoleType",
+		e.eval_total_score
+		as
+		"evaltotalScore",
+		p.eval_datetime as
+		"gradeDate"
+		FROM
+		biz_eval_score f
+		LEFT JOIN biz_order_taskpackage a ON
+		f.related_business_id = a.id
+		LEFT JOIN biz_order b ON a.order_id =
+		b.id
+		LEFT JOIN biz_eval_activity_order_taskpack_rel c ON
+		f.related_business_id
+		= c.order_taskpack_id
+		LEFT JOIN
+		biz_engineering_department ee ON ee.id = b.engin_depart_id
+		LEFT JOIN (
+		SELECT
+		d.eval_activity_id,
+		d.eval_role_type,
+		SUM(d.eval_total_score) AS
+		eval_total_score
+		FROM
+		biz_eval_activity_index d
+		GROUP BY
+		d.eval_activity_id,
+		d.eval_role_type
+		) e ON e.eval_activity_id =
+		c.eval_activity_id
+		LEFT JOIN biz_eval_score_role p on
+		p.eval_score_id =
+		f.id and
+		(CASE
+		WHEN e.eval_role_type = 1 THEN p.eval_role_type IN (101,
+		102)
+		WHEN e.eval_role_type = 2 THEN p.eval_role_type IN (201, 202)
+		WHEN
+		e.eval_role_type = 3 THEN p.eval_role_type IN (301, 302)
+		END
+		)
+		<where>
+			f.eval_type = '1'
+			and p.eval_datetime is not null
+			<if test="storeId != null and storeId != ''">
+				AND b.store_id = #{storeId}
+			</if>
+
+			<if test="projectMode != null and projectMode != ''">
+				AND b.project_mode = #{projectMode}
+			</if>
+
+			<if test="enginDepartId != null and enginDepartId != ''">
+				AND b.engin_depart_id = #{enginDepartId}
+			</if>
+
+			<if test="customerName != null and customerName != ''">
+				AND a.customer_name LIKE CONCAT('%','${customerName}','%'
+				)
+			</if>
+
+			<if test="groupRealName != null and groupRealName != ''">
+				AND a.group_realname LIKE
+				CONCAT('%','${groupRealName}','%' )
+			</if>
+
+			<if test="evalRoleType != null and evalRoleType != ''">
+				AND e.eval_role_type = #{evalRoleType}
+			</if>
+
+			<if test="packageName != null and packageName != ''">
+				AND a.package_name LIKE CONCAT('%','${packageName}','%' )
+			</if>
+
+			<if
+				test="startDate != null and endDate != null and startDate != '' and endDate != ''">
+				AND p.eval_datetime BETWEEN #{startDate} AND #{endDate}
+			</if>
+		</where>
+	</select>
+
+	<select id="queryBizEvalManagerGradeList"
+		resultType="cn.damei.entity.modules.BizEvalWorkGrade">
+		SELECT
+		a.related_business_id as "relatedBusinessId",
+		c.store_id as "storeId",
+		c.project_mode as "projectMode",
+		c.engin_depart_id as "enginDepartId",
+		ee.`name` as "enginDepartName",
+		c.community_name as "communityName",
+		c.build_number as "buildNumber",
+		c.build_unit as "buildUnit",
+		c.build_room as "buildRoom",
+		c.customer_name as "customerName",
+		c.item_manager as "manager",
+		h.eval_total_score as "evaltotalScore",
+		h.eval_role_type as "evalRoleType",
+		p.eval_datetime as "gradeDate"
+		FROM
+		biz_eval_score a
+		LEFT JOIN biz_qc_bill b ON a.related_business_id = b.id
+		LEFT JOIN biz_order c ON b.order_id = c.id
+		LEFT JOIN biz_engineering_department ee ON ee.id = c.engin_depart_id
+		LEFT JOIN (
+		SELECT DISTINCT
+		(f.eval_activity_id),
+		d.eval_score_id
+		FROM
+		biz_eval_activity_index f
+		LEFT JOIN biz_eval_score_role_index e ON f.id = e.eval_activity_index_id
+		LEFT JOIN biz_eval_score_role d ON d.id = e.eval_score_role_id
+		) g ON g.eval_score_id = a.id
+		LEFT JOIN (
+		SELECT
+		d.eval_activity_id,
+		d.eval_role_type,
+		SUM(d.eval_total_score) AS
+		eval_total_score
+		FROM
+		biz_eval_activity_index d
+		GROUP BY
+		d.eval_activity_id,
+		d.eval_role_type
+		) h ON h.eval_activity_id = g.eval_activity_id
+		LEFT JOIN biz_eval_score_role p ON p.eval_score_id = a.id
+		AND (
+		CASE
+		WHEN h.eval_role_type = 1 THEN
+		p.eval_role_type IN (101, 102)
+		WHEN h.eval_role_type = 2 THEN
+		p.eval_role_type IN (201, 202)
+		WHEN h.eval_role_type = 3 THEN
+		p.eval_role_type IN (301, 302)
+		END
+		)
+		<where>
+			a.eval_status=2 and a.eval_type = '2'
+			<if test="storeId != null and storeId != ''">
+				AND c.store_id = #{storeId}
+			</if>
+
+			<if test="projectMode != null and projectMode != ''">
+				AND c.project_mode = #{projectMode}
+			</if>
+
+			<if test="enginDepartId != null and enginDepartId != ''">
+				AND c.engin_depart_id = #{enginDepartId}
+			</if>
+
+			<if test="customerName != null and customerName != ''">
+				AND c.customer_name LIKE CONCAT('%','${customerName}','%'
+				)
+			</if>
+
+			<if test="manager != null and manager != ''">
+				AND c.item_manager LIKE
+				CONCAT('%','${manager}','%' )
+			</if>
+
+			<if test="evalRoleType != null and evalRoleType != ''">
+				AND h.eval_role_type = #{evalRoleType}
+			</if>
+
+			<if test="startDate != null and endDate != null and startDate != '' and endDate != ''">
+				AND p.eval_datetime BETWEEN #{startDate} AND #{endDate}
+			</if>
+		</where>
+	</select>
+	
+	
+	<select id="findEvalType" resultType="String">
+		SELECT a.value FROM sys_dict a 
+		LEFT JOIN (SELECT a.eval_role_type
+		FROM biz_eval_activity_index a 
+		WHERE a.eval_activity_id = #{id} GROUP BY a.eval_role_type) b ON a.value = b.eval_role_type
+		WHERE a.type='eval_role_type' AND b.eval_role_type IS NULL
+	</select>
+	<select id="checkExist" resultType="String">
+		SELECT COUNT(id) 
+		FROM biz_eval_activity_role_cycle  
+		WHERE eval_activity_id = #{id} 
+			AND eval_target_type = #{evalTargetType}
+			AND eval_role_type = #{evalType} 
+			AND is_enabled = #{isEnabled}	
+	</select>
+	
+	<insert id="saveActivityRoleCycle">
+		insert into biz_eval_activity_role_cycle (
+		eval_activity_id,
+		eval_target_type,
+		eval_role_type,
+		eval_cycle_hours,
+		is_enabled,
+		remarks,
+		create_by,
+		create_date,
+		update_by,
+		update_date,
+		del_flag
+		)values(
+		#{id},
+		#{evalTargetType},
+		#{evalType},
+		#{interval},
+		#{isEnabled},
+		#{remarks},
+		#{createBy.id},
+		#{createDate},
+		#{updateBy.id},
+		#{updateDate},
+		#{delFlag}
+		)
+	</insert>
+	
+	<select id="findEvalActivityRoleCycle" resultType="cn.damei.entity.modules.BizEvalActivity">
+		SELECT a.id,b.id AS 'roleCycleId',a.store_id,a.project_mode,a.eval_target_type,b.eval_role_type AS 'evalType',b.eval_cycle_hours AS 'interval',b.is_enabled FROM biz_eval_activity a 
+		LEFT JOIN biz_eval_activity_role_cycle b ON a.id = b.eval_activity_id
+		WHERE a.id = #{id} AND b.id IS NOT null
+	</select>
+	
+	<update id="updateActivityRoleCycle">
+		 UPDATE biz_eval_activity_role_cycle SET eval_role_type = #{evalType},eval_cycle_hours = #{interval},is_enabled = #{isEnabled} WHERE id = #{roleCycleId}
+	</update>
+	
+	<select id="findEvalActivity" resultType="String">
+		SELECT id
+		FROM biz_eval_activity_role_cycle  
+		WHERE eval_activity_id = #{id} 
+			AND eval_target_type = #{evalTargetType}
+			AND eval_role_type = #{evalType} 
+			AND is_enabled = #{isEnabled}	
+	</select>
+	
+</mapper>

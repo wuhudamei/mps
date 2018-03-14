@@ -1,0 +1,484 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="cn.damei.dao.modules.BizPmSettleCategorySummaryDao">
+
+	<sql id="bizPmSettleCategorySummaryColumns">
+		a.id AS "id",
+		a.order_id AS "orderId",
+		a.pm_employee_id AS
+		"pmEmployeeId",
+		a.settle_category AS "settleCategory",
+		a.settle_amount
+		AS "settleAmount",
+		a.pm_settle_bill_id AS "pmSettleBillId",
+		a.settle_status AS "settleStatus",
+		a.settle_status_datetime AS
+		"settleStatusDatetime",
+		a.settle_remark AS "settleRemark",
+		a.remarks AS
+		"remarks",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag
+		AS "delFlag",
+		a.settle_role as "settleRole"
+	</sql>
+
+	<sql id="bizPmSettleCategorySummaryJoins">
+	</sql>
+
+	<select id="get"
+		resultType="cn.damei.entity.modules.BizPmSettleCategorySummary">
+		SELECT
+		<include refid="bizPmSettleCategorySummaryColumns" />
+		FROM biz_pm_settle_category_summary a
+		<include refid="bizPmSettleCategorySummaryJoins" />
+		WHERE a.id = #{id}
+	</select>
+
+	<select id="findList"
+		resultType="cn.damei.entity.modules.BizPmSettleCategorySummary">
+		SELECT
+		<include refid="bizPmSettleCategorySummaryColumns" />
+		FROM biz_pm_settle_category_summary a
+		<include refid="bizPmSettleCategorySummaryJoins" />
+		<where>
+
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+
+	<select id="queryCateGrrySummaryByParam" parameterType="java.util.Map"
+		resultType="cn.damei.entity.modules.BizPmSettleCategorySummary">
+		SELECT
+		<include refid="bizPmSettleCategorySummaryColumns" />
+		FROM biz_pm_settle_category_summary a
+		WHERE
+		a.order_id=#{orderId}
+		AND a.pm_employee_id = #{pmEmployeeId}
+		AND a.pm_settle_bill_id = #{pmSettleBillId}
+		AND a.settle_category = #{settleCategory}
+	</select>
+
+	<select id="findAllList"
+		resultType="cn.damei.entity.modules.BizPmSettleCategorySummary">
+		SELECT
+		<include refid="bizPmSettleCategorySummaryColumns" />
+		FROM biz_pm_settle_category_summary a
+		<include refid="bizPmSettleCategorySummaryJoins" />
+		<where>
+
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO biz_pm_settle_category_summary(
+		id,
+		order_id,
+		pm_employee_id,
+		settle_category,
+		settle_amount,
+		pm_settle_bill_id,
+		settle_status,
+		settle_status_datetime,
+		settle_remark,
+		remarks,
+		create_by,
+		create_date,
+		update_by,
+		update_date,
+		del_flag,
+		settle_role
+		) VALUES (
+		#{id},
+		#{orderId},
+		#{pmEmployeeId},
+		#{settleCategory},
+		#{settleAmount},
+		#{pmSettleBillId},
+		#{settleStatus},
+		#{settleStatusDatetime},
+		#{settleRemark},
+		#{remarks},
+		#{createBy.id},
+		#{createDate},
+		#{updateBy.id},
+		#{updateDate},
+		#{delFlag},
+		#{settleRole}
+		)
+	</insert>
+
+	<!--批量新增 -->
+	<insert id="insertBatch" parameterType="java.util.List">
+		INSERT INTO biz_pm_settle_category_summary(
+		id,
+		order_id,
+		pm_employee_id,
+		settle_category,
+		settle_amount,
+		pm_settle_bill_id,
+		settle_status,
+		settle_status_datetime,
+		settle_remark,
+		remarks,
+		create_by,
+		create_date,
+		update_by,
+		update_date,
+		del_flag,
+		settle_role
+		) VALUES
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(#{item.id},
+			#{item.orderId},
+			#{item.pmEmployeeId},
+			#{item.settleCategory},
+			#{item.settleAmount},
+			#{item.pmSettleBillId},
+			#{item.settleStatus},
+			#{item.settleStatusDatetime},
+			#{item.settleRemark},
+			#{item.remarks},
+			#{item.createBy.id},
+			#{item.createDate},
+			#{item.updateBy.id},
+			#{item.updateDate},
+			#{item.delFlag},
+			#{item.settleRole})
+		</foreach>
+	</insert>
+
+	<update id="update">
+		UPDATE biz_pm_settle_category_summary SET
+		order_id =
+		#{orderId},
+		pm_employee_id = #{pmEmployeeId},
+		settle_category =
+		#{settleCategory},
+		settle_amount = #{settleAmount},
+		pm_settle_bill_id =
+		#{pmSettleBillId},
+		settle_status = #{settleStatus},
+		settle_status_datetime = #{settleStatusDatetime},
+		settle_remark =
+		#{settleRemark},
+		remarks = #{remarks},
+		update_by = #{updateBy.id},
+		update_date = #{updateDate},
+		del_flag = #{delFlag},
+		settle_role =
+		#{settleRole}
+		WHERE id = #{id}
+	</update>
+
+	<update id="updateRelate" parameterType="java.util.Map">
+		UPDATE
+		biz_pm_settle_category_summary a left join biz_pm_settle_bill b on
+		a.pm_employee_id = b.pm_employee_id and a.order_id = b.order_id
+		and
+		b.settle_bill_type = #{settleBillType} and a.settle_role =
+		b.settle_role
+		set a.pm_settle_bill_id = b.id where a.order_id =
+		#{orderId} and a.settle_status = #{settleStatus} and a.settle_role =
+		#{settleRole}
+		and (a.pm_settle_bill_id is null or a.pm_settle_bill_id =
+		'')
+	</update>
+
+	<!--批量更新 -->
+	<update id="updateBatch" parameterType="java.util.List">
+		update biz_pm_settle_category_summary set
+		order_id=
+		<foreach collection="list" item="item" index="index"
+			separator=" " open="case ID" close="end">
+			when #{item.id} then
+			#{item.orderId}
+		</foreach>
+		,pm_employee_id=
+		<foreach collection="list" item="item" index="index"
+			separator=" " open="case ID" close="end">
+			when #{item.id} then
+			#{item.pmEmployeeId}
+		</foreach>
+		,settle_category=
+		<foreach collection="list" item="item" index="index"
+			separator=" " open="case ID" close="end">
+			when #{item.id} then
+			#{item.settleCategory}
+		</foreach>
+		,settle_amount=
+		<foreach collection="list" item="item" index="index"
+			separator=" " open="case ID" close="end">
+			when #{item.id} then
+			#{item.settleAmount}
+		</foreach>
+		,pm_settle_bill_id=
+		<foreach collection="list" item="item" index="index"
+			separator=" " open="case ID" close="end">
+			when #{item.id} then
+			#{item.pmSettleBillId}
+		</foreach>
+		,settle_status=
+		<foreach collection="list" item="item" index="index"
+			separator=" " open="case ID" close="end">
+			when #{item.id} then
+			#{item.settleStatus}
+		</foreach>
+		,settle_status_datetime=
+		<foreach collection="list" item="item" index="index"
+			separator=" " open="case ID" close="end">
+			when #{item.id} then
+			#{item.settleStatusDatetime}
+		</foreach>
+		,settle_remark=
+		<foreach collection="list" item="item" index="index"
+			separator=" " open="case ID" close="end">
+			when #{item.id} then
+			#{item.settleRemark}
+		</foreach>
+		,remarks=
+		<foreach collection="list" item="item" index="index"
+			separator=" " open="case ID" close="end">
+			when #{item.id} then
+			#{item.remarks}
+		</foreach>
+		,update_by=
+		<foreach collection="list" item="item" index="index"
+			separator=" " open="case ID" close="end">
+			when #{item.id} then
+			#{item.updateBy.id}
+		</foreach>
+		,update_date=
+		<foreach collection="list" item="item" index="index"
+			separator=" " open="case ID" close="end">
+			when #{item.id} then
+			#{item.updateDate}
+		</foreach>
+		,del_flag=
+		<foreach collection="list" item="item" index="index"
+			separator=" " open="case ID" close="end">
+			when #{item.id} then
+			#{item.delFlag}
+		</foreach>
+		,settle_role=
+		<foreach collection="list" item="item" index="index"
+			separator=" " open="case ID" close="end">
+			when #{item.id} then
+			#{item.settleRole}
+		</foreach>
+		where id in
+		<foreach collection="list" index="index" item="item"
+			separator="," open="(" close=")">
+			#{item.id}
+		</foreach>
+
+	</update>
+
+	<update id="delete">
+		DELETE FROM biz_pm_settle_category_summary
+		WHERE id =
+		#{id}
+	</update>
+
+	<!--项目经理查询中期结算类目 -->
+	<select id="queryCateGorySummaryMidByCondition" parameterType="java.util.Map"
+		resultType="cn.damei.entity.modules.BizPmSettleBill">
+		select a.pm_employee_id as "pmEmployeeId",b.project_mode as
+		"projectMode",
+		sum(case a.settle_category when '3' then a.settle_amount
+		else null end) as
+		"midwayCommissionAmount",
+		sum(case a.settle_category
+		when '2' then a.settle_amount else null end) as
+		"ownpayAmount",
+		sum(case a.settle_category when '1' then a.settle_amount else null
+		end) as
+		"materialsStandardAmount",
+		sum(case a.settle_category when '401'
+		then a.settle_amount else null end) as
+		"midwayQcCheckPunishAmount",
+		sum(case a.settle_category when '121' then a.settle_amount else null
+		end) as
+		"midwayAuxiliaryMaterialsSettleAmount",
+		sum(case a.settle_category when '907' then a.settle_amount else null
+		end) as
+		"midwayRewardAmount",
+		sum(case a.settle_category when '908' then a.settle_amount else null
+		end) as
+		"midwayPunishAmount",
+		sum(case a.settle_category when '912' then a.settle_amount else null
+		end) as
+		"midwayInspectionRewardAmount",
+		sum(case a.settle_category when '913' then a.settle_amount else null
+		end) as
+		"midwayInspectionPunishAmount",
+		sum(a.settle_amount) as
+		"totalAmount"
+		from biz_pm_settle_category_summary a
+		left join
+		biz_order b
+		on a.order_id = b.id
+		where a.order_id =#{orderId} and
+		a.settle_status =
+		#{settleStatus} and a.settle_category
+		in('1','2','3','401','121','907','908','912','913') and
+		a.settle_role = #{settleRole}
+		group by a.pm_employee_id
+	</select>
+
+	<!--质检员查询中期结算类目 -->
+	<select id="queryCateGorySummaryMidByConditionPbc"
+		parameterType="java.util.Map"
+		resultType="cn.damei.entity.modules.BizPmSettleBill">
+		select a.pm_employee_id as "pmEmployeeId",b.project_mode as
+		"projectMode",
+		sum(case a.settle_category when '7' then a.settle_amount
+		else null end) as "qcMidwayCommissionAmount",
+		sum(case
+		a.settle_category when '9' then a.settle_amount else null end) as
+		"qcMidwayLongwayAmount",
+		sum(a.settle_amount) as "totalAmount"
+		from
+		biz_pm_settle_category_summary a
+		left join biz_order b on a.order_id =
+		b.id
+		where a.order_id =#{orderId} and a.settle_status = #{settleStatus}
+		<if test="settleCategoryList != null and settleCategoryList != ''">
+			and a.settle_category in
+			<foreach item="item" index="index" collection="settleCategoryList"
+				open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+		and a.settle_role = #{settleRole} group by a.pm_employee_id
+	</select>
+
+	<!--项目经理查询尾期结算类目 -->
+	<select id="queryCateGorySummaryLastByCondition" parameterType="java.util.Map"
+		resultType="cn.damei.entity.modules.BizPmSettleBill">
+		select a.pm_employee_id as "pmEmployeeId",b.project_mode as
+		"projectMode",
+		sum(case a.settle_category when '5' then a.settle_amount
+		else null end) as "completeCommissionAmount",
+		sum(case
+		a.settle_category when '402' then a.settle_amount else null end) as
+		"completQcCheckPunishAmount",
+		sum(case a.settle_category when '6' then
+		a.settle_amount else null end) as "guaranteeMoneyAmount",
+		sum(case
+		a.settle_category when '11' then a.settle_amount else null end) as
+		"materialSelfbuyReimburseAmount",
+		sum(case a.settle_category when '122'
+		then a.settle_amount else null end) as
+		"completeAuxiliaryMaterialsSettleAmount",
+		sum(case a.settle_category when '1002' then a.settle_amount else null
+		end) as
+		"completeRewardAmount",
+		sum(case a.settle_category when '1003' then a.settle_amount else null
+		end) as
+		"completePunishAmount",
+		sum(case a.settle_category when '1012' then a.settle_amount else null
+		end) as
+		"completeInspectionRewardAmount",
+		sum(case a.settle_category when '1013' then a.settle_amount else null
+		end) as
+		"completeInspectionPunishAmount",
+		sum(a.settle_amount) as
+		"totalAmount"
+		from biz_pm_settle_category_summary a
+		left join biz_order
+		b on a.order_id = b.id
+		where a.order_id =#{orderId} and a.settle_status
+		= #{settleStatus} and a.settle_category in ('5','6','11','402','122','1002','1003','1012','1013')
+		and a.settle_role = #{settleRole} group by a.pm_employee_id
+	</select>
+
+	<!--质检员查询尾期结算类目 -->
+	<select id="queryCateGorySummaryLastByConditionPbc"
+		parameterType="java.util.Map"
+		resultType="cn.damei.entity.modules.BizPmSettleBill">
+		select a.pm_employee_id as "pmEmployeeId",b.project_mode as
+		"projectMode",
+		sum(case a.settle_category when '8' then a.settle_amount
+		else null end) as "qcCompleteCommissionAmount",
+		sum(case
+		a.settle_category when '10' then a.settle_amount else null end) as
+		"qcCompleteLongwayAmount",
+		sum(a.settle_amount) as "totalAmount"
+		from
+		biz_pm_settle_category_summary a
+		left join biz_order b on a.order_id =
+		b.id
+		where a.order_id =#{orderId} and a.settle_status = #{settleStatus}
+		<if test="settleCategoryList != null and settleCategoryList != ''">
+			and a.settle_category in
+			<foreach item="item" index="index" collection="settleCategoryList"
+				open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+		and a.settle_role = #{settleRole} group by a.pm_employee_id
+	</select>
+
+	<select id="queryByCondition"
+		resultType="cn.damei.entity.modules.BizPmSettleCategorySummary">
+		SELECT
+		<include refid="bizPmSettleCategorySummaryColumns" />
+		FROM biz_pm_settle_category_summary a
+		<include refid="bizPmSettleCategorySummaryJoins" />
+		WHERE a.order_id = #{orderId} and a.settle_status = #{settleStatus}
+	</select>
+
+	<update id="updateStatus"
+		parameterType="cn.damei.entity.modules.BizPmSettleBill">
+		update biz_pm_settle_category_summary c set
+		c.settle_status = #{newStatus},c.settle_status_datetime =
+		#{settleDatetime},c.update_by = #{updateBy.id},c.update_date =
+		#{updateDate}
+		where c.pm_settle_bill_id in
+		(select a.id from
+		biz_pm_settle_bill a left join biz_order b on a.order_id = b.id
+		where
+		a.del_flag = '0' and b.store_id = #{storeId} and a.status = #{status}
+		and a.settle_role = #{settleRole}
+		AND  a.order_id in
+		<foreach item="item" index="index" collection="list" open="("
+				 separator="," close=")">
+			#{item}
+		</foreach>
+		)
+	</update>
+
+	<update id="updateCateGorySummaryPmSettleBillId" parameterType="java.util.Map">
+		UPDATE biz_pm_settle_category_summary a
+		SET a.pm_settle_bill_id =
+		#{settleBillId}
+		WHERE
+		a.order_id = #{orderId}
+		AND a.pm_employee_id =
+		#{pmEmployeeId}
+		AND a.settle_role = #{settleRole}
+		AND a.settle_status =
+		#{settleStatus}
+		AND (a.pm_settle_bill_id is null or a.pm_settle_bill_id
+		= '')
+	</update>
+</mapper>

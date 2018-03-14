@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="cn.damei.dao.modules.BizOrderTaskpackageSettleMentCancleLogDao">
+
+	<insert id="insert">
+		INSERT INTO
+		biz_order_taskpackage_settlement_cancle_log (
+		id,
+		operate_type,
+		biz_order_taskpackage_settlemen_id,
+		operate_remarks,
+		remarks,
+		create_by,
+		create_date,
+		update_by,
+		update_date,
+		del_flag
+		) VALUES (
+		#{id},
+		#{operateType},
+		#{bizOrderTaskpackageSettlemenId},
+		#{operateRemarks},
+		#{remarks},
+		#{createBy.id},
+		#{createDate},
+		#{updateBy.id},
+		#{updateDate},
+		#{delFlag}
+		)
+	</insert>
+
+</mapper>

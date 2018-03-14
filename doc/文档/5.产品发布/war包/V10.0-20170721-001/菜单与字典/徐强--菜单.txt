@@ -1,0 +1,61 @@
+张康健--徐强--工程节点流程优化
+
+1、	名称：工程订单列表
+	链接：/projectOrderList/preList
+
+2、	名称：接单日报表
+	链接：/bizprepareorder/bizPrepareOrder/ordertaskingCount
+
+
+王磊--徐强--派单管理优化
+1、	名称：产业订单已分派项目经理
+	链接：/order2/order2/listAllot
+
+2、	名称：产业订单待分派项目经理
+	链接：/order2/order2/listUnAllot
+
+3、	名称：产业订单已分配质检员
+	链接：/order2/order2/listAllotInspector
+
+4、	名称：产业订单待分配质检员
+	链接：/order2/order2/listUnAllotInspector
+
+5、	名称：传统订单已分派项目经理
+	链接：/order2/order2/listAllotManagerTradition
+
+6、	名称：传统订单待分派项目经理
+	链接：/order2/order2/listUnAllotManagerTradition
+
+7、	名称：传统订单已分派质检员
+	链接：/order2/order2/listAllotInspectorTradition
+
+8、	名称：传统订单待分派质检员
+	链接：/order2/order2/listUnAllotInspectorTradition
+
+9、	名称：派项目经理日报表
+	链接：/order2/order2/proMangerDaily
+
+10、	名称：派质检员日报表
+	链接：/order2/order2/inspectorDaily
+
+汉伟--徐强--预算管理
+
+1、	名称：已生成任务包的订单
+	链接：/ordertaskpack/orderTaskpack/preList
+	权限标识：ordertaskpack:orderTaskpack:view,ordertaskpack:orderTaskpack:edit
+
+2、	名称：待生成任务包的订单
+	链接：/ordertaskpack/orderTaskpack/stayList
+	权限标识：ordertaskpack:orderTaskpack:view,ordertaskpack:orderTaskpack:edit
+
+3、	名称：已审核任务包
+	链接：/ordertaskpackageaudit/orderTaskpackageAudit/list
+	权限标识：ordertaskpackageaudit:orderTaskpackageAudit:view,ordertaskpackageaudit:orderTaskpackageAudit:edit
+
+4、	名称：待审核任务包
+	链接：/ordertaskpackageaudit/orderTaskpackageAudit/stayList
+	权限标识：ordertaskpackageaudit:orderTaskpackageAudit:view,ordertaskpackageaudit:orderTaskpackageAudit:edit
+
+5、	名称：预算日报表
+	链接：/budgetdailytable/budgetDailyTable/preList
+	权限标识：budgetdailytable:budgetdailytable:view

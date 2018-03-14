@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.mobile.Worker.MessageRecordDao">
+
+	<sql id="messageRecordColumns">
+		a.msg_record_id AS "msgRecordId",
+		a.msg_id AS "msgId",
+		a.employee_id AS "employeeId",
+		a.record_time AS "recordTime"
+	</sql>
+	
+	<select id="selectAllRecord" resultType="cn.damei.entity.mobile.Worker.MessageRecord">
+		select 
+		<include refid="messageRecordColumns"/>
+		from biz_msg_record a
+	</select>
+	
+	<insert id="insert">
+			insert into biz_msg_record(
+			msg_record_id,
+			msg_id,
+			employee_id,
+			record_time
+		)value(
+			#{msgRecordId},
+			#{msgId},
+			#{employeeId},
+			#{recordTime}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE biz_msg_record SET
+			msg_id = #{msgId},
+			employee_id = #{employeeId},
+			record_time = #{recordTime}
+		where msg_record_id = #{msgRecordId}
+	</update>
+	
+	<select id="findByMsgIdAndEmployeeId" resultType="cn.damei.entity.mobile.Worker.MessageRecord">
+		select 
+		<include refid="messageRecordColumns"/>
+		from biz_msg_record a
+		where a.msg_id = #{0} and a.employee_id = #{1}
+	</select>
+	
+</mapper>

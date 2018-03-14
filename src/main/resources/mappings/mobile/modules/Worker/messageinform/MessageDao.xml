@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.mobile.Worker.MessageDao">
+
+	<sql id="messageColumns">
+		a.msg_id AS "msgId",
+		a.msg_title AS "msgTitle",
+		a.msg_time AS "msgTime",
+		a.msg_content AS "msgContent",
+		a.msg_type AS "msgType",
+		a.busi_type AS "busiType",
+		a.busi_id AS "busiId",
+		a.employee_id AS "employeeId",
+		a.busi_id_int AS "busiIdInt"
+	</sql>
+	<insert id="insert">
+		insert into biz_msg(
+			msg_id,
+			msg_title,
+			msg_time,
+			msg_content,
+			msg_type,
+			busi_type,
+			busi_id,
+			employee_id,
+			busi_id_int
+		)value(
+			#{msgId},
+			#{msgTitle},
+			#{msgTime},
+			#{msgContent},
+			#{msgType},
+			#{busiType},
+			#{busiId},
+			#{employeeId},
+			#{busiIdInt}
+		)
+	</insert>
+	
+	<select id="findAllMessage" resultType="cn.damei.entity.mobile.Worker.Message">
+		SELECT
+		<include refid="messageColumns"/>
+		from biz_msg a
+		where a.msg_type ='系统提示' OR (a.msg_type = '通知' and a.employee_id = #{employeeId}) 
+		ORDER BY a.msg_time DESC	
+	</select>
+	
+	<select id="findReadedMessage" resultType="cn.damei.entity.mobile.Worker.Message">
+		SELECT
+		<include refid="messageColumns"/>
+		from biz_msg a, biz_msg_record b
+		where a.msg_id = b.msg_id and b.employee_id = #{employeeId} 
+		ORDER BY a.msg_time DESC	
+	</select>
+	
+	<select id="findByMsgId" resultType="cn.damei.entity.mobile.Worker.Message">
+		SELECT
+		<include refid="messageColumns"/>
+		from biz_msg a
+		where a.msg_id = #{msgId}
+	</select>
+	
+	<select id ="findMessagePage" resultType ="cn.damei.entity.mobile.Worker.Message">
+		<!-- SELECT t.* from ((SELECT 
+			a.msg_id as "msgId",
+			a.msg_title as "msgTitle",
+			a.msg_content as "msgContent",
+			a.msg_type as "msgType",
+			a.msg_time as "msgTime",
+			a.busi_id as "busiId",
+			a.busi_type as "busiType",
+			a.employee_id as "employeeId",
+			a.busi_id_int as "busiIdInt"
+		from biz_msg a
+		where a.msg_id not in (SELECT r.msg_id from biz_msg_record r where r.employee_id = #{2}) and a.msg_type ='1' and a.employee_id = #{2} ORDER BY a.msg_time DESC)
+		UNION															
+		(select 
+			c.msg_id as "msgId",
+			c.msg_title as "msgTitle",
+			c.msg_content as "msgContent",
+			c.msg_type as "msgType",
+			b.record_time as "msgTime",
+			c.busi_id as "busiId",
+			c.busi_type as "busiType",
+			c.employee_id as "employeeId",
+			c.busi_id_int as "busiIdInt"
+		from biz_msg_record b
+		INNER JOIN biz_msg c on c.msg_id = b.msg_id
+		where b.employee_id = #{2} ORDER BY b.record_time DESC))t order by t.msgTime DESC LIMIT #{0},#{1} -->
+			
+		select   
+		a.msg_id      as "msgId",
+		  a.msg_title   as "msgTitle",
+		  a.msg_content as "msgContent",
+		  a.msg_type    as "msgType",
+		  a.msg_time    as "msgTime",
+		  a.busi_id     as "busiId",
+		  a.busi_type   as "busiType",
+		  a.employee_id as "employeeId",
+		  a.busi_id_int as "busiIdInt",
+		  (case when b.msg_id is null then 0 else 1 END) as "isReaded"
+			from biz_msg a
+			left join biz_msg_record b on b.msg_id=a.msg_id
+			where a.employee_id = #{2}
+			ORDER BY msgTime desc 
+			limit #{0},#{1}
+	</select>
+	
+	<!--<select id="findUnreadMessage" resultTypcn.damei.entity.mobile.Worker.Messagesage">-->
+		<!--SELECT -->
+			<!--a.msg_id as "msgId",-->
+			<!--a.msg_title as "msgTitle",-->
+			<!--a.msg_content as "msgContent",-->
+			<!--a.msg_type as "msgType",-->
+			<!--a.msg_time as "msgTime",-->
+			<!--a.busi_id as "busiId",-->
+			<!--a.busi_type as "busiType",-->
+			<!--a.employee_id as "employeeId",-->
+			<!--a.busi_id_int as "busiIdInt"-->
+		<!--from biz_msg a-->
+		<!--where a.msg_id not in (SELECT r.msg_id from biz_msg_record r where r.employee_id = #{0}) and a.msg_type ='1' and a.employee_id = #{0}-->
+	<!--</select>	-->
+	<select id="findMessage" resultType ="cn.damei.entity.mobile.Worker.Message" parameterType="int">
+		SELECT
+			a.msg_id as "msgId",
+			a.msg_title as "msgTitle",
+			a.msg_content as "msgContent",
+			a.msg_type as "msgType",
+			a.msg_time as "msgTime",
+			a.busi_id as "busiId",
+			a.busi_type as "busiType",
+			a.employee_id as "employeeId",
+			a.busi_id_int as "busiIdInt"
+		from biz_msg a
+		where a.msg_type ='1' and a.employee_id = #{0}
+	</select>
+
+
+
+
+	<select id="findReadMessage" resultType ="int" parameterType="int">
+		SELECT r.msg_id from biz_msg_record r where r.employee_id = #{0}
+
+	</select>
+</mapper>

@@ -1,0 +1,258 @@
+.g-task_list{
+	width: 100%;
+	height: 100%;
+	background: #eee;
+}
+.task_list{
+	padding-top: 1rem;
+	margin-left: 0.1rem;
+	margin-right: 0.1rem;
+	margin-bottom: 5rem;
+}
+.task_list > div{
+	background-color: #fff;
+	border-radius: 0.1rem;
+	position: relative;
+	clear: both;
+	padding-bottom: 0.28rem;
+	margin-bottom: 0.2rem;
+}
+.task_list ul li{
+	line-height: 0.6rem;
+	margin-left: 0.2rem;
+	margin-right: 0.6rem;
+}
+.task_list ul li span{
+	font-size: 0.28rem;
+	height: 0.6rem;
+	line-height: 0.6rem;
+	color: #666;
+	float: left;
+}
+.task_list ul li p{
+	font-size: 0.28rem;
+	color: #333;
+	overflow: hidden;
+}
+.task_list ul li p.col_blue{
+	color: #00f;
+}
+.btns{
+	width: 6.1rem;
+	margin: 0.1rem auto;
+}
+.btn{
+	font-size: 0.28rem;
+	color: #fff;
+	float: left;
+	width: 1.8rem;
+	height: 0.64rem;
+	line-height: 0.64rem;
+	border-radius: 0.1rem;
+	background-image: url(../images/blue_btn.png);
+	background-size: 1.8rem .64rem;
+	text-align: center;
+}
+.btn:nth-child(2){
+	margin-left: .34rem;
+	margin-right: .34rem;
+	background-image: url(../images/rht_red.png);
+}
+.confirm{margin: 0;border-radius: 0;margin-bottom: 5rem;}
+.confirm > div{border-radius: 0;/*padding: .1rem;*/}
+.date{    
+    border: none;
+    width: 2rem;
+    height: 0.34rem;
+    line-height: .34rem;
+    padding: .05rem .12rem;
+    border: 1px solid #9cf;
+    border-radius: 0.1rem;
+    background-image: url(../images/canlender.png);
+    background-repeat: no-repeat;
+    background-size: .3rem .32rem;
+    background-position: 1.8rem center;
+    color: #999;
+}
+.pad_top2{padding-top: .2rem;}
+.pad_btm2{padding-bottom: .2rem;}
+/*上传照片*/
+.pic_des{color: #333;font-size: .28rem;float: left;margin-left: .3rem;}
+.up {
+    width: .6rem;
+    float: left;
+    height: .6rem;
+    position: relative;
+    overflow: hidden;
+    margin-top: .29rem;
+    margin-left: .2rem;
+}
+.up img {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.up input {
+    opacity: 0;
+    width: 100%;
+    font-size: 100px;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.hgt{
+	height: 1.18rem;
+    line-height: 1.18rem;
+}
+/*照片列表*/
+.pics{margin-left: .1rem;margin-right: .1rem;}
+.pic_wraper {
+    width: 32%;
+    float: left;
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+    margin-right: 2%;
+    font-size: 0;
+}
+.pic_wraper:nth-of-type(3n) {
+    margin-right: 0;
+}
+.pic_wraper img {
+    width: 100%;
+    height: 3rem;
+}
+.del_btn {
+    display: block;
+    font-size: .28rem;
+    color: #0780ec;
+    margin: .2rem auto;
+    line-height: .42rem;
+    width: 46%;
+    text-align: center;
+    border: 1px solid #0780ec;
+}
+/*确定按钮*/
+.sure_btn {
+    display: block;
+    width: 100%;
+    height: .87rem;
+    line-height: .87rem;
+    background: #0780ec;
+    font-size: .28rem;
+    text-align: center;
+    color: #fff;
+    position: fixed;
+    bottom: 0;
+}
+
+
+.bor_top{border-top: 1px solid #ccc;}
+.task_list > div.info{margin-bottom: 0;}
+.task_list > div.pic_div{height: .86rem;line-height: .86rem;padding: 0;padding-left: .5rem;}
+..task_list ul li span.col3{color: #333;}
+.task_list ul li span.col9{color: #999;}
+.task_list ul li span.font24{font-size: .24rem;}
+.font0{font-size: 0;}
+.font28{font-size: .28rem;}
+.font24{font-size: .24rem;}
+.col9{color: #999;}
+.col6{color: #666;}
+.col3{color: #333;}
+.hgt86{height: .86rem;line-height: .86rem;}
+.task_list ul.result li p.col6{color: #666;}
+.task_list ul li span.col9{color: #999;}
+.pad_left5{padding-left: .5rem;}
+.pad_left7{padding-left: .7rem;}
+.pad_left32{padding-left: 3.2rem;}
+.flo_left{float: left;}
+.relative{position: relative;}
+.see_btn{
+    display: block;
+    position: absolute;
+    right: .5rem;
+    top: 0;
+    width: 1.2rem;
+    height: .86rem;
+    line-height: .86rem;
+    text-align: center;
+    font-size: .24rem;
+    color: #0780ec;
+    padding-right: .2rem;
+    background-image: url(../images/rightArrow.png);
+    background-repeat: no-repeat;
+    background-size: .16rem .29rem;
+    background-position: right center;	
+}
+.details_btn{
+	display: block;
+    position: absolute;
+    right: .5rem;
+    bottom: .31rem;
+    width: 0.66rem;
+    height: .24rem;
+    line-height: .24rem;
+    text-align: center;
+    font-size: .24rem;
+    color: #999;
+    padding-right: .32rem;
+    background-image: url(../images/spread_btn.png);
+    background-repeat: no-repeat;
+    background-size: .2rem .11rem;
+    background-position: right center;
+}
+.total_btn{
+	display: block;
+    position: absolute;
+    right: .5rem;
+    bottom: .31rem;
+    width: 0.66rem;
+    height: .24rem;
+    line-height: .24rem;
+    text-align: center;
+    font-size: .24rem;
+    color: #999;
+    padding-right: .32rem;
+    background-image: url(../images/close_btn.png);
+    background-repeat: no-repeat;
+    background-size: .2rem .11rem;
+    background-position: right center;
+}
+.item:first-child{border: 0;}
+.confirm > div.design{padding-bottom: 0;}
+/*抽检btn*/
+.sel_btn{
+    font-size: 0.28rem;
+    color: #fff;
+    float: left;
+    width: 1.8rem;
+    height: 0.64rem;
+    line-height: 0.64rem;
+    border-radius: 0.1rem;
+    background-image: url(../images/blue_btn.png);
+    background-size: 1.8rem .64rem;
+    text-align: center;
+}
+.btn1{
+    float: left;
+    margin-left: .55rem;
+}
+.btn2{
+    float: right;
+    margin-right: .55rem;
+}
+/*按钮置灰*/
+.grey_btn{
+    font-size: 0.28rem;
+    color: #999;
+    float: left;
+    width: 1.8rem;
+    height: 0.64rem;
+    line-height: 0.64rem;
+    border-radius: 0.1rem;
+    background-image: url(../images/grey_btn.png);
+    background-size: 1.8rem .64rem;
+    text-align: center;
+}

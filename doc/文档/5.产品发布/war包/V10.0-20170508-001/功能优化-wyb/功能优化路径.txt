@@ -1,0 +1,30 @@
+增量更新
+1.  mapSelectOrder.jsp    
+/mdn/src/main/webapp/WEB-INF/views/modules/selectorder/mapSelectOrder.jsp
+
+2.  bizReportDetails.jsp
+/mdn/src/main/webapp/WEB-INF/views/modules/bizqcbill/bizReportDetails.jsp
+
+3.   bizOrderChecksizeList.jsp
+/mdn/src/main/webapp/WEB-INF/views/modules/bizorderchecksize/bizOrderChecksizeList.jsp
+
+4.   bizOrderChecksizeDetails.jsp
+/mdn/src/main/webapp/WEB-INF/views/modules/bizorderchecksize/bizOrderChecksizeDetails.jsp
+
+5.   BizOrderChecksizeController.java
+/mdn/src/main/java/com/thinkgem/jeesite/modules/bizorderchecksize/web/BizOrderChecksizeController.java
+
+6.  BizQcBill.java
+/mdn/src/main/java/com/thinkgem/jeesite/modules/bizqcbill/entity/BizQcBill.java
+
+7.  CheckSelectService.java
+/mdn/src/main/java/com/thinkgem/jeesite/modules/PQC/checkSelect/service/CheckSelectService.java
+
+8.   SelectOrderDao.java
+/mdn/src/main/java/com/thinkgem/jeesite/modules/selectorder/dao/SelectOrderDao.java
+
+9.   SelectOrderService.java
+/mdn/src/main/java/com/thinkgem/jeesite/modules/selectorder/service/SelectOrderService.java
+
+10.   SelectOrderController.java
+/mdn/src/main/java/com/thinkgem/jeesite/modules/selectorder/web/SelectOrderController.java

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+        namespace="cn.damei.common.utils.appMsgUtil.AppMsgUtilDao">
+
+
+    <insert id="saveAppMsgContent" parameterType="cn.damei.common.utils.appMsgUtil.AppMsgEntity"
+            useGeneratedKeys="true" keyProperty="msgId">
+
+        INSERT INTO biz_msg (
+            msg_title,
+            msg_time,
+            msg_content,
+            msg_type,
+            busi_type,
+            busi_id,
+            employee_id
+
+
+        ) VALUES (
+
+            #{msgTitle},
+            #{msgDateTime},
+            #{msgContent},
+            #{msgType},
+            #{relatedBusinessType},
+            #{relatedBusinessId},
+            #{employeeId}
+
+
+        )
+
+
+    </insert>
+
+
+    <insert id="batchSaveAppMsgContent" parameterType="cn.damei.common.utils.appMsgUtil.AppMsgEntity">
+
+        INSERT INTO biz_msg (
+            msg_title,
+            msg_time,
+            msg_content,
+            msg_type,
+            busi_type,
+            busi_id_int,
+            employee_id
+
+
+        ) VALUES
+
+            <foreach collection="list" index="index" item="item" separator=",">
+                (
+
+                #{item.msgTitle},
+                #{item.msgDateTime},
+                #{item.msgContent},
+                #{item.msgType},
+                #{item.relatedBusinessType},
+                #{item.relatedBusinessId},
+                #{item.employeeId}
+
+
+                )
+
+            </foreach>
+
+
+
+    </insert>
+
+
+    <select id="checkIsExistByTypeAndId" parameterType="cn.damei.common.utils.appMsgUtil.AppMsgEntity"
+            resultType="int">
+        SELECT count(1)
+        FROM biz_msg a
+        WHERE a.busi_type = #{0}
+              AND a.busi_id_int = #{1}
+        LIMIT 1
+
+
+    </select>
+</mapper>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.OrderTaskpackDaoGenVo">
+    
+	<select id="getByOrderIdAndTaskpacksgeId" resultType="OrderTaskpackGenVo">
+		SELECT 
+		t.templat_name as templatName,
+		t.no as templatNumber,
+		r.procedure_no as procedureNo,
+		p.procedure_name as procedureName,
+		d.label as measurementUnit,
+		y.synthesize_price as synthesizePrice,
+		y.accessories_price as accessoriesPrice,
+		y.labor_price as laborPrice,
+		p.remarks as remarks
+		FROM biz_task_package_templat_rel r
+		LEFT JOIN biz_task_package_templat t ON r.task_package_templat_id = t.id and t.store_order > 0 
+		LEFT JOIN biz_procedure p ON r.procedure_no = p.procedure_no
+		LEFT JOIN biz_procedure_price y ON r.procedure_no = y.procedure_no AND y.effective_date=(SELECT MAX(b.effective_date) FROM biz_procedure_price b WHERE b.effective_date &lt;= str_to_date(#{0}, '%Y-%m-%d %H:%i:%s') AND b.procedure_no = y.procedure_no AND b.store_id = #{1} AND b.project_mode=#{3} AND b.del_flag = '0')
+		LEFT JOIN sys_dict d ON p.measurement_unit = d.value AND d.type = 'biz_unit'
+		WHERE t.store_id = #{2} AND t.project_mode=#{3} AND t.status = '1' AND y.del_flag = '0' AND y.store_id = #{2} AND y.project_mode=#{3}
+		ORDER BY t.store_order,t.templat_name ASC
+	</select>
+	
+	<select id="getTemplatByOrderIdAndTaskpacksgeId" resultType="OrderTaskpackGenVo">
+		SELECT
+		DISTINCT(t.id) as templatId, 
+		t.no as templatNumber,
+		t.templat_name as templatName
+		FROM biz_task_package_templat_rel r
+		LEFT JOIN biz_task_package_templat t ON r.task_package_templat_id = t.id and t.store_order > 0 
+		LEFT JOIN biz_procedure p ON r.procedure_no = p.procedure_no
+		LEFT JOIN biz_procedure_price y ON r.procedure_no = y.procedure_no AND y.effective_date=(SELECT MAX(b.effective_date) FROM biz_procedure_price b WHERE b.effective_date &lt;= str_to_date(#{0}, '%Y-%m-%d %H:%i:%s') AND b.procedure_no = y.procedure_no AND b.store_id = #{1} AND b.project_mode=#{3} AND b.del_flag = '0')
+		LEFT JOIN sys_dict d ON p.measurement_unit = d.value AND d.type = 'biz_unit'
+		WHERE t.store_id = #{2} AND t.project_mode=#{3} AND t.status = '1' AND y.del_flag = '0' AND y.store_id = #{2} AND y.project_mode=#{3}
+		ORDER BY t.store_order,t.templat_name ASC
+	</select>
+	
+	<!-- 任务包审核	修改任务包 -->
+	<select id="getByOrderAndEffectiveDate" resultType="OrderTaskpackGenVo">
+		SELECT 
+		t.templat_name as templatName,
+		t.no as templatNumber,
+		r.procedure_no as procedureNo,
+		p.procedure_name as procedureName,
+		p.measurement_unit,<!-- d.label as measurementUnit, -->
+		y.synthesize_price as synthesizePrice,
+		y.accessories_price as accessoriesPrice,
+		y.labor_price as laborPrice,
+		p.remarks as remarks
+		FROM biz_task_package_templat_rel r
+		LEFT JOIN biz_task_package_templat t ON r.task_package_templat_id = t.id <!-- and t.store_order > 0 --> 
+		LEFT JOIN biz_procedure p ON r.procedure_no = p.procedure_no
+		LEFT JOIN biz_procedure_price y ON r.procedure_no = y.procedure_no AND y.effective_date=(SELECT MAX(b.effective_date) FROM biz_procedure_price b WHERE b.effective_date &lt;= str_to_date(#{2}, '%Y-%m-%d %H:%i:%s') AND b.procedure_no = y.procedure_no AND b.store_id = #{1} AND b.project_mode = #{5} AND b.del_flag = '0' )
+		LEFT JOIN sys_dict d ON p.measurement_unit = d.value AND d.type = 'biz_unit'
+		WHERE t.store_id = #{0} AND t.status = '1'
+		AND y.del_flag = '0'
+		AND y.procedure_no=#{3}
+		AND y.store_id = #{1}
+		AND y.project_mode = #{5}
+		AND t.no=#{4}
+		ORDER BY t.store_order,t.templat_name ASC
+	</select>
+</mapper>

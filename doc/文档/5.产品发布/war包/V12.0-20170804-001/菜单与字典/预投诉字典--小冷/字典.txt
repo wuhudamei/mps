@@ -1,0 +1,8 @@
+键值		标签		类型					描述				排序
+10		待处理		preComplaintStatus			预投诉单状态			10
+			
+20		已接收		preComplaintStatus			预投诉单状态			20
+	
+30		已驳回		preComplaintStatus			预投诉单状态			30
+
+40		已处理		preComplaintStatus			预投诉单状态			40

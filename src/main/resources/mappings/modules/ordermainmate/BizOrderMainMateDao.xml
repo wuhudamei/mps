@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizOrderMainMateDao">
+    
+	<sql id="bizOrderMainMateColumns">
+		a.id AS "id",
+		a.order_id AS "orderId",
+		a.main_mate_type AS "mainMateType",
+		a.position AS "position",
+		a.brand_combo AS "brandCombo",
+		a.model AS "model",
+		a.attribute AS "attribute",
+		a.supplier_name AS "supplier",
+		a.specification AS "specification",
+		a.unit AS "unit",
+		a.count AS "count",
+		a.loss_ratio AS "lossxs",
+		a.includ_loss_count AS "includLossCount",
+		a.apply_counta AS "applyCounta",
+		a.is_count_square AS "iscountsquare",
+		a.purchase_count AS "purchaseCount",
+		a.unit_square AS "unitsquare",
+		a.remarks AS "remarks",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="bizOrderMainMateJoins">
+	</sql>
+    
+	<select id="get" resultType="cn.damei.entity.modules.BizOrderMainMate">
+		SELECT 
+			<include refid="bizOrderMainMateColumns"/>
+		FROM biz_order_wall_floor_tile a
+		<include refid="bizOrderMainMateJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="ismaterialschoicebill" resultType="cn.damei.entity.modules.BizMaterialsChoiceBill">
+	
+		SELECT
+			a.id AS "id",
+			a.order_id AS "orderId",
+			a.order_number AS "orderNumber"
+
+		FROM
+			biz_materials_choice_bill a
+		WHERE
+		
+			a.order_number =#{orderNumber}  LIMIT 1  
+			  
+	</select>
+	
+	<select id="findList" resultType="cn.damei.entity.modules.BizOrderMainMate">
+		SELECT 
+			<include refid="bizOrderMainMateColumns"/>
+		FROM biz_order_wall_floor_tile a
+		<include refid="bizOrderMainMateJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL} <if test="orderId != null"> and a.order_id = #{orderId}</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findListOne" resultType="cn.damei.entity.modules.BizOrderMainMate">
+		SELECT 
+			<include refid="bizOrderMainMateColumns"/>
+		FROM biz_order_wall_floor_tile a
+		<include refid="bizOrderMainMateJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}  
+			and a.create_date= #{createDatez}
+<!-- 			<if test="attribute != null"> and a.attribute = #{attribute}</if> -->
+<!-- 			<if test="orderId != null"> and a.order_id = #{orderId}</if> -->
+<!-- 			 and a.attribute = 'xxx' -->
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	<select id="findListOnebak" resultType="cn.damei.entity.modules.BizOrderMainMate">
+		SELECT 
+			<include refid="bizOrderMainMateColumns"/>
+		FROM biz_order_wall_floor_tile a
+		<include refid="bizOrderMainMateJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			
+				AND a.attribute = 'xxx'
+			
+		</where>
+
+	</select>
+
+	
+	<select id="findAllList" resultType="cn.damei.entity.modules.BizOrderMainMate">
+		SELECT 
+			<include refid="bizOrderMainMateColumns"/>
+		FROM biz_order_wall_floor_tile a
+		<include refid="bizOrderMainMateJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO biz_order_wall_floor_tile(
+			id,
+			order_id,
+			main_mate_type,
+			position,
+			brand_combo,
+			model,
+			attribute,
+			supplier_name,
+			specification,
+			unit,
+			count,
+			loss_ratio,
+			includ_loss_count,
+			apply_counta,
+			remarks,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			unit_square,
+			is_count_square,
+			del_flag
+		) VALUES (
+			#{id},
+			#{orderId},
+			#{mainMateType},
+			#{position},
+			#{brandCombo},
+			#{model},
+			#{attribute},
+			#{supplier},
+			#{specification},
+			#{unit},
+			#{count},
+			#{lossxs},
+			#{includLossCount},
+			#{applyCounta},
+			#{remarks},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{unitsquare},
+			#{iscountsquare},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE biz_order_wall_floor_tile SET 	
+			order_id = #{orderId},
+			main_mate_type = #{mainMateType},
+			position = #{position},
+			brand_combo = #{brandCombo},
+			model = #{model},
+			specification = #{specification},
+			unit = #{unit},
+			count = #{count},
+			includ_loss_count = #{includLossCount},
+			apply_counta = #{applyCounta},
+			remarks = #{remarks},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			unit_square = #{unitsquare},
+			is_count_square = #{iscountsquare}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="savebyid">
+		UPDATE biz_order_wall_floor_tile SET 	
+
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			is_count_square = #{iscountsquare}
+		WHERE id = #{id}
+	</update>
+	<update id="updateuni">
+		UPDATE biz_order_wall_floor_tile SET 	
+
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			unit_square = #{unitsquare},
+			is_count_square = #{iscountsquare}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE biz_order_wall_floor_tile SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+	<delete id="deleteByOrderId">
+		delete from biz_order_wall_floor_tile 
+		WHERE order_id = #{0}
+	</delete>
+	
+	
+	<insert id="insertpurchaseCount">
+	
+		UPDATE biz_order_wall_floor_tile n
+		SET n.purchase_count = (
+			SELECT
+				IFNULL(SUM(b.apply_counta),0)
+			FROM
+				biz_purchase a
+			INNER JOIN biz_purchase_wall_floor_tile b ON b.purchase_id = a.id
+			WHERE
+				a.order_id = n.order_id
+			AND a.purchase_type = 5
+			AND a.`status` != 21
+			AND n.main_mate_type = b.main_mate_type
+			AND (CASE WHEN (n.position IS NOT NULL OR b.position IS NOT NULL) THEN  n.position = b.position ELSE 1=1 END)
+			AND (CASE WHEN (n.brand_combo IS NOT NULL OR b.brand_combo IS NOT NULL) THEN  n.brand_combo = b.brand_combo ELSE 1=1 END)
+			AND (CASE WHEN (n.model IS NOT NULL OR b.model IS NOT NULL) THEN  n.model = b.model ELSE 1=1 END)
+			AND (CASE WHEN (n.specification IS NOT NULL OR b.specification IS NOT NULL) THEN  n.specification = b.specification ELSE 1=1 END)
+			AND (CASE WHEN (n.unit IS NOT NULL OR b.unit IS NOT NULL) THEN  n.unit = b.unit ELSE 1=1 END)
+		)
+		WHERE
+		n.order_id = #{0} 
+			
+	</insert>
+</mapper>

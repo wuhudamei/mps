@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="cn.damei.dao.mobile.Inspector.SelectCheckSignDao">
+
+
+	
+
+
+	<!-- 得到订单经纬度 -->
+	<select id="getOrderLngLatByOrderId" parameterType="int" resultType="String">
+	
+		select map_coordinate from biz_order where id = #{orderId}
+	
+	</select>
+
+	<!-- 签到判断 ,根据质检单id判断 -->
+	<select id="findInspectSignRecord" parameterType="int" resultType="int">
+	  SELECT count(id) FROM BIZ_BUSINESS_SIGN WHERE related_business_id_int = #{INSPECTID} AND sign_type="302"
+	  </select> 
+	   
+	<!-- 更新签到 -->
+	<update id="updateInspectRecord" parameterType="cn.damei.entity.mobile.Inspector.Sign">
+		update biz_business_sign set 
+		   sign_datetime =#{signDateTime},
+		   sign_address =#{signAddress},
+		   sign_employee_id = #{signEmployeeId},
+		   sign_xy =#{signXy},
+		   sign_error_distance=#{signErrorDistance},
+		   remarks =#{remarks},
+		   update_by = #{updateBy.id},
+		   update_date = #{updateDate}
+		where related_business_id_int  =#{relatedBusinessId} and sign_type=#{signType}
+	</update>
+	
+	
+	<!-- 创建抽检单 -->
+	<insert id="insertQcBill" parameterType="cn.damei.entity.mobile.Inspector.BizQcBill">
+	   <selectKey resultType="java.lang.Integer" keyProperty="qcBillId" order="AFTER" >
+			SELECT LAST_INSERT_ID();
+  		</selectKey>
+	   insert into biz_qc_bill(
+	   	   id,
+	 	   qc_bill_code,
+		   qc_bill_type,
+		   is_recheck,
+		   order_id,
+		   
+		   apply_remarks,
+		   status,
+		   remarks,
+		   create_date,
+		   update_date
+	   ) VALUES(
+		   #{qcBillId},
+		   #{qcBillCode},
+		   #{qcBillType},
+		   #{isRecheck},
+		   #{orderId},
+		   
+		   #{applyRemarks},
+		   #{status},
+		   #{remarks},
+		   #{createDate},
+		   #{updateDate}
+	   )
+	</insert>
+	
+	
+	<!-- 保存签到信息 -->
+	<insert id="inspectorSign" parameterType="cn.damei.entity.mobile.Inspector.Sign">
+	   insert into biz_business_sign(
+	   	   id,
+	 	   sign_type,
+		   related_business_id_int,
+		   sign_employee_id,
+		   sign_datetime,
+		   sign_address,
+		   sign_xy,
+		   sign_error_distance,
+		   remarks,
+		   create_by,
+		   create_date,
+		   update_by,
+		   update_date,
+		   del_flag
+		   
+	   ) VALUES(
+		   #{id},
+		   #{signType},
+		   #{relatedBusinessId},
+		   #{signEmployeeId},
+		   #{signDateTime},
+		   #{signAddress},
+		   #{signXy},
+		   #{signErrorDistance},
+		   #{remarks},
+		   #{createBy.id},
+		   #{createDate},
+		   #{updateBy.id},
+		   #{updateDate},
+		   #{delFlag}
+	   )
+	</insert>
+	
+	
+	
+	
+	
+	<!-- 获取抽检单编码 -->
+	<select id="getCode" resultType="cn.damei.entity.mobile.Manager.PurchaseTwoCode">
+		SELECT a.id AS "id", a.purchase_code AS "purchaseCode" ,a.auxiliary_date AS "auxiliaryDate" from biz_purchase_increNum a where a.id = 3 ;
+	</select>
+	<!-- 更新抽检单编码 -->
+	<select id="updateCode" parameterType="cn.damei.entity.mobile.Manager.PurchaseTwoCode">
+		UPDATE  biz_purchase_increNum SET purchase_code=#{purchaseCode} ,auxiliary_date =#{auxiliaryDate} where id =#{id}
+	</select>
+	<!-- 插入抽检单编码 -->
+	<insert id="insertPurchase" parameterType="cn.damei.entity.mobile.Manager.PurchaseTwoCode">
+		INSERT INTO biz_purchase_increnum (
+				id,
+				purchase_code,
+				auxiliary_date
+		)
+		values(
+				#{id},
+				#{purchaseCode},
+				#{auxiliaryDate}
+		)
+	</insert>
+	
+	
+	
+	
+	
+</mapper>

@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="cn.damei.dao.mobile.Manager.ApplyStandardMaterialDao">
+
+	<select id="findOrderListById"
+		resultType="cn.damei.entity.mobile.Manager.ApplyStandardMaterial">
+		SELECT * FROM biz_order bo
+		<where>
+			and bo.item_manager_id = #{id}
+			and bo.order_status_number &lt;=200
+			<if test="communityName != null and communityName !=''">
+				AND bo.community_name like CONCAT('%',#{communityName},'%')
+				or bo.customer_name like CONCAT('%',#{communityName},'%')
+			</if>
+		</where>
+
+
+
+	</select>
+	<select id="findMaterialStandardBillByOrderId"
+		resultType="cn.damei.entity.mobile.Manager.BizMaterialsStandardReceiveBillApply">
+		SELECT * FROM biz_materials_standard_receive_bill bb
+		WHERE bb.order_id
+		= #{orderId}
+		<if test="receiveBillType==&quot;1&quot;">
+			AND (bb.receive_bill_type IS NULL
+			OR bb.receive_bill_type = '1')
+		</if>
+		<if test="receiveBillType==&quot;2&quot;">
+			AND bb.receive_bill_type = '2'
+		</if>
+
+	</select>
+
+	<select id="findBizMaterialsStandardList"
+		resultType="cn.damei.entity.mobile.Manager.BizMaterialsStandard">
+
+	</select>
+
+	<select id="findStandardPriceById"
+		resultType="cn.damei.entity.mobile.Manager.BizMaterialsStandard">
+		SELECT
+		bs.id,
+		bs.materials_price,
+		bs.materials_type,
+		bs.materials_name,
+		bs.materials_unit,
+		bs.max_receive_number
+		FROM
+		biz_materials_standard bs
+		WHERE
+		bs.id = #{0}
+		and
+		bs.del_flag = 0
+	</select>
+
+	<insert id="saveMaterialsStandardReceiveBill"
+		parameterType="cn.damei.entity.mobile.Manager.BizMaterialsStandardReceiveBillApply">
+
+		<selectKey resultType="Integer" keyProperty="id" order="AFTER">
+			select @@IDENTITY as id
+		</selectKey>
+
+		INSERT INTO biz_materials_standard_receive_bill
+		(order_id,
+		materials_standard_receive_bill_code,
+		apply_datetime,
+		STATUS,
+		receive_bill_amount,
+		apply_employee_id,
+		store_id,
+		del_flag,
+		is_viewed,
+		receive_bill_type,
+		shipping_type,
+		shipping_fee
+		)
+		VALUES
+		(#{orderId},
+		#{materialsStandardReceiveBillCode},
+		#{applyDatetime},
+		#{status},
+		#{receiveBillAmount},
+		#{applyEmployeeId},
+		#{storeId},
+		0,
+		#{isView},
+		#{receiveBillType},
+		#{shippingType},
+		#{shippingFee}
+		)
+
+	</insert>
+
+	<insert id="insertMaterialBillVO" parameterType="java.util.List">
+		insert into biz_materials_standard_receive_detail (
+		materials_standard_receive_bill_id,
+		materials_standard_id,
+		materials_type,
+		materials_name,
+		materials_unit,
+		materials_price,
+		receive_number,
+		materials_amount,
+		del_flag,
+		max_receive_number_snap,
+		create_date
+		)
+		values
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(#{item.materialsStandardReceiveBillId},
+			#{item.materialsId},
+			#{item.materialsType},
+			#{item.materialsName},
+			#{item.materialsUnit},
+			#{item.materialsPrice},
+			#{item.receiveNumber},
+			#{item.materialsAmount},
+			0,
+			#{item.maxReceiveNumberSnap},
+			#{item.createDate}
+			)
+		</foreach>
+	</insert>
+	<select id="findApplyStandardMaterialByOrderId"
+		resultType="cn.damei.entity.mobile.Manager.ApplyStandardMaterial">
+		SELECT
+		bo.id,bo.community_name,bo.build_number,bo.build_unit,bo.build_room,bo.customer_name
+		FROM biz_order bo WHERE bo.id = #{0}
+	</select>
+	<select id="findApplyMaterialsStandardReceiveDetailById"
+		resultType="cn.damei.entity.mobile.Manager.ApplyMaterialsStandardReceiveDetail">
+		SELECT
+
+		bm.materials_type,
+		bm.materials_name,
+		bm.materials_amount,
+		bm.materials_price,
+		bm.receive_number,
+		bm.materials_unit,
+		bm.max_receive_number_snap
+		FROM
+		biz_materials_standard_receive_detail bm
+		WHERE
+		bm.materials_standard_receive_bill_id = #{0}
+	</select>
+
+	<select id="queryMaterialsStandardByParam" parameterType="java.util.Map"
+		resultType="cn.damei.entity.mobile.Manager.ApplyMaterialsStandardReceiveDetail">
+		SELECT
+		a.materials_name as "materialsName",
+		a.receive_number_total as "receiveNumberTotalSnap",
+		a.apply_number_total as "applyNumberTotalSnap",
+		a.materials_unit as "materialsUnit",
+		a.materials_price as "materialsPrice",
+		d.supplier_name as "supplierName",
+		d.supplier_no as "supplierNo",
+		a.materials_type as "materialsType"
+		FROM
+		`biz_order_materials_standard` a
+		LEFT JOIN biz_materials_standard b ON a.materials_standard_id = b.id
+		LEFT JOIN biz_main_materials_supplier_rel c on c.main_materials_id =
+		a.materials_standard_id
+		LEFT JOIN biz_supplier d on d.id = c.supplier_id
+		WHERE
+		order_id = #{orderId} and materials_large_type = #{type}
+	</select>
+
+	<select id="findBizMaterialsStandardReceiveBillApplyByid"
+		resultType="cn.damei.entity.mobile.Manager.BizMaterialsStandardReceiveBillApply">
+		SELECT
+		bb.id,
+		bb.materials_standard_receive_bill_code,
+		bb.status,
+		bb.receive_datetime,
+		bb.receive_bill_amount,
+		bb.abandon_reason
+		FROM
+		biz_materials_standard_receive_bill bb
+		WHERE
+		bb.id=#{0}
+	</select>
+	<select id="findStoreIdByEmployeeId" resultType="string">
+		SELECT
+		be.storeId FROM biz_employee be WHERE be.id = #{0}
+	</select>
+	<select id="findSeiralnum"
+		resultType="cn.damei.entity.mobile.Manager.Seiralnum">
+		SELECT * FROM biz_seiralnum WHERE id = #{0}
+	</select>
+	<select id="saveSeiralnum">
+		update biz_seiralnum bs
+		set
+		bs.last_seiralnum = #{lastSeiralnum},
+		bs.generate_time = #{generateTime}
+		where
+		bs.id=#{id}
+	</select>
+	<select id="getRuleCodeNumber" resultType="java.lang.String">
+		SELECT
+		number_rule_code
+		FROM
+		biz_materials_standard_number_square
+		WHERE
+		materials_standard_id =#{materialsStandardId}
+	</select>
+	<select id="getOrderArea" resultType="java.lang.String">
+		SELECT
+		contract_area
+		FROM
+		biz_order
+		WHERE
+		id = #{orderId}
+	</select>
+</mapper>

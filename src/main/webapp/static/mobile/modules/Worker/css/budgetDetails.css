@@ -1,0 +1,15 @@
+.tit{height: .8rem;line-height: .8rem;background: #fff;}
+.icon-left{background: url(../images/budget_icon.png);display: inline-block;width: .3rem;height: .29rem;background-size: .3rem .29rem;
+	margin-left: .34rem;margin-right: .18rem;vertical-align: -4px;}
+.col_grey1{color: #525151;}
+.font4{font-size: .4rem;}
+.auxi-list{padding-top: .3rem;padding-bottom: .24rem;}
+.ord{padding-left: .24rem;margin-bottom: .24rem;}
+.table{border-top: 1px solid #e9e8e8;border-bottom: 1px solid #e9e8e8;box-sizing: border-box;}
+.table-row{height: .8rem;line-height: .8rem;box-sizing: border-box;}
+.table-row{border-bottom: 1px solid #e9e8e8;}
+.table-row:last-child{border-bottom: none;}
+.table-row span{display: block;float: left;text-align: center;}
+.left-cell{width: 28%;border-right: 1px solid #e9e8e8;box-sizing: border-box;}
+.rgt-cell{width: 72%;}
+section{margin-bottom: 300px;}

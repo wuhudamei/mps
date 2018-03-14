@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.mobile.Manager.SignDao">
+
+    <sql id="allOrderSignColumns">
+
+        a.id As "id" ,
+        a.item_manager_id As "itemManagerId" ,
+        a.customer_name AS  "customerName" ,
+        a.community_name  AS "communityName" ,
+        a.build_number AS "buildNumber" ,
+        a.build_unit AS "buildUnit" ,
+        a.build_room As "buildRoom" ,
+        a.contract_start_date AS "contractStartDate",
+        a.contract_end_date AS "contractEndDate" ,
+        a.actual_start_date AS "actualStartDate",
+        a.contract_time AS "contractTime",
+        a.order_status_description AS "orderStatus",
+        a.map_coordinate As "mapAddress" ,
+        a.sign_flag AS "signFlag"
+
+
+    </sql>
+
+
+
+    <!-- 根据订单id 查询订单 -->
+    <select id="get" parameterType="int" resultType="cn.damei.entity.mobile.Manager.OrderSignVo">
+
+        SELECT <include refid="allOrderSignColumns"/>
+        from biz_order a  where a.id =#{id}
+
+    </select>
+
+
+    <!-- 根据项目经理id 查询订单 -->
+    <select id = "orderByManagerId" parameterType = "int" resultType = "cn.damei.entity.mobile.Manager.OrderSignVo" >
+        SELECT
+        a.order_number,
+        a.id AS "id",
+        a.item_manager_id AS "itemManagerId",
+        a.customer_name AS "customerName",
+        a.community_name AS "communityName",
+        a.build_number AS "buildNumber",
+        a.build_unit AS "buildUnit",
+        a.build_room AS "buildRoom",
+        a.contract_start_date AS "contractStartDate",
+        a.contract_end_date AS "contractEndDate",
+        a.actual_start_date AS "actualStartDate",
+        a.contract_time AS "contractTime",
+        a.order_status_description AS "orderStatus",
+        a.map_coordinate AS "mapAddress",
+        a.sign_flag AS "signFlag",
+        a.store_id AS "storeId",
+        SUBSTRING_INDEX(a.map_coordinate, ',', 1) AS "lon",
+        SUBSTRING_INDEX(a.map_coordinate, ',', - 1) AS "lat"
+        FROM
+        biz_order a
+        WHERE
+        a.order_status_number = 200
+        AND a.item_manager_id = #{itemManagerId}
+        AND a.is_scrap != 1
+        AND a.id NOT IN (
+        SELECT
+        c.id
+        FROM
+        biz_order c
+        LEFT JOIN biz_qc_bill a ON c.id = a.order_id
+        LEFT JOIN biz_qc_check_node b ON a.qc_check_node_id = b.id
+        WHERE
+        c.order_status_number = 200
+        AND c.item_manager_id = #{itemManagerId}
+        AND b.qc_check_node_index = 9
+        AND a. STATUS >= 10
+        )
+        ORDER BY
+        a.create_date DESC
+    </select>
+
+    <select id="getCheckTimeByOrderIdAndNode" resultType="String">
+        select b.accept_check_datetime from biz_qc_bill b
+
+        LEFT JOIN biz_qc_check_node n
+
+        on b.qc_check_node_id = n.id
+        where  b.is_recheck =0
+        and b.qc_bill_type=1
+        and b.order_id=#{0}
+        and n.qc_check_node_index=#{1}
+
+    </select>
+    <select id="getCnfgByStoreIdAndEffectMonth" resultType="cn.damei.entity.modules.BizPmAttendCnfg">
+        select sign_cycle_days_basicwork as signCycleDaysBasicwork,
+        sign_cycle_days_complete  as signCycleDaysComplete
+        from biz_pm_attend_cnfg where effect_month=#{0} and store_id=#{1} and is_enabled=1
+
+    </select>
+    <sql id="allSignDetailColumns">
+        b.id AS "id",
+        b.order_id AS "orderId",
+        b.pack_id as "packId",
+        b.sign_pic AS "signPic",
+        b.sign_date AS "signDate",
+        b.sign_address AS "signAddress",
+        b.sign_xy as "signXy",
+        b.sign_distance AS "signDistance",
+        b.signType AS "signType",
+        b.sign_name AS "signName",
+        b.manager_id AS "managerId",
+        b.manager_name AS "managerName",
+        b.worker_leader_id AS "workerLeaderId",
+        b.worker_leader_name AS "workerLeaderName",
+        b.customer_info AS "customerInfo",
+        b.del_flag as "delFlag",
+        b.is_valid AS "isValid"
+    </sql>
+
+    <!--根据订单id查询签到 -->
+    <select id="getSignDetailByOrderId" parameterType="int" resultType="cn.damei.entity.mobile.Manager.SignDetail">
+
+
+        SELECT <include refid="allSignDetailColumns"/>
+        FROM biz_sign b  WHERE  b.order_id = #{orderId} and b.signType ="1" order by b.sign_date desc limit 1
+
+
+
+    </select>
+
+    <!--根据订单id查询签到详情 ,时间最近的一个信息显示-->
+    <select id="getSignDetailByOrderIdLimit" parameterType="int" resultType="cn.damei.entity.mobile.Manager.SignDetail">
+        SELECT <include refid="allSignDetailColumns"/>,
+        a.customer_address AS "customerAddress"
+        FROM biz_sign b LEFT JOIN biz_order a ON b.order_id = a.id  WHERE  b.order_id = #{0} and b.manager_id = #{1} order by b.sign_date desc
+    </select>
+
+
+    <select id="getCustomerInfoByOrderId" parameterType="int" resultType="cn.damei.entity.mobile.Manager.AppOrder">
+        SELECT a.community_name AS "communityName", a.customer_name AS "customerName" ,a.customer_phone AS "customerPhone",a.build_number AS "buildNumber" ,a.build_unit AS "buildUnit" ,a.build_room AS "buildRoom" from biz_order a where a.id=#{orderId}
+    </select>
+
+
+    <insert id="signSuccess">
+        insert into biz_sign(
+        id ,
+        order_id,
+        pack_id,
+        sign_pic,
+        sign_date,
+        sign_address,
+        sign_xy,
+        sign_distance,
+        signType,
+        sign_name,
+        manager_id,
+        manager_name,
+        worker_leader_id,
+        worker_leader_name,
+        customer_info,
+        sign_step,
+        is_valid
+        ) VALUES(
+        #{id} ,
+        #{orderId},
+        #{packId},
+        #{signPic},
+        #{signDate},
+        #{signAddress},
+        #{signXy},
+        #{signDistance},
+        #{signType},
+        #{signName},
+        #{managerId},
+        #{managerName},
+        #{workerLeaderId},
+        #{workerLeaderName},
+        #{customerInfo},
+        #{signStep},
+        #{isValid}
+        )
+    </insert>
+    <select id="getCheckDatetimeByOrderId" resultType="String">
+        select b.check_datetime from biz_qc_bill b
+        left join biz_qc_check_node n
+        on b.qc_check_node_id = n.id
+        where 	b.order_id=#{parameter} and
+        b.status = 10 and n.qc_check_node_index = '6'
+    </select>
+    <select id="getIsValidByOrderIdAndManagerIdAndSignDate" resultType="String" parameterType="java.util.Map">
+        select is_valid from biz_pm_attend_day_order
+        where order_id=#{orderId} and pm_employee_id=#{managerId}
+        and TO_DAYS(sign_datetime)=TO_DAYS(str_to_date(#{signDateTime},'%Y-%m-%d %H:%i:%s'))
+    </select>
+    <insert id="insertDayOrderBySignDetail">
+        insert into biz_pm_attend_day_order(
+        order_id,
+        pm_employee_id,
+        sign_datetime,
+        sign_error_distance,
+        is_valid,
+        sign_step,
+        create_by,
+        create_date
+        )VALUES(
+        #{orderId},
+        #{managerId},
+        #{signDate},
+        #{signDistance},
+        #{isValid},
+        #{signStep},
+        #{managerId},
+        #{createDate}
+        )
+    </insert>
+    <update id="updateDayOrderBySignDetail" parameterType="cn.damei.entity.mobile.Manager.SignDetail">
+        update biz_pm_attend_day_order set
+        sign_datetime = #{signDate},
+        sign_error_distance =  #{signDistance},
+        is_valid = #{isValid},
+        update_date = NOW()
+        where order_id=#{orderId} and pm_employee_id=#{managerId}
+        and TO_DAYS(sign_datetime)=TO_DAYS(str_to_date(NOW(),'%Y-%m-%d %H:%i:%s'))
+    </update>
+    <select id="getAlreadySignTimesByMap" parameterType="java.util.Map" resultType="java.lang.Integer">
+        select count(*) from biz_pm_attend_day_order where order_id=#{orderId}
+        and pm_employee_id=#{managerId} and sign_step=#{signStep}
+        and month(sign_datetime)=month(NOW()) and year(sign_datetime)=year(NOW()) and is_valid = '1'
+
+    </select>
+    <select id="getMaxMonthCnfgByStoreIdAndEffectMonth" resultType="cn.damei.entity.modules.BizPmAttendCnfg">
+        select * from biz_pm_attend_cnfg where effect_month =(
+        select max(effect_month) from biz_pm_attend_cnfg  where effect_month &lt;#{0} and store_id=#{1} and is_enabled=1)
+        and store_id=#{1} and is_enabled=1
+    </select>
+
+    <select id="isSignSuccess" resultType="boolean">
+        select
+        (case when COUNT(*) = 0 then false else true end )
+        from
+        biz_sign a
+        where
+        a.order_id = #{orderId} and a.signType = #{signType};
+    </select>
+    <select id="findDistributeLogByOrderId" resultType="String">
+        SELECT DATE_FORMAT(a.create_date,'%Y-%m-%d') AS 'createDate' FROM biz_order_distribute_log a WHERE a.order_id = #{0} and distribute_type=102
+    </select>
+
+</mapper>

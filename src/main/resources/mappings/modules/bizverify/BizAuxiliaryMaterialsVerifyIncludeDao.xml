@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="cn.damei.dao.modules.BizAuxiliaryMaterialsVerifyIncludeDao">
+	<sql id="verifyAuxiliaryColumns">
+		a.id as "id",
+		a.auxiliary_materials_verify_id as
+		"auxiliaryMaterialsVerifyId",
+		a.auxiliary_materials_no as
+		"auxiliaryMaterialsNo",
+		a.auxiliary_materials_count as
+		"auxiliaryMaterialsCount",
+		a.auxiliary_materials_supplier_price as
+		"auxiliaryMaterialsSupplierPrice",
+		a.auxiliary_materials_wangzhen_price as
+		"auxiliaryMaterialsWangzhenPrice",
+		a.auxiliary_materials_labor_price as
+		"auxiliaryMaterialsLaborPrice",
+		a.auxiliary_materials_supplier_price_amount as
+		"auxiliaryMaterialsSupplierPriceAmount",
+		a.auxiliary_materials_wangzhen_price_amount as
+		"auxiliaryMaterialsWangzhenPriceAmount",
+		a.auxiliary_materials_labor_price_amount as
+		"auxiliaryMaterialsLaborPriceAmount",
+		a.remarks AS "remarks",
+		a.create_by
+		AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by
+		AS
+		"updateBy.id",
+		a.update_date AS "updateDate"
+	</sql>
+	<sql id="verifyAuxiliaryJoins">
+	</sql>
+	<select id="get"
+		resultType="cn.damei.entity.modules.BizAuxiliaryMaterialsVerifyInclude">
+		SELECT
+		<include refid="verifyAuxiliaryColumns" />
+		FROM biz_auxiliary_materials_verify_include a
+		<include refid="verifyAuxiliaryJoins" />
+		WHERE a.id =#{id}
+	</select>
+
+	<select id="findList"
+		resultType="cn.damei.entity.modules.BizAuxiliaryMaterialsVerifyInclude">
+		SELECT
+		a.auxiliary_materials_verify_id as "auxiliaryMaterialsVerifyId",
+		a.auxiliary_materials_no as "auxiliaryMaterialsNo",
+		a.auxiliary_materials_labor_price as "auxiliaryMaterialsLaborPrice",
+		a.auxiliary_materials_supplier_price as "auxiliaryMaterialsSupplierPrice",
+		a.auxiliary_materials_wangzhen_price as "auxiliaryMaterialsWangzhenPrice",
+		SUM(a.auxiliary_materials_count) as "auxiliaryMaterialsCount",
+		SUM(a.auxiliary_materials_labor_price_amount) as "auxiliaryMaterialsLaborPriceAmount",
+		SUM(a.auxiliary_materials_supplier_price_amount) as "auxiliaryMaterialsSupplierPriceAmount",
+		SUM(a.auxiliary_materials_wangzhen_price_amount) as "auxiliaryMaterialsWangzhenPriceAmount",
+		c.auxiliary_materials_name as "auxiliaryMaterilasName",
+		c.measurement_unit as "measurementUnit",
+		c.specifications as "specifications"
+		FROM
+		biz_auxiliary_materials_verify_include a,
+		biz_auxiliary_materials_verify b,
+		biz_auxiliary_materials c
+		<include refid="verifyAuxiliaryJoins" />
+		<where>
+			b.id=a.auxiliary_materials_verify_id
+			AND a.auxiliary_materials_no =
+			c.auxiliary_materials_no
+			AND
+			a.auxiliary_materials_verify_id=#{auxiliaryMaterialsVerifyId}
+			<if test="id != null and id != ''">
+				AND a.id =#{id}
+			</if>
+
+		</where>
+		<if test="groupType == 1">
+			group by a.auxiliary_materials_no,a.auxiliary_materials_supplier_price
+		</if>
+		<if test="groupType == 2">
+		   group by a.auxiliary_materials_no,a.auxiliary_materials_wangzhen_price
+		</if>
+		<if test="groupType == 3">
+		   group by a.auxiliary_materials_no,a.auxiliary_materials_wangzhen_price,a.auxiliary_materials_supplier_price
+		</if>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.create_date DESC
+			</otherwise>
+		</choose>
+	</select>
+
+	<select id="findAllList"
+		resultType="cn.damei.entity.modules.BizAuxiliaryMaterialsVerifyInclude">
+		SELECT
+		<include refid="verifyAuxiliaryColumns" />
+		FROM biz_auxiliary_materials_verify_include a
+		<include refid="verifyAuxiliaryJoins" />
+		<where>
+			1 = 1
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id"
+		keyColumn="id">
+		INSERT INTO biz_auxiliary_materials_verify_include(
+		id,
+		auxiliary_materials_verify_id,
+		auxiliary_materials_no,
+		auxiliary_materials_count,
+		auxiliary_materials_supplier_price,
+		auxiliary_materials_wangzhen_price,
+		auxiliary_materials_labor_price,
+		auxiliary_materials_supplier_price_amount,
+		auxiliary_materials_wangzhen_price_amount,
+		auxiliary_materials_labor_price_amount,
+		remarks,
+		create_by,
+		create_date,
+		update_by,
+		update_date
+		) VALUES (
+		#{id},
+		#{auxiliaryMaterialsVerifyId},
+		#{auxiliaryMaterialsNo},
+		#{auxiliaryMaterialsCount},
+		#{auxiliaryMaterialsSupplierPrice},
+		#{auxiliaryMaterialsWangzhenPrice},
+		#{auxiliaryMaterialsLaborPrice},
+		#{auxiliaryMaterialsSupplierPriceAmount},
+		#{auxiliaryMaterialsWangzhenPriceAmount},
+		#{auxiliaryMaterialsLaborPriceAmount},
+		#{remarks},
+		#{createBy.id},
+		#{createDate},
+		#{updateBy.id},
+		#{updateDate}
+		)
+	</insert>
+
+	<update id="update">
+		UPDATE biz_auxiliary_materials_verify_include SET
+		auxiliary_materials_verify_id = #{auxiliaryMaterialsVerifyId},
+		auxiliary_materials_no = #{auxiliaryMaterialsNo},
+		auxiliary_materials_count = #{auxiliaryMaterialsCount},
+		auxiliary_materials_supplier_price =
+		#{auxiliaryMaterialsSupplierPrice},
+		auxiliary_materials_wangzhen_price
+		= #{auxiliaryMaterialsWangzhenPrice},
+		auxiliary_materials_labor_price =
+		#{auxiliaryMaterialsLaborPrice},
+		auxiliary_materials_supplier_price_amount =
+		#{auxiliaryMaterialsSupplierPriceAmount},
+		auxiliary_materials_wangzhen_price_amount =
+		#{auxiliaryMaterialsWangzhenPriceAmount},
+		auxiliary_materials_labor_price_amount =
+		#{auxiliaryMaterialsLaborPriceAmount},
+		remarks = #{remarks},
+		update_by =
+		#{updateBy.id},
+		update_date = #{updateDate}
+		WHERE id=#{id}
+	</update>
+
+</mapper>

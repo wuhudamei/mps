@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizPmAttendSalarySummaryBillRelDao">
+    
+	<sql id="bizPmAttendSalarySummaryBillRelColumns">
+		a.id AS "id",
+		a.pm_attend_salary_summary_bill_id AS "pmAttendSalarySummaryBillId",
+		a.pm_attend_salary_bill_id AS "pmAttendSalaryBillId"
+	</sql>
+	
+	<sql id="bizPmAttendSalarySummaryBillRelJoins">
+	</sql>
+    
+	<select id="get" resultType="BizPmAttendSalarySummaryBillRel">
+		SELECT 
+			<include refid="bizPmAttendSalarySummaryBillRelColumns"/>
+		FROM biz_pm_attend_salary_summary_bill_rel a
+		<include refid="bizPmAttendSalarySummaryBillRelJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="BizPmAttendSalarySummaryBillRel">
+		SELECT 
+			<include refid="bizPmAttendSalarySummaryBillRelColumns"/>
+		FROM biz_pm_attend_salary_summary_bill_rel a
+		<include refid="bizPmAttendSalarySummaryBillRelJoins"/>
+		<where>
+			<if test="pmAttendSalarySummaryBillId != '' and pmAttendSalarySummaryBillId != null">
+				and a.pm_attend_salary_summary_bill_id = #{pmAttendSalarySummaryBillId}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="BizPmAttendSalarySummaryBillRel">
+		SELECT 
+			<include refid="bizPmAttendSalarySummaryBillRelColumns"/>
+		FROM biz_pm_attend_salary_summary_bill_rel a
+		<include refid="bizPmAttendSalarySummaryBillRelJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO biz_pm_attend_salary_summary_bill_rel(
+			id,
+			pm_attend_salary_summary_bill_id,
+			pm_attend_salary_bill_id
+		) VALUES (
+			#{id},
+			#{pmAttendSalarySummaryBillId},
+			#{pmAttendSalaryBillId}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE biz_pm_attend_salary_summary_bill_rel SET 	
+			pm_attend_salary_summary_bill_id = #{pmAttendSalarySummaryBillId},
+			pm_attend_salary_bill_id = #{pmAttendSalaryBillId}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM biz_pm_attend_salary_summary_bill_rel
+		WHERE id = #{id}
+	</update>
+	
+	<select id="getSummaryBillList" resultType="BizPmAttendSalarySummaryBillRel">
+		SELECT
+			t.id AS "pmAttendSalarySummaryBillId",
+			t.store_id AS "storeId",
+			t.pm_attend_salary_summary_bill_code AS "pmAttendSalarySummaryBillCode",
+		  	t.salary_month as "attendMonth",
+			t.generated_datetime AS "generatedDatetime",
+			t.salray_bill_count AS "salrayBillCount",
+			t.status AS "status",
+			b.realName AS "realName"
+		FROM
+			biz_pm_attend_salary_summary_bill t
+		LEFT JOIN biz_employee b ON t.status_employee_id = b.id
+		<where>
+			<if test="storeId != '' and storeId != null">
+				and t.store_id = #{storeId}
+			</if>		
+			<if test="attendMonth != '' and attendMonth != null">
+				and t.salary_month = #{attendMonth}
+			</if>
+			<if test="pmAttendSalarySummaryBillCode != '' and pmAttendSalarySummaryBillCode != null">
+				and t.pm_attend_salary_summary_bill_code LIKE concat('%',#{pmAttendSalarySummaryBillCode},'%')
+			</if>
+			and t.status in ('10')
+		</where>
+	</select>
+	<update id="updateStatus">
+		update biz_pm_attend_salary_summary_bill t set t.status = #{status}
+		where t.id = #{pmAttendSalarySummaryBillId}
+	</update>
+	
+	<select id="getSummaryBill" resultType="BizPmAttendSalarySummaryBillRel">
+		SELECT
+			t.id AS "pmAttendSalarySummaryBillId",
+			t.store_id AS "storeId",
+			t.pm_attend_salary_summary_bill_code AS "pmAttendSalarySummaryBillCode",
+		  	t.salary_month as "attendMonth",
+			t.generated_datetime AS "generatedDatetime",
+			t.salray_bill_count AS "salrayBillCount",
+			t.status AS "status",
+			b.realName AS "realName"
+		FROM
+			biz_pm_attend_salary_summary_bill t
+		LEFT JOIN biz_employee b ON t.status_employee_id = b.id
+		<where>
+			<if test="storeId != '' and storeId != null">
+				and t.store_id = #{storeId}
+			</if>		
+			<if test="attendMonth != '' and attendMonth != null">
+				and t.salary_month = #{attendMonth}
+			</if>
+			<if test="status != '' and status != null">
+				and t.status = #{status}
+			</if>
+		</where>
+	</select>
+	<select id="getSummaryBillDetail" resultType="BizPmAttendSalarySummaryBillRel">
+		SELECT
+			t.id AS "pmAttendSalarySummaryBillId",
+			t.store_id AS "storeId",
+			t.pm_attend_salary_summary_bill_code AS "pmAttendSalarySummaryBillCode",
+		  	t.salary_month as "attendMonth",
+			t.generated_datetime AS "generatedDatetime",
+			t.salray_bill_count AS "salrayBillCount",
+			t.status AS "status",
+			b.realName AS "realName"
+		FROM
+			biz_pm_attend_salary_summary_bill t
+		LEFT JOIN biz_employee b ON t.status_employee_id = b.id
+		inner JOIN biz_pm_attend_salary_bill d ON  d.pm_attend_salary_summary_bill_id= t.id
+		inner JOIN biz_engineering_department c on find_in_set(d.pm_employee_id,c.manager)
+		<where>
+			<if test="storeId != '' and storeId != null">
+				and t.store_id = #{storeId}
+			</if>		
+			<if test="attendMonth != '' and attendMonth != null">
+				and t.salary_month = #{attendMonth}
+			</if>
+			<if test="enginDepartId != '' and enginDepartId != null">
+				and c.id = #{enginDepartId}
+			</if>
+			<if test="status != '' and status != null">
+				and t.status = #{status} 
+			</if>
+			<if test="status == '' and status == null">
+				and t.status >= 10 
+			</if>
+		</where>
+		GROUP BY t.id
+	</select>
+</mapper>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizOrderFinishProjectBillDao">
+    
+	<sql id="finishProjectBillColumns">
+		t.ID AS "id",
+		t.ORDER_ID AS "orderId",
+		t.ORDER_FINISH_PROJECT_BILL_CODE AS "orderFinishProjectBillCode",
+		t.REAL_FINISH_PROJECT_DATE AS "realFinishProjectDate",
+		t.APPLY_EMPLOYEE_ID AS "applyEmployeeId",
+		t.APPLY_DATETIME AS "applyDatetime",
+		t.CHECK_EMPLOYEE_ID AS "checkEmployeeId",
+		t.CHECK_WORDS AS "checkWords",
+		t.STATUS AS "status",
+		t.REMARKS AS "remarks",
+		t.CREATE_DATE AS "createDate",
+		t.UPDATE_DATE AS "updateDate",
+		t.DEL_FLAG AS "delFlag"
+	</sql>
+	
+	<select id="get" resultType="cn.damei.entity.modules.BizOrderFinishProjectBill">
+		SELECT
+			<include refid="finishProjectBillColumns"/> 
+		FROM BIZ_ORDER_FINISH_PROJECT_BILL t
+		WHERE t.ID = #{0}
+	</select>
+	
+	<select id="getByOrderID" resultType="cn.damei.entity.modules.BizOrderFinishProjectBill">
+		SELECT
+			<include refid="finishProjectBillColumns"/>,
+			e.realName as "applyEmployeeName"
+		FROM BIZ_ORDER_FINISH_PROJECT_BILL t
+		LEFT JOIN biz_employee e on e.id = t.APPLY_EMPLOYEE_ID
+		WHERE t.ORDER_ID = #{0}
+	</select>
+	
+	<update id="updateByDate">
+		update BIZ_ORDER_FINISH_PROJECT_BILL set
+			REAL_FINISH_PROJECT_DATE = str_to_date(#{0},'%Y-%m-%d %H:%i:%s')
+		WHERE ID = #{1}
+	</update>
+	
+	<update id="updateByOrderID">
+		update BIZ_ORDER_FINISH_PROJECT_BILL set
+			<!-- APPLY_DATETIME = str_to_date(#{1}, '%Y-%m-%d %H:%i:%s'), -->
+			CHECK_EMPLOYEE_ID = #{2},
+			STATUS = #{3},
+			REMARKS = #{4},
+			UPDATE_DATE = #{5}
+		WHERE ORDER_ID = #{0}
+	</update>
+	
+	<update id="updateByOrderIDOrFail">
+		update BIZ_ORDER_FINISH_PROJECT_BILL set
+			CHECK_EMPLOYEE_ID = #{5},
+			CHECK_WORDS = #{1},
+			STATUS = #{2},
+			REMARKS = #{3},
+			UPDATE_DATE = #{4}
+		WHERE ORDER_ID = #{0}
+	</update>
+	
+	<update id="updateByStatusOrRemarks">
+		update BIZ_ORDER_FINISH_PROJECT_BILL set
+			STATUS = #{0},
+			REMARKS = #{1},
+			UPDATE_DATE = #{2}
+		WHERE ORDER_ID = #{3}
+	</update>
+	
+	<update id="updateOrderById">
+		UPDATE biz_order SET actual_end_date =#{1} WHERE id = #{0};
+	</update>
+</mapper>

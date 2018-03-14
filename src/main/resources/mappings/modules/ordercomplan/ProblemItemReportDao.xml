@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.ProblemItemReportDao"   >
+
+    <select id="queryItemList" resultType="ProblemItemReport"  parameterType="cn.damei.entity.modules.ProblemItemReport">
+				SELECT
+				ed.`name` as acceptArea,
+				IFNULL(tptone.`name`,'其他') as workType,
+				o.store_id as storeId,
+				cpi.item_name as itemName ,
+				count(ocp.id)  as  itemCount, 
+				ocp.create_date as itemDate
+				FROM 
+				biz_order_complaint_problem ocp 
+				LEFT JOIN biz_order_complaint oc ON oc.id=ocp.order_complaint_id
+				LEFT JOIN biz_order_complaint_problem_item ocpi on ocpi.order_complaint_problem_id=ocp.id  
+				LEFT JOIN biz_complaint_problem_item cpi ON  cpi.id=ocpi.complaint_problem_item_id  
+				LEFT JOIN biz_task_package_templat tpt ON tpt.id=ocp.task_package_templat_id
+				LEFT JOIN biz_task_package_type tptone ON tptone.id=tpt.task_package_type_id
+				LEFT JOIN biz_order o ON o.id=oc.order_id
+				LEFT JOIN biz_engineering_department ed ON o.engin_depart_id=ed.id
+				WHERE  1=1
+				<if test="itemStartDate != null and itemStartDate != ''  ">
+					and 	ocp.create_date &gt; #{itemStartDate}
+				</if>
+				<if test="itemEndDate != null and itemEndDate != ''">
+					and  ocp.create_date  &lt;  #{itemEndDate}
+				</if>
+				<if test="acceptArea != null and acceptArea != ''">
+					and   o.engin_depart_id=#{acceptArea}
+				</if>
+				<if test="storeId != null and storeId != ''">
+					and   o.store_id=#{storeId}
+				</if>
+				GROUP BY  cpi.item_name  ,workType , ed.`name`
+				ORDER BY  ed.`name` , tptone.`name` desc
+				
+    </select>
+    <select id="queryWorkTypeList" resultType="ProblemItemReport" parameterType="cn.damei.entity.modules.ProblemItemReport">
+				SELECT
+				ed.`name` as acceptArea,
+				IFNULL(tptone.`name`,'其他') as workType,
+				o.store_id as storeId,
+				cpi.item_name as itemName ,
+				count(ocp.id)  as  itemCount, 
+				ocp.create_date as itemDate
+				FROM 
+				biz_order_complaint_problem ocp 
+				LEFT JOIN biz_order_complaint oc ON oc.id=ocp.order_complaint_id
+				LEFT JOIN biz_order_complaint_problem_item ocpi on ocpi.order_complaint_problem_id=ocp.id  
+				LEFT JOIN biz_complaint_problem_item cpi ON  cpi.id=ocpi.complaint_problem_item_id  
+				LEFT JOIN biz_task_package_templat tpt ON tpt.id=ocp.task_package_templat_id
+				LEFT JOIN biz_task_package_type tptone ON tptone.id=tpt.task_package_type_id
+				LEFT JOIN biz_order o ON o.id=oc.order_id
+				LEFT JOIN biz_engineering_department ed ON o.engin_depart_id=ed.id
+				WHERE  1=1
+				<if test="itemStartDate != null and itemStartDate != ''">
+					and 	ocp.create_date &gt; #{itemStartDate}
+				</if>
+				<if test="itemEndDate != null and itemEndDate != ''">
+					and  ocp.create_date  &lt;  #{itemEndDate}
+				</if>
+				<if test="acceptArea != null and acceptArea != ''">
+					and   o.engin_depart_id=#{acceptArea}
+				</if>
+				<if test="storeId != null and storeId != ''">
+					and   o.store_id=#{storeId}
+				</if>
+				GROUP BY  workType , ed.`name`
+				ORDER BY  ed.`name` , tptone.`name` desc
+				
+    </select>
+    <select id="queryRegionList" resultType="ProblemItemReport" parameterType="cn.damei.entity.modules.ProblemItemReport">
+				SELECT
+				ed.`name` as acceptArea,
+				IFNULL(tptone.`name`,'其他') as workType,
+				o.store_id as storeId,
+				cpi.item_name as itemName ,
+				count(ocp.id)  as  itemCount, 
+				ocp.create_date as itemDate
+				FROM 
+				biz_order_complaint_problem ocp 
+				LEFT JOIN biz_order_complaint oc ON oc.id=ocp.order_complaint_id
+				LEFT JOIN biz_order_complaint_problem_item ocpi on ocpi.order_complaint_problem_id=ocp.id  
+				LEFT JOIN biz_complaint_problem_item cpi ON  cpi.id=ocpi.complaint_problem_item_id  
+				LEFT JOIN biz_task_package_templat tpt ON tpt.id=ocp.task_package_templat_id
+				LEFT JOIN biz_task_package_type tptone ON tptone.id=tpt.task_package_type_id
+				LEFT JOIN biz_order o ON o.id=oc.order_id
+				LEFT JOIN biz_engineering_department ed ON o.engin_depart_id=ed.id
+				WHERE  1=1
+				<if test="itemStartDate != null and itemStartDate != ''">
+					and 	ocp.create_date &gt; #{itemStartDate}
+				</if>
+				<if test="itemEndDate != null and itemEndDate != ''">
+					and  ocp.create_date  &lt;  #{itemEndDate}
+				</if>
+				<if test="acceptArea != null and acceptArea != ''">
+					and   o.engin_depart_id=#{acceptArea}
+				</if>
+				<if test="storeId != null and storeId != ''">
+					and   o.store_id=#{storeId}
+				</if>
+				GROUP BY   ed.`name`
+				ORDER BY  ed.`name` , tptone.`name` desc
+    </select>
+    
+    
+    
+<!--  报表导出 查询区域 -->
+     <select id="queryRegionCount" resultType="ProblemItemReport"  parameterType="cn.damei.entity.modules.ProblemItemReport">
+				
+	SELECT  aa.acceptArea as  acceptArea , COUNT(aa.itemCount)  as  itemCount
+	FROM (
+			SELECT
+			ed.`name` as acceptArea,
+			IFNULL(tptone.`name`,'其他') as workType,
+			o.store_id as storeId,
+			cpi.item_name as itemName ,
+			count(ocp.id)  as  itemCount,
+			ocp.create_date as itemDate
+			FROM
+			biz_order_complaint_problem ocp
+			LEFT JOIN biz_order_complaint oc ON oc.id=ocp.order_complaint_id
+			LEFT JOIN biz_order_complaint_problem_item ocpi on ocpi.order_complaint_problem_id=ocp.id
+			LEFT JOIN biz_complaint_problem_item cpi ON  cpi.id=ocpi.complaint_problem_item_id
+			LEFT JOIN biz_task_package_templat tpt ON tpt.id=ocp.task_package_templat_id
+			LEFT JOIN biz_task_package_type tptone ON tptone.id=tpt.task_package_type_id
+			LEFT JOIN biz_order o ON o.id=oc.order_id
+			LEFT JOIN biz_engineering_department ed ON o.engin_depart_id=ed.id
+			WHERE  1=1
+
+			<if test="itemStartDate != null and itemStartDate != ''  ">
+				 and 	ocp.create_date &gt; #{itemStartDate}
+			</if>
+			<if test="itemEndDate != null and itemEndDate != ''">
+				and  ocp.create_date  &lt;  #{itemEndDate}
+			</if>
+			<if test="acceptArea != null and acceptArea != ''">
+				and   o.engin_depart_id=#{acceptArea}
+			</if>
+			<if test="storeId != null and storeId != ''">
+				and   o.store_id=#{storeId}
+			</if>
+			GROUP BY  cpi.item_name  ,workType , ed.`name`
+			ORDER BY  ed.`name` , tptone.`name` desc
+		) aa  GROUP BY acceptArea
+		ORDER BY  aa.acceptArea
+    </select>
+    
+<!--  报表导出 查询区域下的工种数 -->
+     <select id="queryWorkTypeCount" resultType="ProblemItemReport"  parameterType="cn.damei.entity.modules.ProblemItemReport">
+				
+	SELECT  aa.acceptArea as  acceptArea , aa.workType,COUNT(aa.itemCount)  as  itemCount
+	FROM (
+			SELECT
+			ed.`name` as acceptArea,
+			IFNULL(tptone.`name`,'其他') as workType,
+			o.store_id as storeId,
+			cpi.item_name as itemName ,
+			count(ocp.id)  as  itemCount,
+			ocp.create_date as itemDate
+			FROM
+			biz_order_complaint_problem ocp
+			LEFT JOIN biz_order_complaint oc ON oc.id=ocp.order_complaint_id
+			LEFT JOIN biz_order_complaint_problem_item ocpi on ocpi.order_complaint_problem_id=ocp.id
+			LEFT JOIN biz_complaint_problem_item cpi ON  cpi.id=ocpi.complaint_problem_item_id
+			LEFT JOIN biz_task_package_templat tpt ON tpt.id=ocp.task_package_templat_id
+			LEFT JOIN biz_task_package_type tptone ON tptone.id=tpt.task_package_type_id
+			LEFT JOIN biz_order o ON o.id=oc.order_id
+			LEFT JOIN biz_engineering_department ed ON o.engin_depart_id=ed.id
+			WHERE  1=1
+				<if test="itemStartDate != null and itemStartDate != ''  ">
+					 and 	ocp.create_date &gt; #{itemStartDate}
+				</if>
+				<if test="itemEndDate != null and itemEndDate != ''">
+					and  ocp.create_date  &lt;  #{itemEndDate}
+				</if>
+				<if test="acceptArea != null and acceptArea != ''">
+					and   o.engin_depart_id=#{acceptArea}
+				</if>
+				<if test="storeId != null and storeId != ''">
+					and   o.store_id=#{storeId}
+				</if>
+			GROUP BY  cpi.item_name  ,workType , ed.`name`
+		) aa  GROUP BY acceptArea , workType
+			ORDER BY  aa.acceptArea ,  aa.workType desc
+    </select>
+    
+    
+    
+
+</mapper>

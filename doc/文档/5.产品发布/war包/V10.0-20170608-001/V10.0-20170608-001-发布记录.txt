@@ -1,0 +1,92 @@
+ 打包名称：mdn.war
+打包版本：V10.0-20170608-001
+
+功能变更：
+	1、评价工人优化
+	2、基装变更功能调整
+	3、确认二期款、尾款优化-（本次不上）
+	4、开工后节点接到订单流转系统--（本次不上）
+	5、客管部回访优化
+	6、约检优化，添加延期原因
+
+功能新增：
+	1、空闲工人查询
+	2、工人电话回访
+	3、约检明细查询
+	4、项目经理评价
+	5、项目经理工地设计问题反馈APP+PC
+
+菜单新增：
+	1、评价项目经理
+	   基础设置--工人任务包奖励--项目经理评分查询
+	     名称：项目经理评分查询
+	     链接：/evaluate/bizEvalManagerGrade/openBizEvalManagerGradePage
+	2、空闲工人组长查询
+	   综合查询--任务包进度监控--空闲工人组长查询
+	     名称：空闲工人组长查询
+	     链接：/empgroup/bizEmployeegroup/toFindFreeLeader
+	     权限标识：empgroup:bizEmployeegroup:view
+	3、工人回访电话查询
+	    综合查询--明细查询--工人回访电话查询
+	     名称：工人回访电话查询
+	     链接：/laborCapital/laborCapital/queryOrderList
+	     权限标识：laborCapital:laborCapital:view
+	4、约检节点明细查询
+	    质检管理--质检节点报表--约检节点验收明细查询
+	     名称：约检节点验收明细查询
+	     链接：/arrangecheckdonedetailquery/arrangeCheckDoneDetailQuery/list
+	     权限标识：arrangecheckdonedetailquery:arrangeCheckDoneDetailQuery:view
+	5、工地设计问题处理
+	    材料调度--问题上报--工地设计问题处理
+	     名称：工地设计问题处理
+	     链接：/bizorderinstallitemproblem/siteDesignProblem/preList
+	6、工程设计问题查询
+	   材料调度--问题上报--工程设计问题查询
+	     名称：工程设计问题查询
+	     链接：/bizorderinstallitemproblem/siteDesignProblem/query/list
+
+
+
+
+字典新增：
+	1、评价工人、项目经理
+
+		键值	标签		类型			描述		排序
+		2	项目经理	eval_target_type	评价对象	20
+
+		键值	标签		类型			描述		排序
+		3	质检员		eval_target_type	评价对象	30
+
+		键值	标签			类型			描述			排序
+		1	基础装修验收完成评价	manager_eval_stage	项目经理评价阶段	10
+
+		
+		键值	标签			类型			描述			排序
+		2	竣工验收完成评价	manager_eval_stage	项目经理评价阶段	20
+
+	2、项目经理工地设计问题反馈APP+PC
+
+		键值	标签		类型			描述			排序
+		4	工程设计问题	problem_business_type	问题上报所属业务	40
+
+		键值	标签		类型			描述			排序
+		10	项目经理已上报	site_design_problem	工程设计问题上报	10
+
+		键值	标签		类型			描述			排序
+		70	设计部已处理	site_design_problem	工程设计问题上报	20
+
+
+数据库表结构变更：
+		执行文件夹名【脚本】内的【jeesite_table-v12.0_01_wentishangbao.sql】脚本
+		执行文件夹名【脚本】内的【jeesite_table-v11.0_07_pingjia_2.sql】脚本
+		执行文件夹名【脚本】内的【jeesite_table-v11.0_08_yuejianyanqi.sql】脚本
+		
+
+数据库表数据变更：
+		历史数据更新，执行文件夹名【数据权限数据更新】内的【initDataoption.sql】脚本
+		历史数据处理，执行文件夹名【数据权限数据更新】内的【修改评价记录分数.sql】脚本
+		
+		
+		
+
+	

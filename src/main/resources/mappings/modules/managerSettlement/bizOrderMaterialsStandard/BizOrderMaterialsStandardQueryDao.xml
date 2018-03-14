@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizOrderMaterialsStandardQueryDao">
+	
+	<select id="findList" resultType="cn.damei.entity.modules.BizOrderMaterialsStandardQuery">
+		SELECT
+			so. NAME AS storeName,
+			bz.sum,
+			bo.id AS orderId,
+			bo.store_id,
+			bo.order_number,
+			bo.customer_name,
+			bo.item_manager,
+			bz.createDate,
+			bo.engin_depart_id AS order_area_id,
+			bo.is_scrap,
+			bed.name AS  order_area,
+			sbsb.shipping_fee
+		FROM
+			biz_order bo
+		JOIN (
+			SELECT
+				a.order_id,
+				SUM(a.materials_amount) sum,
+				MAX(a.create_date) AS createDate
+			FROM
+				(
+					SELECT
+						bb.order_id,
+						bb.create_date,
+						bb.materials_amount
+					FROM
+						biz_order_materials_standard bb
+					JOIN biz_materials_standard bm ON bb.materials_standard_id = bm.id
+					WHERE
+						<if test="materialsLargeType==&quot;1&quot;">
+							bm.materials_large_type IS NULL OR bm.materials_large_type="1"
+							</if>
+							<if test="materialsLargeType==&quot;2&quot;">
+							bm.materials_large_type="2"
+							</if>				
+				) a
+			GROUP BY
+				a.order_id
+		) bz ON bo.id = bz.order_id
+		JOIN sys_office so ON so.id = bo.store_id
+		LEFT JOIN biz_engineering_department bed ON  bed.id=bo.engin_depart_id
+		LEFT JOIN (
+					SELECT
+					bmsrb.order_id,
+					SUM(bmsrb.shipping_fee) as shipping_fee
+					FROM
+					biz_materials_standard_receive_bill bmsrb
+					WHERE
+					bmsrb. STATUS = 20
+					AND bmsrb.shipping_type = 1
+					AND bmsrb.receive_bill_type=#{materialsLargeType}
+					GROUP BY  bmsrb.order_id
+					)  sbsb
+		ON sbsb.order_id=bo.id
+			<where>
+				1=1
+				<if test="isScrap!=null and isScrap!=''">
+					and
+					bo.is_scrap=#{isScrap}
+				</if>
+				<if test="orderAreaId!=null and orderAreaId!=''">
+					and
+					bo.engin_depart_id=#{orderAreaId}
+				</if>
+				<if test="storeId!=null and storeId!=''">
+				and
+				bo.store_id=#{storeId}
+				</if>
+				<if test="orderNumber!=null and orderNumber!=''">
+				and bo.order_number=#{orderNumber}
+				</if>
+				<if test="customerName!=null and customerName!=''">
+				and bo.customer_name=#{customerName}
+				</if>
+				<if test="itemManager!=null and itemManager!=''">
+				and bo.item_manager=#{itemManager}
+				</if>
+			</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY bz.createDate DESC
+			</otherwise>
+		</choose>
+	</select>
+	<select id="getBizOrderMaterialsStandardQueryListByOrderId" resultType="cn.damei.entity.modules.BizOrderMaterialsStandardQuery">
+	 SELECT
+			so.name AS storeName,
+				bz.sum,
+				bo.id AS orderId,
+				bo.store_id,
+				bo.order_number,
+				bo.customer_name,
+				bo.item_manager,
+				sbsb.shipping_fee
+			FROM
+				biz_order bo
+			JOIN (
+				SELECT
+				a.order_id,
+				SUM(a.materials_amount) sum,
+				MAX(a.create_date) AS createDate
+			FROM
+				(
+					SELECT
+						bb.order_id,
+						bb.create_date,
+						bb.materials_amount
+					FROM
+						biz_order_materials_standard bb
+					JOIN biz_materials_standard bm ON bb.materials_standard_id = bm.id
+					WHERE
+						<if test="materialsLargeType==&quot;1&quot;">
+							bm.materials_large_type IS NULL OR bm.materials_large_type="1"
+							</if>
+							<if test="materialsLargeType==&quot;2&quot;">
+							bm.materials_large_type="2"
+							</if>				
+				) a
+			GROUP BY
+				a.order_id
+			) bz ON bo.id = bz.order_id
+			JOIN sys_office so ON
+			so.id=bo.store_id
+			LEFT JOIN (
+			SELECT
+			bmsrb.order_id,
+			SUM(bmsrb.shipping_fee) as shipping_fee
+			FROM
+			biz_materials_standard_receive_bill bmsrb
+			WHERE
+			bmsrb. STATUS = 20
+			AND bmsrb.receive_bill_type=#{materialsLargeType}
+			AND bmsrb.shipping_type = 1
+			GROUP BY  bmsrb.order_id
+			)  sbsb
+			ON sbsb.order_id=bo.id
+			WHERE	bo.id=#{orderId}
+	</select>
+	
+	
+</mapper>

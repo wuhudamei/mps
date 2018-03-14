@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BudgetDailyTableDao">
+
+	<select id="findStayCreatePkgOrdCount" resultType="java.lang.Integer">
+		SELECT
+			COUNT(1) AS "storeStayCreatePkgOrdCount"
+		FROM
+			biz_order b
+		WHERE
+			b.del_flag = 0
+		AND b.project_mode = 1
+		AND b.orderTaskPack_status = 0
+		<if test="storeId != null and storeId != ''">
+			AND b.store_id = #{storeId}
+		</if>	
+	</select>
+	
+	<select id="findStayAuditPkgCount" resultType="java.lang.Integer">
+		SELECT
+			COUNT(1) AS "storeStayAuditPkgCount"
+		FROM
+			biz_order_taskpackage t
+		WHERE
+			t.del_flag = 0
+		AND t.package_stateId = 10
+		<if test="storeId != null and storeId != ''">
+			AND t.store_id = #{storeId}
+		</if>	
+	</select>
+	
+	<select id="findBudgetDailyTBList" resultType="cn.damei.entity.modules.BudgetDailyTable">
+		SELECT
+			a.store_id AS "storeId",
+			o.`name` AS "storeName",
+			a.id AS "enginDepartId",
+			a.`name` AS "enginDepartName",
+			(SELECT COUNT(1) FROM biz_order b WHERE b.orderTaskPack_status = 0 AND b.del_flag = 0 AND a.store_id = b.store_id AND b.engin_depart_id = a.id) AS "currNotCreatePkgOrdCount",
+			(SELECT COUNT(1) FROM biz_order_taskpackage t INNER JOIN biz_order b ON t.order_id = b.id AND t.package_stateId = 10 WHERE b.store_id = a.store_id AND b.engin_depart_id = a.id) AS "currNotAuditPkgCount",
+			(
+				SELECT
+					COUNT(1)
+				FROM
+					(
+						SELECT
+							d.packageCreateDate,
+							q.store_id,
+							q.engin_depart_id
+						FROM
+							biz_order q
+						LEFT JOIN (
+							SELECT
+								t.order_id,
+								min(t.create_date) AS "packageCreateDate"
+							FROM
+								biz_order_taskpackage t
+							GROUP BY
+								t.order_id
+						) d ON d.order_id = q.id
+						WHERE
+							q.del_flag = 0
+						AND q.orderTaskPack_status = 1
+						<if test="startDate != null and startDate != ''">
+							AND d.packageCreateDate &gt;= STR_TO_DATE(#{startDate},'%Y-%m-%d %H:%i:%s')
+						</if>
+						<if test="endDate != null and endDate != ''">
+							AND d.packageCreateDate &lt;= STR_TO_DATE(#{endDate},'%Y-%m-%d %H:%i:%s')
+						</if>
+					) f
+				WHERE
+					f.store_id = a.store_id
+				AND f.engin_depart_id = a.id
+			) AS "optDateCreatePkgOrdCount",
+			(
+			SELECT COUNT(1) FROM (
+				SELECT
+					q.status_datetime AS "ordPkgAuditTime",
+					m.order_id,
+					b.store_id,
+					b.engin_depart_id
+				FROM
+					biz_order_taskpackage m
+				LEFT JOIN (
+					SELECT y.business_only_mark_int,y.status_datetime FROM biz_business_status_log y INNER JOIN(
+						SELECT MAX(id) AS id FROM biz_business_status_log n WHERE n.business_type = 1001 AND n.del_flag = 0 AND business_status=20
+						GROUP BY business_only_mark_int) x ON x.id = y.id
+				) q ON q.business_only_mark_int = m.id
+			LEFT JOIN biz_order b ON b.id = m.order_id
+			WHERE m.package_stateId = 20 AND m.del_flag = 0
+			) k WHERE k.store_id =a.store_id  AND k.engin_depart_id = a.id 
+			<if test="startDate != null and startDate != ''">
+				AND k.ordPkgAuditTime &gt;=STR_TO_DATE(#{startDate},'%Y-%m-%d %H:%i:%s') 
+			</if>
+			<if test="endDate != null and endDate != ''">
+				AND k.ordPkgAuditTime &lt;= STR_TO_DATE(#{endDate},'%Y-%m-%d %H:%i:%s')
+			</if>
+			)  AS "optDateAuditPkgCount" 
+		FROM
+			biz_engineering_department a
+		LEFT JOIN sys_office o ON a.store_id = o.id
+		WHERE
+			a.del_flag = 0
+		AND a.project_mode = 1
+		<if test="storeId != null and storeId != ''">
+			AND a.store_id = #{storeId}
+		</if>	
+		<if test="ids != null">
+    			AND a.id IN
+ 			<foreach collection="ids" item="id" index="index" open="(" close=")" separator=",">
+         		#{id}
+   			 </foreach>
+   		</if>
+	</select>
+</mapper>

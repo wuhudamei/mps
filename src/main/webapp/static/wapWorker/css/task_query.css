@@ -1,0 +1,138 @@
+.g_task_query{
+	width: 100%;
+	height: 100%;
+	background: #eee;
+}
+.g_task_query header.task_header{
+	width: 100%;
+	height: 0.8rem;
+	background: #09f;
+	position: fixed;
+	z-index: 9;
+}
+#back_btn{
+	display: block;
+	width: 0.2rem;
+	height: 0.34rem;
+	background-image: url(../images/back_icon.png);
+	background-size: 0.2rem 0.34rem;
+	position: absolute;
+	left: 0.3rem;
+	top: 0.23rem;
+}
+.g_task_query h2.task_query_title{
+	text-align: center;
+	color: #fff;
+	font-size: 0.34rem;
+	height: inherit;
+	line-height: 0.8rem;
+}
+.g_task_query nav.task_nav{
+	width: 100%;
+	height: 0.4rem;
+	padding-top: 0.18rem;
+	padding-bottom: 0.18rem;
+	background-color: #fff;
+	position: fixed;
+	top: 0.8rem;
+	z-index: 9;
+}
+.g_task_query nav.task_nav a{
+	display: inline-block;
+	width: 33.3%;
+	height: 0.4rem;
+	line-height: 0.4rem;
+	font-size: 0.24rem;
+	color: #666;
+	text-align: center;
+	box-sizing: border-box;
+	float: left;
+}
+.g_task_query nav.task_nav a.active{
+	color: #09f;
+}
+.g_task_query nav.task_nav a:nth-child(2){
+	border-left: 1px solid #ccc;
+	border-right: 1px solid #ccc;
+}
+.g_task_query nav.task_nav .options{
+	z-index: 9;
+	width: 100%;
+	background-color: #fff;
+	/*position: absolute;
+	top: 0.77rem;
+	left: 0;*/
+}
+.g_task_query nav.task_nav .options a{
+	width: 100%;
+	height: 0.76rem;
+	line-height: 0.76rem;
+	display: block;
+	text-align: center;
+	/*margin-top: 0.01rem;*/
+	font-weight: bold;
+	font-size: 0.12rem;
+	color: #666;
+	background-color: #fff;
+	border-bottom: 1px solid #ccc;
+}
+.g_task_query nav.task_nav .options a:last-child{
+	border: none;
+	box-shadow: 0 0.05rem 0.1rem #999;
+}
+.g_task_query .task_list{
+	padding-top: 1.67rem;
+}
+.g_task_query a.task_query_section{
+	display: block;
+	width: 7.1rem;
+	/*height: 2.2rem;*/
+	margin: 0 auto;
+	background-color: #fff;
+	background-image: url(../images/task_bg.png);
+	background-repeat: no-repeat;
+	background-size: 0.16rem 0.29rem;
+	background-position: 6.75rem center;
+	box-shadow: 0.1rem 0.1rem 0.1rem #ccc;
+	border-radius: 0.1rem;
+	position: relative;
+	clear: both;
+	margin-bottom: 0.2rem;
+}
+.g_task_query a.task_query_section ul{
+	margin-left: 0.2rem;
+	margin-right: 0.6rem;
+}
+.g_task_query a.task_query_section ul li{
+	width: 5.5rem;
+	line-height: 0.6rem;
+}
+.g_task_query a.task_query_section ul li span{
+	font-size: 0.12rem;
+	height: 0.6rem;
+	line-height: 0.6rem;
+	color: #666;
+	float: left;
+}
+.g_task_query a.task_query_section ul li p{
+	/*float: left;*/
+	font-size: 0.28rem;
+	color: #333;
+	overflow: hidden;
+	/*line-height: 0.6rem;*/
+	/*width: 3.7rem;*/
+}
+.g_task_query a.task_query_section span.task_work{
+	position: absolute;
+	top: 0.12rem;
+	right: 0;
+	display: block;
+	width: 1.22rem;
+	height: 0.42rem;
+	line-height: 0.42rem;
+	text-align: center;
+	background-image: url(../images/task_work_bg.png);
+	background-size: 1.22rem 0.42rem;
+	font-size: 0.28rem;
+	color: #fff;
+}

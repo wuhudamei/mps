@@ -1,0 +1,475 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizOrderTaskpackagePaymentSummaryDao">
+    
+	<!-- <sql id="bizOrderTaskpackagePaymentSummaryColumns">
+		a.id AS "id",
+		a.order_taskpackage_payment_summary_code AS "orderTaskpackagePaymentSummaryCode",
+		a.order_taskpackage_payment_count AS "orderTaskpackagePaymentCount",
+		a.generated_datetime AS "generatedDatetime",
+		a.apply_employee_id AS "applyEmployeeId",
+		b.realname AS "applyEmployeeName",
+		a.status AS "status",
+		a.examine_employee_id AS "examineEmployeeId",
+		a.examine_datetime AS "examineDatetime",
+		a.examine_words AS "examineWords",
+		a.cancle_reason AS "cancleReason",
+		a.remarks AS "remarks",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag"
+	</sql> -->
+	
+	<!-- <sql id="bizOrderTaskpackagePaymentSummaryJoins">
+	</sql> -->
+    
+	<select id="get" resultType="cn.damei.entity.modules.BizOrderTaskpackagePaymentSummary">
+		SELECT
+			a.id AS "id",
+			a.order_taskpackage_payment_summary_code AS "orderTaskpackagePaymentSummaryCode",
+			a.order_taskpackage_payment_count AS "orderTaskpackagePaymentCount",
+			a.generated_datetime AS "generatedDatetime",
+			a.apply_employee_id AS "applyEmployeeId",
+			b.name AS "applyEmployeeName",
+			a.store_id AS "storeId",
+			a. STATUS AS "status",
+			a.examine_employee_id AS "examineEmployeeId",
+			a.examine_datetime AS "examineDatetime",
+			a.examine_words AS "examineWords",
+			a.cancle_reason AS "cancleReason",
+			a.remarks AS "remarks",
+			a.create_by AS "createBy.id",
+			a.create_date AS "createDate",
+			a.update_by AS "updateBy.id",
+			a.update_date AS "updateDate",
+			a.del_flag AS "delFlag",
+			a.store_id as "storeId",
+			a.engin_depart_id as "enginDepartId"
+		FROM biz_order_taskpackage_payment_summary a
+		LEFT JOIN sys_user b on b.id = a.apply_employee_id
+		WHERE 
+			a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="cn.damei.entity.modules.BizOrderTaskpackagePaymentSummary">
+		SELECT
+			a.id AS "id",
+			a.order_taskpackage_payment_summary_code AS "orderTaskpackagePaymentSummaryCode",
+			a.order_taskpackage_payment_count AS "orderTaskpackagePaymentCount",
+			a.generated_datetime AS "generatedDatetime",
+			a.apply_employee_id AS "applyEmployeeId",
+			b.name AS "applyEmployeeName",
+			a.store_id AS "storeId",
+			a.project_mode AS "projectMode",
+			a. STATUS AS "status",
+			a.examine_employee_id AS "examineEmployeeId",
+			a.examine_datetime AS "examineDatetime",
+			a.examine_words AS "examineWords",
+			a.cancle_reason AS "cancleReason",
+			a.remarks AS "remarks",
+			a.create_by AS "createBy.id",
+			a.create_date AS "createDate",
+			a.update_by AS "updateBy.id",
+			a.update_date AS "updateDate",
+			a.del_flag AS "delFlag",
+			c.name as "departmentName"
+		FROM biz_order_taskpackage_payment_summary a
+		LEFT JOIN sys_user b on b.id = a.apply_employee_id
+		left join biz_engineering_department c on a.engin_depart_id = c.id
+		<where>
+			 a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="orderTaskpackagePaymentSummaryCode != null and orderTaskpackagePaymentSummaryCode != ''">
+				AND a.order_taskpackage_payment_summary_code LIKE 
+					<if test="dbName == 'oracle'">'%'||#{orderTaskpackagePaymentSummaryCode}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{orderTaskpackagePaymentSummaryCode}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{orderTaskpackagePaymentSummaryCode},'%')</if>
+			</if>
+			<if test="beginGeneratedDatetime != null and endGeneratedDatetime != null and beginGeneratedDatetime != '' and endGeneratedDatetime != ''">
+				AND a.generated_datetime BETWEEN #{beginGeneratedDatetime} AND #{endGeneratedDatetime}
+			</if>
+			<if test="applyEmployeeName != null and applyEmployeeName != ''">
+				AND b.name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{applyEmployeeName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{applyEmployeeName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{applyEmployeeName},'%')</if>
+			</if>
+			<if test="storeId != null and storeId != ''">
+				AND a.store_id = #{storeId}
+			</if>
+			<if test="projectMode != null and projectMode !='' ">
+			    AND a.project_mode = #{projectMode}
+			</if>
+			<if test="status != null and status != ''">
+				AND a.status = #{status}
+			</if>
+			<if test="status == null or status == ''">
+				AND a.status &lt;> '90'
+			</if>
+			<if test="enginDepartIds != null">
+				AND a.engin_depart_id in
+				<foreach item="item" index="index" collection="enginDepartIds" open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<!--财务人员使用批次列表-->
+	<select id="findSummaryList" resultType="cn.damei.entity.modules.BizOrderTaskpackagePaymentSummary">
+		SELECT
+			a.id AS "id",
+			a.order_taskpackage_payment_summary_code AS "orderTaskpackagePaymentSummaryCode",
+			a.order_taskpackage_payment_count AS "orderTaskpackagePaymentCount",
+			a.generated_datetime AS "generatedDatetime",
+			a.apply_employee_id AS "applyEmployeeId",
+			b.name AS "applyEmployeeName",
+			a.store_id AS "storeId",
+			a.project_mode AS "projectMode",
+			a. STATUS AS "status",
+			a.examine_employee_id AS "examineEmployeeId",
+			a.examine_datetime AS "examineDatetime",
+			a.examine_words AS "examineWords",
+			a.cancle_reason AS "cancleReason",
+			a.remarks AS "remarks",
+			a.create_by AS "createBy.id",
+			a.create_date AS "createDate",
+			a.update_by AS "updateBy.id",
+			a.update_date AS "updateDate",
+			a.del_flag AS "delFlag",
+			c.name as "departmentName"
+		FROM biz_order_taskpackage_payment_summary a
+		LEFT JOIN sys_user b on b.id = a.apply_employee_id
+		left join biz_engineering_department c on a.engin_depart_id = c.id
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="orderTaskpackagePaymentSummaryCode != null and orderTaskpackagePaymentSummaryCode != ''">
+				AND a.order_taskpackage_payment_summary_code LIKE 
+					<if test="dbName == 'oracle'">'%'||#{orderTaskpackagePaymentSummaryCode}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{orderTaskpackagePaymentSummaryCode}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{orderTaskpackagePaymentSummaryCode},'%')</if>
+			</if>
+			<if test="beginGeneratedDatetime != null and endGeneratedDatetime != null and beginGeneratedDatetime != '' and endGeneratedDatetime != ''">
+				AND a.generated_datetime BETWEEN #{beginGeneratedDatetime} AND #{endGeneratedDatetime}
+			</if>
+			<if test="applyEmployeeName != null and applyEmployeeName != ''">
+				AND b.name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{applyEmployeeName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{applyEmployeeName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{applyEmployeeName},'%')</if>
+			</if>
+			<if test="storeId != null and storeId != ''">
+				AND a.store_id = #{storeId}
+			</if>
+			<if test="projectMode != null and projectMode != ''">
+			    AND a.project_mode = #{projectMode}
+			</if>
+			<if test="enginDepartIds != null and enginDepartIds != ''">
+				AND a.engin_depart_id in
+				<foreach item="item" index="index" collection="enginDepartIds" open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+			<if test="status != null and status != ''">
+				AND a.status = #{status}
+			</if>
+			<if test="status == null or status == ''">
+				AND a.status in ('20','50','100')
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="cn.damei.entity.modules.BizOrderTaskpackagePaymentSummary">
+		SELECT
+			a.id AS "id",
+			a.order_taskpackage_payment_summary_code AS "orderTaskpackagePaymentSummaryCode",
+			a.order_taskpackage_payment_count AS "orderTaskpackagePaymentCount",
+			a.generated_datetime AS "generatedDatetime",
+			a.apply_employee_id AS "applyEmployeeId",
+			b.name AS "applyEmployeeName",
+			a.store_id AS "storeId",
+			a. STATUS AS "status",
+			a.examine_employee_id AS "examineEmployeeId",
+			a.examine_datetime AS "examineDatetime",
+			a.examine_words AS "examineWords",
+			a.cancle_reason AS "cancleReason",
+			a.remarks AS "remarks",
+			a.create_by AS "createBy.id",
+			a.create_date AS "createDate",
+			a.update_by AS "updateBy.id",
+			a.update_date AS "updateDate",
+			a.del_flag AS "delFlag"
+		FROM biz_order_taskpackage_payment_summary a
+		LEFT JOIN sys_user b on b.id = a.apply_employee_id
+		LEFT JOIN biz_employee c on c.id = b.emp_id
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO biz_order_taskpackage_payment_summary(
+			id,
+			order_taskpackage_payment_summary_code,
+			order_taskpackage_payment_count,
+			generated_datetime,
+			apply_employee_id,
+			status,
+			examine_employee_id,
+			examine_datetime,
+			examine_words,
+			cancle_reason,
+			remarks,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag,
+			store_id,
+			engin_depart_id,
+			project_mode
+		) VALUES (
+			#{id},
+			#{orderTaskpackagePaymentSummaryCode},
+			#{orderTaskpackagePaymentCount},
+			#{generatedDatetime},
+			#{applyEmployeeId},
+			#{status},
+			#{examineEmployeeId},
+			#{examineDatetime},
+			#{examineWords},
+			#{cancleReason},
+			#{remarks},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag},
+			#{storeId},
+			#{enginDepartId},
+			#{projectMode}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE biz_order_taskpackage_payment_summary SET 	
+			order_taskpackage_payment_summary_code = #{orderTaskpackagePaymentSummaryCode},
+			order_taskpackage_payment_count = #{orderTaskpackagePaymentCount},
+			generated_datetime = #{generatedDatetime},
+			apply_employee_id = #{applyEmployeeId},
+			status = #{status},
+			examine_employee_id = #{examineEmployeeId},
+			examine_datetime = #{examineDatetime},
+			examine_words = #{examineWords},
+			cancle_reason = #{cancleReason},
+			remarks = #{remarks},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			engin_depart_id = #{enginDepartId}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE biz_order_taskpackage_payment_summary SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+	<!--根据编号查询-->
+	<select id="queryPaymentSummaryByNo" parameterType="java.lang.String" resultType="cn.damei.entity.modules.BizOrderTaskpackagePaymentSummary">
+		SELECT 
+				a.id AS "id",
+				a.order_taskpackage_payment_summary_code AS "orderTaskpackagePaymentSummaryCode",
+				a.order_taskpackage_payment_count AS "orderTaskpackagePaymentCount",
+				a.generated_datetime AS "generatedDatetime",
+				a.apply_employee_id AS "applyEmployeeId",
+				a.status AS "status",
+				a.examine_employee_id AS "examineEmployeeId",
+				a.examine_datetime AS "examineDatetime",
+				a.examine_words AS "examineWords",
+				a.cancle_reason AS "cancleReason",
+				a.remarks AS "remarks",
+				a.create_by AS "createBy.id",
+				a.create_date AS "createDate",
+				a.update_by AS "updateBy.id",
+				a.update_date AS "updateDate",
+				a.del_flag AS "delFlag",
+				a.store_id AS "storeId"
+			FROM 
+				biz_order_taskpackage_payment_summary a
+			WHERE 
+				a.order_taskpackage_payment_summary_code = #{orderTaskpackagePaymentSummaryCode}
+	</select>
+	
+	<!--根据id查询-->
+	<select id="queryOrderTaskpackagePaymentSummaryById" parameterType="java.lang.Integer" resultType="cn.damei.entity.modules.BizOrderTaskpackagePaymentSummary">
+		SELECT 
+			a.id AS "id",
+			a.order_taskpackage_payment_summary_code AS "orderTaskpackagePaymentSummaryCode",
+			a.order_taskpackage_payment_count AS "orderTaskpackagePaymentCount",
+			a.generated_datetime AS "generatedDatetime",
+			a.apply_employee_id AS "applyEmployeeId",
+			a.status AS "status",
+			a.examine_employee_id AS "examineEmployeeId",
+			a.examine_datetime AS "examineDatetime",
+			a.examine_words AS "examineWords",
+			a.cancle_reason AS "cancleReason",
+			a.remarks AS "remarks",
+			a.create_by AS "createBy.id",
+			a.create_date AS "createDate",
+			a.update_by AS "updateBy.id",
+			a.update_date AS "updateDate",
+			a.del_flag AS "delFlag",
+			a.store_id AS "storeId",
+			a.engin_depart_id as "enginDepartId"
+		FROM  biz_order_taskpackage_payment_summary a
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="queryOrderByPaymentCode" resultType="cn.damei.entity.modules.OrderInformation">
+		SELECT 
+			a.order_taskpackage_settlement_id as "settlementId",
+			a.order_taskpackage_payment_code as "paymentCode",
+			a.order_taskpackage_payment_type as "paymentType",
+			c.order_taskpackage_id as "taskpackageId",
+			b.customer_name as "customerName",
+			b.customer_phone as "customerPhone",
+			b.customer_address as "customerAddress",
+			b.contract_area as "contractArea",
+			b.item_manager as "managerName",
+			b.order_number as "orderNumber"
+		from biz_order_taskpackage_payment a,
+			biz_order b,
+			biz_order_taskpackage_settlement c,
+			biz_order_taskpackage d
+		where
+			a.order_taskpackage_settlement_id = c.id
+		and 
+			c.order_taskpackage_id = d.id
+		and 
+			d.order_id = b.id
+		and 
+		 	a.order_taskpackage_payment_code = #{0}
+	</select>
+
+	<select id="findPaymentSummaryList" resultType="cn.damei.entity.modules.BizOrderTaskpackagePaymentSummary">
+		select a.id as "id",a.store_id as "storeId",a.order_taskpackage_payment_summary_code as "orderTaskpackagePaymentSummaryCode",
+			a.status as "status",a.generated_datetime as "generatedDatetime",c.realName as "realName",c.phone as "phone",b.amount as "amount"
+		from biz_order_taskpackage_payment_detail_merge b
+		left join biz_order_taskpackage_payment_summary a on b.order_taskpackage_payment_summary_id = a.id
+		left join biz_employee c on b.employee_id = c.id
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="storeId != null and storeId != ''">
+				AND a.store_id = #{storeId}
+			</if>
+			<if test="realName != null and realName != ''">
+				and c.realName like
+				<if test="dbName == 'oracle'">'%'||#{realName}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{realName}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{realName},'%')</if>
+			</if>
+			<if test="orderTaskpackagePaymentSummaryCode != null and orderTaskpackagePaymentSummaryCode != ''">
+				AND a.order_taskpackage_payment_summary_code LIKE
+				<if test="dbName == 'oracle'">'%'||#{orderTaskpackagePaymentSummaryCode}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{orderTaskpackagePaymentSummaryCode}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{orderTaskpackagePaymentSummaryCode},'%')</if>
+			</if>
+			<if test="beginGeneratedDatetime != null and beginGeneratedDatetime != null and endGeneratedDatetime != '' and endGeneratedDatetime != ''">
+				AND a.generated_datetime BETWEEN #{beginGeneratedDatetime} AND #{endGeneratedDatetime}
+			</if>
+			<if test="summaryStatus != null and summaryStatus != ''">
+				and a.status in
+				<foreach collection="summaryStatus" index="index" item="item" open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+			<if test="summaryStatus == null or summaryStatus == ''">
+				and a.status in ('20','50','100')
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.generated_datetime DESC
+			</otherwise>
+		</choose>
+	</select>
+
+	<select id="findPaymentSummaryAllList" resultType="cn.damei.entity.modules.BizOrderTaskpackagePaymentSummary">
+		select a.id as "id",a.store_id as "storeId",a.order_taskpackage_payment_summary_code as "orderTaskpackagePaymentSummaryCode",a.status as "status",
+				a.generated_datetime as "generatedDatetime",c.order_taskpackage_payment_code as "orderTaskpackagePaymentCode",c.status as "paymentStatus",
+				c.generated_datetime as "paymentGeneratedDatetime",c.amount as "paymentAmount"
+		from biz_order_taskpackage_payment_summary_rel b
+		left join biz_order_taskpackage_payment_summary a on b.order_taskpackage_payment_summary_id = a.id
+		left join biz_order_taskpackage_payment c on b.order_taskpackage_payment_id = c.id
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="storeId != null and storeId != ''">
+				AND a.store_id = #{storeId}
+			</if>
+			<if test="orderTaskpackagePaymentSummaryCode != null and orderTaskpackagePaymentSummaryCode != ''">
+				AND a.order_taskpackage_payment_summary_code LIKE
+				<if test="dbName == 'oracle'">'%'||#{orderTaskpackagePaymentSummaryCode}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{orderTaskpackagePaymentSummaryCode}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{orderTaskpackagePaymentSummaryCode},'%')</if>
+			</if>
+			<if test="beginGeneratedDatetime != null and beginGeneratedDatetime != null and endGeneratedDatetime != '' and endGeneratedDatetime != ''">
+				AND a.generated_datetime BETWEEN #{beginGeneratedDatetime} AND #{endGeneratedDatetime}
+			</if>
+			<if test="summaryStatus != null and summaryStatus != ''">
+				and a.status in
+				<foreach collection="summaryStatus" index="index" item="item" open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+			<if test="summaryStatus == null or summaryStatus == ''">
+				and a.status in ('10','20','50','100')
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.generated_datetime DESC
+			</otherwise>
+		</choose>
+	</select>
+
+	<!--通知付款员-批次审核通过/通知结算员-批次付款完成-->
+	<select id="querySendMsgForSummary" parameterType="java.lang.Integer" resultType="cn.damei.entity.modules.BizOrderTaskpackagePaymentSummary">
+		select a.order_taskpackage_payment_summary_code as "orderTaskpackagePaymentSummaryCode",c.realName as "realName",c.phone as "phone",c.id as "employeeId"
+		from biz_order_taskpackage_payment_summary a
+		left join sys_user b on a.apply_employee_id = b.id
+		left join biz_employee c on b.emp_id = c.id
+		where a.id=#{id}
+	</select>
+</mapper>

@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizAttendBatchDao">
+    
+	<sql id="bizAttendBatchColumns">
+		a.id AS "id",
+		a.attend_batch_code AS "attendBatchCode",
+		a.store_id AS "storeId",
+		a.engin_depart_id AS "enginDepartId",
+		a.attend_batch_month AS "attendBatchMonth",
+		a.attend_bill_count AS "attendBillCount",
+		a.status AS "status",
+		a.status_datetime AS "statusDatetime",
+		a.batch_datetime AS "batchDatetime",
+		a.batch_operator_employee_id AS "batchOperatorEmployeeId",
+		a.remarks AS "remarks",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		b.name AS "createName",
+		d.project_mode AS "projectMode",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<update id="update" parameterType="cn.damei.entity.modules.BizAttendBatch">
+		UPDATE biz_attend_batch 
+			SET 	
+				status = #{status},
+				status_datetime = #{statusDatetime},
+				remarks = #{remarks},
+				update_by = #{updateBy.id},
+				update_date = #{updateDate}
+			WHERE id = #{id}
+	</update>
+	
+	<select id="get" resultType="cn.damei.entity.modules.BizAttendBatch">
+		SELECT  a.id AS "id",
+				a.attend_batch_code AS "attendBatchCode",
+				a.store_id AS "storeId",
+				a.engin_depart_id AS "enginDepartId",
+				a.attend_batch_month AS "attendBatchMonth",
+				a.attend_bill_count AS "attendBillCount",
+				a.status AS "status",
+				a.status_datetime AS "statusDatetime",
+				a.batch_datetime AS "batchDatetime",
+				a.batch_operator_employee_id AS "batchOperatorEmployeeId",
+				a.remarks AS "remarks",
+				a.create_by AS "createBy.id",
+				a.create_date AS "createDate",
+				a.update_by AS "updateBy.id",
+				a.update_date AS "updateDate",
+				a.del_flag AS "delFlag"
+				
+		FROM biz_attend_batch a
+		
+		<where>
+			a.id =#{id}
+		</where>
+			
+	</select>
+	
+	<select id="findList" parameterType="cn.damei.entity.modules.BizAttendBatch" resultType="cn.damei.entity.modules.BizAttendBatch">
+		SELECT <include refid="bizAttendBatchColumns"/>
+		FROM biz_attend_batch a
+		
+		INNER JOIN sys_user b
+		
+		ON(a.batch_operator_employee_id = b.id)
+		
+		INNER JOIN biz_attend_bill c
+		ON(c.attend_batch_id = a.id)
+		
+		INNER JOIN biz_employee d
+		ON(c.attend_employee_id = d.id)
+		<where>
+			
+			<if test="storeId != null and storeId != ''">
+				AND a.store_id = #{storeId}
+			</if>
+			<if test="projectMode != null and projectMode != ''">
+				AND d.project_mode = #{projectMode}
+			</if>
+			
+			<if test="enginDepartId != null and enginDepartId != ''">
+				AND a.engin_depart_id = #{enginDepartId}			
+			</if>
+			<if test="attendBatchMonth != null and attendBatchMonth != ''">
+				AND a.attend_batch_month = #{attendBatchMonth}
+			</if>
+			<if test="status != null and status !=''">
+				AND a.status = #{status}
+			</if>
+			
+		</where>
+			GROUP BY a.id
+	</select>
+	
+	
+	<!--insert   -->
+	<insert id="insert" parameterType="cn.damei.entity.modules.BizAttendBatch" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+		INSERT INTO biz_attend_batch
+		<trim prefix="(" suffix=")">
+			id,
+			attend_batch_code,
+			store_id,
+			engin_depart_id,
+			attend_batch_month,
+			attend_bill_count,
+			status,
+			status_datetime,
+			batch_datetime,
+			batch_operator_employee_id,
+			remarks,
+			create_by ,
+			create_date,
+			update_by,
+			update_date,
+			del_flag
+		</trim>
+		VALUES
+			<trim prefix="(" suffix=")">
+				#{id},
+				#{attendBatchCode},
+				#{storeId},
+				#{enginDepartId},
+				#{attendBatchMonth},
+				#{attendBillCount},
+				#{status},
+				#{statusDatetime},
+				#{batchDatetime},
+				#{batchOperatorEmployeeId},
+				#{remarks},
+				#{createBy.id},
+				#{createDate},
+				#{updateBy.id},
+				#{updateDate},
+				#{delFlag}
+			</trim>
+	</insert>
+	
+</mapper>

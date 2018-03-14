@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.CheckDetailsDao">
+    
+	
+	<select id="findList" resultType="cn.damei.entity.modules.CheckDetails">
+		SELECT
+			a.id AS "orderId",
+			a.store_id AS "storeId",
+			a.order_number AS "orderNumber",
+			a.community_name AS "communityName",
+			a.build_number AS "buildNumber",
+			a.build_unit AS "buildUnit",
+			a.build_room AS "buildRoom",
+			a.customer_name AS "customerName",
+			a.project_mode AS "projectMode",
+			b.realName AS "itemManager",
+			a.actual_start_date AS "actualStartDate",
+			a.engin_depart_id as "engineDepartId",
+			q.name AS "engineDepartName",
+			<!-- (SELECT COUNT(1) FROM biz_qc_check_node c WHERE c.store_id=a.store_id AND c.`status` = '1' AND a.project_mode = c.project_mode) AS "allCount",
+			(SELECT COUNT(1) FROM biz_qc_check_node m WHERE m.store_id=a.store_id AND m.`status` = '1') AS "allCountTwo",
+			(SELECT COUNT(1) FROM biz_qc_bill d WHERE d.order_id = a.id AND d.qc_bill_type = '1' AND d.is_recheck = '0') AS "nowCount",
+			(SELECT f.qc_check_node_name FROM biz_qc_check_node f WHERE f.id = ( SELECT MAX(e.qc_check_node_id) FROM biz_qc_bill e WHERE e.order_id = a.id AND e.qc_bill_type = '1' AND e.is_recheck = '0' )) AS "checkNodeName",
+			(SELECT MAX(e.qc_check_node_id) FROM biz_qc_bill e WHERE e.order_id = a.id AND e.qc_bill_type = '1' AND e.is_recheck = '0' AND e.`status` = '30') AS "checkNodeNameNewId",
+			(SELECT g.qc_check_node_name FROM biz_qc_check_node g WHERE g.id = ( SELECT MAX(e.qc_check_node_id) FROM biz_qc_bill e WHERE e.order_id = a.id AND e.qc_bill_type = '1' AND e.is_recheck = '0' AND e.`status` = '30')) AS "checkNodeNameNew" -->
+			
+			IFNULL(m1.allCount,0) AS "allCount",
+			IFNULL(m2.allCountTwo,0) AS "allCountTwo",
+			IFNULL(m3.nowCount,0)AS "nowCount",
+			m4.qc_check_node_name AS "checkNodeName",
+			m5.checkNodeNameNewId AS "checkNodeNameNewId",
+			m6.qc_check_node_name AS "checkNodeNameNew"
+			
+		FROM
+			biz_order a
+			LEFT JOIN biz_employee b ON b.id = a.item_manager_id
+			LEFT JOIN biz_engineering_department q ON q.id = a.engin_depart_id AND q.del_flag=0
+			
+			LEFT JOIN (SELECT c.store_id ,c.project_mode,COUNT(1) AS "allCount" FROM biz_qc_check_node c WHERE c.`status` = '1' GROUP BY c.store_id,c.project_mode) m1 ON m1.store_id = a.store_id AND a.project_mode = m1.project_mode
+
+			LEFT JOIN (SELECT m.store_id,COUNT(1) AS "allCountTwo" FROM biz_qc_check_node m WHERE  m.`status` = '1' GROUP BY m.store_id) m2 ON m2.store_id = a.store_id
+			
+			LEFT JOIN (SELECT d.order_id,COUNT(1) AS "nowCount" FROM biz_qc_bill d WHERE d.qc_bill_type = '1' AND d.is_recheck = '0' GROUP BY d.order_id) m3 ON m3.order_id = a.id
+			
+			LEFT JOIN (SELECT e.order_id,MAX(e.qc_check_node_id) AS "maxQcCheckNodeId" FROM biz_qc_bill e WHERE e.qc_bill_type = '1' AND e.is_recheck = '0' GROUP BY e.order_id) m41 ON m41.order_id = a.id
+			
+			LEFT JOIN  biz_qc_check_node m4 ON m4.id = m41.maxQcCheckNodeId
+			
+			LEFT JOIN (SELECT  e1.order_id,MAX(e1.qc_check_node_id) AS "checkNodeNameNewId" FROM biz_qc_bill e1 WHERE  e1.qc_bill_type = '1' AND e1.is_recheck = '0' AND e1.`status` = '30' GROUP BY e1.order_id) m5 ON m5.order_id = a.id
+			
+			LEFT JOIN (SELECT e2.order_id,MAX(e2.qc_check_node_id) AS "maxQcCheckNodeId2" FROM biz_qc_bill e2 WHERE e2.qc_bill_type = '1' AND e2.is_recheck = '0' AND e2.`status` = '30' GROUP BY e2.order_id ) m61 ON m61.order_id = a.id
+			
+			LEFT JOIN  biz_qc_check_node m6 ON m6.id = m61.maxQcCheckNodeId2
+		<where>
+			1=1
+			<if test="storeId != null and storeId != ''">
+				AND a.store_id = #{storeId}
+			</if>
+			<if test="orderNumber != null and orderNumber != ''">
+				AND  a.order_number LIKE CONCAT('%','${orderNumber}','%' )  
+			</if>
+			<if test="engineDepartId != null and engineDepartId != ''">
+				AND a.engin_depart_id =#{engineDepartId}
+			</if>
+			<if test="checkNodeNameNewId != null and checkNodeNameNewId != ''">
+				AND m5.checkNodeNameNewId = #{checkNodeNameNewId}
+			</if>
+			<if test="projectMode != null and projectMode != ''">
+				AND a.project_mode = #{projectMode}
+			</if>
+			<if test="customerName != null and customerName != ''">
+				AND a.customer_name LIKE
+					<if test="dbName == 'oracle'">'%'||#{customerName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{customerName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{customerName},'%')</if>
+			</if>
+			
+			<if test="itemManager != null and itemManager != ''">
+				AND b.realName LIKE
+				<if test="dbName == 'oracle'">'%'||#{itemManager}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{itemManager}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{itemManager},'%')</if>
+			</if>
+			<if test="beginActualStartDate != null  and beginActualStartDate != ''">
+				AND a.actual_start_date &gt;= #{beginActualStartDate} 
+			</if>
+			<if test="endActualStartDate != null and endActualStartDate != ''">
+				AND a.actual_start_date &lt;= #{endActualStartDate}
+			</if>
+			ORDER BY a.create_date DESC
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				,${page.orderBy}
+			</when>
+		</choose>
+	</select>
+	
+	
+	<!-- 约检单列表 -->
+	<select id="detailsList" parameterType="int" resultType="cn.damei.entity.modules.BizQcBill">
+		SELECT
+			b.customer_name AS "customerName",
+			b.community_name AS "communityName",
+			b.build_number AS "buildNumber",
+			b.build_unit AS "buildUnit",
+			b.build_room AS "buildRoom",
+			b.id AS "orderId",
+			d.realName AS "inspectorRealName",
+			c.realName AS "managerRealName",
+			a.id AS "qcBillId",
+			g.qc_check_node_name AS "qcCheckNodeName",
+			a.`status` AS "status",
+			a.create_date AS "createDate",
+			a.check_datetime AS "checkDatetime",
+			a.accept_check_datetime AS "acceptCheckDatetime",
+			a.got_score AS "gotScore",
+			a.total_score AS "totalScore"
+		FROM
+			biz_qc_bill a
+		LEFT JOIN biz_order b ON a.order_id = b.id
+		LEFT JOIN biz_employee c ON b.item_manager_id = c.id
+		LEFT JOIN biz_employee d ON b.order_inspector_id = d.id
+		LEFT JOIN biz_qc_check_node g ON g.id = a.qc_check_node_id
+		WHERE
+			a.order_id = #{0}
+		AND a.is_recheck = '0'
+		AND a.qc_bill_type = '1'
+		ORDER BY a.qc_check_node_id ASC
+	
+	
+	</select>
+	
+</mapper>

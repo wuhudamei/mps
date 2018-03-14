@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizEnginInstallDao">
+
+	<sql id="bizEnginInstallColumns">
+		a.id AS "id",
+		a.order_number AS "orderNumber",
+		a.contract_number AS "contractNumber",
+		a.customer_type AS "customerType",
+		a.customer_description AS "customerDescription",
+		a.customer_name AS "customerName",
+		a.customer_phone AS "customerPhone",
+		a.community_name AS "communityName",
+		a.build_number AS "buildNumber",
+		a.build_unit AS "buildUnit",
+		a.build_room AS "buildRoom",
+		a.map_coordinate AS "mapCoordinate",
+		a.sale_type AS "saleType",
+		a.area AS "area",
+		a.build_type AS "buildType",
+		a.house_type AS "houseType",
+		a.house_is_new AS "houseIsNew",
+		a.is_elevator AS "isElevator",
+		a.designer_name AS "designerName",
+		a.designer_phone AS "designerPhone",
+		a.order_reporter_name AS "orderReporterName",
+		a.order_reporter_phone AS "orderReporterPhone",
+		a.service_name AS "serviceName",
+		a.service_phone AS "servicePhone",
+		a.contract_start_date AS "contractStartDate",
+		a.contract_end_date AS "contractEndDate",
+		a.covered_area AS "coveredArea",
+		a.contract_area AS "contractArea",
+		a.contract_time AS "contractTime",
+		a.sign_contract_date AS "signContractDate",
+		a.order_status_number AS "orderStatusNumber",
+		a.order_status_description AS "orderStatusDescription",
+		a.order_inspector AS "orderInspector",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag",
+		a.item_manager AS "itemManager",
+		a.store_id AS "storeId",
+		a.cus_manager AS "cusManager",
+		a.ordertaskpack_status AS "orderTaskPackStatus",
+		a.actual_start_date AS actualStartDate,
+		a.actual_end_date AS actualEndDate,
+		a.item_manager_id AS "itemManagerId",
+		a.sign_flag AS "signFlag",
+		a.delay_type AS "delayType",
+		a.order_inspector_id AS "orderInspectorId",
+		a.project_mode as "projectMode"
+	</sql>
+	
+	<select id="get" resultType="cn.damei.entity.modules.BizEnginInstall">
+		SELECT 
+			<include refid="bizEnginInstallColumns"/>
+		FROM biz_order a
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="cn.damei.entity.modules.BizEnginInstall">
+		SELECT 
+			<include refid="bizEnginInstallColumns"/>,
+			y.realname AS "employeeRealName",
+			y.phone AS "employeePhone",
+			p.apply_into_date AS "installApplyIntoDate",
+			p.status AS "installStatus",
+			p.install_item_name AS "installItemName",
+			p.apply_into_create_datetime AS "installApplyInfoCreateDate",
+			p.id AS "installID",
+			p.supplier_confirm_into_date  as "supplierConfirmIntoDate",
+			g.label AS "projectModeName",
+			h.label AS "installStatusName",
+			w.`name` AS "storeName"
+		FROM biz_order a
+		INNER JOIN biz_order_install_plan p ON p.order_id = a.id
+		LEFT JOIN biz_employee y ON y.ID = a.item_manager_id
+		LEFT JOIN sys_dict g ON g.`value` = a.project_mode AND g.del_flag = 0 AND g.type = 'project_mode'
+		LEFT JOIN sys_dict h ON h.`value` = p.`status` AND h.del_flag = 0 AND h.type = 'install_status'
+		LEFT JOIN sys_office w ON w.id = a.store_id AND w.del_flag = 0
+		<where>
+			p.status IN (2,3,4)
+			<if test="employeeRealName != null and employeeRealName != ''">
+                AND y.realname  LIKE CONCAT('%','${employeeRealName}','%' )
+            </if>
+			<if test="installID != null and installID != ''">
+                AND p.id = #{installID}
+            </if>
+            <if test="employeePhone != null and employeePhone != ''">
+                AND y.phone LIKE CONCAT('%','${employeePhone}','%' ) 
+            </if>
+            <if test="installItemName != null and installItemName != ''">
+                AND p.install_item_sequence = #{installItemName}
+               
+            </if>
+			<if test="orderNumber != null and orderNumber != ''">
+                AND a.order_number LIKE CONCAT('%','${orderNumber}','%' )
+            </if>
+            <if test="storeId != null and storeId != ''">
+                AND a.store_id = #{storeId}
+            </if>
+            <if test="projectMode != null and projectMode != ''">
+                AND a.project_mode = #{projectMode}
+            </if>
+            <if test="customerName != null and customerName != ''">
+                AND a.customer_name  LIKE CONCAT('%','${customerName}','%' )
+            </if>
+            <if test="installApplyInfoCreateDateBegin != null and installApplyInfoCreateDateBegin != ''">
+                AND p.apply_into_create_datetime &gt;= #{installApplyInfoCreateDateBegin}
+            </if>
+            <if test="installApplyInfoCreateDateEnd != null and installApplyInfoCreateDateEnd != ''">
+                AND p.apply_into_create_datetime &lt;= #{installApplyInfoCreateDateEnd}
+            </if>
+            <if test="applyIntoDateBegin != null and applyIntoDateBegin != ''">
+                AND p.apply_into_date &gt;= #{applyIntoDateBegin}
+            </if>
+            <if test="applyIntoDateEnd != null and applyIntoDateEnd != ''">
+                AND p.apply_into_date &lt;= #{applyIntoDateEnd}
+            </if>
+            <if test="installStatus != null and installStatus != ''">
+                AND p.status = #{installStatus}
+            </if>
+            <if test="isUrgeReply != null and isUrgeReply != ''">
+                AND (SELECT n2.operate_type from biz_business_urge n2 WHERE n2.id =(SELECT MAX(n.id) from biz_business_urge n WHERE n.business_only_mark_int = p.id AND n.busines_type = 1 )) = #{isUrgeReply}
+            </if>
+            <if test="phones != null">
+			  AND a.DESIGNER_PHONE IN 
+				<foreach collection="phones" item="item" open="("  separator="," close=")" index="index">
+					#{item}
+				</foreach> 
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY p.apply_into_create_datetime DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="cn.damei.entity.modules.BizEnginInstall">
+		SELECT 
+			<include refid="bizEnginInstallColumns"/>
+		FROM biz_node_plan a
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+
+	
+</mapper>

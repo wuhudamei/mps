@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.ScoreCustomerComplaintDao">
+    
+    <sql id="CustomerComplaintDaoColumns">
+		a.id AS "id",
+		a.order_id AS "orderId",
+		a.employee_id AS "employeeId",
+		a.employee_name AS "employeeName",
+		a.employee_phone AS "employeePhone",
+		a.complain_code AS "complainCode",
+		a.complain_type AS "complainType",
+		a.complain_content AS "complainContent",
+		a.complain_time AS "complainTime",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+    
+    <insert id="insert">
+		INSERT INTO biz_score_customer_complaint(
+			order_id,employee_id,employee_name,employee_phone,
+			complain_code,complain_type,complain_content,complain_time,
+			create_by,create_date,update_by,update_date,remarks,del_flag
+		)
+		values
+		(
+			#{orderId},#{employeeId},#{employeeName},#{employeePhone},
+			#{complainCode},#{complainType},#{complainContent},#{complainTime},
+			#{createBy},#{createDate},#{updateBy},#{updateDate},#{remarks},#{delFlag}
+		)
+	</insert>
+	
+	<!-- 查询顾客投诉类型 -->
+	<select id="getComplainType" resultType="map">
+		select value as dictCode,label as dictName from sys_dict where type = 'biz_complain_type'
+	</select>
+ 
+</mapper>

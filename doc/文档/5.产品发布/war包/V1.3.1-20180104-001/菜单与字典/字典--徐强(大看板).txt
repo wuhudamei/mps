@@ -1,0 +1,5 @@
+健值      标签          类型             描述
+
+0	   否	      is_special	是否特殊	
+
+1	   是	      is_special	 是否特殊	

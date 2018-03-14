@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.InstallHistoryDataDealDao">
+    
+	
+    
+	<!-- 查询历史数据页面 -->
+	<select id="findList" parameterType="cn.damei.entity.modules.InstallHistoryData" resultType="cn.damei.entity.modules.InstallHistoryData">
+	
+		SELECT 
+			a.id AS "id",
+			a.order_id AS "orderId",
+			a.install_item_name AS "installItemName",
+			a.`status` AS "installStatus",
+			a.apply_into_date AS "applyIntoDate",
+			a.apply_into_create_datetime AS "applyIntoCreateDatetime",
+			a.supplier_confirm_into_date AS "supplierConfirmIntoDate",
+			a.supplier_confirm_remarks AS "supplierConfirmRemarks",
+			a.real_accept_date AS "realAcceptDate",
+			a.real_complete_date AS "realCompleteDate",
+			a.real_into_date AS "realIntoDate",
+			m1.statusTwoCount AS "statusTwoCount",
+			m2.statusThreeCount AS "statusThreeCount",
+			m3.statusFourCount AS "statusFourCount"
+			
+		FROM biz_order_install_plan a 
+		LEFT JOIN(SELECT n1.business_only_mark_int,COUNT(1) AS "statusTwoCount" FROM biz_business_status_log n1 WHERE n1.business_type = 901 AND n1.business_status = 2 GROUP BY n1.business_only_mark_int) m1 ON m1.business_only_mark_int = a.id
+		LEFT JOIN(SELECT n2.business_only_mark_int,COUNT(1) AS "statusThreeCount" FROM biz_business_status_log n2 WHERE n2.business_type = 901 AND n2.business_status = 3 GROUP BY n2.business_only_mark_int) m2 ON m2.business_only_mark_int = a.id
+		LEFT JOIN(SELECT n3.business_only_mark_int,COUNT(1) AS "statusFourCount" FROM biz_business_status_log n3 WHERE n3.business_type = 901 AND n3.business_status = 4 GROUP BY n3.business_only_mark_int) m3 ON m3.business_only_mark_int = a.id
+		<where>
+			a.`status` IN (2,3,4) 
+			<if test="installStatus != null and installStatus != ''">
+                AND a.`status` = #{installStatus}
+            </if>
+		</where>
+		ORDER BY m1.statusTwoCount DESC,m2.statusThreeCount DESC,m3.statusFourCount DESC
+	
+	</select>
+	
+	
+	<!-- 批量删除重复数据 -->
+	<delete id="deleteRepeatedData">
+		DELETE
+		FROM
+			biz_business_status_log 
+		WHERE
+			business_type = 901
+		AND business_status IN (2, 3, 4)
+		AND id NOT IN (
+			SELECT m.id FROM (
+			SELECT
+				MAX(a.id) as"id"
+			FROM
+				biz_business_status_log a
+			WHERE
+				a.business_type = 901
+			AND a.business_status IN (2, 3, 4)
+			GROUP BY
+				a.business_only_mark_int,
+				a.business_status) m
+		)
+	
+	
+	</delete>
+	
+	
+	<!-- 批量更新状态为2：申请的日志信息 -->
+	<update id="updateApplyData">
+	
+		UPDATE biz_business_status_log a,
+		 biz_order_install_plan b,
+		 biz_order c
+		SET a.business_employee_id = c.item_manager_id,
+		 a.business_remarks = b.remarks,
+		 a.remarks = DATE_FORMAT(b.apply_into_date,'%Y-%m-%d'),
+		 a.create_date = b.apply_into_create_datetime,
+		 a.update_date = b.apply_into_create_datetime,
+		 a.status_datetime = b.apply_into_create_datetime
+		WHERE
+			a.business_only_mark_int = b.id
+		AND b.order_id = c.id
+		AND a.business_type = 901
+		AND a.business_status = 2
+	
+	
+	</update>
+	
+	<!-- 批量更新状态为3：下达供应商的日志信息 -->
+	<update id="updateSupplierData">
+	
+		UPDATE biz_business_status_log a,
+		 biz_order_install_plan b
+		SET 
+		 a.business_remarks = b.supplier_confirm_remarks,
+		 a.remarks = DATE_FORMAT(b.supplier_confirm_into_date,'%Y-%m-%d')
+		WHERE
+			a.business_only_mark_int = b.id
+		AND a.business_type = 901
+		AND a.business_status = 3
+	
+	</update>
+	
+	<!-- 查出所有需要批量插入的 2：申请日志  的主材信息 -->
+	<select id="findApplyList" resultType="cn.damei.entity.modules.InstallHistoryData">
+	
+		SELECT
+			a.id AS "id",
+			a.order_id AS "orderId",
+			a.install_item_name AS "installItemName",
+			a.`status` AS "installStatus",
+			a.apply_into_date AS "applyIntoDate",
+			DATE_FORMAT(a.apply_into_date,'%Y-%m-%d') AS "applyIntoDateString",
+			a.apply_into_create_datetime AS "applyIntoCreateDatetime",
+			a.remarks AS "remarks",
+			b.item_manager_id AS "itemManagerId"
+		FROM
+			biz_order_install_plan a
+		LEFT JOIN biz_order b ON a.order_id = b.id
+		LEFT JOIN (
+			SELECT
+				n1.business_only_mark_int,
+				COUNT(1) AS "statusTwoCount"
+			FROM
+				biz_business_status_log n1
+			WHERE
+				n1.business_type = 901
+			AND n1.business_status = 2
+			GROUP BY
+				n1.business_only_mark_int
+		) m1 ON m1.business_only_mark_int = a.id
+		WHERE
+			a.`status` IN (2, 3, 4)
+		AND m1.statusTwoCount IS NULL
+
+		limit 80
+	
+	</select>
+	
+	
+	<!-- 查出所有需要批量插入的 3：下达供应商 日志  的主材信息 -->
+	<select id="findSupplierList" resultType="cn.damei.entity.modules.InstallHistoryData">
+	
+		SELECT
+			a.id AS "id",
+			a.order_id AS "orderId",
+			a.install_item_name AS "installItemName",
+			a.`status` AS "installStatus",
+			a.supplier_confirm_into_date AS "supplierConfirmIntoDate",
+			DATE_FORMAT(a.supplier_confirm_into_date,'%Y-%m-%d') AS "supplierConfirmIntoDateString",
+			a.supplier_confirm_remarks AS "supplierConfirmRemarks"
+		FROM
+			biz_order_install_plan a
+		LEFT JOIN (
+			SELECT
+				n2.business_only_mark_int,
+				COUNT(1) AS "statusThreeCount"
+			FROM
+				biz_business_status_log n2
+			WHERE
+				n2.business_type = 901
+			AND n2.business_status = 3
+			GROUP BY
+				n2.business_only_mark_int
+		) m2 ON m2.business_only_mark_int = a.id
+		WHERE
+			a.`status` IN (3, 4)
+		AND m2.statusThreeCount IS NULL
+		AND a.supplier_confirm_into_date IS NOT NULL
+		limit 80
+	</select>
+	
+	
+	<!-- 查出所有需要批量插入的 4：验收 日志  的主材信息 -->
+	<select id="findAcceptList" resultType="cn.damei.entity.modules.InstallHistoryData">
+	
+		SELECT
+			a.id AS "id",
+			a.order_id AS "orderId",
+			a.install_item_name AS "installItemName",
+			a.`status` AS "installStatus",
+			a.real_accept_date AS "realAcceptDate",
+			a.real_complete_date AS "realCompleteDate",
+			a.real_into_date AS "realIntoDate",
+			b.item_manager_id AS "itemManagerId"
+		FROM
+			biz_order_install_plan a
+		LEFT JOIN biz_order b ON b.id = a.order_id
+		LEFT JOIN (
+			SELECT
+				n3.business_only_mark_int,
+				COUNT(1) AS "statusFourCount"
+			FROM
+				biz_business_status_log n3
+			WHERE
+				n3.business_type = 901
+			AND n3.business_status = 4
+			GROUP BY
+				n3.business_only_mark_int
+		) m3 ON m3.business_only_mark_int = a.id
+		WHERE
+			a.`status` IN (4)
+		AND m3.statusFourCount IS NULL
+		AND a.real_accept_date IS NOT NULL
+		limit 80
+	</select>
+	
+	<!-- 批量  插入   -->
+	<insert id="batchInsertList"  parameterType="java.util.List">
+		INSERT INTO biz_business_status_log(
+			business_type,
+			business_only_mark_int,
+			business_only_mark_varchar,
+			business_status,
+			status_datetime,
+			business_remarks,
+			business_employee_id,
+			remarks,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag
+		) VALUES 
+		<foreach collection="list" item="item" index="index" separator="," >
+			(
+				#{item.businessType},
+				#{item.businessOnlyMarkInt},
+				#{item.businessOnlyMarkVarchar},
+				#{item.businessStatus},
+				#{item.statusDatetime},
+				#{item.businessRemarks},
+				#{item.businessEmployeeId},
+				#{item.remarks},
+				#{item.createBy.id},
+				#{item.createDate},
+				#{item.updateBy.id},
+				#{item.updateDate},
+				#{item.delFlag}
+			)
+		</foreach>
+	</insert>
+	
+	
+	<!-- 查询约检单(基装验收和竣工验收) -->
+	<select id="findQcBillList" resultType="cn.damei.entity.mobile.Inspector.BizQcBill">
+		SELECT
+			a.id AS "qcBillId"
+		FROM
+			biz_qc_bill a
+		INNER JOIN biz_qc_check_node b ON a.qc_check_node_id = b.id
+		AND b.qc_check_node_index IN (6,9)
+		WHERE
+			a.qc_bill_type = 1
+		AND a.is_recheck = 0
+		AND a.`status` &gt; 5
+	
+	</select>
+	
+	<!-- 查询订单的质检员信息 -->
+	<select id="findInspector" parameterType="int" resultType="cn.damei.entity.mobile.Inspector.Inspector">
+		
+		SELECT
+			b.id AS "id",
+			b.`no` AS "no",
+			b.realName AS "realName",
+			b.phone AS "phone",
+			b.empType AS "empType"
+		FROM
+			biz_order a
+		INNER JOIN biz_employee b ON a.order_inspector_id = b.id
+		WHERE
+			a.id = #{0}
+	
+	
+	</select>
+	
+	
+</mapper>

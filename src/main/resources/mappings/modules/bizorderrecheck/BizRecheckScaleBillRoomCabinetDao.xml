@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizRecheckScaleBillRoomCabinetDao">
+    
+	<sql id="bizRecheckScalBillRoomCabinetColumns">
+		t.ID AS "id",
+		t.RECHECK_SCALE_BILL_ID AS "recheckScaleBillId",
+		t.POSITION AS "position",
+		t.BATHROOM_CABINET_MODEL AS "bathroomCabinetModel",
+		t.REMARKS AS "remarks",
+		t.CREATE_DATE AS "createDate",
+		t.UPDATE_DATE AS "updateDate",
+		t.DEL_FLAG AS "delFlag"
+	</sql>
+	
+	<select id="get" resultType="cn.damei.entity.modules.BizRecheckScaleBillRoomCabinet" parameterType="java.lang.Integer">
+		SELECT 
+    	<include refid="bizRecheckScalBillRoomCabinetColumns"/> 
+    	FROM BIZ_RECHECK_SCALE_BILL_BATHROOM_CABINET t
+    	WHERE t.ID = #{0}
+	</select>
+	
+	<select id="getByRecheckID" resultType="cn.damei.entity.modules.BizRecheckScaleBillRoomCabinet">
+		SELECT 
+    	<include refid="bizRecheckScalBillRoomCabinetColumns"/> 
+    	FROM BIZ_RECHECK_SCALE_BILL_BATHROOM_CABINET t
+    	WHERE t.RECHECK_SCALE_BILL_ID = #{0}
+	</select>
+	
+</mapper>

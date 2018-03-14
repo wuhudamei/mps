@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizOrderInstallPlanPicDao">
+    
+	<sql id="bizOrderInstallPlanPicColumns">
+		t.ID AS "id",
+		t.ORDER_INSTALL_PLAN_ID AS "orderInstallPlanId",
+		t.PIC_URL AS "picUrl",
+		t.REMARKS AS "remarks",
+		t.CREATE_BY AS "createBy",
+		t.CREATE_DATE AS "createDate",
+		t.UPDATE_BY AS "updateBy",
+		t.UPDATE_DATE AS "updateDate",
+		t.DEL_FLAG AS "delFlag"
+	</sql>
+	
+	<select id="get" resultType="cn.damei.entity.modules.BizOrderInstallPlanPic">
+		SELECT
+			<include refid="bizOrderInstallPlanPicColumns"/>
+		FROM BIZ_ORDER_INSTALL_PLAN_PIC t
+		WHERE t.ID = #{0}
+	</select>
+	
+	<select id="getByIdList" resultType="cn.damei.entity.modules.BizOrderInstallPlanPic">
+		SELECT
+			<include refid="bizOrderInstallPlanPicColumns"/>
+		FROM BIZ_ORDER_INSTALL_PLAN_PIC t
+		WHERE t.ORDER_INSTALL_PLAN_ID = #{0}
+	</select>
+	
+</mapper>

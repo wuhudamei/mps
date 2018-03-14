@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+        namespace="cn.damei.dao.modules.ExportBudgetCostDao">
+    <select id="findList" resultType="cn.damei.entity.modules.ExportBudgetCost">
+        SELECT
+        a.order_number AS "orderNumber",
+        a.customer_name AS "customerName",
+        a.get_order_datetime AS "getOrderDatetime",
+        a.actual_end_date AS "actualEndDate",
+        (
+        IFNULL(g.purAmount, 0) + IFNULL(h.materialsAmount, 0)
+        ) AS "actualMaterialsAmount",
+        IFNULL(d.worker_group_settle_amount,0) AS "actualConstructionAmount",
+        IFNULL(e.pmAmount,0) AS "actualPmAmount",
+        IFNULL(d.materialsAmount,0) AS "paidMaterialsAmount",
+        IFNULL(d.paymentAmount,0) AS "paidConstructionAmount",
+        IFNULL(f.pmAmount,0) AS "paidPmAmount"
+        FROM
+        biz_order a
+        LEFT JOIN (
+        SELECT
+        b.order_id,
+        SUM(
+        c.worker_group_settle_amount
+        ) AS "worker_group_settle_amount",
+        SUM(
+        IFNULL(
+        c.auxiliary_materials_deduct_amount,
+        0
+        ) + IFNULL(
+        c.sand_cement_deduct_amount,
+        0
+        )
+        ) AS "materialsAmount",
+        SUM(p.paymentAmount) AS "paymentAmount"
+        FROM
+        biz_order_taskpackage b
+        INNER JOIN biz_order_taskpackage_settlement c ON b.id = c.order_taskpackage_id
+        LEFT JOIN (
+        SELECT
+        pay.order_taskpackage_settlement_id,
+        SUM(IFNULL(pay.amount, 0)) AS "paymentAmount"
+        FROM
+        biz_order_taskpackage_payment pay
+        WHERE
+        pay.`status` = 100
+        GROUP BY
+        order_taskpackage_settlement_id
+        ) p ON p.order_taskpackage_settlement_id = c.id
+        GROUP BY
+        b.order_id
+        ) d ON a.id = d.order_id
+        LEFT JOIN (
+        SELECT
+        ps.order_id,
+        SUM(
+        IFNULL(
+        ps.midway_commission_amount,
+        0
+        ) + IFNULL(
+        ps.complete_commission_amount,
+        0
+        )
+        ) AS "pmAmount"
+        FROM
+        biz_pm_settle_bill ps
+        WHERE
+        ps.settle_role = 1
+        GROUP BY
+        ps.order_id
+        ) e ON e.order_id = a.id
+        LEFT JOIN (
+        SELECT
+        ps1.order_id,
+        SUM(
+        IFNULL(
+        ps1.midway_commission_amount,
+        0
+        ) + IFNULL(
+        ps1.complete_commission_amount,
+        0
+        )
+        ) AS "pmAmount"
+        FROM
+        biz_pm_settle_bill ps1
+        WHERE
+        ps1.settle_role = 1
+        AND ps1.`status` = 50
+        GROUP BY
+        ps1.order_id
+        ) f ON f.order_id = a.id
+        LEFT JOIN (
+        SELECT
+        pur.order_id,
+        SUM(IFNULL(pur.total_price, 0)) AS 'purAmount'
+        FROM
+        biz_purchase pur
+        WHERE
+        pur.purchase_type IN (1, 6)
+        AND pur.`status` != 21
+        GROUP BY
+        pur.order_id
+        ) g ON g.order_id = a.id
+        LEFT JOIN (
+        SELECT
+        msr.order_id,
+        SUM(
+        IFNULL(msr.receive_bill_amount, 0)
+        ) AS "materialsAmount"
+        FROM
+        biz_materials_standard_receive_bill msr
+        WHERE
+        msr.`status` = 20
+        GROUP BY
+        msr.order_id
+        ) h ON h.order_id = a.id
+        WHERE
+        a.order_status_number = 400
+        <if test="storeId != null and storeId != ''">
+            AND a.store_id = #{storeId}
+        </if>
+       <if test="projectMode != null and projectMode != ''">
+           AND a.project_mode = #{projectMode}
+       </if>
+
+        AND a.actual_end_date >= #{startDate}
+        AND a.actual_end_date &lt;= #{endDate}
+        ORDER BY
+        a.actual_end_date
+    </select>
+</mapper>

@@ -1,0 +1,6 @@
+¿ÍËßÑÓÆÚ·£¿î
+
+×Öµä:
+	complaint_forfeit_status  10  ´ıÉóºË
+	complaint_forfeit_status  20  ÒÑÉóºË
+	complaint_forfeit_status  30  ÒÑ¾Ü¾ø

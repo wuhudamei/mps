@@ -1,0 +1,141 @@
+.g-upload_photo{
+	width: 100%;
+	height: 100%;
+	background: #eee;
+}
+.g-upload_photo header.upload_photo_header{
+	width: 100%;
+	height: 0.8rem;
+	background: #09f;
+	position: fixed;
+	z-index: 9;
+}
+.g-upload_photo .back_btn{
+	display: block;
+	width: 0.2rem;
+	height: 0.34rem;
+	background-image: url(../images/back_icon.png);
+	background-size: 0.2rem 0.34rem;
+	position: absolute;
+	left: 0.3rem;
+	top: 0.23rem;
+}
+.g-upload_photo h2.upload_photo_title{
+	text-align: center;
+	color: #fff;
+	font-size: 0.34rem;
+	height: inherit;
+	line-height: 0.8rem;
+}
+/*header ending*/
+.tips{
+	height: .62rem;
+	padding-top: 1rem;
+	padding-bottom: .2rem;
+}
+.tips p{
+	text-align: center;
+	font-size: .24rem;
+	color: #999;
+}
+.tips p:first-child{
+	margin-bottom: .1rem;
+}
+section.upload_photo_list{
+	padding: .2rem .1rem 0;
+	background: #fff;
+	font-size: 0;
+	box-shadow: 0.1rem 0.1rem 0.1rem #ccc;
+}
+section.upload_photo_list div{
+	width: 33%;
+	text-align: center;
+	float: left;
+	margin-right: 0.3%;
+}
+section.upload_photo_list div:nth-of-type(3n){
+	margin-right: 0;
+}
+section.upload_photo_list div:nth-last-of-type(2){
+	position: relative;
+}
+/*section.upload_photo_list div img:nth-of-type(2){
+	position: absolute;
+	top: 0;
+	left: 0;
+}*/
+section.upload_photo_list div div img{
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+section.upload_photo_list div div img:nth-of-type(2){
+	width: .3rem;
+	left: 37%;
+	top: 40%;
+	transform: translateY(-50%);
+}
+section.upload_photo_list div div span{
+	position: absolute;
+	font-size: .4rem;
+	color: #fff;
+	top: 40%;
+	transform: translateY(-50%);
+	left: 55.7%;
+}
+section.upload_photo_list div img{
+	width: 100%;
+}
+section.upload_photo_list div > a{
+	display: block;
+	/*padding: .08rem 0;*/
+	font-size: .28rem;
+	color: #0780ec;
+	border: 1px solid #0780ec;
+	margin: .32rem auto .40rem;
+	/*width: 1.1rem;*/
+	/*height: 42px;
+	line-height: 42px;*/
+	height: .42rem;
+	line-height: .42rem;
+	width: 46%;
+	/*width: 110px;*/
+}
+.del_btn{
+	display: block;
+	/*padding: .08rem 0;*/
+	font-size: .28rem;
+	color: #0780ec;
+	border: 1px solid #0780ec;
+	margin: .32rem auto .40rem;
+	/*width: 1.1rem;*/
+	/*height: 42px;
+	line-height: 42px;*/
+	height: .42rem;
+	line-height: .42rem;
+	width: 46%;
+	/*width: 110px;*/
+}
+section.upload_photo_list div:last-child{
+	width: 100%;
+}
+section.upload_photo_list div:last-child a{
+	font-size: .28rem;
+	color: #fff;
+	border: 0;
+	display: block;
+	width: 2.8rem;
+	height: .76rem;
+	line-height: .76rem;
+	text-align: center;
+	background: #0780ec;
+	border-radius: .1rem;
+	margin: .4rem auto;
+}
+.new{
+	width:33%;
+ 	text-align:center;
+	float:left;
+ 	margin-right:0.3%;
+ 	position:relative;
+}

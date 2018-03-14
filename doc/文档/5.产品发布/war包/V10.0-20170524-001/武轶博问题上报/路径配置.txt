@@ -1,0 +1,12 @@
+
+
+问题上报
+
+墙地砖问题上报查询
+/bizorderinstallitemproblem/wallAndFloor/problem/preList
+wallAndFloorproblem:wallAndFloorproblem:view
+
+
+墙地砖问题处理
+/bizorderinstallitemproblem/wallAndFloor/problem/preDealList
+wallAndFloorproblem:wallAndFloorproblem:view

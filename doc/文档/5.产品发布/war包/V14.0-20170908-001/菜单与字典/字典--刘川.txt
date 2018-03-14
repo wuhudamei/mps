@@ -1,0 +1,13 @@
+键值	标签		类型				描述		排序	
+1	项目经理		responsible_person		奖惩责任人	1	
+2	工人		responsible_person		奖惩责任人	2	
+3	质检员		responsible_person		奖惩责任人	3	
+
+10	订单		reward_punish_target_type	奖惩对象	10	
+20	员工		reward_punish_target_type	奖惩对象	20	
+
+1	未关联结算	reward_punish_status		奖惩状态	1	
+2	已关联结算	reward_punish_status		奖惩状态	2	
+
+1	奖励		is_reward_or_punish		奖惩		1	
+2	惩罚		is_reward_or_punish		奖惩		2	

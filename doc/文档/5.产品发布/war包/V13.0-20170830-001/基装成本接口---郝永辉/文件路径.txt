@@ -1,0 +1,17 @@
+一、新建路径
+1、classes\com\thinkgem\jeesite\api路径下新建baseLoadingCost文件夹
+2、classes\com\thinkgem\jeesite\api\baseLoadingCost路径下新建dao、entity、service、web文件夹
+3、resources\mappings\api路径下新建baseLoadingCost文件夹
+二、替换文件 
+1、PackageInfo.class、PmSettleInfo.class  ---->com\thinkgem\jeesite\api\baseLoadingCost\entity
+2、PackageInfoDao.class、PmSettleInfoDao.class ---->com\thinkgem\jeesite\api\baseLoadingCost\dao
+3、PackageInfoService.class、PmSettleInfoService.class ---->com\thinkgem\jeesite\api\baseLoadingCost\service
+4、BaseLoadingCostController.class ---->com\thinkgem\jeesite\api\baseLoadingCost\web
+5、OrderTaskpackageSettlement.class ---->com\thinkgem\jeesite\mobile\modules\Manager\taskpackageSettlement\entity
+6、packageInfoDao.xml、PmSettleInfoDao.xml ---->resources\mappings\api\baseLoadingCost
+7、OrderTaskpackageSettlement.xml   ---->resources\mappings\mobile\modules\Manager\orderTaskpackageSettlement
+8、taskpackage_confirm.jsp、taskpackage_confirm_recheck.jsp、taskpackage_confirm_update.jsp---->views\mobile\modules\Manager
+
+
+
+

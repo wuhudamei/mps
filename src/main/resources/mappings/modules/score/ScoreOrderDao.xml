@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.ScoreOrderDao">
+    
+    <sql id="ScoreOrderColumns">
+		a.id AS "id",
+		a.order_id AS "orderId",
+		a.score_type AS "scoreType",
+		a.score_value AS "scoreValue",
+		a.score_content AS "scoreContent",
+		a.stakeholder AS "stakeholder",
+		DATE_FORMAT(a.score_time,'%Y-%m-%d %H:%i:%s') AS "scoreTime",
+		a.create_by AS "createBy.id",
+		DATE_FORMAT(a.create_date,'%Y-%m-%d %H:%i:%s') AS "createDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+    
+    <!-- 订单评价 -->
+	<insert id="insert">
+		INSERT INTO biz_score_order(
+			order_id,score_type,score_value,score_content,score_time,stakeholder,
+			create_by,create_date,update_by,update_date,remarks,del_flag
+		)
+		values
+		(
+			#{orderId},#{scoreType},#{scoreValue},#{scoreContent},#{scoreTime},#{stakeholder},
+			#{createBy.id},#{createDate},#{updateBy.id},#{updateDate},#{remarks},#{delFlag}
+		)
+	</insert>    
+    
+    <!-- 订单历史评价查询 -->
+    <select id="orderHistoryScore" parameterType="java.lang.Integer" resultType="map">
+    	select 
+    	<include refid="ScoreOrderColumns"/>,
+    	b.label AS "scoreTypeCn"
+    	from biz_score_order a 
+    	left join ( 
+    		select x.value,x.label from sys_dict x where x.type in('biz_score_type','biz_score_type_final') 
+			union 
+			select y.no as value,y.templat_name as label from biz_task_package_templat y
+    	) b on a.score_type = b.value
+    	where a.order_id = #{orderId} order by scoreTime desc
+    </select>
+    
+    <select id="getOrderStatusById" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+    	select count(*) from biz_order where id = #{orderId} and order_status_number &gt;= 340 
+    </select>
+    
+    <!-- 待评分订单类型查询 -->
+    <select id="orderNoScoreType" parameterType="map"  resultType="map">
+    	select x.scoreCode,x.scoreName from 
+		(
+			select package_code as scoreCode,package_name as scoreName
+			  from biz_order_taskpackage 
+			 where order_id = #{orderId} and actual_enddate is not null 
+			union 
+			select value as scoreCode,label as scoreName from sys_dict 
+			 where type = 'biz_score_type' and del_flag = 0
+			<if test=" finalFlag != 0 ">
+			union 
+			select value as scoreCode,label as scoreName from sys_dict 
+			 where type = 'biz_score_type_final' and del_flag = 0
+			</if> 
+		) x where x.scoreCode not in ( select score_type from biz_score_order where order_id = #{orderId} )
+		 order by x.scoreCode asc
+    	
+    </select>
+    
+    <!-- 顾客订单查询 -->
+    <select id="selectOrderByCustomer" parameterType="java.lang.String" resultType="map">
+		select id,detail_address
+		  from biz_order 
+		 where customer_phone = #{customerPhone}
+    </select>
+    
+    <!-- 根据订单id获取设计人员-->
+    <select id="selectDesignerMemberFromOrder" parameterType="java.lang.Integer" resultType="map">
+    	 select null as id,designer_name as memberName,designer_phone as memberPhone,store_id as storeId ,'设计人员' as memberPost from biz_order where id  = #{orderId}
+    </select>
+    
+    <!-- 根据订单id获取服务人员-->
+    <select id="selectServiceMemberFromOrder" parameterType="java.lang.Integer" resultType="map">
+    	 select null as id,service_name as memberName,service_phone as memberPhone,store_id as storeId ,'销售人员' as memberPost from biz_order where id = #{orderId}
+    </select>
+    
+    <!-- 根据评分类型获取对应的团队人员以及项目经理 -->
+    <select id="selectTeamMemberByMap" resultType="map">
+    	select x.id,x.realName as memberName,x.phone as memberPhone,x. storeId,z.label as memberPost
+		  from  biz_employee x 
+		  left join biz_emgrouprelation y on x.id = y.empId 
+			left join ( select value ,label from sys_dict where type = 'emp_work_type' and del_flag = 0  ) z on x.workType = z.value
+		 where y.groupId  = ( select emp_groupid from biz_order_taskpackage where order_id = #{orderId} and package_code = #{scoreType} group by emp_groupid)
+		union
+		select b.id,b.realName as memberName,b.phone as memberPhone, a.store_id as storeId, '项目经理' as memberPost 
+		  from biz_order a left join  biz_employee b on a. item_manager_id = b.id  where a.id = #{orderId}
+    </select>
+   <!-- 获取订单评分类型  -->
+    <select id="getScoreContent" resultType="map">
+    	select a.value as typeCode,a.label as typeName from sys_dict a where a.type in ('biz_score_type','biz_score_type_final') and a.del_flag = 0
+		union
+		select b.no as typeCode,b.templat_name as typeName from biz_task_package_templat b where b.status = 1 
+    </select>
+   <!-- 获取订单评分类型 根据公司 -->
+    <select id="getScoreContentByStoreId" resultType="map" >
+    	select a.value as typeCode,a.label as typeName from sys_dict a where a.type in ('biz_score_type','biz_score_type_final') and a.del_flag = 0
+		union
+		select b.no as typeCode,b.templat_name as typeName from biz_task_package_templat b where b.status = 1  and b.store_id=#{storeId}
+    </select>
+    <!-- 查询订单评价详情 -->
+    <select id="selectOrderScoreQuery" parameterType="ScoreOrderQuery" resultType="ScoreOrderQuery">
+    	select cc.* from(select t.typeName,o.stakeholder,o.scoreValue,o.scoreContent,o.scoreTime,o.orderNumber,o.customerName,o.customerPhone,o.province,o.city,o.county,o.detailAddress ,o.name from 
+		(select ss.* from
+		(select a.value as typeCode,a.label as typeName from sys_dict a where a.type in('biz_score_type','biz_score_type_final')
+		union
+		select b.no as typeCode,b.templat_name as typeName from biz_task_package_templat b where b.status = 1)  as ss
+		<where>
+			<if test="typeCode!=null">
+			 typeCode=#{typeCode}
+			</if>
+		</where>)as t  join(select dd.* from (select f.score_type as scoreType,f.score_value as scoreValue,f.score_content as scoreContent,
+		f.score_time as scoreTime,f.order_number as orderNumber,f.stakeholder,f.customer_name as customerName,f.customer_phone as customerPhone,
+		f.province,f.city,f.county,f.detail_address  as detailAddress,f.store_id as storeId,g.name from
+		(SELECT  c.score_type,c.score_value,c.score_content,c.score_time,d.order_number,c.stakeholder,d.customer_name,d.customer_phone,d.province,d.city,d.county,d.detail_address ,d.store_id
+		FROM biz_score_order as c  join biz_order as d on c.order_id=d.id)  as f  join sys_office g on f.store_id=g.id 
+		<where >
+			<if test="name!=null">
+				 g.id=#{name}
+			</if>
+		</where>) as dd
+		<where>
+			<if test="scoreBegin!=null and scoreEnd!=null">
+					dd.scoreValue between #{scoreBegin} and #{scoreEnd} 	
+			</if>
+			<if test="scoreDateBegin!=null and scoreDateEnd!=null">
+					 and dd.scoreTime between #{scoreDateBegin} and #{scoreDateEnd}
+			</if>
+			<if test="scoreContent !=null and scoreContent==&quot;y&quot; ">
+					and  dd.scoreContent is not null  and  dd.scoreContent!=''
+			</if>
+			<if test="scoreContent !=null and scoreContent==&quot;n&quot; ">
+					and  dd.scoreContent is  null  or  dd.scoreContent=''
+			</if>
+		</where>)as o on t.typeCode=o.scoreType	  ) as cc 
+		<where>
+				<if test="scoreQuery!=null ">
+					 cc.customerName like concat('%',#{scoreQuery},'%') or cc.customerPhone like concat('%',#{scoreQuery},'%') or cc.orderNumber like concat('%',#{scoreQuery},'%') or  detailAddress like concat('%',#{scoreQuery},'%')	
+					or cc.scoreContent  like concat('%',#{scoreQuery},'%')
+				</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				,${page.orderBy}
+			</when>
+		</choose>
+    </select>
+    <!-- 根据评分类型获取对应的团队人员以及项目经理 -->
+    <select id="selectAllTeamMember" parameterType="java.lang.Integer" resultType="map">
+    	select m.id,m.memberName,m.memberPhone,m.headPic,m.workType,m.storeId,
+				ifnull(n.current_score,0) currentScore,ifnull(n.init_flag,0) initFlag, 
+				case when k.evaluateTime is not null then DATE_FORMAT(evaluateTime,'%Y-%m-%d') else null end evaluateTime,
+				k.evaluateType
+		FROM
+		(
+			select null as id,designer_name as memberName,designer_phone as memberPhone,'' as headPic,'设计人员' workType,store_id as storeId from biz_order where id = #{orderId}
+		union 
+			select null as id,service_name as memberName,service_phone as memberPhone,'' as headPic,'销售人员' workType,store_id as storeId from biz_order where id = #{orderId}
+		UNION
+		select x.id,x.realName as memberName,x.phone as memberPhone,x.headPic,z.label workType,storeId from  biz_employee x 
+		  left join biz_emgrouprelation y on x.id = y.empId 
+			left join ( select value,label from sys_dict where type='emp_work_type' and del_flag = 0 ) z on x.workType = z.value
+		 where y.groupId  in ( select emp_groupid from biz_order_taskpackage where order_id= #{orderId} group by emp_groupid)
+		union
+			select b.id,b.realName as memberName,b.phone as memberPhone,b.headPic,'项目经理' workType, b.storeId
+			 from biz_order a 
+		   left join  biz_employee b on a. item_manager_id = b.id 
+			where a.id= #{orderId}
+		) m 
+		left join biz_score_team_member_actual n on m.memberName = n.employee_name and m.memberPhone = n.employee_phone
+		left join (
+			select xx.employee_name,xx.employee_phone,yy.evaluateTime,xx.evaluate_type evaluateType from biz_score_team_member_evaluate xx 
+        left join 
+			(select employee_name,employee_phone,max(evaluate_time) evaluateTime from biz_score_team_member_evaluate where order_id = #{orderId} group by employee_name,employee_phone ) yy 
+		  on xx.employee_name = yy.employee_name and xx.employee_phone = yy.employee_phone and xx.evaluate_time = yy.evaluateTime
+
+		) k on m.memberName = k.employee_name and m.memberPhone = k.employee_phone
+		
+		order by workType desc
+    </select>
+    <!--  客诉类型 列表-->
+    <select id="getScoreComplain" resultType="map">
+    	select x.value,x.label from sys_dict x where x.type = 'biz_complain_type' and del_flag = 0 order by sort asc
+    </select>
+   <!--  客诉 详情列表-->
+    <select id="selectScoreOrderComplainQuery" resultType="ScoreOrderComplain">
+		select fff.* from
+		 (select d.value,d.label ,d.complain_code as complainCode,d.order_number as orderId,d.order_number as orderNumber,d.complain_content as complainContent,d.complain_time as complainTime,
+		d.employee_name as employeeName,d.customer_name as customerName,d.customer_phone as customerPhone,
+		d.province,d.city,d.county,d.detail_address as detailAddress ,e.name,e.id as storeId from
+		(select b.*,c.order_number, c.customer_name,c.customer_phone, c.province ,c.city,c.county ,c.store_id,c.detail_address from
+		( select x.value,x.label ,a.complain_code,a.order_id,a.complain_content,a.complain_time,a.employee_name  
+		from sys_dict  x join biz_score_customer_complaint a 
+		on x.value=a.complain_type
+		where x.type = 'biz_complain_type' 
+		<if test="label!=null">
+		and x.value=#{label} 
+		</if>
+		<if test="dateBegin!=null and dateEnd !=null">
+		and complain_time between #{dateBegin} and #{dateEnd}
+		</if>
+		) as b join biz_order as c on c.id=b.order_id) as d   join sys_office as e on d.store_id=e.id  
+		<where>
+			<if test="name!=null">
+				 e.id=#{name}
+			</if>
+		</where>) as fff
+			<where>
+				<if test="query!=null">
+					fff.complainContent like concat('%',#{query},'%') or fff.customerName like concat('%',#{query},'%') or fff.customerPhone like concat('%',#{query},'%') or fff.orderNumber like concat('%',#{query},'%') or fff.detailAddress like concat('%',#{query},'%')	
+				</if>
+			</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				,${page.orderBy}
+			</when>
+		</choose>
+    </select>
+  <!-- 员工评价 详情 -->
+	 <select id="selectScorOrderEmployeeQuery" resultType="ScorOrderEmployee">
+		select  c.no,a.belong_office storeId,a.employee_post as employeePost,a.employee_name as employeeName,a.employee_phone as employeePhone, round( a.current_good_num /(a.current_good_num+a.current_bad_num),2)*100 as goodRate,
+			 	a.current_good_num as goodNum,a.current_bad_num as badNum,ifnull(b.avgScore,0) avgScore,g.name
+		  from biz_score_team_member_actual a 
+		  left join (  select employee_phone , round(sum( score_value )/count(employee_phone),2) as avgScore from biz_score_team_member_history group by employee_phone ) b
+		    on a.employee_phone = b.employee_phone 
+		  left join biz_employee c on a.employee_id = c.id
+		  left join sys_office g on a.belong_office = g.id
+		 where 1=1
+		 <if test="storeId != null and storeId != ''">
+		 	and a.belong_office = #{storeId}
+		 </if>
+		<if test="scoreBegin!=null and scoreEnd!=null ">
+		  	and b.avgScore between #{scoreBegin} and #{scoreEnd}
+		</if>
+	  	<if test="employeePost!=null">
+	  		and a.employee_post=#{employeePost}
+	  	</if>
+	  	<if test="query!=null and query != '' ">
+			and (a.employee_name like concat('%',#{query},'%') or c.no like concat('%',#{query},'%') or a.employee_phone like concat('%',#{query},'%'))
+		</if>
+		order by goodNum desc
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				,${page.orderBy}
+			</when>
+		</choose>
+    </select>
+ 
+	 <select id="selectPositionType" resultType="map">
+	 	select a.employee_post as employeePost from biz_score_team_member_actual as a
+	 </select>
+	 <select id="selectPositionTypeByStoreId" resultType="map">
+	 	select a.employee_post as employeePost from biz_score_team_member_actual as a
+	 	where a.belong_office=#{storeId}
+	 </select>
+	 
+</mapper>

@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.common.ProjectIssueUtil.ProjectUtilDao">
+
+
+    <select id="findProjectProblemByDealPersonId" parameterType="int" resultType="map">
+        SELECT
+            CONCAT_WS(
+                    "-",
+                    d.community_name,
+                    d.build_number,
+                    d.build_unit,
+                    d.build_room,
+                    d.customer_name
+            )                                              AS "customerInfo",
+            DATE_FORMAT(d.contract_start_date, "%Y-%m-%d") AS "contractStartDate",
+
+            DATE_FORMAT(d.actual_start_date, "%Y-%m-%d")   AS "actualStartDate",
+
+            d.order_status_description                     AS "status",
+            d.id                                           AS "orderId",
+            d.contract_time                                AS "contractTime",
+            b.id                                           AS "problemId",
+            a.deal_status                                  AS "dealStatus"
+        FROM
+            biz_order_complaint_problem_deal a
+            LEFT JOIN biz_order_complaint_problem b ON a.order_complaint_problem_id = b.id
+
+            LEFT JOIN biz_order_complaint c ON b.order_complaint_id = c.id
+
+            INNER JOIN biz_order d ON c.order_id = d.id
+        WHERE a.deal_employee_id = #{_parameter}
+
+        GROUP BY
+            d.id
+
+        ORDER BY a.create_date DESC
+
+
+    </select>
+
+
+    <select id="findProblemByMap" parameterType="map" resultType="map">
+        SELECT
+            CONCAT_WS(
+                    "-",
+                    a.community_name,
+                    a.build_number,
+                    a.build_unit,
+                    a.build_room,
+                    a.customer_name
+            )                            AS "customerInfo",
+            (
+                SELECT count(1)
+                FROM
+                    biz_order_complaint_problem_deal d1
+                WHERE
+                    d1.order_complaint_problem_id = h.order_complaint_problem_id
+                    AND d1.deal_person_type = 2
+                    AND d1.deal_status = 10
+            )                            AS "isWorkerDone",
+            g.type_name                  AS "typeName",
+            GROUP_CONCAT(f.item_name)    AS "itemName",
+            c.create_date                AS "createDate",
+            c.complaint_problem_describe AS "problemDescribe",
+            c.`status`                   AS "problemStatus",
+            h.id                         AS "handleId",
+            h.deal_status                AS "dealStatus",
+            c.complaint_role_type        AS "dealPersonType",
+            h.order_complaint_problem_id AS "relatedId"
+        FROM
+            biz_order a
+            INNER JOIN biz_order_complaint b ON a.id = b.order_id
+            LEFT JOIN biz_order_complaint_problem c ON b.id = c.order_complaint_id
+
+            LEFT JOIN biz_order_complaint_problem_item e ON c.id = e.order_complaint_problem_id
+            LEFT JOIN biz_complaint_problem_item f ON e.complaint_problem_item_id = f.id
+
+            LEFT JOIN biz_complaint_problem_type g ON f.complaint_problem_type_id = g.id
+            LEFT JOIN biz_order_complaint_problem_deal h ON c.id = h.order_complaint_problem_id
+        WHERE
+            a.id = #{orderId}
+            AND h.deal_person_type = #{dealType}
+            AND h.deal_employee_id = #{dealPersonId}
+        GROUP BY h.id
+
+        ORDER BY h.create_date DESC
+
+
+    </select>
+
+
+    <insert id="saveHandleLog" parameterType="map">
+        INSERT INTO biz_order_complaint_problem_deal_log (
+            order_complaint_problem_deal_id,
+            deal_person_type,
+            deal_employee_id,
+            deal_status,
+            deal_status_datetime,
+            deal_describe
+
+
+        ) VALUES (
+
+            #{dealId},
+
+            #{dealPersonType},
+            #{dealPersonId},
+            #{dealStatus},
+            #{dealDateTime},
+            #{dealDescribe}
+
+
+        )
+    </insert>
+
+
+    <update id="updateHandleStatusDataById" parameterType="map">
+
+
+        UPDATE biz_order_complaint_problem_deal a
+        SET a.deal_status = #{handleStatus}, deal_status_datetime = now()
+        WHERE a.id = #{handleId}
+
+    </update>
+
+
+    <select id="findRelatedIdByhandleId" parameterType="int" resultType="int">
+        SELECT order_complaint_problem_id
+        FROM biz_order_complaint_problem_deal
+        WHERE id = #{handleId}
+
+    </select>
+
+
+    <update id="updateProblemItemStatusDataById" parameterType="map">
+
+        UPDATE biz_order_complaint_problem
+        SET `status` = #{itemStatus}
+        WHERE id = #{relatedId}
+
+    </update>
+
+
+    <insert id="saveProjectIssuePic" parameterType="map">
+        insert into biz_business_pic (
+        business_type,
+        business_id_int,
+        pic_url,
+        pic_datetime
+
+        )VALUES
+        <foreach collection="list" item="item" separator="," index="index">
+
+            (
+            #{item.businessType},
+            #{item.businessIdInt},
+            #{item.picUrl},
+            #{item.picDateTime}
+
+            )
+
+        </foreach>
+    </insert>
+
+
+    <select id="findPicListByRelatedIdAndType" parameterType="map" resultType="String">
+        SELECT a.pic_url
+        FROM
+            biz_business_pic a
+        WHERE a.business_type = #{businessType}
+              AND a.business_id_int = #{businessIdInt}
+
+
+    </select>
+
+
+    <update id="updateOrderComplaintById" parameterType="map">
+
+        UPDATE biz_order_complaint
+        SET `status` = #{status}
+        WHERE id = #{orderComplaintId}
+
+
+    </update>
+
+
+    <select id="checkIsComplaintAllOver" parameterType="map" resultType="map">
+
+        SELECT
+        ifnull(count(1),0) AS "isOver",
+        order_complaint_id AS "orderComplaintId"
+        FROM
+        biz_order_complaint_problem
+        WHERE
+        order_complaint_id = (
+        SELECT
+        b.order_complaint_id
+        FROM
+        biz_order_complaint_problem b
+        LEFT JOIN `biz_order_complaint_problem_deal` a ON a.order_complaint_problem_id = b.id
+        WHERE
+        a.id = #{dealId}
+        )
+        AND `status`
+        &lt;
+        30
+
+    </select>
+
+
+
+
+    <select id="updateOrderComplaintOver" parameterType="int" resultType="int">
+
+                SELECT
+                    b.order_complaint_id
+                FROM
+                    biz_order_complaint_problem b
+                    LEFT JOIN `biz_order_complaint_problem_deal` a ON a.order_complaint_problem_id = b.id
+                WHERE
+                    a.id = #{dealId}
+
+    </select>
+	<select id="selectCountNoDealByWorkOrderCode" parameterType="String" resultType="int">
+		select count(*) from biz_order_complaint b where
+		 b.cus_service_problem_id = (select id from biz_cus_service_problem c where c.work_order_code=#{_parameter} ) and 
+		status!=30
+	</select>
+</mapper>

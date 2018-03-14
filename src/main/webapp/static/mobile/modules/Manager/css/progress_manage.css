@@ -1,0 +1,119 @@
+.g_info ul.info_ul{padding-top: .8rem;margin-top: 0;background: #eee;}
+.g_info ul.info_ul li{background: #fff;}
+.g_info ul.info_ul li:first-child{margin-top: .2rem;}
+
+/*.g-materi ul.info_ul li{margin-top: .2rem;}*/
+/*.g-materi ul.info_ul li a:last-child{border-bottom: 1px solid #ccc;}*/
+
+/*材料管理*/
+/*.g-materi ul.info_ul li:first-child{
+	background-image: url(../images/materi_icon1.png);
+	background-repeat: no-repeat;
+	background-size: 0.33rem 0.32rem;
+	background-position: 4% center;
+}
+.g-materi ul.info_ul li:nth-child(2){
+	background-image: url(../images/materi_icon2.png);
+	background-repeat: no-repeat;
+	background-size: 0.33rem 0.32rem;
+	background-position: 4% center;
+}
+.g-materi ul.info_ul li:nth-child(3){
+	background-image: url(../images/materi_icon3.png);
+	background-repeat: no-repeat;
+	background-size: 0.33rem 0.32rem;
+	background-position: 4% center;
+}
+.g-materi ul.info_ul li:nth-child(4){
+	background-image: url(../images/materi_icon4.png);
+	background-repeat: no-repeat;
+	background-size: 0.33rem 0.32rem;
+	background-position: 4% center;
+}
+.g-materi ul.info_ul li:nth-child(5){
+	background-image: url(../images/materi_icon5.png);
+	background-repeat: no-repeat;
+	background-size: 0.32rem 0.32rem;
+	background-position: 4% center;
+}*/
+/*进度管理*/
+.g-pro ul.info_ul li.intent{
+	background-image: url(../images/intent_icon.png);
+	background-repeat: no-repeat;
+	background-size: 0.32rem 0.32rem;
+	background-position: 4% center;
+}
+.g-pro ul.info_ul li.warn{
+	background-image: url(../images/warn.png);
+	background-repeat: no-repeat;
+	background-size: 0.32rem 0.32rem;
+	background-position: 4% center;
+}
+/* .g-pro ul.info_ul li:nth-child(3){
+	background-image: url(../images/recheck_icon.png);
+	background-repeat: no-repeat;
+	background-size: 0.32rem 0.32rem;
+	background-position: 4% center;
+} */
+.g-pro ul.info_ul li.start{
+	background-image: url(../images/start_icon.png);
+	background-repeat: no-repeat;
+	background-size: 0.32rem 0.32rem;
+	background-position: 4% center;
+}
+.g-pro ul.info_ul li.sign{
+	background-image: url(../images/sign_icon.png);
+	background-repeat: no-repeat;
+	background-size: 0.32rem 0.32rem;
+	background-position: 4% center;
+}
+.g-pro ul.info_ul li.progress{
+	background-image: url(../images/progress_icon.png);
+	background-repeat: no-repeat;
+	background-size: 0.32rem 0.32rem;
+	background-position: 4% center;
+}
+/* .g-pro ul.info_ul li:nth-child(7){
+	background-image: url(../images/project_icon.png);
+	background-repeat: no-repeat;
+	background-size: 0.32rem 0.32rem;
+	background-position: 4% center;
+} */
+.g-pro ul.info_ul li.complete{
+	background-image: url(../images/comp_icon.png);
+	background-repeat: no-repeat;
+	background-size: 0.32rem 0.32rem;
+	background-position: 4% center;
+}
+/*任务包管理*/
+/*.g-task ul.info_ul li:first-child{
+	background-image: url(../images/task1_icon.png);
+	background-repeat: no-repeat;
+	background-size: 0.32rem 0.3rem;
+	background-position: 4% center;
+}
+.g-task ul.info_ul li:nth-child(2){
+	background-image: url(../images/task2_icon.png);
+	background-repeat: no-repeat;
+	background-size: 0.32rem 0.3rem;
+	background-position: 4% center;
+}
+.g-task ul.info_ul li:nth-child(3){
+	background-image: url(../images/task3_icon.png);
+	background-repeat: no-repeat;
+	background-size: 0.33rem 0.32rem;
+	background-position: 4% center;
+}
+.g-task ul.info_ul li:nth-child(4){
+	background-image: url(../images/task4_icon.png);
+	background-repeat: no-repeat;
+	background-size: 0.33rem 0.32rem;
+	background-position: 4% center;
+}*/
+/*变更管理*/
+.g-change  ul.info_ul li:first-child{
+	background-image: url(../images/change_icon.png);
+	background-repeat: no-repeat;
+	background-size: 0.32rem 0.3rem;
+	background-position: 4% center;
+}

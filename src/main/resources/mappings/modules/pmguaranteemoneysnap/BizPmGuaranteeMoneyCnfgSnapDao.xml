@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizPmGuaranteeMoneyCnfgSnapDao">
+    
+	<sql id="bizPmGuaranteeMoneyCnfgSnapColumns">
+		a.id AS "id",
+		a.store_id AS "storeId",
+		a.order_id AS "orderId",
+		a.pm_employee_id AS "pmEmployeeId",
+		a.project_mode AS "projectMode",
+		a.guarantee_money_max AS "guaranteeMoneyMax",
+		a.guarantee_money_per_order AS "guaranteeMoneyPerOrder",
+		a.generated_datetime AS "generatedDatetime",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="bizPmGuaranteeMoneyCnfgSnapJoins">
+	</sql>
+    
+	<select id="get" resultType="cn.damei.entity.modules.BizPmGuaranteeMoneyCnfgSnap">
+		SELECT 
+			<include refid="bizPmGuaranteeMoneyCnfgSnapColumns"/>
+		FROM biz_pm_guarantee_money_cnfg_snap a
+		<include refid="bizPmGuaranteeMoneyCnfgSnapJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="cn.damei.entity.modules.BizPmGuaranteeMoneyCnfgSnap">
+		SELECT 
+			<include refid="bizPmGuaranteeMoneyCnfgSnapColumns"/>
+		FROM biz_pm_guarantee_money_cnfg_snap a
+		<include refid="bizPmGuaranteeMoneyCnfgSnapJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="cn.damei.entity.modules.BizPmGuaranteeMoneyCnfgSnap">
+		SELECT 
+			<include refid="bizPmGuaranteeMoneyCnfgSnapColumns"/>
+		FROM biz_pm_guarantee_money_cnfg_snap a
+		<include refid="bizPmGuaranteeMoneyCnfgSnapJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO biz_pm_guarantee_money_cnfg_snap(
+			id,
+			store_id,
+			order_id,
+			pm_employee_id,
+			project_mode,
+			guarantee_money_max,
+			guarantee_money_per_order,
+			generated_datetime,
+			remarks,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag
+		) VALUES (
+			#{id},
+			#{storeId},
+			#{orderId},
+			#{pmEmployeeId},
+			#{projectMode},
+			#{guaranteeMoneyMax},
+			#{guaranteeMoneyPerOrder},
+			#{generatedDatetime},
+			#{remarks},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE biz_pm_guarantee_money_cnfg_snap SET 	
+			store_id = #{storeId},
+			order_id = #{orderId},
+			pm_employee_id = #{pmEmployeeId},
+			project_mode = #{projectMode},
+			guarantee_money_max = #{guaranteeMoneyMax},
+			guarantee_money_per_order = #{guaranteeMoneyPerOrder},
+			generated_datetime = #{generatedDatetime},
+			remarks = #{remarks},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE biz_pm_guarantee_money_cnfg_snap SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+	<select id="findGmc" resultType="cn.damei.entity.modules.BizPmGuaranteeMoneyCnfgSnap">
+		select 
+			a.id AS "id",
+			a.store_id AS "storeId",
+			a.order_id AS "orderId",
+			a.pm_employee_id AS "pmEmployeeId",
+			a.project_mode AS "projectMode",
+			a.guarantee_money_max AS "guaranteeMoneyMax",
+			a.guarantee_money_per_order AS "guaranteeMoneyPerOrder",
+			a.generated_datetime AS "generatedDatetime",
+			a.remarks AS "remarks",
+			a.del_flag AS "delFlag"
+		from biz_pm_guarantee_money_cnfg_snap a 
+		where a.order_id = #{0} and a.del_flag = 0 
+		ORDER BY a.create_date DESC LIMIT 1
+	</select>
+</mapper>

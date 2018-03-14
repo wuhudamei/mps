@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.mobile.Manager.BizPurchaseReceiveBillProductDao">
+	
+	<insert id ="insert" parameterType="cn.damei.entity.mobile.Manager.BizPurchaseReceiveBillProduct">
+	
+		insert into biz_purchase_receive_bill_product (
+			id,
+			purchase_receive_bill_id,
+			purchase_product_id,
+			received_count,
+			del_flag,
+			create_date,
+			update_date
+		) values (
+			#{id},
+			#{purchaseReceiveBillId},
+			#{purchaseProductId},
+			#{receiveCount},
+			#{delFlag},
+			#{createDate},
+			#{updateDate}
+		)
+	
+	</insert>
+
+</mapper>

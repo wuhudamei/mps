@@ -1,0 +1,36 @@
+.mask{position: fixed;top: 0;left: 0;bottom: 0;right: 0;background: rgba(0,0,0,.4);}
+.bg_f{background: #fff;}
+.font0{font-size: 0;}
+.maskB .maskContent{width: 84%;top: 10%;left: 8%;position: absolute;box-sizing: border-box;padding:10px;padding-bottom: 30px;
+	height: 400px;overflow-y: scroll;}
+.maskB .maskContent li{width: 50%;}
+.font14{font-size: 14px;}
+.mb18{margin-bottom: 18px;}
+.fl{float: left;}
+
+.maskB .readInput{width: 30%;line-height: 24px;font-size: 14px;color: #666;background: #e5e5e5;border: 1px solid #0780ec;}
+.maskB .dateInput{width: 30%;line-height: 24px;font-size: 14px;color: #666;border: 1px solid #0780ec;}
+
+.maskB .btnWrapper{padding: 20px 80px;}
+.maskB .workName{width: 20%;line-height: 24px;font-size: 14px;color: #666;border: 1px solid #0780ec;margin-right: 20px;}
+.mr20{margin-right: 20px;}
+.maskB .btn{padding: 0px 15px;height: 28px;line-height: 28px;display: inline-block;background: #ececec;
+	border: 1px solid #0780ec;font-size: 14px;text-align: center;border-radius: 4px;}
+.maskB table{font-size: 12px;border: 1px solid #ccc;}
+th,td{height: 30px;line-height: 30px;text-align: center;}
+th:first-child{width: 8%;border-right: 1px solid #ccc;}
+td:first-child{width: 8%;border-right: 1px solid #ccc;}
+th:nth-child(2){width: 12%;border-right: 1px solid #ccc;}
+td:nth-child(2){width: 12%;border-right: 1px solid #ccc;}
+th:nth-child(3){width: 20%;border-right: 1px solid #ccc;}
+td:nth-child(3){width: 20%;border-right: 1px solid #ccc;}
+th:nth-child(4){width: 14%;border-right: 1px solid #ccc;}
+td:nth-child(4){width: 14%;border-right: 1px solid #ccc;}
+th:nth-child(5){width: 16%;border-right: 1px solid #ccc;}
+td:nth-child(5){width: 16%;border-right: 1px solid #ccc;}
+th:nth-child(6){width: 16%;border-right: 1px solid #ccc;}
+td:nth-child(6){width: 16%;border-right: 1px solid #ccc;}
+th:nth-child(7){width: 14%;border-right: 1px solid #ccc;}
+td:nth-child(7){width: 14%;border-right: 1px solid #ccc;}
+tr{border-bottom: 1px solid #ccc;}
+.maskB .closeBtn{position: absolute;right: 8px;top: 8px;font-size: 14px;color: #0780ec;}

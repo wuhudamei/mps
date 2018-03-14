@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizTodoItemTypeDao">
+
+    <sql id="bizTodoItemTypeColumns">
+        a.id AS "id",
+        a.store_id AS "storeId",
+        a.project_mode AS "projectMode",
+        a.todo_item_code AS "todoItemCode",
+        a.todo_item_name AS "todoItemName",
+        a.days_to_remind AS "daysToRemind",
+        a.business_step AS "businessStep",
+        a.is_to_remind AS "isToRemind",
+        a.todo_item_generate_style AS "todoItemGenerateStyle",
+        a.todo_item_remarks AS "todoItemRemarks",
+        a.sort_index as "sortIndex"
+
+    </sql>
+
+    <sql id="bizTodoItemTypeJoins">
+    </sql>
+
+    <select id="get" resultType="BizTodoItemType">
+        SELECT
+        a.id AS "id",
+        a.store_id AS "storeId",
+        a.project_mode AS "projectMode",
+        a.todo_item_code AS "todoItemCode",
+        a.todo_item_name AS "todoItemName",
+        a.days_to_remind AS "daysToRemind",
+        a.business_step AS "businessStep",
+        a.is_to_remind AS "isToRemind",
+        a.todo_item_generate_style AS "todoItemGenerateStyle",
+        a.todo_item_remarks AS "todoItemRemarks",
+        a.sort_index as "sortIndex",
+        a.related_business_type as "relatedBusinessType",
+        a.related_business_id as "relatedBusinessId"
+
+
+        FROM biz_todo_item_type a
+
+        <include refid="bizTodoItemTypeJoins"/>
+        WHERE a.id = #{id}
+    </select>
+
+    <select id="findList" resultType="BizTodoItemType">
+        SELECT
+        a.id AS "id",
+        a.store_id AS "storeId",
+        a.project_mode AS "projectMode",
+        a.todo_item_code AS "todoItemCode",
+        a.todo_item_name AS "todoItemName",
+        a.days_to_remind AS "daysToRemind",
+        a.business_step AS "businessStep",
+        a.is_to_remind AS "isToRemind",
+        a.todo_item_generate_style AS "todoItemGenerateStyle",
+        a.todo_item_remarks AS "todoItemRemarks",
+        a.sort_index as "sortIndex",
+        b.label as "relatedBusinessType",
+        e.qc_check_node_name as "relatedBusinessId"
+
+        FROM biz_todo_item_type a
+        LEFT JOIN sys_dict b on a.related_business_type =b.value
+        and b.type='todoItemTypeBusinessType'
+        LEFT JOIN biz_qc_check_node e on a.related_business_id =e.id
+        <include refid="bizTodoItemTypeJoins"/>
+        <where>
+            a.del_flag = #{DEL_FLAG_NORMAL}
+
+            <if test="storeId !=null and storeId !=''">
+                and a.store_id =#{storeId}
+
+
+            </if>
+
+
+            <if test="projectMode !=null and projectMode !=''">
+                and a.project_mode =#{projectMode}
+
+
+            </if>
+
+
+            <if test="businessStep !=null and businessStep !=''">
+                and a.business_step like concat('%',#{businessStep},'%')
+
+
+            </if>
+
+
+            <if test="todoItemName !=null and todoItemName !=''">
+                and a.todo_item_name like concat('%',#{todoItemName},'%')
+
+
+            </if>
+
+
+            <if test="todoItemGenerateStyle !=null and todoItemGenerateStyle !=''">
+                and a.todo_item_generate_style =#{todoItemGenerateStyle}
+
+
+            </if>
+
+
+            <if test="isToRemind !=null and isToRemind !=''">
+                and a.is_to_remind =#{isToRemind}
+
+
+            </if>
+        </where>
+        <choose>
+            <when test="page !=null and page.orderBy != null and page.orderBy != ''">
+                ORDER BY ${page.orderBy}
+            </when>
+            <otherwise>
+                ORDER BY a.sort_index ASC
+            </otherwise>
+        </choose>
+    </select>
+
+    <select id="findAllList" resultType="BizTodoItemType">
+        SELECT
+        <include refid="bizTodoItemTypeColumns"/>
+        FROM biz_todo_item_type a
+        <include refid="bizTodoItemTypeJoins"/>
+        <where>
+            a.del_flag = #{DEL_FLAG_NORMAL}
+        </where>
+        <choose>
+            <when test="page !=null and page.orderBy != null and page.orderBy != ''">
+                ORDER BY ${page.orderBy}
+            </when>
+            <otherwise>
+                ORDER BY a.sort_index ASC
+            </otherwise>
+        </choose>
+    </select>
+
+    <insert id="insert">
+        INSERT INTO biz_todo_item_type (
+            id,
+            store_id,
+            project_mode,
+            todo_item_code,
+            todo_item_name,
+            days_to_remind,
+            business_step,
+            is_to_remind,
+            todo_item_generate_style,
+            todo_item_remarks,
+            remarks,
+            create_by,
+            create_date,
+            update_by,
+            update_date,
+            del_flag,
+            related_business_type,
+            related_business_id
+        ) VALUES (
+            #{id},
+            #{storeId},
+            #{projectMode},
+            #{todoItemCode},
+            #{todoItemName},
+            #{daysToRemind},
+            #{businessStep},
+            #{isToRemind},
+            #{todoItemGenerateStyle},
+            #{todoItemRemarks},
+            #{remarks},
+            #{createBy.id},
+            #{createDate},
+            #{updateBy.id},
+            #{updateDate},
+            #{delFlag},
+            #{relatedBusinessType},
+            #{relatedBusinessId}
+        )
+    </insert>
+
+    <update id="update">
+        UPDATE biz_todo_item_type
+        SET
+            store_id                 = #{storeId},
+            project_mode             = #{projectMode},
+            todo_item_code           = #{todoItemCode},
+            todo_item_name           = #{todoItemName},
+            days_to_remind           = #{daysToRemind},
+            business_step            = #{businessStep},
+            is_to_remind             = #{isToRemind},
+            todo_item_generate_style = #{todoItemGenerateStyle},
+            todo_item_remarks        = #{todoItemRemarks},
+            remarks                  = #{remarks},
+            update_by                = #{updateBy.id},
+            update_date              = #{updateDate},
+            related_business_type    = #{relatedBusinessType},
+            related_business_id      = #{relatedBusinessId}
+        WHERE id = #{id}
+    </update>
+
+    <update id="delete">
+        UPDATE biz_todo_item_type
+        SET
+            del_flag = #{DEL_FLAG_DELETE}
+        WHERE id = #{id}
+    </update>
+
+
+    <select id="findIdByBusinessType" parameterType="String" resultType="map">
+
+        SELECT
+            a.related_business_id AS "value",
+            b.qc_check_node_name  AS "label"
+
+        FROM biz_todo_item_type a
+            LEFT JOIN biz_qc_check_node b ON a.related_business_id = b.id
+        WHERE a.related_business_type = #{_parameter}
+        GROUP BY  a.related_business_id
+
+    </select>
+    <select id="findRelatedBusinessTypeByStoreIdProjectMode" resultType="map">
+
+        SELECT
+            b.label AS "label",
+            b.value AS "value"
+        FROM biz_todo_item_type a
+            LEFT JOIN sys_dict b ON a.related_business_type = b.value
+                                    AND b.type = 'todoItemTypeBusinessType'
+        WHERE a.store_id = #{0}
+              AND a.project_mode = #{1}
+              AND a.related_business_type IS NOT NULL
+        GROUP BY a.related_business_type
+
+    </select>
+</mapper>

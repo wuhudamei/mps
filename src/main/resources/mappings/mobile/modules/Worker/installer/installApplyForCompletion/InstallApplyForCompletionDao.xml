@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.mobile.Worker.InstallApplyForCompletionDao">
+	
+	
+	<!-- 查询施工单列表（完工） -->
+	<select id="findInstallConstructBillApplyForCompletionList" parameterType="cn.damei.entity.mobile.Worker.InstallItem" resultType="cn.damei.entity.mobile.Worker.InstallItem">
+	
+		SELECT
+			a.id AS "constructBillId",
+			a.construct_bill_code AS "constructBillCode",
+			a.`status` AS "constructBillStatus",
+			a.employee_group_id AS "employeeGroupId",
+			b.id AS "installBillId",
+			IFNULL(DATE_FORMAT(b.supplier_confirm_into_date,'%Y-%m-%d'),"") AS "supplierConfirmIntoDateString",
+			IFNULL(DATE_FORMAT(b.supplier_confirm_complete_date,'%Y-%m-%d'),"") AS "supplierConfirmCompleteDateString",
+			c.id AS "orderInstallPlanId",
+			c.install_item_name AS "installItemName",
+			d.id AS "orderId",
+			d.community_name AS "communityName",
+			d.build_number AS "buildNumber",
+			d.build_unit AS "buildUnit",
+			d.build_room AS "buildRoom",
+			d.detail_address AS "detailAddress",
+			d.item_manager_id AS "itemManagerId",
+			substring_index(d.map_coordinate, ',', 1) AS "lon",
+            substring_index(d.map_coordinate, ',', - 1) AS "lat",
+			e.realName AS "itemManagerName",
+			e.phone AS "itemManagerPhone",
+			f.label AS "constructBillStatusName"
+		FROM
+			biz_supplier_install_construct_bill a
+		INNER JOIN biz_supplier_install_bill b ON a.supplier_install_bill_id = b.id
+		INNER JOIN biz_order_install_plan c ON b.order_install_plan_id = c.id
+		INNER JOIN biz_order d ON c.order_id = d.id
+		LEFT JOIN biz_employee e ON d.item_manager_id = e.id
+		LEFT JOIN sys_dict f ON f.`value` = a.`status`
+		AND f.type = 'supplier_install_construct_bill_status'
+		AND f.del_flag = 0
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="employeeGroupId != null and employeeGroupId != ''">
+				AND a.employee_group_id = #{employeeGroupId}
+			</if>
+			<if test="constructBillStatus != null and constructBillStatus != ''">
+				AND a.`status` = #{constructBillStatus}
+			</if>
+			<if test="text != null and text !=''">
+				and (c.install_item_name like CONCAT('%','${text}','%' )  or e.realName like CONCAT('%','${text}','%' ))
+			</if>
+			ORDER BY a.construct_bill_code DESC
+		</where>
+	
+	
+	</select>
+	
+	<!-- 查询施工单信息（完工） -->
+	<select id="findInstallConstructBillMessage" parameterType="int" resultType="cn.damei.entity.mobile.Worker.InstallItem">
+	
+		SELECT
+			a.id AS "constructBillId",
+			a.construct_bill_code AS "constructBillCode",
+			a.`status` AS "constructBillStatus",
+			a.employee_group_id AS "employeeGroupId",
+			b.id AS "installBillId",
+			IFNULL(DATE_FORMAT(b.supplier_confirm_into_date,'%Y-%m-%d'),"") AS "supplierConfirmIntoDateString",
+			IFNULL(DATE_FORMAT(b.supplier_confirm_complete_date,'%Y-%m-%d'),"") AS "supplierConfirmCompleteDateString",
+			c.id AS "orderInstallPlanId",
+			c.install_item_name AS "installItemName",
+			d.id AS "orderId",
+			d.community_name AS "communityName",
+			d.build_number AS "buildNumber",
+			d.build_unit AS "buildUnit",
+			d.build_room AS "buildRoom"
+		FROM
+			biz_supplier_install_construct_bill a
+		INNER JOIN biz_supplier_install_bill b ON a.supplier_install_bill_id = b.id
+		INNER JOIN biz_order_install_plan c ON b.order_install_plan_id = c.id
+		INNER JOIN biz_order d ON c.order_id = d.id
+		WHERE a.id = #{0}
+	
+	</select>
+	
+	<!-- 批量保存  保存图片到数据库 -->
+	<insert id="savePicAll" parameterType="java.util.List">
+		INSERT INTO biz_business_pic (
+				id ,
+				business_type,
+				business_id_int,
+				
+				business_id_varchar,
+				pic_type,
+				pic_index,
+				pic_url,
+				
+				pic_datetime,
+				create_date,
+				update_date,
+				del_flag
+		)
+		values
+		<foreach collection="list" item="item" index="index" separator="," >
+			(
+				#{item.picId},
+				#{item.businessType},
+				#{item.businessIdInt},
+				
+				#{item.businessIdVarchar},
+				#{item.picType},
+				#{item.picIndex},
+				#{item.picUrl},
+				
+				#{item.picDatetime},
+				#{item.createDate},
+				#{item.updateDate},
+				#{item.delFlag}
+			)
+		</foreach>
+		
+	</insert>
+	
+	<!-- 更新安装项计划 -->
+	<update id="updateInstallPlan" parameterType="cn.damei.entity.modules.EnginInstallNew">
+		
+		UPDATE biz_order_install_plan SET 	
+			status = #{installStatus},
+			real_complete_date = #{realCompleteDate},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+    
+    </update>
+    
+	<!-- 更新安装单 -->
+	<update id="updateSupplierInstallBill" parameterType="cn.damei.entity.modules.BizSupplierInstallBill">
+		
+		UPDATE biz_supplier_install_bill SET 	
+			status = #{status},
+			status_datetime = #{statusDatetime},
+			real_complete_date = #{realCompleteDate},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+    
+    </update>
+    
+	<!-- 更新施工单 -->
+	<update id="updateSupplierConstructBill" parameterType="cn.damei.entity.modules.BizSupplierInstallConstructBill">
+		
+		UPDATE biz_supplier_install_construct_bill SET 	
+			status = #{status},
+			status_datetime = #{statusDatetime},
+			real_complete_date = #{realCompleteDate},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+    
+    </update>
+	
+	
+</mapper>

@@ -1,0 +1,23 @@
+.pad_top11{padding-top:.88rem}
+.sec_title{font-size:.3rem;background:#f6f6f6;border-bottom:#ddd solid 1px;line-height:.5rem;padding:.33rem 0 .18rem .35rem}.sec_title h2{color:#0780ec;border-left:#0780ec solid 3px;line-height:.28rem;padding-left:.18rem}
+.section{font-size:.3rem}
+.section .sec_top{background:#fff;padding:.14rem .55rem;border-bottom:#e9e9e9 solid 1px}
+.section .sec_top p{width:100%;line-height:.54rem;position:relative}
+.section .sec_top p span{font-size:.28rem}
+.section .sec_top p span:first-child{color:#7f7f7f}
+.section .sec_top p span:last-child{color:#333}
+.section .sec_top p .sec_place_left{position:absolute;top:0;left:0}
+.section .sec_top p .sec_place{vertical-align:middle;display:inline-block;margin-left:1.6rem}
+.section .sec_top p .tel{display:#000;float:right;background:#378afa;border-radius:3px;width:1.76rem;height:.55rem;line-height:.55rem;padding-left:.23rem;color:#fff;font-size:.24rem}.section .sec_top p .tel i{background:url(../../img/NewPage/icon-tel.png);background-size:100% 100%;margin-right:.1rem;width:.32rem;height:.32rem;display:inline-block;vertical-align:middle}
+.section .sec_bot{padding:0 .3rem;border-bottom:#e9e8e8 solid 1px;margin-bottom:.3rem;background:#fff}
+.section .sec_bot h6{color:#333;font-size:.3rem;line-height:.84rem;border-bottom:#e9e8e8 solid 1px;padding-left:.2rem}
+.section .sec_bot p{padding-left:.54rem;font-size:.28rem;color:#7f7f7f;line-height:.84rem;border-bottom:#e9e8e8 solid 1px}
+.section .sec_bot p:last-child{border-bottom:0}
+.section .sec_bot .last_bot{padding-bottom:.34rem;padding-left:.3rem}
+.section .sec_bot .last_bot span{display:block}
+.section .sec_bot .last_bot .last_info{line-height:.4rem;color:#333}
+.section table{width:100%}
+.section table caption{background:#0780ec;color:#fff;line-height:.88rem;text-align:center}.section table tr{background:#f6f6f6}.section table tr td{color:#666;line-height:.72rem;text-align:center;border-right:#e6e6e6 solid 1px}.section table tr td:last-child{border-right:0;width:3.36rem}.section table .BackWhite{background:#fff}.section table .BorderNone{border-right:0}.section .WrapInfo{padding:.15rem .3rem;background:#fff;border-bottom:#e2e2e2 solid 1px}.section .WrapInfo p{height:.54rem;line-height:.54rem;color:#666}.section .WrapInfo p .ColorY{color:#333}.section .WrapInfo p .ColorRed{color:#f23030}
+.WrapBot{width:100%;position:fixed;bottom:0;left:0;height:.96rem;background:#0780ec;color:#fff}
+.WrapBot span{width:50%;height:.38rem;line-height:.38rem;text-align:center;font-size:.3rem;display:block;float:left;margin-top:.3rem;border-right:1px solid #fff;box-sizing:border-box}
+.WrapBot span:last-child{border-right:0}

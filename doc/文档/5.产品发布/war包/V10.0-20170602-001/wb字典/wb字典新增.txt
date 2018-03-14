@@ -1,0 +1,16 @@
+键值	标签		类型				描述			排序
+1	一级选项	return_visit_reply_mode		客户回访答复方式	1
+
+键值	标签		类型				描述			排序
+2	二级选项	return_visit_reply_mode		客户回访答复方式	2
+
+键值	标签		类型				描述			排序
+3	填写		return_visit_reply_mode		答复方式		3
+
+键值	标签		类型				描述		排序
+2	筒灯灯带	bizMaterialsStandardType	筒灯灯带	10
+
+键值	标签		类型				描述		排序
+1	标化辅料	bizMaterialsStandardType	标化辅料	10
+
+

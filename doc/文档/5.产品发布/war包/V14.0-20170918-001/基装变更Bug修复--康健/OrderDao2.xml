@@ -1,0 +1,1120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.OrderDao2">
+    
+	<sql id="orderColumns">
+		a.id AS "id",
+		a.order_number AS "orderNumber",
+		a.contract_number AS "contractNumber",
+		a.customer_type AS "customerType",
+		a.customer_description AS "customerDescription",
+		a.customer_name AS "customerName",
+		a.customer_phone AS "customerPhone",
+		a.community_name AS "communityName",
+		a.build_number AS "buildNumber",
+		a.build_unit AS "buildUnit",
+		a.build_room AS "buildRoom",
+		a.map_coordinate AS "mapCoordinate",
+		a.sale_type AS "saleType",
+		a.area AS "area",
+		a.build_type AS "buildType",
+		a.house_type AS "houseType",
+		a.house_is_new AS "houseIsNew",
+		a.is_elevator AS "isElevator",
+		a.designer_name AS "designerName",
+		a.designer_phone AS "designerPhone",
+		a.order_reporter_name AS "orderReporterName",
+		a.order_reporter_phone AS "orderReporterPhone",
+		a.service_name AS "serviceName",
+		a.service_phone AS "servicePhone",
+		a.contract_start_date AS "contractStartDate",
+		a.contract_end_date AS "contractEndDate",
+		a.covered_area AS "coveredArea",
+		a.contract_area AS "contractArea",
+		a.contract_time AS "contractTime",
+		a.sign_contract_date AS "signContractDate",
+		a.order_status_number AS "orderStatusNumber",
+		a.order_status_description AS "orderStatusDescription",
+		a.order_inspector AS "orderInspector",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag",
+		a.item_manager AS "itemManager",
+		a.store_id AS "storeId",
+		a.cus_manager AS "cusManager",
+		a.is_longway_commission AS "isLongwayCommission",
+		a.longway_amount AS "longwayAmount",
+		a.orderTaskPack_status AS "orderTaskPackStatus",
+		a.item_manager_id AS "itemManagerId",
+		a.order_inspector_id AS "orderInspectorId",
+		a.project_mode AS "projectMode",
+		a.engin_depart_id AS "enginDepartId",
+		a.get_order_datetime as "getOrderDatetime",
+		a.floor as  "floor",
+		a.detail_address AS "detailAddress",
+		a.province AS "province",
+		a.city AS "city",
+		a.county AS "county",
+		a.customer_address as "customerAddress",
+		a.contract_amount as "contractAmount"
+	</sql>
+	
+	<sql id="orderJoins">
+	</sql>
+    
+	<select id="get" resultType="cn.damei.entity.modules.Order2">
+		SELECT 
+			<include refid="orderColumns"/>
+		FROM biz_order a
+		<include refid="orderJoins"/>
+		WHERE a.id =#{id}
+	</select>
+	
+	<select id="findList" resultType="cn.damei.entity.modules.Order2">
+		SELECT 
+			<include refid="orderColumns"/>,
+			b.name AS "departmentName"
+			<if test="isAllotManager==0 or isAllotInspector ==0">
+				,MAX(biz_log.update_date) as "updateByDate",
+				su.`name` as "userName"
+			</if>
+			<if test="isAllotManager==1 or isAllotInspector ==1">
+				,su.`name` as userName		
+			</if>
+		FROM biz_order a
+		left join biz_engineering_department b on a.engin_depart_id = b.id
+		
+		<if test="isAllotManager==0"><!-- 查询产业已分配项目经理操作人 -->
+			inner join biz_order_distribute_log biz_log on biz_log.order_id = a.id
+			and (biz_log.distribute_type = '101' or biz_log.distribute_type = '102')
+			left join sys_user su on
+			CASE 
+			WHEN 
+				a.update_by IS NULL
+			THEN
+				a.create_by = su.id
+			ELSE
+				a.update_by = su.id
+			END
+		</if>
+		<if test="isAllotInspector == 0"><!-- 查询产业已分配质检员操作人 -->
+			inner join biz_order_distribute_log biz_log on biz_log.order_id = a.id
+			and (biz_log.distribute_type = '201' or biz_log.distribute_type = '202')
+			left join sys_user su on
+			CASE 
+			WHEN 
+				a.update_by IS NULL
+			THEN
+				a.create_by = su.id
+			ELSE
+				a.update_by = su.id
+			END
+		</if>
+		<if test="isAllotManager==1 or isAllotInspector ==1"> <!-- 查询产业未分配接单人 -->
+			left join sys_user su on su.id = a.create_by
+		</if>
+		<include refid="orderJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="id != null and id != ''">
+				AND a.id =#{id}
+			</if>
+			<if test="projectMode != null and projectMode != ''">
+				AND a.project_mode =#{projectMode}
+			</if>
+			<if test="orderNumber != null and orderNumber != ''">
+				AND a.order_number = #{orderNumber}
+			</if>
+			<if test="customerType != null and customerType != ''">
+				AND a.customer_type = #{customerType}
+			</if>
+			<if test="customerName != null and customerName != ''">
+				AND a.customer_name LIKE
+					<if test="dbName == 'oracle'">'%'||#{customerName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{customerName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{customerName},'%')</if>
+			</if>
+			<if test="customerPhone != null and customerPhone != ''">
+				AND a.customer_phone = #{customerPhone}
+			</if>
+			<if test="designerName != null and designerName != ''">
+				AND a.designer_name LIKE
+					<if test="dbName == 'oracle'">'%'||#{designerName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{designerName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{designerName},'%')</if>
+			</if>
+			<if test="beginContractStartDate != null and endContractStartDate != null and beginContractStartDate != '' and endContractStartDate != ''">
+				AND a.contract_start_date BETWEEN #{beginContractStartDate} AND #{endContractStartDate}
+			</if>
+			<if test="beginSignContractDate != null and endSignContractDate != null and beginSignContractDate != '' and endSignContractDate != ''">
+				AND a.sign_contract_date BETWEEN #{beginSignContractDate} AND #{endSignContractDate}
+			</if>
+			<if test="orderStatusNumber != null and orderStatusNumber != ''">
+				AND a.order_status_number in ('${orderStatusNumber}')
+			</if>
+			<if test="beginCreateDate != null and endCreateDate != null and beginCreateDate != '' and endCreateDate != ''">
+				AND a.create_date BETWEEN #{beginCreateDate} AND #{endCreateDate}
+			</if>
+			<if test="itemManager != null and itemManager != ''">
+				AND a.item_manager = #{itemManager}
+			</if>
+			<if test="orderInspector != null and orderInspector != ''">
+				AND a.order_inspector LIKE
+					<if test="dbName == 'oracle'">'%'||#{orderInspector}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{orderInspector}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{orderInspector},'%')</if>
+			</if>
+			<if test="storeId != null and storeId != ''">
+				AND a.store_id = #{storeId}
+			</if>
+			<if test="cusManager != null and cusManager != ''">
+				AND a.cus_manager LIKE
+					<if test="dbName == 'oracle'">'%'||#{cusManager}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{cusManager}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{cusManager},'%')</if>
+			</if>
+			<if test="isAllotManager==1">
+				AND a.item_manager_id is null
+			</if>
+			<if test="isAllotManager==0">
+				AND a.item_manager_id is not null
+			</if>
+			<if test="isAllotInspector==1">
+				AND a.order_inspector_id is null
+			</if>
+			<if test="isAllotInspector==0">
+				AND a.order_inspector_id is not null
+			</if>
+			<if test="enginDepartIds != null">
+				AND a.engin_depart_id in
+				<foreach item="item" index="index" collection="enginDepartIds" open="(" separator="," close=")">
+              	  #{item}
+           		</foreach>
+			</if>
+		</where>
+		<if test="isAllotManager ==0 or isAllotInspector ==0">	
+			GROUP BY
+			a.id,
+			a.order_number,
+			a.contract_number,
+			a.customer_type,
+			a.customer_description,
+			a.customer_name,
+			a.customer_phone,
+			a.community_name,
+			a.build_number,
+			a.build_unit,
+			a.build_room,
+			a.map_coordinate,
+			a.sale_type,
+			a.area,
+			a.build_type,
+			a.house_type,
+			a.house_is_new,
+			a.is_elevator,
+			a.designer_name,
+			a.designer_phone,
+			a.order_reporter_name,
+			a.order_reporter_phone,
+			a.service_name ,
+			a.service_phone ,
+			a.contract_start_date ,
+			a.contract_end_date ,
+			a.covered_area ,
+			a.contract_area ,
+			a.contract_time ,
+			a.sign_contract_date ,
+			a.order_status_number ,
+			a.order_status_description ,
+			a.order_inspector ,
+			a.create_by ,
+			a.create_date ,
+			a.update_by ,
+			a.update_date ,
+			a.remarks ,
+			a.del_flag ,
+			a.item_manager,
+			a.store_id ,
+			a.cus_manager ,
+			a.is_longway_commission ,
+			a.longway_amount ,
+			a.orderTaskPack_status ,
+			a.item_manager_id,
+			a.order_inspector_id ,
+			a.project_mode ,
+			a.engin_depart_id ,
+			a.get_order_datetime,
+			a.floor ,
+			a.detail_address ,
+			a.province ,
+			a.city ,
+			a.county ,
+			a.customer_address ,
+			a.contract_amount ,
+			b. NAME
+		</if>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="cn.damei.entity.modules.Order2">
+		SELECT 
+			<include refid="orderColumns"/>
+		FROM biz_order a
+		<include refid="orderJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO biz_order(
+			id,
+			order_number,
+			contract_number,
+			customer_type,
+			customer_description,
+			customer_name,
+			customer_phone,
+			community_name,
+			build_number,
+			build_unit,
+			build_room,
+			map_coordinate,
+			sale_type,
+			area,
+			build_type,
+			house_type,
+			house_is_new,
+			is_elevator,
+			designer_name,
+			designer_phone,
+			order_reporter_name,
+			order_reporter_phone,
+			service_name,
+			service_phone,
+			contract_start_date,
+			contract_end_date,
+			covered_area,
+			contract_area,
+			contract_time,
+			sign_contract_date,
+			order_status_number,
+			order_status_description,
+			order_inspector,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag,
+			item_manager,
+			store_id,
+			cus_manager,
+			orderTaskPack_status,
+			item_manager_id,
+			order_inspector_id,
+			is_longway_commission,
+			longway_amount,
+			contract_amount
+		) VALUES (
+			#{id},
+			#{orderNumber},
+			#{contractNumber},
+			#{customerType},
+			#{customerDescription},
+			#{customerName},
+			#{customerPhone},
+			#{communityName},
+			#{buildNumber},
+			#{buildUnit},
+			#{buildRoom},
+			#{mapCoordinate},
+			#{saleType},
+			#{area},
+			#{buildType},
+			#{houseType},
+			#{houseIsNew},
+			#{isElevator},
+			#{designerName},
+			#{designerPhone},
+			#{orderReporterName},
+			#{orderReporterPhone},
+			#{serviceName},
+			#{servicePhone},
+			#{contractStartDate},
+			#{contractEndDate},
+			#{coveredArea},
+			#{contractArea},
+			#{contractTime},
+			#{signContractDate},
+			#{orderStatusNumber},
+			#{orderStatusDescription},
+			#{orderInspector},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag},
+			#{itemManager},
+			#{storeId},
+			#{cusManager},
+			#{orderTaskPackStatus},
+			#{itemManagerId},
+			#{orderInspectorId},
+			#{isLongwayCommission},
+			#{longwayAmount},
+			#{contractAmount}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE biz_order SET 	
+			order_number = #{orderNumber},
+			contract_number = #{contractNumber},
+			customer_type = #{customerType},
+			customer_description = #{customerDescription},
+			customer_name = #{customerName},
+			customer_phone = #{customerPhone},
+			community_name = #{communityName},
+			build_number = #{buildNumber},
+			build_unit = #{buildUnit},
+			build_room = #{buildRoom},
+			map_coordinate = #{mapCoordinate},
+			sale_type = #{saleType},
+			area = #{area},
+			build_type = #{buildType},
+			house_type = #{houseType},
+			house_is_new = #{houseIsNew},
+			is_elevator = #{isElevator},
+			designer_name = #{designerName},
+			designer_phone = #{designerPhone},
+			order_reporter_name = #{orderReporterName},
+			order_reporter_phone = #{orderReporterPhone},
+			service_name = #{serviceName},
+			service_phone = #{servicePhone},
+			contract_start_date = #{contractStartDate},
+			contract_end_date = #{contractEndDate},
+			covered_area = #{coveredArea},
+			contract_area = #{contractArea},
+			contract_time = #{contractTime},
+			sign_contract_date = #{signContractDate},
+			order_status_number = #{orderStatusNumber},
+			order_status_description = #{orderStatusDescription},
+			order_inspector = #{orderInspector},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks},
+			item_manager = #{itemManager},
+			store_id = #{storeId},
+			cus_manager = #{cusManager},
+			item_manager_id = #{itemManagerId},
+			order_inspector_id = #{orderInspectorId},
+			is_longway_commission = #{isLongwayCommission},
+			longway_amount = #{longwayAmount},
+			contract_amount=#{contractAmount}
+		WHERE id =#{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE biz_order SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id =#{id}
+	</update>
+	
+	
+	
+	
+	
+<!-- 得到所有订单编号 比重 -->	
+	
+	<select id="getOrderNumberById" resultType="java.lang.String" parameterType="java.lang.String">
+	SELECT order_number from biz_order where order_number=#{orderNumber}
+	
+	</select>
+	<!-- 质检员累计订单数 -->
+	<select id="findCheckedCount" resultType="int">
+		SELECT count(1) from biz_order
+		WHERE order_inspector_id = #{orderInspectorId}
+	</select>
+	
+	<!-- 质检员在检订单数 -->
+	<select id="findCheckingCount" resultType="int">
+		SELECT count(1) from biz_order
+		WHERE order_status_number IN('105','120','125','130','200') AND order_inspector_id = #{orderInspectorId}
+	</select>
+	
+	<select id="findOrderCount" resultType="int">
+		SELECT count(1) from biz_order
+		WHERE item_manager_id = #{itemManagerId}
+	</select>
+	<!-- 项目经理在施工订单数 -->
+	<select id="findBuildingCount" resultType="int">
+		SELECT count(1) from biz_order
+		WHERE item_manager_id = #{itemManagerId} AND order_status_number in ('120','125','130','200','300','310')
+	</select>
+	<!-- 项目经理或者质检员未竣工订单数 -->
+	<select id="findUnfinishedOrderByEmployeeId" resultType="java.lang.Integer">
+		SELECT count(1) from biz_order
+		<where>
+			order_status_number in ('120','125','130','200')
+			<if test="itemManagerId != null and itemMangerId !=''">
+				and item_manager_id = #{itemManagerId}
+			</if>
+			<if test="inspectorId != null and inspectorId !=''">
+				and order_inspector_id = #{inspectorId}
+			</if>
+		</where> 
+	</select>
+	
+	<select id="findOrderList" resultType="cn.damei.entity.modules.Order2">
+		select a.id as "id",a.store_id as "storeId",a.order_number as "orderNumber",a.customer_name as "customerName",a.customer_phone as "customerPhone",
+		a.customer_address as "customerAddress",a.item_manager as "itemManager",a.order_inspector as "orderInspector",
+		a.contract_start_date as "contractStartDate",a.order_status_number as "orderStatusNumber",
+		(select e.amount from biz_order_taskpackage b
+		inner join biz_task_package_templat c on b.task_package_templat_id=c.id
+		inner join biz_order_taskpackage_settlement d on b.id=d.order_taskpackage_id
+		inner join biz_order_taskpackage_payment e on d.id=e.order_taskpackage_settlement_id and e.order_taskpackage_payment_type='0'
+		where b.order_id=a.id and c.no='RT000012') as "amount1",
+		(select e.amount from biz_order_taskpackage b
+		inner join biz_task_package_templat c on b.task_package_templat_id=c.id
+		inner join biz_order_taskpackage_settlement d on b.id=d.order_taskpackage_id
+		inner join biz_order_taskpackage_payment e on d.id=e.order_taskpackage_settlement_id and e.order_taskpackage_payment_type='0'
+		where b.order_id=a.id and c.no='RT000023') as "amount2",
+		(select e.amount from biz_order_taskpackage b
+		inner join biz_task_package_templat c on b.task_package_templat_id=c.id
+		inner join biz_order_taskpackage_settlement d on b.id=d.order_taskpackage_id
+		inner join biz_order_taskpackage_payment e on d.id=e.order_taskpackage_settlement_id and e.order_taskpackage_payment_type='0'
+		where b.order_id=a.id and c.no='RT000011') as "amount3",
+		(select e.amount from biz_order_taskpackage b
+		inner join biz_task_package_templat c on b.task_package_templat_id=c.id
+		inner join biz_order_taskpackage_settlement d on b.id=d.order_taskpackage_id
+		inner join biz_order_taskpackage_payment e on d.id=e.order_taskpackage_settlement_id and e.order_taskpackage_payment_type='1'
+		where b.order_id=a.id and c.no='RT000011') as "amount4",
+		(select e.amount from biz_order_taskpackage b
+		inner join biz_task_package_templat c on b.task_package_templat_id=c.id
+		inner join biz_order_taskpackage_settlement d on b.id=d.order_taskpackage_id
+		inner join biz_order_taskpackage_payment e on d.id=e.order_taskpackage_settlement_id and e.order_taskpackage_payment_type='0'
+		where b.order_id=a.id and c.no='RT000013') as "amount5",
+		(select e.amount from biz_order_taskpackage b
+		inner join biz_task_package_templat c on b.task_package_templat_id=c.id
+		inner join biz_order_taskpackage_settlement d on b.id=d.order_taskpackage_id
+		inner join biz_order_taskpackage_payment e on d.id=e.order_taskpackage_settlement_id and e.order_taskpackage_payment_type='1'
+		where b.order_id=a.id and c.no='RT000013') as "amount6",
+		(select e.amount from biz_order_taskpackage b
+		inner join biz_task_package_templat c on b.task_package_templat_id=c.id
+		inner join biz_order_taskpackage_settlement d on b.id=d.order_taskpackage_id
+		inner join biz_order_taskpackage_payment e on d.id=e.order_taskpackage_settlement_id and e.order_taskpackage_payment_type='0'
+		where b.order_id=a.id and c.no='RT000015') as "amount7",
+		(select e.amount from biz_order_taskpackage b
+		inner join biz_task_package_templat c on b.task_package_templat_id=c.id
+		inner join biz_order_taskpackage_settlement d on b.id=d.order_taskpackage_id
+		inner join biz_order_taskpackage_payment e on d.id=e.order_taskpackage_settlement_id and e.order_taskpackage_payment_type='1'
+		where b.order_id=a.id and c.no='RT000015') as "amount8",
+		(select e.amount from biz_order_taskpackage b
+		inner join biz_task_package_templat c on b.task_package_templat_id=c.id
+		inner join biz_order_taskpackage_settlement d on b.id=d.order_taskpackage_id
+		inner join biz_order_taskpackage_payment e on d.id=e.order_taskpackage_settlement_id and e.order_taskpackage_payment_type='0'
+		where b.order_id=a.id and c.no='RT000014') as "amount9",
+		(select e.amount from biz_order_taskpackage b
+		inner join biz_task_package_templat c on b.task_package_templat_id=c.id
+		inner join biz_order_taskpackage_settlement d on b.id=d.order_taskpackage_id
+		inner join biz_order_taskpackage_payment e on d.id=e.order_taskpackage_settlement_id and e.order_taskpackage_payment_type='1'
+		where b.order_id=a.id and c.no='RT000014') as "amount10"
+		from biz_order a
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="storeId != null and storeId != ''">
+				AND a.store_id = #{storeId}
+			</if>
+			<if test="orderNumber != null and orderNumber != ''">
+				AND a.order_number LIKE
+				<if test="dbName == 'oracle'">'%'||#{orderNumber}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{orderNumber}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{orderNumber},'%')</if>
+			</if>
+			<if test="customerName != null and customerName != ''">
+				AND a.customer_name LIKE
+				<if test="dbName == 'oracle'">'%'||#{customerName}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{customerName}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{customerName},'%')</if>
+			</if>
+			<if test="customerPhone != null and customerPhone != ''">
+				AND a.customer_phone LIKE
+				<if test="dbName == 'oracle'">'%'||#{customerPhone}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{customerPhone}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{customerPhone},'%')</if>
+			</if>
+			<if test="itemManager != null and itemManager != ''">
+				AND a.item_manager LIKE
+				<if test="dbName == 'oracle'">'%'||#{itemManager}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{itemManager}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{itemManager},'%')</if>
+			</if>
+			<if test="beginContractStartDate != null and beginContractStartDate != null and endContractStartDate != '' and endContractStartDate != ''">
+				AND a.contract_start_date BETWEEN #{beginContractStartDate} AND #{endContractStartDate}
+			</if>
+			<if test="orderStatus != null and orderStatus != ''">
+				and a.order_status_number in
+				<foreach collection="orderStatus" index="index" item="item" open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.contract_start_date DESC
+			</otherwise>
+		</choose>
+	</select>
+
+	<select id="findOrderPaymentList" resultType="cn.damei.entity.modules.Order2">
+		select a.id as "id",a.store_id as "storeId",a.order_number as "orderNumber",a.customer_name as "customerName",a.customer_phone as "customerPhone",
+		a.customer_address as "customerAddress",a.item_manager as "itemManager",a.order_inspector as "orderInspector",
+		a.contract_start_date as "contractStartDate",a.order_status_number as "orderStatusNumber",
+		(select e.amount from biz_order_taskpackage b
+		inner join biz_task_package_templat c on b.task_package_templat_id=c.id
+		inner join biz_order_taskpackage_settlement d on b.id=d.order_taskpackage_id
+		inner join biz_order_taskpackage_payment e on d.id=e.order_taskpackage_settlement_id and e.order_taskpackage_payment_type='0'
+		where b.order_id=a.id and c.no='RT000012'
+		<if test="paymentStatusList != null and paymentStatusList != ''">
+			and e.status in
+			<foreach collection="paymentStatusList" index="index" item="item" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>) as "amount1",
+		(select e.amount from biz_order_taskpackage b
+		inner join biz_task_package_templat c on b.task_package_templat_id=c.id
+		inner join biz_order_taskpackage_settlement d on b.id=d.order_taskpackage_id
+		inner join biz_order_taskpackage_payment e on d.id=e.order_taskpackage_settlement_id and e.order_taskpackage_payment_type='0'
+		where b.order_id=a.id and c.no='RT000023'
+		<if test="paymentStatusList != null and paymentStatusList != ''">
+			and e.status in
+			<foreach collection="paymentStatusList" index="index" item="item" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>) as "amount2",
+		(select e.amount from biz_order_taskpackage b
+		inner join biz_task_package_templat c on b.task_package_templat_id=c.id
+		inner join biz_order_taskpackage_settlement d on b.id=d.order_taskpackage_id
+		inner join biz_order_taskpackage_payment e on d.id=e.order_taskpackage_settlement_id and e.order_taskpackage_payment_type='0'
+		where b.order_id=a.id and c.no='RT000011'
+		<if test="paymentStatusList != null and paymentStatusList != ''">
+			and e.status in
+			<foreach collection="paymentStatusList" index="index" item="item" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>) as "amount3",
+		(select e.amount from biz_order_taskpackage b
+		inner join biz_task_package_templat c on b.task_package_templat_id=c.id
+		inner join biz_order_taskpackage_settlement d on b.id=d.order_taskpackage_id
+		inner join biz_order_taskpackage_payment e on d.id=e.order_taskpackage_settlement_id and e.order_taskpackage_payment_type='1'
+		where b.order_id=a.id and c.no='RT000011'
+		<if test="paymentStatusList != null and paymentStatusList != ''">
+			and e.status in
+			<foreach collection="paymentStatusList" index="index" item="item" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>) as "amount4",
+		(select e.amount from biz_order_taskpackage b
+		inner join biz_task_package_templat c on b.task_package_templat_id=c.id
+		inner join biz_order_taskpackage_settlement d on b.id=d.order_taskpackage_id
+		inner join biz_order_taskpackage_payment e on d.id=e.order_taskpackage_settlement_id and e.order_taskpackage_payment_type='0'
+		where b.order_id=a.id and c.no='RT000013'
+		<if test="paymentStatusList != null and paymentStatusList != ''">
+			and e.status in
+			<foreach collection="paymentStatusList" index="index" item="item" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>) as "amount5",
+		(select e.amount from biz_order_taskpackage b
+		inner join biz_task_package_templat c on b.task_package_templat_id=c.id
+		inner join biz_order_taskpackage_settlement d on b.id=d.order_taskpackage_id
+		inner join biz_order_taskpackage_payment e on d.id=e.order_taskpackage_settlement_id and e.order_taskpackage_payment_type='1'
+		where b.order_id=a.id and c.no='RT000013'
+		<if test="paymentStatusList != null and paymentStatusList != ''">
+			and e.status in
+			<foreach collection="paymentStatusList" index="index" item="item" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>) as "amount6",
+		(select e.amount from biz_order_taskpackage b
+		inner join biz_task_package_templat c on b.task_package_templat_id=c.id
+		inner join biz_order_taskpackage_settlement d on b.id=d.order_taskpackage_id
+		inner join biz_order_taskpackage_payment e on d.id=e.order_taskpackage_settlement_id and e.order_taskpackage_payment_type='0'
+		where b.order_id=a.id and c.no='RT000015'
+		<if test="paymentStatusList != null and paymentStatusList != ''">
+			and e.status in
+			<foreach collection="paymentStatusList" index="index" item="item" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>) as "amount7",
+		(select e.amount from biz_order_taskpackage b
+		inner join biz_task_package_templat c on b.task_package_templat_id=c.id
+		inner join biz_order_taskpackage_settlement d on b.id=d.order_taskpackage_id
+		inner join biz_order_taskpackage_payment e on d.id=e.order_taskpackage_settlement_id and e.order_taskpackage_payment_type='1'
+		where b.order_id=a.id and c.no='RT000015'
+		<if test="paymentStatusList != null and paymentStatusList != ''">
+			and e.status in
+			<foreach collection="paymentStatusList" index="index" item="item" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>) as "amount8",
+		(select e.amount from biz_order_taskpackage b
+		inner join biz_task_package_templat c on b.task_package_templat_id=c.id
+		inner join biz_order_taskpackage_settlement d on b.id=d.order_taskpackage_id
+		inner join biz_order_taskpackage_payment e on d.id=e.order_taskpackage_settlement_id and e.order_taskpackage_payment_type='0'
+		where b.order_id=a.id and c.no='RT000014'
+		<if test="paymentStatusList != null and paymentStatusList != ''">
+			and e.status in
+			<foreach collection="paymentStatusList" index="index" item="item" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>) as "amount9",
+		(select e.amount from biz_order_taskpackage b
+		inner join biz_task_package_templat c on b.task_package_templat_id=c.id
+		inner join biz_order_taskpackage_settlement d on b.id=d.order_taskpackage_id
+		inner join biz_order_taskpackage_payment e on d.id=e.order_taskpackage_settlement_id and e.order_taskpackage_payment_type='1'
+		where b.order_id=a.id and c.no='RT000014'
+		<if test="paymentStatusList != null and paymentStatusList != ''">
+			and e.status in
+			<foreach collection="paymentStatusList" index="index" item="item" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>) as "amount10"
+		from biz_order a
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="storeId != null and storeId != ''">
+				AND a.store_id = #{storeId}
+			</if>
+			<if test="orderNumber != null and orderNumber != ''">
+				AND a.order_number LIKE
+				<if test="dbName == 'oracle'">'%'||#{orderNumber}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{orderNumber}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{orderNumber},'%')</if>
+			</if>
+			<if test="customerName != null and customerName != ''">
+				AND a.customer_name LIKE
+				<if test="dbName == 'oracle'">'%'||#{customerName}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{customerName}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{customerName},'%')</if>
+			</if>
+			<if test="customerPhone != null and customerPhone != ''">
+				AND a.customer_phone LIKE
+				<if test="dbName == 'oracle'">'%'||#{customerPhone}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{customerPhone}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{customerPhone},'%')</if>
+			</if>
+			<if test="itemManager != null and itemManager != ''">
+				AND a.item_manager LIKE
+				<if test="dbName == 'oracle'">'%'||#{itemManager}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{itemManager}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{itemManager},'%')</if>
+			</if>
+			<if test="beginContractStartDate != null and beginContractStartDate != null and endContractStartDate != '' and endContractStartDate != ''">
+				AND a.contract_start_date BETWEEN #{beginContractStartDate} AND #{endContractStartDate}
+			</if>
+			<if test="orderStatus != null and orderStatus != ''">
+				and a.order_status_number in
+				<foreach collection="orderStatus" index="index" item="item" open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.contract_start_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<!-- 根据地图分配项目经理:根据订单id查询项目经理 -->
+	<select id="findMapList" parameterType="cn.damei.entity.modules.ItemManagerMap" resultType="cn.damei.entity.modules.ItemManagerMap">
+		 SELECT
+      	 	a.id AS "id",
+			a. NO AS "no",
+			a.loginname AS "loginname",
+			a.realname AS "realname",
+			a.phone AS "phone",
+			a.empType AS "empType",
+			a.idcardno AS "idcardno",
+			a.pointXy AS "pointXy",
+			a.address AS "address",
+			a.headpic AS "headpic",
+			a.star AS "star",
+			a.sort AS "sort",
+			a.nps AS "nps",
+			a.orderArea AS "orderarea",
+			a.houseType AS "houseType",
+			a.orderStop AS "orderstop",
+			a.storeId AS "storeid",
+			a.del_flag AS 'delFlag',
+			a.project_mode AS "projectMode",
+			substring_index(a.pointXy, ',', 1) AS "pointx",
+			substring_index(a.pointXy, ',', - 1) AS "pointy",
+			round(6378.138*2*asin(sqrt(pow(sin(
+((SUBSTRING_INDEX(a.pointXy,',',1))*pi()/180-(SUBSTRING_INDEX(b.map_coordinate,',',-1))*pi()/180)/2),2)+cos((SUBSTRING_INDEX(a.pointXy,',',1))*pi()/180)*cos((SUBSTRING_INDEX(b.map_coordinate,',',-1))*pi()/180)*
+pow(sin( ((SUBSTRING_INDEX(a.pointXy,',',-1))*pi()/180-(SUBSTRING_INDEX(b.map_coordinate,',',1))*pi()/180)/2),2)))*1000) AS "distance",
+			(SELECT count(1) from biz_order c WHERE c.item_manager_id = a.id AND c.order_status_number in ('120','125','130','200','300','310')) AS "buildingCount",
+			(select 
+    		CASE
+    			WHEN c.star is null THEN d.star0 
+    			WHEN c.star = 0 THEN d.star0 
+				WHEN c.star = 1 THEN d.star1
+				WHEN c.star = 2 THEN d.star3
+				WHEN c.star = 3 THEN d.star3
+				WHEN c.star = 4 THEN d.star4
+				WHEN c.star = 5 THEN d.star5
+			END AS "totalCount" 
+		from 
+			biz_employee c, biz_star d 
+		where 
+			d.store_id = c.storeId and c.id = a.id and d.project_mode = c.project_mode ) AS "totalCount"
+      
+       <!--  FROM biz_employee a,biz_order b, biz_engin_depart_employee_position t -->
+        FROM biz_employee a
+				INNER JOIN biz_order b on b.project_mode = a.project_mode and a.storeId = b.store_id
+				INNER JOIN  biz_engin_depart_employee_position t on b.engin_depart_id = t.engin_depart_id and a.id = t.employee_id
+        <where>
+        	a.del_flag =0
+        	AND a.empType=#{empType}
+        	AND b.id = #{orderId}
+         	<if test="star != null and star != ''">
+				AND a.star = #{star}
+			</if>
+            <if test="distance != null and distance != ''">
+				AND round(6378.138*2*asin(sqrt(pow(sin(
+((SUBSTRING_INDEX(a.pointXy,',',1))*pi()/180-(SUBSTRING_INDEX(b.map_coordinate,',',-1))*pi()/180)/2),2)+cos((SUBSTRING_INDEX(a.pointXy,',',1))*pi()/180)*cos((SUBSTRING_INDEX(b.map_coordinate,',',-1))*pi()/180)*
+pow(sin( ((SUBSTRING_INDEX(a.pointXy,',',-1))*pi()/180-(SUBSTRING_INDEX(b.map_coordinate,',',1))*pi()/180)/2),2)))*1000) &lt;= #{distance}
+			</if>
+           	ORDER BY a.sort DESC,a.star DESC,a.nps DESC
+        </where>
+	</select>
+	
+	<select id="findOrderListByCondition" resultType="DropModel" >
+        SELECT
+      	  a.id AS 'value',
+     	  CONCAT(a.order_number,' ',a.customer_name) AS 'label'
+        FROM biz_order a
+        where 
+        	a.item_manager_id = #{0} AND a.del_flag = 0 and a.id not in(SELECT order_id FROM biz_materials_standard_receive_bill )
+    </select>
+	
+	<select id="findOrderByPhone" resultType="cn.damei.entity.modules.Order2">
+		SELECT 
+			<include refid="orderColumns"/>
+		FROM biz_order a
+			<include refid="orderJoins"/>
+		WHERE a.customer_phone = #{0}
+	</select>
+
+	<select id="findOrderStatusByOrderId" resultType="java.lang.String">
+		SELECT a.order_status_number
+		from biz_order a 
+		where a.id = #{0}
+	</select>
+	<select id="findOrderManagerGuranteeMoneyList" resultType="cn.damei.entity.modules.Order2">
+		SELECT a.id AS "id",a.store_id AS "storeId",a.community_name AS "communityName",a.build_number AS "buildNumber",
+				a.build_unit AS "buildUnit",a.build_room AS "buildRoom",a.customer_name AS "customerName",c.realName AS "itemManager",
+				d.settleDatetime,d.guaranteeMoneyAmount
+		FROM biz_order a
+		INNER JOIN (
+			SELECT b.order_id,b.pm_employee_id,
+					IFNULL(sum(b.guarantee_money_amount),0) AS "guaranteeMoneyAmount",
+					MAX(b.settle_datetime) AS "settleDatetime"
+			FROM biz_pm_settle_bill b
+			WHERE b.guarantee_money_amount IS NOT NULL AND b.guarantee_money_amount &lt;> ''
+			GROUP BY b.order_id,b.pm_employee_id
+		) d ON a.id = d.order_id
+		LEFT JOIN biz_employee c ON d.pm_employee_id = c.id
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="storeId != null and storeId != ''">
+				AND a.store_id = #{storeId}
+			</if>
+			<if test="projectMode != null and projectMode != ''">
+				AND a.project_mode =#{projectMode}
+			</if>
+			<if test="itemManager != null and itemManager != ''">
+				AND c.realName LIKE
+				<if test="dbName == 'oracle'">'%'||#{itemManager}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{itemManager}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{itemManager},'%')</if>
+			</if>
+			<if test="customerName != null and customerName != ''">
+				AND a.customer_name LIKE
+				<if test="dbName == 'oracle'">'%'||#{customerName}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{customerName}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{customerName},'%')</if>
+			</if>
+			<if test="beginGeneratedDatetime != null and beginGeneratedDatetime != '' and endGeneratedDatetime != null and endGeneratedDatetime != ''">
+				AND d.settleDatetime BETWEEN #{beginGeneratedDatetime} AND #{endGeneratedDatetime}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				order by d.settleDatetime desc
+			</otherwise>
+		</choose>
+	</select>
+	
+	
+	
+	<select id="findManagerInfo" parameterType="cn.damei.entity.modules.Order2" resultType="cn.damei.entity.modules.Order2">
+SELECT
+	a.realname AS "managerName",
+	a.phone AS "managerPhone",
+	a.address AS "managerAddress",
+	a.star AS "starLevel",
+	substring_index(a.pointXy, ',', 1) AS "pointx",
+	substring_index(a.pointXy, ',', - 1) AS "pointy"
+FROM
+	biz_employee a left join 
+	biz_engin_depart_employee_position b
+	on a.id = b.employee_id
+WHERE
+	a.del_flag = 0
+AND a.empType = 3
+
+<if test="managerName!=null and managerName!=''">
+and a.realname like concat ('%',#{managerName},'%')
+</if>
+<if test="starLevel!=null and starLevel!=''">
+and a.star = #{starLevel}
+</if>
+<if test="storeId!=null and storeId!=''">
+and a.storeId = #{storeId}
+</if>
+<if test="engineDepartId!=null and engineDepartId!=''">
+and b.engin_depart_id = #{engineDepartId}
+</if>
+<if test="projectMode!=null and projectMode!=''">
+and a.project_mode =#{projectMode}
+</if>
+	</select>	
+	<select id="findWorkerMapInfo" parameterType="cn.damei.entity.modules.Order2" resultType="cn.damei.entity.modules.Order2">
+SELECT
+	d.label AS "workerMapType",
+	substring_index(a.pointXy, ',', 1) AS "pointx",
+	substring_index(a.pointXy, ',', - 1) AS "pointy",
+	b.realName AS "workeMaprName",
+	b.phone AS "workerMapPhone",
+	b.address AS "workerMapAddress",
+	b.star AS "starLevel"
+FROM
+	biz_employeegroup a
+LEFT JOIN sys_dict d ON a.workType = d.`value`
+AND d.type = 'emp_work_type'
+INNER JOIN biz_employee b ON a.groupId = b.id
+LEFT JOIN biz_engin_depart_employee_position c ON b.id = c.employee_id
+
+where b.del_flag=0
+<if test="workeMaprName!=null and workeMaprName!=''">
+and b.realname like concat ('%',#{workeMaprName},'%')
+</if>
+<if test="starLevel!=null and starLevel!=''">
+and b.star = #{starLevel}
+</if>
+<if test="storeId!=null and storeId!=''">
+and a.storeId = #{storeId}
+</if>
+<if test="engineDepartId!=null and engineDepartId!=''">
+and a.elactricationId = #{engineDepartId}
+</if>
+<if test="projectMode!=null and projectMode!=''">
+and b.project_mode =#{projectMode}
+</if>
+<if test="workerMapType!=null and workerMapType!=''">
+and b.workType =#{workerMapType}
+</if>
+	</select>	
+	
+	
+	<select id="findManagerMoreCount"  resultType="cn.damei.entity.modules.ItemManagerMap">
+	SELECT
+	count(b.id) AS "alreadyDistributeCount",
+	a1.distributed_employee_id AS "id"
+FROM
+	`biz_order_distribute_log` a1,
+	biz_order b
+WHERE
+	a1.distributed_employee_id = b.item_manager_id
+and a1.order_id = b.id
+AND a1.create_date LIKE concat('%',DATE_FORMAT(now(), '%Y-%m'),'%')
+AND a1.distribute_type = '101'
+
+GROUP BY
+b.item_manager_id
+	
+	
+	</select>
+	
+	
+	<select id="findManagerMoreCount1" resultType="cn.damei.entity.modules.ItemManagerMap">
+SELECT
+	count(b.item_manager_id) AS "doNow",
+	a1.distributed_employee_id AS "id",
+b.id
+FROM
+	`biz_order_distribute_log` a1,
+	biz_order b
+WHERE
+	a1.distributed_employee_id = b.item_manager_id
+and a1.order_id = b.id
+AND a1.distribute_type = '101'
+AND b.ORDER_STATUS_NUMBER >= '200'
+AND b.ORDER_STATUS_NUMBER &lt; '300'
+
+GROUP BY
+b.item_manager_id
+	
+</select>
+	<select id="getUnAllotCount" resultType="Integer" parameterType="cn.damei.entity.modules.Order2">
+		SELECT
+			count(a.id)
+		FROM
+			biz_order a
+		LEFT JOIN biz_engineering_department b ON a.engin_depart_id = b.id
+		WHERE
+			a.del_flag = '0'
+		AND a.item_manager_id IS NULL
+		<if test="projectMode != null and projectMode != ''">
+			AND a.project_mode =#{projectMode}
+		</if>
+	</select>
+	<select id="getUnInspectorCount" resultType="Integer" parameterType="cn.damei.entity.modules.Order2">
+		SELECT
+			count(a.id)
+		FROM
+			biz_order a
+		LEFT JOIN biz_engineering_department b ON a.engin_depart_id = b.id
+		WHERE
+			a.del_flag = '0'
+		<if test="projectMode != null and projectMode != ''">
+			AND a.project_mode =#{projectMode}
+		</if>
+		AND a.order_inspector_id IS NULL
+	</select>
+	<select id="getProMangerDaily" resultType="cn.damei.entity.modules.Order2" parameterType="cn.damei.entity.modules.Order2">
+		SELECT
+		t.store_id AS "storeId",
+		bed.`name` AS "departmentName",
+		sum(
+		CASE
+		WHEN t.item_manager_id IS NULL THEN
+		1
+		ELSE
+		0
+		END
+		)AS "noDistribution",
+		sum(
+		CASE
+		WHEN t.item_manager_id IS NOT NULL
+		<if test="beginGeneratedDatetime != null and beginGeneratedDatetime != '' and endGeneratedDatetime != null and endGeneratedDatetime != ''"> and DATE_FORMAT(bizlog.create_date,'%Y-%m-%d') BETWEEN #{beginGeneratedDatetime} AND #{endGeneratedDatetime}</if> 
+		THEN
+		1
+		ELSE
+		0
+		END
+		)AS "distribution"
+		FROM
+		biz_order t
+		LEFT JOIN biz_engineering_department bed ON t.engin_depart_id = bed.id
+		LEFT JOIN (select DISTINCT b.* from biz_order_distribute_log b where b.distribute_type = '101' ) bizlog ON t.id = bizlog.order_id
+		<where>
+			<if test="storeId != null and storeId != ''">
+				and t.store_id = #{storeId}
+			</if>
+		</where>
+		GROUP BY t.store_id,bed.`name`
+	</select>
+	<select id="getProMangerCount" resultType="Integer" parameterType="cn.damei.entity.modules.Order2">
+		select count(*) from biz_order t
+		<where>
+			and t.item_manager_id is null 
+			<if test="storeId != null and storeId != ''">
+				and t.store_id = #{storeId}
+			</if>
+		</where>
+	</select>
+	
+	<select id="getInspectorDaily" resultType="cn.damei.entity.modules.Order2" parameterType="cn.damei.entity.modules.Order2">
+		SELECT
+		t.store_id AS "storeId",
+		bed.`name` AS "departmentName",
+		sum(
+		CASE
+		WHEN t.order_inspector_id IS NULL THEN
+		1
+		ELSE
+		0
+		END
+		)AS "noDistribution",
+		sum(
+		CASE
+		WHEN t.order_inspector_id IS NOT NULL
+		<if test="beginGeneratedDatetime != null and beginGeneratedDatetime != '' and endGeneratedDatetime != null and endGeneratedDatetime != ''"> and DATE_FORMAT(bizlog.create_date,'%Y-%m-%d') BETWEEN #{beginGeneratedDatetime} AND #{endGeneratedDatetime}</if> 
+		THEN
+		1
+		ELSE
+		0
+		END
+		)AS "distribution"
+		FROM
+		biz_order t
+		LEFT JOIN biz_engineering_department bed ON t.engin_depart_id = bed.id
+		LEFT JOIN (select DISTINCT b.* from biz_order_distribute_log b where b.distribute_type = '201' ) bizlog ON t.id = bizlog.order_id
+		<where>
+			<if test="storeId != null and storeId != ''">
+				and t.store_id = #{storeId}
+			</if>
+		</where>
+		GROUP BY t.store_id,bed.`name`
+	
+	</select>
+	<select id="getInspectorCount" resultType="Integer" parameterType="cn.damei.entity.modules.Order2">
+		select count(*) from biz_order t
+		<where>
+			and t.order_inspector_id is null 
+			<if test="storeId != null and storeId != ''">
+				and t.store_id = #{storeId}
+			</if>
+		</where>
+	</select>
+	
+	<select id="findDesignerId" resultType="String">
+		SELECT a.id FROM biz_employee a 
+		WHERE a.phone = #{designerPhone} 
+		AND a.realName LIKE concat('%',#{designerName},'%') 
+		and a.empType = '5'
+		LIMIT 0,1
+	</select>
+</mapper>

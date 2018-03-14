@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.mobile.Manager.RecheckScaleBillPushPullDoorDao">
+    
+	<sql id="recheckScalBillPullDoorColumns">
+		t.ID AS "id",
+		t.RECHECK_SCALE_BILL_ID AS "recheckScaleBillId",
+		t.POSITION AS "position",
+		t.PUSH_PULL_STYLE AS "pushPullStyle",
+		t.PACKAGE_COVER AS "packageCover",
+		t.OPEN_DIRECTION AS "openDirection",
+		t.DOOR_AMOUNT AS "doorAmount",
+		t.NEW_DOOR_WIDTH AS "newDoorWidth",
+		t.NEW_DOOR_HEIGHT AS "newDoorHeight",
+		t.WIDTH AS "width",
+		t.HEIGHT AS "height",
+		t.THICKNESS AS "thickness",
+		t.REMARKS AS "remarks",
+		t.CREATE_DATE AS "createDate",
+		t.UPDATE_DATE AS "updateDate",
+		t.DEL_FLAG AS "delFlag"
+	</sql>
+	
+	<select id="get" resultType="cn.damei.entity.mobile.Manager.RecheckScaleBillPushPullDoor" parameterType="java.lang.Integer">
+		SELECT 
+    	<include refid="recheckScalBillPullDoorColumns"/> 
+    	FROM BIZ_RECHECK_SCALE_BILL_PUSH_PULL_DOOR t
+    	WHERE t.ID = #{0}
+	</select>
+	
+	<select id="getByRecheckID" resultType="cn.damei.entity.mobile.Manager.RecheckScaleBillPushPullDoor">
+		SELECT 
+    	<include refid="recheckScalBillPullDoorColumns"/> 
+    	FROM BIZ_RECHECK_SCALE_BILL_PUSH_PULL_DOOR t
+    	WHERE t.RECHECK_SCALE_BILL_ID = #{0}
+	</select>
+	
+	<insert id="insert" parameterType="cn.damei.entity.mobile.Manager.RecheckScaleBillPushPullDoor">
+		INSERT INTO BIZ_RECHECK_SCALE_BILL_PUSH_PULL_DOOR(
+			ID,
+			RECHECK_SCALE_BILL_ID,
+			POSITION,
+			PUSH_PULL_STYLE,
+			PACKAGE_COVER,
+			OPEN_DIRECTION,
+			DOOR_AMOUNT,
+			NEW_DOOR_WIDTH,
+			NEW_DOOR_HEIGHT,
+			WIDTH,
+			HEIGHT,
+			THICKNESS,
+			REMARKS,
+			CREATE_DATE,
+			UPDATE_DATE,
+			DEL_FLAG
+		) VALUES (
+			#{id},
+			#{recheckScaleBillId},
+			#{position},
+			#{pushPullStyle},
+			#{packageCover},
+			#{openDirection},
+			#{doorAmount},
+			#{newDoorWidth},
+			#{newDoorHeight},
+			#{width},
+			#{height},
+			#{thickness},
+			#{remarks},
+			#{createDate},
+			#{updateDate},
+			#{delFlag}
+		)
+	</insert>
+	
+	<insert id="insertpush" parameterType="cn.damei.entity.mobile.Manager.RecheckScaleBillPushPullDoor">
+		INSERT INTO BIZ_RECHECK_SCALE_BILL_PUSH_PULL_DOOR(
+			ID,
+			RECHECK_SCALE_BILL_ID,
+			POSITION,
+			PUSH_PULL_STYLE,
+			PACKAGE_COVER,
+			OPEN_DIRECTION,
+			DOOR_AMOUNT,
+			NEW_DOOR_WIDTH,
+			NEW_DOOR_HEIGHT,
+			WIDTH,
+			HEIGHT,
+			THICKNESS,
+			REMARKS,
+			CREATE_DATE,
+			CREATE_BY,
+			UPDATE_DATE,
+			UPDATE_BY,
+			DEL_FLAG
+		) VALUES (
+			#{id},
+			#{recheckScaleBillId},
+			#{position},
+			#{pushPullStyle},
+			#{packageCover},
+			#{openDirection},
+			#{doorAmount},
+			#{newDoorWidth},
+			#{newDoorHeight},
+			#{width},
+			#{height},
+			#{thickness},
+			#{remarks},
+			#{createDate},
+			#{createPeo},
+			#{updateDate},
+			#{updatePeo},
+			#{delFlag}
+		)
+	</insert>
+</mapper>

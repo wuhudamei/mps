@@ -1,0 +1,5 @@
+insert  into `sys_data_auth_rule_option`(`id`,`business_type_id`,`data_auth_rule_option_code`,`data_auth_rule_option_describe`,`remarks`,`create_by`,`create_date`,`update_by`,`update_date`,`del_flag`,`data_auth_rule_option_level`) values (10,4,'ALL_DATE','所有的数据',NULL,NULL,NULL,NULL,NULL,NULL,3);
+insert  into `sys_data_auth_rule_option`(`id`,`business_type_id`,`data_auth_rule_option_code`,`data_auth_rule_option_describe`,`remarks`,`create_by`,`create_date`,`update_by`,`update_date`,`del_flag`,`data_auth_rule_option_level`) values (11,4,'CUR_AND_SUB_OFFICE','所属订单的设计师为本机构及子机构下人员的数据',NULL,NULL,NULL,NULL,NULL,NULL,2);
+insert  into `sys_data_auth_rule_option`(`id`,`business_type_id`,`data_auth_rule_option_code`,`data_auth_rule_option_describe`,`remarks`,`create_by`,`create_date`,`update_by`,`update_date`,`del_flag`,`data_auth_rule_option_level`) values (12,4,'MYSELF','所属订单的设计师为当前登录人的数据',NULL,NULL,NULL,NULL,NULL,NULL,1);
+insert  into `biz_business_type`(`id`,`business_code`,`business_name`,`remarks`,`create_by`,`create_date`,`update_by`,`update_date`,`del_flag`) values (4,'GDSJ','工地设计',NULL,NULL,NULL,NULL,NULL,NULL);
+

@@ -1,0 +1,1 @@
+/mdn/src/main/resources/mappings/modules/attend/BizAttendBillDao.xml

@@ -1,0 +1,861 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="cn.damei.dao.mobile.Manager.AuxiliaryApplyDao">
+
+	<sql id="allOrderColumns">
+
+		a.id As "id" ,
+		a.item_manager_id As "itemManagerId" ,
+		a.customer_name AS "customerName" ,
+		a.community_name AS
+		"communityName",
+		a.build_number AS "buildNumber" ,
+		a.build_unit AS
+		"buildUnit" ,
+		a.is_scrap AS "isScrap",
+		a.build_room As "buildRoom" ,
+		a.contract_start_date AS
+		"contractStartDate",
+		a.actual_start_date AS "actualStartDate",
+		a.contract_time AS "contractTime",
+		a.order_status_description AS
+		"orderStatus",
+		a.order_status_number AS "orderNumber",
+		a.project_mode AS
+		"projectMode"
+
+
+	</sql>
+
+	<!-- 根据项目经理id 查询订单 -->
+	<select id="orderByManagerId" parameterType="int"
+		resultType="cn.damei.entity.mobile.Manager.OrderVo">
+
+		SELECT
+		<include refid="allOrderColumns" />,
+		(SELECT COUNT(1) FROM biz_order_confirm_startwork b WHERE b.order_id =
+		a.id AND b.del_flag = 0) AS "allCount"
+		from biz_order a where
+		
+		a.item_manager_id =#{itemManagerId} AND
+
+		a.order_status_number &lt; 300
+		order by a.create_date desc
+	</select>
+
+
+
+
+
+
+	<sql id="allAuxiliaryItems">
+		A.id AS 'id' ,
+		A.brands as "brand",
+		A.auxiliary_materials_no
+		AS "auxiMateCode",
+		A.pic_url AS 'pic',
+		A.auxiliary_materials_name AS
+		'name',
+		A.specifications AS
+		'specifications',
+		D.label AS 'unit',
+		A.brands
+		AS "brand" ,
+		B.labor_price AS
+		'price',
+		D1.label
+		AS 'workType',
+		C.category_name AS 'categoryName'
+
+	</sql>
+
+
+	<!--先查水电. 有价格版本约束,门店约束,等 -->
+	<select id="auxiliaryChoose"
+		parameterType="cn.damei.entity.mobile.Manager.AuxiliaryVo"
+		resultType="cn.damei.entity.mobile.Manager.AuxiliaryVo">
+		SELECT
+			A.id AS 'id',
+			A.pic_url AS 'pic',
+			A.brands AS "brand",
+			A.emp_work_type AS "workType",
+			M.label AS "workTypeName",
+			A.auxiliary_materials_name AS 'name',
+			A.specifications AS 'specifications',
+			D.label AS 'unit',
+			B2.labor_price AS 'price',
+			B2.supplier_price AS 'supplierPrice',
+			B2.wangzhen_price AS 'wangzhenPrice',
+			C.category_name AS 'categoryName',
+			A.auxiliary_materials_no AS "auxiMateCode"
+
+		FROM
+			biz_auxiliary_materials A
+		INNER JOIN (SELECT D1.`value`,D1.label AS "label" FROM sys_dict D1 WHERE D1.type = 'biz_material_unit' AND D1.del_flag = 0) D ON A.measurement_unit = D.`value`
+		LEFT JOIN (SELECT M1.`value`,M1.label AS "label" FROM sys_dict M1 WHERE M1.type = 'emp_work_type' AND M1.del_flag = 0) M ON M.`value` = A.emp_work_type
+		INNER JOIN biz_material_category C ON A.category_id = C.id AND C.material_type_id = '1'
+		INNER JOIN (
+			SELECT
+				b1.auxiliary_materials_id,
+				max(b1.version) AS "version"
+			FROM
+				biz_auxiliary_materials_supplier_rel b1 
+			where
+				b1.effective_date &lt; NOW() 
+				and b1.del_flag =0
+			GROUP BY
+				b1.auxiliary_materials_id
+		) b ON a.id = b.auxiliary_materials_id
+		INNER JOIN biz_auxiliary_materials_supplier_rel b2 ON b.auxiliary_materials_id = b2.auxiliary_materials_id 
+		and b.version = b2.version
+		and a.store_id = (select store_id from biz_order where id = #{orderId})
+		AND A.del_flag = '0'
+		AND A.`status` = '1'
+		AND (A.is_sand_cement=0 or
+		A.is_sand_cement is NULL )
+		<if test="auxiMateCode == null">
+			and a.emp_work_type =0
+		</if>
+
+
+		<if test="auxiMateCode != null and auxiMateCode !='' ">
+			And A.auxiliary_materials_no = #{auxiMateCode}
+
+		</if>
+
+		order by A.auxiliary_materials_no
+
+	</select>
+
+
+	<!-- 根据分类查询辅料 瓦 1 油 3 木2 水电0 -->
+	<select id="categoryItems"
+		resultType="cn.damei.entity.mobile.Manager.AuxiliaryVo">
+		SELECT
+			A.id AS 'id',
+			A.pic_url AS 'pic',
+			A.brands AS "brand",
+			A.auxiliary_materials_name AS 'name',
+			A.specifications AS 'specifications',
+			D.label AS 'unit',
+			B2.labor_price AS 'price',
+			B2.supplier_price AS 'supplierPrice',
+			B2.wangzhen_price AS 'wangzhenPrice',
+			C.category_name AS 'categoryName',
+			A.auxiliary_materials_no AS "auxiMateCode"
+
+		FROM
+			biz_auxiliary_materials A
+		INNER JOIN sys_dict D ON D.type = 'biz_material_unit' AND A.measurement_unit = D.`value`
+		INNER JOIN biz_material_category C ON A.category_id = C.id AND C.material_type_id = '1'
+		INNER JOIN (
+			SELECT
+				b1.auxiliary_materials_id,
+				max(b1.version) AS "version"
+			FROM
+				biz_auxiliary_materials_supplier_rel b1 
+			where
+				b1.effective_date &lt; NOW() 
+				and b1.del_flag =0
+			GROUP BY
+				b1.auxiliary_materials_id
+		) b ON a.id = b.auxiliary_materials_id
+		INNER JOIN biz_auxiliary_materials_supplier_rel b2 ON b.auxiliary_materials_id = b2.auxiliary_materials_id 
+		and b.version = b2.version
+		and a.store_id = (select store_id from biz_order where id = #{1})
+		AND A.del_flag = '0'
+		AND A.`status` = '1'
+		AND (A.is_sand_cement=0 or A.is_sand_cement is NULL )
+		and a.emp_work_type =#{0}
+		ORDER BY
+			 A.auxiliary_materials_no
+
+
+
+	</select>
+
+
+
+	<!-- 查询提交但没有结算的信息 (返回值为辅料编号 和 数量 以供回显使用) -->
+	<select id="checkIsSubmit" parameterType="int"
+		resultType="cn.damei.entity.mobile.Manager.AuxiliaryVo">
+		SELECT A.auxi_mate_code AS "auxiMateCode" ,
+		A.auxi_mate_count AS "count"
+		FROM biz_purchase_auxi_mate A WHERE
+		A.order_id = #{orderId} AND
+		A.submmit_status = "NO"
+	</select>
+
+
+	<!-- 根据辅料id查询辅料详情 -->
+
+	<select id="selectAuxiliaryById" parameterType="String"
+		resultType="cn.damei.entity.mobile.Manager.AuxiliaryVo">
+		SELECT
+			A.id AS 'id',
+			A.pic_url AS 'pic',
+			A.brands AS "brand",
+			A.emp_work_type AS "workType",
+			M.label AS "workTypeName",
+			A.auxiliary_materials_name AS 'name',
+			A.specifications AS 'specifications',
+			D.label AS 'unit',
+			B2.labor_price AS 'price',
+			B2.supplier_price AS 'supplierPrice',
+			B2.wangzhen_price AS 'wangzhenPrice',
+			C.category_name AS 'categoryName',
+			A.auxiliary_materials_no AS "auxiMateCode"
+
+		FROM
+		biz_auxiliary_materials A
+		INNER JOIN (SELECT D1.`value`,D1.label AS "label" FROM sys_dict D1 WHERE D1.type = 'biz_material_unit' AND D1.del_flag = 0) D ON A.measurement_unit = D.`value`
+		LEFT JOIN (SELECT M1.`value`,M1.label AS "label" FROM sys_dict M1 WHERE M1.type = 'emp_work_type' AND M1.del_flag = 0) M ON M.`value` = A.emp_work_type
+		INNER JOIN biz_material_category C ON A.category_id = C.id AND C.material_type_id = '1'
+		INNER JOIN (
+			SELECT
+				b1.auxiliary_materials_id,
+				max(b1.version) AS "version"
+			FROM
+			biz_auxiliary_materials_supplier_rel b1 
+			where
+				b1.effective_date &lt; NOW() 
+				and b1.del_flag =0
+			GROUP BY
+				b1.auxiliary_materials_id
+
+		) b ON a.id = b.auxiliary_materials_id
+		INNER JOIN biz_auxiliary_materials_supplier_rel b2 ON b.auxiliary_materials_id = b2.auxiliary_materials_id 
+		and b.version = b2.version
+		AND A.del_flag = '0'
+		AND A.`status` = '1'
+		AND (A.is_sand_cement=0 or A.is_sand_cement is NULL )
+		AND a.auxiliary_materials_no =#{auxiMateCode}
+	</select>
+	<!-- 批量查询辅料详情 code -->
+
+	<select id="selectAuxiliaryByCodeList" parameterType="list"
+		resultType="cn.damei.entity.mobile.Manager.AuxiliaryVo">
+		SELECT
+			A.id AS 'id',
+			A.pic_url AS 'pic',
+			A.brands AS "brand",
+			A.emp_work_type AS "workType",
+			M.label AS "workTypeName",
+			A.auxiliary_materials_name AS 'name',
+			A.specifications AS 'specifications',
+			D.label AS 'unit',
+			B2.labor_price AS 'price',
+			B2.supplier_price AS 'supplierPrice',
+			B2.wangzhen_price AS 'wangzhenPrice',
+			C.category_name AS 'categoryName',
+			A.auxiliary_materials_no AS "auxiMateCode"
+
+		FROM
+		biz_auxiliary_materials A
+		INNER JOIN (SELECT D1.`value`,D1.label AS "label" FROM sys_dict D1 WHERE D1.type = 'biz_material_unit' AND D1.del_flag = 0) D ON A.measurement_unit = D.`value`
+		LEFT JOIN (SELECT M1.`value`,M1.label AS "label" FROM sys_dict M1 WHERE M1.type = 'emp_work_type' AND M1.del_flag = 0) M ON M.`value` = A.emp_work_type
+		INNER JOIN biz_material_category C ON A.category_id = C.id AND C.material_type_id = '1'
+		INNER JOIN (
+			SELECT
+				b1.auxiliary_materials_id,
+				max(b1.version) AS "version"
+			FROM
+				biz_auxiliary_materials_supplier_rel b1 
+			where
+				b1.effective_date &lt; NOW() 
+				and b1.del_flag =0
+			GROUP BY
+				b1.auxiliary_materials_id
+
+		) b ON a.id = b.auxiliary_materials_id
+		INNER JOIN biz_auxiliary_materials_supplier_rel b2 ON b.auxiliary_materials_id = b2.auxiliary_materials_id 
+		and b.version = b2.version
+		AND A.del_flag = '0'
+		AND A.`status` = '1'
+		AND a.auxiliary_materials_no in
+		<foreach collection="list" item="item" open="(" separator=","
+			close=")" index="">
+			#{item.auxiMateCode}
+
+		</foreach>
+
+
+
+
+	</select>
+
+
+
+
+	<insert id="saveAuxliary"
+		parameterType="cn.damei.entity.mobile.Manager.AuxiliaryVo">
+
+		INSERT INTO biz_purchase_auxi_mate (
+		id ,
+		order_id,
+		purchase_id,
+		auxi_mate_code,
+		auxi_mate_count,
+		submmit_status,
+		price,
+		supplier_price,
+		wangzhen_price,
+		is_sand_cement
+		)
+		values(
+
+		#{id},
+		#{orderId},
+		#{purchaseId},
+		#{auxiMateCode},
+		#{count},
+		#{submmitStatus},
+		#{price},
+		#{supplierPrice},
+		#{wangzhenPrice},
+		0
+		)
+	</insert>
+
+	<!-- 更新辅料表 -->
+	<update id="updateAuxliary"
+		parameterType="cn.damei.entity.mobile.Manager.AuxiliaryVo">
+
+		update biz_purchase_auxi_mate set auxi_mate_count
+		=#{count},submmit_status= #{submmitStatus} , purchase_id =
+		#{purchaseId} ,received_auxi_mate_count =#{receivedAuxiMateCount}
+		,owed_auxi_mate_count=#{owedAuxiMateCount} where auxi_mate_code
+		=#{auxiMateCode} and submmit_status
+		="NO" and order_id=#{orderId}
+
+	</update>
+
+
+
+	<!-- 保存采购单 -->
+	<insert id="savePurchase"
+		parameterType="cn.damei.entity.mobile.Manager.PurchaseTwoVo">
+		<selectKey resultType="java.lang.Integer" keyProperty="id"
+			order="AFTER">
+			SELECT LAST_INSERT_ID();
+		</selectKey>
+
+		INSERT INTO biz_purchase (
+		id ,
+		order_id,
+		create_date,
+		purchase_code,
+		purchase_type,
+		apply_receive_time,
+		apply_employee,
+		apply_time,
+		remarks,
+		total_price,
+		status
+
+		)
+		values(
+
+		#{id},
+		#{orderId},
+		#{createDate},
+		#{purchaseCode},
+		#{purchaseType},
+		#{hopeForTime},
+		#{applyPerson},
+		#{applyTime},
+		#{remarks},
+		#{AuxiliaryAllMoney},
+		#{status}
+		)
+
+
+
+
+
+	</insert>
+
+
+
+
+	<!-- 根据orderId去辅料申请表biz_purchase_auxi_mate 中查询是否有辅料申请记录 -->
+
+
+	<select id="getApplyRecordByOrderId" parameterType="int"
+		resultType="cn.damei.entity.mobile.Manager.AuxiliaryVo">
+
+		SELECT A.ID as "id",
+		A.order_id AS "orderId",
+		A.auxi_mate_code AS "auxiMateCode",
+		A.auxi_mate_count AS "count" ,
+		A.submmit_status as "submmitStatus"
+		FROM biz_purchase_auxi_mate A where
+		A.order_id =#{orderId} and
+		A.submmit_status ="NO"
+
+	</select>
+
+
+
+	<!-- 根据编号 和订单id查询辅料申请记录 -->
+	<select id="getApplyRecordById"
+		parameterType="cn.damei.entity.mobile.Manager.AuxiliaryVo"
+		resultType="cn.damei.entity.mobile.Manager.AuxiliaryVo">
+
+		SELECT A.id as "id",
+		A.order_id AS "orderId",
+		A.auxi_mate_code AS "auxiMateCode",
+		A.auxi_mate_count AS "count"
+		FROM
+		biz_purchase_auxi_mate A where A.auxi_mate_code =#{auxiMateCode} and
+		A.submmit_status ="NO" and a.order_id =#{orderId}
+
+	</select>
+
+	<!-- 得到编号组成码 -->
+	<select id="getCode"
+		resultType="cn.damei.entity.mobile.Manager.PurchaseTwoCode">
+		SELECT a.id AS "id", a.purchase_code AS "purchaseCode"
+		,a.auxiliary_date AS
+		"auxiliaryDate" from biz_purchase_increNum a where
+		a.id =2;
+
+	</select>
+
+
+
+	<!-- 更新辅料编号生成码规则 -->
+	<select id="updateCode"
+		parameterType="cn.damei.entity.mobile.Manager.PurchaseTwoCode">
+		UPDATE biz_purchase_increNum SET
+		purchase_code=#{purchaseCode}
+		,auxiliary_date =#{auxiliaryDate} where
+		id =#{id}
+
+	</select>
+
+	<!-- 根据编号删除辅料申请记录 -->
+	<delete id="deleteAuxiliaryByCode"
+		parameterType="cn.damei.entity.mobile.Manager.AuxiliaryVo">
+		delete from biz_purchase_auxi_mate where auxi_mate_code
+		=#{auxiMateCode} and
+		order_id = #{orderId} and submmit_status ='NO'
+
+	</delete>
+
+
+
+
+
+	<!-- ================================================辅材申请记录表======================================================== -->
+
+
+
+
+	<!-- 根据orderId 查询所有采购单 : 编号: 状态:进场日期 : 申请时间 顾客信息 -->
+	<select id="selectPurchaseByOrderId" parameterType="int"
+		resultType="cn.damei.entity.mobile.Manager.PurchaseTwoVo">
+		SELECT
+		a.id as "purchaseId",
+		a.create_date as "createDate",
+		a.purchase_code AS "purchaseCode",
+		a.apply_receive_time AS
+		"hopeForTime",
+		a.apply_time AS "applyTime",
+		b.community_name AS
+		"communityName",
+		b.build_number AS "buildNumber",
+		b.build_unit AS
+		"buildUnit",
+		b.build_room AS "buildRoom",
+		b.customer_name AS
+		"customerName",
+		c.label AS "status"
+		FROM
+		biz_purchase a,
+		biz_order b,
+		sys_dict c
+
+		WHERE
+		a.order_id = b.id
+		AND a.purchase_type = '1'
+		AND
+		a.order_id = #{orderId}
+		AND a.`status` = c.`value`
+
+		AND c.type =
+		'purchase_status'
+
+		order by a.apply_time desc
+
+
+	</select>
+
+
+
+
+	<!-- 根据采购单id 查询采购单详情 -->
+
+	<select id="selectPurchaseDetailsByPurchaseId"
+		resultType="cn.damei.entity.mobile.Manager.PurchaseDetailsVo">
+		
+		SELECT
+			b.auxi_mate_count AS "count",
+			d.auxiliary_materials_name AS "name",
+			d.specifications AS "specification",
+			d.pic_url AS "url",
+			b.price AS "price",
+			d.brands AS "brand",
+			m.label AS "unit",
+			d.emp_work_type AS "empWorkType",
+			n.label AS "empWorkTypeName"
+		FROM
+			biz_purchase_auxi_mate b
+		INNER JOIN biz_auxiliary_materials d ON d.auxiliary_materials_no = B.auxi_mate_code
+		LEFT JOIN (SELECT m1.`value`,m1.label AS "label" FROM sys_dict m1 WHERE m1.type = 'biz_material_unit' AND m1.del_flag = 0) m ON m.`value` = d.measurement_unit
+		LEFT JOIN (SELECT n1.`value`,n1.label AS "label" FROM sys_dict n1 WHERE n1.type = 'emp_work_type' AND n1.del_flag = 0) n ON n.`value` = d.emp_work_type
+		WHERE
+			b.purchase_id = #{0}
+		AND B.submmit_status = 'YES'
+		
+
+
+
+	</select>
+
+	<!--查询结算单中辅料列表 -->
+	<select id="queryAuxiliaryMaterialList" parameterType="java.util.Map"
+		resultType="cn.damei.entity.mobile.Manager.AuxiliaryMaterialsVo">
+		select c.auxiliary_materials_no as"auxiliaryMaterialsNo",
+		c.auxiliary_materials_name as "auxiliaryMaterialsName",
+		c.specifications as "specifications",
+		d.total_auxi_mate_count as
+		"totalAuxiMateCount",
+		c.measurement_unit as "measurementUnit",
+		e.label
+		as "measurementUnitLabel",
+		d.price as "laborPrice",
+		d.supplier_price AS
+		'supplierPrice',
+		d.wangzhen_price AS 'wangzhenPrice',
+		c.pic_url as "picUrl"
+		from
+		biz_auxiliary_materials c
+		left join sys_dict e on c.measurement_unit =
+		e.value and e.type =
+		#{measurementUnitType}
+		inner join (
+		SELECT
+		a.auxi_mate_code,
+		sum(a.auxi_mate_count) as total_auxi_mate_count,
+		a.price as price,
+		a.supplier_price,
+		a.wangzhen_price
+		FROM
+		biz_purchase_auxi_mate a
+		left join biz_purchase ee on a.purchase_id = ee.id
+		WHERE
+		ee.order_id =
+		#{orderId}
+		AND a.submmit_status = #{submmitStatus}
+		AND (a.is_sand_cement
+		IS NULL OR a.is_sand_cement = 0)
+		AND ee.purchase_type = '1'
+		AND ee.status not in ('10','21')
+		GROUP BY
+		a.auxi_mate_code,a.price
+		) d on c.auxiliary_materials_no = d.auxi_mate_code
+		INNER JOIN (
+		SELECT b.biz_auxiliary_materials_no from
+		biz_task_package_auxiliary_materials b where
+		b.biz_task_package_templat_id = #{taskpackageTemplatId}
+		AND b.del_flag = '0'
+		) p on p.biz_auxiliary_materials_no = c.auxiliary_materials_no
+	</select>
+
+	<!--查询结算单中沙子水泥列表 -->
+	<select id="querySandMaterialList" parameterType="java.util.Map"
+		resultType="cn.damei.entity.mobile.Manager.AuxiliaryMaterialsVo">
+		select c.auxiliary_materials_no as"auxiliaryMaterialsNo",
+		c.auxiliary_materials_name as "auxiliaryMaterialsName",
+		c.specifications as "specifications",
+		d.total_auxi_mate_count as
+		"totalAuxiMateCount",
+		c.measurement_unit as "measurementUnit",
+		e.label
+		as "measurementUnitLabel",
+		d.price as "laborPrice",
+		d.supplier_price AS
+		'supplierPrice',
+		d.wangzhen_price AS 'wangzhenPrice',
+		c.pic_url as "picUrl"
+		from
+		biz_auxiliary_materials c
+		left join sys_dict e on c.measurement_unit =
+		e.value and e.type =
+		#{measurementUnitType}
+		inner join (
+		SELECT
+		a.auxi_mate_code,
+		sum(a.auxi_mate_count) as total_auxi_mate_count,
+		a.price as price,
+		a.supplier_price,
+		a.wangzhen_price
+		FROM
+		biz_purchase_auxi_mate a
+		left join biz_purchase ee on a.purchase_id = ee.id
+		WHERE
+		ee.order_id =
+		#{orderId}
+		AND a.is_sand_cement=1
+		AND a.submmit_status =
+		#{submmitStatus}
+		AND ee.purchase_type = '6'
+		<!-- AND ee.status not in ('10','21') -->
+		AND ee.status not in ('21')
+		GROUP BY
+		a.auxi_mate_code,a.price
+		) d on c.auxiliary_materials_no = d.auxi_mate_code
+		INNER JOIN (
+		SELECT b.biz_auxiliary_materials_no from
+		biz_task_package_auxiliary_materials b where
+		b.biz_task_package_templat_id = #{taskpackageTemplatId}
+		AND b.del_flag = '0'
+		) p on p.biz_auxiliary_materials_no = c.auxiliary_materials_no
+	</select>
+
+	<!--更新结算单时查询结算单中辅料列表 -->
+	<select id="queryUsedAuxiliaryMaterialList" parameterType="java.util.Map"
+		resultType="cn.damei.entity.mobile.Manager.AuxiliaryMaterialsVo">
+		SELECT
+		h.id AS "orderAuxiMateId",
+		h.used_count AS "usedCount",
+		c.auxiliary_materials_no AS "auxiliaryMaterialsNo",
+		c.auxiliary_materials_name AS "auxiliaryMaterialsName",
+		c.specifications AS "specifications",
+		d.total_auxi_mate_count AS "totalAuxiMateCount",
+		c.measurement_unit AS "measurementUnit",
+		e.label AS "measurementUnitLabel",
+		d.price as "laborPrice",
+		d.supplier_price AS 'supplierPrice',
+		d.wangzhen_price AS 'wangzhenPrice',
+		c.pic_url AS "picUrl"
+		FROM
+		biz_auxiliary_materials c
+		LEFT JOIN sys_dict e ON c.measurement_unit = e.
+		VALUE
+
+		AND e.type =
+		#{measurementUnitType}
+
+		INNER JOIN (
+		SELECT
+		a.auxi_mate_code,
+		sum(a.auxi_mate_count) AS total_auxi_mate_count,
+		a.price as price,
+		a.supplier_price,
+		a.wangzhen_price
+		FROM
+		biz_purchase_auxi_mate a
+		LEFT JOIN biz_purchase ee ON a.purchase_id = ee.id
+		LEFT JOIN biz_task_package_auxiliary_materials b on a.auxi_mate_code =
+		b.biz_auxiliary_materials_no AND b.del_flag=0 AND b.biz_task_package_templat_id = #{taskpackageTemplatId}
+		WHERE
+		ee.order_id =#{orderId}
+		AND (a.is_sand_cement IS NULL OR a.is_sand_cement = 0)
+		AND a.submmit_status = #{submmitStatus}
+		AND ee.purchase_type = '1'
+		AND ee. STATUS NOT IN ('10', '21')
+		GROUP BY
+		a.auxi_mate_code,a.price
+		) d ON c.auxiliary_materials_no = d.auxi_mate_code
+		INNER JOIN (
+		SELECT b.biz_auxiliary_materials_no from
+		biz_task_package_auxiliary_materials b where
+		b.biz_task_package_templat_id = #{taskpackageTemplatId}
+		AND b.del_flag = '0'
+		) p on p.biz_auxiliary_materials_no = c.auxiliary_materials_no
+		LEFT JOIN (
+		SELECT
+		g.id,
+		g.auxiliary_materials_no,
+		g.used_count
+		FROM
+		biz_order_taskpackage_auxiliary_materials g
+		WHERE
+		g.order_id =#{orderId} and g.order_taskpackage_id = #{orderTaskpackageId}
+		) h ON
+		c.auxiliary_materials_no = h.auxiliary_materials_no
+	</select>
+
+
+	<!-- 更新结算单时查询结算单中沙子水泥列表 -->
+	<select id="queryUsedSandMaterialList" parameterType="java.util.Map"
+		resultType="cn.damei.entity.mobile.Manager.AuxiliaryMaterialsVo">
+		SELECT
+		h.id AS "orderAuxiMateId",
+		h.used_count AS "usedCount",
+		c.auxiliary_materials_no AS "auxiliaryMaterialsNo",
+		c.auxiliary_materials_name AS "auxiliaryMaterialsName",
+		c.specifications AS "specifications",
+		d.total_auxi_mate_count AS "totalAuxiMateCount",
+		c.measurement_unit AS "measurementUnit",
+		e.label AS "measurementUnitLabel",
+		d.price as "laborPrice",
+		d.supplier_price AS 'supplierPrice',
+		d.wangzhen_price AS 'wangzhenPrice',
+		c.pic_url AS "picUrl"
+		FROM
+		biz_auxiliary_materials c
+		LEFT JOIN sys_dict e ON c.measurement_unit = e.
+		VALUE
+
+		AND e.type =
+		#{measurementUnitType}
+
+		INNER JOIN (
+		SELECT
+		a.auxi_mate_code,
+		sum(a.auxi_mate_count) AS total_auxi_mate_count,
+		a.price as price,
+		a.supplier_price,
+		a.wangzhen_price
+		FROM
+		biz_purchase_auxi_mate a
+		LEFT JOIN biz_purchase ee ON a.purchase_id = ee.id
+		LEFT JOIN biz_task_package_auxiliary_materials b on a.auxi_mate_code =
+		b.biz_auxiliary_materials_no AND b.del_flag=0 AND b.biz_task_package_templat_id = #{taskpackageTemplatId}
+		WHERE
+		ee.order_id =#{orderId}
+		AND a.is_sand_cement = 1
+		AND a.submmit_status = #{submmitStatus}
+		AND ee.purchase_type = '6'
+		<!-- AND ee. STATUS NOT IN ('10', '21') -->
+		AND ee. STATUS NOT IN ('21')
+		GROUP BY
+		a.auxi_mate_code,a.price
+		) d ON c.auxiliary_materials_no = d.auxi_mate_code
+		INNER JOIN (
+		SELECT b.biz_auxiliary_materials_no from
+		biz_task_package_auxiliary_materials b where
+		b.biz_task_package_templat_id = #{taskpackageTemplatId}
+		AND b.del_flag = '0'
+		) p on p.biz_auxiliary_materials_no = c.auxiliary_materials_no
+		LEFT JOIN (
+		SELECT
+		g.id,
+		g.auxiliary_materials_no,
+		g.used_count
+		FROM
+		biz_order_taskpackage_auxiliary_materials g
+		WHERE
+		g.order_id =#{orderId} and g.order_taskpackage_id = #{orderTaskpackageId}
+		) h ON
+		c.auxiliary_materials_no = h.auxiliary_materials_no
+	</select>
+	
+	
+	<!-- 
+		 * 辅料申请校验
+		 * 如果是订单的工程模式为产业或者准产业【水电、木、瓦、油】
+		 * 【1】：任务包限制
+	     * 【1.1】：如果没有工种对应的任务包模板，不做限制
+	     * 		【isCanApplyAuxiliary:1】【不限】
+	     * 【1.2】：如果没有生产该模板的任务包，必须生产任务包
+	     * 		【isCanApplyAuxiliary:2】【不可】：“水电路改造工程”任务包的未生成，请您联系工程部的拆单员进行拆单。
+	     * 【1.3】：如果存在任务包，但是任务包已经验收，则不允许申请其对应的辅料
+	     * 		【isCanApplyAuxiliary:3】【不可】：水电路改造工程”的任务包点了【确认验收】之 后，就不能再申请【水电】类下面所有的辅料商品
+	     * 【2】：金额限制
+	     * 【2.1】：存在任务包，但是任务包预算金额为空，必须要有金额
+	     * 		【isCanApplyAuxiliary:4】【不可】：“水电路改造工程”任务包的预算金额为0，请您联系工程部的拆单员进行拆单或者修改预算金额。
+	     * 【2.2】：任务包预算金额不为空，但是申请辅料预算比例为空，不做限制
+	     * 		【isCanApplyAuxiliary:5】【不限】
+	     * 【2.3】：任务包预算金额*比例-已申请金额<0，不可以申请
+	     * 		【isCanApplyAuxiliary:6】【不可】【选择页面】：您【水电】类辅料商品申请金额还剩余0元，不可申请【水电】辅料商品,如果商品数量确实不够请联系拆单员修改任务包预算金额。
+	     * 		【isCanApplyAuxiliary:6】【不可】【提交页面】：您【油】类辅料商品申请金额还剩余0元，请删除高亮显示的【油】辅料商品。
+	     * 【2.4】：任务包预算金额*比例-已申请金额>0，可以申请,注意校验
+	     * 		【isCanApplyAuxiliary:7】【限制】您【水电】类辅料商品申请金额还剩余10.00元，请修改【水电】辅料商品数量，如果商品数量确实不够请联系拆单员修改任务包预算金额。
+	 -->
+	<select id="findAuxiliaryPackageState" parameterType="int" resultType="cn.damei.entity.mobile.Manager.AuxiliaryPackageState">
+		
+		SELECT
+			a.id AS "orderId",
+			a.store_id AS "storeId",
+			a.project_mode AS "projectMode",
+			b.`value` AS "empWorkType",
+			b.label AS "empWorkTypeName",
+			c.id AS "taskPackageTemplatId",
+			c.templat_name AS "templatName",
+			t.id AS "orderTaskpackageId",
+			t.package_stateId "packageStateId",
+			IFNULL(t.labor_auxiliary_materials_budget_amount,0) AS "laborAuxiliaryMaterialsBudgetAmount",
+			IFNULL(TRUNCATE(c.apply_budget_ratio*100,0),0) AS "applyBudgetRatio",
+			IFNULL(t.labor_auxiliary_materials_budget_amount * c.apply_budget_ratio,0) AS "totalAmount",
+			IFNULL(t.labor_auxiliary_materials_budget_amount * c.apply_budget_ratio,0) AS "afterAmount",
+			(
+				CASE
+				WHEN c.id IS NULL THEN 1
+				WHEN t.id IS NULL THEN 2
+				WHEN t.package_stateId >= 100 THEN 3
+				WHEN IFNULL(t.labor_auxiliary_materials_budget_amount,0) &lt;= 0 THEN 4
+				WHEN IFNULL(c.apply_budget_ratio,0) &lt;= 0 THEN 5
+				ELSE 7
+				END
+			) AS "isCanApplyAuxiliary"
+		FROM
+			biz_order a
+		INNER JOIN sys_dict b ON b.del_flag = 0 AND b.type = 'emp_work_type' AND b.`value` IN (0, 1, 2, 3)
+		LEFT JOIN biz_task_package_templat c ON c.store_id = a.store_id AND c.project_mode = a.project_mode AND c.emp_work_type = b.`value` AND c.`status` = 1
+		LEFT JOIN biz_order_taskpackage t ON t.task_package_templat_id = c.id AND t.order_id = a.id
+		WHERE
+			a.id = #{0}
+	
+	
+	</select>
+	
+	<!-- 查询该订单不同工种已经申请的辅料金额 -->
+	<select id="findPurchseAmountByWorkType" parameterType="int" resultType="cn.damei.entity.mobile.Manager.AuxiliaryPackageState">
+		
+		SELECT
+			c.emp_work_type AS "empWorkType",
+			SUM(IFNULL(b.price * b.auxi_mate_count ,0)) AS "beginAmount"
+		FROM
+			biz_purchase a
+		LEFT JOIN biz_purchase_auxi_mate b ON a.id = b.purchase_id
+		LEFT JOIN biz_auxiliary_materials c ON c.auxiliary_materials_no = b.auxi_mate_code
+		WHERE
+			a.purchase_type = 1
+		AND a.`status` != 21
+		AND a.order_id = #{0}
+		GROUP BY c.emp_work_type
+	
+	</select>
+	
+	
+	
+	<!-- 根据采购单id查询采购单信息 -->
+	<select id="findPurchaseDetails" parameterType="int" resultType="cn.damei.entity.mobile.Manager.PurchaseTwoVo">
+		SELECT
+			a.purchase_code AS "purchaseCode",
+			a.total_price AS 'totalMoney',
+			a.apply_receive_time AS "hopeForTime",
+			e.label AS "status",
+			o.community_name AS "communityName",
+			o.build_number AS "buildNumber",
+			o.build_unit AS "buildUnit",
+			o.build_room AS "buildRoom",
+			o.customer_name AS "customerName",
+			o.id AS "orderId"
+		FROM
+			biz_purchase a
+		INNER JOIN sys_dict e ON a.`status` = e.`value`
+		AND e.type = 'purchase_status'
+		AND e.del_flag = 0
+		INNER JOIN biz_order o ON a.order_id = o.id
+		WHERE
+			a.id = #{0}
+		AND a.purchase_type = '1'
+	</select>
+	
+</mapper>  

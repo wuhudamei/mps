@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.mobile.Manager.BizPurchaseReceiveBillDao">
+	<select id="findByCode" resultType="cn.damei.entity.mobile.Manager.BizPurchaseReceiveBill">
+		select 
+		 id as "id",
+		 purchase_id as "purchaseId",
+		 purchase_receive_bill_code as "purchaseReceiveCode",
+		 receive_date as "receiveDate",
+		 receive_employee_id as "receiveEmployeeId"
+		from biz_purchase_receive_bill
+		where 
+			purchase_receive_bill_code = #{0}
+	</select>
+	
+	<insert id="insert" parameterType="cn.damei.entity.mobile.Manager.BizPurchaseReceiveBill">
+		insert into biz_purchase_receive_bill(
+			id ,
+			purchase_id,
+			purchase_receive_bill_code,
+			receive_date,
+			receive_employee_id,
+			del_flag,
+			create_date,
+			update_date
+		)values (
+			#{id},
+			#{purchaseId},
+			#{purchaseReceiveCode},
+			#{receiveDate},
+			#{receiveEmployeeId},
+			#{delFlag},
+			#{createDate},
+			#{updateDate}
+		)
+	</insert>
+	
+	
+	<select id="queryReceiveBill" resultType="cn.damei.entity.mobile.Manager.BizPurchaseReceiveBillVo">
+		
+		SELECT
+			a.id as "id",
+			a.purchase_id as "purchaseId",
+			a.purchase_receive_bill_code as "purchaseReceiveBillCode",
+			a.receive_date as "receiveDate",
+			a.receive_employee_id as "receiveEmployeeId",
+			b.purchase_code as "purchaseCode",
+			b.purchase_type as "purchaseType",
+			c.customer_address as "customerAddress",
+			c.community_name as "cummunityName",
+			c.build_number as "buildNumber",
+			c.build_unit as "builtUnit",
+			c.build_room as "builtRoom",
+			c.customer_name as "customerName"
+		FROM
+			biz_purchase_receive_bill a
+		LEFT JOIN biz_purchase b ON a.purchase_id = b.id
+		INNER JOIN biz_order c ON b.order_id = c.id
+		WHERE
+			a.receive_employee_id = #{0} and b.purchase_type = #{1}
+		order by a.receive_date desc
+	</select>
+	
+	
+	<select id="queryById" resultType="cn.damei.entity.mobile.Manager.BizPurchaseReceiveBill">
+		select 
+			id as "id",
+		 	purchase_id as "purchaseId",
+			purchase_receive_bill_code as "purchaseReceiveCode",
+			receive_date as "receiveDate",
+			receive_employee_id as "receiveEmployeeId"
+		from 
+			biz_purchase_receive_bill
+		where id = #{0}
+	</select>
+	
+	<!-- 根据采购单ID查询最新的一条收货记录 -->
+	<select id="findNewReceiveBill" parameterType="int" resultType="cn.damei.entity.mobile.Manager.BizPurchaseReceiveBillVo">
+		SELECT
+			a.id as "id",
+			a.create_date as "createDate"
+		FROM
+			biz_purchase_receive_bill a
+		WHERE
+			a.purchase_id = #{0}
+		ORDER BY
+			a.create_date DESC
+		LIMIT 1
+	</select>
+	
+	
+</mapper>

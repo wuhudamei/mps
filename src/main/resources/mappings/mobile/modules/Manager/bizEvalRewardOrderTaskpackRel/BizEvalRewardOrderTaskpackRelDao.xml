@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.mobile.Manager.BizEvalRewardOrderTaskpackRelDao">
+
+    <select id="get" resultType="cn.damei.entity.mobile.Manager.BizEvalRewardOrderTaskpackRel">
+		SELECT a.id as "id",a.eval_reward_cfg_id as "evalRewardCfgId",a.order_taskpack_id as "orderTaskpackId"
+		FROM biz_eval_reward_order_taskpack_rel a
+		WHERE a.id = #{id}
+	</select>
+
+	<update id="update">
+		UPDATE biz_eval_reward_order_taskpack_rel SET
+			eval_reward_cfg_id=#{evalRewardCfgId},order_taskpack_id=#{orderTaskpackId}
+		WHERE id = #{id}
+	</update>
+
+	<insert id="insert">
+		INSERT INTO biz_eval_reward_order_taskpack_rel(
+		id,
+		eval_reward_cfg_id,
+		order_taskpack_id
+		) VALUES (
+		#{id},
+		#{evalRewardCfgId},
+		#{orderTaskpackId}
+		)
+	</insert>
+</mapper>

@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.mobile.Inspector.InspectorLoginDao">
+
+	<sql id="inspectorColumns">
+		a.id AS "id",
+		a.no AS "no",
+		a.loginName AS "loginName",
+        a.realName AS "realName",
+        a.phone AS "phone",
+        a.empType AS "empType",
+        a.storeId AS "storeId",
+        a.star as "star"
+	</sql>
+	
+	<!-- 根据手机查询type为1 也就是字典表中质检员的 信息 -->
+	<select id="selectInspectorByPhone" resultType="cn.damei.entity.mobile.Inspector.Inspector">
+		SELECT
+		<include refid="inspectorColumns" />
+		from biz_employee a 
+		where a.phone = #{0} and a.del_flag ='0' and (a.empType = '1' or a.id in(select b.manager_employee_id from biz_qc_manager b where b.is_enabled = '1' and b.del_flag = '0'))
+	</select>
+
+	<select id="selectInspectorByPhone1" resultType="cn.damei.entity.mobile.Inspector.Inspector">
+
+
+		SELECT
+			a.id AS "id",
+			a. NO AS "no",
+			a.loginName AS "loginName",
+			a.realName AS "realName",
+			a.phone AS "phone",
+			a.empType AS "empType",
+			a.storeId AS "storeId",
+			a.star AS "star",
+			(CASE WHEN IFNULL(m.count,0)>0 THEN 1 ELSE 0 END) AS "isLeader"
+		FROM
+			biz_employee a
+		LEFT JOIN (
+			SELECT
+				b.manager_employee_id,
+				COUNT(1) AS "count"
+			FROM
+				biz_qc_manager b
+			WHERE
+				b.is_enabled = 1
+				AND b.del_flag = 0
+			GROUP BY
+				b.manager_employee_id
+		) m ON m.manager_employee_id = a.id
+		WHERE
+			a.phone = #{0}
+		AND a.del_flag = '0'
+		AND (
+				a.empType = #{1}
+				OR m.manager_employee_id IS NOT NULL
+			)
+
+
+	</select>
+	<select id="findCount" resultType="int">
+		SELECT count(1) from biz_order
+		WHERE order_inspector_id = #{orderInspectorId}
+	</select>
+	
+	<select id="findBuildingCount" resultType="int">
+		SELECT count(1) from biz_order
+		WHERE order_inspector_id = #{orderInspectorId} AND order_status_number = '200'
+	</select>
+
+<select id="findInspectReport" parameterType="int" resultType="int">
+
+		SELECT
+		count(1)
+		FROM
+			biz_qc_bill a
+		WHERE
+			a.check_employee_id = #{checkEmployeeId}
+		AND a.`status` &gt; 3
+		ORDER BY
+			a.check_datetime DESC
+
+
+</select>
+	
+	<!-- 根据质检员ID和当前时间  查询质检未评价数 -->
+	<select id="findEvalCount" parameterType="cn.damei.entity.mobile.Inspector.Inspector" resultType="int">
+
+		SELECT
+		COUNT(1)
+		FROM
+		biz_order a
+		INNER JOIN biz_order_taskpackage b ON a.id = b.order_id
+		INNER JOIN biz_eval_score c ON b.id = c.related_business_id and c.eval_type='1'
+
+		AND c.group_leader_employee_id = b.group_id
+		AND c.eval_status NOT IN (2)
+		AND DATE_ADD(
+		c.eval_start_datetime,
+		INTERVAL 1 DAY
+		) &gt;  #{nowDate}
+		LEFT JOIN (
+		SELECT
+		d.eval_score_id,
+		COUNT(1) as "count"
+		FROM
+		biz_eval_score_role d
+		WHERE
+
+		d.eval_role_type IN (201, 202)
+		GROUP BY d.eval_score_id
+		) w on c.id = w.eval_score_id
+
+		WHERE
+		a.order_inspector_id =#{id}
+		AND w.count &lt; 1
+
+
+	
+	</select>
+	
+	<select id="isLeader" parameterType="int" resultType="int">
+	SELECT
+	count(1)
+FROM
+	biz_qc_manager a
+WHERE
+	a.manager_employee_id = #{_parameter}
+AND a.is_enabled = 1
+	
+	</select>
+	
+	<!-- 弹框是否已查看 -->
+	<select id="findView" parameterType="cn.damei.entity.mobile.Inspector.Inspector" resultType="int">
+		SELECT
+			COUNT(1)
+		FROM
+			biz_business_view_log a
+		WHERE
+			a.business_type = '333'
+		AND a.business_viewer_employee_id = #{id}
+		AND a.business_viewer_only_mark = #{phone}
+		AND to_days(a.business_view_datetime) = to_days(now())
+	</select>
+
+</mapper>

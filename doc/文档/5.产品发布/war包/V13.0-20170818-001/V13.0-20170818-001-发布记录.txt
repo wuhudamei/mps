@@ -1,0 +1,39 @@
+打包名称：mdn.war
+打包版本：V13.0-20170818-001
+
+
+功能新增：
+	
+	1、订单作废--雷力明
+	2、项目经理考勤--大强
+	3、基装变更2.0-徐强
+
+
+
+数据库表结构变更：
+
+	1、执行文件夹【数据库表结构变更】内的【jeesite_table-v13.0_03_pm_kaoqin.sql】
+					     【jeesite_table-v13.0_06_dingdan_weihu.sql】
+
+
+数据库表数据变更：
+
+	1、执行文件夹【数据库表数据变更】内的【dingdanzuofei.sql】
+	2、执行文件夹【数据库表数据变更】内的【shejibuquanxianbiao.sql】
+	3、执行文件夹【数据库表数据变更】内的【shenjilishichuli.sql】
+	4、执行文件夹【数据库表数据变更】内的【kaoqin.sql】
+
+	
+	
+
+	
+
+	
+
+
+	
+
+
+
+
+	 

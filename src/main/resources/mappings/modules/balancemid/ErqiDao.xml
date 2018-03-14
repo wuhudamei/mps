@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.ErqiDao">
+
+
+	<select id="get"
+		resultType="cn.damei.entity.modules.ErqiEntity">
+		SELECT
+		id
+		FROM biz_qc_bill a
+		WHERE a.id = #{id}
+	</select>
+
+	<select id="findList"
+		resultType="cn.damei.entity.modules.ErqiEntity">
+		SELECT
+		a.id,
+		b.store_id AS "storeId",
+		a.expect_check_datetime AS "applyCheckDate",
+		a.accept_check_datetime AS "yanshouDate",
+		b.customer_name AS "customerName",
+		b.community_name AS "communityName",
+		b.build_unit AS "buildUnit",
+		b.build_number AS "buildNumber",
+		b.build_room AS "buildRoom",
+		b.item_manager AS "itemManagerName",
+		b.order_number AS "orderNumber",
+		b.engin_depart_id AS "engineDepartId",
+		a.order_id AS "orderId",
+		e.realName AS "inspectName",
+		p.receive_money_amount AS paymentAmount,
+		p.receive_money_datetime AS paymentDate,
+		a.review_datetime AS "reviewDateTime",
+		en.`name` AS "engineDepartName"
+		FROM
+		biz_qc_bill a
+		LEFT JOIN biz_pre_pm_settle_finance_receive_moeny p ON a.order_id =
+		p.order_id
+		AND p.receive_money_type = "1"
+		AND p.del_flag = "0"
+		INNER JOIN biz_order b ON a.order_id = b.id
+		LEFT JOIN biz_engineering_department en ON en.id = b.engin_depart_id
+		LEFT JOIN biz_employee e ON a.check_employee_id = e.id
+		INNER JOIN biz_pm_settle_check_node_cnfg c ON a.qc_check_node_id =
+		c.qc_check_node_id
+		AND c.store_id = b.store_id
+		AND c.project_mode = b.project_mode
+		AND c.settle_node = 1
+		AND c.settle_role = 1
+		AND c.is_enabled = 1
+		WHERE
+		a.qc_bill_type = "1"
+		AND a.is_recheck = "0"
+		AND a.`status` = "30"
+		AND a.review_status = 1
+		AND a.order_id NOT IN (
+		SELECT
+		fc.order_id
+		FROM
+		biz_order_finance_collection fc
+		WHERE
+		fc.collection_type = 1
+		)
+		<if test="storeId != null and storeId != ''">
+			AND b.store_id = #{storeId}
+		</if>
+		<if test="customerName != null and customerName != ''">
+			AND b.customer_name LIKE
+			CONCAT('%','${customerName}','%' )
+		</if>
+		<if test="itemManagerName != null and itemManagerName != ''">
+			AND b.item_manager LIKE
+			CONCAT('%','${itemManagerName}','%' )
+		</if>
+		<if test="start != null and end != null and start != '' and end != ''">
+			AND a.accept_check_datetime BETWEEN #{start} AND #{end}
+		</if>
+		<if test="engineDepartId != null and engineDepartId != ''">
+			AND b.engin_depart_id = #{engineDepartId}
+		</if>
+
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+
+
+</mapper>

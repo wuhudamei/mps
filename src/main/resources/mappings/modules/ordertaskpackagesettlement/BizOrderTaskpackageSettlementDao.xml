@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizOrderTaskpackageSettlementDao">
+    
+	<sql id="bizOrderTaskpackageSettlementColumns">
+		a.id AS "id",
+		a.store_id AS "storeid",
+		a.settlement_no AS "settlementNo",
+		a.order_taskpackage_id AS "orderTaskpackageId",
+		a.check_date AS "checkDate",
+		a.is_qualified AS "isQualified",
+		a.is_delay AS "isDelay",
+		a.delay_days AS "delayDays",
+		a.delay_amerce AS "delayAmerce",
+		a.is_manage_punish AS "isManagePunish",
+		a.punish_amerce AS "punishAmerce",
+		a.punish_reason AS "punishReason",
+		a.auxiliary_materials_deduct_amount AS "auxiliaryMaterialsAmount",
+		a.guarantee_money_amount AS "guaranteeMoneyAmount",
+		a.settlement_amount AS "settlementAmount",
+		a.status AS "status",
+		a.qc_punish_money_amount as "qcPunishMoneyAmount",
+		a.reward_amount as "rewardAmount",
+		a.sand_cement_deduct_amount as sandCementAmount,
+		a.company_deduct_amount as "companyDeductAmount",
+		a.company_deduct_reason as "companyDeductReason",
+		a.settle_style as
+		"settleStyle",
+		a.worker_group_settle_amount as
+		"workerGroupSettleAmount",
+		a.pm_materials_settle_amount as
+		"pmMaterialsSettleAmount",
+		a.labor_auxiliary_materials_settle_amount as
+		"laborAuxiliaryMaterialsSettleAmount",
+		a.labor_settle_amount as
+		"laborSettleAmount",
+		a.auxiliary_materials_settle_amount as
+		"auxiliaryMaterialsSettleAmount"
+	</sql>
+	
+	<sql id="bizOrderTaskpackageSettlementJoins">
+	</sql>
+    
+	<select id="get" resultType="cn.damei.entity.modules.BizOrderTaskpackageSettlement">
+		SELECT 
+			<include refid="bizOrderTaskpackageSettlementColumns"/>
+		FROM biz_order_taskpackage_settlement a
+		<include refid="bizOrderTaskpackageSettlementJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	<!-- 根据状态日志的时间查询审核通过的结算单信息  -->
+	<select id="getPassOrderTaskPageSettle" resultType="cn.damei.entity.modules.BizOrderTaskpackageSettlement">
+		SELECT 
+			<include refid="bizOrderTaskpackageSettlementColumns"/>
+		FROM
+		 biz_order_taskpackage_settlement a ,
+		 biz_business_status_log b,
+		 biz_order_taskpackage c
+		where 
+		a.order_taskpackage_id = b.business_only_mark_int
+		and c.id=a.order_taskpackage_id
+		and c.store_id= #{storeId}
+		and b.business_status='80' 
+		and b.business_type='601' 
+		and b.status_datetime BETWEEN #{startDate} AND #{endDate}
+		AND a.id not IN(
+         select 
+          r.order_taskpackage_settlement_id
+         from 
+         biz_auxiliary_materials_verify_settlement_rel r,
+         biz_auxiliary_materials_verify v
+         where 
+         r.auxiliary_materials_verify_id=v.id
+         and v.supplier_id = #{supplierId}
+         and v.status != '15'
+         )
+	</select>
+	
+	<select id="findList" resultType="cn.damei.entity.modules.BizOrderTaskpackageSettlement">
+		SELECT 
+			<include refid="bizOrderTaskpackageSettlementColumns"/>
+		FROM biz_order_taskpackage_settlement a
+		<include refid="bizOrderTaskpackageSettlementJoins"/>
+		<where>
+			
+			<if test="settlementNo != null and settlementNo != ''">
+				AND a.settlement_no LIKE 
+					<if test="dbName == 'oracle'">'%'||#{settlementNo}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{settlementNo}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{settlementNo},'%')</if>
+			</if>
+			<if test="beginCheckDate != null and endCheckDate != null and beginCheckDate != '' and endCheckDate != ''">
+				AND a.check_date BETWEEN #{beginCheckDate} AND #{endCheckDate}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="cn.damei.entity.modules.BizOrderTaskpackageSettlement">
+		SELECT 
+			<include refid="bizOrderTaskpackageSettlementColumns"/>
+		FROM biz_order_taskpackage_settlement a
+		<include refid="bizOrderTaskpackageSettlementJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findByOrderTaskpackageId" resultType="cn.damei.entity.modules.BizOrderTaskpackageSettlement">
+		SELECT 
+			<include refid="bizOrderTaskpackageSettlementColumns"/>
+		FROM biz_order_taskpackage_settlement a
+			<include refid="bizOrderTaskpackageSettlementJoins"/>
+		WHERE a.order_taskpackage_id = #{orderTaskpackageId}
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO biz_order_taskpackage_settlement(
+			id,
+			store_id,
+			settlement_no,
+			order_taskpackage_id,
+			check_date,
+			is_qualified,
+			is_delay,
+			delay_days,
+			delay_amerce,
+			is_manage_punish,
+			punish_amerce,
+			punish_reason,
+			auxiliary_materials_deduct_amount,
+			guarantee_money_amount,
+			settlement_amount,
+			status,
+			sand_cement_deduct_amount
+		) VALUES (
+			#{id},
+			#{storeid},
+			#{settlementNo},
+			#{orderTaskpackageId},
+			#{checkDate},
+			#{isQualified},
+			#{isDelay},
+			#{delayDays},
+			#{delayAmerce},
+			#{isManagePunish},
+			#{punishAmerce},
+			#{punishReason},
+			#{auxiliaryMaterialsAmount},
+			#{guaranteeMoneyAmount},
+			#{settlementAmount},
+			#{status},
+			#{sandCementAmount}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE biz_order_taskpackage_settlement SET 
+			store_id = #{storeid},
+			settlement_no = #{settlementNo},
+			order_taskpackage_id = #{orderTaskpackageId},
+			check_date = #{checkDate},
+			is_qualified = #{isQualified},
+			is_delay = #{isDelay},
+			delay_days = #{delayDays},
+			delay_amerce = #{delayAmerce},
+			is_manage_punish = #{isManagePunish},
+			punish_amerce = #{punishAmerce},
+			punish_reason = #{punishReason},
+			auxiliary_materials_deduct_amount = #{auxiliaryMaterialsAmount},
+			guarantee_money_amount = #{guaranteeMoneyAmount},
+			settlement_amount = #{settlementAmount},
+			status = #{status},
+			sand_cement_deduct_amount=#{sandCementAmount}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM biz_order_taskpackage_settlement
+		WHERE id = #{id}
+	</update>
+	<!-- 工人拒绝薪酬分配 -->
+	<update id="updateSettlementStatus">
+		update biz_order_taskpackage_settlement set 
+		status = #{1}
+		where order_taskpackage_id = #{0}
+	</update>
+	<!-- 工人同意薪酬分配 -->
+	<update id="updateSettlementStatusAndDate">
+		update biz_order_taskpackage_settlement set 
+		status = #{1},
+		update_date = #{2},
+		ensure_amount_datetime = #{2}
+		where order_taskpackage_id = #{0}
+	</update>
+	
+</mapper>

@@ -1,0 +1,60 @@
+.g_info ul.info_ul li:first-child{
+	background-image: url(../images/materi_icon1.png);
+	background-repeat: no-repeat;
+	background-size: 0.33rem 0.32rem;
+	background-position: 4% center;
+}
+.g_info ul.info_ul li:nth-child(2){
+	background-image: url(../images/materi_icon2.png);
+	background-repeat: no-repeat;
+	background-size: 0.33rem 0.33rem;
+	background-position: 4% center;
+}
+.g_info ul.info_ul li:nth-child(3){
+	background-image: url(../images/materi_icon2.png);
+	background-repeat: no-repeat;
+	background-size: 0.33rem 0.32rem;
+	background-position: 4% center;
+}
+.g_info ul.info_ul li:nth-child(4){
+	background-image: url(../images/wallQues.png);
+	background-repeat: no-repeat;
+	background-size: 0.33rem 0.32rem;
+	background-position: 4% center;
+}
+.g_info ul.info_ul li:nth-child(5){
+	background-image: url(../images/materi_icon3.png);
+	background-repeat: no-repeat;
+	background-size: 0.33rem 0.32rem;
+	background-position: 4% center;
+}
+.g_info ul.info_ul li:nth-child(6){
+	background-image: url(../images/01.png);
+	background-repeat: no-repeat;
+	background-size: 0.33rem 0.32rem;
+	background-position: 4% center;
+}
+.g_info ul.info_ul li:nth-child(7){
+	background-image: url(../images/materi_icon_biaohua.png);
+	background-repeat: no-repeat;
+	background-size: 0.33rem 0.32rem;
+	background-position: 4% center;
+}
+.g_info ul.info_ul li:nth-child(8){
+	background-image: url(../images/sand.png);
+	background-repeat: no-repeat;
+	background-size: 0.33rem 0.32rem;
+	background-position: 4% center;
+}
+.g_info ul.info_ul li:nth-child(9){
+	background-image: url(../images/materi_icon4.png);
+	background-repeat: no-repeat;
+	background-size: 0.33rem 0.32rem;
+	background-position: 4% center;
+}
+.g_info ul.info_ul li:nth-child(10){
+	background-image: url(../images/materi_icon5.png);
+	background-repeat: no-repeat;
+	background-size: 0.33rem 0.32rem;
+	background-position: 4% center;
+}

@@ -1,0 +1,42 @@
+.g-account_details .null{height: .8rem;}
+.g-account_details .table{
+	margin-top: .2rem;
+	background: #fff;
+	margin-left: .2rem;
+	margin-right: .2rem;
+	border-bottom-left-radius: .1rem;
+	border-bottom-right-radius: .1rem;
+	font-size: .28rem;
+}
+.g-account_details .table:last-child{
+	margin-bottom: 2rem;
+}
+.g-account_details li{
+	height: .76rem;
+	line-height: .76rem;
+	padding-left: .2rem;
+}
+.g-account_details .title{
+	background: #9cccf7;
+}
+.g-account_details .content{
+	border-bottom: 1px solid #b4d9f9;
+	color: #666;
+}
+.g-account_details .content:last-child{
+	border: 0;
+}
+.g-account_details .content span:first-child{
+	display: inline-block;
+	width: 22%;
+	text-align: center;
+	border-right: 1px solid #b4d9f9;
+	box-sizing: border-box;
+	float: left;
+}
+.g-account_details .content span:last-child{
+	display: inline-block;
+	width: 78%;
+	text-align: center;
+}
+em{color: #000;}

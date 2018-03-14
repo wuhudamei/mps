@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.DetailOfCostAccountingDao">
+	<select id="findList" resultType="cn.damei.entity.modules.DetailOfCostAccounting">
+		SELECT 
+				a.order_id,
+				a.managerAmount,
+				a.storeName,
+				a.departmentName,
+				a.projectModeName,
+				a.order_number,
+				a.buildName,
+				a.contract_area,
+				a.contract_start_date,
+				a.contract_end_date,
+				a.item_manager,
+				a.customer_name,
+				a.contract_amount,
+				a.order_status_description,
+				a.engineDepartId,
+				a.actualStartDate,
+				MAX( CASE WHEN a.task_package_type='7' THEN a.sandCement END ) AS 'sandCement',
+				 MAX(
+				        CASE 
+				        WHEN  a.task_package_type='1' THEN
+				            sumcount
+				        END
+				    ) AS shuidian,
+				
+				 MAX(
+				        CASE 
+				        WHEN  a.task_package_type='10' THEN
+					sumcount
+				        END
+				    ) AS chaichu,
+				  MAX(
+				        CASE 
+				        WHEN  a.task_package_type='12' THEN
+					sumcount
+				        END
+				    ) AS yingxiao,
+				    MAX(
+				        CASE 
+				        WHEN  a.task_package_type='13' THEN
+					sumcount
+				        END
+				    ) AS teshu,
+				        MAX(
+				        CASE 
+				        WHEN  a.task_package_type='7' THEN
+					sumcount
+				        END
+				    ) AS wagong,
+				       MAX(
+				        CASE 
+				        WHEN  a.task_package_type='8' THEN
+					sumcount
+				        END
+				    ) AS mugong,
+				  MAX(
+				        CASE 
+				        WHEN  a.task_package_type='9' THEN
+					sumcount
+				        END
+				    ) AS yougong,
+				    
+				    MAX(
+				        CASE 
+				        WHEN  a.task_package_type='11' THEN
+					sumcount
+				        END
+				    ) AS anzhuang,
+				    
+				     MAX(
+				        CASE 
+				        WHEN  a.task_package_type='1' THEN
+				            fuliaocount
+				        END
+				    ) AS fuliaoshuidian,
+				
+				 MAX(
+				        CASE 
+				        WHEN  a.task_package_type='10' THEN
+					fuliaocount
+				        END
+				    ) AS fuliaochaichu,
+				  MAX(
+				        CASE 
+				        WHEN  a.task_package_type='12' THEN
+					fuliaocount
+				        END
+				    ) AS fuliaoyingxiao,
+				    MAX(
+				        CASE 
+				        WHEN  a.task_package_type='13' THEN
+					fuliaocount
+				        END
+				    ) AS fuliaoteshu,
+				        MAX(
+				        CASE 
+				        WHEN  a.task_package_type='7' THEN
+					fuliaocount
+				        END
+				    ) AS fuliaowagong,
+				       MAX(
+				        CASE 
+				        WHEN  a.task_package_type='8' THEN
+					fuliaocount
+				        END
+				    ) AS fuliaomugong,
+				  MAX(
+				        CASE 
+				        WHEN  a.task_package_type='9' THEN
+					fuliaocount
+				        END
+				    ) AS fuliaoyougong
+	   
+	FROM(
+		SELECT
+			sum(ifnull(a.worker_group_settle_amount,0)) as 'sumcount',
+   			sum(IFNULL(a.auxiliary_materials_deduct_amount,0)) AS 'fuliaocount',
+   			sum(IFNULL(a.sand_cement_deduct_amount,0)) AS 'sandCement',
+			b.task_package_type,
+			b.order_id,
+			s.managerAmount,
+			d.name AS 'storeName',
+			e.name AS 'departmentName',
+			f.label AS 'projectModeName',
+			f1.label AS 'buildName',
+			c.order_number,
+			c.build_type,
+			c.contract_area,
+			c.actual_end_date AS 'contract_end_date',
+			c.contract_end_date as 'contract_start_date',
+			c.item_manager,
+			c.actual_start_date as 'actualStartDate',
+			c.customer_name,
+			c.contract_amount,
+			c.order_status_description,
+			c.engin_depart_id as 'engineDepartId',
+			c.create_date
+		FROM biz_order_taskpackage_settlement a
+		LEFT JOIN biz_order_taskpackage b ON a.order_taskpackage_id = b.id
+		LEFT JOIN (SELECT a.order_id,sum((IFNULL(a.midway_commission_amount,0) + IFNULL(a.complete_commission_amount,0))) AS 'managerAmount' FROM biz_pm_settle_bill a where a.settle_role = 1 GROUP BY a.order_id) s ON b.order_id = s.order_id
+		LEFT JOIN biz_order c ON c.id = b.order_id
+		LEFT JOIN sys_office d ON d.id = c.store_id
+		LEFT JOIN biz_engineering_department e ON e.id = c.engin_depart_id
+		LEFT JOIN sys_dict f ON f.value = c.project_mode AND f.type = 'project_mode'
+		LEFT JOIN sys_dict f1 ON f1.value = c.build_type AND f1.type = 'emp_house_type'
+		<where>
+			<if test="engineDepartId != null and engineDepartId != ''">
+				AND c.engin_depart_id = #{engineDepartId}
+			</if>
+			<if test="storeId != null and storeId != ''">
+				AND c.store_id = #{storeId}
+			</if>
+			<if test="projectMode != null and projectMode != ''">
+				AND c.project_mode = #{projectMode}
+			</if>
+			<if test="itemManager != null and itemManager != ''">
+				AND c.item_manager like concat('%',#{itemManager},'%')
+			</if>
+			<if test="orderStatusNumber != null and orderStatusNumber != ''">
+				AND c.order_status_number = #{orderStatusNumber}
+			</if>
+			<if test="startActualStartDate != null and startActualStartDate != '' and endActualStartDate != null and endActualStartDate !=''">
+				and c.actual_start_date BETWEEN #{startActualStartDate} AND #{endActualStartDate}
+			</if>
+		</where>
+		group by b.order_id,b.task_package_type
+	) a 
+	where a.order_id is not null
+	GROUP BY a.order_id
+	order by a.create_date desc
+	</select>
+
+</mapper>

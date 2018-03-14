@@ -1,0 +1,8 @@
+.total{text-align: center;}
+.item{margin-left: 5.3%;padding-right: 5.3%;padding-top: .25rem;padding-bottom: .3rem;position: relative;}
+.item:last-child{border-bottom: none;}
+.left{width: 58%;float: left;}
+.right{width: 42%;float: right;}
+.item span{display: block;}
+.addr{line-height: 2em;}
+.manager{position: absolute;bottom: .43rem;left: 0;}

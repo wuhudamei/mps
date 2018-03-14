@@ -1,0 +1,22 @@
+BacklogController.class 路径：
+				com\thinkgem\jeesite\mobile\modules\Manager\backlog\web\BacklogController.class
+
+
+HomeLoginController.class 路径：
+				com\thinkgem\jeesite\mobile\modules\home\login\controller\HomeLoginController.class
+
+
+WeiChatController.class 路径：
+				com\thinkgem\jeesite\mobile\modules\home\login\controller\WeiChatController.class
+
+
+login2.jsp 路径：
+				WEB-INF\views\mobile\modules\home\login2.jsp
+
+
+weiChatLogin2.jsp 路径：
+				WEB-INF\views\mobile\modules\home\weichat\weiChatLogin2.jsp
+
+weiChatLogin.jsp 路径：
+
+				WEB-INF\views\mobile\modules\home\weichat\weiChatLogin.jsp

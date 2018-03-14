@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.mobile.Manager.NodePlanDao">
+    
+    <sql id="nodePlanColumns">
+		a.id AS "id",
+		a.order_id AS "orderId",
+		a.node_name AS "nodeName",
+		a.node_index AS "nodeIndex",
+		a.plan_done_date AS "planDoneDate",
+		a.exe_done_date AS "exeDoneDate",
+		a.real_done_date AS "realDoneDate",
+		a.is_done AS "isDone",
+		a.delay_days AS "delayDays",
+		a.delay_type AS "delayType",
+		a.delay_reason AS "delayReason",
+		a.create_by AS "createBy",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy",
+		a.update_date AS "updateDate"
+	</sql>
+	
+	<select id="queryByOrderIdList" parameterType="cn.damei.entity.mobile.Manager.NodePlan" resultType="cn.damei.entity.mobile.Manager.NodePlan">
+    	SELECT 
+    	<include refid="nodePlanColumns"/> 
+    	FROM BIZ_NODE_PLAN a  
+    	WHERE a.ORDER_ID = #{0}
+    	AND a.IS_DONE = '1'
+    	ORDER BY a.NODE_INDEX ASC LIMIT 1
+    </select>
+    
+    <select id="queryByOrderIdListNoLimit" parameterType="cn.damei.entity.mobile.Manager.NodePlan" resultType="cn.damei.entity.mobile.Manager.NodePlan">
+    	SELECT 
+    	<include refid="nodePlanColumns"/> 
+    	FROM BIZ_NODE_PLAN a  
+    	WHERE a.ORDER_ID = #{0}
+    	AND a.IS_DONE = '0'
+    	ORDER BY a.NODE_INDEX ASC
+    </select>
+    
+    <select id="getByOrderIdList" parameterType="cn.damei.entity.mobile.Manager.NodePlan" resultType="cn.damei.entity.mobile.Manager.NodePlan">
+    	SELECT 
+    	<include refid="nodePlanColumns"/> 
+    	FROM BIZ_NODE_PLAN a  
+    	WHERE a.ORDER_ID = #{0}
+    	AND a.IS_DONE = '1'
+    	ORDER BY a.NODE_INDEX ASC LIMIT 1
+    </select>
+    
+    <select id="getById" parameterType="cn.damei.entity.mobile.Manager.NodePlan" resultType="cn.damei.entity.mobile.Manager.NodePlan">
+    	SELECT 
+    	<include refid="nodePlanColumns"/>,b.project_mode as "projectMode",
+    	b.COMMUNITY_NAME AS "communityName", b.BUILD_NUMBER AS "buildNumber", b.BUILD_UNIT AS "buildUnit", 
+		b.BUILD_ROOM AS "buildRoom", b.CUSTOMER_NAME AS "customerName"
+    	FROM BIZ_NODE_PLAN a LEFT JOIN BIZ_ORDER b ON b.id = a.order_id
+    	WHERE a.ORDER_ID = #{0} <!-- AND a.IS_DONE = '0' -->
+    	ORDER BY a.NODE_INDEX ASC LIMIT 1
+    </select>
+    
+    <select id="getByIdLimit" parameterType="cn.damei.entity.mobile.Manager.NodePlan" resultType="cn.damei.entity.mobile.Manager.NodePlan">
+    	SELECT 
+    	<include refid="nodePlanColumns"/>,b.project_mode as "projectMode",
+    	b.COMMUNITY_NAME AS "communityName", b.BUILD_NUMBER AS "buildNumber", b.BUILD_UNIT AS "buildUnit", 
+		b.BUILD_ROOM AS "buildRoom", b.CUSTOMER_NAME AS "customerName"
+    	FROM BIZ_NODE_PLAN a LEFT JOIN BIZ_ORDER b ON b.id = a.order_id
+    	WHERE a.ORDER_ID = #{0} AND a.IS_DONE = '0'
+    	ORDER BY a.NODE_INDEX ASC LIMIT 1
+    </select>
+    
+    <select id="getById1" parameterType="cn.damei.entity.mobile.Manager.NodePlan" resultType="cn.damei.entity.mobile.Manager.NodePlan">
+    	SELECT 
+    	<include refid="nodePlanColumns"/>
+    	<!-- b.COMMUNITY_NAME AS "communityName", b.BUILD_NUMBER AS "buildNumber", b.BUILD_UNIT AS "buildUnit", 
+		b.BUILD_ROOM AS "buildRoom", b.CUSTOMER_NAME AS "customerName" -->
+    	FROM BIZ_NODE_PLAN a <!-- LEFT JOIN BIZ_ORDER b ON b.id = a.order_id -->
+    	WHERE a.id = #{0} <!-- AND a.IS_DONE = '0' -->
+    	ORDER BY a.NODE_INDEX ASC
+    </select>
+    
+    <select id="getById2" parameterType="cn.damei.entity.mobile.Manager.NodePlan" resultType="cn.damei.entity.mobile.Manager.NodePlan">
+    	SELECT 
+    	<include refid="nodePlanColumns"/>
+    	FROM BIZ_NODE_PLAN a
+    	WHERE a.ORDER_ID = #{0}
+    	AND a.NODE_INDEX = #{1}
+    	AND a.IS_DONE = '0'
+    	ORDER BY a.NODE_INDEX ASC
+    </select>
+    
+    <select id="getByOrderId" parameterType="cn.damei.entity.mobile.Manager.NodePlan" resultType="cn.damei.entity.mobile.Manager.NodePlan">
+    	SELECT 
+    	<include refid="nodePlanColumns"/> 
+    	FROM BIZ_NODE_PLAN a  
+    	WHERE a.ORDER_ID = #{0}
+    	ORDER BY a.NODE_INDEX ASC
+    </select>
+    
+    <update id="updateByDate">
+    	UPDATE BIZ_NODE_PLAN SET 
+			EXE_DONE_DATE = #{exeDoneDate},
+			REAL_DONE_DATE = #{realDoneDate},
+			DELAY_DAYS = #{delayDays},
+			UPDATE_BY = #{updateBy},
+			UPDATE_DATE = #{updateDate},
+			DEL_FLAG = '0',
+			IS_DONE = #{isDone},
+			DELAY_TYPE = #{delayType},
+			DELAY_REASON = #{delayReason}
+		WHERE ID = #{id}
+    </update>
+    
+    <update id="updateByDateNextNodeIndexs">
+    	UPDATE BIZ_NODE_PLAN SET 
+			EXE_DONE_DATE = #{exeDoneDate},
+			REAL_DONE_DATE = #{realDoneDate},
+			DELAY_DAYS = #{delayDays},
+			UPDATE_DATE = #{updateDate},
+			DEL_FLAG = '0',
+			IS_DONE = #{isDone}
+		WHERE ID = #{id}
+    </update>
+    
+	<insert id="insertByNodePlan">
+		INSERT INTO biz_node_plan(
+			id,
+			order_id,
+			node_name,
+			node_index,
+			plan_done_date,
+			exe_done_date,
+			real_done_date,
+			is_done,
+			delay_days,
+			delay_type,
+			delay_reason,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag,
+			construction_schedule_id
+		) VALUES (
+			#{id},
+			#{orderId},
+			#{nodeName},
+			#{nodeIndex},
+			#{planDoneDate},
+			#{exeDoneDate},
+			#{realDoneDate},
+			#{isDone},
+			#{delayDays},
+			#{delayType},
+			#{delayReason},
+			#{createByAuthor},
+			#{createDate},
+			#{updateByAuthor},
+			#{updateDate},
+			#{delFlag},
+			#{constructionScheduleId}
+		)
+	</insert>
+	
+	<!-- 批量保存订单进度节点  -->
+	<insert id="saveNodePlanList" parameterType="java.util.List">
+		INSERT INTO biz_node_plan(
+			id,
+			order_id,
+			node_name,
+			node_index,
+			plan_done_date,
+			exe_done_date,
+			real_done_date,
+			is_done,
+			delay_days,
+			delay_type,
+			delay_reason,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag,
+			construction_schedule_id,
+			plan_check_time
+		) VALUES 
+		<foreach collection="list" item="item" index="index" separator="," >
+			(
+				#{item.id},
+				#{item.orderId},
+				#{item.nodeName},
+				#{item.nodeIndex},
+				#{item.planDoneDate},
+				#{item.exeDoneDate},
+				#{item.realDoneDate},
+				#{item.isDone},
+				#{item.delayDays},
+				#{item.delayType},
+				#{item.delayReason},
+				#{item.createByAuthor},
+				#{item.createDate},
+				#{item.updateByAuthor},
+				#{item.updateDate},
+				#{item.delFlag},
+				#{item.constructionScheduleId},
+				#{item.planCheckTime}
+			)
+		</foreach>
+	</insert>
+	
+	 
+    <select id="justForTraditionNodePlan" parameterType="cn.damei.entity.mobile.Manager.NodePlan" resultType="cn.damei.entity.mobile.Manager.NodePlan">
+    	SELECT 
+    	<include refid="nodePlanColumns"/>,b.project_mode as "projectMode",
+    	b.COMMUNITY_NAME AS "communityName", b.BUILD_NUMBER AS "buildNumber", b.BUILD_UNIT AS "buildUnit", 
+		b.BUILD_ROOM AS "buildRoom", b.CUSTOMER_NAME AS "customerName"
+    	FROM BIZ_NODE_PLAN a LEFT JOIN BIZ_ORDER b ON b.id = a.order_id
+    	WHERE a.ORDER_ID = #{0} <!-- AND a.IS_DONE = '0' -->
+    	ORDER BY a.NODE_INDEX ASC
+    </select>	
+</mapper>

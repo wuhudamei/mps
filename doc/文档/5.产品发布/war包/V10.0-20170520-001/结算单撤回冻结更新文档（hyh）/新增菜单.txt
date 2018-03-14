@@ -1,0 +1,7 @@
+新增的菜单
+
+菜单名                             链接                                                                                     排序
+
+冻结/解冻付款单                  /ordertaskpackagepayment/bizOrderTaskpackagePayment/paymentFreezeList                      70
+
+审核通过结算单撤回               /ordertaskpackagesettlement/bizOrderTaskpackageSettlementVo/querySettleCancelList          90

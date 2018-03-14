@@ -1,0 +1,144 @@
+.g-info{
+	width: 100%;
+	height: 100%;
+	background-color: #eee;
+}
+.g-info .top{
+	width: 100%;
+	height: 3.63rem;
+	background-image: url(../images/info_title.png);
+	background-size: 100% 100%;
+}
+.g-info .user_info{
+	width: 100%;
+	height: inherit;
+	position: relative;
+}
+.g-info .user_info img{
+	position: absolute;
+	left: 3.12rem;
+	top: .8rem;
+	width: 1.28rem;
+	height: 1.28rem;
+}
+.g-info .user_info > span{
+	position: absolute;
+	top: 2.22rem;
+	display: inline-block;
+	text-align: center;
+	width: 100%;
+}
+.g-info .user_info span.user_name{
+	font-size: 0.28rem;
+	color: #333;
+}
+.g-info .user_info .star{
+	position: absolute;
+	width: 1.55rem;
+	height: 0.22rem;
+	top: 2.6rem;
+	left: 2.97rem;
+	clear: both;
+	text-align: center;
+}
+.g-info .user_info .star span{
+	display: inline-block;
+	float: left;
+	width: 0.24rem;
+	margin-left: 0.07rem;
+	height: inherit;
+	background-image: url(../images/star1.png);
+	background-size: 0.24rem 0.22rem;
+}
+.g-info .user_info .star span:first-child{
+	margin-left: 0;
+}
+.g-info .user_info .star span.bling{
+	background-image: url(../images/star2.png);
+}
+.g-info nav.info_nav{
+	width: 100%;
+	height: 0.96rem;
+	margin-top: 0.14rem;
+	background-color: #fff;
+}
+.g-info nav.info_nav a{
+	float: left;
+	width: 50%;
+	height: 0.6rem;
+	margin-top: 0.18rem;
+	text-align: center;
+	font-size: 0.26rem;
+	box-sizing: border-box;
+}
+.g-info nav.info_nav a:first-child{
+	border-right: 1px solid #ccc;
+}
+.g-info nav.info_nav a span.number{
+	display: block;
+	color: #cc6633;
+	font-size: 0.32rem;
+	font-weight: bold;
+	/*margin-top: -0.13rem;*/
+}
+.g-info nav.info_nav a span.explain{
+	color: #999;
+	/*margin-top: 0.13rem;*/
+}
+.g-info ul.info_ul{
+	width: 100%;
+	/*height: 2.64rem;*/
+	margin-top: 0.2rem;
+	background-color: #fff;
+}
+.g-info ul.info_ul li{
+	height: 0.88rem;
+}
+.g-info ul.info_ul li:first-child{
+	background-image: url(../images/list_icon.png);
+	background-repeat: no-repeat;
+	background-size: 0.32rem 0.32rem;
+	background-position: 0.3rem center;
+}
+.g-info ul.info_ul li:nth-child(2){
+	background-image: url(../images/sign_icon.png);
+	background-repeat: no-repeat;
+	background-size: 0.32rem 0.32rem;
+	background-position: 0.3rem center;
+}
+.g-info ul.info_ul li:nth-child(3){
+	background-image: url(../images/done_icon.png);
+	background-repeat: no-repeat;
+	background-size: 0.32rem 0.32rem;
+	background-position: 0.3rem center;
+}
+.g-info ul.info_ul li:nth-child(4){
+	background-image: url(../images/message_icon.png);
+	background-repeat: no-repeat;
+	background-size: 0.32rem 0.32rem;
+	background-position: 0.3rem center;
+}
+
+.g-info ul.info_ul li:last-child{
+	background-image: url(../images/method_icon.png);
+	background-repeat: no-repeat;
+	background-size: 0.32rem 0.32rem;
+	background-position: 0.3rem center;
+}
+.g-info ul.info_ul li a{
+	float: right;
+	width: 6.6rem;
+	height: inherit;
+	line-height: 0.88rem;
+	border-bottom: 1px solid #ccc;
+	box-sizing: border-box;
+	background-image: url(../images/rightArrow.png);
+	background-repeat: no-repeat;
+	background-size: 0.14rem 0.26rem;
+	background-position: 6.14rem center;
+	font-size: 0.28rem;
+	color: #333;
+}
+.g-info ul.info_ul li:last-child a{
+	border: none;
+}

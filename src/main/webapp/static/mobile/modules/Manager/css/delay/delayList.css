@@ -1,0 +1,21 @@
+.col_cf1709{color: #cf1709;}
+.pl22{padding-left: .22rem;}
+.bor_top_ddd{border-top: 1px solid #ddd;}
+.pt112{padding-top: 1.12rem;}
+.pt42{padding-top: .42rem;}
+.pt32{padding-top: .32rem;}
+.bold{font-weight: bold;}
+.tips {
+	margin-top: .33rem;
+	padding-bottom: .2rem;
+    padding-top: .24rem;
+    padding-left: 1.02rem;
+    padding-right: .3rem;
+    background-color: #fdf5c3;
+    background-image: url(../../img/tipOrangeIcon.png);
+    background-repeat: no-repeat;
+    background-size: .48rem .49rem;
+    background-position: .3rem .4rem;
+}
+.tipTit{display: block;padding-top: .24rem;padding-bottom: .2rem;font-size: .28rem;color: #f09859;}
+.tipContent{display: block;font-size: .28rem;color: #f09859;}

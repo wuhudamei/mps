@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.mobile.Manager.AppOrderDao">
+    
+	<sql id="appOrderColumns">
+		a.id AS "id",
+		a.item_manager AS "itemManager",
+		a.contract_number AS "contractNumber",
+		a.customer_name AS "customerName",
+		a.customer_phone AS "customerPhone",
+		a.order_status_number AS "orderStatusNumber",
+		a.order_status_description AS "orderStatusDescription",
+		a.item_manager_id AS "itemManagerId",
+		a.order_inspector AS "orderInspector",
+		a.order_inspector_id AS "orderInspectorId",
+		a.customer_address AS "customerAddress",
+		a.community_name AS "communityName",
+		a.build_number AS "buildNumber",
+		a.build_unit AS "buildUnit",
+		a.build_room AS "buildRoom",
+		a.build_type AS "buildType",
+		a.house_type AS "houseType",
+		a.contract_area AS "contractArea",
+		a.contract_start_date AS "contractStartDate",
+		a.contract_end_date AS "contractEndDate",
+		a.contract_time AS "contractTime",
+		a.designer_name AS "designerName",
+		a.designer_phone AS "designerPhone",
+		a.order_reporter_name AS "orderReporterName",
+		a.order_reporter_phone AS "orderReporterPhone",
+		a.service_name AS "serviceName",
+		a.service_phone AS "servicePhone",
+		a.actual_start_date AS "actualStartDate",
+		a.actual_end_date AS "actualEndDate",
+		a.store_id AS "storeId",
+		a.project_mode AS "projectMode",
+		a.is_elevator AS "isElevator",
+		a.floor AS "floor"
+	</sql>
+	
+	<!-- 通过项目经理名称查询项目经理下的所有订单 -->
+    <select id="findOrderByitemManager" parameterType="cn.damei.entity.mobile.Manager.AppOrder" resultType="cn.damei.entity.mobile.Manager.AppOrder">
+    	SELECT 
+    	<include refid="appOrderColumns"/> 
+    	from biz_order a  
+    	<where>
+    		a.item_manager_id = #{itemManagerId}
+    		<if test="orderStatusDescription != null and orderStatusDescription != '' ">
+    			AND a.order_status_description = #{orderStatusDescription}
+    		</if>
+    		ORDER BY a.create_date DESC
+    	</where>
+    	
+    </select>
+    
+    <!-- 查询该项目经理下所有订单的状态 -->
+    <select id="selectState" resultType="String" parameterType="int">
+
+		SELECT distinct a.order_status_description AS "orderStatusDescription"
+		 from biz_order a
+			where a.item_manager_id =#{itemManagerId}
+	</select>
+
+	<!-- 根据订单id查询订单详情 -->
+    <select id="getOrder" parameterType="int" resultType="cn.damei.entity.mobile.Manager.AppOrder">
+    	SELECT
+    	<include refid="appOrderColumns"/>,
+    	e.phone AS "orderInspectorPhone"
+    	from biz_order a
+    	LEFT JOIN biz_employee e ON e.id = a.order_inspector_id
+    	where a.id = #{id}
+    
+    </select>	
+    
+	<update id="updateDelayType">
+		UPDATE BIZ_ORDER SET
+			delay_type = #{0}
+		WHERE ID = #{1}
+	</update>
+	
+	<!-- 查询房屋户型:字典表 -->
+    <select id="findHouseType" parameterType="cn.damei.entity.mobile.Manager.AppOrder" resultType="String">
+    	SELECT
+    	d.label AS "label"
+    	from sys_dict d
+    	where d.type='home_type' AND d.value = #{houseType}
+    
+    </select>
+    
+    
+    <!-- 通过订单id查询订单图纸 -->
+    <select id="selectCadfile" parameterType="java.lang.Integer" resultType="cn.damei.entity.mobile.Manager.AppOrderCadfile">
+    	SELECT
+    	c.id AS "id",
+    	c.order_id AS "orderId",
+    	c.display_file_name AS "displayFileName",
+    	c.file_name AS "fileName",
+    	c.file_path AS "filePath"
+    	
+    	from biz_order_cadfile c
+    	where c.order_id = #{id} AND c.del_flag='0'
+    </select>
+    
+    <select id="queryOrderByOrderTaskpackageId" parameterType="java.lang.Integer" resultType="cn.damei.entity.mobile.Manager.AppOrder">
+		select
+			<include refid="appOrderColumns"/>
+		from biz_order_taskpackage b
+		left join biz_order a on b.order_id=a.id
+		where b.id = #{orderTaskpackageId}
+	</select>
+	<select id="getOrderStatusByMaterislType" resultType="java.lang.String">
+		SELECT
+			CASE count(b.id)
+		WHEN 0 THEN
+			'0'
+		ELSE
+			'1'
+		END
+		FROM
+			biz_order a
+		LEFT JOIN biz_qc_bill b ON a.id = b.order_id
+		JOIN biz_materials_standard_qc_check_node c ON c.store_id = a.store_id AND c.del_flag='0'
+		AND b.qc_check_node_id = c.qc_check_node_id
+		AND c.project_mode = a.project_mode
+		WHERE
+			b.`status` >= 10
+		AND b.is_recheck = 0
+		AND b.qc_bill_type = 1
+		AND a.id = #{orderId}
+		AND c.material_type = #{materislType}
+		
+	</select>
+</mapper>

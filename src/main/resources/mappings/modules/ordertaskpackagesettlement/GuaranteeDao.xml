@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.GuaranteeDao">
+    
+    <select id="findGuaranteeBySettlementId" resultType="cn.damei.entity.modules.Guarantee">
+    	select 
+    		a.id AS "id",
+    		a.order_taskpackage_id AS "orderTaskpackageId",
+    		b.group_realname AS "groupRealname",
+    		a.settlement_id AS "settlementId",
+    		a.taskpackage_templat_id AS "taskpackageTemplatId",
+    		a.employee_id AS "employeeId",
+    		a.employeegroup_id AS "employeegroupId",
+    		a.guarantee_money_amount AS "guaranteeMoneyAmount",
+    		a.guarantee_money_amount_total AS "guaranteeMoneyAmountTotal",
+    		a.is_deduct AS "isDeduct",
+    		a.deduct_time AS "deductTime",
+    		a.remarks AS "remarks"
+    	from biz_guarantee_money a,
+    		 biz_order_taskpackage b
+    	where a.order_taskpackage_id = b.id and a.settlement_id = #{0} 
+    </select>
+    
+    
+</mapper>

@@ -1,0 +1,81 @@
+.icon {
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    display: inline-block;
+    white-space: nowrap;
+    letter-spacing: -1em;
+    text-indent: -99em;
+    color: transparent;
+    padding: 0;
+    margin: 0
+}
+
+.icon.icon-bartab01,
+.icon.icon-bartab02,
+.icon.icon-bartab03,
+.icon.icon-bartab04 {
+    width: .64rem;
+    height: .58667rem
+}
+
+.icon {
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    display: inline-block;
+    white-space: nowrap;
+    letter-spacing: -1em;
+    text-indent: -99em;
+    color: transparent;
+    padding: 0;
+    margin: 0
+}
+
+.icon.icon-bartab01,
+.icon.icon-bartab02,
+.icon.icon-bartab03,
+.icon.icon-bartab04 {
+    width: .64rem;
+    height: .58667rem
+}
+
+.icon-ok,
+.icon-fail {
+    width: .31rem;
+    height: .31rem;
+    background-size: 100% 100% !important;
+    margin-right: .1rem;
+    line-height: 1;
+}
+
+.icon-ok {
+    background: url('../Manager/images/icon-ok.png');
+}
+
+.icon-fail {
+    background: url('../Manager/images/icon-fail.png');
+}
+
+.icon-img {
+    width: .48rem;
+    height: .41rem;
+    margin-right: .1rem;
+    background: url('../Manager/images/icon-img.png');
+    background-size: 100% 100%;
+}
+
+.icon-arrow-right {
+    width: .16rem;
+    height: .29rem;
+    margin-left: .1rem;
+    background: url('../Manager/img/common/rgt_bg.png');
+    background-size: 100% 100%;
+    vertical-align: middle;
+    margin-bottom: .02rem;
+}
+
+.icon-arrow-right._blue {
+    height: .28rem;
+    background: url('../pqc/img/common/rightArrow.png');
+    background-size: 100% 100%;
+    margin-bottom: .05rem;
+}

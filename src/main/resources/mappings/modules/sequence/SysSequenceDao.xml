@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.SysSequenceDao">
+    
+	<sql id="sysSequenceColumns">
+		a.name AS "name",
+		a.prefix AS "prefix",
+		a.current_value AS "currentValue",
+		a.increment AS "increment",
+		a.maxlength AS "maxlength"
+	</sql>
+	
+	<sql id="sysSequenceJoins">
+	</sql>
+    
+	<select id="get" resultType="SysSequence">
+		SELECT 
+			<include refid="sysSequenceColumns"/>
+		FROM sys_sequence a
+		<include refid="sysSequenceJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="SysSequence">
+		SELECT 
+			<include refid="sysSequenceColumns"/>
+		FROM sys_sequence a
+		<include refid="sysSequenceJoins"/>
+		<where>
+			
+			<if test="name != null and name != ''">
+				AND a.name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{name}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{name}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{name},'%')</if>
+			</if>
+			<if test="prefix != null and prefix != ''">
+				AND a.prefix = #{prefix}
+			</if>
+			<if test="name != null and name != ''">
+				AND a.name = #{name}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="SysSequence">
+		SELECT 
+			<include refid="sysSequenceColumns"/>
+		FROM sys_sequence a
+		<include refid="sysSequenceJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO sys_sequence(
+			name,
+			prefix,
+			current_value,
+			increment,
+			maxlength
+		) VALUES (
+			#{name},
+			#{prefix},
+			#{currentValue},
+			#{increment},
+			#{maxlength}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE sys_sequence SET 	
+			name = #{name},
+			prefix = #{prefix},
+			current_value = #{currentValue},
+			increment = #{increment},
+			maxlength = #{maxlength}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM sys_sequence
+		WHERE id = #{id}
+	</update>
+	  <select id="getSequence" parameterType="java.lang.String" resultType="java.lang.String">
+    SELECT NEXTVAL(#{orderNo}) order_no    
+  </select>
+</mapper>

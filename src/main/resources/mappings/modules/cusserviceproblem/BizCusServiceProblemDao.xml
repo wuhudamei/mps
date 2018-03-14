@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizCusServiceProblemDao">
+    
+	<sql id="bizCusServiceProblemColumns">
+		a.id AS "id",
+		a.store_id AS "storeId",
+		a.store_code AS "storeCode",
+		a.order_id AS "orderId",
+		a.order_code AS "orderCode",
+		a.work_order_code AS "workOrderCode",
+		a.customer_address AS "customerAddress",
+		a.customer_name AS "customerName",
+		a.customer_mobile AS "customerMobile",
+		a.contractor_name AS "contractorName",
+		a.contractor_mobile AS "contractorMobile",
+		a.supervisor_name AS "supervisorName",
+		a.supervisor_mobile AS "supervisorMobile",
+		a.problem_create_datetime AS "problemCreateDatetime",
+		a.problem_describe AS "problemDescribe",
+		a.liable_department_code AS "liableDepartmentCode",
+		a.liable_type_code_1 AS "liableTypeCode1",
+		a.liable_type_code_2 AS "liableTypeCode2",
+		a.important_degree_code_1 AS "importantDegreeCode1",
+		a.important_degree_code_2 AS "importantDegreeCode2",
+		a.photo_url AS "photoUrl",
+		a.remarks AS "remarks",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.status AS "status",
+		a.status_datetime AS "statusdatetime",
+		a.status_describe AS "statusdescribe",
+		a.status_operator_employee_id AS "statusoperatoremployeeid",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="bizCusServiceProblemJoins">
+	</sql>
+    
+	<select id="get" resultType="BizCusServiceProblem">
+		SELECT 
+		1 from dual
+	</select>
+	
+	<select id="findList" resultType="BizCusServiceProblem">
+		SELECT
+		a.id AS "id",
+		a.store_id AS "storeId",
+		a.store_code AS "storeCode",
+		a.work_order_code AS "workOrderCode",
+		a.customer_address AS "customerAddress",
+		a.customer_name AS "customerName",
+		a.customer_mobile AS "customerMobile",
+		  a.order_code as "orderNo",
+		a.problem_create_datetime AS "problemCreateDatetime",
+		a.problem_describe AS "problemDescribe",
+		a.photo_url AS "photoUrl",
+		a.remarks AS "remarks",
+		ifnull(a.status,0) AS "status",
+		a.status_datetime AS "statusdatetime",
+		a.status_describe AS "statusdescribe",
+		a.status_operator_employee_id AS "statusoperatoremployeeid",
+		b.liable_type_name AS "liableDepartmentCode",
+		b2.liable_type_name AS "liableTypeCode1",
+		a.complaintType as "complaintTypeName",
+		c.important_degree_name AS "importantDegreeCode1",
+
+		question_type1  as  "questionType1",
+		question_type2 as "questionType2",
+		work_source as "workSource"
+		FROM
+		`biz_cus_service_problem` a
+		LEFT JOIN biz_cus_service_liable_type b ON a.liable_department_code = b.liable_type_code
+		AND b.liable_type_level = 1
+		LEFT JOIN biz_cus_service_liable_type b2 ON a.liable_type_code_1 = b2.liable_type_code
+		AND b2.liable_type_level = 2
+
+		LEFT JOIN biz_cus_service_important_degree c ON a.important_degree_code_1 = c.important_degree_code
+		AND c.important_degree_level = 1
+
+
+		<where>
+			<if test="id !=null and id !=''">
+				and a.id =#{id}
+			</if>
+            <if test="storeId !=null and storeId !=''">
+                and a.store_id =#{storeId}
+            </if>
+			<if test="customerAddress !=null and customerAddress !=''">
+
+				and a.customer_address like  concat('%',#{customerAddress},'%')
+			</if>
+			<if test="storeId !=null and storeId !=''">
+
+				and a.store_id =#{storeId}
+			</if>
+
+			<if test="customerName !=null and customerName !=''">
+
+				and a.customer_name like  concat('%',#{customerName},'%')
+			</if>
+
+
+			<if test="contractorName !=null and contractorName !=''">
+
+				and a.contractor_name like  concat('%',#{contractorName},'%')
+			</if>
+
+
+			<if test="supervisorName !=null and supervisorName !=''">
+
+				and a.supervisor_name like  concat('%',#{supervisorName},'%')
+			</if>
+
+			<if test="start !=null and start !='' and end !=null and end !=''">
+
+				and a.problem_create_datetime >= #{start} and a.problem_create_datetime &lt;=#{end}
+			</if>
+			<if test="liableDepartmentCode !=null and liableDepartmentCode !=''">
+
+				and b.liable_type_code =#{liableDepartmentCode}
+			</if>
+
+			<if test="liableTypeCode1 !=null and liableTypeCode1 !=''">
+
+				and b2.liable_type_code =#{liableTypeCode1}
+			</if>
+			<if test="status !=null and status !='' and status!=40">
+
+				and a.status =#{status}
+			</if>
+			<if test="status==40">
+
+				and a.status is null
+			</if>
+
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				order by  a.update_date desc 
+			</otherwise>
+		</choose>
+	</select>
+	
+
+	<select id="findPicsById" parameterType="int" resultType="String">
+
+		select  photo_url from biz_cus_service_problem where id =#{_parameter}
+
+	</select>
+	
+	<update id="update" parameterType="cn.damei.entity.modules.BizCusServiceProblem" >
+	
+		update biz_cus_service_problem    set
+		  status_describe= #{statusdescribe} ,
+		  status_datetime= #{statusdatetime} ,
+		  status= #{status} 
+		 where id =#{id} 
+	
+	</update>
+	
+	<update id="updateYu" parameterType="cn.damei.entity.modules.BizCusServiceProblem" >
+	
+		update biz_cus_service_problem    set
+		  status_describe= #{statusdescribe} ,
+		  status_datetime= #{statusdatetime} ,
+		  status= #{status} 
+		 where id =#{id} 
+	
+	</update>
+	
+	
+</mapper>

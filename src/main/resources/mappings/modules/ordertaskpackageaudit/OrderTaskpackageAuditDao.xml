@@ -1,0 +1,533 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.OrderTaskpackageAuditDao">
+    
+	<sql id="orderTaskpackageAuditColumns">
+		a.id AS "id",
+		a.store_id AS "storeId",
+	    a.project_mode AS "projectMode",
+		a.order_id AS "orderId",
+		a.pic_id AS "picId",
+		a.package_code AS "packageCode",
+		a.package_name AS "packageName",
+		a.plan_startdate AS "planStartdate",
+		a.plan_enddate AS "planEnddate",
+		a.actual_startdate AS "actualStartdate",
+		a.actual_enddate AS "actualEnddate",
+		a.package_stateid AS "packageStateid",
+		a.package_statename AS "packageStatename",
+		a.emp_groupid AS "empGroupid",
+		a.group_id AS "groupId",
+		a.group_realname AS "groupRealname",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag",
+		a.item_customer AS "itemCustomer",
+		a.task_package_type AS "taskPackageType",
+		a.dispatcher AS "dispatcher",
+		a.customer_name AS "customerName",
+		a.customer_message AS "customerMessage",
+		a.dispatch_time AS "dispatchTime",
+		a.is_overtime AS "isOvertime",
+		a.labor_auxiliary_materials_budget_amount AS "total",
+		a.item_manager_id AS "itemManagerId",
+		a.order_Task_Package_Code AS "orderTaskPackageCode"
+	</sql>
+	
+	<sql id="orderTaskpackageAuditJoins">
+	</sql>
+    
+    <select id="get" resultType="OrderTaskpackageAudit">
+		SELECT 
+			<include refid="orderTaskpackageAuditColumns"/>
+		FROM BIZ_ORDER_TASKPACKAGE a
+		WHERE a.ID = #{id}
+	</select>
+	
+	<select id="getByIdOrEmployee" resultType="OrderTaskpackageAudit">
+		SELECT 
+			<include refid="orderTaskpackageAuditColumns"/>,
+			e.REALNAME AS "empRealName",
+			e.PHONE AS "empPhone",
+			e.ID AS "empId",
+			o.CUSTOMER_NAME AS "customerName",
+			o.CUSTOMER_PHONE AS "customerPhone",
+			o.COMMUNITY_NAME AS "communityName",
+			o.BUILD_NUMBER AS "buildNumber",
+			o.BUILD_UNIT AS "buildUnit",
+			o.BUILD_ROOM AS "buildRoom",
+			o.CUSTOMER_PHONE AS "customerPhone"
+		FROM BIZ_ORDER_TASKPACKAGE a,BIZ_EMPLOYEE e,BIZ_ORDER o
+		WHERE a.ID = #{id}
+		AND e.ID = a.ITEM_MANAGER_ID
+		AND o.ID = a.ORDER_ID
+	</select>
+    
+	<select id="getById" resultType="OrderTaskpackageAudit">
+		SELECT 
+			<include refid="orderTaskpackageAuditColumns"/>
+		FROM BIZ_ORDER_TASKPACKAGE a
+		WHERE a.ID = #{id}
+	</select>
+	<!-- 待审核任务包列表 -->
+	<select id="findList" resultType="OrderTaskpackageAudit">
+		SELECT 
+			<include refid="orderTaskpackageAuditColumns"/>,
+			b.ORDER_NUMBER as "orderNumber",
+			b.COMMUNITY_NAME AS "communityName",
+			b.BUILD_NUMBER AS "buildNumber",
+			b.BUILD_UNIT AS "buildUnit",
+			b.CUSTOMER_PHONE AS "customerPhone",
+			b.BUILD_ROOM AS "buildRoom",
+			b.engin_depart_id as "enginDepartId",
+			c.name as "departmentName",
+			b.customer_address AS "customerAddress",
+			a.create_date AS "packCreateTime",
+			u.`name` AS "packCreateBy",
+			h.`name` AS "packAuditName",
+			m.status_datetime AS "packAuditTime"
+		FROM
+		biz_order_taskpackage a
+		INNER JOIN biz_order b ON b.id = a.order_id
+		LEFT JOIN sys_user u ON u.id = a.create_by AND u.del_flag = 0
+		LEFT JOIN biz_engineering_department c ON b.engin_depart_id = c.id
+		INNER JOIN biz_task_package_templat te on te.id = a.task_package_templat_id
+		INNER JOIN biz_task_package_type ty on ty.id = te.task_package_type_id  AND ty.`name` != '特殊任务包'
+		LEFT JOIN(
+			SELECT y.business_only_mark_int,y.create_by,y.status_datetime FROM biz_business_status_log y INNER JOIN(
+			SELECT MAX(id) AS id FROM biz_business_status_log n WHERE n.business_type = 1001 AND n.del_flag = 0 AND business_status=20
+		  GROUP BY business_only_mark_int) x ON x.id = y.id
+		) m ON m.business_only_mark_int = a.id
+		LEFT JOIN sys_user h ON h.id = m.create_by		
+		<include refid="orderTaskpackageAuditJoins"/>
+		<where>
+		
+			a.DEL_FLAG = #{DEL_FLAG_NORMAL}
+			<!-- 过滤掉已作废的订单 -->
+			and b.is_scrap = 0
+			<!-- startPackageStateId和endPackageStateId在已审核任务包时作为筛选条件 -->
+			<if test="startPackageStateId != null and startPackageStateId != ''">
+				AND a.PACKAGE_STATEID &gt;=#{startPackageStateId}
+			</if>
+			<if test="endPackageStateId != null and endPackageStateId != ''">
+				AND a.PACKAGE_STATEID &lt;=#{endPackageStateId}
+			</if>
+			
+			<!-- packageStateid在待审核任务包时作为筛选条件 -->
+			<if test="packageStateid != null and packageStateid != ''">
+				AND a.PACKAGE_STATEID = #{packageStateid}
+			</if>
+			<!-- AND b.PROJECT_MODE = '1' -->
+			<!-- <if test="engineDepartId != null and engineDepartId != ''">
+				AND b.engin_depart_id = #{engineDepartId}
+			</if> -->
+			<if test="storeId != null and storeId != ''">
+				AND a.STORE_ID = #{storeId}
+			</if>
+			<if test="projectMode != null and projectMode != ''">
+				AND a.PROJECT_MODE = #{projectMode}
+			</if>
+			<if test="orderNumber != null and orderNumber != ''">
+				AND b.ORDER_NUMBER = #{orderNumber}
+			</if>
+			<if test="customerName != null and customerName != ''">
+				AND a.customer_name LIKE concat('%',#{customerName},'%')
+			</if>
+			<!-- 
+			<if test="packageStateid != null and packageStateid != ''">
+				AND a.PACKAGE_STATEID = #{packageStateid}
+			</if>
+			 -->
+			<if test="packageCode != null and packageCode != ''">
+				AND a.package_code = #{packageCode}
+			</if>
+			<if test="itemCustomer != null and itemCustomer != ''">
+				AND a.item_customer = #{itemCustomer}
+			</if>
+			<!-- 已审核任务包时，根据任务包状态筛选数据 -->
+			<if test="packageStateids != null">
+				AND a.package_stateId IN
+				<foreach item="item" index="index" collection="packageStateids" open="(" separator="," close=")">
+              	  #{item}
+           		</foreach>
+			</if>
+			<if test="enginDepartIds != null">
+				AND b.engin_depart_id in
+				<foreach item="item" index="index" collection="enginDepartIds" open="(" separator="," close=")">
+              	  #{item}
+           		</foreach>
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY b.CREATE_DATE DESC
+			</otherwise>
+		</choose>
+	</select>
+
+	<select id="findSpecialList" resultType="OrderTaskpackageAudit">
+		SELECT
+		<include refid="orderTaskpackageAuditColumns"/>,
+		b.ORDER_NUMBER as "orderNumber",
+		b.COMMUNITY_NAME AS "communityName",
+		b.BUILD_NUMBER AS "buildNumber",
+		b.BUILD_UNIT AS "buildUnit",
+		b.CUSTOMER_PHONE AS "customerPhone",
+		b.BUILD_ROOM AS "buildRoom",
+		b.engin_depart_id as "enginDepartId",
+		c.name as "departmentName",
+		b.customer_address AS "customerAddress",
+		a.create_date AS "packCreateTime",
+		u.`name` AS "packCreateBy",
+		h.`name` AS "packAuditName",
+		m.status_datetime AS "packAuditTime"
+		FROM
+		biz_order_taskpackage a
+		INNER JOIN biz_order b ON b.id = a.order_id
+		LEFT JOIN sys_user u ON u.id = a.create_by AND u.del_flag = 0
+		LEFT JOIN biz_engineering_department c ON b.engin_depart_id = c.id
+		INNER JOIN biz_task_package_templat te on te.id = a.task_package_templat_id
+		INNER JOIN biz_task_package_type ty on ty.id = te.task_package_type_id AND ty.`name` = '特殊任务包'
+		LEFT JOIN(
+		SELECT y.business_only_mark_int,y.create_by,y.status_datetime FROM biz_business_status_log y INNER JOIN(
+		SELECT MAX(id) AS id FROM biz_business_status_log n WHERE n.business_type = 1001 AND n.del_flag = 0 AND business_status=20
+		GROUP BY business_only_mark_int) x ON x.id = y.id
+		) m ON m.business_only_mark_int = a.id
+		LEFT JOIN sys_user h ON h.id = m.create_by
+		<include refid="orderTaskpackageAuditJoins"/>
+		<where>
+			a.DEL_FLAG = #{DEL_FLAG_NORMAL}
+			<!-- 过滤掉已作废的订单 -->
+			and b.is_scrap = 0
+
+			<if test="storeId != null and storeId != ''">
+				AND a.STORE_ID = #{storeId}
+			</if>
+			<if test="projectMode != null and projectMode != ''">
+				AND a.PROJECT_MODE = #{projectMode}
+			</if>
+			<if test="orderNumber != null and orderNumber != ''">
+				AND b.ORDER_NUMBER = #{orderNumber}
+			</if>
+			<if test="customerName != null and customerName != ''">
+				AND a.customer_name LIKE concat('%',#{customerName},'%')
+			</if>
+
+			<if test="itemCustomer != null and itemCustomer != ''">
+				AND a.item_customer = #{itemCustomer}
+			</if>
+			<if test="enginDepartIds != null">
+				AND b.engin_depart_id in
+				<foreach item="item" index="index" collection="enginDepartIds" open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+
+			<if test="createStartDate != null and createEndDate != null">
+				AND a.create_date BETWEEN #{createStartDate} AND  #{createEndDate}
+			</if>
+
+			<if test="packageStateid != null and packageStateid != ''">
+				AND a.PACKAGE_STATEID = #{packageStateid}
+			</if>
+
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY b.CREATE_DATE DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	
+	<!-- 已审核任务包列表 -->
+	<select id="myFindList" resultType="OrderTaskpackageAudit">
+		SELECT 
+			<include refid="orderTaskpackageAuditColumns"/>,
+			b.ORDER_NUMBER as "orderNumber",
+			b.COMMUNITY_NAME AS "communityName",
+			b.BUILD_NUMBER AS "buildNumber",
+			b.BUILD_UNIT AS "buildUnit",
+			b.CUSTOMER_PHONE AS "customerPhone",
+			b.BUILD_ROOM AS "buildRoom",
+			b.engin_depart_id as "enginDepartId",
+			c.name as "departmentName",
+			b.customer_address AS "customerAddress",
+			a.create_date AS "packCreateTime",
+			u.`name` AS "packCreateBy",
+			h.`name` AS "packAuditName",
+			m.status_datetime AS "packAuditTime"
+		FROM
+			BIZ_ORDER_TASKPACKAGE a
+		INNER JOIN BIZ_ORDER b ON b.id = a.order_id
+		LEFT JOIN sys_user u ON u.id = a.create_by AND u.del_flag = 0
+		LEFT JOIN biz_engineering_department c ON b.engin_depart_id = c.id
+		LEFT JOIN(
+			SELECT y.business_only_mark_int,y.create_by,y.status_datetime FROM biz_business_status_log y INNER JOIN(
+			SELECT MAX(id) AS id FROM biz_business_status_log n WHERE n.business_type = 1001 AND n.del_flag = 0 AND business_status=20
+		  GROUP BY business_only_mark_int) x ON x.id = y.id
+		) m ON m.business_only_mark_int = a.id
+		LEFT JOIN sys_user h ON h.id = m.create_by		
+		<include refid="orderTaskpackageAuditJoins"/>
+		<where>
+		
+			a.DEL_FLAG = #{DEL_FLAG_NORMAL}
+			
+			<!-- startPackageStateId和endPackageStateId在已审核任务包时作为筛选条件 -->
+			<if test="startPackageStateId != null and startPackageStateId != ''">
+				AND a.PACKAGE_STATEID &gt;=#{startPackageStateId}
+			</if>
+			<if test="endPackageStateId != null and endPackageStateId != ''">
+				AND a.PACKAGE_STATEID &lt;=#{endPackageStateId}
+			</if>
+			
+			<!-- packageStateid在待审核任务包时作为筛选条件 -->
+			<if test="packageStateid != null and packageStateid != ''">
+				AND a.PACKAGE_STATEID = #{packageStateid}
+			</if>
+			
+			<if test="storeId != null and storeId != ''">
+				AND a.STORE_ID = #{storeId}
+			</if>
+			<if test="projectMode != null and projectMode != ''">
+				AND a.PROJECT_MODE = #{projectMode}
+			</if>
+			<if test="orderNumber != null and orderNumber != ''">
+				AND b.ORDER_NUMBER = #{orderNumber}
+			</if>
+			<if test="customerName != null and customerName != ''">
+				AND a.customer_name LIKE concat('%',#{customerName},'%')
+			</if>
+			<if test="packageCode != null and packageCode != ''">
+				AND a.package_code = #{packageCode}
+			</if>
+			<if test="itemCustomer != null and itemCustomer != ''">
+				AND a.item_customer = #{itemCustomer}
+			</if>
+			<!--订单是否作废  -->
+			<if test="isScrap != null and isScrap != ''">
+				AND b.is_scrap  = #{isScrap}
+			</if>
+			<!-- 已审核任务包时，根据任务包状态筛选数据 -->
+			<if test="packageStateids != null">
+				AND a.package_stateId IN
+				<foreach item="item" index="index" collection="packageStateids" open="(" separator="," close=")">
+              	  #{item}
+           		</foreach>
+			</if>
+			<if test="enginDepartIds != null">
+				AND b.engin_depart_id in
+				<foreach item="item" index="index" collection="enginDepartIds" open="(" separator="," close=")">
+              	  #{item}
+           		</foreach>
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY b.CREATE_DATE DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	
+	
+	<select id="findAllList" resultType="OrderTaskpackageAudit">
+		SELECT 
+			<include refid="orderTaskpackageAuditColumns"/>
+		FROM biz_order_taskpackage a
+		<include refid="orderTaskpackageAuditJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.ORDER_TASK_PACKAGE_CODE ASC 
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO biz_order_taskpackage(
+			id,
+			store_id,
+			project_mode,
+			order_id,
+			pic_id,
+			package_code,
+			package_name,
+			plan_startdate,
+			plan_enddate,
+			actual_startdate,
+			actual_enddate,
+			package_stateid,
+			package_statename,
+			emp_groupid,
+			group_id,
+			group_realname,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag,
+			item_customer,
+			task_package_type,
+			dispatcher,
+			customer_name,
+			customer_message,
+			dispatch_time,
+			is_overtime,
+			total,
+			item_manager_id
+		) VALUES (
+			#{id},
+			#{storeId},
+			#{projectMode},
+			#{orderId},
+			#{picId},
+			#{packageCode},
+			#{packageName},
+			#{planStartdate},
+			#{planEnddate},
+			#{actualStartdate},
+			#{actualEnddate},
+			#{packageStateid},
+			#{packageStatename},
+			#{empGroupid},
+			#{groupId},
+			#{groupRealname},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag},
+			#{itemCustomer},
+			#{taskPackageType},
+			#{dispatcher},
+			#{customerName},
+			#{customerMessage},
+			#{dispatchTime},
+			#{isOvertime},
+			#{total},
+			#{itemManagerId}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE biz_order_taskpackage SET 	
+			store_id = #{storeId},
+			project_mode = #{projectMode},
+			order_id = #{orderId},
+			pic_id = #{picId},
+			package_code = #{packageCode},
+			package_name = #{packageName},
+			plan_startdate = #{planStartdate},
+			plan_enddate = #{planEnddate},
+			actual_startdate = #{actualStartdate},
+			actual_enddate = #{actualEnddate},
+			package_stateid = #{packageStateid},
+			package_statename = #{packageStatename},
+			emp_groupid = #{empGroupid},
+			group_id = #{groupId},
+			group_realname = #{groupRealname},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			item_customer = #{itemCustomer},
+			task_package_type = #{taskPackageType},
+			dispatcher = #{dispatcher},
+			customer_name = #{customerName},
+			customer_message = #{customerMessage},
+			dispatch_time = #{dispatchTime},
+			is_overtime = #{isOvertime},
+			total = #{total},
+			item_manager_id = #{itemManagerId}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="updateOrderTaskpackageByPackageStatusId">
+		UPDATE biz_order_taskpackage SET 	
+			package_stateid = #{0},
+			package_statename = #{1}
+		WHERE id = #{2}
+	</update>
+	
+	<update id="updateOrderTaskpackageByPackageStatusIdReturn">
+		UPDATE biz_order_taskpackage SET 	
+			package_stateid = #{0},
+			package_statename = #{1}
+		WHERE id = #{2}
+	</update>
+	
+	<update id="delete">
+		UPDATE biz_order_taskpackage SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+	<select id="getPackageStateid" resultType="cn.damei.entity.modules.Dict">
+		SELECT * FROM sys_dict WHERE del_flag = '0' AND type='taskpackage_status' AND `value` &gt;= #{0} AND `value` &lt;= #{1} order by sort asc
+	</select>
+	
+	<select id="findPackNameByStoreId" resultType="DropModel">
+		SELECT
+			t.`no` AS "value",
+			t.templat_name AS "label"
+		FROM
+			biz_task_package_templat t
+			INNER JOIN biz_task_package_type ty on ty.id = t.task_package_type_id  AND ty.`name` != '特殊任务包'
+		WHERE
+			t.del_flag = 0
+   		AND t.store_id = #{0}
+	</select>
+	
+	<select id="getStayCountByStoreId" resultType="java.lang.Integer">
+		SELECT
+			count(1)
+		FROM
+			biz_order_taskpackage t
+			left join biz_order a on a.id = t.order_id
+			INNER JOIN biz_task_package_templat te on te.id = t.task_package_templat_id
+			INNER JOIN biz_task_package_type ty on ty.id = te.task_package_type_id  AND ty.`name` != '特殊任务包'
+		WHERE
+			t.del_flag = 0
+			and a.is_scrap = 0
+		<if test="packageStateid != null and packageStateid != ''">
+			AND t.PACKAGE_STATEID = #{packageStateid}
+		</if>
+		<if test="storeId != null and storeId != ''">
+			AND t.STORE_ID = #{storeId}
+		</if>
+	</select>
+
+	<select id="getSpecialStayCountByStoreId" resultType="java.lang.Integer">
+		SELECT
+		count(1)
+		FROM
+		biz_order_taskpackage t
+		left join biz_order a on a.id = t.order_id
+		INNER JOIN biz_task_package_templat te on te.id = t.task_package_templat_id
+		INNER JOIN biz_task_package_type ty on ty.id = te.task_package_type_id  AND ty.`name` = '特殊任务包'
+		WHERE
+		t.del_flag = 0
+		and a.is_scrap = 0
+		<if test="packageStateid != null and packageStateid != ''">
+			AND t.PACKAGE_STATEID = #{packageStateid}
+		</if>
+		<if test="storeId != null and storeId != ''">
+			AND t.STORE_ID = #{storeId}
+		</if>
+	</select>
+</mapper>

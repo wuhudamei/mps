@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.MaterialWarningOrderDao">
+	<select id="findList" resultType = "cn.damei.entity.modules.MaterialWarningOrder">
+		SELECT
+			a.id,
+			a.store_id as 'storeId',
+			b.node_name as 'nodeName',
+			b.plan_done_date as 'planDoneDate',
+			a.project_mode as 'projectMode',
+			e.name as 'enginDepartId',
+			a.community_name AS 'communityName',
+			a.house_is_new AS 'isNewHouse',
+			a.customer_name AS 'customerName',
+			a.customer_phone AS 'customerPhone',
+			c.realname AS 'managerName',
+			c.phone AS 'managerPhone',
+			d.realname AS 'orderInspector',
+			d.phone as 'orderInspectorPhone',
+			a.designer_name AS 'designerName',
+			a.designer_phone AS 'designerPhone',
+			a.contract_start_date AS 'contractStartDate',
+			a.contract_end_date AS 'contractEndDate',
+			a.actual_start_date AS 'actualStartDate'
+		FROM
+			biz_order a
+		LEFT JOIN biz_node_plan b ON a.id = b.order_id
+		LEFT JOIN biz_employee c ON c.id = a.item_manager_id
+		LEFT JOIN biz_employee d ON a.order_inspector_id = d.id
+		LEFT JOIN biz_engineering_department e ON e.id = a.engin_depart_id AND e.del_flag=0
+		<where>
+			a.order_status_number &lt; 340 
+			<if test="orderIds != null and orderIds != ''">
+				and a.id IN 
+				<foreach collection="orderIds" item="item" open="("  separator="," close=")" index="index">
+						#{item}
+				</foreach>
+			</if>
+			<if test="storeId != null and storeId != ''">
+				AND a.store_id = #{storeId}
+			</if>
+			<if test="projectMode != null and projectMode != ''">
+				AND a.project_mode = #{projectMode}
+			</if> 
+			<if test="isNewHouse != null and isNewHouse != ''">
+				and a.house_is_new = #{isNewHouse} 
+			</if>
+			<if test="sort != null and sort != ''">
+				and b.node_index in (#{sort}) 
+			</if>
+			<if test="enginDepartId != null and enginDepartId != ''">
+				and a.engin_depart_id = #{enginDepartId} 
+			</if>
+			<if test="customerName != null and customerName != ''">
+				and a.customer_name like CONCAT('%','${customerName}','%')
+			</if>
+				and b.plan_done_date &lt;curdate()
+		</where>
+	</select>
+	
+</mapper>

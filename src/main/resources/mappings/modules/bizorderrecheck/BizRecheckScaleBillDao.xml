@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="cn.damei.dao.modules.BizRecheckScaleBillDao">
+
+	<sql id="bizRecheckScalBillColumns">
+		t.ID AS "id",
+		t.ORDER_ID AS "orderId",
+		t.RECHECK_SCALE_BILL_CODE AS "recheckScaleBillCode",
+		t.TYPE AS "type",
+		t.PLAN_INSTALL_DATE AS "planInstallDate",
+		t.STATUS AS "status",
+		t.REMARKS AS "remarks",
+		t.CREATE_DATE AS "createDate",
+		t.UPDATE_DATE AS
+		"updateDate",
+		t.DEL_FLAG AS "delFlag"
+	</sql>
+
+	<select id="get"
+		resultType="cn.damei.entity.modules.BizRecheckScaleBill"
+		parameterType="java.lang.Integer">
+		SELECT
+		<include refid="bizRecheckScalBillColumns" />
+		FROM BIZ_RECHECK_SCALE_BILL t
+		WHERE t.ID = #{0}
+	</select>
+
+	<update id="updateByRecheckStatus">
+		UPDATE BIZ_RECHECK_SCALE_BILL SET
+		STATUS = #{0},
+		REMARKS = #{1},
+		UPDATE_DATE = #{2}
+		WHERE ID = #{3}
+	</update>
+</mapper>

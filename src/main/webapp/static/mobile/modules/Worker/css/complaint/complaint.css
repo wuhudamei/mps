@@ -1,0 +1,52 @@
+.one_btn {
+	background-color: #378afa
+}
+
+/* .sec .clearfix .col_w {
+	border: #378afa solid 1px;
+	color: #378afa
+} */
+.sec .clearfix .col_w {
+	background: #378afa;
+	color: #fff;
+	border:1px solid #378afa;
+}
+
+.w2 {
+	width: 2rem;text-align: right;
+}
+
+.complaint {
+	font-size: .3rem;
+	padding: .2rem .3rem;
+	background: #fff
+}
+
+.complaint span {
+	color: #666;
+	vertical-align: top
+}
+
+.complaint textarea {
+	width: 5.8rem;
+	height: 2rem;
+	border: 1px solid #ddd;
+	resize: none;
+	font-size: .28rem;
+	color: #666;
+}
+.grey_btn{background: #bbb;}
+
+.pt25{padding-top: .25rem;}
+.pt34{padding-top: .34rem;}
+.pb34{padding-bottom: .34rem;}
+.pb35{padding-bottom: .35rem;}
+.pl30{padding-left: .3rem;}
+.mb30{margin-bottom: .3rem;}
+.bor_dash{border-bottom: 1px dashed #ddd;}
+.ml30{margin-left: .3rem;}
+.mr30{margin-right: .3rem;}
+.indent2{text-indent: 2em;}
+.col_378afa{color: #378afa;}
+.bor_btm_ddd{border-bottom: 1px solid #ddd;}
+.bg_f{background:#fff;}

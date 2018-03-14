@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizOrderRecheckDao">
+    
+	<sql id="bizRecheckColumns">
+		t.ID AS "id",
+		t.ORDER_NUMBER AS "orderNumber",
+		t.CONTRACT_NUMBER AS "contractNumber",
+		t.CUSTOMER_TYPE AS "customerType",
+		t.CUSTOMER_DESCRIPTION AS "customerDescription",
+		t.CUSTOMER_NAME AS "customerName",
+		t.CUSTOMER_PHONE AS "customerPhone",
+		t.COMMUNITY_NAME AS "communityName",
+		t.BUILD_NUMBER AS "buildNumber",
+		t.BUILD_UNIT AS "buildUnit",
+		t.BUILD_ROOM AS "buildRoom",
+		t.MAP_COORDINATE AS "mapCoordinate",
+		t.SALE_TYPE AS "saleType",
+		t.AREA AS "area",
+		t.BUILD_TYPE AS "buildType",
+		t.HOUSE_TYPE AS "houseType",
+		t.HOUSE_IS_NEW AS "houseIsNew",
+		t.IS_ELEVATOR AS "isElevator",
+		t.DESIGNER_NAME AS "designerName",
+		t.DESIGNER_PHONE AS "designerPhone",
+		t.ORDER_REPORTER_NAME AS "orderReporterName",
+		t.ORDER_REPORTER_PHONE AS "orderReporterPhone",
+		t.SERVICE_NAME AS "serviceName",
+		t.SERVICE_PHONE AS "servicePhone",
+		t.CONTRACT_START_DATE AS "contractStartDate",
+		t.CONTRACT_END_DATE AS "contractEndDate",
+		t.COVERED_AREA AS "coveredArea",
+		t.CONTRACT_AREA AS "contractArea",
+		t.CONTRACT_TIME AS "contractTime",
+		t.SIGN_CONTRACT_DATE AS "signContractDate",
+		t.ORDER_STATUS_NUMBER AS "orderStatusNumber",
+		t.ORDER_STATUS_DESCRIPTION AS "orderStatusDescription",
+		t.ORDER_INSPECTOR AS "orderInspector",
+		t.CREATE_BY AS "createBy.id",
+		t.CREATE_DATE AS "createDate",
+		t.UPDATE_BY AS "updateBy.id",
+		t.UPDATE_DATE AS "updateDate",
+		t.REMARKS AS "remarks",
+		t.DEL_FLAG AS "delFlag",
+		t.ITEM_MANAGER AS "itemManager",
+		t.STORE_ID AS "storeId",
+		t.CUS_MANAGER AS "cusManager",
+		t.ORDERTASKPACK_STATUS AS "orderTaskPackStatus",
+		t.ACTUAL_START_DATE AS actualStartDate,
+		t.ACTUAL_END_DATE AS actualEndDate,
+		t.ITEM_MANAGER_ID AS "itemManagerId",
+		t.SIGN_FLAG AS "signFlag",
+		t.DELAY_TYPE AS "delayType",
+		t.ORDER_INSPECTOR_ID AS "orderInspectorId",
+		t.PROVINCE AS "province",
+		t.CITY AS "city",
+		t.COUNTY AS "county",
+		t.DETAIL_ADDRESS AS "detailAddress",
+		t.BIZ_ORDER_ACCEPT_AREA AS "bizOrderAcceptArea",
+		t.PROJECT_MODE AS "projectMode"
+	</sql>
+	
+	<select id="get" resultType="cn.damei.entity.modules.BizOrderRecheck" parameterType="java.lang.Integer">
+		SELECT 
+    	<include refid="bizRecheckColumns"/>,
+    	y.REALNAME AS "employeeName",
+		y.PHONE AS "employeePhone"
+    	FROM BIZ_ORDER t,BIZ_EMPLOYEE y
+    	WHERE t.ID = #{0}
+    	AND y.ID = t.ITEM_MANAGER_ID
+	</select>
+	
+	<select id="findList" resultType="cn.damei.entity.modules.BizOrderRecheck">
+		SELECT 
+			<include refid="bizRecheckColumns"/>,
+			r.CREATE_DATE AS "appRecheckDate",
+			y.REALNAME AS "managerName",
+			r.STATUS AS "recheckStatus",
+			r.TYPE AS "recheckType",
+			r.ID AS "recheckID",
+			r.plan_install_date AS "recheckPlanInstallDate"
+			<!-- (SELECT COUNT(p.ID) FROM BIZ_BUSINESS_PIC p WHERE p.BUSINESS_ID_INT = r.ID AND p.BUSINESS_TYPE IN('201','202','203','204','205','206')) AS "picSize" -->
+		FROM BIZ_ORDER t,
+			 BIZ_RECHECK_SCALE_BILL r,
+			 BIZ_EMPLOYEE y
+		<where>
+			r.ORDER_ID = t.ID
+			AND y.ID = t.ITEM_MANAGER_ID
+			<if test="orderNumber != null and orderNumber != ''">
+				AND t.ORDER_NUMBER = #{orderNumber}
+			</if>
+			<if test="managerName != null and managerName != ''">
+				AND y.REALNAME LIKE concat('%', #{managerName}, '%')
+			</if>
+			<if test="projectMode != null and projectMode != ''">
+				AND t.PROJECT_MODE = #{projectMode}
+			</if>
+			<if test="storeId != null and storeId != ''">
+				AND t.STORE_ID = #{storeId}
+			</if>
+			<if test="customerName != null and customerName != ''">
+				AND t.CUSTOMER_NAME LIKE concat('%',#{customerName}, '%')
+			</if>
+			<if test="appRecheckStart != null and appRecheckStart != ''">
+				AND r.CREATE_DATE &gt;= str_to_date(#{appRecheckStart}, '%Y-%m-%d %H:%i:%s')
+			</if>
+			<if test="appRecheckEnd != null and appRecheckEnd != ''">
+				AND r.CREATE_DATE &lt;= str_to_date(#{appRecheckEnd}, '%Y-%m-%d %H:%i:%s')
+			</if>
+			<if test="recheckType != null and recheckType != ''">
+				AND r.TYPE = #{recheckType}
+			</if>
+			<if test="recheckStatus != null and recheckStatus != ''">
+				AND r.STATUS = #{recheckStatus}
+			</if>
+			ORDER BY r.CREATE_DATE DESC
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				,${page.orderBy}
+			</when>
+			<otherwise>
+				
+			</otherwise>
+		</choose>
+	</select>
+	
+</mapper>

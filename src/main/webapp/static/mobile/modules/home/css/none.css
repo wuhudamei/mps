@@ -1,0 +1,15 @@
+.order-none .img-wrapper {
+    width: 3.44rem;
+    height: 3.44rem;
+    margin: 40% auto;
+    background: url(../images/no-order.png);
+    background-size: 3.44rem;
+    position: relative;
+}
+.order-none .tips {
+    font-size: .34rem;
+    position: absolute;
+    bottom: .34rem;
+    text-align: center;
+    width: 100%;
+}

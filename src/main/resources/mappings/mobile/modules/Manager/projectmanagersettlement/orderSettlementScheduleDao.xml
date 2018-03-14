@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="cn.damei.dao.mobile.Manager.OrderSettlementScheduleDao">
+
+	<select id="queryOrderSettlementScheduleList"
+		resultType="cn.damei.entity.mobile.Manager.OrderSettlementSchedule">
+		SELECT
+		a.id as "orderId",
+		a.customer_name as "customerName",
+		a.community_name as "communityName",
+		a.build_number as "buildNumber",
+		a.build_unit as "buildUnit",
+		a.build_room as "buildRoom",
+		a.get_order_datetime as "getOrderDatetime"
+		FROM
+		biz_order a
+		LEFT JOIN (
+		SELECT
+		b.order_id,
+		b.`status`
+		FROM
+		biz_pm_settle_bill b
+		WHERE
+		b.settle_bill_type = 1
+		AND b.settle_role = 1
+		GROUP BY
+		b.order_id
+		) c ON
+		c.order_id = a.id
+		LEFT JOIN (
+		SELECT
+		b1.order_id,
+		b1.`status`
+		FROM
+		biz_pm_settle_bill b1
+		WHERE
+		b1.settle_bill_type = 2
+		AND b1.settle_role =
+		1
+		GROUP BY
+		b1.order_id
+		) d ON d.order_id = a.id
+		WHERE
+		(
+		c.`status` IS NULL
+		OR d.`status` IS NULL
+		OR c.`status` != 50
+		OR
+		d.`status` != 50
+		)
+		and
+		a.item_manager_id = #{pmEmployeeId}
+		<if test="queryParam != null and queryParam != ''">
+			and (a.customer_name like
+			<if test="dbName == 'oracle'">'%'||#{queryParam}||'%'</if>
+			<if test="dbName == 'mssql'">'%'+#{queryParam}+'%'</if>
+			<if test="dbName == 'mysql'">concat('%',#{queryParam},'%')</if>
+			or a.community_name like
+			<if test="dbName == 'oracle'">'%'||#{queryParam}||'%'</if>
+			<if test="dbName == 'mssql'">'%'+#{queryParam}+'%'</if>
+			<if test="dbName == 'mysql'">concat('%',#{queryParam},'%')</if>
+			)
+		</if>
+		ORDER BY a.get_order_datetime DESC
+	</select>
+
+	<select id="queryMidwaySettlementScheduleByOrderId"
+		resultType="cn.damei.entity.mobile.Manager.OrderSettlementSchedule">
+		SELECT
+		c.accept_check_datetime AS "pqcCheckedDatetime",
+		c.review_datetime AS "settlementClerkPassDatetime",
+		d.create_date AS "financeAffirmDatetime",
+		e.update_date AS "createMonthSettle"
+		FROM
+		biz_order a
+		INNER JOIN
+		biz_pm_settle_check_node_cnfg b ON a.store_id = b.store_id
+		AND
+		a.project_mode = b.project_mode
+		AND settle_role = 1
+	
+		AND b.is_enabled = 1
+		LEFT JOIN biz_qc_bill c ON c.qc_check_node_id =
+		b.qc_check_node_id AND
+		c.order_id = a.id 
+		LEFT JOIN
+		biz_pm_settle_bill d on d.order_id = a.id AND d.settle_bill_type
+		= 1
+		AND d.settle_role = 1 
+		LEFT JOIN biz_pm_settle_bill e on e.order_id = a.id  AND e.settle_bill_type = 1
+AND e.settle_role = 1  AND e.`status` = 50
+		WHERE
+		a.id = #{orderId}
+		ORDER BY d.create_date DESC LIMIT 1 
+	</select>
+
+	<select id="queryCompleteSettlementScheduleByOrderId"
+		resultType="cn.damei.entity.mobile.Manager.OrderSettlementSchedule">
+		SELECT
+		c.accept_check_datetime AS "pqcCheckedDatetime",
+		f.apply_datetime AS "pmApplyCompleteDatetime",
+		d.create_date AS "financeAffirmDatetime",
+		log.status_datetime AS "settlementClerkPassDatetime",
+		e.update_date AS "createMonthSettle"
+		FROM
+		biz_order a
+		INNER JOIN biz_pm_settle_check_node_cnfg b ON a.store_id = b.store_id
+		AND a.project_mode = b.project_mode
+		AND settle_role = 1
+
+		AND b.is_enabled = 1
+		LEFT JOIN biz_qc_bill c ON c.qc_check_node_id = b.qc_check_node_id AND
+		c.order_id = a.id 
+		LEFT JOIN biz_pm_settle_bill d on d.order_id = a.id AND d.settle_bill_type
+		= 2 AND d.settle_role = 1
+		LEFT JOIN biz_pm_settle_bill e on e.order_id = a.id  AND e.settle_bill_type = 2
+AND e.settle_role = 1  AND e.`status` = 50
+		LEFT JOIN biz_order_finish_project_bill f on f.order_id = a.id
+		LEFT JOIN biz_business_status_log log on log.business_only_mark_int = a.id
+		AND log.business_status = 340 AND log.business_type = 303
+		WHERE a.id =#{orderId}
+		ORDER BY d.create_date DESC LIMIT 1 
+	</select>
+
+</mapper>

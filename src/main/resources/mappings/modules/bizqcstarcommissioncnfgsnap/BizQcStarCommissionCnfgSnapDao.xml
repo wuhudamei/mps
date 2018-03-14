@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizQcStarCommissionCnfgSnapDao">
+    
+	<sql id="bizQcStarCommissionCnfgSnapColumns">
+		a.id AS "id",
+		a.store_id AS "storeId",
+		a.order_id AS "orderId",
+		a.pm_employee_id AS "pmEmployeeId",
+		a.is_old_new AS "isOldNew",
+		a.house_type AS "houseType",
+		a.star_level AS "starLevel",
+		a.commission_amount AS "commissionAmount",
+		a.commission_rate_midway AS "commissionRateMidway",
+		a.commission_rate_complete AS "commissionRateComplete",
+		a.is_enabled AS "isEnabled",
+		a.remarks AS "remarks",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="bizQcStarCommissionCnfgSnapJoins">
+	</sql>
+    
+	<select id="get" resultType="cn.damei.entity.modules.BizQcStarCommissionCnfgSnap">
+		SELECT 
+			<include refid="bizQcStarCommissionCnfgSnapColumns"/>
+		FROM biz_qc_star_commission_cnfg_snap a
+		<include refid="bizQcStarCommissionCnfgSnapJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="cn.damei.entity.modules.BizQcStarCommissionCnfgSnap">
+		SELECT 
+			<include refid="bizQcStarCommissionCnfgSnapColumns"/>
+		FROM biz_qc_star_commission_cnfg_snap a
+		<include refid="bizQcStarCommissionCnfgSnapJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="cn.damei.entity.modules.BizQcStarCommissionCnfgSnap">
+		SELECT 
+			<include refid="bizQcStarCommissionCnfgSnapColumns"/>
+		FROM biz_qc_star_commission_cnfg_snap a
+		<include refid="bizQcStarCommissionCnfgSnapJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO biz_qc_star_commission_cnfg_snap(
+			id,
+			store_id,
+			order_id,
+			pm_employee_id,
+			is_old_new,
+			house_type,
+			star_level,
+			commission_amount,
+			commission_rate_midway,
+			commission_rate_complete,
+			is_enabled,
+			remarks,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag
+		) VALUES (
+			#{id},
+			#{storeId},
+			#{orderId},
+			#{pmEmployeeId},
+			#{isOldNew},
+			#{houseType},
+			#{starLevel},
+			#{commissionAmount},
+			#{commissionRateMidway},
+			#{commissionRateComplete},
+			#{isEnabled},
+			#{remarks},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE biz_qc_star_commission_cnfg_snap SET 	
+			store_id = #{storeId},
+			order_id = #{orderId},
+			pm_employee_id = #{pmEmployeeId},
+			is_old_new = #{isOldNew},
+			house_type = #{houseType},
+			star_level = #{starLevel},
+			commission_amount = #{commissionAmount},
+			commission_rate_midway = #{commissionRateMidway},
+			commission_rate_complete = #{commissionRateComplete},
+			is_enabled = #{isEnabled},
+			remarks = #{remarks},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE biz_qc_star_commission_cnfg_snap SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+	<select id="queryByMap" resultType="cn.damei.entity.modules.BizQcStarCommissionCnfgSnap">
+		SELECT
+			a.store_id AS "storeId",
+			a.is_old_new AS "isOldNew",
+			a.house_type AS "houseType",
+			a.star_level AS "starLevel",
+			a.commission_amount AS "commissionAmount",
+			a.commission_rate_midway AS "commissionRateMidway",
+			a.commission_rate_complete AS "commissionRateComplete",
+			a.is_enabled AS "isEnabled"
+		FROM biz_qc_star_commission_cnfg a
+		where a.store_id = #{storeId} and a.is_old_new = #{isOldNew} and a.house_type = #{houseType} and a.star_level =#{starLevel} and a.is_enabled =#{isEnabled}
+	</select>
+	
+	<select id="findBqsccsByOrderId" resultType="cn.damei.entity.modules.BizQcStarCommissionCnfgSnap">
+		SELECT 
+			<include refid="bizQcStarCommissionCnfgSnapColumns"/>
+		FROM biz_qc_star_commission_cnfg_snap a
+		<include refid="bizQcStarCommissionCnfgSnapJoins"/>
+		WHERE a.order_id = #{orderId}
+		ORDER BY a.create_date DESC LIMIT 1
+	</select>
+</mapper>

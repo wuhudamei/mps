@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizQcMaxCountDao">
+    
+	<sql id="bizQcMaxCountColumns">
+		a.id AS "id",
+		a.store_id AS "storeId",
+		a.qc_max_count AS "qcMaxCount",
+		a.remarks AS "remarks",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="bizQcMaxCountJoins">
+	</sql>
+    
+	<select id="get" resultType="BizQcMaxCount">
+		SELECT 
+			<include refid="bizQcMaxCountColumns"/>
+		FROM biz_qc_max_count a
+		<include refid="bizQcMaxCountJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="BizQcMaxCount">
+		SELECT 
+			<include refid="bizQcMaxCountColumns"/>
+		FROM biz_qc_max_count a
+		<include refid="bizQcMaxCountJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+
+			<if test="storeId!=null and storeId!=''">
+				and a.store_id =#{storeId}
+
+
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="BizQcMaxCount">
+		SELECT 
+			<include refid="bizQcMaxCountColumns"/>
+		FROM biz_qc_max_count a
+		<include refid="bizQcMaxCountJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO biz_qc_max_count(
+
+			store_id,
+			qc_max_count,
+			remarks,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag
+		) VALUES (
+
+			#{storeId},
+			#{qcMaxCount},
+			#{remarks},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE biz_qc_max_count SET 	
+			store_id = #{storeId},
+			qc_max_count = #{qcMaxCount}
+
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		delete from  biz_qc_max_count
+
+		WHERE id = #{id}
+	</update>
+
+
+	<select id="storeOnlyForPqcCount" parameterType="int" resultType="int">
+		select count(1) from biz_qc_max_count where store_id = #{_parameter}
+
+
+	</select>
+
+</mapper>

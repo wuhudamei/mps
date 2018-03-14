@@ -1,0 +1,538 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.ProjectOrderListDao">
+    
+	<select id="findList" resultType="cn.damei.entity.modules.ProjectOrderList">
+		SELECT 
+			
+			a.id AS 'orderId',
+			a.store_id AS 'storeId',
+			a.project_mode AS 'projectMode',
+			a.order_number AS 'orderNumber',
+			a.customer_name AS 'customerName',
+			a.customer_phone AS 'customerPhone',
+			a.order_status_description AS 'status',
+			a.order_status_number as 'orderStatusNumber',
+			a.is_scrap AS "isScrap"
+		FROM biz_order a
+		
+		WHERE  1=1
+		<!--  订单id a.order_status_number &lt; '300'   -->
+		<if test="orderIds !=null and orderIds != ''">
+			and a.id in 
+			<foreach item="val" index="index" collection="orderIds" open="(" separator="," close=")">
+               #{val}
+        	</foreach>
+		</if>
+		<if test="storeId != null and storeId != ''">
+				AND a.store_id = #{storeId}
+		</if>
+		<if test="isScrap != null and isScrap != ''">
+				AND a.is_scrap = #{isScrap}
+			</if>
+		<if test="projectMode != null and projectMode != ''">
+				AND a.project_mode = #{projectMode}
+		</if>
+		<if test="engineDepartId != null and engineDepartId != ''">
+				 and  	a.engin_depart_id = #{engineDepartId}
+		</if>
+		<if test="orderNumber != null and orderNumber != ''">
+				AND a.order_number LIKE CONCAT('%','${orderNumber}','%' )
+		</if>
+		<!--订单状态编号  -->
+		<if test="status != null and status != ''">
+				AND a.order_status_number = #{status}
+		</if>
+		<if test="customerName != null and customerName != ''">
+				AND a.customer_name LIKE
+				<if test="dbName == 'oracle'">'%'||#{customerName}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{customerName}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{customerName},'%')</if>
+		</if>
+		<if test="customerPhone != null and customerPhone != ''">
+			AND a.customer_phone LIKE
+			CONCAT('%','${customerPhone}','%' )
+		</if>
+		<if test="designerName != null and designerName != ''">
+				AND a.designer_name LIKE
+				<if test="dbName == 'oracle'">'%'||#{designerName}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{designerName}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{designerName},'%')</if>
+		</if>
+		<if test="beginCreateDate != null and endCreateDate != null and beginCreateDate != '' and endCreateDate != ''">
+				AND a.create_date BETWEEN #{beginCreateDate} AND
+				#{endCreateDate}
+		</if>
+	</select>
+	<select id="findNotMaterialPage" resultType="cn.damei.entity.modules.ProjectOrderList">
+		SELECT 
+			
+			a.id AS 'orderId',
+			a.store_id AS 'storeId',
+			a.project_mode AS 'projectMode',
+			a.order_number AS 'orderNumber',
+			a.customer_name AS 'customerName',
+			a.customer_phone AS 'customerPhone',
+			a.order_status_description AS 'status',
+			a.order_status_number as 'orderStatusNumber',
+			a.is_scrap AS "isScrap"
+		FROM biz_order a
+		
+		WHERE   1=1
+		<!--  订单id a.order_status_number &lt; '300'  -->
+		<if test="orderIds !=null and orderIds != ''">
+			and a.id  not in 
+			<foreach item="val" index="index" collection="orderIds" open="(" separator="," close=")">
+               #{val}
+        	</foreach>
+		</if>
+		<if test="storeId != null and storeId != ''">
+				AND a.store_id = #{storeId}
+		</if>
+		<if test="isScrap != null and isScrap != ''">
+				AND a.is_scrap = #{isScrap}
+			</if>
+		<if test="projectMode != null and projectMode != ''">
+				AND a.project_mode = #{projectMode}
+		</if>
+		<if test="engineDepartId != null and engineDepartId != ''">
+				 and  	a.engin_depart_id = #{engineDepartId}
+		</if>
+		<if test="orderNumber != null and orderNumber != ''">
+				AND a.order_number LIKE CONCAT('%','${orderNumber}','%' )
+		</if>
+		<!--订单状态编号  -->
+		<if test="status != null and status != ''">
+				AND a.order_status_number = #{status}
+		</if>
+		<if test="customerName != null and customerName != ''">
+				AND a.customer_name LIKE
+				<if test="dbName == 'oracle'">'%'||#{customerName}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{customerName}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{customerName},'%')</if>
+		</if>
+		<if test="customerPhone != null and customerPhone != ''">
+			AND a.customer_phone LIKE
+			CONCAT('%','${customerPhone}','%' )
+		</if>
+		<if test="designerName != null and designerName != ''">
+				AND a.designer_name LIKE
+				<if test="dbName == 'oracle'">'%'||#{designerName}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{designerName}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{designerName},'%')</if>
+		</if>
+		<if test="beginCreateDate != null and endCreateDate != null and beginCreateDate != '' and endCreateDate != ''">
+				AND a.create_date BETWEEN #{beginCreateDate} AND
+				#{endCreateDate}
+		</if>
+	</select>
+	
+	<select id="findMaterialsChoice" resultType="cn.damei.entity.modules.BizMaterialsChoiceBillItem">
+		SELECT
+		  a.id                             AS "id",
+		  a.materials_choice_bill_id       AS "materialsChoiceBillId",
+		  a.materials_choice_type          AS "materialsChoiceType",
+		  a.materials_choice_category_code AS "materialsChoiceCategoryCode",
+		  a.brand                          AS "brand",
+		  a.model                          AS "model",
+		  a.attribute                      AS "attribute",
+		  a.unit                           AS "unit",
+		  a.spec                           AS "spec",
+		  a.position                       AS "position",
+		  a.budget_number_1                AS "budgetNumber1",
+		  a.budget_number_2                AS "budgetNumber2",
+		  a.loss_ratio                     AS "lossRatio",
+		  a.include_loss_number            AS "includeLossNumber",
+		  a.unit_price                     AS "unitPrice",
+		  a.total_amount                   AS "totalAmount",
+		  a.supplier_name                  AS "supplierName",
+		  a.supplier_no                    AS "supplierNo",
+		  b.category_name                  AS "categoryName"
+		FROM biz_materials_choice_bill_item a
+		  LEFT JOIN biz_materials_choice_category b
+		    ON b.category_code = a.materials_choice_category_code
+		      AND b.category_level = 2
+		WHERE a.del_flag = 0
+		    AND a.materials_choice_bill_id = #{0} AND a.materials_choice_category_code IN (
+		    SELECT b.category_code
+		  FROM biz_materials_choice_category a 
+		  LEFT JOIN biz_materials_choice_category b ON a.id = b.parent_id
+		  WHERE a.category_code IN ('10E00CD4-ACA5-4B55-AC56-454BF3EEA079','0732D865-C8E5-4849-94B6-01F26321517F'))
+	</select>
+	<select id="findMaterialsChoicez" resultType="cn.damei.entity.modules.BizMaterialsChoiceBillItem">
+		SELECT
+		  a.id                             AS "id",
+		  a.materials_choice_bill_id       AS "materialsChoiceBillId",
+		  a.materials_choice_type          AS "materialsChoiceType",
+		  a.materials_choice_category_code AS "materialsChoiceCategoryCode",
+		  a.brand                          AS "brand",
+		  a.model                          AS "model",
+		  a.attribute                      AS "attribute",
+		  a.unit                           AS "unit",
+		  a.spec                           AS "spec",
+		  a.position                       AS "position",
+		  a.budget_number_1                AS "budgetNumber1",
+		  a.budget_number_2                AS "budgetNumber2",
+		  a.loss_ratio                     AS "lossRatio",
+		  a.include_loss_number            AS "includeLossNumber",
+		  a.unit_price                     AS "unitPrice",
+		  a.total_amount                   AS "totalAmount",
+		  a.supplier_name                  AS "supplierName",
+		  a.supplier_no                    AS "supplierNo",
+		  b.category_name                  AS "categoryName"
+		FROM biz_materials_choice_bill_item a
+		  LEFT JOIN biz_materials_choice_category b
+		    ON b.category_code = a.materials_choice_category_code
+		      AND b.category_level = 2
+		WHERE a.del_flag = 0
+		    AND a.materials_choice_bill_id = #{0} AND a.materials_choice_category_code IN (
+			 	SELECT b.category_code FROM biz_materials_choice_category_install_item a 
+				LEFT JOIN biz_materials_choice_category b ON b.id = a.materials_choice_category_id
+				WHERE a.order_install_item_id = '99999' GROUP BY b.category_code
+)
+	</select>
+	
+	<select id="findDrawing" resultType="String">
+		SELECT
+			a.id
+		FROM biz_order a
+		  LEFT JOIN biz_order_cadfile b
+		    ON a.id = b.order_id
+		WHERE b.order_id IS NULL and a.order_status_number   &lt; '300'
+		<if test="storeId != null and storeId != ''">
+				AND a.store_id = #{storeId}
+		</if>
+		<if test="projectMode != null and projectMode != ''">
+				AND a.project_mode = #{projectMode}
+		</if>
+		<if test="engineDepartId != null and engineDepartId != ''">
+				 and  	a.engin_depart_id = #{engineDepartId}
+		</if>
+		<if test="orderNumber != null and orderNumber != ''">
+				AND a.order_number LIKE CONCAT('%','${orderNumber}','%' )
+		</if>
+		<!--订单状态编号  -->
+		<if test="status != null and status != ''">
+				AND a.order_status_number = #{status}
+		</if>
+		<if test="customerName != null and customerName != ''">
+				AND a.customer_name LIKE
+				<if test="dbName == 'oracle'">'%'||#{customerName}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{customerName}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{customerName},'%')</if>
+		</if>
+		<if test="customerPhone != null and customerPhone != ''">
+			AND a.customer_phone LIKE
+			CONCAT('%','${customerPhone}','%' )
+		</if>
+		<if test="designerName != null and designerName != ''">
+				AND a.designer_name LIKE
+				<if test="dbName == 'oracle'">'%'||#{designerName}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{designerName}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{designerName},'%')</if>
+		</if>
+		<if test="beginCreateDate != null and endCreateDate != null and beginCreateDate != '' and endCreateDate != ''">
+				AND a.create_date BETWEEN #{beginCreateDate} AND
+				#{endCreateDate}
+		</if>
+	</select>
+	<select id="findAttached" resultType="String">
+		SELECT  a.id
+	   FROM biz_order a 
+	   LEFT JOIN biz_order_excel b ON a.id = b.order_id
+	   WHERE b.order_id IS NULL and a.order_status_number   &lt; '300'
+	   <if test="storeId != null and storeId != ''">
+				AND a.store_id = #{storeId}
+		</if>
+		<if test="projectMode != null and projectMode != ''">
+				AND a.project_mode = #{projectMode}
+		</if>
+		<if test="engineDepartId != null and engineDepartId != ''">
+				 and  	a.engin_depart_id = #{engineDepartId}
+		</if>
+		<if test="orderNumber != null and orderNumber != ''">
+				AND a.order_number LIKE CONCAT('%','${orderNumber}','%' )
+		</if>
+		<!--订单状态编号  -->
+		<if test="status != null and status != ''">
+				AND a.order_status_number = #{status}
+		</if>
+		<if test="customerName != null and customerName != ''">
+				AND a.customer_name LIKE
+				<if test="dbName == 'oracle'">'%'||#{customerName}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{customerName}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{customerName},'%')</if>
+		</if>
+		<if test="customerPhone != null and customerPhone != ''">
+			AND a.customer_phone LIKE
+			CONCAT('%','${customerPhone}','%' )
+		</if>
+		<if test="designerName != null and designerName != ''">
+				AND a.designer_name LIKE
+				<if test="dbName == 'oracle'">'%'||#{designerName}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{designerName}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{designerName},'%')</if>
+		</if>
+		<if test="beginCreateDate != null and endCreateDate != null and beginCreateDate != '' and endCreateDate != ''">
+				AND a.create_date BETWEEN #{beginCreateDate} AND
+				#{endCreateDate}
+		</if>
+	</select>
+	
+	
+	<select id="findwallAndFloor" resultType="String">
+		SELECT a.id,b.order_id FROM biz_order a LEFT JOIN (	
+			SELECT b.order_id FROM
+			biz_materials_choice_bill_item a
+			INNER JOIN biz_materials_choice_bill b ON b.id = a.materials_choice_bill_id
+			WHERE a.materials_choice_category_code IN (
+					  "C831D3E8-03A1-4CFC-97FC-8DE23DBBAB3F",
+					"B572E8C7-8C82-4FE7-9FFA-CE990FCA9077",
+					"5D53154E-2C9F-4350-8DF0-ABADC33EB10A",
+					"C24F5FC9-1654-4706-89A8-D2759A32B39D",
+					"1CE7145A-EE00-408A-BCB0-CECC9D4AD492",
+					"0BA57309-17FA-4ABC-BB50-D710ABFE6D3D",
+					"550B49D0-0E46-4FA6-8C9A-F6D503DDF74C",
+					"997283CC-9B77-45B3-A09B-60C224D3E90D"
+				  )
+				  AND b.order_id IS NOT NULL 
+				  GROUP BY a.materials_choice_bill_id ) b ON a.id = b.order_id
+		WHERE b.order_id IS NULL and a.order_status_number   &lt; '300'
+		<if test="storeId != null and storeId != ''">
+				AND a.store_id = #{storeId}
+		</if>
+		<if test="projectMode != null and projectMode != ''">
+				AND a.project_mode = #{projectMode}
+		</if>
+		<if test="engineDepartId != null and engineDepartId != ''">
+				 and  	a.engin_depart_id = #{engineDepartId}
+		</if>
+		<if test="orderNumber != null and orderNumber != ''">
+				AND a.order_number LIKE CONCAT('%','${orderNumber}','%' )
+		</if>
+		<!--订单状态编号  -->
+		<if test="status != null and status != ''">
+				AND a.order_status_number = #{status}
+		</if>
+		<if test="customerName != null and customerName != ''">
+				AND a.customer_name LIKE
+				<if test="dbName == 'oracle'">'%'||#{customerName}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{customerName}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{customerName},'%')</if>
+		</if>
+		<if test="customerPhone != null and customerPhone != ''">
+			AND a.customer_phone LIKE
+			CONCAT('%','${customerPhone}','%' )
+		</if>
+		<if test="designerName != null and designerName != ''">
+				AND a.designer_name LIKE
+				<if test="dbName == 'oracle'">'%'||#{designerName}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{designerName}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{designerName},'%')</if>
+		</if>
+		<if test="beginCreateDate != null and endCreateDate != null and beginCreateDate != '' and endCreateDate != ''">
+				AND a.create_date BETWEEN #{beginCreateDate} AND
+				#{endCreateDate}
+		</if>
+	</select>
+	
+	<select id="findChoiceBillId" resultType="cn.damei.entity.modules.BizMaterialsChoiceBill">
+		SELECT
+		  a.id                            AS "id",
+		  a.order_id                      AS "orderId",
+		  b.order_number                  AS "orderNumber",
+		  a.materials_choice_total_amount AS "materialsChoiceTotalAmount",
+		  b.id                            AS "orderId",
+		  b.contract_number               AS "contractNumber",
+		  b.customer_name                 AS "customerName",
+		  b.customer_phone                AS "customerPhone",
+		  b.community_name                AS "communityName",
+		  b.build_number                  AS "buildNumber",
+		  b.build_unit                    AS "buildUnit",
+		  b.build_room                    AS "buildRoom",
+		  b.designer_name                 AS "orderDesignerName",
+		  b.designer_phone                AS "orderDesignerPhone",
+		  b.item_manager                  AS "itemManager"
+		FROM  biz_order b
+	  	LEFT JOIN biz_materials_choice_bill a ON b.order_number = a.order_number
+		WHERE b.id = #{0}  LIMIT 1 
+	</select>
+	<select id="findMaterial" resultType="String">
+		SELECT a.id 
+		FROM biz_order  a
+		LEFT JOIN biz_order_install_item b ON b.order_id=a.id
+		WHERE b.id IS NULL
+	</select>
+	<!--查询主材是否变更过 -->
+	<select id="queryDealedmainmaterial" resultType="String">
+	SELECT a.is_dealed_main_materials   FROM  biz_materials_choice_bill a where  a.order_number=#{0} LIMIT 1 
+	</select>
+	<!-- 查询墙地砖是否变更过 -->
+	<select id="queryDealedwallfloor" resultType="String">
+	SELECT a.is_dealed_wall_floor_tile   FROM  biz_materials_choice_bill a where  a.order_number =#{0} LIMIT 1 
+	</select>
+	<select id="isdealedwallfloor" resultType="String">
+	SELECT a.order_id from  biz_materials_choice_bill a   WHERE a.is_dealed_wall_floor_tile=0;
+	</select>
+	<select id="isdealedmainmaterial" resultType="String">
+	SELECT a.order_id from  biz_materials_choice_bill a   WHERE a.is_dealed_main_materials =0;
+	</select>
+	<select id="findInstallModel" resultType="String">
+		SELECT a.install_mode FROM biz_project_install_item a WHERE a.id = #{0}
+	</select>
+<!-- 	主材 -->
+	<update id="updateStatusMain" >
+		update biz_materials_choice_bill a SET a.is_dealed_main_materials=#{0} WHERE a.order_id=#{1}  
+	</update>
+<!-- 	墙地砖 -->
+	<update id="updateStatusWall" >
+		update biz_materials_choice_bill a SET a.is_dealed_wall_floor_tile=#{0} WHERE a.order_id=#{1}  
+	</update>
+	<!-- 更新订单墙地砖表（已申请商品数量） -->
+	<update id="updateOrderWallFloorTile" parameterType="int">
+		UPDATE biz_order_wall_floor_tile n
+		SET n.purchase_count = (
+			SELECT
+				IFNULL(SUM(b.apply_counta),0)
+			FROM
+				biz_purchase a
+			INNER JOIN biz_purchase_wall_floor_tile b ON b.purchase_id = a.id
+			WHERE
+				a.order_id = n.order_id
+			AND a.purchase_type = 5
+			AND a.`status` != 21
+			AND n.main_mate_type = b.main_mate_type
+			AND n.position = b.position
+			AND n.brand_combo = b.brand_combo
+			AND n.model = b.model
+			AND n.specification = b.specification
+			AND n.unit = b.unit
+		)
+		WHERE
+			n.order_id = #{0}
+	
+	</update>
+	
+	
+		<select id="findChoiceBillCount" parameterType="cn.damei.entity.modules.BizMaterialsChoiceBill" resultType="cn.damei.entity.modules.BizMaterialsChoiceBill">
+		SELECT
+			count(o.id) AS counts
+		FROM
+			biz_order o
+		LEFT JOIN biz_materials_choice_bill mc ON mc.order_id = o.id
+		WHERE
+			1=1  and o.is_scrap=0 
+		
+		<if test="engineDepartId != null and engineDepartId != ''">
+				AND o.engin_depart_id = #{engineDepartId}
+		</if>
+		<if test="storeId != null and storeId != ''">
+				AND o.store_id = #{storeId}
+		</if>
+		<if test="projectMode != null and projectMode != ''">
+				AND o.project_mode = #{projectMode}
+		</if>
+		
+		
+		AND (
+			mc.is_dealed_main_materials !='6'
+			OR mc.is_dealed_wall_floor_tile != '5'
+			)
+
+	</select>
+		<select id="queryinOrder" parameterType="cn.damei.entity.modules.BizMaterialsChoiceBill" resultType="String">
+		SELECT
+			o.id
+		FROM
+			biz_order o
+		LEFT JOIN biz_materials_choice_bill mc ON mc.order_id = o.id
+		WHERE
+			1=1  and o.is_scrap=0 
+		
+		<if test="engineDepartId != null and engineDepartId != ''">
+				AND o.engin_depart_id = #{engineDepartId}
+		</if>
+		<if test="storeId != null and storeId != ''">
+				AND o.store_id = #{storeId}
+		</if>
+		<if test="projectMode != null and projectMode != ''">
+				AND o.project_mode = #{projectMode}
+		</if>
+		
+		
+		AND (
+			mc.is_dealed_main_materials !='6'
+			OR mc.is_dealed_wall_floor_tile != '5'
+			)
+
+	</select>
+		<select id="queryinOrderNot56" parameterType="cn.damei.entity.modules.BizMaterialsChoiceBill" resultType="String">
+		SELECT
+			o.id
+		FROM
+			biz_order o
+		right JOIN biz_materials_choice_bill mc ON mc.order_id = o.id
+		WHERE
+			1=1  and o.is_scrap=0 
+		
+		<if test="engineDepartId != null and engineDepartId != ''">
+				AND o.engin_depart_id = #{engineDepartId}
+		</if>
+		<if test="storeId != null and storeId != ''">
+				AND o.store_id = #{storeId}
+		</if>
+		<if test="projectMode != null and projectMode != ''">
+				AND o.project_mode = #{projectMode}
+		</if>
+		
+	
+
+	</select>
+		<select id="queryinOrder2" parameterType="cn.damei.entity.modules.BizMaterialsChoiceBill" resultType="String">
+		SELECT
+			o.id
+		FROM
+			biz_order o
+		LEFT JOIN biz_materials_choice_bill mc ON mc.order_id = o.id
+		WHERE
+			1=1  and o.is_scrap=0 
+			  and  mc.is_dealed_wall_floor_tile != '5'
+		
+		<if test="engineDepartId != null and engineDepartId != ''">
+				AND o.engin_depart_id = #{engineDepartId}
+		</if>
+		<if test="storeId != null and storeId != ''">
+				AND o.store_id = #{storeId}
+		</if>
+		<if test="projectMode != null and projectMode != ''">
+				AND o.project_mode = #{projectMode}
+		</if>
+
+	</select>
+	
+	<select id="queryinOrder3" parameterType="cn.damei.entity.modules.BizMaterialsChoiceBill" resultType="String">
+		SELECT
+			o.id
+		FROM
+			biz_order o
+		LEFT JOIN biz_materials_choice_bill mc ON mc.order_id = o.id
+		WHERE
+			1=1  and o.is_scrap=0 
+			  and  mc.is_dealed_main_materials != '6'
+		
+		<if test="engineDepartId != null and engineDepartId != ''">
+				AND o.engin_depart_id = #{engineDepartId}
+		</if>
+		<if test="storeId != null and storeId != ''">
+				AND o.store_id = #{storeId}
+		</if>
+		<if test="projectMode != null and projectMode != ''">
+				AND o.project_mode = #{projectMode}
+		</if>
+
+	</select>
+	
+	
+	
+	
+</mapper>

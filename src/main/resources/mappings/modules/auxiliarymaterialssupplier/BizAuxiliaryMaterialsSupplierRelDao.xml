@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizAuxiliaryMaterialsSupplierRelDao">
+    
+	<sql id="bizAuxiliaryMaterialsSupplierRelColumns">
+		a.id AS "id",
+		a.auxiliary_materials_id AS "auxiliaryMaterialsId",
+		a.supplier_no AS "supplierNo",
+		a.supplier_id AS "supplierId",
+		a.supplier_cycle AS "supplierCycle",
+		a.supplier_price AS "supplierPrice",
+		a.labor_price AS "laborPrice",
+		a.version AS "version",
+		a.effective_date AS "effectiveDate",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag",
+		a.wangzhen_price AS "wangZhenPrice"
+	</sql>
+	
+	<sql id="bizAuxiliaryMaterialsSupplierRelJoins">
+	</sql>
+    
+	<select id="get" resultType="BizAuxiliaryMaterialsSupplierRel">
+		SELECT 
+			<include refid="bizAuxiliaryMaterialsSupplierRelColumns"/>
+		FROM biz_auxiliary_materials_supplier_rel a
+		<include refid="bizAuxiliaryMaterialsSupplierRelJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="getMaxVersion" resultType="java.lang.Integer">
+		SELECT 
+			MAX(a.version)
+		FROM biz_auxiliary_materials_supplier_rel a
+		WHERE a.auxiliary_materials_id= #{auxiliaryMaterialsId} AND a.supplier_id=#{supplierId}
+	</select>
+	<select id="findSupplierName" resultType="java.lang.Integer">
+	SELECT 
+	a.supplier_id AS "supplierId"
+    FROM biz_auxiliary_materials_supplier_rel a 
+    WHERE a.del_flag = 0 AND a.auxiliary_materials_id = #{auxiliaryMaterialsId}
+	</select>
+	
+	<select id="findList" resultType="BizAuxiliaryMaterialsSupplierRel">
+		SELECT 
+			<include refid="bizAuxiliaryMaterialsSupplierRelColumns"/>
+		FROM biz_auxiliary_materials_supplier_rel a
+		<include refid="bizAuxiliaryMaterialsSupplierRelJoins"/>
+		<where>
+			
+			<if test="auxiliaryMaterialsId != null and auxiliaryMaterialsId != ''">
+				AND a.auxiliary_materials_id = #{auxiliaryMaterialsId}
+			</if>
+			<if test="effectiveDate != null and effectiveDate != ''">
+				AND a.effective_date = #{effectiveDate}
+			</if>
+			<if test="supplierId != null and supplierId != ''">
+				AND a.supplier_id = #{supplierId}
+			</if>
+			
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="BizAuxiliaryMaterialsSupplierRel">
+		SELECT 
+			<include refid="bizAuxiliaryMaterialsSupplierRelColumns"/>
+		FROM biz_auxiliary_materials_supplier_rel a
+		<include refid="bizAuxiliaryMaterialsSupplierRelJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO biz_auxiliary_materials_supplier_rel(
+			auxiliary_materials_id,
+			supplier_no,
+			supplier_id,
+			supplier_cycle,
+			supplier_price,
+			labor_price,
+			version,
+			effective_date,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag,
+			wangzhen_price
+		) VALUES (
+			#{auxiliaryMaterialsId},
+			#{supplierNo},
+			#{supplierId},
+			#{supplierCycle},
+			#{supplierPrice},
+			#{laborPrice},
+			#{version},
+			#{effectiveDate},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag},
+			#{wangZhenPrice}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE biz_auxiliary_materials_supplier_rel SET 	
+			supplier_id = #{supplierId},
+			supplier_cycle = #{supplierCycle},
+			supplier_price = #{supplierPrice},
+			labor_price = #{laborPrice},
+			wangzhen_price = #{wangZhenPrice},
+			version = #{version},
+			effective_date = #{effectiveDate},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	
+	<insert id="insertWz">
+		INSERT INTO biz_auxiliary_materials_supplier_rel(
+			auxiliary_materials_id,
+			supplier_no,
+			supplier_id,
+			supplier_cycle,
+			supplier_price,
+		
+			version,
+			effective_date,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag,
+			wangzhen_price
+		) VALUES (
+			#{auxiliaryMaterialsId},
+			#{supplierNo},
+			#{supplierId},
+			#{supplierCycle},
+			#{supplierPrice},
+			
+			#{version},
+			#{effectiveDate},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag},
+			#{wangZhenPrice}
+		)
+	</insert>
+	
+	<update id="updateWz">
+		UPDATE biz_auxiliary_materials_supplier_rel SET 	
+			supplier_id = #{supplierId},
+			supplier_cycle = #{supplierCycle},
+			supplier_price = #{supplierPrice},
+			
+			wangzhen_price = #{wangZhenPrice},
+			version = #{version},
+			effective_date = #{effectiveDate},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<insert id="insertSupplier">
+		INSERT INTO biz_auxiliary_materials_supplier_rel(
+			auxiliary_materials_id,
+			supplier_no,
+			supplier_id,
+			supplier_cycle,
+			supplier_price,
+		
+			version,
+			effective_date,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag
+			
+		) VALUES (
+			#{auxiliaryMaterialsId},
+			#{supplierNo},
+			#{supplierId},
+			#{supplierCycle},
+			#{supplierPrice},
+			
+			#{version},
+			#{effectiveDate},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag}
+			
+		)
+	</insert>
+	
+	<update id="updateSupplier">
+		UPDATE biz_auxiliary_materials_supplier_rel SET 	
+			supplier_id = #{supplierId},
+			supplier_cycle = #{supplierCycle},
+			supplier_price = #{supplierPrice},
+			
+			version = #{version},
+			effective_date = #{effectiveDate},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE biz_auxiliary_materials_supplier_rel SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

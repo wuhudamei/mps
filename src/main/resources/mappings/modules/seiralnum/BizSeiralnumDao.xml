@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizSeiralnumDao">
+    
+    <insert id="insert">
+		INSERT INTO biz_seiralnum(
+			id,
+			bussiness_type,
+			last_seiralnum,
+			generate_time
+		) VALUES (
+			#{id},
+			#{bussinessType},
+			#{lastSeiralnum},
+			#{generateTime}
+		)
+	</insert>
+	
+	<select id="querySeiralnumByType" parameterType="java.lang.String" resultType="cn.damei.entity.modules.BizSeiralnum">
+		select id as "id",bussiness_type as "bussinessType",last_seiralnum as "lastSeiralnum",generate_time as "generateTime" 
+		from biz_seiralnum where bussiness_type = #{bussinessType}
+	</select>
+	
+	<update id="update">
+		UPDATE biz_seiralnum SET
+			last_seiralnum = #{lastSeiralnum},
+			generate_time = #{generateTime}
+		WHERE id = #{id}
+	</update>
+</mapper>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.TaskPackDetailsDao">
+    
+	<select id="findTaskPackDetailsById" resultType="cn.damei.entity.modules.TaskPackDetails">
+		SELECT bo.order_id,bo.id,bo.store_id,be.name,br.order_number,bo.order_task_package_code,bo.package_name,bo.customer_message,bo.package_statename,
+		bo.customer_name,br.customer_phone,br.item_manager,ee.phone,bo.create_date,bo.dispatch_time,bo.plan_startdate,bo.plan_enddate,
+		bo.actual_startdate,bo.actual_enddate,bo.labor_auxiliary_materials_budget_amount AS "laborAuxiliaryMaterialsBudgetAmount",ee.realName,
+		bo.labor_budget_amount AS "laborBudgetAmount",bo.auxiliary_materials_budget_amount AS "auxiliaryMaterialsBudgetAmount"
+		FROM biz_order_taskpackage bo
+		
+		LEFT JOIN   biz_order_taskpackage_settlement bs 
+		ON bo.id = bs.order_taskpackage_id
+		LEFT JOIN biz_order br
+		ON br.id = bo.order_id
+		LEFT JOIN biz_engineering_department be
+		ON be.id = br.engin_depart_id
+		LEFT JOIN biz_employee ee
+		ON ee.id = br.item_manager_id 
+		WHERE bo.id = #{0}
+	</select>
+	<select id = "findWorkerInfoByid" resultType="cn.damei.entity.modules.WorkerInfo">
+		SELECT bs.is_leader,ee.realName,ee.phone,bs.payment_amount FROM biz_order_taskpackage_settlement_detail bs
+		LEFT JOIN biz_employee ee
+		ON ee.id = bs.employee_id
+		WHERE bs.order_taskpackage_id = #{0};
+	</select>
+</mapper>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.ConstructionPlanStandBookDao">
+
+    <select id="findPlanAndDoneTimeByOrderNo" parameterType="String" resultType="cn.damei.entity.modules.BizNodePlanExtend">
+		SELECT
+		  bo.designer_name,
+		  bo.service_name,
+		  bo.item_manager,
+		  bn.node_name,
+		  bn.plan_done_date,
+		  bn.real_done_date,
+		  bod.create_date   AS disclosure,
+		  boc.create_date   AS confirmation,
+		  bn.plan_check_time
+		FROM biz_order bo
+		  LEFT JOIN biz_node_plan bn
+			ON bo.id = bn.order_id
+		  LEFT JOIN biz_order_disclose bod
+			ON bo.id = bod.order_id
+		  LEFT JOIN biz_order_confirm_startwork boc
+			ON bo.id = boc.order_id
+		WHERE bo.order_number = #{orderno}
+		ORDER BY bn.plan_done_date
+	</select>
+
+</mapper>

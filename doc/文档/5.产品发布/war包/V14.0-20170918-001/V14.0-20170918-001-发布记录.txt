@@ -1,0 +1,26 @@
+打包名称：mdn.war
+打包版本：V14.0-20170918-001
+
+
+功能新增：
+	1、基装变更Bug修复--康健
+
+文件更新：
+	1、替换文件【ApplyProjectChangeDao.class】在文件夹【基装变更Bug修复--康健】
+		路径在【基装变更Bug修复--康健】文件夹内的【文件路径.txt】
+	2、替换文件【ApplyProjectChangeDao.xml】在文件夹【基装变更Bug修复--康健】
+		路径在【基装变更Bug修复--康健】文件夹内的【文件路径.txt】
+	3、替换文件【ApplyProjectChangeService.class】在文件夹【基装变更Bug修复--康健】
+		路径在【基装变更Bug修复--康健】文件夹内的【文件路径.txt】
+	4、替换文件【change_modify.jsp】在文件夹【基装变更Bug修复--康健】
+		路径在【基装变更Bug修复--康健】文件夹内的【文件路径.txt】
+	5、替换文件【ConfirmStartController.class】在文件夹【基装变更Bug修复--康健】
+		路径在【基装变更Bug修复--康健】文件夹内的【文件路径.txt】
+	6、替换文件【OrderDao2.class】在文件夹【基装变更Bug修复--康健】
+		路径在【基装变更Bug修复--康健】文件夹内的【文件路径.txt】
+	7、替换文件【OrderDao2.xml】在文件夹【基装变更Bug修复--康健】
+		路径在【基装变更Bug修复--康健】文件夹内的【文件路径.txt】
+	8、替换文件【OrderService2.class】在文件夹【基装变更Bug修复--康健】
+		路径在【基装变更Bug修复--康健】文件夹内的【文件路径.txt】
+	9、替换文件【SendMsgBusinessType.class】在文件夹【基装变更Bug修复--康健】
+		路径在【基装变更Bug修复--康健】文件夹内的【文件路径.txt】

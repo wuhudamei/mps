@@ -1,0 +1,2 @@
+BizProcedureDao.xml   mappings\modules\procedure
+BizProjectProgressBoningDao.xml   mappings\modules\projectprogressboning  

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="cn.damei.common.utils.phoneMessage.PhoneMessageDao">
+	
+	
+	
+	<insert id="saveMessageContent" parameterType="cn.damei.common.utils.phoneMessage.PhoneMessageEntity">
+	
+	insert into biz_phone_msg (
+	receive_employee_id,
+	receive_phone,
+	msg_content,
+	msg_generate_datetime,
+	msg_tosend_datetime,
+	msg_sended_datetime,
+	msg_status,
+	related_business_id_int,
+	related_business_type,
+	related_business_id_varchar
+	
+	
+	)values(
+	#{receiveEmployeeId},
+	#{receivePhone},
+	#{messageContent},
+	#{messageGenerateTime},
+	#{messageToSendTime},
+	#{messageSendedTime},
+	#{status},
+	#{relatedBusinessId},
+	#{relatedBusinessType},
+	#{relatedBusinessVarchar}
+
+	
+	)
+	
+	
+	</insert>
+	
+	
+	
+	
+	
+<select id="getEmployeePhoneAndId" resultType="cn.damei.common.utils.phoneMessage.MessageEmployeePhoneAndId">
+SELECT
+	b.id as "employeeId",
+	b.realName as "employeeName",
+	b.phone as "employeePhone",
+	b.storeId as "storeId"
+FROM
+	biz_employee b
+WHERE
+	b.id IN (
+		SELECT
+			a.employees
+		FROM
+			biz_messagegroup a
+		WHERE
+			 a.store_id = #{0}
+			and a.message_group_type = #{1}
+		and a.is_enable=1
+	)
+
+
+</select>	
+	
+
+
+	<select id="checkIsExistByTypeAndBusinessId" parameterType="cn.damei.common.utils.phoneMessage.PhoneMessageEntity" resultType="int">
+		select count(1) from biz_phone_msg where related_business_id_int =#{relatedBusinessId} and related_business_type =#{relatedBusinessType}
+		limit 1
+
+
+	</select>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	<insert id="batchSavePhoneInfo" parameterType="cn.damei.common.utils.phoneMessage.PhoneMessageEntity">
+
+		insert into biz_phone_msg (
+		receive_employee_id,
+		receive_phone,
+		msg_content,
+		msg_generate_datetime,
+		msg_tosend_datetime,
+		msg_sended_datetime,
+		msg_status,
+		related_business_id_int,
+		related_business_type,
+		related_business_id_varchar
+
+
+		)values
+
+			<foreach collection="list" item="item" separator="," index="index">
+
+				(
+
+				#{item.receiveEmployeeId},
+				#{item.receivePhone},
+				#{item.messageContent},
+				#{item.messageGenerateTime},
+				#{item.messageToSendTime},
+				#{item.messageSendedTime},
+				#{item.status},
+				#{item.relatedBusinessId},
+				#{item.relatedBusinessType},
+				#{item.relatedBusinessVarchar}
+
+
+				)
+
+			</foreach>
+
+
+
+	</insert>
+
+
+	
+	
+</mapper>

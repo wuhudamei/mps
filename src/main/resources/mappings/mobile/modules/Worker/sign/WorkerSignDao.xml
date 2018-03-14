@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.mobile.Worker.WorkerSignDao">
+   
+   <sql id="allOrderSignColumns">
+	   a.id As "id" ,
+	   a.item_manager_id As "itemManagerId" ,
+	   a.customer_name AS  "customerName" ,
+	   a.community_name  AS "communityName" ,
+	   a.build_number AS "buildNumber" ,
+	   a.build_unit AS "buildUnit" ,
+	   a.build_room As "buildRoom" ,
+	   a.contract_start_date AS "contractStartDate",
+	   a.contract_end_date AS "contractEndDate" ,
+	   a.actual_start_date AS "actualStartDate",
+	   a.contract_time AS "contractTime",
+	   a.order_status_description AS "orderStatus",
+	   a.map_coordinate As "mapAddress" ,
+	   a.sign_flag AS "signFlag"
+   
+   </sql>
+   
+   
+	<sql id="allSignDetailColumns">
+		b.id AS "id",
+		b.order_id AS "orderId",
+		b.sign_pic AS "signPic",
+		b.sign_date AS "signDate",
+		b.sign_distance AS "signDistance",
+		b.sign_address AS "signAddress",
+		b.signType AS "signType",
+		b.sign_name AS "signName",
+		b.manager_id AS "managerId",
+		b.manager_name AS "managerName",
+		b.worker_leader_id AS "workerLeaderId",
+		b.worker_leader_name AS "workerLeaderName",
+		b.customer_info AS "customerInfo"
+	
+	</sql>
+    
+   
+   <sql id="allPackSignColumns">
+	   a.id AS "id",
+	   a.plan_startdate AS "planStartDate",
+	   a.plan_enddate As "planEndDate",
+	   a.package_stateId As "packStateId",
+	   a.package_stateName AS "packStateName",
+	   a.group_id AS "workerLeaderId",
+	   a.group_realname AS "workerLeaderName",
+	   a.item_manager_id AS "itemManagerId",
+	   a.customer_name AS "customerName",
+	   a.customer_message AS "customerMessage",
+	   a.item_customer AS "itemManagerName",
+	   a.package_name as "packageName"
+  
+   </sql>
+   
+   
+   
+     <!-- 根据任务包id 查询订单 -->
+    <select id="getAddressThroughOrder" parameterType="int" resultType="cn.damei.entity.mobile.Manager.OrderSignVo">
+		    SELECT
+		   	 	<include refid="allOrderSignColumns"/>
+			FROM
+				biz_order a
+			where a.id = (
+				SELECT
+					c.order_id
+				FROM
+					biz_order_taskpackage c
+				WHERE
+					c.id = #{packId}
+				)
+    </select>
+    
+   
+   
+   
+   
+    <!-- 根据工人组长id 查询任务包 -->
+    <select id="packByworkerLeaderId" parameterType="int" resultType="cn.damei.entity.mobile.Worker.TaskPackSignVo">
+    
+	    SELECT 
+	    	<include refid="allPackSignColumns"/>,
+	   		 (SELECT COUNT(b.id) FROM biz_sign b WHERE b.pack_id = a.id and b.signType ="2" and b.del_flag=1) AS "count",
+	   		 substring_index(c.map_coordinate, ',', 1) AS "lon",
+			 substring_index(c.map_coordinate, ',', - 1) AS "lat",
+			 b.phone AS "itemManagerPhone",
+			 c.is_scrap AS 'isScrap',
+			 IFNULL(a.settle_style,0) AS "settleStyle"
+	    from 
+	    	biz_order_taskpackage a
+	    	INNER JOIN biz_order c ON a.order_id = c.id
+	    	LEFT JOIN biz_employee b ON a.item_manager_id = b.id
+	    	LEFT JOIN biz_task_package_templat d ON a.task_package_templat_id = d.id
+	    where 
+	    	a.group_id =#{workerLeaderId} 
+	    	and a.package_stateId = "60"
+
+    </select>
+
+	
+    
+    <!--根据工人组长id和任务包id查询签到详情 -->
+    <select id="signDetailByWorkerLeaderId"  resultType="cn.damei.entity.mobile.Worker.SignDetail">
+    
+    
+	    SELECT 
+	    	<include refid="allSignDetailColumns"/>
+	    FROM 
+	    	biz_sign b  
+	    WHERE  
+	    	b.worker_leader_id=#{0} and b.pack_id=#{1}
+	    and b.signType ="2"  and b.del_flag=1
+	    order by b.sign_date desc limit 1
+    
+    
+    
+    </select>
+    
+     <!--根据任务包id查询签到详情 ,时间最近的一个信息显示-->
+    <select id="getSignDetailByPackIdLimit" parameterType="int" resultType="cn.damei.entity.mobile.Worker.SignDetail">
+    
+    
+	    SELECT 
+	    	<include refid="allSignDetailColumns"/>
+	    FROM 
+	    	biz_sign b  
+	    WHERE  
+	    	b.pack_id= #{packId} and b.del_flag=1
+	    order by b.sign_date desc limit 1
+    
+    
+    
+    </select>
+    
+    
+    <!-- 根据任务包id查询顾客信息 -->
+    <select id="getCustomerInfoByPackId" parameterType="int" resultType="cn.damei.entity.mobile.Worker.TaskPackSignVo">
+    	SELECT
+			a.customer_message AS "customerMessage",
+			a.customer_name AS "customerName",
+			a.package_name AS "packageName",
+			a.item_manager_id AS "itemManagerId",
+			e.realName AS "itemManagerName",
+			e.phone AS "itemManagerPhone"
+		FROM
+			biz_order_taskpackage a
+		LEFT JOIN biz_employee e ON e.id = a.item_manager_id
+		WHERE
+			a.id = #{packId}
+    </select>
+    
+    
+   <insert id="signSuccess">
+	   insert into biz_sign(
+		   id ,
+		   order_id,
+		   pack_id,
+		   sign_pic,
+		   sign_date,
+		   sign_address,
+		   sign_xy,
+		   sign_distance,
+		   signType,
+		   sign_name,
+		   manager_id,
+		   manager_name,
+		   worker_leader_id,
+		   worker_leader_name,
+		   customer_info 
+	   ) VALUES(
+		   #{id} ,
+		   #{orderId},
+		   #{packId},
+		   #{signPic},
+		   #{signDate},
+		   #{signAddress},
+		   #{signXy},
+		   #{signDistance},
+		   #{signType},
+		   #{signName},
+		   #{managerId},
+		   #{managerName},
+		   #{workerLeaderId},
+		   #{workerLeaderName},
+		   #{customerInfo}
+	   
+	   )
+   </insert>
+ 
+    
+    <select id="setManagerInfoForWorker" parameterType="int" resultType="cn.damei.entity.mobile.Worker.SignDetail">
+		SELECT
+			B.item_customer AS "managerName",
+			B.item_manager_id AS "managerId",
+			e.phone AS "managerPhone"
+		FROM
+			biz_order_taskpackage B,
+			biz_employee  e
+		WHERE
+			B.id = #{packId}
+		and b.item_manager_id = e.id;
+    
+    
+    </select>
+    
+    
+    <!--根据id  更新任务包状态   签到成功为施工中-->
+    
+    <update id="updatePackStatusById" parameterType="int">
+   	 	update 
+   	 		biz_order_taskpackage 
+   	 	set 
+   	 		package_stateId = "70" , 
+   	 		package_statename="施工中",
+   	 		actual_startdate =now()  
+   	 	where 
+   	 		id = #{packId}
+    
+    
+    </update>
+    
+    
+    
+        
+    
+    <select id="selectPackNameById" parameterType="int" resultType="String">
+   	 	SELECT  
+   	 		a.package_name 
+   	 	from 
+   	 		biz_order_taskpackage a  
+   	 	where 
+   	 		a.id = #{id}
+    
+    </select>
+    
+    
+  </mapper>  

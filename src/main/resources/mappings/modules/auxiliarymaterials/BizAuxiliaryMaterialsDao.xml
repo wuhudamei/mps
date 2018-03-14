@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizAuxiliaryMaterialsDao">
+    
+	<sql id="bizAuxiliaryMaterialsColumns">
+		a.id AS "id",
+		a.store_id AS "storeId",
+		a.auxiliary_materials_no AS "auxiliaryMaterialsNo",
+		a.auxiliary_materials_name AS "auxiliaryMaterialsName",
+		a.emp_work_type AS "empWorkType",
+		a.category_id AS "categoryId",
+		a.specifications AS "specifications",
+		a.measurement_unit AS "measurementUnit",
+		a.status AS "status",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag",
+		a.brands AS "brands",
+		a.pic_url AS "picUrl",
+		concat(a.auxiliary_materials_no,' ',a.auxiliary_materials_name) AS "dropDisp"
+		
+	</sql>
+	
+	<sql id="bizAuxiliaryMaterialsJoins">
+	</sql>
+    
+	<select id="get" resultType="BizAuxiliaryMaterials">
+		SELECT 
+			<include refid="bizAuxiliaryMaterialsColumns"/>
+			,a.is_sand_cement
+		FROM biz_auxiliary_materials a
+		<include refid="bizAuxiliaryMaterialsJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="BizAuxiliaryMaterials">
+		SELECT 
+			<include refid="bizAuxiliaryMaterialsColumns"/>,d.label AS 'unit',
+		d1.label AS "workerType",
+		a.is_sand_cement,
+		c.category_name AS 'categoryName'
+		FROM biz_auxiliary_materials a
+		<include refid="bizAuxiliaryMaterialsJoins"/>
+		INNER JOIN sys_dict d ON d.type = 'biz_material_unit'
+		INNER JOIN sys_dict d1 ON a.emp_work_type = d1.`value`
+		AND d1.type = 'emp_work_type'
+		AND a.measurement_unit = d.`value`
+		INNER JOIN biz_material_category c ON a.category_id = c.id
+		AND c.material_type_id = '1'
+
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="storeId != null and storeId != ''">
+				AND a.store_id = #{storeId}
+			</if>
+			<if test="auxiliaryMaterialsNo != null and auxiliaryMaterialsNo != ''">
+				AND a.auxiliary_materials_no LIKE '%${auxiliaryMaterialsNo}%' 
+			</if>
+			<if test="auxiliaryMaterialsName != null and auxiliaryMaterialsName != ''">
+				AND a.auxiliary_materials_name  LIKE concat('%',#{auxiliaryMaterialsName},'%')
+			</if>
+			<if test="categoryId != null and categoryId != ''">
+				AND a.category_id = #{categoryId}
+			</if>
+			<if test="status != null and status != ''">
+				AND a.status = #{status}
+			</if>
+			<if test="isSandCement != null and isSandCement != ''">
+				AND a.is_sand_cement = #{isSandCement}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="BizAuxiliaryMaterials">
+		SELECT 
+			<include refid="bizAuxiliaryMaterialsColumns"/>
+		FROM biz_auxiliary_materials a
+		<include refid="bizAuxiliaryMaterialsJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO biz_auxiliary_materials(
+			store_id,
+			auxiliary_materials_no,
+			auxiliary_materials_name,
+			emp_work_type,
+			category_id,
+			specifications,
+			measurement_unit,
+			status,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag,
+			brands,
+			pic_url,
+			is_sand_cement
+		) VALUES (
+			#{storeId},
+			#{auxiliaryMaterialsNo},
+			#{auxiliaryMaterialsName},
+			#{empWorkType},
+			#{categoryId},
+			#{specifications},
+			#{measurementUnit},
+			#{status},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag},
+			#{brands},
+			#{picUrl},
+			#{isSandCement}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE biz_auxiliary_materials SET 	
+			store_id = #{storeId},
+			auxiliary_materials_no = #{auxiliaryMaterialsNo},
+			auxiliary_materials_name = #{auxiliaryMaterialsName},
+			emp_work_type = #{empWorkType},
+			category_id = #{categoryId},
+			specifications = #{specifications},
+			measurement_unit = #{measurementUnit},
+			status = #{status},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks},
+			brands = #{brands},
+			pic_url = #{picUrl},
+			is_sand_cement = #{isSandCement}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE biz_auxiliary_materials SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	<select id = "findExport" resultType="cn.damei.entity.modules.BizAuxiliaryMaterials">
+		SELECT 
+						c.auxiliary_materials_no AS "auxiliaryMaterialsNo",
+						c.auxiliary_materials_name AS "auxiliaryMaterialsName",
+						d1.label AS "empWorkType",
+						c.specifications AS "specifications",
+						d.label AS "measurementUnit",
+						c.brands AS "brands",
+						a.labor_price AS "price",
+						a.supplier_price AS "supplierPrice",
+						a.wangzhen_price AS "wangzhenPrice"
+						 FROM biz_auxiliary_materials_supplier_rel a LEFT JOIN (SELECT 
+	   									p.id,
+	   									p.auxiliary_materials_id AS "amid",
+	   									MAX(effective_date) "maxdate" 
+	   								FROM 
+	   									biz_auxiliary_materials_supplier_rel p 
+	   								WHERE 
+	   									p.effective_date &lt;=#{0} AND p.del_flag = 0
+	   								GROUP BY 
+	   									p.auxiliary_materials_id) b ON b.amid = a.auxiliary_materials_id 
+	   								LEFT JOIN biz_auxiliary_materials c ON c.id = a.auxiliary_materials_id
+	   								INNER JOIN sys_dict d ON d.type = 'biz_material_unit'
+	   								INNER JOIN sys_dict d1 ON c.emp_work_type = d1.`value` AND d1.type = 'emp_work_type' AND c.measurement_unit = d.`value`
+									WHERE b.maxdate = a.effective_date AND c.status = 1 AND c.store_id = #{1} ORDER BY c.create_date DESC
+	
+	</select>
+</mapper>

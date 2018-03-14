@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizQcStarCommissionCnfgDao">
+    
+	<sql id="bizQcStarCommissionCnfgColumns">
+		a.id AS "id",
+		a.store_id AS "storeId",
+		a.is_old_new AS "isOldNew",
+		a.house_type AS "houseType",
+		a.star_level AS "starLevel",
+		a.commission_amount AS "commissionAmount",
+		truncate(a.commission_rate_midway * 100,0) AS "commissionRateMidway",
+		truncate(a.commission_rate_complete * 100,0) AS "commissionRateComplete",
+		a.is_enabled AS "isEnabled",
+		a.remarks AS "remarks",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="bizQcStarCommissionCnfgJoins">
+	</sql>
+    
+	<select id="get" resultType="cn.damei.entity.modules.BizQcStarCommissionCnfg">
+		SELECT 
+			<include refid="bizQcStarCommissionCnfgColumns"/>
+		FROM biz_qc_star_commission_cnfg a
+		<include refid="bizQcStarCommissionCnfgJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" parameterType="cn.damei.entity.modules.BizQcStarCommissionCnfg" resultType="cn.damei.entity.modules.BizQcStarCommissionCnfg">
+		SELECT 
+			<include refid="bizQcStarCommissionCnfgColumns"/>
+		FROM biz_qc_star_commission_cnfg a
+		<include refid="bizQcStarCommissionCnfgJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="storeId != null and storeId != ''">
+				AND a.store_id = #{storeId}
+			</if>
+			<if test="isOldNew != null and isOldNew != ''">
+				AND a.is_old_new = #{isOldNew}
+			</if>
+			<if test="houseType != null and houseType != ''">
+				AND a.house_type = #{houseType}
+			</if>
+			<if test="starLevel != null and starLevel != ''">
+				AND a.star_level = #{starLevel}
+			</if>
+			ORDER BY a.store_id ASC,a.is_old_new DESC,a.house_type ASC,a.star_level ASC
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				,${page.orderBy}
+			</when>
+			<otherwise>
+				,a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" parameterType="cn.damei.entity.modules.BizQcStarCommissionCnfg" resultType="cn.damei.entity.modules.BizQcStarCommissionCnfg">
+		SELECT 
+			<include refid="bizQcStarCommissionCnfgColumns"/>
+		FROM biz_qc_star_commission_cnfg a
+		<include refid="bizQcStarCommissionCnfgJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert" parameterType="cn.damei.entity.modules.BizQcStarCommissionCnfg">
+		INSERT INTO biz_qc_star_commission_cnfg(
+			id,
+			store_id,
+			is_old_new,
+			house_type,
+			star_level,
+			commission_amount,
+			commission_rate_midway,
+			commission_rate_complete,
+			is_enabled,
+			remarks,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag
+		) VALUES (
+			#{id},
+			#{storeId},
+			#{isOldNew},
+			#{houseType},
+			#{starLevel},
+			#{commissionAmount},
+			#{commissionRateMidwayTwo},
+			#{commissionRateCompleteTwo},
+			#{isEnabled},
+			#{remarks},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update" parameterType="cn.damei.entity.modules.BizQcStarCommissionCnfg">
+		UPDATE biz_qc_star_commission_cnfg SET 	
+			store_id = #{storeId},
+			is_old_new = #{isOldNew},
+			house_type = #{houseType},
+			star_level = #{starLevel},
+			commission_amount = #{commissionAmount},
+			commission_rate_midway = #{commissionRateMidwayTwo},
+			commission_rate_complete = #{commissionRateCompleteTwo},
+			is_enabled = #{isEnabled},
+			remarks = #{remarks},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete" parameterType="cn.damei.entity.modules.BizQcStarCommissionCnfg">
+		UPDATE biz_qc_star_commission_cnfg SET 
+			is_enabled = #{isEnabled}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

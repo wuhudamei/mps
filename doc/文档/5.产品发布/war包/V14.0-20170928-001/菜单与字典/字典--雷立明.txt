@@ -1,0 +1,14 @@
+﻿
+字典
+             55	  项目经理第二次确认	wall_status	墙地砖复尺状态	60	
+
+
+
+
+字典新增：
+            键值	标签   	           类型     	             描述	       排序
+              0	    工程部未处理	project_status	        工程部处理状态	        10
+              1	    工程部已处理	project_status	        工程部处理状态	        20
+              1	       已确认开工	is_modified_by_hand	订单开工状态	        10
+	
+              0        未确认开工	is_modified_by_hand	订单开工状态	        20

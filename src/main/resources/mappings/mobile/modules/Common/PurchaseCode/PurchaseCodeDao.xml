@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+        namespace="cn.damei.common.ProjectIssueUtil.Purchase.PurchaseCodeDao">
+
+    <select id="getCode" resultType="cn.damei.entity.mobile.Inspector.ReCheckCode">
+        SELECT bussiness_type as "bussinessType",
+        last_seiralnum as "lastSeiralnum",
+        generate_time  as "generateTime"
+        from biz_seiralnum where  bussiness_type ="ZJ"
+    </select>
+
+
+    <update id="updateCode" parameterType="cn.damei.entity.mobile.Inspector.ReCheckCode">
+        update biz_seiralnum set last_seiralnum = #{lastSeiralnum}  , generate_time =#{generateTime}  where bussiness_type = "ZJ"
+    </update>
+
+    <insert id="saveCode">
+        insert into biz_seiralnum (bussiness_type,last_seiralnum,generate_time)
+        values('ZJ','0','2017-11-08 10:00:00');
+    </insert>
+
+</mapper>

@@ -1,0 +1,46 @@
+.arrow_rgt{background-image: url(../../img/common/rgt_bg.png);background-repeat: no-repeat;
+    background-size: 0.16rem 0.29rem;background-position: 94% center;border-bottom: 1px dotted #ccc;
+	display: block;}
+.arrow_rgt p{padding-right: .3rem;}
+.one_btn{display: block;width: 3.3rem;height: .58rem;line-height: .58rem;color: #fff;text-align: center;background: #ff9800;
+	font-size: .28rem;border-radius: .29rem;margin: .36rem auto;}
+.one_btn_grey{background: #ccc;}
+.mar_btm24{margin-bottom: .24rem;}
+.col_grey{color: #7f7f7f;}
+.btn_wrapper{width: 5.7rem;padding-top: .3rem;padding-bottom: .2rem;margin: 0 auto;}
+
+
+.one_btn{width: 3.3rem;height: .7rem;line-height: .7rem;color: #fff;text-align: center;background: #ff9800;
+	font-size: .28rem;border-radius: .35rem;}
+.one_btn_f{width: 3.3rem;height: .7rem;line-height: .7rem;color: #ff9800;text-align: center;background: #fff;
+	font-size: .28rem;border-radius: .35rem;border: 1px solid #ff9800;box-sizing: border-box;display: block;}
+
+
+
+.two_btn1{float: left;width: 2.58rem;height: .58rem;line-height: .58rem;color: #fff;text-align: center;background: #ff9800;
+	font-size: .28rem;border-radius: .29rem;}
+.two_btn2{float: right;width: 2.58rem;height: .58rem;line-height: .58rem;color: #ff9800;text-align: center;background: #fff;
+	font-size: .28rem;border-radius: .29rem;border: 1px solid #ff9800;box-sizing: border-box;}
+.locate {
+    text-align: center;
+    height: .82rem;
+    line-height: .82rem;
+}
+.pad_top88{padding-top: .88rem;}
+.bg_bo{background-color: #fff;background-image: url(../../img/metri/bg_bo.png);
+	background-repeat: repeat-x;background-position: left bottom;}
+.tit-pos{line-height: .98rem;text-align: center;margin-bottom: .24rem;color: #0780ec;}
+.spanRgt{text-align: right;width: 30%;}
+.spanRgt33{text-align: right;width: 33%;}
+.spanRgt24{text-align: right;width: 24%;}
+.textRight li > span {
+	text-align: right;width: 30%;
+}
+.specielRight li > span {
+   text-align: right;
+    width: 23%;
+    display: inline-block;
+}
+.align_center{text-align: center;}
+.pad_top26{padding-top: .26rem;}
+.pad_btm26{padding-bottom: .26rem;}

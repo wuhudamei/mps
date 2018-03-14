@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizQcCheckItemDao">
+    
+	<sql id="bizQcCheckItemColumns">
+		a.id AS "id",
+		a.store_id AS "storeId",
+		a.qc_check_kind_id AS "qcCheckKindId",
+		a.qc_check_item_name AS "qcCheckItemName",
+		a.punish_amount AS "punishAmount",
+		a.item_score AS "itemScore",
+		a.is_redline AS "isRedline",
+		a.is_required AS "isRequired",
+		a.status AS "status",
+		a.project_mode AS "projectMode",
+		a.remarks AS "remarks",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag",
+		a.pm_punish_score AS "pmPunishScore",
+		a.worker_punish_amount AS "workerPunishAmount",
+		a.worker_punish_score AS "workerPunishScore",
+		a.qc_punish_amount AS "qcPunishAmount",
+		a.task_package_templat_id AS "taskPackageTemplatId",
+		a.qc_punish_score AS "qcPunishScore"
+	</sql>
+	
+	<sql id="bizQcCheckItemJoins">
+	</sql>
+    
+	<select id="get" resultType="cn.damei.entity.modules.BizQcCheckItem">
+		SELECT 
+			<include refid="bizQcCheckItemColumns"/>
+		FROM biz_qc_check_item a
+		<include refid="bizQcCheckItemJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="cn.damei.entity.modules.BizQcCheckItem">
+		SELECT 
+			<include refid="bizQcCheckItemColumns"/>,
+			b.qc_check_kind_name AS "qcCheckKind"
+		FROM biz_qc_check_item a,biz_qc_check_kind b
+		<include refid="bizQcCheckItemJoins"/>
+		<where>
+			a.qc_check_kind_id = b.id
+			AND b.status = '1'
+			<if test="storeId != null and storeId != ''">
+				AND a.store_id = #{storeId}
+			</if>
+			<if test="projectMode != null and projectMode != ''">
+				AND a.project_mode = #{projectMode}
+			</if>
+			<if test="qcCheckKindId != null and qcCheckKindId != ''">
+				AND a.qc_check_kind_id = #{qcCheckKindId}
+			</if>
+			<if test="qcCheckItemName != null and qcCheckItemName != ''">
+				AND a.qc_check_item_name  LIKE CONCAT('%','${qcCheckItemName}','%' )
+			</if>
+			
+			order by a.qc_check_kind_id,a.qc_check_item_name
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+			,${page.orderBy}
+			</when>
+		
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="cn.damei.entity.modules.BizQcCheckItem">
+		SELECT 
+			<include refid="bizQcCheckItemColumns"/>
+		FROM biz_qc_check_item a
+		<include refid="bizQcCheckItemJoins"/>
+		<where>
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO biz_qc_check_item(
+			id,
+			store_id,
+			qc_check_kind_id,
+			qc_check_item_name,
+			punish_amount,
+			item_score,
+			is_redline,
+			is_required,
+			status,
+			project_mode,
+			remarks,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag,
+			pm_punish_score,
+			worker_punish_amount,
+			task_package_templat_id,
+			worker_punish_score,
+			qc_punish_amount,
+			qc_punish_score
+			
+		) VALUES (
+			#{id},
+			#{storeId},
+			#{qcCheckKindId},
+			#{qcCheckItemName},
+			#{punishAmount},
+			#{itemScore},
+			#{isRedline},
+			#{isRequired},
+			#{status},
+			#{projectMode},
+			#{remarks},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag},
+			#{pmPunishScore},
+			#{workerPunishAmount},
+			#{taskPackageTemplatId},
+			#{workerPunishScore},
+			#{qcPunishAmount},
+			#{qcPunishScore}
+			
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE biz_qc_check_item SET 	
+			store_id = #{storeId},
+			qc_check_kind_id = #{qcCheckKindId},
+			qc_check_item_name = #{qcCheckItemName},
+			punish_amount = #{punishAmount},
+			item_score = #{itemScore},
+			is_redline = #{isRedline},
+			is_required = #{isRequired},
+			status = #{status},
+			project_mode = #{projectMode},
+			remarks = #{remarks},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			pm_punish_score = #{pmPunishScore},
+			worker_punish_amount = #{workerPunishAmount},
+			task_package_templat_id = #{taskPackageTemplatId},
+			worker_punish_score = #{workerPunishScore},
+			qc_punish_amount = #{qcPunishAmount},
+			qc_punish_score = #{qcPunishScore}
+		
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE biz_qc_check_item SET 	
+			status = #{status}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="updatecheckItem">
+		UPDATE biz_qc_check_item SET
+				task_package_templat_id = #{taskPackageTemplatId}
+		WHERE qc_check_kind_id = #{qcCheckKindId}
+	</update>
+	
+	
+	<select id="findCheckKind" parameterType="cn.damei.entity.modules.BizQcCheckKind" resultType="cn.damei.entity.modules.BizQcCheckKind">
+		SELECT
+		 
+		id AS "id",
+		store_id AS "storeId",
+		qc_check_kind_name AS "qcCheckKindName",
+		project_mode AS"projectMode",
+		status AS "status"
+		
+		FROM biz_qc_check_kind where store_id=#{storeId} and status='1' and project_mode = #{projectMode}
+	</select>
+	
+	
+	<!-- 通过分类id查询分类 -->
+	<select id="findName" parameterType="int" resultType="String">
+		SELECT
+			qc_check_kind_name
+		FROM
+			biz_qc_check_kind
+		WHERE
+			id = #{id}
+	
+	</select>
+	 
+	 
+	 
+	 <!--通过id查询检查项的任务包ID-->
+	 <select id="taskPackageTemplat" parameterType="int" resultType="map">
+		 
+		  select a.task_package_templat_id  AS  "taskPackageTemplatId"  from biz_qc_check_kind a WHERE a.id =#{id}
+	 
+	 </select>
+	 
+	 
+</mapper>

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.DataAuthorityDao">
+    <select id="findTransactionData" resultType="cn.damei.entity.modules.DataAuthority">
+    	<!-- SELECT a.id,a.business_name AS 'transactionData' FROM biz_business_type a  -->
+    	<!-- select c.id,a.update_date,c.business_name AS 'transactionData' from sys_data_auth_rule_option_role_rel a 
+			left join sys_data_auth_rule_option b on a.data_auth_rule_option_id=b.id  
+			inner join biz_business_type c on c.id = b.business_type_id
+			where a.role_id =  -->
+			SELECT  
+			 a.id,
+			  b.update_date,
+			  a.business_name AS 'transactionData'
+			
+			FROM biz_business_type a LEFT JOIN (
+			SELECT
+			  c.id,
+			  a.update_date
+			FROM  biz_business_type c
+			  LEFT JOIN sys_data_auth_rule_option b
+			    ON c.id = b.business_type_id
+			  LEFT JOIN sys_data_auth_rule_option_role_rel a
+			    ON a.data_auth_rule_option_id = b.id
+			WHERE a.role_id = #{0}
+			) b ON a.id = b.id
+			
+    	
+    </select>
+    <select id="findTransaction" resultType="cn.damei.entity.modules.DataAuthority">
+    	SELECT a.id,a.business_name AS 'transactionData' FROM biz_business_type a
+    </select>
+    
+	<select id="findDataPermissionOptions" resultType="cn.damei.entity.modules.DataAuthority">
+    	SELECT a.id,a.data_auth_rule_option_describe AS 'transactionData'
+    	 FROM sys_data_auth_rule_option a where a.business_type_id = #{0}
+    	
+    </select>
+    
+    <select id="findSysDataAuthRuleOptionRole" resultType="String">
+    	<!-- SELECT a.role_id FROM sys_data_auth_rule_option_role_rel a WHERE a.role_id = #{0} -->
+    	SELECT a.data_auth_rule_option_id FROM sys_data_auth_rule_option_role_rel a LEFT JOIN sys_data_auth_rule_option b ON a.data_auth_rule_option_id=b.id  WHERE a.role_id = #{0} AND b.business_type_id = #{1}
+    </select>
+    
+    <update id="updateSysDataAuthRuleOptionRole">
+		UPDATE sys_data_auth_rule_option_role_rel a 
+		SET 
+		a.data_auth_rule_option_id = #{dataAuthOptionId},
+		a.update_date = #{updateDate}
+		WHERE a.role_id = #{roleId}
+    </update>
+    
+    <insert id="insertSysDataAuthRuleOptionRole">
+    	INSERT INTO sys_data_auth_rule_option_role_rel
+    	 (role_id,
+    	 data_auth_rule_option_id,
+    	 remarks,
+		create_by,
+		create_date,
+		update_by,
+		update_date,
+		del_flag) 
+    	 VALUES 
+    	 (
+    	 #{roleId},
+    	 #{dataAuthOptionId},
+    	 		#{remarks},
+				#{createBy.id},
+				#{createDate},
+				#{updateBy.id},
+				#{updateDate},
+				#{delFlag})
+    </insert>
+    
+	<select id="findModifiedTime" resultType="String">
+		SELECT a.update_date FROM sys_data_auth_rule_option_role_rel a WHERE a.role_id = #{0}
+	</select>
+	<select id = "findOptionsByRoleId" resultType="Integer">
+		SELECT a.data_auth_rule_option_id FROM sys_data_auth_rule_option_role_rel a LEFT JOIN sys_data_auth_rule_option b ON a.data_auth_rule_option_id=b.id  WHERE a.role_id = #{0} AND b.business_type_id = #{1}
+	</select>
+	<select id = "findStoreList" resultType="cn.damei.entity.modules.BizEmpStore">
+		SELECT b.name AS 'label',b.id AS 'value' FROM sys_role_store_rel a
+		 LEFT JOIN sys_office b ON a.store_id = b.id 
+		 WHERE a.role_id = #{0}
+	</select>
+	
+	<select id = "findHeadmanPhone" resultType="String">
+	
+		SELECT a.phone FROM sys_user a WHERE a.office_id = #{0} AND a.phone IS NOT NULL AND a.phone !='' and a.del_flag= 0
+	
+	</select>
+	<select id="findInspectorGeneral" resultType="String">
+		SELECT a.phone FROM sys_user a WHERE a.office_id IN( SELECT b.id FROM sys_user a LEFT JOIN sys_office b ON b.parent_id = a.office_id WHERE b.parent_ids LIKE#{0} ) AND a.phone IS NOT NULL AND a.phone !='' and a.del_flag= 0 
+	</select>
+	
+	<delete id= "deleteSysDataAuthRuleOptionRole">
+		DELETE FROM sys_data_auth_rule_option_role_rel WHERE role_id=#{0} AND data_auth_rule_option_id=#{1} 
+	</delete>
+	<select id="findRuleOption" resultType="String">
+		SELECT b.data_auth_rule_option_code FROM sys_data_auth_rule_option_role_rel a 
+		LEFT JOIN sys_data_auth_rule_option b ON b.id = a.data_auth_rule_option_id
+		LEFT JOIN biz_business_type c ON c.id = b.business_type_id
+		WHERE a.role_id IN 
+				<foreach collection="roleList" item="item" open="("  separator="," close=")" index="index">
+					#{item.id}
+				</foreach>
+		AND c.business_code = #{code}
+		ORDER BY b.data_auth_rule_option_level DESC LIMIT 1
+	</select>
+	
+	
+	<delete id="delete">
+		DELETE  FROM sys_data_auth_rule_option_role_rel  WHERE data_auth_rule_option_id IS NULL
+	</delete>
+	
+	<select id="findInstitutionId" resultType="String">
+		SELECT a.emp_id FROM sys_user a WHERE a.office_id = #{0}
+	</select>
+	
+</mapper>

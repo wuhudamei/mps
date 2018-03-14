@@ -1,0 +1,604 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizOrderComplaintDao">
+
+    <sql id="bizOrderComplaintColumns">
+        a.id AS "complaintId",
+        a.order_id AS "orderId",
+        a.complaint_source AS "complaintSource",
+        a.data_input_channel AS "dataInputChannel",
+        a.cus_service_problem_id AS "cusServiceProblemId",
+        a.complaint_person_name AS "complaintPersonName",
+        a.complaint_person_phone AS "complaintPersonPhone",
+        a.status AS "status",
+        a.remarks AS "remarks",
+        a.create_by AS "createBy.id",
+        a.create_date AS "createDate",
+        a.update_by AS "updateBy.id",
+        a.update_date AS "updateDate",
+        a.del_flag AS "delFlag"
+    </sql>
+
+    <sql id="bizOrderComplaintJoins">
+    </sql>
+
+    <select id="get" resultType="BizOrderComplaint">
+        SELECT
+        <include refid="bizOrderComplaintColumns"/>
+        FROM biz_order_complaint a
+        <include refid="bizOrderComplaintJoins"/>
+        WHERE 1=1
+        <if test="id != null and id != ''">
+            AND a.id = #{complaintId}
+        </if>
+        <if test="orderId != null and orderId != ''">
+            AND a.order_id = #{orderId}
+        </if>
+        <if test="createDate != null and createDate != ''">
+            AND a.create_date = #{createDate}
+        </if>
+    </select>
+
+    <select id="findPageList" resultType="BizOrderComplaint">
+        SELECT
+        ocp.id AS complaintId,
+        o.store_id AS storeId,
+        o.order_number AS orderNumber,
+        o.project_mode AS projectMode,
+        o.biz_order_accept_area AS acceptArea,
+        CONCAT_WS(
+        "-",
+        o.community_name,
+        o.build_number,
+        o.build_unit,
+        o.build_room
+        ) AS "detailAddress",
+        o.detail_address AS customerAddress,
+        o.customer_name AS customerName,
+        o.customer_phone AS customerPhone,
+        o.item_manager AS itemManager,
+        e.phone AS itemManagerIphnoe,
+        ocp.create_date AS comcreateDate,
+        s.label AS complaintSource,
+        ocp.complaint_person_name AS complaintPersonName,
+        ocp.`status` AS STATUS,
+        o.order_inspector AS "pqcName",
+        ocp.complaint_person_phone AS tsiphone,
+        d. NAME AS departName
+        FROM
+        biz_order o LEFT JOIN
+        biz_employee e on o.item_manager_id = e.id
+        inner JOIN
+        biz_order_complaint ocp on ocp.order_id = o.id
+        LEFT JOIN
+        biz_engineering_department d on o.engin_depart_id = d.id
+        LEFT JOIN sys_dict s on ocp.complaint_source = s.value and s.type='complaintSource'
+        WHERE
+        1=1
+
+        <if test="complaintId !=null and complaintId !=''">
+            and ocp.id = #{complaintId}
+
+
+        </if>
+
+
+        <if test="storeId != null and storeId != ''">
+            AND s.id = #{storeId}
+        </if>
+        <if test="projectMode != null and projectMode != ''">
+            AND o.project_mode = #{projectMode}
+        </if>
+        <if test="acceptArea != null and acceptArea != ''">
+            AND o.biz_order_accept_area like concat('%',#{acceptArea},'%')
+        </if>
+        <if test="status != null and status != ''">
+            AND ocp.`status` = #{status}
+        </if>
+        <if test="complaintSource != null and complaintSource != ''">
+            AND ocp.complaint_source = #{complaintSource}
+        </if>
+        <if test="orderNumber != null and orderNumber != ''">
+            AND o.order_number like concat('%',#{acceptArea},'%')
+        </if>
+        <if test="customerName != null and customerName != ''">
+            AND o.customer_name like concat('%',#{customerName},'%')
+        </if>
+        <if test="itemManager != null and itemManager != ''">
+            AND o.item_manager like concat('%',#{itemManager},'%')
+        </if>
+        ORDER BY
+        ocp.create_date DESC
+
+    </select>
+
+    <select id="findList" resultType="BizOrderComplaint">
+        SELECT
+        <include refid="bizOrderComplaintColumns"/>
+        FROM biz_order_complaint a
+        <include refid="bizOrderComplaintJoins"/>
+        <where>
+            <if test="id != null and id != ''">
+                AND a.id = #{id}
+            </if>
+            <if test="orderId != null and orderId != ''">
+                AND a.order_id = #{orderId}
+            </if>
+            <if test="createDate != null and createDate != ''">
+                AND a.create_date = #{createDate}
+            </if>
+            <if test="complaintSource != null and complaintSource != ''">
+                AND a.complaint_source = #{complaintSource}
+            </if>
+            <if test="dataInputChannel != null and dataInputChannel != ''">
+                AND a.data_input_channel = #{dataInputChannel}
+            </if>
+            <if test="cusServiceProblemId != null and cusServiceProblemId != ''">
+                AND a.cus_service_problem_id LIKE
+                <if test="dbName == 'oracle'">'%'||#{cusServiceProblemId}||'%'</if>
+                <if test="dbName == 'mssql'">'%'+#{cusServiceProblemId}+'%'</if>
+                <if test="dbName == 'mysql'">concat('%',#{cusServiceProblemId},'%')</if>
+            </if>
+            <if test="complaintPersonName != null and complaintPersonName != ''">
+                AND a.complaint_person_name LIKE
+                <if test="dbName == 'oracle'">'%'||#{complaintPersonName}||'%'</if>
+                <if test="dbName == 'mssql'">'%'+#{complaintPersonName}+'%'</if>
+                <if test="dbName == 'mysql'">concat('%',#{complaintPersonName},'%')</if>
+            </if>
+            <if test="complaintPersonPhone != null and complaintPersonPhone != ''">
+                AND a.complaint_person_phone LIKE
+                <if test="dbName == 'oracle'">'%'||#{complaintPersonPhone}||'%'</if>
+                <if test="dbName == 'mssql'">'%'+#{complaintPersonPhone}+'%'</if>
+                <if test="dbName == 'mysql'">concat('%',#{complaintPersonPhone},'%')</if>
+            </if>
+            <if test="status != null and status != ''">
+                AND a.status = #{status}
+            </if>
+        </where>
+        <choose>
+            <when test="page !=null and page.orderBy != null and page.orderBy != ''">
+                ORDER BY ${page.orderBy}
+            </when>
+            <otherwise>
+                ORDER BY a.update_date DESC
+            </otherwise>
+        </choose>
+    </select>
+
+    <select id="findAllList" resultType="BizOrderComplaint">
+        SELECT
+        <include refid="bizOrderComplaintColumns"/>
+        FROM biz_order_complaint a
+        <include refid="bizOrderComplaintJoins"/>
+        <where>
+            a.del_flag = #{DEL_FLAG_NORMAL}
+        </where>
+        <choose>
+            <when test="page !=null and page.orderBy != null and page.orderBy != ''">
+                ORDER BY ${page.orderBy}
+            </when>
+            <otherwise>
+                ORDER BY a.update_date DESC
+            </otherwise>
+        </choose>
+    </select>
+
+    <insert id="insert">
+        <selectKey keyColumn="id" keyProperty="complaintId" order="AFTER" resultType="String">
+            select last_insert_id()
+        </selectKey>
+        INSERT INTO biz_order_complaint(
+        id,
+        order_id,
+        complaint_source,
+        data_input_channel,
+        cus_service_problem_id,
+        complaint_person_name,
+        complaint_person_phone,
+        status,
+        remarks,
+        create_by,
+        create_date,
+        update_by,
+        update_date,
+        del_flag
+        ) VALUES (
+        #{id},
+        #{orderId},
+        #{complaintSource},
+        #{dataInputChannel},
+        #{cusServiceProblemId},
+        #{complaintPersonName},
+        #{complaintPersonPhone},
+        #{status},
+        #{remarks},
+        #{createBy.id},
+        #{createDate},
+        #{updateBy.id},
+        #{updateDate},
+        #{delFlag}
+        )
+    </insert>
+
+    <update id="update">
+        UPDATE biz_order_complaint
+        SET
+            order_id               = #{orderId},
+            complaint_source       = #{complaintSource},
+            data_input_channel     = #{dataInputChannel},
+            cus_service_problem_id = #{cusServiceProblemId},
+            complaint_person_name  = #{complaintPersonName},
+            complaint_person_phone = #{complaintPersonPhone},
+            status                 = #{status},
+            remarks                = #{remarks},
+            update_by              = #{updateBy.id},
+            update_date            = #{updateDate}
+        WHERE id = #{id}
+    </update>
+
+    <update id="delete">
+        UPDATE biz_order_complaint
+        SET
+            del_flag = #{DEL_FLAG_DELETE}
+        WHERE id = #{id}
+    </update>
+
+
+    <select id="findEmployeeNameAndPhoneByIds" parameterType="int" resultType="map">
+
+        SELECT
+        e.id as "empId",
+        e.realName AS "name",
+        e.phone AS "phone"
+        FROM
+        biz_employee e
+        WHERE
+        e.id IN (
+        <foreach collection="list" item="item" index="index" separator=",">
+
+            #{item}
+
+        </foreach>
+
+
+        )
+
+    </select>
+
+    <select id="findPageListall" resultType="BizOrderComplaint">
+        SELECT
+        ocp.id AS complaintId,
+        s.id AS storeId,
+        o.order_number AS orderNumber,
+        o.project_mode AS projectMode,
+        o.engin_depart_id AS acceptArea,
+        o.detail_address AS customerAddress,
+        o.customer_name AS customerName,
+        o.customer_phone AS customerPhone,
+        o.item_manager AS itemManager,
+        e.phone AS itemManagerIphnoe,
+        ocp.create_date AS comcreateDate,
+        ocp.create_date AS comcreateDateNstring,
+        ocp.complaint_source AS complaintSource,
+        ocp.complaint_person_name AS complaintPersonName,
+        ocp.`status` AS status
+        FROM
+        sys_office s,
+        biz_order o,
+        biz_employee e,
+        biz_order_complaint ocp
+        WHERE
+        o.store_id = s.id
+        AND o.item_manager_id = e.id
+        AND ocp.order_id = o.id
+
+
+        <if test="complaintId !=null and complaintId !=''">
+            and ocp.id = #{complaintId}
+        </if>
+        <if test="order.storeId != null and order.storeId != ''">
+            AND o.store_id = #{order.storeId}
+        </if>
+        <if test="projectMode != null and projectMode != ''">
+            AND o.project_mode = #{projectMode}
+        </if>
+        <if test="acceptArea != null and acceptArea != ''">
+            AND o.biz_order_accept_area like concat('%',#{acceptArea},'%')
+        </if>
+        <if test="status != null and status != ''">
+            AND ocp.`status` = #{status}
+        </if>
+        <if test="complaintSource != null and complaintSource != ''">
+            AND ocp.complaint_source = #{complaintSource}
+        </if>
+        <if test="orderNumber != null and orderNumber != ''">
+            AND o.order_number = #{orderNumber}
+        </if>
+        <if test="customerName != null and customerName != ''">
+            AND o.customer_name like concat('%',#{customerName},'%')
+        </if>
+        <if test="itemManager != null and itemManager != ''">
+            AND o.item_manager like concat('%',#{itemManager},'%')
+        </if>
+        ORDER BY
+        ocp.create_date DESC
+
+    </select>
+
+
+    <select id="findItemNameByIds" parameterType="int" resultType="String">
+        SELECT a.item_name
+        FROM
+        `biz_complaint_problem_item` a
+        WHERE
+        a.id IN (
+        <foreach collection="list" item="item" separator="," index="index">
+            #{item}
+
+
+        </foreach>
+
+
+        )
+
+
+    </select>
+
+
+    <resultMap id="complaintLogMapId" type="cn.damei.entity.modules.ComplaintLogEntity">
+
+        <result column="typeName" property="typeName"></result>
+        <result column="packName" property="packName"></result>
+        <result column="complaintTo" property="complaintTo"></result>
+        <result column="problemContent" property="problemContent"></result>
+        <result column="problemId" property="problemId"></result>
+
+        <collection property="itemList" resultMap="StringResult"></collection>
+        <collection property="dealList" resultMap="dealListId"></collection>
+
+    </resultMap>
+
+
+    <resultMap id="StringResult" type="cn.damei.entity.modules.BizOrderComplaintProblemItem">
+        <result column="itemName" property="itemName"></result>
+    </resultMap>
+
+    <resultMap id="dealListId" type="cn.damei.entity.modules.BizOrderComplaintProblemDeal">
+        <result property="replyName" column="replyName"></result>
+        <result property="replyDate" column="handleTime"></result>
+        <result property="handleId" column="handleId"></result>
+        <result property="workerName" column="workerName"></result>
+        <result property="workerDate" column="workerDate"></result>
+        <result property="replyContent" column="replyContent"></result>
+        <result property="dealPersonType" column="dealPersonType"></result>
+
+    </resultMap>
+
+
+    <select id="findLogByComplaintId" resultMap="complaintLogMapId" parameterType="String">
+        SELECT
+            s.label                      AS "complaintTo",
+            a.id                         AS "problemId",
+            f.id                         AS "handleId",
+            b.type_name                  AS "typeName",
+            h.item_name                  AS "itemName",
+            c.templat_name               AS "packName",
+            a.complaint_problem_describe AS "problemContent",
+            (
+                CASE
+                WHEN f.deal_person_type = 1
+                    THEN
+                        CONCAT_WS(
+                                "-",
+                                "项目经理",
+                                g.realName
+                        )
+                ELSE
+
+                    CONCAT_WS("-", "质检员", g.realName)
+                END
+            )                            AS "replyName",
+            f.deal_status_datetime       AS "handleTime",
+            g1.realName                  AS "workerName",
+            f1.deal_status_datetime      AS "workerDate",
+            f.deal_describe              AS "replyContent",
+
+            f.deal_person_type           AS "dealPersonType"
+        FROM
+            biz_order_complaint_problem a
+            LEFT JOIN biz_complaint_problem_type b ON a.complaint_problem_type_id = b.id
+            LEFT JOIN sys_dict s ON a.complaint_role_type = s.`value`
+                                    AND s.type = 'deal_person_type'
+            LEFT JOIN biz_task_package_templat c ON b.task_package_templat_id = c.id
+            LEFT JOIN biz_order_complaint_problem_item d ON a.id = d.order_complaint_problem_id
+            LEFT JOIN biz_order_complaint_problem_deal f ON a.id = f.order_complaint_problem_id
+                                                            AND f.deal_status = 20 AND f.deal_person_type IN (1, 3)
+            LEFT JOIN biz_complaint_problem_item h ON d.complaint_problem_item_id = h.id
+
+            LEFT JOIN biz_employee g ON f.deal_employee_id = g.id
+            LEFT JOIN biz_order_complaint_problem_deal f1 ON a.id = f1.order_complaint_problem_id
+                                                             AND f1.deal_status = 10
+            LEFT JOIN biz_employee g1 ON f1.deal_employee_id = g1.id
+        WHERE
+            a.order_complaint_id = #{_parameter}
+
+
+    </select>
+
+
+    <resultMap id="complaintLogMapIdz" type="cn.damei.entity.modules.ComplaintLogEntity">
+
+        <result column="typeName" property="typeName"></result>
+        <result column="packName" property="packName"></result>
+        <result column="complaintTo" property="complaintTo"></result>
+        <result column="problemContent" property="problemContent"></result>
+        <result column="problemId" property="problemId"></result>
+        <result column="infoDate" property="infoDate"></result>
+
+        <collection property="itemList" resultMap="StringResultz"></collection>
+        <collection property="dealList" resultMap="dealListIdz"></collection>
+
+    </resultMap>
+
+
+    <resultMap id="StringResultz" type="cn.damei.entity.modules.BizOrderComplaintProblemItem">
+        <result column="itemName" property="itemName"></result>
+    </resultMap>
+
+    <resultMap id="dealListIdz" type="cn.damei.entity.modules.BizOrderComplaintProblemDeal">
+        <result property="replyName" column="replyName"></result>
+        <result property="replyDate" column="handleTime"></result>
+        <result property="handleId" column="handleId"></result>
+        <result property="workerName" column="workerName"></result>
+        <result property="workerDate" column="workerDate"></result>
+        <result property="replyContent" column="replyContent"></result>
+        <result property="dealPersonType" column="dealPersonType"></result>
+        <result property="isdatefla" column="isdatefla"></result>
+        <result property="dataxiaoshi" column="dataxiaoshi"></result>
+        <result property="msgsndPeriod" column="msgsndPeriod"></result>
+        <result property="dealStatusDatetime" column="dealStatusDatetime"></result>
+
+
+    </resultMap>
+
+
+    <select id="findLogByComplaintIdz" resultMap="complaintLogMapIdz" parameterType="String">
+        SELECT
+            s.label                      AS "complaintTo",
+            a.id                         AS "problemId",
+            a.create_date                AS infoDate,
+            h.execute_time_limit         AS msgsndPeriod,
+          f.deal_status_datetime as "dealStatusDatetime",
+            f.id                         AS "handleId",
+            b.type_name                  AS "typeName",
+            h.item_name                  AS "itemName",
+            c.templat_name               AS "packName",
+            a.complaint_problem_describe AS "problemContent",
+            (
+                CASE
+                WHEN f.deal_person_type = 1
+                    THEN
+                        CONCAT_WS(
+                                "-",
+                                "项目经理",
+                                g.realName
+                        )
+                ELSE
+                    CONCAT_WS("-", "质检员", g.realName)
+                END
+            )                            AS "replyName",
+            f.deal_status_datetime       AS "handleTime",
+            g1.realName                  AS "workerName",
+            f1.deal_status_datetime      AS "workerDate",
+            f.deal_describe              AS "replyContent",
+            f.deal_person_type           AS "dealPersonType"
+        FROM
+            biz_order_complaint_problem a
+            LEFT JOIN biz_complaint_problem_type b ON a.complaint_problem_type_id = b.id
+            LEFT JOIN sys_dict s ON a.complaint_role_type = s.`value`
+                                    AND s.type = 'deal_person_type'
+            LEFT JOIN biz_task_package_templat c ON b.task_package_templat_id = c.id
+            LEFT JOIN biz_order_complaint_problem_item d ON a.id = d.order_complaint_problem_id
+            LEFT JOIN biz_order_complaint_problem_deal f ON a.id = f.order_complaint_problem_id
+                                                            AND f.deal_status = 20
+                                                            AND f.deal_person_type IN (1, 3)
+            LEFT JOIN biz_complaint_problem_item h ON d.complaint_problem_item_id = h.id
+            LEFT JOIN biz_employee g ON f.deal_employee_id = g.id
+            LEFT JOIN biz_order_complaint_problem_deal f1 ON a.id = f1.order_complaint_problem_id
+                                                             AND f1.deal_status = 10
+            LEFT JOIN biz_employee g1 ON f1.deal_employee_id = g1.id
+        WHERE
+            a.order_complaint_id = #{_parameter}
+
+
+    </select>
+
+
+    <select id="findComplaintLogPicByMap" parameterType="map" resultType="String">
+
+        SELECT a.pic_url
+        FROM
+            biz_business_pic a
+        WHERE
+            a.business_id_int = #{businessIdInt} AND a.business_type = #{businessType}
+
+    </select>
+
+
+
+
+
+
+
+    <select id="findComplaintListForMap" parameterType="BizOrderComplaint" resultType="BizOrderComplaint">
+        SELECT
+
+        substring_index(o.map_coordinate, ',', 1) AS "pointx",
+        substring_index(o.map_coordinate, ',', - 1) AS "pointy",
+
+        CONCAT_WS(
+        "-",
+        o.community_name,
+        o.build_number,
+        o.build_unit,
+        o.build_room
+        ) AS "detailAddress",
+        o.detail_address AS customerAddress,
+        o.customer_name AS customerName,
+        o.customer_phone AS customerPhone,
+        o.item_manager AS itemManager,
+        e.phone AS itemManagerIphnoe,
+        (
+        SELECT
+        GROUP_CONCAT(e1.item_name)
+        FROM
+        biz_order_complaint_problem q
+        INNER JOIN biz_order_complaint_problem_item w ON q.id = w.order_complaint_problem_id
+        INNER JOIN biz_complaint_problem_item e1 ON w.complaint_problem_item_id = e1.id
+        where q.order_complaint_id = ocp.id)as "bizOrderComplaintProblem.complaintProblemName"
+        FROM
+        biz_order o
+        LEFT JOIN biz_employee e ON o.item_manager_id = e.id
+        INNER JOIN biz_order_complaint ocp ON ocp.order_id = o.id
+        LEFT JOIN biz_order_complaint_problem c ON ocp.id = c.order_complaint_id
+
+        WHERE
+        1 = 1
+
+        <if test="complaintId !=null and complaintId !=''">
+            and ocp.id = #{complaintId}
+
+
+        </if>
+
+
+        <if test="storeId != null and storeId != ''">
+            AND o.store_id = #{storeId}
+        </if>
+        <if test="projectMode != null and projectMode != ''">
+            AND o.project_mode = #{projectMode}
+        </if>
+        <if test="acceptArea != null and acceptArea != ''">
+            AND o.biz_order_accept_area like concat('%',#{acceptArea},'%')
+        </if>
+        <if test="status != null and status != ''">
+            AND ocp.`status` = #{status}
+        </if>
+        <if test="complaintSource != null and complaintSource != ''">
+            AND ocp.complaint_source = #{complaintSource}
+        </if>
+        <if test="orderNumber != null and orderNumber != ''">
+            AND o.order_number like concat('%',#{orderNumber},'%')
+        </if>
+        <if test="customerName != null and customerName != ''">
+            AND o.customer_name like concat('%',#{customerName},'%')
+        </if>
+        <if test="itemManager != null and itemManager != ''">
+            AND o.item_manager like concat('%',#{itemManager},'%')
+        </if>
+        ORDER BY
+        ocp.create_date DESC
+
+
+    </select>
+</mapper>

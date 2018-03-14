@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizQcBillCheckItemDao">
+    
+	<sql id="bizQcBillCheckItemColumns">
+		a.id AS "id",
+		a.qc_bill_id AS "qcBillId",
+		a.related_qc_bill_check_item_id AS "relatedQcBillCheckItemId",
+		a.qc_check_item_id AS "qcCheckItemId",
+		a.is_passed AS "isPassed",
+		a.item_score AS "itemScore",
+		a.got_score AS "gotScore",
+		a.is_warned AS "isWarned",
+		a.is_locale_repaire AS "isLocaleRepaire",
+		a.is_limit_date_repaire AS "isLimitDateRepaire",
+		a.limit_date AS "limitDate",
+		a.limit_date_repaire_check_style AS "limitDateRepaireCheckStyle",
+		a.is_punish_money AS "isPunishMoney",
+		a.punish_money_amount_default AS "punishMoneyAmountDefault",
+		a.punish_money_amount_real AS "punishMoneyAmountReal",
+		a.check_style AS "checkStyle",
+		a.remarks AS "remarks",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag",
+		a.worker_punish_order_taskpackage_id AS "workerPunishOrderTaskpackageId",
+		a.worker_punish_employeegroup_id AS "workerPunishEmployeegroupId",
+		a.worker_punish_amount AS "workerPunishAmount",
+		a.worker_punish_score AS "workerPunishScore",
+		a.pm_punish_employee_id AS "pmPunishEmployeeId",
+		a.pm_punish_score AS "pmPunishScore",
+		a.qc_punish_employee_id AS "qcPunishEmployeeId",
+		a.qc_punish_score AS "qcPunishScore",
+		a.qc_punish_amount AS "qcPunishAmount",
+		a.project_manager_id AS "projectManagerId",
+		a.worker_group_id AS "workerGroupId"
+	</sql>
+	
+	<sql id="bizQcBillCheckItemJoins">
+	</sql>
+    
+	<select id="get" resultType="BizQcBillCheckItem">
+		SELECT 
+			<include refid="bizQcBillCheckItemColumns"/>
+		FROM biz_qc_bill_check_item a
+		<include refid="bizQcBillCheckItemJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	
+	<select id="queryEmployeeAndgroupIdinfo" resultType="BizQcBillCheckItem">
+		 select  e1.id  employeeId , e1.realName employeeName , eg.groupId  groupId  from
+		 biz_employee e1
+		 LEFT JOIN  biz_emgrouprelation eg  on e1.id = eg.empId and eg.is_leader='1'
+		 where 1=1
+		 <if test="pmPunishEmployeeId != null and pmPunishEmployeeId != ''">
+			  AND e1.id = #{pmPunishEmployeeId}
+		 </if>
+		 <if test="workerPunishEmployeegroupId != null and workerPunishEmployeegroupId != ''">
+			  AND eg.groupId = #{workerPunishEmployeegroupId}
+		 </if>
+		 <if test="projectManagerId != null and projectManagerId != ''">
+			  AND e1.id = #{projectManagerId}
+		 </if>
+		 <if test="workerGroupId != null and workerGroupId != ''">
+			  AND eg.groupId = #{workerGroupId}
+		 </if>
+		 <if test="mnagerPerson != null and mnagerPerson != ''">
+			  AND e1.realName LIKE
+			  <if test="dbName == 'oracle'">'%'||#{mnagerPerson}||'%'</if>
+			  <if test="dbName == 'mssql'">'%'+#{mnagerPerson}+'%'</if>
+			  <if test="dbName == 'mysql'">concat('%',#{mnagerPerson},'%')</if>
+		 </if>
+		 
+	</select>
+	
+	<select id="findList" resultType="BizQcBillCheckItem">
+		 SELECT
+		 qbc.create_date   quCreateDate,
+		 qb.qc_bill_code   qcBillCode,
+		 o.store_id   storeId,
+		 o.project_mode  projectMode,
+		 o.engin_depart_id  enginDepartId,
+		 o.customer_name   customerName,
+		 qck.qc_check_kind_name qcCheckKindName,
+		 qci.qc_check_item_name qcCheckItemName,
+		 d.break_describe   breakDescribe ,
+		 qbc.is_passed  isPassed , -- ''0.不合格；1.合格
+		 qbc.is_warned  isWarned,-- 0不警告1警告
+		 qbc.is_locale_repaire isLocaleRepaire , -- 0.否；1.是
+		 qbc.is_limit_date_repaire isLimitDateRepaire, -- ''0.否；1.是
+		 qbc.limit_date  limitDate,
+		 qbc.limit_date_repaire_check_style  limitDateRepaireCheckStyle  ,-- ''0：线上检查；1：线下检查
+		 qbc.is_punish_money isPunishMoney ,  -- ''0.否；1.是
+		 qbc.pm_punish_employee_id pmPunishEmployeeId,
+		 o.item_manager itemManager,
+		 o.order_inspector orderInspector,
+		 qbc.punish_money_amount_real  punishMoneyAmountReal ,
+		 qbc.worker_punish_employeegroup_id workerPunishEmployeegroupId,
+		 qbc.worker_punish_amount  workerPunishAmount  ,
+		 qbc.worker_group_id   workerGroupId ,
+		 qbc.project_manager_id projectManagerId
+		 FROM
+		 biz_qc_bill_check_item qbc
+		 LEFT JOIN biz_qc_bill qb on qbc.qc_bill_id=qb.id
+		 LEFT JOIN biz_order o ON qb.order_id=o.id
+		 LEFT JOIN biz_qc_check_item qci ON qci.id=qbc.qc_check_item_id
+		 LEFT JOIN biz_qc_check_kind qck   ON  qci.qc_check_kind_id=qck.id
+		 LEFT JOIN biz_qc_bill_check_item_break d ON qbc.id = d.qc_bill_check_item_id
+
+		<where>
+			 qbc.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="storeId != null and storeId != ''">
+				AND o.store_id = #{storeId}
+			</if>
+			<if test="enginDepartId != null and enginDepartId != ''">
+				AND o.engin_depart_id = #{enginDepartId}
+			</if>
+			<if test="projectMode != null and projectMode != ''">
+				AND o.project_mode = #{projectMode}
+			</if>
+			<if test="orderNumber != null and orderNumber != ''">
+				AND o.order_number = #{orderNumber}
+			</if>
+
+			<if test="qcBillCode != null and qcBillCode != ''">
+				AND qb.qc_bill_code = #{qcBillCode}
+			</if>
+			 <if test="customerName != null and customerName != ''">
+				  AND o.customer_name LIKE
+				  <if test="dbName == 'oracle'">'%'||#{customerName}||'%'</if>
+				  <if test="dbName == 'mssql'">'%'+#{customerName}+'%'</if>
+				  <if test="dbName == 'mysql'">concat('%',#{customerName},'%')</if>
+			 </if>
+			 <if test="orderInspector != null and orderInspector != ''">
+				  AND o.order_inspector LIKE
+				  <if test="dbName == 'oracle'">'%'||#{orderInspector}||'%'</if>
+				  <if test="dbName == 'mssql'">'%'+#{orderInspector}+'%'</if>
+				  <if test="dbName == 'mysql'">concat('%',#{orderInspector},'%')</if>
+			 </if>
+			 
+			 <if test="itemManager != null and itemManager != ''">
+				  AND o.item_manager LIKE
+				  <if test="dbName == 'oracle'">'%'||#{itemManager}||'%'</if>
+				  <if test="dbName == 'mssql'">'%'+#{itemManager}+'%'</if>
+				  <if test="dbName == 'mysql'">concat('%',#{itemManager},'%')</if>
+			 </if>
+			 
+			 <if test="qcCheckItemName != null and qcCheckItemName != ''">
+				  AND qbc.is_passed = 0
+				  AND qci.qc_check_item_name LIKE
+				  <if test="dbName == 'oracle'">'%'||#{qcCheckItemName}||'%'</if>
+				  <if test="dbName == 'mssql'">'%'+#{qcCheckItemName}+'%'</if>
+				  <if test="dbName == 'mysql'">concat('%',#{qcCheckItemName},'%')</if>
+			 </if>
+			 <if test="breakDescribe != null and breakDescribe != ''">
+				  AND qbc.is_passed = 0
+				  AND d.break_describe LIKE
+				  <if test="dbName == 'oracle'">'%'||#{breakDescribe}||'%'</if>
+				  <if test="dbName == 'mssql'">'%'+#{breakDescribe}+'%'</if>
+				  <if test="dbName == 'mysql'">concat('%',#{breakDescribe},'%')</if>
+			 </if>
+			 
+			 <if test="projectManagerId != null and projectManagerId != ''">
+				  AND qbc.project_manager_id   IN  ( ${projectManagerId} )
+			 </if>
+			 <if test="workerPunishEmployeegroupId != null and workerPunishEmployeegroupId != ''">
+				  AND qbc.worker_punish_employeegroup_id   IN  ( ${workerPunishEmployeegroupId} )
+			 </if>
+			 <if test="pmPunishEmployeeId != null and pmPunishEmployeeId != ''">
+				  AND qbc.pm_punish_employee_id   IN  ( ${pmPunishEmployeeId} )
+			 </if>
+			 
+			 <if test="isWarned != null and isWarned != ''">
+				  AND qbc.is_passed = 0
+				  AND qbc.is_warned   =   ${isWarned}
+			 </if>
+			 <if test="isLimitDateRepaire != null and isLimitDateRepaire != ''">
+				  AND qbc.is_passed = 0
+				  AND qbc.is_limit_date_repaire   =  ${isLimitDateRepaire}
+			 </if>
+			 <if test="isLocaleRepaire != null and isLocaleRepaire != ''">
+				  AND qbc.is_passed = 0
+				  AND qbc.is_locale_repaire   =   ${isLocaleRepaire}
+			 </if>
+			 <if test="isPunishMoney != null and isPunishMoney != ''">
+				  AND qbc.is_passed = 0
+				  AND qbc.is_punish_money   =   ${isPunishMoney}
+			 </if>
+
+			 
+				
+
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY qbc.create_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="BizQcBillCheckItem">
+		SELECT 
+			<include refid="bizQcBillCheckItemColumns"/>
+		FROM biz_qc_bill_check_item a
+		<include refid="bizQcBillCheckItemJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO biz_qc_bill_check_item(
+			id,
+			qc_bill_id,
+			related_qc_bill_check_item_id,
+			qc_check_item_id,
+			is_passed,
+			item_score,
+			got_score,
+			is_warned,
+			is_locale_repaire,
+			is_limit_date_repaire,
+			limit_date,
+			limit_date_repaire_check_style,
+			is_punish_money,
+			punish_money_amount_default,
+			punish_money_amount_real,
+			check_style,
+			remarks,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag,
+			worker_punish_order_taskpackage_id,
+			worker_punish_employeegroup_id,
+			worker_punish_amount,
+			worker_punish_score,
+			pm_punish_employee_id,
+			pm_punish_score,
+			qc_punish_employee_id,
+			qc_punish_score,
+			qc_punish_amount,
+			project_manager_id,
+			worker_group_id
+		) VALUES (
+			#{id},
+			#{qcBillId},
+			#{relatedQcBillCheckItemId},
+			#{qcCheckItemId},
+			#{isPassed},
+			#{itemScore},
+			#{gotScore},
+			#{isWarned},
+			#{isLocaleRepaire},
+			#{isLimitDateRepaire},
+			#{limitDate},
+			#{limitDateRepaireCheckStyle},
+			#{isPunishMoney},
+			#{punishMoneyAmountDefault},
+			#{punishMoneyAmountReal},
+			#{checkStyle},
+			#{remarks},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag},
+			#{workerPunishOrderTaskpackageId},
+			#{workerPunishEmployeegroupId},
+			#{workerPunishAmount},
+			#{workerPunishScore},
+			#{pmPunishEmployeeId},
+			#{pmPunishScore},
+			#{qcPunishEmployeeId},
+			#{qcPunishScore},
+			#{qcPunishAmount},
+			#{projectManagerId},
+			#{workerGroupId}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE biz_qc_bill_check_item SET 	
+			qc_bill_id = #{qcBillId},
+			related_qc_bill_check_item_id = #{relatedQcBillCheckItemId},
+			qc_check_item_id = #{qcCheckItemId},
+			is_passed = #{isPassed},
+			item_score = #{itemScore},
+			got_score = #{gotScore},
+			is_warned = #{isWarned},
+			is_locale_repaire = #{isLocaleRepaire},
+			is_limit_date_repaire = #{isLimitDateRepaire},
+			limit_date = #{limitDate},
+			limit_date_repaire_check_style = #{limitDateRepaireCheckStyle},
+			is_punish_money = #{isPunishMoney},
+			punish_money_amount_default = #{punishMoneyAmountDefault},
+			punish_money_amount_real = #{punishMoneyAmountReal},
+			check_style = #{checkStyle},
+			remarks = #{remarks},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			worker_punish_order_taskpackage_id = #{workerPunishOrderTaskpackageId},
+			worker_punish_employeegroup_id = #{workerPunishEmployeegroupId},
+			worker_punish_amount = #{workerPunishAmount},
+			worker_punish_score = #{workerPunishScore},
+			pm_punish_employee_id = #{pmPunishEmployeeId},
+			pm_punish_score = #{pmPunishScore},
+			qc_punish_employee_id = #{qcPunishEmployeeId},
+			qc_punish_score = #{qcPunishScore},
+			qc_punish_amount = #{qcPunishAmount},
+			project_manager_id = #{projectManagerId},
+			worker_group_id = #{workerGroupId}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE biz_qc_bill_check_item SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

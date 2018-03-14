@@ -1,0 +1,392 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="cn.damei.dao.mobile.Manager.TaskPackageDao">
+
+
+	<sql id="allColumnsOfPackage">
+		a.id AS "packageId" ,
+		a.order_id AS "orderId" ,
+		a.package_name AS
+		"packageName" ,
+		a.package_stateId AS"stateId" ,
+		a.package_statename AS "stateName" ,
+		a.plan_startdate AS "startTime" ,
+		a.plan_enddate AS
+		"endTime" ,
+		a.customer_name AS "customerName" ,
+		a.customer_message AS
+		"customerMessage",
+		a.package_statename AS
+		"stateName",
+		a.group_realname AS "leaderName" ,
+		a.group_id AS "leaderId"
+		,
+		a.labor_auxiliary_materials_budget_amount AS
+		"laborAuxiliaryMaterialsBudgetAmount" ,
+		a.labor_budget_amount AS
+		"laborBudgetAmount",
+		a.auxiliary_materials_budget_amount AS
+		"auxiliaryMaterialsBudgetAmount",
+		a.item_manager_id AS "itemManagerId",
+		a.actual_startdate as "actualStartdate",
+		a.actual_enddate as
+		"actualEnddate",
+		a.order_task_package_code as "orderTaskPackageCode"
+	</sql>
+
+	<sql id="taskPackageColumns">
+		a.id as "id",
+		a.store_id as "storeId",
+		a.pic_id as "picId",
+		a.order_id as "orderId",
+		a.package_code as "packageCode",
+		a.package_name as "packageName",
+		a.plan_startdate as "planStartDate",
+		a.plan_enddate as "planEndDate",
+		a.actual_startdate as
+		"actualStartdate",
+		a.actual_enddate as "actualEnddate",
+		a.package_stateId as "packageStateId",
+		a.package_statename as
+		"packageStatename",
+		a.emp_groupid as "empGroupid",
+		a.group_id as
+		"groupId",
+		a.group_realname as "groupRealname",
+		a.create_by as
+		"createBy.id",
+		a.create_date as "createDate",
+		a.update_by as
+		"updateBy.id",
+		a.update_date as "updateDate",
+		a.del_flag as "delFlag",
+		a.item_customer as "itemCustomer",
+		a.task_package_type as
+		"taskPackageType",
+		a.dispatcher as "dispatcher",
+		a.customer_name as
+		"customerName",
+		a.customer_message as "customerMessage",
+		a.dispatch_time as "dispatchTime",
+		a.is_overtime as "isOvertime",
+		a.labor_auxiliary_materials_budget_amount AS
+		"laborAuxiliaryMaterialsBudgetAmount",
+		a.labor_budget_amount AS
+		"laborBudgetAmount",
+		a.auxiliary_materials_budget_amount AS
+		"auxiliaryMaterialsBudgetAmount",
+		a.item_manager_id as "itemManagerId",
+		a.task_package_templat_id as "taskPackageTemplatId",
+		a.order_task_package_code as "orderTaskPackageCode",
+		a.remarks as
+		"remarks"
+	</sql>
+
+	<select id="queryTaskPackageByParam"
+		resultType="cn.damei.entity.mobile.Manager.TaskPackage"
+		parameterType="java.util.Map">
+		SELECT
+		<include refid="allColumnsOfPackage" />
+		from
+		biz_order_taskpackage a
+		INNER join biz_task_package_templat b on a.package_code = b.no
+		where a.order_id = #{orderId}
+		and b.id  in 
+		<foreach item="item" index="index" collection="list" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
+
+	<select id="getAllPackage"
+		parameterType="cn.damei.entity.mobile.Manager.TaskPackage"
+		resultType="cn.damei.entity.mobile.Manager.TaskPackage">
+		SELECT
+		<include refid="allColumnsOfPackage" />
+		from biz_order_taskpackage a,biz_order b
+
+		<where>
+			a.item_manager_id = #{itemManagerId}
+			AND b.id = a.order_id
+			<if test="packageName != null and packageName !='' ">
+				And a.package_name = #{packageName}
+
+			</if>
+			<if test="stateName != null and stateName !='' ">
+				And a.package_statename = #{stateName}
+
+			</if>
+
+			ORDER BY b.create_date DESC
+
+		</where>
+
+		<if test="orderBy != null and orderBy!='' ">
+			,#{orderBy} DESC
+		</if>
+
+
+	</select>
+
+
+	<select id="selectStateName" resultType="String" parameterType="int">
+
+		SELECT distinct a.package_statename AS
+		"stateName" from
+		biz_order_taskpackage a
+		where a.item_manager_id =#{itemManagerId}
+	</select>
+
+
+
+	<select id="getPackById"
+		resultType="cn.damei.entity.mobile.Manager.TaskPackage"
+		parameterType="int">
+
+		SELECT
+		<include refid="allColumnsOfPackage" />
+		from
+		biz_order_taskpackage a
+		where a.id =#{packageId}
+
+	</select>
+
+
+
+
+	<select id="getLeaderPhoneById" resultType="String"
+		parameterType="String">
+
+		SELECT phone AS "leaderPhone" from
+		biz_employee
+		where id =#{leaderId}
+
+	</select>
+
+
+
+
+
+
+	<sql id="allProcedureColumns">
+
+		a.id AS "procedureId" ,
+		a.taskpackage_id AS "packageId" ,
+		a.procedure_name AS "procedureName" ,
+		a.budget_number AS "budgetNumber" ,
+		a.synthesize_price AS "synthesizePrice" ,
+		a.labor_auxiliary_materials_budget_amount AS "laborAuxiliaryMaterialsBudgetAmount" ,
+		a.remarks AS "remarks",
+		a.labor_price AS "laborPrice",
+		a.accessories_price AS "accessoriesPrice",
+		a.labor_budget_amount AS "laborBudgetAmount",
+		a.auxiliary_materials_budget_amount AS "auxiliaryMaterialsBudgetAmount"
+	</sql>
+
+
+
+
+
+
+
+
+	<select id="findProcedureByPackId"
+		resultType="cn.damei.entity.mobile.Manager.PackProcedure"
+		parameterType="int">
+
+		SELECT
+		<include refid="allProcedureColumns" />
+		,dict.label AS "measurementUnit"
+		from biz_order_taskpackage_procedure a
+		LEFT JOIN sys_dict dict ON a.measurement_unit = dict.`value` AND dict.type
+		= 'biz_unit' AND dict.del_flag = 0
+		where a.taskpackage_id =#{packageId}
+	</select>
+
+	<!-- 查询项目经理名下，任务包状态为【已申请完工、质检已复核】的任务包 -->
+	<select id="queryTaskPackageByNoState" parameterType="java.util.Map"
+		resultType="cn.damei.entity.mobile.Manager.TaskPackage">
+		SELECT a.id as "id", a.order_id as "orderId",a.package_name as
+		"packageName",a.order_task_package_code as "orderTaskPackageCode",
+		a.actual_startdate as "actualStartdate",a.actual_enddate as
+		"actualEnddate",a.customer_message as "customerMessage",
+		a.customer_name as "customerName",a.task_package_templat_id as
+		"taskPackageTemplatId",a.package_stateId as "packageStateId",
+		SUBSTRING_INDEX(b.map_coordinate,',',1) as
+		"lon",SUBSTRING_INDEX(b.map_coordinate,',',-1) as "lat"
+		FROM biz_order_taskpackage a left join biz_order b on a.order_id = b.id
+		WHERE a.item_manager_id = #{itemManagerId} and a.package_stateId in
+		<foreach item="item" index="index" collection="list" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+		order by a.actual_enddate desc,a.order_task_package_code asc
+	</select>
+
+	<select id="get"
+		resultType="cn.damei.entity.mobile.Manager.TaskPackage">
+		SELECT
+		<include refid="taskPackageColumns" />
+		,
+		b.order_inspector_id as 'inspectorId',
+		a.project_mode as projectMode
+		from biz_order_taskpackage a
+		left join biz_order b on
+		a.order_id = b.id
+		where a.id =#{id}
+	</select>
+
+	<update id="update">
+		UPDATE biz_order_taskpackage SET
+		store_id =
+		#{storeId},
+		pic_id = #{picId},
+		order_id = #{orderId},
+		package_code =
+		#{packageCode},
+		package_name = #{packageName},
+		plan_startdate =
+		#{planStartDate},
+		plan_enddate= #{planEndDate},
+		actual_startdate =
+		#{actualStartdate},
+		actual_enddate = #{actualEnddate},
+		package_stateId =
+		#{packageStateId},
+		package_statename = #{packageStatename},
+		emp_groupid
+		= #{empGroupid},
+		group_id = #{groupId},
+		group_realname =
+		#{groupRealname},
+		update_by = #{updateBy.id},
+		update_date =
+		#{updateDate},
+		del_flag = #{delFlag},
+		item_customer = #{itemCustomer},
+		task_package_type = #{taskPackageType},
+		dispatcher = #{dispatcher},
+		customer_name = #{customerName},
+		customer_message = #{customerMessage},
+		dispatch_time = #{dispatchTime},
+		is_overtime = #{isOvertime},
+		labor_auxiliary_materials_budget_amount =
+		#{laborAuxiliaryMaterialsBudgetAmount},
+		labor_budget_amount =
+		#{laborBudgetAmount},
+		auxiliary_materials_budget_amount =
+		#{auxiliaryMaterialsBudgetAmount},
+		item_manager_id = #{itemManagerId},
+		task_package_templat_id = #{taskPackageTemplatId},
+		order_task_package_code = #{orderTaskPackageCode},
+		remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+
+	<select id="queryTaskPackageStateList" parameterType="java.lang.String"
+		resultType="cn.damei.entity.mobile.Manager.TaskPackage">
+		select value as "packageStateId",label as
+		"packageStatename" from sys_dict where type=#{type} and value >= 100
+		and del_flag='0' order by value asc
+	</select>
+
+	<!--结算单管理列表 -->
+	<select id="queryOrderPackageList" parameterType="java.util.Map"
+		resultType="cn.damei.entity.mobile.Manager.TaskPackage">
+		select a.id as "packageId",a.order_id as
+		"orderId",a.task_package_templat_id as "taskPackageTemplatId",
+		a.customer_message as "customerMessage",a.customer_name as
+		"customerName",a.package_name as "packageName",
+		b.settlement_amount as "settlementAmount",a.package_stateId as
+		"stateId",a.package_statename as "stateName",
+		a.order_task_package_code as "orderTaskPackageCode",b.check_date as
+		"checkDate",b.id as "settlementId",IFNULL(a.settle_style,0) AS
+		"settleStyle"
+		from biz_order_taskpackage a
+		inner join biz_order_taskpackage_settlement b on
+		a.id=b.order_taskpackage_id
+		LEFT JOIN biz_task_package_templat c ON c.id = a.task_package_templat_id
+		where a.package_stateId >= 100 and a.item_manager_id = #{managerId}
+		<if test="taskPackageTemplatId != null">
+			and a.task_package_templat_id = #{taskPackageTemplatId}
+		</if>
+		<if test="stateId != null and stateId != ''">
+			and a.package_stateId = #{stateId}
+		</if>
+		<if test="orderType == null or orderType == '' or orderType == 2">
+			order by b.check_date desc
+		</if>
+		<if test="orderType == 1">
+			order by a.package_name asc
+		</if>
+		<!-- <if test="orderType == 2"> order by b.check_date desc </if> -->
+	</select>
+
+	<!--实际工程量超3%给质检员发短信 -->
+	<select id="querySmsMessage" parameterType="java.lang.Integer"
+		resultType="cn.damei.entity.mobile.Manager.TaskPackage">
+		SELECT
+		a.customer_message AS "customerMessage",
+		a.customer_name AS "customerName",
+		b.customer_phone as "customerPhone",
+		b.order_inspector_id as "inspectorId",
+		c.phone AS "inspectorPhone",
+		a.package_name AS "packageName",
+		a.item_customer as "managerName",
+		d.phone as "managerPhone",
+		e.id as "settlementId"
+		FROM
+		biz_order_taskpackage a
+		LEFT JOIN biz_order b ON a.order_id = b.id
+		LEFT JOIN biz_employee c
+		ON b.order_inspector_id = c.id
+		left join biz_employee d on
+		a.item_manager_id = d.id
+		left join biz_order_taskpackage_settlement e
+		on a.id=e.order_taskpackage_id
+		WHERE a.id = #{id}
+	</select>
+
+	<!--结算单生成后给工人组长发送短信 -->
+	<select id="querySmsMessageToGroup" parameterType="java.lang.Integer"
+		resultType="cn.damei.entity.mobile.Manager.TaskPackage">
+		select a.customer_message as
+		"customerMessage",a.customer_name as "customerName",b.customer_phone
+		as "customerPhone",
+		a.package_name as "packageName",a.item_customer as "managerName",c.phone as
+		"managerPhone",a.group_id as "groupId",
+		d.phone as "groupPhone",e.id as "settlementId"
+		from biz_order_taskpackage a
+		left join biz_order b on a.order_id = b.id
+		left join biz_employee c on
+		a.item_manager_id = c.id
+		left join biz_employee d on a.group_id = d.id
+		left join biz_order_taskpackage_settlement e on
+		a.id=e.order_taskpackage_id
+		WHERE a.id = #{id}
+	</select>
+
+	<select id="queryRewardActivity" parameterType="java.lang.Integer"
+		resultType="cn.damei.entity.mobile.Manager.TaskPackage">
+		select a.store_id as "storeId",b.project_mode as
+		"projectMode",a.task_package_templat_id as "taskPackageTemplatId"
+		from
+		biz_order_taskpackage a
+		left join biz_order b on a.order_id = b.id
+		where a.id=#{id}
+	</select>
+
+	<select id="queryOrderTaskPackageByParam" parameterType="java.util.Map"
+		resultType="cn.damei.entity.mobile.Manager.TaskPackage">
+		SELECT
+		<include refid="taskPackageColumns" />
+		FROM
+		biz_order_taskpackage a
+		INNER JOIN biz_task_package_templat b ON
+		a.task_package_templat_id = b.id
+		where a.id = #{packId} and
+		b.task_package_type_id = #{type} and b.del_flag = 0
+	</select>
+</mapper>
+   

@@ -1,0 +1,1 @@
+update biz_eval_score set eval_type=1;

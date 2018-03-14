@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.mobile.Manager.ChecksizeNewDao">
+    
+	<!-- 查询订单 -->
+	<select id="findOrder" parameterType="int" resultType="cn.damei.entity.mobile.Manager.ChecksizeOrder">
+		SELECT
+			a.id AS "orderId",
+			a.customer_address AS "customerAddress",
+			a.community_name AS "communityName",
+			a.build_number AS "buildNumber",
+			a.build_unit AS "buildUnit",
+			a.build_room AS "buildRoom",
+			a.customer_name AS "customerName",
+			a.customer_phone AS "customerPhone",
+			a.store_id AS "storeId",
+			a.order_status_number AS "orderStatusNumber",
+			a.actual_start_date AS "actualStartDate"
+		FROM
+			biz_order a
+		WHERE
+			a.id = #{orderId}
+	</select>
+	
+    
+    <!-- 根据项目经理id查询项目经理下的状态小于300的所有订单(加搜索条件) -->
+	<select id="findOrderByManagerId"
+		parameterType="cn.damei.entity.mobile.Manager.ChecksizeOrder"
+		resultType="cn.damei.entity.mobile.Manager.ChecksizeOrder">
+		
+		SELECT
+			a.id AS "orderId",
+			a.customer_address AS "customerAddress",
+			a.community_name AS "communityName",
+			a.build_number AS "buildNumber",
+			a.build_unit AS "buildUnit",
+			a.build_room AS "buildRoom",
+			a.customer_name AS "customerName",
+			a.contract_start_date AS "contractStartDate",
+			a.contract_end_date AS "contractEndDate",
+			a.contract_time AS "contractTime",
+			a.order_status_number AS "orderStatusNumber",
+			a.order_status_description AS "orderStatusDescription"
+		FROM
+			biz_order a
+		<where>
+			a.item_manager_id = #{itemManagerId} 
+			AND a.order_status_number &lt; 300
+			AND a.order_status_number &gt;= 200
+			<if test="text != null and text !=''">
+				and (a.community_name like CONCAT('%','${text}','%' )  or a.customer_name like CONCAT('%','${text}','%' ))
+			</if>
+			ORDER BY
+				a.create_date DESC
+		</where>
+
+	</select>
+	
+	
+	
+	<!-- 查询订单可复尺的安装项数量 -->
+	<select id="findCanApplyChecksizeCount" parameterType="int" resultType="int">
+		
+		SELECT
+			COUNT(1)
+		FROM
+			biz_order_install_item a
+		WHERE
+			a.order_id = #{0}
+		AND a.is_to_checksize = 1
+
+	</select>
+	
+	
+	
+	<!-- 同一个订单两次厂家复尺申请操作时间必须间隔5分钟，请过5分钟后再申请 -->
+	<select id="findFiveTimeChecksizeCount" parameterType="int" resultType="int">
+		
+		SELECT
+			COUNT(1)
+		FROM
+			biz_order_checksize a
+		WHERE
+			a.order_id = #{0}
+		AND DATE_ADD(a.create_date,INTERVAL 5 MINUTE) &gt; NOW()
+	
+	</select>
+	
+	
+	
+	
+	<!-- 查询订单可复尺的安装项列表 -->
+	<select id="findChecksizeTypeList" parameterType="int" resultType="cn.damei.entity.mobile.Manager.ChecksizeType">
+		
+		SELECT
+			a.id AS "type",
+			a.install_item_name AS "name",
+			a.days_plan_checksize AS "daysPlanChecksize"
+		FROM
+			biz_order_install_item a
+		WHERE
+			a.order_id = #{0}
+		AND a.is_to_checksize = 1
+	
+	</select>
+	
+	
+	
+	<!-- 校验该安装项是否已经申请 -->
+	<select id="findOrderInstallItemChecksizeCount" parameterType="cn.damei.entity.mobile.Manager.Checksize" resultType="int">
+		
+		SELECT
+			COUNT(1)
+		FROM
+			biz_order_checksize a
+		WHERE
+			a.order_id = #{orderId}
+		AND a.order_install_item_id = #{orderInstallItemId}
+		AND a.del_flag = 0
+	
+	</select>
+	
+	
+	<!-- 校验：该工地2017-7-1开工，按照工程部规定主材（橱柜、台面）开工10天后（2017-7-21）才可以申请橱柜复尺，如有提前完工或疑问请联系大区经理。 -->
+	<select id="findChecksizeCanApplyDate"  resultType="cn.damei.entity.mobile.Manager.Checksize">
+	
+		SELECT
+			a.days_plan_checksize AS "daysPlanChecksizeString",
+			a.install_item_name AS "installItemName",
+			DATE_FORMAT(c.actual_start_date,'%Y-%m-%d') AS "orderActualStartDateString",
+			DATE_FORMAT(DATE_ADD(c.actual_start_date,INTERVAL a.days_plan_checksize DAY),'%Y-%m-%d') AS "canApplyChecksizeDateString"
+		FROM
+			biz_order_install_item a
+		LEFT JOIN biz_order c ON a.order_id = c.id
+		WHERE
+			a.id = #{0}
+		 AND DATE_FORMAT(DATE_ADD(c.actual_start_date,INTERVAL a.days_plan_checksize DAY),'%Y-%m-%d') &gt; DATE_FORMAT(NOW(),'%Y-%m-%d')
+ 
+	
+	</select>
+	
+	
+	<!-- 查询该主材复尺项对应的复尺类型 -->
+	<select id="findChecksizeTypeDictValue" resultType = "String">
+		SELECT
+			b.`value`
+		FROM
+			biz_order_install_item a
+		INNER JOIN sys_dict b ON b.type = 'check_scale'
+		AND b.label LIKE CONCAT('%',LEFT (a.install_item_name, 2),'%')
+		WHERE a.id = #{0}
+		LIMIT 1
+
+	</select>
+	
+	
+	<!-- 保存上报厂家复尺信息 -->
+	<insert id="saveChecksize" parameterType="cn.damei.entity.mobile.Manager.Checksize">
+		<selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+			SELECT LAST_INSERT_ID();
+  		</selectKey>
+  		INSERT INTO biz_order_checksize (
+				id,
+				order_id,
+				order_install_item_id,
+				checksize_date,
+				checksize_employee_id,
+				remarks,
+				create_by,
+				create_date,
+				update_by,
+				update_date,
+				del_flag,
+				checksize_status,
+				checksize_status_datetime,
+				supplier_confirm_date,
+				material_department_deal_datetime,
+				material_department_deal_employee_id,
+				material_department_deal_reply,
+				checksize_type
+		)
+		values(
+				#{id},
+				#{orderId},
+				#{orderInstallItemId},
+				#{checksizeDate},
+				#{checksizeEmployeeId},
+				#{remarks},
+				#{createBy.id},
+				#{createDate},
+				#{updateBy.id},
+				#{updateDate},
+				#{delFlag},
+				#{checksizeStatus},
+				#{checksizeStatusDatetime},
+				#{supplierConfirmDate},
+				#{materialDepartmentDealDatetime},
+				#{materialDepartmentDealEmployeeId},
+				#{materialDepartmentDealReply},
+				#{checksizeType}
+		)
+	</insert>
+	
+	
+	<!-- 批量插入上报厂家复尺图片 -->
+	<insert id="saveChecksizePicAll" parameterType="java.util.List">
+		INSERT INTO biz_order_checksize_pic(
+			id,
+			order_checksize_id,
+			pic_url,
+			remarks,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag
+		)VALUES 
+		<foreach collection="list" item="item" index="index" separator="," >
+			(
+				#{item.id},
+				#{item.orderChecksizeId},
+				#{item.picUrl},
+				#{item.remarks},
+				#{item.createBy.id},
+				#{item.createDate},
+				#{item.updateBy.id},
+				#{item.updateDate},
+				#{item.delFlag}
+			)
+		</foreach>
+	</insert>
+	
+	
+	<!-- 查询安装项的名字 -->
+	<select id="findInstallItemName" resultType="String">
+		SELECT
+			a.install_item_name
+		FROM
+			biz_order_install_item a
+		WHERE
+			a.id = #{0}
+	</select>
+	
+
+
+	<!-- 根据订单ID查询所有的厂家复尺 -->
+	<select id="findCheckSizeList" parameterType="cn.damei.entity.mobile.Manager.Checksize" resultType="cn.damei.entity.mobile.Manager.Checksize">
+		
+		SELECT
+			a.id AS "id",
+			a.order_id AS "orderId",
+			a.checksize_type AS "checksizeType",
+		 	b.install_item_name AS "checksizeTypeName",
+			a.checksize_date AS "checksizeDate",
+			a.checksize_employee_id AS "checksizeEmployeeId",
+			a.remarks AS "remarks",
+			a.create_date AS "createDate",
+			a.update_date AS "updateDate",
+			a.checksize_status AS "checksizeStatus",
+			c.label AS "checksizeStatusName",
+			a.checksize_status_datetime AS "checksizeStatusDatetime",
+			a.supplier_confirm_date AS "supplierConfirmDate",
+			a.material_department_deal_datetime AS "materialDepartmentDealDatetime",
+			a.material_department_deal_employee_id AS "materialDepartmentDealEmployeeId",
+			IFNULL(a.material_department_deal_reply,"") AS "materialDepartmentDealReply",
+		  	m.picCount AS "picCount",
+		  	IFNULL(DATE_FORMAT(a.checksize_date,'%Y-%m-%d'),"") AS "checksizeDateString",
+			IFNULL(DATE_FORMAT(a.create_date,'%Y-%m-%d %H:%i:%S'),"") AS "createDateString",
+			IFNULL(DATE_FORMAT(a.supplier_confirm_date,'%Y-%m-%d'),"") AS "supplierConfirmDateString"
+		FROM
+			biz_order_checksize a
+		LEFT JOIN biz_order_install_item b ON a.order_install_item_id = b.id
+		LEFT JOIN (SELECT c1.`value`,c1.label AS "label" FROM sys_dict c1 WHERE c1.type = 'checksize_status' AND c1.del_flag = 0 )c ON c.`value` = a.checksize_status
+		LEFT JOIN (SELECT n.order_checksize_id,COUNT(1) AS "picCount" FROM biz_order_checksize_pic n GROUP BY n.order_checksize_id)m ON m.order_checksize_id = a.id
+		<where>
+			a.order_id = #{orderId}
+			<if test="text != null and text !=''">
+				and b.install_item_name like CONCAT('%','${text}','%' )
+			</if>
+		</where>
+		ORDER BY
+			a.create_date DESC
+		
+	</select>
+
+	<!-- 主材安装项复尺内容及时间 -->
+	<select id="queryInstallItemDetail" resultType="cn.damei.entity.mobile.Manager.OrderInstallPlan">
+		SELECT
+			a.id AS "orderInstallItemId",
+			a.order_id AS "orderId",
+			a.install_item_name AS "installItemName",
+			b.allow_apply_checksize_date AS "allowApplyChecksizeDate"
+		FROM
+			biz_order_install_item a
+		LEFT JOIN biz_order_install_plan b ON b.order_install_item_id = a.id
+		AND a.order_id = b.order_id
+		WHERE
+			a.id = #{0}
+	
+	</select>
+</mapper>

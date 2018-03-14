@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.CheckSelectDao">
+    
+	
+	<select id="findList" resultType="cn.damei.entity.modules.CheckSelect">
+			SELECT
+				b.id AS "orderId",
+				b.store_id AS "storeId",
+				c.`name` AS "storeName",
+				b.project_mode AS "projectMode",
+				d.label AS "projectModeName",
+				b.detail_address AS "detailAddress",
+				b.community_name AS "communityName",
+				b.build_number AS "buildNumber",
+				b.build_unit AS "buildUnit",
+				b.build_room AS "buildRoom",
+				b.customer_name AS "customerName",
+				b.item_manager AS "itemManager",
+				b.order_inspector AS "orderInspector",
+				b.actual_start_date AS "actualStartDate",
+				a.id AS "qcBillId",
+				a.qc_check_node_id AS "qcCheckNodeId",
+				e.qc_check_node_name AS "qcCheckNodeName",
+				a.create_date AS "createDate",
+				a.expect_check_datetime AS "expectCheckDatetime",
+				<!-- g.sign_datetime AS "signCheckDatetime", -->
+				a.check_datetime AS "checkDatetime",
+				a.accept_check_datetime AS "acceptCheckDatetime",
+				a.got_score AS "gotScore",
+				a.total_score AS "totalScore",
+				a.status AS "status",
+				f.name AS "engineDepartName",
+				b.engin_depart_id as "engineDepartId",
+		b.order_number as "orderNumber",
+		ifnull(a.delay_reason_pm,"无") as "delayReasonPm",
+		ifnull(a.delay_reason_qc,"无") as "delayReasonQc"
+			FROM
+				biz_qc_bill a
+			INNER JOIN biz_order b ON a.order_id = b.id
+			LEFT JOIN sys_office c ON c.id = b.store_id
+			LEFT JOIN sys_dict d ON d.`value` = b.project_mode AND d.type = 'project_mode' AND d.del_flag = 0
+			left JOIN biz_qc_check_node e ON a.qc_check_node_id = e.id AND e.store_id = b.store_id AND e.project_mode = b.project_mode
+			LEFT JOIN biz_engineering_department f ON f.id = b.engin_depart_id AND f.del_flag=0
+			<!-- LEFT JOIN biz_business_sign g ON g.related_business_id_int = a.id AND g.sign_type = #{signType} -->
+		<where>
+			a.is_recheck = #{isRecheck}
+			AND a.qc_bill_type = #{qcBillType}
+			<if test="storeId != null and storeId != ''">
+				AND b.store_id = #{storeId}
+			</if>
+			<if test="projectMode != null and projectMode != ''">
+				AND b.project_mode = #{projectMode}
+			</if><if test="qcCheckNodeName != null and qcCheckNodeName != ''">
+				AND e.qc_check_node_name  like concat('%',#{qcCheckNodeName},'%')
+			</if>
+			<if test="customerName != null and customerName != ''">
+				AND b.customer_name LIKE
+					<if test="dbName == 'oracle'">'%'||#{customerName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{customerName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{customerName},'%')</if>
+			</if>
+			
+			<if test="itemManager != null and itemManager != ''">
+				AND b.item_manager LIKE
+				<if test="dbName == 'oracle'">'%'||#{itemManager}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{itemManager}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{itemManager},'%')</if>
+			</if>
+
+
+
+
+			<if test="beginCreateDate != null and beginCreateDate != '' and endCreateDate != null  and endCreateDate != ''">
+				AND  (a.create_date &gt;= #{beginCreateDate}  AND  a.create_date &lt;= #{endCreateDate})
+			</if>
+
+
+
+
+
+			<if test="beginCheckDatetime != null and beginCheckDatetime != '' and endCheckDatetime != null  and endCheckDatetime != ''">
+				AND  (a.expect_check_datetime &gt;= #{beginCheckDatetime} AND a.expect_check_datetime &lt;= #{endCheckDatetime})
+			</if>
+
+
+
+			<if test="beginAcceptCheckDatetime != null and beginAcceptCheckDatetime != '' and endAcceptCheckDatetime != null  and endAcceptCheckDatetime != ''">
+				AND  (a.check_datetime &gt;= #{beginAcceptCheckDatetime} 	AND a.check_datetime &lt;= #{endAcceptCheckDatetime})
+			</if>
+
+
+
+
+
+
+
+			<if test="assertNodeConfirmDoneStartDate != null and assertNodeConfirmDoneStartDate != '' and assertNodeConfirmDoneEndDate != null  and assertNodeConfirmDoneEndDate != ''">
+				AND  (a.accept_check_datetime &gt;= #{assertNodeConfirmDoneStartDate}  AND a.accept_check_datetime &lt;= #{assertNodeConfirmDoneEndDate})
+			</if>
+
+
+
+
+
+			<if test="totalAndGotIsEqual != null  and totalAndGotIsEqual == 0">
+				AND a.total_score != a.got_score
+			</if>
+			<if test="totalAndGotIsEqual != null  and totalAndGotIsEqual == 1">
+				AND a.total_score = a.got_score
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.create_date DESC
+			</otherwise>
+		</choose>
+		
+	</select>
+	
+	
+	
+</mapper>

@@ -1,0 +1,17 @@
+材料查询菜单
+1.辅料
+/bizMaterialSortedByOrder/materialSortedByOrder/AccessoriesList
+2.沙子水泥
+/bizMaterialSortedByOrder/materialSandAndCementByOrder/SandAndCementList
+3.开关面板
+/bizMaterialSortedByOrder/materialSwitchByOrder/switchList
+4.墙地砖
+/bizMaterialSortedByOrder/materialWallAndFloorByOrder/WallAndFloorList
+
+
+
+结算线-约检验收单查询-路径
+
+/modules/settlementPaymentManagement/checkAccept/confirmReject/web/InspectorConfirmReject/preList
+
+confirmReject:confirmReject:view,confirmReject:confirmReject:edit

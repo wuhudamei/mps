@@ -1,0 +1,589 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="cn.damei.dao.modules.BizPmPreIndustrySettleBillDao">
+	<select id="get"
+		resultType="cn.damei.entity.modules.BizPmPreIndustrySettleBill">
+		SELECT
+		a.id as "id",
+		a.pm_pre_industry_settle_bill_code as
+		"pmPreIndustrySettleBillCode",
+		a.settle_bill_type as "settleBillType",
+		a.order_id as "orderId",
+		a.pm_employee_id as "pmEmployeeId",
+		a.settle_month as "settleMonth",
+		a.settle_datetime as "settleDatetime",
+		a.contract_amount as "contractAmount",
+		a.midway_qc_check_punish_amount
+		as "midwayQcCheckPunishAmount",
+		a.reward_amount as "rewardAmount",
+		a.punish_amount as "punishAmount",
+		a.order_change_add_amount as
+		"orderChangeAddAmount",
+		a.order_change_reduce_amount as
+		"orderChangeReduceAmount",
+		a.midway_basicwork_add_amount as
+		"midwayBasicworkAddAmount",
+		a.midway_materials_standard_amount as
+		"midwayMaterialsStandardAmount",
+		a.midway_materials_auxiliary_amount as
+		"midwayMaterialsAuxiliaryAmount",
+		a.midway_sand_cement_amount as
+		"midwaySandCementAmount",
+		a.midway_switch_panel_amount as
+		"midwaySwitchPanelAmount",
+		a.midway_worker_salary_amount as
+		"midwayWorkerSalaryAmount",
+		a.midway_material_carry_cost_amount as
+		"midwayMaterialCarryCostAmount",
+		a.midway_contract_settle_rate as
+		"midwayContractSettleRate",
+		a.complete_guarantee_money_amount as
+		"completeGuaranteeMoneyAmount",
+		a.complete_longway_commission_amount as
+		"completeLongwayCommissionAmount",
+		a.contract_settle_amount as
+		"contractSettleAmount",
+		a.real_settle_amount as "realSettleAmount",
+		a.status as "status",
+		a.status_operator_employee_id as
+		"statusOperatorEmployeeId",
+		a.status_datetime as "statusDatetime",
+		a.status_describe as "statusDescribe",
+		a.remarks as "remarks",
+		a.create_by as "createBy",
+		a.create_date as "createDate",
+		a.update_by as
+		"updateBy",
+		a.update_date as "updateDate",
+		a.del_flag as "delFlag",
+		a.is_new_settle_bill as "isNewSettleBill"
+		FROM
+		biz_pm_pre_industry_settle_bill a
+		WHERE a.id = #{id}
+	</select>
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id"
+		keyColumn="id">
+		INSERT INTO biz_pm_pre_industry_settle_bill (
+		id,
+		pm_pre_industry_settle_bill_code,
+		settle_bill_type,
+		order_id,
+		pm_employee_id,
+		settle_month,
+		settle_datetime,
+		contract_amount,
+		midway_qc_check_punish_amount,
+		reward_amount,
+		punish_amount,
+		order_change_add_amount,
+		order_change_reduce_amount,
+		midway_basicwork_add_amount,
+		midway_materials_standard_amount,
+		midway_materials_auxiliary_amount,
+		midway_sand_cement_amount,
+		midway_switch_panel_amount,
+		midway_worker_salary_amount,
+		midway_material_carry_cost_amount,
+		midway_contract_settle_rate,
+		complete_guarantee_money_amount,
+		complete_longway_commission_amount,
+		contract_settle_amount,
+		real_settle_amount,
+		status,
+		status_operator_employee_id,
+		status_datetime,
+		status_describe,
+		remarks,
+		create_by,
+		create_date,
+		update_by,
+		update_date,
+		del_flag,
+		is_new_settle_bill
+		) VALUES (
+		#{id},
+		#{pmPreIndustrySettleBillCode},
+		#{settleBillType},
+		#{orderId},
+		#{pmEmployeeId},
+		#{settleMonth},
+		#{settleDatetime},
+		#{contractAmount},
+		#{midwayQcCheckPunishAmount},
+		#{rewardAmount},
+		#{punishAmount},
+		#{orderChangeAddAmount},
+		#{orderChangeReduceAmount},
+		#{midwayBasicworkAddAmount},
+		#{midwayMaterialsStandardAmount},
+		#{midwayMaterialsAuxiliaryAmount},
+		#{midwaySandCementAmount},
+		#{midwaySwitchPanelAmount},
+		#{midwayWorkerSalaryAmount},
+		#{midwayMaterialCarryCostAmount},
+		#{midwayContractSettleRate},
+		#{completeGuaranteeMoneyAmount},
+		#{completeLongwayCommissionAmount},
+		#{contractSettleAmount},
+		#{realSettleAmount},
+		#{status},
+		#{statusOperatorEmployeeId},
+		#{statusDatetime},
+		#{statusDescribe},
+		#{remarks},
+		#{createBy.id},
+		#{createDate},
+		#{updateBy.id},
+		#{updateDate},
+		#{delFlag},
+		#{isNewSettleBill}
+		)
+	</insert>
+
+	<update id="update">
+		update biz_pm_pre_industry_settle_bill set
+		pm_pre_industry_settle_bill_code = #{pmPreIndustrySettleBillCode},
+		settle_bill_type = #{settleBillType},
+		order_id = #{orderId},
+		pm_employee_id = #{pmEmployeeId},
+		settle_month = #{settleMonth},
+		settle_datetime = #{settleDatetime},
+		contract_amount =
+		#{contractAmount},
+		midway_qc_check_punish_amount =
+		#{midwayQcCheckPunishAmount},
+		reward_amount = #{rewardAmount},
+		punish_amount = #{punishAmount},
+		order_change_add_amount =
+		#{orderChangeAddAmount},
+		order_change_reduce_amount =
+		#{orderChangeReduceAmount},
+		midway_basicwork_add_amount =
+		#{midwayBasicworkAddAmount},
+		midway_materials_standard_amount =
+		#{midwayMaterialsStandardAmount},
+		midway_materials_auxiliary_amount =
+		#{midwayMaterialsAuxiliaryAmount},
+		midway_sand_cement_amount =
+		#{midwaySandCementAmount},
+		midway_switch_panel_amount =
+		#{midwaySwitchPanelAmount},
+		midway_worker_salary_amount =
+		#{midwayWorkerSalaryAmount},
+		midway_material_carry_cost_amount =
+		#{midwayMaterialCarryCostAmount},
+		midway_contract_settle_rate =
+		#{midwayContractSettleRate},
+		complete_guarantee_money_amount =
+		#{completeGuaranteeMoneyAmount},
+		complete_longway_commission_amount =
+		#{completeLongwayCommissionAmount},
+		contract_settle_amount =
+		#{contractSettleAmount},
+		real_settle_amount = #{realSettleAmount},
+		status = #{status},
+		status_operator_employee_id =
+		#{statusOperatorEmployeeId},
+		status_datetime = #{statusDatetime},
+		status_describe = #{statusDescribe},
+		remarks = #{remarks},
+		update_by =
+		#{updateBy.id},
+		update_date = #{updateDate}
+		where id = #{id}
+	</update>
+
+	<select id="queryCountPmPreIndustrySettleBillByParam"
+		parameterType="java.util.Map" resultType="int">
+		SELECT
+		count(*)
+		FROM
+		biz_pm_pre_industry_settle_bill a
+		WHERE a.order_id = #{orderId}
+		AND
+		a.settle_bill_type = #{settleBillType}
+	</select>
+
+	<select id="checkPmPreIndustrySettleBillByParam" parameterType="java.util.Map"
+		resultType="int">
+		SELECT
+		count(*)
+		FROM
+		biz_pm_pre_industry_settle_bill a
+		WHERE
+		a.order_id = #{orderId}
+		AND a.pm_employee_id = #{pmEmployeeId}
+		AND
+		a.status &lt; 50
+	</select>
+
+	<select id="queryPmPreIndustrySettleBillByParam" parameterType="java.util.Map"
+		resultType="cn.damei.entity.modules.BizPmPreIndustrySettleBill">
+		SELECT
+		a.id as "id",
+		a.order_id as "orderId",
+		a.pm_pre_industry_settle_bill_code as
+		"pmPreIndustrySettleBillCode",
+		a.settle_bill_type as "settleBillType",
+		a.order_id as "orderId",
+		a.pm_employee_id as "pmEmployeeId",
+		a.settle_month as "settleMonth",
+		a.settle_datetime as "settleDatetime",
+		a.contract_amount as "contractAmount",
+		a.midway_qc_check_punish_amount
+		as "midwayQcCheckPunishAmount",
+		a.reward_amount as "rewardAmount",
+		a.punish_amount as "punishAmount",
+		a.order_change_add_amount as
+		"orderChangeAddAmount",
+		a.order_change_reduce_amount as
+		"orderChangeReduceAmount",
+		a.midway_basicwork_add_amount as
+		"midwayBasicworkAddAmount",
+		a.midway_materials_standard_amount as
+		"midwayMaterialsStandardAmount",
+		a.midway_materials_auxiliary_amount as
+		"midwayMaterialsAuxiliaryAmount",
+		a.midway_sand_cement_amount as
+		"midwaySandCementAmount",
+		a.midway_switch_panel_amount as
+		"midwaySwitchPanelAmount",
+		a.midway_worker_salary_amount as
+		"midwayWorkerSalaryAmount",
+		a.midway_material_carry_cost_amount as
+		"midwayMaterialCarryCostAmount",
+		a.midway_contract_settle_rate as
+		"midwayContractSettleRate",
+		a.complete_guarantee_money_amount as
+		"completeGuaranteeMoneyAmount",
+		a.complete_longway_commission_amount as
+		"completeLongwayCommissionAmount",
+		a.contract_settle_amount as
+		"contractSettleAmount",
+		a.real_settle_amount as "realSettleAmount",
+		a.status as "status",
+		a.status_operator_employee_id as
+		"statusOperatorEmployeeId",
+		a.status_datetime as "statusDatetime",
+		a.status_describe as "statusDescribe",
+		a.remarks as "remarks",
+		a.create_by as "createBy",
+		a.create_date as "createDate",
+		a.update_by as
+		"updateBy",
+		a.update_date as "updateDate",
+		a.del_flag as "delFlag",
+        a.is_new_settle_bill as "isNewSettleBill"
+		FROM
+		biz_pm_pre_industry_settle_bill a
+		WHERE a.order_id=#{orderId}
+		AND a.settle_bill_type = #{settleBillType}
+	</select>
+
+	<select id="findList"
+		resultType="cn.damei.entity.modules.BizPmPreIndustrySettleBill">
+		SELECT
+		a.id AS "id",
+		a.order_id AS "orderId",
+		b.store_id AS "storeId",
+		b.project_mode AS "projectMode",
+		en.`name` AS "departmentName",
+		a.create_date AS "createDate",
+		b.order_number AS "orderNum",
+		b.community_name AS "communityName",
+		b.build_number AS "buildNumber",
+		b.build_room AS "buildRoom",
+		b.build_unit AS "buildUnit",
+		b.customer_name AS "customerName",
+		b.customer_phone AS "customerPhone",
+		em.realName AS "itemCustomer",
+		em.phone AS "itemPhone",
+		a.pm_pre_industry_settle_bill_code AS "pmPreIndustrySettleBillCode",
+		a.settle_bill_type AS "settleBillType",
+		a.real_settle_amount AS "realSettleAmount",
+		a.`status` AS "status",
+		a.status_datetime AS "statusDatetime",
+		a.remarks AS "remarks",
+		a.complete_guarantee_money_amount AS "completeGuaranteeMoneyAmount",
+		a.complete_longway_commission_amount AS
+		"completeLongwayCommissionAmount",
+		a.contract_amount AS "contractAmount",
+		a.contract_settle_amount AS "contractSettleAmount",
+		a.midway_basicwork_add_amount AS "midwayBasicworkAddAmount",
+		a.midway_materials_auxiliary_amount AS "midwayMaterialsAuxiliaryAmount",
+		a.midway_materials_standard_amount AS "midwayMaterialsStandardAmount",
+		a.midway_material_carry_cost_amount AS
+		"midwayMaterialCarryCostAmount",
+		a.midway_qc_check_punish_amount AS "midwayQcCheckPunishAmount",
+		a.midway_sand_cement_amount AS "midwaySandCementAmount",
+		a.midway_switch_panel_amount AS "midwaySwitchPanelAmount",
+		a.midway_worker_salary_amount AS "midwayWorkerSalaryAmount",
+		a.reward_amount AS "rewardAmount",
+		a.punish_amount AS "punishAmount",
+		a.order_change_add_amount AS "orderChangeAddAmount",
+		a.order_change_reduce_amount AS "orderChangeReduceAmount",
+		a.settle_month AS "settleMonth",
+		ss.create_date AS  "createMonthDate"
+		FROM
+		`biz_pm_pre_industry_settle_bill` a
+		INNER
+		JOIN biz_order b on
+		a.order_id
+		= b.id
+		LEFT JOIN
+		biz_engineering_department en on en.id =
+		b.engin_depart_id
+		LEFT JOIN
+		<!-- biz_employee em on em.id = b.item_manager_id -->
+		biz_employee em on em.id =
+		a.pm_employee_id
+		LEFT JOIN biz_pm_pre_industry_settle_summary_bill ss on ss.id = a.pm_pre_industry_settle_summary_bill_id
+		<where>
+			<if test="storeId != null and storeId != ''">
+				AND b.store_id = #{storeId}
+			</if>
+			<if test="projectMode != null and projectMode != ''">
+				AND b.project_mode = #{projectMode}
+			</if>
+			<if test="enginDepartIds != null and enginDepartIds.size>0">
+				AND b.engin_depart_id in
+				<foreach item="item" index="index" collection="enginDepartIds"
+					open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+
+			<if test="orderNum != null and orderNum != ''">
+				AND b.order_number = #{orderNum}
+			</if>
+			<if test="customerName != null and customerName != ''">
+				AND b.customer_name LIKE
+				<if test="dbName == 'oracle'">'%'||#{customerName}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{customerName}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{customerName},'%')</if>
+			</if>
+			<if test="itemCustomer != null and itemCustomer != ''">
+				AND em.realName LIKE
+				<if test="dbName == 'oracle'">'%'||#{itemCustomer}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{itemCustomer}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{itemCustomer},'%')</if>
+			</if>
+			<if
+				test="pmPreIndustrySettleBillCode != null and pmPreIndustrySettleBillCode != ''">
+				AND a.pm_pre_industry_settle_bill_code =
+				#{pmPreIndustrySettleBillCode}
+			</if>
+			<if test="settleBillType != null and settleBillType != ''">
+				AND a.settle_bill_type = #{settleBillType}
+			</if>
+			<if test="statusList != null and statusList.size>0">
+				AND a.status in
+				<foreach item="item" index="index" collection="statusList"
+					open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+
+			<if test="createSettleStartDate != null and createSettleEndDate != null">
+				AND a.create_date BETWEEN #{createSettleStartDate} AND #{createSettleEndDate}
+			</if>
+
+			<if test="createSettleMonthStartDate != null and createSettleMonthEndDate != null">
+			   AND ss.create_date BETWEEN #{createSettleMonthStartDate} AND #{createSettleMonthEndDate}
+			</if>
+
+			<if test="settleMonth != null and settleMonth != ''">
+				AND  ss.settle_month = #{settleMonth}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.create_date DESC
+			</otherwise>
+		</choose>
+	</select>
+
+	<update id="updateSettleCategorySummaryStatusByParam"
+		parameterType="java.util.Map">
+		update biz_pm_settle_category_summary set
+		settle_status =
+		#{settleStatus},
+		settle_status_datetime = #{settleStatusDatetime}
+		where
+		pm_settle_bill_id =#{settleBillId}
+		and order_id = #{orderId}
+	</update>
+
+	<update id="updateSettleCategoryStatusByParam" parameterType="java.util.Map">
+		UPDATE biz_pm_settle_category_detail a,
+		(
+		SELECT
+		b.id
+		FROM
+		biz_pm_settle_category_summary b
+		WHERE
+		b.order_id = #{orderId}
+		AND
+		b.pm_settle_bill_id = #{settleBillId}
+		AND b.settle_status =
+		#{settleStatus}
+		) c
+		SET a.settle_status = #{settleStatus},
+		settle_status_datetime =#{settleStatusDatetime}
+		WHERE
+		a.pm_settle_category_summary_id = c.id
+	</update>
+
+	<select id="queryCountByParam" parameterType="java.util.Map"
+		resultType="int">
+		SELECT
+		count(*)
+		FROM
+		biz_pm_pre_industry_settle_bill a
+		INNER
+		JOIN biz_order b on a.order_id = b.id
+		WHERE
+		a.STATUS = #{status}
+		AND
+		b.store_id = #{storeId}
+		AND b.project_mode = #{projectMode}
+	</select>
+
+	<select id="querySummaryBillCountByParam" parameterType="java.util.Map"
+		resultType="int">
+		SELECT count(*)
+		FROM biz_pm_pre_industry_settle_summary_bill
+		a
+		where
+		a.status = #{status}
+		and a.store_id = #{storeId}
+		and
+		a.settle_month = #{settleMonth}
+	</select>
+
+	<select id="querySettleSummaryBillByParam" parameterType="java.util.Map"
+		resultType="cn.damei.entity.modules.BizPmPreIndustrySettleSummaryBill">
+		SELECT
+		GROUP_CONCAT(a.id) as "settleBillId",
+		b.store_id AS "storeId",
+		b.engin_depart_id AS "enginDepartId",
+		a.pm_employee_id AS
+		"pmEmployeeId",
+		sum(a.contract_amount) AS
+		"contractAmount",
+		SUM(a.midway_qc_check_punish_amount) AS
+		"midwayQcCheckPunishAmount",
+		SUM(a.reward_amount) AS "rewardAmount",
+		SUM(a.punish_amount) AS
+		"punishAmount",
+		SUM(a.order_change_add_amount)
+		AS
+		"orderChangeAddAmount",
+		SUM(a.order_change_reduce_amount) AS
+		"orderChangeReduceAmount",
+		sum(a.midway_basicwork_add_amount) AS
+		"midwayBasicworkAddAmount",
+		SUM(a.midway_materials_standard_amount) AS
+		"midwayMaterialsStandardAmount",
+		sum(a.midway_materials_auxiliary_amount) AS
+		"midwayMaterialsAuxiliaryAmount",
+		sum(a.midway_sand_cement_amount) AS
+		"midwaySandCementAmount",
+		sum(a.midway_switch_panel_amount) AS
+		"midwaSwitchPanelAmount",
+		sum(a.midway_worker_salary_amount) AS
+		"midwayWorkerSalaryAmount",
+		sum(a.midway_material_carry_cost_amount) AS
+		"midwayMaterialCarryCostAmount",
+		sum(a.complete_guarantee_money_amount) AS
+		"completeGuaranteeMoneyAmount",
+		sum(a.complete_longway_commission_amount) AS
+		"completeLongwayCommissionAmount",
+		sum(a.contract_settle_amount) AS
+		"contractSettleAmount",
+		sum(a.real_settle_amount) AS "realSettleAmount"
+		FROM
+		biz_pm_pre_industry_settle_bill a
+		LEFT JOIN biz_order b ON
+		a.order_id = b.id
+		WHERE
+		b.store_id = #{storeId}
+		AND a.`status` =
+		#{status}
+		AND a.id in
+		<foreach item="item" index="index" collection="list" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+		GROUP BY
+		b.store_id,
+		b.engin_depart_id,
+		a.pm_employee_id
+	</select>
+
+	<update id="updateBatchSettleBillStatus" parameterType="java.util.Map">
+		update biz_pm_pre_industry_settle_bill set
+		status=#{status},
+		status_operator_employee_id=#{statusOperatorEmployeeId},
+		status_datetime = #{statusDatetime},
+		status_describe =
+		#{statusDescribe}
+		where id in
+		<foreach collection="updateSettleBilllist" index="index" item="item"
+			separator="," open="(" close=")">
+			#{item}
+		</foreach>
+	</update>
+
+	<update id="updateBatchCateGorgSummaryStatus" parameterType="java.util.Map">
+		update biz_pm_settle_category_summary a,
+		(
+		SELECT b.id,b.order_id FROM
+		biz_pm_pre_industry_settle_bill b where b.id
+		in
+		<foreach collection="updateSettleBilllist" index="index" item="item"
+			separator="," open="(" close=")">
+			#{item}
+		</foreach>
+		) c set a.settle_status =
+		#{status},a.settle_status_datetime=#{statusDatetime} where a.order_id
+		= c.order_id and
+		a.pm_settle_bill_id = c.id
+	</update>
+
+	<update id="updateBatchCateGorgStatus" parameterType="java.util.Map">
+		UPDATE biz_pm_settle_category_detail a ,(
+		SELECT b.id FROM
+		biz_pm_settle_category_summary b INNER JOIN
+		biz_pm_pre_industry_settle_bill c on b.pm_settle_bill_id = c.id and
+		b.order_id = c.order_id
+		where c.id in
+		<foreach collection="updateSettleBilllist" index="index" item="item"
+			separator="," open="(" close=")">
+			#{item}
+		</foreach>
+		) d set a.settle_status =
+		#{status},a.settle_status_datetime=#{statusDatetime}
+		where a.pm_settle_category_summary_id = d.id
+	</update>
+
+	<!--批量更新关联字段 -->
+	<update id="updateBatchByRelate" parameterType="java.util.List">
+		update biz_pm_pre_industry_settle_bill set
+		pm_pre_industry_settle_summary_bill_id=
+		<foreach collection="list" item="item" index="index"
+			separator=" " open="case ID" close="end">
+			when #{item.id} then
+			#{item.pmPreIndustrySettleSummaryBillId}
+		</foreach>
+		where id in
+		<foreach collection="list" index="index" item="item"
+			separator="," open="(" close=")">
+			#{item.id}
+		</foreach>
+	</update>
+</mapper>

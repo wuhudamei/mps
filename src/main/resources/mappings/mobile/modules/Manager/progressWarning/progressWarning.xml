@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace = "cn.damei.dao.mobile.Manager.ProgressWarningDao">
+	<select id = "findAllDelayOrderId" resultType = "String">
+	SELECT a.order_id FROM biz_node_plan a 
+	LEFT JOIN biz_construction_schedule b ON a.construction_schedule_id = b.id
+	WHERE a.order_id IN (
+	SELECT a.id FROM biz_order a WHERE a.item_manager_id = #{0} and a.order_status_number &lt; 340
+	) 
+	AND a.construction_schedule_id IN(2,19) 
+	AND a.plan_done_date  &lt;  CURDATE() GROUP BY a.order_id
+	</select>
+	<select id="findPurchaseOrderId" resultType = "String">
+		SELECT a.order_id FROM biz_purchase a WHERE a.order_id IN 
+		(
+		<foreach collection="list" item="item" index="index" separator="," >
+				#{item}
+			</foreach>
+		)
+		 GROUP BY a.order_id
+	</select>
+
+	<select id="findDelayInfo" resultType = "cn.damei.entity.mobile.Manager.ProgressWarning">
+		SELECT a.id,a.order_id,COUNT(a.order_id),
+		(CASE WHEN  a.purchase_type=1 THEN 5 ELSE 1 END) AS 'purchaseType',b.id AS 'OrderId',b.community_name,b.build_number,b.build_unit,b.build_room,b.customer_name
+		FROM
+		(
+		SELECT a.id,a.order_id,a.purchase_type FROM biz_purchase a WHERE a.order_id IN 
+		<foreach collection="list" item="item" open="("  separator="," close=")" index="index">
+					#{item}
+		</foreach>
+		AND a.status IN (90,70) AND a.purchase_type IN (1,5) GROUP BY a.order_id,a.purchase_type ORDER BY a.order_id) a 
+		LEFT JOIN biz_order b ON b.id = a.order_id
+		GROUP BY a.order_id HAVING COUNT(a.order_id) = 1
+	</select>
+	
+	<select id = "findDelayInfoAdd" resultType = "cn.damei.entity.mobile.Manager.ProgressWarning">
+		SELECT a.purchase_type AS 'purchaseType',b.id AS 'orderId',b.community_name,b.build_number,b.build_unit,b.build_room,b.customer_name
+		FROM biz_purchase a,biz_order b 
+		WHERE a.purchase_type IN (1,5) 
+		AND b.id in 
+		<foreach collection="list" item="item" open="("  separator="," close=")" index="index">
+					#{item}
+		</foreach>
+		GROUP BY a.purchase_type
+	</select>
+	<select id="findCompleteOrderId" resultType = "String">
+		SELECT a.order_id FROM biz_purchase a WHERE a.order_id IN 
+		<foreach collection="list" item="item" open="("  separator="," close=")" index="index">
+					#{item}
+		</foreach>
+		AND a.status IN (70,90,21) GROUP BY a.order_id
+	</select>
+	
+	<select id="findDelayMaterialsSum" resultType="cn.damei.entity.mobile.Manager.ProgressWarning">
+		<!-- SELECT a.order_id,a.purchase_type,COUNT(a.purchase_type) as 'count' FROM (
+		SELECT a.order_id,a.purchase_type FROM biz_purchase a WHERE a.order_id IN 
+		<foreach collection="list" item="item" open="("  separator="," close=")" index="index">
+							#{item}
+				</foreach>
+		AND a.status NOT IN (70,90,21) AND a.purchase_type IN (1,5) GROUP BY a.order_id,a.purchase_type
+		) a GROUP BY  a.purchase_type -->
+		
+		SELECT a.orderid,COUNT(temp) as 'count',temp as 'purchaseType' FROM (	
+		SELECT a.orderid,a.temp FROM (	
+		SELECT a.id 'orderid',a.customer_name,c.purchase_type AS 'temp',b.purchase_type,(CASE WHEN  b.status IS NULL THEN 40 ELSE b.status END) status1 FROM biz_order a JOIN (SELECT a.purchase_type FROM biz_purchase a WHERE a.purchase_type IN (1,5) GROUP BY a.purchase_type) c
+		LEFT JOIN biz_purchase b ON a.id = b.order_id AND c.purchase_type = b.purchase_type
+		LEFT JOIN biz_node_plan e ON a.id = e.order_id 
+		WHERE a.id IN 
+		<foreach collection="list" item="item" open="("  separator="," close=")" index="index">
+									#{item}
+						</foreach>
+		AND e.node_index IN (2,3)) a WHERE a.status1 NOT IN (70,90,21) GROUP BY a.orderid,a.temp
+		) a GROUP BY a.temp
+		
+	</select>
+	
+	<select id="findDelayMaterialInfo" resultType="cn.damei.entity.mobile.Manager.ProgressWarning">
+		<!-- SELECT 
+		a.purchase_type AS 'purchaseType',b.id AS 'orderId',b.community_name,b.build_number,b.build_unit,b.build_room,b.customer_name,c.plan_done_date
+		FROM biz_purchase a 
+		LEFT JOIN biz_order b ON a.order_id = b.id
+		LEFT JOIN biz_node_plan c ON c.order_id = a.order_id 
+		<if test = "purchaseType ==5">
+		AND c.node_index = 3
+		</if>
+		<if test = "purchaseType ==1">
+		AND c.node_index = 2
+		</if>
+		WHERE a.order_id IN
+		<foreach collection="list" item="item" open="("  separator="," close=")" index="index">
+							#{item}
+		</foreach>
+		AND a.status NOT IN (70,90,21) AND a.purchase_type IN (#{purchaseType}) GROUP BY a.order_id,a.purchase_type -->
+		
+		SELECT a.temp AS 'purchaseType',a.orderid AS 'orderId',a.community_name,a.build_number,a.build_unit,a.build_room,a.customer_name,a.plan_done_date	 FROM (	
+		SELECT e.plan_done_date,a.id 'orderid',c.purchase_type AS 'temp',b.purchase_type,(CASE WHEN  b.status IS NULL THEN 40 ELSE b.status END) status1,a.community_name,a.build_number,a.build_unit,a.build_room,a.customer_name
+		FROM biz_order a JOIN (SELECT a.purchase_type FROM biz_purchase a WHERE a.purchase_type IN (#{purchaseType}) GROUP BY a.purchase_type) c
+		LEFT JOIN biz_purchase b ON a.id = b.order_id AND c.purchase_type = b.purchase_type
+		LEFT JOIN biz_node_plan e ON a.id = e.order_id
+		WHERE a.id IN 
+		<foreach collection="list" item="item" open="("  separator="," close=")" index="index">
+							#{item}
+		</foreach>
+		<if test = "purchaseType ==5">
+		AND e.node_index = 3
+		</if>
+		<if test = "purchaseType ==1">
+		AND e.node_index = 2
+		</if>
+		) a 
+		WHERE a.status1 NOT IN (70,90,21) and a.plan_done_date  &lt;  CURDATE() GROUP BY a.orderid,a.temp
+	</select>
+	<select id="findNoPurchaseInfo" resultType="cn.damei.entity.mobile.Manager.ProgressWarning">
+		 SELECT 
+		 a.id AS 'orderId',a.community_name,a.build_number,a.build_unit,a.build_room,a.customer_name,b.plan_done_date 
+		 ,1 AS 'purchaseType' FROM biz_order a 
+		 LEFT JOIN biz_node_plan b ON a.id = b.order_id WHERE b.node_index = 2
+		 AND a.id in 
+		<foreach collection="list" item="item" open="("  separator="," close=")" index="index">
+							#{item}
+				</foreach> 
+		 UNION ALL
+		 SELECT 
+		 a.id AS 'orderId',a.community_name,a.build_number,a.build_unit,a.build_room,a.customer_name,b.plan_done_date 
+		 ,5 AS 'purchaseType' FROM biz_order a 
+		 LEFT JOIN biz_node_plan b ON a.id = b.order_id WHERE b.node_index = 2
+		 AND a.id IN
+		 <foreach collection="list" item="item" open="("  separator="," close=")" index="index">
+							#{item}
+				</foreach>
+	
+	
+	</select>
+	<select id="findDelayMaterialsSumInfo" resultType="cn.damei.entity.mobile.Manager.Progress">
+		SELECT a.orderid as 'orderId',a.temp as 'purchaseType' FROM (	
+		SELECT a.id 'orderid',a.customer_name,c.purchase_type AS 'temp',b.purchase_type,(CASE WHEN  b.status IS NULL THEN 40 ELSE b.status END) status1 FROM biz_order a JOIN (SELECT a.purchase_type FROM biz_purchase a WHERE a.purchase_type IN (1,5) GROUP BY a.purchase_type) c
+		LEFT JOIN biz_purchase b ON a.id = b.order_id AND c.purchase_type = b.purchase_type
+		LEFT JOIN biz_node_plan e ON a.id = e.order_id 
+		WHERE a.id IN 
+		 <foreach collection="list" item="item" open="("  separator="," close=")" index="index">
+									#{item}
+						</foreach>
+		AND e.node_index IN (2,3) and e.plan_done_date  &lt; CURDATE()) a WHERE a.status1 NOT IN (70,90,21)  GROUP BY a.orderid,a.temp
+	</select>
+	
+	<select id="findDelayMaterialsMiss" resultType="cn.damei.entity.mobile.Manager.Progress">
+		SELECT a.order_id,a.purchase_type FROM biz_purchase a WHERE a.order_id IN 
+		 <foreach collection="list" item="item" open="("  separator="," close=")" index="index">
+									#{item}
+			</foreach>
+		AND a.purchase_type IN(1,5) AND a.status IN (70,90) GROUP BY a.order_id,a.purchase_type
+		
+	
+	</select>
+	
+	
+</mapper>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.mobile.Worker.GuarMoneyDao">
+
+	<select id="queryGuarMoney" parameterType="java.lang.Integer" resultType="cn.damei.entity.mobile.Worker.GuarMoney">
+		select a.deduct_time as "deductTime",a.guarantee_money_amount as "guaranteeMoneyAmount",b.item_customer as "itemCustomer",
+				b.customer_message as "customerMessage",b.customer_name as "customerName"
+		from biz_guarantee_money a
+		left join biz_order_taskpackage b on a.order_taskpackage_id = b.id
+		where a.employee_id = #{employeeId} and a.is_deduct = '1' and a.guarantee_money_amount > 0
+	</select>
+
+	<select id="queryGuarMoneyTotalAmount" parameterType="java.lang.Integer" resultType="java.lang.Double">
+		select IFNULL(SUM(b.guarantee_money_amount),0) from (
+			select a.guarantee_money_amount
+			from biz_guarantee_money a
+			where a.employee_id = #{employeeId} and a.is_deduct = '1' and a.guarantee_money_amount > 0
+		) b
+	</select>
+</mapper>

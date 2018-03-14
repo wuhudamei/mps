@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizComplaintProblemItemDao">
+    
+	<sql id="bizComplaintProblemItemColumns">
+		a.id AS "id",
+		a.store_id AS "storeId",
+		a.complaint_problem_type_id AS "complaintProblemTypeId",
+		a.item_name AS "itemName",
+		a.response_time AS "responseTime",
+		a.execute_time_limit AS "executeTimeLimit",
+		a.special_time_limit AS "specialTimeLimit",
+		a.deduct_score AS "deductScore",
+		a.punish_money AS "punishMoney",
+		a.item_remarks AS "itemRemarks",
+		a.is_enabled AS "isEnabled",
+		a.remarks AS "remarks",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="bizComplaintProblemItemJoins">
+	</sql>
+    
+	<select id="get" resultType="BizComplaintProblemItem">
+		SELECT 
+			<include refid="bizComplaintProblemItemColumns"/>
+		FROM biz_complaint_problem_item a
+		<include refid="bizComplaintProblemItemJoins"/>
+		WHERE a.id = #{id}
+	</select>
+		<!--根据类型ID查询这个类型下面的所有事项 -->
+	<select id="getcomplaintProblemTypeId" resultType="BizComplaintProblemItem">
+		SELECT 
+			<include refid="bizComplaintProblemItemColumns"/>
+		FROM biz_complaint_problem_item a
+		<include refid="bizComplaintProblemItemJoins"/>
+		WHERE  a.complaint_problem_type_id = #{complaintProblemTypeId}
+	</select>
+		<!--根据事项ID查询事项 -->
+	<select id="getcomplaintProblemId" resultType="BizComplaintProblemItem">
+		SELECT 
+			<include refid="bizComplaintProblemItemColumns"/>
+		FROM biz_complaint_problem_item a
+		<include refid="bizComplaintProblemItemJoins"/>
+		WHERE  a.id = #{itemId}
+	</select>
+	
+	<select id="findList" resultType="BizComplaintProblemItem">
+		SELECT
+		a.id AS "id",
+		a.store_id AS "storeId",
+		b.type_name AS "typeName",
+		a.item_name AS "itemName",
+		a.response_time AS "responseTime",
+		b.id as "complaintProblemTypeId",
+		a.execute_time_limit AS "executeTimeLimit",
+		a.special_time_limit AS "specialTimeLimit",
+		a.deduct_score AS "deductScore",
+		a.punish_money AS "punishMoney",
+		a.item_remarks AS "itemRemarks",
+		a.is_enabled AS "isEnabled",
+		a.remarks AS "remarks",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag",
+		c.templat_name as "packName",
+		b.deal_person_type as "dealPersonType",
+		COUNT(a.id) as complaintProblemTimes
+		FROM
+		`biz_complaint_problem_item` a
+		INNER JOIN biz_complaint_problem_type b ON a.complaint_problem_type_id = b.id
+		and b.is_enabled = 1
+		LEFT JOIN biz_task_package_templat c on b.task_package_templat_id = c.id
+		where 1=1
+		<if test="storeId!=null and storeId!=''">
+		and b.store_id = #{storeId}
+		</if>
+		<if test="complaintProblemTypeId!=null and complaintProblemTypeId!=''">
+		and b.id = #{complaintProblemTypeId}
+
+		</if>
+		<if test="startCreateTime!=null and startCreateTime!=''">
+			and a.create_date  &gt;= #{startCreateTime}
+		</if>
+		<if test="endCreateTime!=null and endCreateTime!=''">
+			and a.create_date  &lt;= #{endCreateTime}
+		</if>
+		group by a.store_id,b.id
+		
+	</select>
+	
+	<select id="findAllList" resultType="BizComplaintProblemItem">
+		SELECT 
+			<include refid="bizComplaintProblemItemColumns"/>
+		FROM biz_complaint_problem_item a
+		<include refid="bizComplaintProblemItemJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="queryComplaintProblemItem" resultType="BizComplaintProblemItem">
+				SELECT
+				ocp.id AS complaintproblemid,
+				cpt.id AS complaintProblemTypeId,
+				cpt.type_name AS typeName,
+			
+				cpi.id AS itemid,
+				cpi.item_name AS itemName
+			FROM
+				biz_order_complaint_problem ocp,
+				biz_complaint_problem_type cpt,
+				biz_order_complaint_problem_item ocpi,
+				biz_complaint_problem_item cpi
+			WHERE
+				ocp.complaint_problem_type_id = cpt.id
+			AND ocpi.order_complaint_problem_id = ocp.id
+			AND ocpi.complaint_problem_item_id = cpi.id
+				<if test="id!=null and id!=''">
+			and ocp.id=${id}		
+		</if>
+	
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO biz_complaint_problem_item(
+
+			store_id,
+			complaint_problem_type_id,
+			item_name,
+			response_time,
+			execute_time_limit,
+			special_time_limit,
+			deduct_score,
+			punish_money,
+			item_remarks,
+			is_enabled,
+			remarks,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag
+		) VALUES (
+
+			#{storeId},
+			#{complaintProblemTypeId},
+			#{itemName},
+			#{responseTime},
+			#{executeTimeLimit},
+			#{specialTimeLimit},
+			#{deductScore},
+			#{punishMoney},
+			#{itemRemarks},
+			#{isEnabled},
+			#{remarks},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE biz_complaint_problem_item SET 	
+			store_id = #{storeId},
+			complaint_problem_type_id = #{complaintProblemTypeId},
+			item_name = #{itemName},
+			response_time = #{responseTime},
+			execute_time_limit = #{executeTimeLimit},
+			special_time_limit = #{specialTimeLimit},
+			deduct_score = #{deductScore},
+			punish_money = #{punishMoney},
+			item_remarks = #{itemRemarks},
+			is_enabled = #{isEnabled},
+			remarks = #{remarks},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE biz_complaint_problem_item SET 
+			del_flag = #{DEL_FLAG_DELETE}
+			, is_enabled=#{isEnabled}
+		WHERE id = #{id}
+	</update>
+
+
+	<select id="findTypeMapByStoreId" parameterType="String" resultType="map">
+
+		SELECT
+			a.id as "typeId",
+			a.type_name as "typeName"
+		FROM
+			biz_complaint_problem_type a
+		WHERE
+			a.store_id =#{storeId}
+
+		and a.is_enabled=1
+
+
+	</select>
+</mapper>

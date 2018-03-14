@@ -1,0 +1,445 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="cn.damei.dao.mobile.Manager.ApplySwitchPanelDao">
+
+
+	<sql id="allOrderColumns">
+
+		a.id As "id" ,
+		a.item_manager_id As "itemManagerId" ,
+		a.customer_name AS "customerName" ,
+		a.community_name AS "communityName"
+		,
+		a.build_number AS "buildNumber" ,
+		a.build_unit AS "buildUnit" ,
+	 	a.is_scrap AS "isScrap",
+		a.build_room As "buildRoom" ,
+		a.contract_start_date AS
+		"contractStartDate",
+		a.actual_start_date AS "actualStartDate",
+		a.contract_time AS "contractTime",
+		a.order_status_description AS
+		"orderStatus"
+
+	</sql>
+
+
+
+	<!-- 根据项目经理id查询订单 订单状态有范围 -->
+	<select id="getOrderListForSwitchPanelByManagerId"
+		parameterType="int"
+		resultType="cn.damei.entity.mobile.Manager.SwitchPanelOrderVo">
+
+
+		SELECT
+		<include refid="allOrderColumns" />
+		from biz_order a where a.item_manager_id =#{itemManagerId} AND
+		a.order_status_number &lt;300
+order by a.create_date desc
+
+	</select>
+
+
+
+
+
+	<!-- 根据登录的项目经理id 查询门店id 再根据门店id 查询门店下的开关面板 -->
+	<!-- 更新为 根据订单id -->
+	<select id="selectSwitchPanelByStoreId" parameterType="int"
+		resultType="cn.damei.entity.mobile.Manager.SwitchPanelVo">
+		SELECT
+		a.id AS "id",
+		a.main_materials_name AS "switchPanelName",
+		a.main_materials_no AS "switchPanelCode",
+		b.label AS "measurementUnit",
+		a.pic_url AS "picUrl",
+		a.specifications AS "specification",
+		a.`status` AS "status",
+		a.store_id AS "storeId",
+		a.category_id AS "categoryId",
+		a.brands AS "brands",
+		a.remarks AS "remarks",
+		a.is_counted as "isCount",
+		w.effectiveDate as "effectiveDate",
+		d.labor_price as "price"
+		FROM
+		biz_main_materials a
+		INNER JOIN (
+		SELECT
+		p.main_materials_id,
+		MAX(p.effective_date) AS "effectiveDate"
+		FROM
+		biz_main_materials_supplier_rel p where p.effective_date &lt; NOW()
+		and p.del_flag =0
+		GROUP BY
+		p.main_materials_id
+		) w ON a.id = w.main_materials_id
+		INNER JOIN sys_dict b ON A.measurement_unit = B.`value`
+		INNER JOIN biz_main_materials_supplier_rel d ON a.id = d.main_materials_id
+		and d.effective_date = w.effectiveDate
+		AND B.type = "biz_material_unit"
+		AND a.store_id = (
+		SELECT
+		E.store_id
+		FROM
+		biz_order E
+		WHERE
+		E.ID =#{_parameter}
+		)
+		AND a.`status` = '1'
+		ORDER BY  case WHEN IFNULL(a.sort_index,'')='' THEN 0 else 1 end DESC , 
+		a.sort_index asc, a.update_date asc
+
+	</select>
+
+
+
+
+	<!-- 保存采购单 -->
+	<insert id="savePurchase"
+		parameterType="cn.damei.entity.mobile.Manager.PurchaseVo">
+		<selectKey resultType="java.lang.Integer" keyProperty="id"
+			order="AFTER">
+			SELECT LAST_INSERT_ID();
+		</selectKey>
+
+		INSERT INTO biz_purchase (
+		id ,
+		order_id,
+		create_date,
+		purchase_code,
+		purchase_type,
+		apply_receive_time,
+		apply_employee,
+		apply_time,
+		remarks,
+		total_price,
+		status,
+		over_number,
+		over_reason_type,
+		over_reason_words,
+		purchase_count_total
+
+
+		)
+		values(
+
+		#{id},
+		#{orderId},
+		#{createDate},
+		#{purchaseCode},
+		#{purchaseType},
+		#{hopeForTime},
+		#{applyPerson},
+		#{applyTime},
+		#{remarks},
+		#{AuxiliaryAllMoney},
+		#{status},
+		#{overCount},
+		#{overReasonType},
+		#{overWords},
+		#{purchaseCountTotal}
+		)
+	</insert>
+<update id="updatePurchaseByid" parameterType="cn.damei.entity.mobile.Manager.PurchaseVo">
+update biz_purchase set over_reason_type = #{overReasonType} , over_reason_words = #{overWords} where id = #{id}
+
+</update>
+
+
+
+
+
+	<select id="selectstoreIdByManagerId" parameterType="int"
+		resultType="int">
+		SELECT
+		E.storeId
+		FROM
+		biz_employee E
+		WHERE
+		E.ID = #{managerId}
+
+	</select>
+
+
+
+	<!-- 给辅料对象赋值 根据项目经理id -->
+	<select id="selectAttributeForSwitchPanel"
+		parameterType="cn.damei.entity.mobile.Manager.SwitchPanelVo"
+		resultType="cn.damei.entity.mobile.Manager.SwitchPanelVo">
+		SELECT
+		a.id AS "id",
+		a.main_materials_name AS
+		"switchPanelName",
+		a.main_materials_no AS "switchPanelCode",
+		b.label AS
+		"measurementUnit",
+		a.pic_url AS "picUrl",
+		a.specifications AS
+		"specification",
+		a.`status` AS "status",
+		a.store_id AS "storeId",
+		d.labor_price as "price"
+
+
+		FROM
+		biz_main_materials a,
+		sys_dict b,
+		biz_main_materials_supplier_rel d
+		WHERE
+		a.id=d.main_materials_id and
+		a.store_id = (
+		SELECT
+		E.store_id
+		FROM
+		biz_order E
+		WHERE
+		E.ID =
+		#{orderId}
+		)
+		and a.id = #{id}
+
+		AND a.`status` = '1'
+		AND
+		A.measurement_unit = B.`value`
+		AND B.type = "biz_material_unit"
+
+	</select>
+
+
+
+	<!-- 采==============购=====================单================的====================编==================号 -->
+
+
+	<!-- 得到编号组成码 -->
+	<select id="getCode"
+		resultType="cn.damei.entity.mobile.Manager.PurchaseCode">
+		SELECT a.id AS "id", a.purchase_code AS "purchaseCode"
+		,a.auxiliary_date AS
+		"auxiliaryDate" from biz_purchase_increNum a where a.id = 2 ;
+
+	</select>
+	<!-- 更新辅料编号生成码规则 -->
+	<select id="updateCode"
+		parameterType="cn.damei.entity.mobile.Manager.PurchaseCode">
+		UPDATE biz_purchase_increNum SET
+		purchase_code=#{purchaseCode}
+		,auxiliary_date =#{auxiliaryDate} where
+		id =#{id}
+
+	</select>
+	<!-- 采==============购=====================单================的====================编==================号 -->
+
+
+
+
+	<insert id="saveSwitchPanel"
+		parameterType="cn.damei.entity.mobile.Manager.SwitchPanelVo">
+
+		INSERT INTO biz_purchase_main_mate (
+		purchase_id,
+		order_id,
+		main_mate_code,
+		main_mate_count,
+		main_materials_name,
+		specifications,
+		measurement_unit,
+		pic_url,
+		category_id,
+		received_main_mate_count,
+		owed_main_mate_count,
+		brands
+
+		)values(
+		#{purchaseId},
+		#{orderId},
+		#{switchPanelCode},
+		#{Count},
+		#{switchPanelName},
+		#{specification},
+		#{measurementUnit},
+		#{picUrl},
+		#{categoryId},
+		#{receivedCount},
+		#{owedCount},
+		#{brands}
+
+		)
+
+
+
+
+	</insert>
+
+	<!-- ================================================开关面板申请记录表======================================================== -->
+
+
+
+
+	<!-- 根据orderId 查询所有采购单 : 编号: 状态:进场日期 : 申请时间 顾客信息 -->
+	<select id="selectPurchaseByOrderId" parameterType="int"
+		resultType="cn.damei.entity.mobile.Manager.PurchaseVo">
+		
+		SELECT
+			a.id AS "id",
+			a.purchase_code AS "purchaseCode",
+			a.apply_receive_time AS "hopeForTime",
+			a.apply_time AS "applyTime",
+			a.status_describe AS "statusDescribe",
+			b.community_name AS "communityName",
+			b.build_number AS "buildNumber",
+			b.build_unit AS "buildUnit",
+			b.build_room AS "buildRoom",
+			b.customer_name AS "customerName",
+			c.label AS "status",
+			a.`status` AS "statusId"
+		FROM
+			biz_purchase a
+		
+		INNER JOIN biz_order b ON a.order_id = b.id
+		LEFT JOIN sys_dict c ON a.`status` = c.`value`
+		AND c.type = 'purchase_status'
+		WHERE
+			a.purchase_type = '2'
+		AND a.order_id = #{orderId}
+		ORDER BY
+			a.apply_time DESC
+
+	</select>
+	<!-- 根据orderId 查询所有采购单 : 编号: 状态:进场日期 : 申请时间 顾客信息 -->
+	<select id="selectPurchaseByOrderIdLimitOneOrderByTime" parameterType="int"
+		resultType="cn.damei.entity.mobile.Manager.PurchaseVo">
+		SELECT
+		a.id AS "id",
+		a.purchase_code AS "purchaseCode",
+		a.apply_receive_time AS "hopeForTime",
+		a.apply_time AS "applyTime",
+		b.community_name AS "communityName",
+		b.build_number AS "buildNumber",
+		b.build_unit AS "buildUnit",
+		b.build_room AS "buildRoom",
+		b.customer_name AS "customerName",
+		c.label AS "status"
+		FROM
+		biz_purchase
+		a,
+		biz_order b,
+		sys_dict c
+
+		WHERE
+		a.order_id = b.id
+		AND a.purchase_type =
+		'2'
+		AND a.order_id = #{orderId}
+		AND a.`status` = c.`value`
+
+		AND c.type =
+		'purchase_status'
+		order by a.apply_time desc
+		limit 1
+
+	</select>
+
+
+
+
+
+	<!-- 根据采购单id 查询采购单详情 开关面板 -->
+
+	<select id="selectPurchaseDetailsByPurchaseCode" parameterType="int"
+		resultType="cn.damei.entity.mobile.Manager.PurchaseDetailsVo">
+
+		SELECT
+			a.purchase_code AS "purchaseCode",
+			a.total_price AS 'totalMoney',
+			a.apply_receive_time AS "hopeForTime",
+			a.status_describe AS "statusDescribe",
+			a.`status` AS "statusId",
+			e.label AS "status",
+			b.main_mate_count AS "count",
+			d.main_materials_name AS "name",
+			d.specifications AS "specification",
+			d.pic_url AS "url",
+			c.labor_price AS "price",
+			d.brands AS "brand",
+			f.community_name AS "communityName",
+			f.build_number AS "buildNumber",
+			f.build_unit AS "buildUnit",
+			f.build_room AS "buildRoom",
+			f.customer_name AS "customerName",
+			f.id AS "orderId"
+		FROM
+			biz_purchase a,
+			biz_purchase_main_mate b,
+			biz_main_materials_supplier_rel c,
+			biz_main_materials d,
+			sys_dict e,
+			biz_order f
+		WHERE
+			a.id = #{_parameter}
+		AND a.purchase_type = '2'
+		AND b.purchase_id = a.id
+		AND d.main_materials_no = b.main_mate_code
+		AND d.id = c.main_materials_id
+		AND a.`status` = e.`value`
+		AND e.type = 'purchase_status'
+		AND d.`status` = '1'
+		AND a.order_id = f.id
+
+	</select>
+
+
+<select id="selectSwitchPanelCategoryId" resultType="int">
+SELECT ID FROM  biz_material_category WHERE CATEGORY_NAME LIKE "开关面板" and material_type_id =2;
+
+</select>
+
+<select id="selectOrderContractAreaAndTotalCount" parameterType="int" resultType="cn.damei.entity.mobile.Manager.PurchaseDetailsVo">
+
+SELECT
+	<!-- a.contract_area * 0.48 AS "contractAreaForApplySwitchPane", -->
+	CEIL(CASE WHEN a.contract_area &lt; 71 THEN 71 * 0.47 ELSE a.contract_area * 0.47 END) AS "contractAreaForApplySwitchPane",
+	IFNULL(sum(b.main_mate_count),0) AS "totalCount",
+	a.project_mode AS "projectMode"
+FROM
+	biz_order a
+LEFT JOIN biz_purchase c ON a.id = c.order_id
+LEFT JOIN biz_purchase_main_mate b ON b.purchase_id = c.id
+INNER JOIN biz_main_materials e ON b.main_mate_code = e.main_materials_no AND e.is_counted = 1
+where a.id = #{_parameter}
+AND c.`status` NOT IN (21)
+
+</select>
+
+
+<insert id="saveSwitchPanelPic" parameterType="cn.damei.entity.mobile.Manager.SwitchPanelPic">
+insert into biz_business_pic (
+business_type,
+business_id_int,
+pic_url,
+pic_datetime
+
+)values(
+
+#{bussinessType},
+#{relatedBussinessId},
+#{picUrl},
+#{picUpdateTime}
+
+
+)
+
+
+</insert>
+
+
+	<delete id="deletePurchaseById" parameterType="int" >
+
+		delete from biz_purchase  where id = #{_parameter}
+
+	</delete>
+
+
+
+</mapper>

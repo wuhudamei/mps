@@ -1,0 +1,30 @@
+打包名称：增量
+打包版本：V14.0-20170831-001（增量）
+
+
+一、功能变更：
+
+	1、辅料接口历史数据处理---轶博
+	2、小美返单修改状态---王硕
+
+
+二、更新文件：（增量）
+	1、替换文件夹名【辅料接口历史数据处理---轶博】内的【spring-quartz.xml】文件；
+	    替换路径在当前目录的文本【文件路径.txt】文本内；
+	2、替换文件夹名【小美返单修改状态---王硕】内的【OrderReportQuarz.java】文件；
+	    替换路径在当前目录的文本【文件路径.txt】文本内；
+	3、替换文件夹名【小美返单修改状态---王硕】内的【OrderReportQuarz.class】文件；
+	    替换路径在当前目录的文本【文件路径.txt】文本内；
+
+四、执行脚本
+	1、执行文件夹名【辅料接口历史数据处理---轶博】内的【1_base_package_505_acceptance_interface_history_data.sql】文件；
+	2、执行文件夹名【辅料接口历史数据处理---轶博】内的【2_base_package_401_acceptance_interface_history_data.sql】文件；
+	3、执行文件夹名【辅料接口历史数据处理---轶博】内的【3_completion_acceptance_interface_history_data.sql】文件；
+
+
+	
+
+
+
+
+	 

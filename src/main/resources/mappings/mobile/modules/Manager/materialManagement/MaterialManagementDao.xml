@@ -1,0 +1,540 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="cn.damei.dao.mobile.Manager.MaterialManagementDao">
+
+
+	<sql id="allColumnsOfPackage">
+		a.id AS "id",
+		a.order_number AS "orderNumber",
+		a.contract_number AS "contractNumber",
+		a.customer_type AS "customerType",
+		a.customer_description AS "customerDescription",
+		a.customer_name AS "customerName",
+		a.customer_phone AS "customerPhone",
+		
+		a.customer_address AS "customerAddress",
+		a.community_name AS "communityName",
+		a.build_number AS "buildNumber",
+		a.build_unit AS "buildUnit",
+		a.build_room AS "buildRoom",
+		
+		a.map_coordinate AS "mapCoordinate",
+		a.sale_type AS "saleType",
+		a.area AS "area",
+		a.build_type AS "buildType",
+		a.house_type AS "houseType",
+		a.house_is_new AS "houseIsNew",
+		a.is_elevator AS "isElevator",
+		
+		a.designer_name AS "designerName",
+		a.designer_phone AS "designerPhone",
+		a.order_reporter_name AS "orderReporterName",
+		a.order_reporter_phone AS "orderReporterPhone",
+		a.service_name AS "serviceName",
+		a.service_phone AS "servicePhone",
+		
+		a.contract_start_date AS "contractStartDate",
+		a.contract_end_date AS "contractEndDate",
+		a.covered_area AS "coveredArea",
+		a.contract_area AS "contractArea",
+		a.contract_time AS "contractTime",
+		a.sign_contract_date AS "signContractDate",
+		
+		a.order_status_number AS "orderStatusNumber",
+		a.order_status_description AS "orderStatusDescription",
+		a.order_inspector AS "orderInspector",
+		a.item_manager AS "itemManager",
+		a.item_manager_id AS "itemManagerId",
+		a.store_id AS "storeId",
+		a.cus_manager AS "cusManager",
+		
+		a.orderTaskPack_status AS "orderTaskPackStatus",
+		a.actual_start_date AS "actualStartDate",
+		a.actual_end_date AS "actualEndDate",
+		a.sign_flag AS "signFlag",
+		a.remarks AS "remarks",
+		a.project_mode AS "projectMode"
+	
+
+	</sql>
+	
+	<!-- 通过项目经理id查询项目经理下所有的订单 -->
+	<select id="findOrderByItemManagerId"
+		parameterType="int"
+		resultType="cn.damei.entity.mobile.Manager.MaterialManagement">
+		SELECT
+		<include refid="allColumnsOfPackage" />,
+		(SELECT COUNT(1) FROM biz_order_confirm_startwork b WHERE b.order_id = a.id AND b.del_flag = 0) AS "allCount"
+		from biz_order a 
+		where
+			a.item_manager_id = #{itemManagerId} And a.order_status_number &lt; 300
+			
+		ORDER BY a.create_date DESC
+		
+		
+
+	</select>
+	
+	<!-- 通过订单id查询订单 -->
+	<select id="findOrderById"
+		parameterType="int"
+		resultType="cn.damei.entity.mobile.Manager.MaterialManagement">
+		SELECT
+		<include refid="allColumnsOfPackage" />
+		from biz_order a where a.id = #{id}
+	</select>
+	
+	<select id="findPhoneById" parameterType="int" resultType="java.lang.String">
+		SELECT phone from biz_employee where id=#{id}
+	</select>
+	
+	<sql id="orderMainMate">
+		b.id AS "id",
+		b.order_id AS "orderId",
+		b.main_mate_type AS "mainMateType",
+		b.position AS "position",
+		b.brand_combo AS "brandCombo",
+		b.model AS "model",
+		b.specification AS "specification",
+		b.unit AS "unit",
+		b.count AS "count",
+		b.includ_loss_count AS "includLossCount",
+		b.apply_counta AS "applyCounta",
+		b.remarks AS "remarks"
+	</sql>
+	<!-- 通过订单id查询订单主材表的墙砖 -->
+	<select id="findWallByOrderId" parameterType="int" resultType="cn.damei.entity.mobile.Manager.OrderMainMate">
+		SELECT
+		<include refid="orderMainMate"/>
+		from  biz_order_wall_floor_tile b where b.order_id = #{id} AND b.main_mate_type = '4'
+	</select>
+	<!-- 通过订单id查询订单主材表的地砖 -->
+	<select id="findFloorByOrderId" parameterType="int" resultType="cn.damei.entity.mobile.Manager.OrderMainMate">
+		SELECT
+		<include refid="orderMainMate"/>
+		from  biz_order_wall_floor_tile b where b.order_id = #{id} AND b.main_mate_type = '3'
+	</select>
+	
+	
+	
+	<!-- 得到编号组成码 -->
+	<select id="getCode" resultType="cn.damei.entity.mobile.Manager.PurchaseTwoCode">
+		SELECT a.id AS "id", a.purchase_code AS "purchaseCode" ,a.auxiliary_date AS "auxiliaryDate" from biz_purchase_increNum a  where a.id = 2;
+	</select>
+	<!-- 更新辅料编号生成码规则 -->
+	<select id="updateCode" parameterType="cn.damei.entity.mobile.Manager.PurchaseTwoCode">
+		UPDATE  biz_purchase_increNum SET purchase_code=#{purchaseCode} ,auxiliary_date =#{auxiliaryDate} where id =#{id}
+	</select>
+	
+	<!-- 保存采购单 -->
+	<insert id="savePurchase" parameterType="cn.damei.entity.mobile.Manager.Purchase">
+		<selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+			SELECT LAST_INSERT_ID();
+  		</selectKey>
+  		INSERT INTO biz_purchase (
+				id ,
+				order_id,
+				purchase_code,
+				purchase_type,
+				apply_receive_time,
+				apply_employee,
+				apply_time,
+				status,
+				status_describe,
+				remarks,
+				create_by,
+				create_date,
+				update_by,
+				update_date,
+				del_flag
+		)
+		values(
+				#{id},
+				#{orderId},
+				#{purchaseCode},
+				#{purchaseType},
+				#{applyReceiveTime},
+				#{applyEmployee},
+				#{applyTime},
+				#{status},
+				#{statusDescribe},
+				#{remarks},
+				#{createBy.id},
+				#{createDate},
+				#{updateBy.id},
+				#{updateDate},
+				#{delFlag}
+			
+		)
+	</insert>
+	
+	<!-- 通过订单主材表的id查询订单主材表 -->
+	<select id="findOrderMainMateById" parameterType="int" resultType="cn.damei.entity.mobile.Manager.OrderMainMate">
+		SELECT
+		<include refid="orderMainMate"/>
+		from  biz_order_wall_floor_tile b where b.id = #{id}
+	</select>
+	
+	<!-- 保存采购单主材表 -->
+	<insert id="savePurchaseMainMate" parameterType="cn.damei.entity.mobile.Manager.PurchaseMainMate">
+  		INSERT INTO biz_purchase_wall_floor_tile (
+				id ,
+				purchase_id,
+				main_mate_type,
+				position,
+				brand_combo,
+				model,
+				specification,
+				unit,
+				count,
+				includ_loss_count,
+				apply_counta,
+				create_date,
+				update_date,
+				remarks,
+				received_wall_floor_count,
+				owed_wall_floor_count
+		)
+		values(
+				#{id},
+				#{purchaseId},
+				#{mainMateType},
+				#{position},
+				#{brandCombo},
+				#{model},
+				#{specification},
+				#{unit},
+				#{count},
+				#{includLossCount},
+				#{applyCounta},
+				#{createDate},
+				#{updateDate},
+				#{remarks},
+				#{receivedWallFloorCount},
+				#{owedWallFloorCount}
+		)
+	</insert>
+	
+	<!-- 批量保存采购单主材表 -->
+	<insert id="savePurchaseMainMateAll" parameterType="java.util.List">
+  		INSERT INTO biz_purchase_wall_floor_tile (
+				id ,
+				purchase_id,
+				main_mate_type,
+				position,
+				brand_combo,
+				model,
+				specification,
+				unit,
+				count,
+				includ_loss_count,
+				apply_counta,
+				create_date,
+				update_date,
+				remarks,
+				del_flag,
+				received_wall_floor_count,
+				owed_wall_floor_count,
+				is_count_square,
+				unit_square,
+				apply_square
+		)
+		values
+		<foreach collection="list" item="item" index="index" separator="," >
+			(
+				#{item.id},
+				#{item.purchaseId},
+				#{item.mainMateType},
+				#{item.position},
+				#{item.brandCombo},
+				#{item.model},
+				#{item.specification},
+				#{item.unit},
+				#{item.count},
+				#{item.includLossCount},
+				#{item.applyCounta},
+				#{item.createDate},
+				#{item.updateDate},
+				#{item.remarks},
+				#{item.delFlag},
+				#{item.receivedWallFloorCount},
+				#{item.owedWallFloorCount},
+				#{item.isCountSquare},
+				#{item.unitSquare},
+				#{item.applySquare}
+			)
+		</foreach>
+	</insert>
+	
+	<!-- 保存图片到数据库 -->
+	<insert id="saveMainPic">
+		INSERT INTO biz_purchase_pic(
+			id,
+			purchase_id,
+			create_date,
+			pic_url
+		)VALUES (
+			#{id},
+			#{purchaseId},
+			#{createDate},
+			#{picUrl}
+		)
+	</insert>
+	<!-- 批量保存申请墙地砖图片 -->
+	<insert id="saveMainPicAll" parameterType="java.util.List">
+		INSERT INTO biz_purchase_pic(
+			id,
+			purchase_id,
+			pic_url,
+			create_date,
+			update_date,
+			del_flag
+		)VALUES 
+		<foreach collection="list" item="item" index="index" separator="," >
+			(
+				#{item.id},
+				#{item.purchaseId},
+				#{item.picUrl},
+				#{item.createDate},
+				#{item.updateDate},
+				#{item.delFlag}
+			)
+		</foreach>
+	</insert>
+	
+	<sql id="purchase">
+		c.id AS "id",
+		c.order_id AS "orderId",
+		c.purchase_code AS "purchaseCode",
+		c.purchase_type AS "purchaseType",
+		c.receiver_name AS "receiverName",
+		c.receiver_phone AS "receiverPhone",
+		c.apply_receive_time AS "applyReceiveTime",
+		c.apply_employee AS "applyEmployee",
+		c.apply_time AS "applyTime",
+		c.status AS "status",
+		c.total_price AS "totalPrice"
+	</sql>
+	<!-- 根据订单id查询采购单 -->
+	<select id="findPurchaseByOrderId"
+		parameterType="int"
+		resultType="cn.damei.entity.mobile.Manager.Purchase">
+		SELECT
+			<include refid="purchase"/>,
+			f.label AS "statusName"
+		from biz_purchase c 
+		LEFT JOIN sys_dict f ON f.`value` = c.`status`
+			AND f.type = 'purchase_status'
+			AND f.del_flag = '0'
+		where 
+			c.order_id = #{orderId} 
+			AND c.purchase_type = '5'
+		order by c.apply_time DESC
+	</select>
+	
+	<!-- 根据采购单编码查询采购单 -->
+	<select id="findPurchaseByPurchaseCode"
+		parameterType="int"
+		resultType="cn.damei.entity.mobile.Manager.Purchase">
+		SELECT
+			<include refid="purchase"/>,
+			f.label AS "statusName"
+		from biz_purchase c 
+		LEFT JOIN sys_dict f ON f.`value` = c.`status`
+			AND f.type = 'purchase_status'
+			AND f.del_flag = '0'
+		where c.id = #{0}
+	</select>
+	
+	<sql id="purchaseMainMate">
+		d.id AS "id",
+		d.purchase_id AS "purchaseId",
+		d.main_mate_type AS "mainMateType",
+		d.position AS "position",
+		d.brand_combo AS "brandCombo",
+		d.model AS "model",
+		a.attribute AS "attribute",
+		a.supplier_name AS "supplier",
+		d.specification AS "specification",
+		d.unit AS "unit",
+		d.count AS "count",
+		d.includ_loss_count AS "includLossCount",
+		d.apply_counta AS "applyCounta",
+		d.remarks AS "remarks"
+	</sql>
+			
+	<!-- 根据采购单id查询采购单主材表的墙砖 -->
+	<select id="findWallByPurchaseId"
+		parameterType="int"
+		resultType="cn.damei.entity.mobile.Manager.PurchaseMainMate">
+		SELECT
+		d.id AS "id",
+		d.purchase_id AS "purchaseId",
+		d.main_mate_type AS "mainMateType",
+		d.position AS "position",
+		d.brand_combo AS "brandCombo",
+		d.model AS "model",
+		m.mainMateTypeName AS "mainMateTypeName",
+<!-- 		d.attribute AS "attribute", -->
+<!-- 		d.supplier_name AS "supplier", -->
+		d.specification AS "specification",
+		d.unit AS "unit",
+		d.count AS "count",
+		d.includ_loss_count AS "includLossCount",
+		d.apply_counta AS "applyCounta",
+		d.remarks AS "remarks"
+		from biz_purchase_wall_floor_tile d
+		LEFT JOIN (SELECT b.`value`,b.label AS "mainMateTypeName" FROM sys_dict b WHERE b.type = 'main_material_type' AND b.del_flag = 0) m ON m.`value` = d.main_mate_type
+		where d.purchase_id = #{purchaseId} AND d.main_mate_type in (4,41,42,43,44,45,46) 
+	</select>
+	<!-- 根据采购单id查询采购单主材表的地砖 -->
+	<select id="findfloorByPurchaseId"
+		parameterType="int"
+		resultType="cn.damei.entity.mobile.Manager.PurchaseMainMate">
+		SELECT
+			d.id AS "id",
+		d.purchase_id AS "purchaseId",
+		d.main_mate_type AS "mainMateType",
+		d.position AS "position",
+		d.brand_combo AS "brandCombo",
+		d.model AS "model",
+		m.mainMateTypeName AS "mainMateTypeName",
+<!-- 		d.attribute AS "attribute", -->
+<!-- 		d.supplier_name AS "supplier", -->
+		d.specification AS "specification",
+		d.unit AS "unit",
+		d.count AS "count",
+		d.includ_loss_count AS "includLossCount",
+		d.apply_counta AS "applyCounta",
+		d.remarks AS "remarks"
+		from biz_purchase_wall_floor_tile d
+		LEFT JOIN (SELECT b.`value`,b.label AS "mainMateTypeName" FROM sys_dict b WHERE b.type = 'main_material_type' AND b.del_flag = 0) m ON m.`value` = d.main_mate_type
+		 where d.purchase_id = #{purchaseId} AND d.main_mate_type in (3,31,32,33) 
+	</select>
+	<sql id="purchasePic">
+		e.id AS "id",
+		e.purchase_id AS "purchaseId",
+		e.pic_url AS "picUrl"
+	</sql>
+	<!-- 根据采购单id查询采购单图片 -->
+	<select id="findPurchasePicByPurchaseId" parameterType="int" resultType="cn.damei.entity.mobile.Manager.PurchasePic">
+		SELECT
+		<include refid="purchasePic"/>
+		from biz_purchase_pic e where e.purchase_id = #{purchaseId}
+	</select>
+	<!-- 查询采购单状态 -->
+	<select id="findStatus" parameterType="String" resultType="String">
+		SELECT
+		f.label AS "label"
+		from sys_dict f where f.value = #{value} AND f.type = 'purchase_status' AND f.del_flag='0'
+	</select>
+	
+	
+	
+	<!-- 消息是否已查看 -->
+	<select id="findView" parameterType="cn.damei.entity.mobile.home.ViewLog" resultType="int">
+		SELECT
+			COUNT(1)
+		FROM
+			biz_business_view_log a
+		WHERE
+			a.business_id_int = #{businessIdInt}
+		AND a.business_type = #{businessType}
+		AND a.business_viewer_only_mark = #{businessViewerOnlyMark}
+		AND a.business_viewer_employee_id = #{businessViewerEmployeeId}
+	
+	</select>
+	
+	<!-- 如果未读则插入已读信息 -->
+	<insert id="insertView" parameterType="cn.damei.entity.mobile.home.ViewLog">
+		INSERT INTO biz_business_view_log(
+			id,
+			business_type,
+			business_id_int,
+			business_id_varchar,
+			business_view_datetime,
+			business_viewer_employee_id,
+			business_viewer_only_mark,
+			remarks,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag
+		) VALUES(
+			#{id},
+			#{businessType},
+			#{businessIdInt},
+			#{businessIdVarchar},
+			#{businessViewDatetime},
+			#{businessViewerEmployeeId},
+			#{businessViewerOnlyMark},
+			#{remarks},
+			#{createBy},
+			#{createDate},
+			#{updateBy},
+			#{updateDate},
+			#{delFlag}
+		)
+	
+	</insert>
+	
+	<!-- 查询该订单最新一次申请墙地砖的时间是否间隔有5分钟 并且是否已读 -->
+	<select id="findViewAndTime" parameterType="cn.damei.entity.mobile.Manager.Purchase" resultType="cn.damei.entity.mobile.Manager.Purchase">
+			SELECT
+				 
+				a.apply_time AS "applyTime",
+				(
+					SELECT
+						COUNT(1)
+					FROM
+						biz_business_view_log b
+					WHERE
+						a.id = b.business_id_int
+					AND b.business_type = '201'
+					AND b.business_viewer_only_mark = #{receiverPhone}
+					AND b.business_viewer_employee_id = #{applyEmployee}
+				) AS "count",
+					(
+						SELECT
+							COUNT(1)
+						FROM
+							biz_purchase f
+						WHERE
+							f.order_id = a.order_id
+						AND f.purchase_type = a.purchase_type
+						AND f.`status` NOT IN (21)
+					) AS purchaseCount
+			FROM
+				`biz_purchase` a
+			WHERE
+				a.order_id = #{orderId}
+			AND a.purchase_type = '5'
+			ORDER BY
+				a.create_date DESC
+			LIMIT 1
+	
+	</select>
+	
+	<!--  查询采购单(状态以及订单小区门牌号) -->
+	<select id="findOrderByPurchaseId" parameterType="int" resultType="cn.damei.entity.mobile.Manager.MaterialManagement">
+		SELECT
+			c.id AS "purchaseId",
+			c. STATUS AS "purchaseStatus",
+			a.id AS "orderId",
+			a.community_name AS "communityName",
+			a.build_number AS "buildNumber",
+			a.build_unit AS "buildUnit",
+			a.build_room AS "buildRoom",
+			a.customer_name AS "customerName",
+			a.customer_phone AS "customerPhone"
+		FROM
+			biz_purchase c
+		INNER JOIN biz_order a ON a.id = c.order_id
+		WHERE
+			c.id = #{0}
+	</select>
+	
+</mapper>
+   

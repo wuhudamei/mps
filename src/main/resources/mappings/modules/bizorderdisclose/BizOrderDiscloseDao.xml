@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizOrderDiscloseDao">
+    
+	<sql id="bizOrderDiscloseColumns">
+		a.ID AS "id",
+		a.ORDER_NUMBER AS "orderNumber",
+		a.CONTRACT_NUMBER AS "contractNumber",
+		a.CUSTOMER_TYPE AS "customerType",
+		a.CUSTOMER_DESCRIPTION AS "customerDescription",
+		a.CUSTOMER_NAME AS "customerName",
+		a.CUSTOMER_PHONE AS "customerPhone",
+		a.COMMUNITY_NAME AS "communityName",
+		a.BUILD_NUMBER AS "buildNumber",
+		a.BUILD_UNIT AS "buildUnit",
+		a.BUILD_ROOM AS "buildRoom",
+		a.MAP_COORDINATE AS "mapCoordinate",
+		a.SALE_TYPE AS "saleType",
+		a.AREA AS "area",
+		a.BUILD_TYPE AS "buildType",
+		a.HOUSE_TYPE AS "houseType",
+		a.HOUSE_IS_NEW AS "houseIsNew",
+		a.IS_ELEVATOR AS "isElevator",
+		a.DESIGNER_NAME AS "designerName",
+		a.DESIGNER_PHONE AS "designerPhone",
+		a.ORDER_REPORTER_NAME AS "orderReporterName",
+		a.ORDER_REPORTER_PHONE AS "orderReporterPhone",
+		a.SERVICE_NAME AS "serviceName",
+		a.SERVICE_PHONE AS "servicePhone",
+		a.CONTRACT_START_DATE AS "contractStartDate",
+		a.CONTRACT_END_DATE AS "contractEndDate",
+		a.COVERED_AREA AS "coveredArea",
+		a.CONTRACT_AREA AS "contractArea",
+		a.CONTRACT_TIME AS "contractTime",
+		a.SIGN_CONTRACT_DATE AS "signContractDate",
+		a.ORDER_STATUS_NUMBER AS "orderStatusNumber",
+		a.ORDER_STATUS_DESCRIPTION AS "orderStatusDescription",
+		a.ORDER_INSPECTOR AS "orderInspector",
+		a.CREATE_BY AS "createBy.id",
+		a.CREATE_DATE AS "createDate",
+		a.UPDATE_BY AS "updateBy.id",
+		a.UPDATE_DATE AS "updateDate",
+		a.REMARKS AS "remarks",
+		a.DEL_FLAG AS "delFlag",
+		a.ITEM_MANAGER AS "itemManager",
+		a.STORE_ID AS "storeId",
+		a.CUS_MANAGER AS "cusManager",
+		a.ORDERTASKPACK_STATUS AS "orderTaskPackStatus",
+		a.ACTUAL_START_DATE AS actualStartDate,
+		a.ACTUAL_END_DATE AS actualEndDate,
+		a.ITEM_MANAGER_ID AS "itemManagerId",
+		a.SIGN_FLAG AS "signFlag",
+		a.DELAY_TYPE AS "delayType",
+		a.ORDER_INSPECTOR_ID AS "orderInspectorId",
+		a.PROJECT_MODE AS "projectMode",
+		a.engin_depart_id as "engineDepartId",
+		a.detail_address as "detailAddress"
+	</sql>
+    
+	<select id="get" resultType="cn.damei.entity.modules.BizOrderDisclose">
+		SELECT 
+			<include refid="bizOrderDiscloseColumns"/>
+		FROM BIZ_ORDER a
+		WHERE a.ID = #{id}
+	</select>
+	
+	<select id="getByList" resultType="cn.damei.entity.modules.BizOrderDisclose">
+		SELECT 
+			<include refid="bizOrderDiscloseColumns"/>
+		FROM BIZ_ORDER a
+	</select>
+	
+	<select id="getByOrderId" resultType="cn.damei.entity.modules.BizOrderDisclose">
+		SELECT 
+			<include refid="bizOrderDiscloseColumns"/>
+		FROM BIZ_ORDER a
+		WHERE a.ID = #{0}
+	</select>
+	
+	<select id="findList" resultType="cn.damei.entity.modules.BizOrderDisclose">
+		SELECT 
+			<include refid="bizOrderDiscloseColumns"/>,
+			y.REALNAME AS "managerRealName",
+			d.DISCLOSE_DATE AS "discloseDate",
+			d.CREATE_DATE AS "disCreateDate",
+			d.ID AS "orderDiscloseId",
+			<!-- (SELECT COUNT(p.ID) FROM BIZ_ORDER_DISCLOSE_PIC p WHERE p.ORDER_DISCLOSE_ID = d.ID) AS "countPhoto", -->
+			s.name as "name"
+		FROM BIZ_ORDER a,BIZ_ORDER_DISCLOSE d,BIZ_EMPLOYEE y,sys_office s
+		<where>
+			a.ID = d.ORDER_ID 	
+			AND a.DEL_FLAG = #{DEL_FLAG_NORMAL}
+			AND y.ID = a.ITEM_MANAGER_ID
+			and s.id = a.STORE_ID
+			<!-- AND a.PROJECT_MODE = y.PROJECT_MODE -->
+			<if test="orderNumber != null and orderNumber != ''">
+				AND a.ORDER_NUMBER LIKE concat('%',#{orderNumber}, '%')
+			</if>
+			<if test="itemManager != null and itemManager != ''">
+				AND a.ITEM_MANAGER LIKE concat('%',#{itemManager}, '%')
+			</if>
+			<if test="projectMode != null and projectMode != ''">
+				AND a.PROJECT_MODE = #{projectMode}
+			</if>
+			<if test="storeId != null and storeId != ''">
+				AND a.STORE_ID = #{storeId}
+			</if>
+			<if test="discloseBegin != null and discloseBegin != ''">
+				AND d.DISCLOSE_DATE &gt;= #{discloseBegin}
+			</if>
+			<if test="discloseEnd != null and discloseEnd != ''">
+				AND d.DISCLOSE_DATE &lt;= #{discloseEnd}
+			</if>
+			<if test="engineDepartId != null and engineDepartId != ''">
+				AND a.engin_depart_id = #{engineDepartId}
+			</if>
+			<!-- <if test="contractBegin != null and contractBegin != ''">
+				AND a.CONTRACT_START_DATE &gt;= str_to_date(#{contractBegin}, '%Y-%m-%d %H:%i:%s')
+			</if>
+			<if test="contractEnd != null and contractEnd != ''">
+				AND a.CONTRACT_START_DATE &lt;= str_to_date(#{contractEnd}, '%Y-%m-%d %H:%i:%s')
+			</if> -->
+			<if test="orderTaskPackStatus != null and orderTaskPackStatus != ''">
+				AND a.ORDERTASKPACK_STATUS = #{orderTaskPackStatus}
+			</if>
+			<if test="customerName != null and customerName != ''">
+				AND a.CUSTOMER_NAME LIKE concat('%',#{customerName}, '%')
+			</if>
+			<if test="managerRealName != null and managerRealName != ''">
+				AND y.REALNAME LIKE concat('%',#{managerRealName}, '%')
+			</if>
+			<if test="phones != null">
+			  AND a.DESIGNER_PHONE IN 
+				<foreach collection="phones" item="item" open="("  separator="," close=")" index="index">
+					#{item}
+				</foreach> 
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY d.CREATE_DATE DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	
+	<select id="findAllList" resultType="cn.damei.entity.modules.BizOrderDisclose">
+
+		SELECT 
+			<include refid="bizOrderDiscloseColumns"/>,
+			d.DISCLOSE_DATE AS "discloseDate"
+		FROM BIZ_ORDER a,BIZ_ORDER_DISCLOSE d
+		WHERE a.ID = d.ORDER_ID
+		AND a.DEL_FLAG = #{DEL_FLAG_NORMAL}
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY d.DISCLOSE_DATE DESC
+			</otherwise>
+		</choose>
+	</select>
+
+	<select id="findListForExcel" resultType="cn.damei.entity.modules.BizOrderDisclose">
+		SELECT
+		<include refid="bizOrderDiscloseColumns"/>,
+		y.REALNAME AS "managerRealName",
+		d.DISCLOSE_DATE AS "discloseDate",
+		d.CREATE_DATE AS "disCreateDate",
+		d.ID AS "orderDiscloseId",
+		b.`name` as "storeName",
+		c.`name` as "engineDepartName"
+		FROM
+		BIZ_ORDER a,
+		BIZ_ORDER_DISCLOSE d,
+		BIZ_EMPLOYEE y,
+		sys_office b,
+		biz_engineering_department c
+		<where>
+		a.ID = d.ORDER_ID
+		and a.store_id = b.id
+		and a.engin_depart_id =c.id
+		AND a.DEL_FLAG = #{DEL_FLAG_NORMAL}
+		AND y.ID = a.ITEM_MANAGER_ID
+			<!-- AND a.PROJECT_MODE = y.PROJECT_MODE -->
+			<if test="orderNumber != null and orderNumber != ''">
+				AND a.ORDER_NUMBER LIKE concat('%',#{orderNumber}, '%')
+			</if>
+			<if test="itemManager != null and itemManager != ''">
+				AND a.ITEM_MANAGER LIKE concat('%',#{itemManager}, '%')
+			</if>
+			<if test="projectMode != null and projectMode != ''">
+				AND a.PROJECT_MODE = #{projectMode}
+			</if>
+			<if test="storeId != null and storeId != ''">
+				AND a.STORE_ID = #{storeId}
+			</if>
+			<if test="discloseBegin != null and discloseBegin != ''">
+				AND d.DISCLOSE_DATE &gt;= #{discloseBegin}
+			</if>
+			<if test="discloseEnd != null and discloseEnd != ''">
+				AND d.DISCLOSE_DATE &lt;= #{discloseEnd}
+			</if>
+			<if test="engineDepartId != null and engineDepartId != ''">
+				AND a.engin_depart_id = #{engineDepartId}
+			</if>
+			<!-- <if test="contractBegin != null and contractBegin != ''">
+				AND a.CONTRACT_START_DATE &gt;= str_to_date(#{contractBegin}, '%Y-%m-%d %H:%i:%s')
+			</if>
+			<if test="contractEnd != null and contractEnd != ''">
+				AND a.CONTRACT_START_DATE &lt;= str_to_date(#{contractEnd}, '%Y-%m-%d %H:%i:%s')
+			</if> -->
+			<if test="orderTaskPackStatus != null and orderTaskPackStatus != ''">
+				AND a.ORDERTASKPACK_STATUS = #{orderTaskPackStatus}
+			</if>
+			<if test="customerName != null and customerName != ''">
+				AND a.CUSTOMER_NAME LIKE concat('%',#{customerName}, '%')
+			</if>
+			<if test="managerRealName != null and managerRealName != ''">
+				AND y.REALNAME LIKE concat('%',#{managerRealName}, '%')
+			</if>
+		</where>
+		ORDER BY d.CREATE_DATE DESC
+
+	</select>
+</mapper>

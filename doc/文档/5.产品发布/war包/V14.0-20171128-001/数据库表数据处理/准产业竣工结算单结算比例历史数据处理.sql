@@ -1,0 +1,1 @@
+UPDATE biz_pm_pre_industry_settle_bill SET midway_contract_settle_rate = 40 where settle_bill_type = 2;

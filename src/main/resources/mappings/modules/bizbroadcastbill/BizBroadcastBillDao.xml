@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizBroadcastBillDao">
+    
+	<sql id="bizBroadcastBillColumns">
+		a.id AS "id",
+		a.order_id AS "orderId",
+		a.cus_broadcast_bill_type AS "cusBroadcastBillType",
+		a.cus_broadcast_bill_name AS "cusBroadcastBillName",
+		a.related_business_id AS "relatedBusinessId",
+		a.cus_broadcast_bill_code AS "cusBroadcastBillCode",
+		a.pic_number AS "picNumber",
+		a.apply_employee_id AS "applyEmployeeId",
+		a.apply_datetime AS "applyDatetime",
+		a.check_employee_id AS "checkEmployeeId",
+		a.status AS "status",
+		a.status_datetime AS "statusDatetime",
+		a.remarks AS "remarks",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="bizBroadcastBillJoins">
+	</sql>
+    
+	<select id="get" resultType="BizBroadcastBill">
+		SELECT 
+			<include refid="bizBroadcastBillColumns"/>
+		FROM biz_cus_broadcast_bill a
+		<include refid="bizBroadcastBillJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+<select id="findPackageTempleteList" resultType="String">
+select templat_name from biz_task_package_templat  where status = 1
+
+
+</select>	
+	
+	
+	
+	<select id="findList" resultType="BizBroadcastBill">
+		
+SELECT
+	a.id AS "orderId",
+	a.store_id as "storeId",
+	a.customer_name AS "customerName",
+	a.community_name AS "communityName",
+	a.order_number as "orderNumber",
+	a.build_number AS "buildNumber",
+	a.build_unit AS "buildUnit",
+	a.build_room AS "buildRoom",
+	a.item_manager AS "managerName",
+	b.cus_broadcast_bill_name AS "broadcastName",
+	b.`status` AS "status",
+	b.pic_number AS "picCount",
+	c.realName AS "applyName",
+	b.apply_employee_id AS "applyEmployeeId",
+	b.apply_datetime AS "applyDate",
+	b.cus_broadcast_bill_type as "broadcastType",
+	b.id as "broadcastId"
+FROM
+	biz_order a,
+	biz_cus_broadcast_bill b,
+	biz_employee c
+WHERE
+	a.id = b.order_id
+AND b.apply_employee_id = c.id
+and b.status ='10'
+		
+	<if test="storeId !=null and storeId!='' ">
+	and a.store_id = #{storeId}
+	</if>	
+	<if test="customerName !=null and customerName!='' ">
+	and a.customer_name like concat('%','${customerName}','%')
+		</if>	
+	<if test="communityName !=null and communityName!='' ">
+	and a.community_name  like concat('%','${communityName}','%')
+	</if>	
+		
+	<if test="managerName !=null and managerName!='' ">
+	and a.item_manager like concat('%','${managerName}','%')
+	</if>	
+	<if test="broadcastName !=null and broadcastName!='' ">
+	and b.cus_broadcast_bill_name like concat('%','${broadcastName}','%')
+	</if>	
+		
+		
+	</select>
+	
+	    
+  
+  <!-- 根据播报单id 查询图片等 -->  
+    <select id="findBroadCastInfoAndPic" parameterType="int" resultType="BizBroadcastBill">
+    SELECT
+	a.customer_name AS "customerName",
+	a.community_name AS "communityName",
+	a.build_number AS "buildNumber",
+	a.build_unit AS "buildUnit",
+	a.build_room AS "buildName",
+	b.cus_broadcast_bill_name AS "broadcastName",
+	a.id AS "orderId",
+	b.id AS "broadcastId",
+	b.apply_datetime as "applyDate",
+	p.pic_url as "picUrl",
+	p.id as "picId"
+	
+FROM
+	biz_order a,
+	biz_cus_broadcast_bill b,
+	biz_employee e,
+	biz_business_pic p
+WHERE
+	b.order_id = a.id
+AND b.apply_employee_id = e.id
+ and p.business_type='501'
+and p.business_id_int = b.id
+and b.id =#{broadcastId}
+    
+    </select>
+    
+	
+	
+	
+</mapper>

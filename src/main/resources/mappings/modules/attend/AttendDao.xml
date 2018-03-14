@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizAttendDayDao">
+    
+	<sql id="bizAttendDayColumns">
+		a.id AS "id",
+		a.attend_employee_role AS "attendEmployeeRole",
+		a.attend_employee_id AS "attendEmployeeId",
+		a.attend_date AS "attendDate",
+		a.sign_times AS "signTimes",
+		a.early_sign_date AS "earlySignDate",
+		a.early_sign_error_distance AS "earlySignReeorDistance",
+		a.late_sign_date AS "lateSignDate",
+		a.late_sign_error_distance AS "lateSignErrorDistance",
+		a.attend_type AS "attendType",
+		a.remarks AS "remarks",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag", 
+		b.realName AS "managerName"
+	</sql>
+	
+	<sql id="bizAttendDayColumns2">
+		a.id AS "id",
+		a.attend_employee_role AS "attendEmployeeRole",
+		a.attend_employee_id AS "attendEmployeeId",
+		a.attend_date AS "attendDate",
+		a.sign_times AS "signTimes",
+		a.early_sign_date AS "earlySignDate",
+		a.early_sign_error_distance AS "earlySignReeorDistance",
+		a.late_sign_date AS "lateSignDate",
+		a.late_sign_error_distance AS "lateSignErrorDistance",
+		a.attend_type AS "attendType",
+		is_generated_attend_bill AS "isGeneratedAttendBill",
+		a.remarks AS "remarks",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	
+	<!--根据项目经理id 获取没有生成考勤单的list  -->
+	<select id="findAttendDaysByEmployeeId" resultType="cn.damei.entity.modules.BizAttendDay" >
+		SELECT <include refid="bizAttendDayColumns2"/>
+		FROM biz_attend_day a
+		<where>
+			a.attend_employee_id = #{attendEmployeeId}
+			AND a.is_generated_attend_bill IS NULL
+		</where>
+	</select>
+	
+	<!--批量update 以生成考勤单状态  -->
+	<update id="upadteAttendDays" parameterType="java.util.List">
+           UPDATE biz_attend_day
+	          <set>
+				is_generated_attend_bill = '1'
+			</set>
+			WHERE id IN
+			<foreach collection="list" index="index" item="bizAttendDay" open="(" separator="," close=")">
+				#{bizAttendDay.id}
+			 </foreach>  
+	</update>
+	
+	<select id="get" resultType="cn.damei.entity.modules.BizAttendDay">
+		SELECT 
+			<include refid="bizAttendDayColumns"/>
+		FROM biz_attend_day a
+		
+		LEFT JOIN biz_employee b 
+		
+		ON (a.attend_employee_id = b.id)
+		
+		WHERE a.id = #{id}
+				
+		GROUP BY a.id
+		ORDER BY attend_date
+	</select>
+	
+	<update id="update" parameterType="cn.damei.entity.modules.BizAttendDay">
+		UPDATE biz_attend_day 
+			
+		SET 	
+			attend_employee_role = #{attendEmployeeRole},
+			attend_employee_id = #{attendEmployeeId},
+			attend_date = #{attendDate},
+			sign_times = #{signTimes},
+			early_sign_date =#{earlySignDate},
+			early_sign_error_distance = #{earlySignReeorDistance},
+			late_sign_date = #{lateSignDate},
+			late_sign_error_distance =#{lateSignErrorDistance},
+			attend_type = #{attendType},
+			remarks = #{remarks},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		
+		WHERE id = #{id}
+	</update>
+	
+	<!--任务包验收签到  -->
+	<select id="selectBusinessSigns" resultType="cn.damei.entity.modules.BizAttendDay">
+		SELECT sign_employee_id AS "attendEmployeeId",
+			DATE_FORMAT(sign_datetime,'%Y-%m-%d') AS "attendDate",
+			MIN(sign_datetime) AS "earlySignDate",
+			MAX(sign_datetime) AS "lateSignDate",
+			MIN(sign_error_distance) AS "earlySignReeorDistance",
+			MAX(sign_error_distance) AS "lateSignErrorDistance",
+			
+			DATE_FORMAT(MIN(sign_datetime),'%Y-%m-%d') AS "zaoDate",
+			DATE_FORMAT(MAX(sign_datetime),'%Y-%m-%d') AS "wanDate",
+			
+			COUNT(*) AS "signTimes"
+			
+		FROM biz_business_sign
+		<where>
+			sign_type='3' 
+			
+			AND DATE_FORMAT(sign_datetime,'%Y-%m')=DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 1 MONTH),'%Y-%m')
+			
+		</where>
+		GROUP BY sign_employee_id,DATE_FORMAT(sign_datetime,'%Y-%m-%d')
+		ORDER BY DATE_FORMAT(sign_datetime,'%Y-%m-%d') 
+	</select>
+	
+	<!--现场签到  -->
+	<select id="selectSigns" resultType="cn.damei.entity.modules.BizAttendDay">
+		SELECT manager_id AS "attendEmployeeId", 
+		DATE_FORMAT(sign_date,'%Y-%m-%d') AS "attendDate",
+		MIN(sign_date) AS "earlySignDate",
+		MAX(sign_date) AS "lateSignDate",
+		
+		DATE_FORMAT(MIN(sign_date),'%Y-%m-%d') AS "zaoDate",
+		DATE_FORMAT(MAX(sign_date),'%Y-%m-%d') AS "wanDate",
+		
+		COUNT(*) AS "signTimes",
+		manager_name AS "managerName",
+		MIN(sign_distance) AS "earlySignReeorDistance",
+		MAX(sign_distance) AS "lateSignErrorDistance"
+		
+		FROM biz_sign
+		WHERE signType='1' 
+		AND
+		DATE_FORMAT(sign_date,'%Y-%m')=DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 1 MONTH),'%Y-%m')
+		GROUP BY manager_id,DATE_FORMAT(sign_date,'%Y-%m-%d')
+		ORDER BY DATE_FORMAT(sign_date,'%Y-%m-%d') 
+	</select>
+	
+	<!--根据条件获取项目经理的日签到list  -->
+	<select id="findAttendDays" resultType="cn.damei.entity.modules.BizAttendDay">
+		SELECT <include refid="bizAttendDayColumns"/>
+		
+		FROM biz_attend_day a
+		
+		LEFT JOIN biz_employee b 
+		
+		ON (a.attend_employee_id = b.id)
+		
+		<where>
+			<if test="attendEmployeeId != null and attendEmployeeId !=''">
+				AND a.attend_employee_id = #{attendEmployeeId}
+			</if>
+			<if test="attendMonth != null and attendMonth != ''">
+				AND DATE_FORMAT(a.attend_date,'%Y-%m') = #{attendMonth}
+			</if>
+		</where>
+		GROUP BY a.id
+		ORDER BY a.attend_date
+	</select>
+	
+	<!--批量insert 日次表中  -->
+	<insert id="insertAttend" parameterType="java.util.List" >
+		INSERT INTO biz_attend_day
+		<trim prefix="(" suffix=")">
+			id,
+			attend_employee_role,
+			attend_employee_id,
+			attend_date,
+			sign_times,
+			early_sign_date,
+			early_sign_error_distance,
+			late_sign_date,
+			late_sign_error_distance,
+			attend_type,
+			is_generated_attend_bill,
+			remarks,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag
+		</trim>
+		VALUES
+		<foreach collection="list" item="bizAttendDay" index="index" separator=",">
+			<trim prefix="(" suffix=")">
+				#{bizAttendDay.id},
+				#{bizAttendDay.attendEmployeeRole},
+				#{bizAttendDay.attendEmployeeId},
+				#{bizAttendDay.attendDate},
+				#{bizAttendDay.signTimes},
+				#{bizAttendDay.earlySignDate},
+				#{bizAttendDay.earlySignReeorDistance},
+				#{bizAttendDay.lateSignDate},
+				#{bizAttendDay.lateSignErrorDistance},
+				#{bizAttendDay.attendType},
+				#{bizAttendDay.isGeneratedAttendBill},
+				#{bizAttendDay.remarks},
+				#{bizAttendDay.createBy.id},
+				#{bizAttendDay.createDate},
+				#{bizAttendDay.updateBy.id},
+				#{bizAttendDay.updateDate},
+				#{bizAttendDay.delFlag}
+				
+			</trim>
+		</foreach>
+	</insert>
+	
+</mapper>

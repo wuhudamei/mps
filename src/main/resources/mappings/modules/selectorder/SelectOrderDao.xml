@@ -1,0 +1,464 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.SelectOrderDao">
+
+	<sql id="orderColumns">
+		a.id AS "orderId",
+		a.order_number AS "orderNumber",
+		a.contract_number AS "contractNumber",
+		a.customer_type AS "customerType",
+		a.customer_description AS "customerDescription",
+		a.customer_name AS "customerName",
+		a.customer_phone AS "customerPhone",
+		a.community_name AS "communityName",
+		a.build_number AS "buildNumber",
+		a.build_unit AS "buildUnit",
+		a.build_room AS "buildRoom",
+		a.map_coordinate AS "mapCoordinate",
+		a.sale_type AS "saleType",
+		a.area AS "area",
+		a.build_type AS "buildType",
+		a.house_type AS "houseType",
+		a.house_is_new AS "houseIsNew",
+		a.is_elevator AS "isElevator",
+		a.designer_name AS "designerName",
+		a.designer_phone AS "designerPhone",
+		a.order_reporter_name AS "orderReporterName",
+		a.order_reporter_phone AS "orderReporterPhone",
+		a.service_name AS "serviceName",
+		a.service_phone AS "servicePhone",
+		a.contract_start_date AS "contractStartDate",
+		a.contract_end_date AS "contractEndDate",
+		a.covered_area AS "coveredArea",
+		a.contract_area AS "contractArea",
+		a.contract_time AS "contractTime",
+		a.customer_address as "customerAddress",
+		a.sign_contract_date AS "signContractDate",
+		a.order_status_number AS "orderStatusNumber",
+		a.order_status_description AS "orderStatusDescription",
+		a.project_mode AS "projectMode",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag",
+		a.actual_start_date AS "actualStartDate",
+		a.actual_end_date AS "actualEndDate",
+		a.item_manager_id AS "itemManagerId",
+		a.store_id AS "storeId",
+		a.cus_manager AS "cusManager",
+		a.orderTaskPack_status AS "orderTaskPackStatus",
+		a.province AS "province",
+		a.city AS "city",
+		a.county AS "county",
+		a.detail_address AS "detailAddress",
+		a.biz_order_accept_area AS "acceptAreaId",
+		a.engin_depart_id as "engineDepartId",
+		a.get_order_datetime AS "getOrderDatetime",
+		
+		substring_index(a.map_coordinate, ',', 1) AS "lng",
+		substring_index(a.map_coordinate, ',', - 1) AS "lat",
+		b.realName AS "itemManager",
+		b.phone AS "itemManagerPhone",
+		b.star AS "itemManagerStar",
+		c.realName AS "orderInspector",
+		c.phone AS "orderInspectorPhone",
+		d.name AS "engineDepartName"
+		<!-- (SELECT count(1) from biz_order p WHERE p.item_manager_id = b.id AND p.order_status_number &lt; 320 AND p.order_status_number &gt; 110) AS "itemManagerBuildingCount",
+		(
+			SELECT
+				w.create_date
+			FROM
+				biz_order_distribute_log w
+			WHERE
+				w.id = (
+						SELECT
+							max(f.id)
+						FROM
+							biz_order_distribute_log f
+						WHERE
+							f.order_id = a.id
+						AND f.distribute_type IN (101, 102)
+						AND f.create_date &lt; ( SELECT CASE WHEN (SELECT h.create_date FROM biz_order_confirm_startwork h WHERE h.order_id = a.id) is NOT NULL THEN (SELECT h.create_date FROM biz_order_confirm_startwork h WHERE h.order_id = a.id ) ELSE STR_TO_DATE('2099-12-31','%Y-%m-%d %H:%i:%s') END AS "create_date")
+				)
+		) AS "orderDistributeLogDate",
+		(
+			SELECT
+				w.unfinished_order_count_before
+			FROM
+				biz_order_distribute_log w
+			WHERE
+				w.id = (
+						SELECT
+							max(f.id)
+						FROM
+							biz_order_distribute_log f
+						WHERE
+							f.order_id = a.id
+						AND f.distribute_type IN (101, 102)
+						AND f.create_date &lt; ( SELECT CASE WHEN (SELECT h.create_date FROM biz_order_confirm_startwork h WHERE h.order_id = a.id) is NOT NULL THEN (SELECT h.create_date FROM biz_order_confirm_startwork h WHERE h.order_id = a.id ) ELSE STR_TO_DATE('2099-12-31','%Y-%m-%d %H:%i:%s') END AS "create_date")
+				)
+		) AS "beforeSiteCount", 
+		(
+			SELECT
+				w.unfinished_order_count_after
+			FROM
+				biz_order_distribute_log w
+			WHERE
+				w.id = (
+						SELECT
+							max(f.id)
+						FROM
+							biz_order_distribute_log f
+						WHERE
+							f.order_id = a.id
+						AND f.distribute_type IN (101, 102)
+						AND f.create_date &lt; ( SELECT CASE WHEN (SELECT h.create_date FROM biz_order_confirm_startwork h WHERE h.order_id = a.id) is NOT NULL THEN (SELECT h.create_date FROM biz_order_confirm_startwork h WHERE h.order_id = a.id ) ELSE STR_TO_DATE('2099-12-31','%Y-%m-%d %H:%i:%s') END AS "create_date")
+				)
+		) AS "NowSiteCount" ,
+		(select 
+    		CASE
+    			WHEN c.star is null THEN d.star0 
+    			WHEN c.star = 0 THEN d.star0 
+				WHEN c.star = 1 THEN d.star1
+				WHEN c.star = 2 THEN d.star3
+				WHEN c.star = 3 THEN d.star3
+				WHEN c.star = 4 THEN d.star4
+				WHEN c.star = 5 THEN d.star5
+			END AS "totalCount" 
+		from 
+			biz_employee c, biz_star d 
+		where 
+			d.store_id = c.storeId and c.id = b.id and d.project_mode = c.project_mode ) AS "totalCount"
+		 -->
+		 
+		
+	</sql>
+
+	<select id="get" resultType="cn.damei.entity.modules.SelectOrder">
+		SELECT
+		<include refid="orderColumns" />
+		FROM biz_order a
+		LEFT JOIN biz_employee b ON b.id = a.item_manager_id
+		LEFT JOIN biz_employee c ON c.id = a.order_inspector_id
+		LEFT JOIN biz_engineering_department d ON d.id = a.engin_depart_id AND d.del_flag=0
+		WHERE a.id =#{orderId}
+	</select>
+
+	<select id="findList" resultType="cn.damei.entity.modules.SelectOrder">
+		SELECT
+		<include refid="orderColumns" />,
+		f.name as "name"
+		<!--  IFNULL(n1.itemManagerBuildingCount,0) AS "itemManagerBuildingCount",
+
+		(CASE
+				WHEN b.star is null THEN n2.star0 
+				WHEN b.star = 0 THEN n2.star0 
+				WHEN b.star = 1 THEN n2.star1
+				WHEN b.star = 2 THEN n2.star3
+				WHEN b.star = 3 THEN n2.star3
+				WHEN b.star = 4 THEN n2.star4
+				WHEN b.star = 5 THEN n2.star5
+			END )AS "totalCount" ,
+
+			m2.create_date AS "orderDistributeLogDate",
+			m2.unfinished_order_count_before AS "beforeSiteCount",
+			m2.unfinished_order_count_after AS "NowSiteCount" -->
+			
+
+		FROM biz_order a
+		LEFT JOIN biz_employee b ON b.id = a.item_manager_id
+		LEFT JOIN biz_employee c ON c.id = a.order_inspector_id
+		LEFT JOIN biz_engineering_department d ON d.id = a.engin_depart_id AND d.del_flag=0
+
+		<!-- LEFT JOIN (SELECT p.item_manager_id,count(1) AS "itemManagerBuildingCount" from biz_order p WHERE  p.order_status_number &lt; 320 AND p.order_status_number &gt; 110 GROUP BY p.item_manager_id) n1 ON n1.item_manager_id = b.id
+		
+		LEFT JOIN (select d.star0, d.star1, d.star2,d.star3,d.star4,d.star5,d.store_id,d.project_mode from biz_star d GROUP BY d.store_id,d.project_mode) n2 ON n2.store_id = b.storeId AND n2.project_mode = b.project_mode
+		
+		
+		LEFT JOIN (
+								SELECT
+									max(f.id) AS "maxId",
+									f.order_id
+								FROM
+									biz_order_distribute_log f
+								WHERE
+									 f.distribute_type IN (101, 102)
+								AND f.create_date &lt; ( SELECT CASE WHEN (SELECT h.create_date FROM biz_order_confirm_startwork h WHERE h.order_id = f.order_id) is NOT NULL THEN (SELECT h.create_date FROM biz_order_confirm_startwork h WHERE h.order_id = f.order_id ) ELSE STR_TO_DATE('2099-12-31','%Y-%m-%d %H:%i:%s') END AS "create_date")
+								GROUP BY f.order_id
+						) m1 ON m1.order_id = a.id
+		
+		LEFT JOIN biz_order_distribute_log m2 ON m2.id = m1.maxId -->
+		left join sys_office f on f.id = a.store_id
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="storeId != null and storeId != ''">
+				AND a.store_id = #{storeId}
+			</if>
+			<if test="orderNumber != null and orderNumber != ''">
+				AND a.order_number LIKE CONCAT('%','${orderNumber}','%' )
+			</if>
+			<if test="projectMode != null and projectMode != ''">
+				AND a.project_mode = #{projectMode}
+			</if>
+			<if test="engineDepartId != null and engineDepartId != ''">
+				AND a.engin_depart_id =#{engineDepartId}
+			</if>
+			<if test="communityName != null and communityName != ''">
+				AND a.community_name LIKE
+				<if test="dbName == 'oracle'">'%'||#{communityName}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{communityName}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{communityName},'%')</if>
+			</if>
+			<if test="customerName != null and customerName != ''">
+				AND a.customer_name LIKE
+				<if test="dbName == 'oracle'">'%'||#{customerName}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{customerName}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{customerName},'%')</if>
+			</if>
+			<if test="customerPhone != null and customerPhone != ''">
+				AND a.customer_phone LIKE
+				CONCAT('%','${customerPhone}','%' )
+			</if>
+			<if test="itemManager != null and itemManager != ''">
+				AND b.realName LIKE
+				<if test="dbName == 'oracle'">'%'||#{itemManager}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{itemManager}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{itemManager},'%')</if>
+			</if>
+			<if test="orderInspector != null and orderInspector != ''">
+				AND c.realName LIKE
+				<if test="dbName == 'oracle'">'%'||#{orderInspector}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{orderInspector}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{orderInspector},'%')</if>
+			</if>
+			<if test="designerName != null and designerName != ''">
+				AND a.designer_name LIKE
+				<if test="dbName == 'oracle'">'%'||#{designerName}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{designerName}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{designerName},'%')</if>
+			</if>
+			<if test="cusManager != null and cusManager != ''">
+				AND a.cus_manager LIKE
+				<if test="dbName == 'oracle'">'%'||#{cusManager}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{cusManager}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{cusManager},'%')</if>
+			</if>
+			<if test="houseIsNew != null and houseIsNew != ''">
+				AND a.house_is_new = #{houseIsNew}
+			</if>
+			<if test="beginContractStartDate != null and beginContractStartDate != ''">
+				AND a.contract_start_date &gt;= #{beginContractStartDate}
+			</if>
+			<if test="endContractStartDate != null and endContractStartDate != ''">
+				AND a.contract_start_date &lt;= #{endContractStartDate}
+			</if>
+			<if test="beginContractEndDate != null and beginContractEndDate != ''">
+				AND a.contract_end_date &gt;= #{beginContractEndDate}
+			</if>
+			<if test="endContractEndDate != null and endContractEndDate != ''">
+				AND a.contract_end_date &lt;= #{endContractEndDate}
+			</if>
+			<if test="beginSignContractDate != null and beginSignContractDate != ''">
+				AND a.sign_contract_date &gt;= #{beginSignContractDate}
+			</if>
+			<if test="endSignContractDate != null and endSignContractDate != ''">
+				AND a.sign_contract_date &lt;= #{endSignContractDate}
+			</if>
+			<if test="beginActualStartDate != null and beginActualStartDate != ''">
+				AND a.actual_start_date &gt;= #{beginActualStartDate}
+			</if>
+			<if test="endActualStartDate != null and endActualStartDate != ''">
+				AND a.actual_start_date &lt;= #{endActualStartDate}
+			</if>
+			<if test="beginActualEndDate != null and beginActualEndDate != ''">
+				AND a.actual_end_date &gt;= #{beginActualEndDate}
+			</if>
+			<if test="endActualEndDate != null and endActualEndDate != ''">
+				AND a.actual_end_date &lt;= #{endActualEndDate}
+			</if>
+			<if test="beginCreateDate != null and beginCreateDate != ''">
+				AND a.create_date &gt;= #{beginCreateDate}
+			</if>
+			<if test="endCreateDate != null and endCreateDate != ''">
+				AND a.create_date &lt;= #{endCreateDate}
+			</if>
+			<if test="beginGetOrderDatetime != null and beginGetOrderDatetime != ''">
+				AND a.get_order_datetime &gt;= #{beginGetOrderDatetime}
+			</if>
+			<if test="endGetOrderDatetime != null and endGetOrderDatetime != ''">
+				AND a.get_order_datetime &lt;= #{endGetOrderDatetime}
+			</if>
+			<!-- <if test="beginOrderDistributeLogDate != null and beginOrderDistributeLogDate != ''">
+				AND m2.create_date &gt;= #{beginOrderDistributeLogDate}
+			</if>
+			<if test="endOrderDistributeLogDate != null and endOrderDistributeLogDate != ''">
+				AND m2.create_date &lt;= #{endOrderDistributeLogDate}
+			</if> -->
+			<if test="orderStatusList != null">
+				AND a.order_status_number IN 
+				<foreach collection="orderStatusList" item="item" open="("  separator="," close=")" index="index">
+					#{item}
+				</foreach>
+			</if>
+			<if test="phones != null">
+			  AND a.DESIGNER_PHONE IN 
+				<foreach collection="phones" item="item" open="("  separator="," close=")" index="index">
+					#{item}
+				</foreach> 
+			</if>
+			
+			ORDER BY a.create_date DESC
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				,${page.orderBy}
+			</when>
+			<otherwise>
+				,a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+
+	
+	<select id="findManagerMoreCount" resultType="cn.damei.entity.modules.ItemManagerMap">
+	SELECT
+	count(b.id) AS "alreadyDistributeCount",
+	a1.distributed_employee_id AS "id"
+FROM
+	`biz_order_distribute_log` a1,
+	biz_order b
+WHERE
+	a1.distributed_employee_id = b.item_manager_id
+and a1.order_id = b.id
+AND a1.create_date LIKE concat('%',DATE_FORMAT(now(), '%Y-%m'),'%')
+AND a1.distribute_type = '101'
+
+GROUP BY
+b.item_manager_id
+	
+	
+	</select>
+	
+	
+	<select id="findManagerMoreCount1" resultType="cn.damei.entity.modules.ItemManagerMap">
+SELECT
+	count(b.item_manager_id) AS "doNow",
+	a1.distributed_employee_id AS "id",
+b.id
+FROM
+	`biz_order_distribute_log` a1,
+	biz_order b
+WHERE
+	a1.distributed_employee_id = b.item_manager_id
+and a1.order_id = b.id
+AND a1.distribute_type = '101'
+AND b.ORDER_STATUS_NUMBER >= '200'
+AND b.ORDER_STATUS_NUMBER &lt; '300'
+
+GROUP BY
+b.item_manager_id
+
+	
+	</select>
+	
+	<!-- 工地地图 -->
+	<select id="findListMap" resultType="cn.damei.entity.modules.SelectOrder">
+		SELECT
+			a.id AS "orderId",
+			
+			substring_index(a.map_coordinate, ',', 1) AS "lng",
+			substring_index(a.map_coordinate, ',', - 1) AS "lat",
+			
+			a.community_name AS "communityName",
+			a.build_number AS "buildNumber",
+			a.build_unit AS "buildUnit",
+			a.build_room AS "buildRoom",
+			a.customer_name AS "customerName",
+			a.customer_phone AS "customerPhone",
+		
+		
+			a.item_manager_id AS "itemManagerId",
+			b.realName AS "itemManager",
+			b.phone AS "itemManagerPhone",
+			b.star AS "itemManagerStar",
+		
+			(CASE
+				WHEN b.star is null THEN n2.star0 
+				WHEN b.star = 0 THEN n2.star0 
+				WHEN b.star = 1 THEN n2.star1
+				WHEN b.star = 2 THEN n2.star3
+				WHEN b.star = 3 THEN n2.star3
+				WHEN b.star = 4 THEN n2.star4
+				WHEN b.star = 5 THEN n2.star5
+			END )AS "totalCount"
+			
+
+			
+		FROM biz_order a
+		LEFT JOIN biz_employee b ON b.id = a.item_manager_id
+		
+		LEFT JOIN (select d.star0, d.star1, d.star2,d.star3,d.star4,d.star5,d.store_id,d.project_mode from biz_star d GROUP BY d.store_id,d.project_mode) n2 ON n2.store_id = b.storeId AND n2.project_mode = b.project_mode
+		
+
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="storeId != null and storeId != ''">
+				AND a.store_id = #{storeId}
+			</if>
+			<if test="orderNumber != null and orderNumber != ''">
+				AND a.order_number LIKE CONCAT('%','${orderNumber}','%' )
+			</if>
+			<if test="projectMode != null and projectMode != ''">
+				AND a.project_mode = #{projectMode}
+			</if>
+			<if test="engineDepartId != null and engineDepartId != ''">
+				AND a.engin_depart_id =#{engineDepartId}
+			</if>
+			<if test="communityName != null and communityName != ''">
+				AND a.community_name LIKE
+				<if test="dbName == 'oracle'">'%'||#{communityName}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{communityName}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{communityName},'%')</if>
+			</if>
+			<if test="customerName != null and customerName != ''">
+				AND a.customer_name LIKE
+				<if test="dbName == 'oracle'">'%'||#{customerName}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{customerName}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{customerName},'%')</if>
+			</if>
+			<if test="itemManager != null and itemManager != ''">
+				AND b.realName LIKE
+				<if test="dbName == 'oracle'">'%'||#{itemManager}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{itemManager}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{itemManager},'%')</if>
+			</if>
+			<if test="orderInspector != null and orderInspector != ''">
+				AND c.realName LIKE
+				<if test="dbName == 'oracle'">'%'||#{orderInspector}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{orderInspector}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{orderInspector},'%')</if>
+			</if>
+			<if test="houseIsNew != null and houseIsNew != ''">
+				AND a.house_is_new = #{houseIsNew}
+			</if>
+			<if test="beginContractStartDate != null and beginContractStartDate != ''">
+				AND a.contract_start_date &gt;= #{beginContractStartDate}
+			</if>
+			<if test="endContractStartDate != null and endContractStartDate != ''">
+				AND a.contract_start_date &lt;= #{endContractStartDate}
+			</if>
+			<if test="beginActualStartDate != null and beginActualStartDate != ''">
+				AND a.actual_start_date &gt;= #{beginActualStartDate}
+			</if>
+			<if test="endActualStartDate != null and endActualStartDate != ''">
+				AND a.actual_start_date &lt;= #{endActualStartDate}
+			</if>
+			
+			ORDER BY a.create_date DESC
+		</where>
+	</select>
+
+
+</mapper>

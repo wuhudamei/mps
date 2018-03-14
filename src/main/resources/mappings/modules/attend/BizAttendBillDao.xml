@@ -1,0 +1,377 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizAttendBillDao">
+    
+	<sql id="bizAttendBillColumns">
+		a.id AS "id",
+		a.attend_batch_id AS "attendBatchId",
+		a.attend_bill_code AS "attendBillCode",
+		a.attend_employee_role AS "attendEmployeeRole",
+		a.attend_employee_id AS "attendEmployeeId",
+		a.attend_month AS "attendMonth",
+		a.attend_days_total AS "attendDaysTotal",
+		a.attend_days_whole AS "attendDaysWhole",
+		a.attend_days_half AS "attendDaysHalf",
+		a.basic_salary AS "basicSalary",
+		a.attend_remarks AS "attendRemarks",
+		a.attend_days_must AS "attendDaysMust",
+		a.leave_days_thing AS "leaveDaysThing",
+		a.leave_days_sick AS "leaveDaysSick",
+		a.leave_days_annual AS "leaveDaysAnnual",
+		a.rest_days AS "restDays",
+		a.status AS "status",
+		a.status_datetime AS "statusDatetime",
+		a.status_remarks AS "statusRemarks",
+		
+		b.realName AS "managerName",
+		b.phone AS "phone",
+		b.storeId AS "storeId",
+		
+		b.project_mode AS "projectMode",
+		b.star AS "starLevel",
+		
+		a.remarks AS "remarks",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag",
+		d.name as "departmentName",
+		d.id AS "enginDepartId",
+		b.no AS "no",
+		b.sex as "sex" 
+		
+	</sql>
+	
+	
+	<select id="findBizAttendBillListByBatchId" parameterType="integer" resultType="cn.damei.entity.modules.BizAttendBill">
+		SELECT <include refid="bizAttendBillColumns"/>
+		
+		FROM biz_attend_bill a
+		
+		INNER JOIN biz_employee b
+		ON(b.id=a.`attend_employee_id`) 
+		
+		INNER JOIN biz_engin_depart_employee_position c 
+		ON (b.id = c.employee_id) AND c.position_type ='5'
+        INNER JOIN biz_engineering_department d on (c.engin_depart_id = d.id) 
+		<where>
+			a.attend_batch_id = #{attendBatchId}
+		</where>
+		GROUP BY a.attend_employee_id,DATE_FORMAT(a.attend_month,'%Y-%m')  
+	</select>
+	
+	<!--批次作废时更新批次id为0 并且状态为生成考勤单状态 -->
+	<update id="updateBatchIds" parameterType="java.util.List">
+		UPDATE biz_attend_bill
+	          <set>
+				attend_batch_id = '0',
+				status = '20'
+			</set>
+			WHERE id IN
+			<foreach collection="list" index="index" item="bizAttendBill" open="(" separator="," close=")">
+				#{bizAttendBill.id}
+			 </foreach>  
+	</update>
+	
+	<!--更新为生成批次id和状态  -->
+	<update id="updateStatus" parameterType="string">
+		UPDATE biz_attend_bill 
+		<set>
+		attend_batch_id = #{attendBatchId},
+			status = #{status}
+		</set>
+		WHERE id IN
+		<foreach collection="ids" item="id" open="(" separator="," close=")">
+			#{id}
+		</foreach>  
+	</update>
+	
+	<select id="get" resultType="cn.damei.entity.modules.BizAttendBill">
+		SELECT 
+			a.id AS "id",
+			a.attend_batch_id AS "attendBatchId",
+			a.attend_bill_code AS "attendBillCode",
+			a.attend_employee_role AS "attendEmployeeRole",
+			a.attend_employee_id AS "attendEmployeeId",
+			a.attend_month AS "attendMonth",
+			a.attend_days_total AS "attendDaysTotal",
+			a.attend_days_whole AS "attendDaysWhole",
+			a.attend_days_half AS "attendDaysHalf",
+			a.basic_salary AS "basicSalary",
+			a.attend_remarks AS "attendRemarks",
+			a.attend_days_must AS "attendDaysMust",
+			a.leave_days_thing AS "leaveDaysThing",
+			a.leave_days_sick AS "leaveDaysSick",
+			a.leave_days_annual AS "leaveDaysAnnual",
+			a.rest_days AS "restDays",
+			a.status AS "status",
+			a.status_datetime AS "statusDatetime",
+			a.status_remarks AS "statusRemarks",
+			
+			a.remarks AS "remarks",
+			a.create_by AS "createBy.id",
+			a.create_date AS "createDate",
+			a.update_by AS "updateBy.id",
+			a.update_date AS "updateDate",
+			a.del_flag AS "delFlag"
+			
+		FROM biz_attend_bill a
+		
+		WHERE a.id = #{id}
+	</select>
+	
+	<update id="update" parameterType="cn.damei.entity.modules.BizAttendBill">
+		UPDATE biz_attend_bill 
+		<set>
+			attend_days_total = #{attendDaysTotal},
+			attend_days_whole = #{attendDaysWhole},
+			attend_days_half = #{attendDaysHalf},
+			basic_salary = #{basicSalary},
+			attend_remarks = #{attendRemarks},
+			attend_days_must = #{attendDaysMust},
+			leave_days_thing = #{leaveDaysThing},
+			leave_days_sick = #{leaveDaysSick},
+			leave_days_annual = #{leaveDaysAnnual},
+			rest_days = #{restDays},
+			
+			remarks = #{remarks},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		</set> 	
+		WHERE id = #{id}
+	</update>
+	
+	<!--没有生成考勤单  -->
+	<select id="findNoBillList" resultType="cn.damei.entity.modules.BizAttendBill" parameterType="cn.damei.entity.modules.BizAttendBill">
+		SELECT a.realName AS "managerName",
+			   a.phone AS "phone",
+			   a.storeId AS "storeId",
+			 
+			   a.project_mode AS "projectMode",
+			   a.star AS "starLevel",
+			   b.attend_date AS "attendMonth",
+			   a.id AS "attendEmployeeId",
+			   b.attend_employee_role AS "attendEmployeeRole",
+			    
+			   d.name AS "departmentName",
+			   d.id AS "enginDepartId"
+				
+			   FROM biz_employee a 
+			   LEFT JOIN biz_attend_day b 
+			   ON(a.id=b.`attend_employee_id`) 
+			
+			   INNER JOIN biz_engin_depart_employee_position c 
+			   ON (a.id = c.employee_id) 
+			   AND c.position_type ='5'
+	           INNER JOIN biz_engineering_department d 
+	           ON (c.engin_depart_id = d.id) 
+		
+			<where>
+				a.`empType`='3' AND b.is_generated_attend_bill IS NULL
+			
+			<if test="attendMonth != null and attendMonth != ''">
+				AND DATE_FORMAT(b.attend_date,'%Y-%m') = DATE_FORMAT(#{attendMonth},'%Y-%m')
+			</if>
+			<if test="storeId != null and storeId != ''">
+				AND a.storeId = #{storeId}
+			</if>
+			
+			<if test="projectMode != null and projectMode != ''">
+				AND a.project_mode = #{projectMode}
+			</if>
+			<if test="enginDepartId != null and enginDepartId != ''">
+				AND d.id = #{enginDepartId}
+			</if>
+	         
+			</where>
+		GROUP BY a.id,DATE_FORMAT(b.attend_date,'%Y-%m') 
+	</select>
+	
+	<select id="findList" resultType="cn.damei.entity.modules.BizAttendBill" parameterType="cn.damei.entity.modules.BizAttendBill">
+		SELECT 
+			
+		e.id AS "id",
+		e.attend_batch_id AS "attendBatchId",
+		e.attend_bill_code AS "attendBillCode",
+		b.attend_employee_role AS "attendEmployeeRole",
+		b.attend_employee_id AS "attendEmployeeId",
+		e.attend_month AS "attendMonth",
+		b.attend_date AS "attendMonth2",
+		e.attend_days_total AS "attendDaysTotal",
+		e.attend_days_whole AS "attendDaysWhole",
+		e.attend_days_half AS "attendDaysHalf",
+		e.basic_salary AS "basicSalary",
+		e.attend_remarks AS "attendRemarks",
+		e.attend_days_must AS "attendDaysMust",
+		e.leave_days_thing AS "leaveDaysThing",
+		e.leave_days_sick AS "leaveDaysSick",
+		e.leave_days_annual AS "leaveDaysAnnual",
+		e.rest_days AS "restDays",
+		e.status AS "status",
+		e.status_datetime AS "statusDatetime",
+		e.status_remarks AS "statusRemarks",
+		
+		a.realName AS "managerName",
+		a.phone AS "phone",
+		a.storeId AS "storeId",
+		
+		a.project_mode AS "projectMode",
+		a.star AS "starLevel",
+		
+		e.remarks AS "remarks",
+		e.create_by AS "createBy.id",
+		e.create_date AS "createDate",
+		e.update_by AS "updateBy.id",
+		e.update_date AS "updateDate",
+		e.del_flag AS "delFlag",
+		d.name as "departmentName",
+		d.id AS "enginDepartId",
+		a.no AS "no",
+		a.sex as "sex" 	
+			
+			  FROM biz_employee a
+			  
+			   LEFT JOIN biz_attend_day b 
+			   
+			   ON(a.id=b.`attend_employee_id`) AND ( DATE_FORMAT(b.attend_date,'%Y-%m')=DATE_FORMAT(#{attendMonth,jdbcType=VARCHAR},'%Y-%m') OR b.attend_date is null )
+			   
+			   LEFT JOIN  biz_attend_bill e
+			   ON(b.`attend_employee_id` = e.attend_employee_id) AND ( DATE_FORMAT(e.attend_month,'%Y-%m') = DATE_FORMAT(#{attendMonth,jdbcType=VARCHAR},'%Y-%m')  OR e.attend_month IS NULL )
+						
+			   LEFT JOIN biz_attend_batch f ON(e.`attend_batch_id`=f.`id`)
+				
+			   LEFT JOIN biz_engin_depart_employee_position c 
+			   ON (a.id = c.employee_id) 
+			   AND c.position_type ='5'
+			   LEFT JOIN biz_engineering_department d 
+			   ON (c.engin_depart_id = d.id)
+	           
+			   <where>
+	           	a.`empType`='3' and a.del_flag = '0'
+	           		
+					<if test="storeId != null and storeId != ''">
+						AND a.storeId = #{storeId}
+					</if>
+					
+					<if test="projectMode != null and projectMode != ''">
+						AND a.project_mode = #{projectMode}
+					</if>
+					<if test="enginDepartId != null and enginDepartId != ''">
+						AND d.id = #{enginDepartId}
+					</if>
+					<if test="status == '10'">
+					     AND b.is_generated_attend_bill IS NULL
+					     AND e.status !='30'
+					</if>
+					<if test="status == '20'">
+						AND e.status = #{status}
+					</if>
+			   </where>	           
+	           
+	           GROUP BY a.`id`
+	           ORDER BY b.attend_date,e.attend_month DESC
+	</select>
+	
+	
+	<!-- 以生成考勤单的列表 -->
+	<select id="findBillList" resultType="cn.damei.entity.modules.BizAttendBill" parameterType="cn.damei.entity.modules.BizAttendBill">
+		SELECT <include refid="bizAttendBillColumns"/>
+			 
+		FROM biz_attend_bill a 
+		
+		INNER JOIN biz_employee b
+		ON(b.id=a.`attend_employee_id`) 
+		
+		INNER JOIN biz_engin_depart_employee_position c 
+		ON (b.id = c.employee_id) AND c.position_type ='5'
+        INNER JOIN biz_engineering_department d on (c.engin_depart_id = d.id) 
+		
+		LEFT JOIN biz_attend_batch e ON(e.attend_batch_month = DATE_FORMAT(a.attend_month,'%Y-%m'))
+		
+		<where>
+				b.`empType`='3' AND a.attend_batch_id = '0'
+			
+			<if test="attendMonth != null and attendMonth !=''">
+				AND DATE_FORMAT(a.attend_month,'%Y-%m') = DATE_FORMAT(#{attendMonth},'%Y-%m')
+			</if>
+			<if test="storeId != null and storeId != ''">
+				AND b.storeId = #{storeId}
+			</if>
+			
+			<if test="projectMode != null and projectMode != ''">
+				AND b.project_mode = #{projectMode}
+			</if>
+			<if test="status != null and status != ''">
+				AND a.status = #{status} OR e.status = #{status}
+			</if>
+			
+			<if test="enginDepartId != null and enginDepartId != ''">
+				AND d.id = #{enginDepartId}
+			</if>
+		
+		</where>
+		GROUP BY a.attend_employee_id,DATE_FORMAT(a.attend_month,'%Y-%m') 
+	
+	</select>
+	
+	<insert id="insert" parameterType="cn.damei.entity.modules.BizAttendBill" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+		INSERT INTO biz_attend_bill
+		<trim prefix="(" suffix=")">
+			id,
+			attend_batch_id,
+			attend_bill_code,
+			attend_employee_role,
+			attend_employee_id,
+			attend_month,
+			attend_days_total,
+			attend_days_whole,
+			attend_days_half,
+			basic_salary,
+			attend_remarks,
+			attend_days_must,
+			leave_days_thing,
+			leave_days_sick,
+			leave_days_annual,
+			rest_days,
+			status,
+			status_datetime,
+			status_remarks,
+			remarks,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag
+		</trim>
+		VALUES
+		<trim suffix=")" prefix="(">
+			#{id},
+			#{attendBatchId},
+			#{attendBillCode},
+			#{attendEmployeeRole},
+			#{attendEmployeeId},
+			#{attendMonth},
+			#{attendDaysTotal},
+			#{attendDaysWhole},
+			#{attendDaysHalf},
+			#{basicSalary},
+			#{attendRemarks},
+			#{attendDaysMust},
+			#{leaveDaysThing},
+			#{leaveDaysSick},
+			#{leaveDaysAnnual},
+			#{restDays},
+			#{status},
+			#{statusDatetime},
+			#{statusRemarks},
+			#{remarks},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag}
+		</trim>
+	</insert>
+	
+</mapper>

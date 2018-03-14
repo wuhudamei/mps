@@ -1,0 +1,233 @@
+/* css for reset.scss */
+
+@charset "utf-8";
+body,
+dl,
+dd,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+form,
+img {
+    margin: 0;
+}
+
+ol,
+ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+html {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "\5FAE\8F6F\96C5\9ED1", "Helvetica Neue", Helvetica, sans-serif;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    background: #ffffff;
+    font-size: 12px;
+}
+
+*,
+*:before,
+*:after {
+    /*box-sizing: border-box;*/
+}
+
+img {
+    max-width: 100%;
+    display: inline-block;
+    box-sizing: content-box;
+    text-align: center;
+    position: relative;
+    border: 0;
+}
+
+a {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+    outline: none;
+    /* 消除点击后出现闪动或灰色背景 */
+    -webkit-tap-highlight-color: transparent;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    table-layout: fixed;
+}
+
+em,
+i {
+    font-style: normal;
+}
+
+:focus {
+    outline: none;
+}
+
+
+
+/* input/textarea*/
+
+input[type="reset"]::-moz-focus-inner,
+input[type="button"]::-moz-focus-inner,
+input[type="submit"]::-moz-focus-inner,
+input[type="file"]>input[type="button"]::-moz-focus-inner {
+    border: none;
+    padding: 0;
+}
+
+select,
+input,
+textarea {
+    vertical-align: middle;
+    outline: none;
+    resize: none;
+    background: #fff;
+}
+
+
+
+/* 特殊约定 下划线「_***」的样式是不能单独使用的，它们都必须配合父亲，或者兄弟元素使用 */
+
+
+/* 基础样式，放在最后 */
+
+._fullwidth {
+    width: 100%;
+}
+
+._space {
+    letter-spacing: 3px;
+    text-indent: 3px;
+}
+
+
+._disabled {
+    cursor: not-allowed;
+    opacity: .5;
+    filter: alpha(opacity=50);
+}
+
+._ellipsis {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+._ellipsis2 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+._block {
+    display: block;
+}
+
+.circle {
+    border-radius: 50%;
+}
+
+/*  Border */
+.border-bottom {
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 10px;
+}
+
+.border-top {
+    border-top: 1px solid #ccc;
+}
+
+/* Float */
+.clearfixOrder:before,
+.clearfixOrder:after {
+    content: "";
+    display: block;
+    clear: both;
+}
+
+.pull-left {
+    float: left;
+}
+
+.pull-right {
+    float: right;
+}
+
+
+.text-left {
+    text-align: left !important;
+}
+
+.text-right {
+    text-align: right;
+}
+
+
+/* Show Modle */
+.hidden {
+    visibility: hidden;
+}
+
+.show {
+    visibility: visible !important;
+}
+
+.disB {
+    display: block !important;
+}
+
+
+
+/* Background */
+.bg-primary {
+    background: #fff;
+}
+.bg-blue{
+    background: #0387d9 !important;
+}
+.bg-grey{
+    background: #a2a3a3 !important;
+}
+
+.ml35 {
+    margin-left: 35px;
+}
+.pd10{
+    padding: 10px 0;
+}
+.lh2 {
+    line-height: 2;
+}
+.text-blue{
+   color: #1f7ed0;
+}
+.text-red{
+    color: #c00d0d;
+}
+
+/* col-md */
+.col-md-6{
+    width: 50%;
+}
+.col-md-4{
+    width: 33.3%;
+}
+

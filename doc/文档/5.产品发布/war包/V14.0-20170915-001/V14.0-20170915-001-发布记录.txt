@@ -1,0 +1,15 @@
+打包名称：mdn.war
+打包版本：V14.0-20170915-001
+
+
+功能新增：
+  1、工程投诉明细统计  --雷力明 --张同维（刘志明）
+
+
+菜单路径：
+名称：工程投诉明细统计
+链接：/bizcomplaintproblemitem/bizComplaintProblemItem/list1
+权限：bizcomplaintproblemitem:bizComplaintProblemItem:view
+
+
+

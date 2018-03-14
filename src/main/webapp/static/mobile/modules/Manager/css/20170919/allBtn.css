@@ -1,0 +1,91 @@
+.pl_2em {
+    padding-left: 2em;
+}
+
+.pl_4em {
+    padding-left: 4em;
+}
+
+.mb30 {
+    margin-bottom: .3rem;
+}
+
+.bor_dashed {
+    border-bottom: 1px dashed #ccc;
+}
+
+.btn_wrapper {
+    width: 6.36rem;
+    padding-top: .3rem;
+    padding-bottom: .3rem;
+    margin: 0 auto;
+}
+
+.btnBlueBg {
+    width: 3.4rem;
+    height: .7rem;
+    line-height: .7rem;
+    text-align: center;
+    font-size: .28rem;
+    color: #fff;
+    display: block;
+    box-sizing: border-box;
+    border-radius: .35rem;
+    margin: 0 auto;
+    background: #3b9df4;
+}
+
+.btnBlueBorder {
+    width: 3.4rem;
+    height: .7rem;
+    line-height: .7rem;
+    text-align: center;
+    font-size: .28rem;
+    color: #3b9df4;
+    border: 1px solid #3b9df4;
+    display: block;
+    box-sizing: border-box;
+    border-radius: .35rem;
+    margin: 0 auto;
+}
+
+.border_top {
+    border-top: 1px solid #e5e5e5;
+}
+
+.border_btm {
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.col_e90f0f {
+    color: #e90f0f;
+}
+
+.btnBlueOne {
+    float: left;
+    width: 2.86rem;
+    height: .7rem;
+    line-height: .7rem;
+    color: #fff;
+    text-align: center;
+    background: #3b9df4;
+    font-size: .3rem;
+    border-radius: .35rem;
+}
+
+.btnBlueTwo {
+    float: right;
+    width: 2.86rem;
+    height: .7rem;
+    line-height: .7rem;
+    color: #3b9df4;
+    text-align: center;
+    font-size: .3rem;
+    border-radius: .35rem;
+    border: 1px solid #3b9df4;
+    box-sizing: border-box;
+}
+.btnBlueTwo._orange{
+     color:#ff9800;
+     border-color: #ff9800;
+}

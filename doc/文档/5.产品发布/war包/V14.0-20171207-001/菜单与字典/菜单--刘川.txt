@@ -1,0 +1,4 @@
+菜单新增：
+    菜单路径： 结算付款--准产业项目经理结算-->订单月度结算查询 
+    菜单名称： 订单月度结算查询  
+    链接： /bizPmPreIndustrySettleSummaryBill/bizPmPreIndustrySettleSummaryBill/queryOrderMonthSettleList

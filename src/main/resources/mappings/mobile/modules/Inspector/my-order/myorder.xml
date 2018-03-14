@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.mobile.Inspector.InspectorOrderDao">
+
+<select id="findMyOrderInfoByInspectorId" parameterType="cn.damei.entity.mobile.Inspector.InspectOrderVo" resultType="cn.damei.entity.mobile.Inspector.InspectOrderVo">
+SELECT
+	a.community_name AS "communityName",
+	a.build_number AS "buildNumber",
+	a.id as "orderId",
+	a.build_unit AS "buildUnit",
+	a.build_room AS "buildRoom",
+	a.customer_name AS "customerName",
+	a.contract_area AS "contractArea",
+	a.actual_end_date AS "actualEndDate",
+	a.actual_start_date AS "actualStartDate",
+	a.contract_time AS "contractDays",
+	a.order_status_description AS "orderStatus",
+	a.order_number AS "orderNumber",
+	a.customer_phone AS "customerPhone",
+	a.customer_address AS "customerAddress",
+	b.label AS "houseType",
+	a.contract_start_date AS "contractStartDate",
+	a.contract_end_date AS "contractEndDate",
+	a.designer_name AS "designName",
+	a.designer_phone AS "designPhone",
+	a.service_name AS "serviceName",
+	a.service_phone AS "servicePhone",
+	a.order_reporter_name AS "reportName",
+	a.order_reporter_phone AS "reportPhone",
+	e.realName AS "inspectorName",
+	e.phone AS "inspectorPhone",
+	e2.realName AS "managerName",
+	e2.phone AS "managerPhone"
+FROM
+	`biz_order` a,
+	sys_dict b,
+	biz_employee e,
+	biz_employee e2
+WHERE
+	a.build_type = b.`value`
+AND b.type = 'emp_house_type'
+AND a.order_inspector_id = e.id
+AND a.item_manager_id = e2.id
+AND a.order_status_number != 99
+
+<if test="inspectorId !=null and inspectorId != '' ">
+AND a.order_inspector_id = #{inspectorId}
+</if>
+<if test="orderId !=null and orderId != '' ">
+AND a.id = #{orderId}
+</if>
+
+<if test="text!=null and text!=''">
+and (a.community_name like CONCAT('%','${text}','%' )  or a.customer_name like CONCAT('%','${text}','%' ) )
+
+</if>
+
+</select>
+
+
+</mapper>

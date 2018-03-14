@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizMainMaterialsUnqualifiedReasonDao">
+    
+	<sql id="bizMainMaterialsUnqualifiedReasonColumns">
+		a.id AS "id",
+		a.store_id AS "storeId",
+		a.project_mode AS "projectMode",
+		a.main_materials_install_item_id AS "mainMaterialsInstallItemId",
+		a.main_materials_install_item AS "mainMaterialsInstallItem",
+		a.install_mode AS "installMode",
+		a.unqualified_reason AS "unqualifiedReason",
+		a.status AS "status",
+		a.remarks AS "remarks",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="bizMainMaterialsUnqualifiedReasonJoins">
+	</sql>
+    
+	<select id="get" resultType="cn.damei.entity.modules.BizMainMaterialsUnqualifiedReason">
+		SELECT 
+			<include refid="bizMainMaterialsUnqualifiedReasonColumns"/>
+		FROM biz_main_materials_unqualified_reason a
+		<include refid="bizMainMaterialsUnqualifiedReasonJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="cn.damei.entity.modules.BizMainMaterialsUnqualifiedReason">
+		SELECT
+			a.id AS "id",
+			a.store_id AS "storeId",
+			a.project_mode AS "projectMode",
+			a.install_mode AS "installMode",
+			d.`name` AS "storeName",
+			e.label AS "projectModeName",
+			f.label AS "installModeName",
+			a.main_materials_install_item_id AS "mainMaterialsInstallItemId",
+			(
+				CASE
+					WHEN b.del_flag = "1" THEN CONCAT(b.install_item_name,"【删除】")
+					WHEN b.del_flag = "0" AND b.is_on = "0" THEN CONCAT(b.install_item_name,"【停用】")
+					ELSE b.install_item_name
+				END
+			) AS "mainMaterialsInstallItem",
+			a.unqualified_reason AS "unqualifiedReason",
+			a.status AS "status",
+			a.remarks AS "remarks",
+			a.update_by AS "updateBy.id",
+			c.`name` AS "operatorName",
+			a.update_date AS "updateDate",
+			a.del_flag AS "delFlag"
+		FROM biz_main_materials_unqualified_reason a
+		LEFT JOIN biz_project_install_item b ON a.main_materials_install_item_id = b.id
+		LEFT JOIN sys_user c ON c.id = a.update_by
+		LEFT JOIN sys_office d ON d.id = a.store_id
+		LEFT JOIN sys_dict e ON e.type = 'project_mode' AND e.`value` = a.project_mode AND e.del_flag = 0
+		LEFT JOIN sys_dict f ON f.type = 'install_mode' AND f.`value` = a.install_mode AND f.del_flag = 0
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="storeId != null and storeId != ''">
+				AND a.store_id = #{storeId}
+			</if>
+			<if test="projectMode != null and projectMode != ''">
+				AND a.project_mode = #{projectMode}
+			</if>
+			<if test="installMode != null and installMode != ''">
+				AND a.install_mode = #{installMode}
+			</if>
+			<if test="mainMaterialsInstallItemIdList != null">
+				AND a.main_materials_install_item_id  IN
+				<foreach collection="mainMaterialsInstallItemIdList" item="item" open="("  separator="," close=")" index="index">
+					#{item}
+				</foreach>
+			</if>
+			<if test="unqualifiedReason != null and unqualifiedReason != ''">
+				AND a.unqualified_reason = #{unqualifiedReason}
+			</if>
+			<if test="status != null and status != ''">
+				AND a.status = #{status}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.`status` ASC,a.main_materials_install_item_id ASC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="cn.damei.entity.modules.BizMainMaterialsUnqualifiedReason">
+		SELECT 
+			<include refid="bizMainMaterialsUnqualifiedReasonColumns"/>
+		FROM biz_main_materials_unqualified_reason a
+		<include refid="bizMainMaterialsUnqualifiedReasonJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO biz_main_materials_unqualified_reason(
+			id,
+			store_id,
+			project_mode,
+			main_materials_install_item_id,
+			main_materials_install_item,
+			install_mode,
+			unqualified_reason,
+			status,
+			remarks,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag
+		) VALUES (
+			#{id},
+			#{storeId},
+			#{projectMode},
+			#{mainMaterialsInstallItemId},
+			#{mainMaterialsInstallItem},
+			#{installMode},
+			#{unqualifiedReason},
+			#{status},
+			#{remarks},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE biz_main_materials_unqualified_reason SET 	
+			store_id = #{storeId},
+			project_mode = #{projectMode},
+			main_materials_install_item_id = #{mainMaterialsInstallItemId},
+			main_materials_install_item = #{mainMaterialsInstallItem},
+			install_mode = #{installMode},
+			unqualified_reason = #{unqualifiedReason},
+			status = #{status},
+			remarks = #{remarks},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+
+	<!-- 动态加载主材安装项  -->
+	<select id="queryInstallItemList" resultType="cn.damei.entity.modules.BizProjectInstallItem">
+
+		SELECT
+			a.id AS "id",
+			a.store_id AS "storeId",
+			a.project_mode AS "projectMode",
+			a.install_mode AS "installMode",
+			a.is_on AS "isOn",
+			a.del_flag AS "delFlag",
+			(
+				CASE
+					WHEN a.del_flag = "1" THEN CONCAT(a.install_item_name,"【删除】")
+					WHEN a.del_flag = "0" AND a.is_on = "0" THEN CONCAT(a.install_item_name,"【停用】")
+					ELSE a.install_item_name
+				END
+			) AS "installItemName"
+		FROM
+			biz_project_install_item a
+		<where>
+			<if test="storeId != null and storeId != ''">
+				AND a.store_id = #{storeId}
+			</if>
+			<if test="projectMode != null and projectMode != ''">
+				AND a.project_mode = #{projectMode}
+			</if>
+			<if test="installMode != null and installMode != ''">
+				AND a.install_mode = #{installMode}
+			</if>
+			ORDER BY a.del_flag ASC,a.is_on DESC,a.install_item_sequence ASC
+		</where>
+
+
+
+	</select>
+
+	<!-- 停启用 -->
+	<update id="updateRreasonEnable">
+		UPDATE biz_main_materials_unqualified_reason SET
+			status = #{status},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+
+	<!-- 删除 -->
+	<update id="updateRreasonDelete">
+		UPDATE biz_main_materials_unqualified_reason SET 
+			del_flag = "1"
+		WHERE id = #{id}
+	</update>
+
+	<!--根据安装项计划id查询安装项不合格验收原因列表-->
+	<select id="queryUnqualifiedReasonList" resultType="cn.damei.entity.modules.BizMainMaterialsUnqualifiedReason">
+		SELECT
+			c.id AS "id",
+			c.unqualified_reason AS "unqualifiedReason",
+			c.`status` AS "status"
+		FROM
+			biz_order_install_plan a
+		LEFT JOIN biz_order_install_item b ON a.order_install_item_id = b.id
+		LEFT JOIN biz_main_materials_unqualified_reason c ON c.main_materials_install_item_id = b.project_install_item_id
+		WHERE
+			c.`status` = 1
+		AND c.del_flag = 0
+		AND a.id = #{0}
+
+	</select>
+</mapper>

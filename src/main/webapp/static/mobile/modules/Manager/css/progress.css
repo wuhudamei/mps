@@ -1,0 +1,41 @@
+.g-project_build .bar{
+	width: 3.4rem;
+	height: .8rem;
+	margin: 0 auto;
+	background: url(../images/line.png) no-repeat;
+	background-position: .8rem .4rem;
+	background-size: 55%;
+	/*outline: 1px solid red;*/
+}
+.g-project_build .bar .number{
+	display: block;
+	width: .46rem;
+	height: .46rem;
+	line-height: .46rem;
+	background: url(../images/progess_bg2.png) no-repeat;
+	background-size: 100%;
+	font-size: .24rem;
+	color: #fff;
+	text-align: center;
+	margin:  .14rem auto;
+}
+.g-project_build .bar span.done{
+	background: url(../images/progess_bg1.png) no-repeat;
+	background-size: 100%;
+}
+.g-project_build .bar .pro{
+	font-size: .2rem;
+	color: #0780ec;
+}
+.g-project_build .bar div{
+	width: .8rem;
+	height: inherit;
+	float: left;
+	text-align: center;
+	font-size: 0;
+	margin-right: .5rem;
+	/*outline: 1px solid #000;*/
+}
+.g-project_build .bar div:last-child{
+	margin-right: 0;
+}

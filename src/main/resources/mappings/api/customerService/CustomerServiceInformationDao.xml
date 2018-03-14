@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.CustomerServiceInformationDao">
+    <update id="updateOne" >
+    		update biz_employee set employee_id_mapping_order_change_sys=#{serviceId}
+    		where phone=#{customerServiceMobile} 
+    		and 
+    		realName=#{customerServiceName}
+    </update>
+    
+	
+</mapper>

@@ -1,0 +1,641 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.AllotWorkerGroupDao">
+
+	<sql id="allComlumns">
+
+		a.id AS "workerGroupId" ,
+		a.groupId AS "groupId" ,
+		a.star AS "starLevel"
+		,
+		a.nps AS "NPS" ,
+		a.elactricationId AS "elactricationId" ,
+		a.address AS
+		"address",
+		a.taskPackageId AS "targetPackageId",
+		substring_index(a.pointXy, ',', 1) AS "lat",
+	substring_index(a.pointXy, ',', - 1) AS "lng"
+
+	</sql>
+
+
+
+
+	<sql id="orderTaskpackageColumns">
+		a.id AS "id",
+		a.store_id AS "storeId",
+		a.order_id AS
+		"orderId",
+		a.package_code AS "packageCode",
+		a.package_name AS
+		"packageName",
+		a.plan_startdate AS "planStartdate",
+		a.plan_enddate AS
+		"planEnddate",
+		a.actual_startdate AS "actualStartdate",
+		a.actual_enddate AS "actualEnddate",
+		a.package_stateId AS
+		"packageStateId",
+		a.package_statename AS "packageStatename",
+		a.emp_groupid AS "empGroupid",
+		a.group_id AS "groupId",
+		a.group_realname AS "groupRealname",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag",
+		a.item_customer
+		AS "itemCustomer",
+		a.task_package_type AS "taskPackageType",
+		a.dispatcher AS "dispatcher",
+		a.customer_name AS "customerName",
+		a.customer_message AS "customerMessage",
+		a.task_package_templat_id AS
+		"taskTackageTempId"
+
+
+	</sql>
+
+
+	<select id="get" resultType="WorkgroupVo">
+		SELECT
+		<include refid="allComlumns"></include>
+		from biz_employeegroup a 
+		where a.id =#{id}
+	</select>
+
+	<select id="getWorkgroupById"
+		resultType="cn.damei.entity.modules.WorkgroupVo"
+		parameterType="int">
+		SELECT
+		<include refid="allComlumns"></include>
+		from biz_employeegroup a where id =#{id}
+	</select>
+
+
+	<!-- 一个查询所有工人的findlist 有工程部的条件 -->
+	<select id="findList"
+		parameterType="cn.damei.entity.modules.WorkgroupVo"
+		resultType="cn.damei.entity.modules.WorkgroupVo">
+		select * from (
+		SELECT
+		a.taskPackageId AS "targetPackageId",
+		a.id AS "workerGroupId",
+		a.address AS "address",
+		c.`name` "elactricationName",
+		c.id AS "elactricationId",
+		b.realName AS "groupName",
+		b1.realName AS "itemManageName",
+		b1.phone AS "itemManagerPhone",
+		b.phone AS "phone",
+		b.headPic AS "headPic",
+		a.groupId AS "groupId",
+		a.star AS "starLevel",
+		b.exchange_order_times AS "exchangeOrderTimes",
+		a.nps AS "NPS",
+		substring_index(a.pointXy, ',', 1) AS "lng",
+		substring_index(a.pointXy, ',' ,- 1) AS "lat",
+		(
+		SELECT
+		round(
+		6378.138 * 2 * asin(
+		sqrt(
+		pow(
+		sin(
+		(
+		(SUBSTRING_INDEX(#{packLng}, ',', 1)) * pi() / 180 - (
+		SUBSTRING_INDEX(b.pointXy, ',' ,- 1)
+		) * pi() / 180
+		) / 2
+		),
+		2
+		) + cos(
+		(SUBSTRING_INDEX(#{packLng}, ',', 1)) * pi() / 180
+		) * cos(
+		(
+		SUBSTRING_INDEX(b.pointXy, ',' ,- 1)
+		) * pi() / 180
+		) * pow(
+		sin(
+		(
+		(SUBSTRING_INDEX(#{packLat}, ',' ,- 1)) * pi() / 180 - (
+		SUBSTRING_INDEX(b.pointXy, ',', 1)
+		) * pi() / 180
+		) / 2
+		),
+		2
+		)
+		)
+		) * 1000
+		)
+		) AS "addressToWorkerAddressDistance",
+		(
+		SELECT
+		count(e1.empid)
+		FROM
+		biz_emgrouprelation e1
+		WHERE
+		e1.groupId = a.id
+		) AS "groupCount",
+		(
+		SELECT
+		count(r1.id)
+		FROM
+		biz_order_taskpackage r1
+		WHERE
+		a.id = r1.emp_groupid
+		AND r1.package_stateId IN (50, 60, 70, 80)
+		and r1.package_code = #{packageCode}
+		) AS "targetPackageCount",
+		(
+			select t.project_max_count from biz_task_package_templat t
+			where t.`no` = #{packageCode}
+		) as "projectMaxCount"
+		FROM
+		biz_employeegroup a
+		LEFT JOIN biz_employee b ON a.groupId = b.id
+		left join biz_employee b1 on b.managerId = b1.id
+		LEFT JOIN biz_engineering_department c ON a.elactricationId = c.id
+
+		<where>
+		a.state = 0
+		AND a.orderStop = 0
+			<if test="itemManagerId != '' and itemManagerId != null">
+				and b.managerId = #{itemManagerId}
+			</if>
+			 <if test="itemManageName !='' and itemManageName != null">
+				and b.managerId in (select id from biz_employee t where t.realName like concat ('%', #{itemManageName},'%'))
+			</if> 
+			<if test="isSpecialPack!=0">
+			  AND FIND_IN_SET(#{packTempId}, a.taskPackageId) > 0
+
+			</if>
+
+			<if test="elactricationId != null and elactricationId != ''">
+				AND a.elactricationId = #{elactricationId}
+			</if>
+			<if test="starLevel != null and starLevel != ''">
+				AND a.star = #{starLevel}
+			</if>
+			<if test="groupName != null and groupName != ''">
+				AND b.realName like concat ('%', #{groupName},'%')
+			</if><if test="addressToWorkerAddressDistance!= null and addressToWorkerAddressDistance != ''">
+			and (
+			SELECT
+			round(
+			6378.138 * 2 * asin(
+			sqrt(
+			pow(
+			sin(
+			(
+			(SUBSTRING_INDEX(#{packLng}, ',', 1)) * pi() / 180 - (
+			SUBSTRING_INDEX(b.pointXy, ',' ,- 1)
+			) * pi() / 180
+			) / 2
+			),
+			2
+			) + cos(
+			(SUBSTRING_INDEX(#{packLng}, ',', 1)) * pi() / 180
+			) * cos(
+			(
+			SUBSTRING_INDEX(b.pointXy, ',' ,- 1)
+			) * pi() / 180
+			) * pow(
+			sin(
+			(
+			(SUBSTRING_INDEX(#{packLat}, ',' ,- 1)) * pi() / 180 - (
+			SUBSTRING_INDEX(b.pointXy, ',', 1)
+			) * pi() / 180
+			) / 2
+			),
+			2
+			)
+			)
+			) * 1000
+			)
+			) &lt;= #{addressToWorkerAddressDistance}
+
+			</if>
+
+
+		</where>
+		) a
+		<where>
+			<![CDATA[ a.targetPackageCount < a.projectMaxCount ]]>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				order by a.starLevel desc ,a.addressToWorkerAddressDistance asc
+			</otherwise>
+		</choose>
+
+
+	</select>
+
+
+
+
+
+	<!-- 根据任务包id 查询任务包对象 17-2-3 coding加入特殊任务包   ->模板中的store_order为0的任务包为特殊任务包 -->
+
+	<select id="findTargetPackageById" parameterType="int"
+		resultType="cn.damei.entity.modules.OrderTaskpackage">
+SELECT
+	a.id AS "id",
+	a.store_id AS "storeId",
+	a.order_id AS "orderId",
+	a.package_code AS "packageCode",
+	a.package_name AS "packageName",
+	a.plan_startdate AS "planStartdate",
+	a.plan_enddate AS "planEnddate",
+	a.actual_startdate AS "actualStartdate",
+	a.actual_enddate AS "actualEnddate",
+	a.package_stateId AS "packageStateId",
+	a.package_statename AS "packageStatename",
+	a.emp_groupid AS "empGroupid",
+	a.group_id AS "groupId",
+	a.group_realname AS "groupRealname",
+	a.create_by AS "createBy.id",
+	a.create_date AS "createDate",
+	a.update_by AS "updateBy.id",
+	a.update_date AS "updateDate",
+	a.del_flag AS "delFlag",
+	a.item_customer AS "itemCustomer",
+	a.task_package_type AS "taskPackageType",
+	a.dispatcher AS "dispatcher",
+	a.customer_name AS "customerName",
+	a.customer_message AS "customerMessage",
+	a.task_package_templat_id AS "taskTackageTempId",
+	o.customer_address AS "customerCenter",
+	a.item_manager_id AS itemManagerId,
+	e.phone AS "customerPhone",
+	e.realName AS "itemCustomer",
+	t.store_order AS "isSpecialPack",
+	substring_index(o.map_coordinate, ',', 1) AS "lng",
+	substring_index(o.map_coordinate, ',', - 1) AS "lat",
+	o.engin_depart_id AS "engineDepartId",
+	b. NAME AS "engineDepartName",
+	a.task_package_templat_id AS "taskTackageTempId"
+FROM
+	biz_order_taskpackage a LEFT JOIN
+	biz_order o on  a.order_id = o.id LEFT JOIN
+	biz_employee e on a.item_manager_id = e.id LEFT JOIN
+	biz_task_package_templat t on a.task_package_templat_id = t.id LEFT JOIN
+	biz_engineering_department b  on  o.engin_depart_id = b.id
+WHERE
+	a.id =#{id}
+
+ 
+
+	</select>
+
+
+
+
+	<!-- 根据工人组id 去工人工人组关系表查询所有工人组成员数 -->
+
+	<select id="findCountByWorkerId" parameterType="int" resultType="int">
+		select count(e.empid) from biz_emgrouprelation e where
+		e.groupId
+		=#{groupId}
+
+	</select>
+
+
+
+
+	<!-- 根据组长id 获取组长名字 -->
+	<select id="findTeamLeaderNameById" parameterType="int"
+		resultType="java.lang.String">
+		SELECT a.realName from biz_employee a where a.id = #{id}
+
+	</select>
+
+	<!-- 根据组长id 查询 组长手机号 -->
+
+	<select id="findTeamLeaderPhoneById" parameterType="int"
+		resultType="java.lang.String">
+		SELECT A.PHONE FROM BIZ_EMPLOYEE A WHERE A.ID = #{ID}
+
+	</select>
+
+	<!-- 根据工程部ID 查询工程部 -->
+
+	<select id="findengineerById" parameterType="java.lang.String"
+		resultType="java.lang.String">
+		SELECT A.NAME FROM biz_engineering_department A WHERE A.ID
+		= #{id}
+
+	</select>
+
+
+	<!-- 更新任务包的状态和90分钟定时 -->
+	<update id="updatePackage"
+		parameterType="cn.damei.entity.modules.OrderTaskpackage">
+		update biz_order_taskpackage set
+		package_statename =
+		#{packageStatename},
+		dispatch_time =#{dispatchTime},
+		emp_groupid
+		=#{empGroupid},
+		group_id=#{groupId},
+		group_realname=#{groupRealname},
+		package_stateId=#{packageStateId},
+		plan_startdate = #{planStartdate},
+		plan_enddate = #{planEnddate}
+		where id = #{id}
+	</update>
+
+
+
+
+
+
+
+	<!-- 查询有工人组的任务包 (已分配) -->
+	<select id="findAllPackageWhomHasEmpGroup" parameterType="java.util.List"
+		resultType="cn.damei.entity.modules.OrderTaskpackage">
+		SELECT
+		<include refid="orderTaskpackageColumns" />
+		FROM biz_order_taskpackage a where a.emp_groupid in <foreach collection="list" close=")" index="" item="item" open="(" separator="," >
+			#{item.workerGroupId}
+
+	</foreach>
+		and
+			a.package_stateId in(50,60,70)
+
+	</select>
+
+
+	<!-- 分配工人组所需要的信息 顾客地址 和姓名 任务包名称 根据任务包id查询 -->
+	<select id="sendMessagetoWorker" parameterType="int"
+		resultType="cn.damei.entity.modules.OrderTaskpackage">
+		SELECT
+		o.community_name as "xiaoqu",
+		o.build_number as "lou",
+		o.build_unit as "danyuan",
+		o.build_room as "shi",
+		o.customer_name as"customerName",
+		o.customer_phone as "customerPhone",
+		o.item_manager_id as "itemManagerId",
+		o.item_manager as "itemCustomer",
+		e.phone as "managerPhone",
+		a.package_name as "packageName",
+		o.store_id as "storeId"
+		FROM
+		biz_order_taskpackage a,
+		biz_employee e,
+		biz_order o
+		WHERE
+		a.id =#{packId}
+		and a.item_manager_id = e.id
+		and a.order_id = o.id
+
+	</select>
+
+
+<select id="findWorkerGroupInfoById" parameterType="cn.damei.entity.modules.OrderTaskpackage" resultType="cn.damei.entity.modules.WorkgroupVo">
+	SELECT
+	a.id AS "workerGroupId",
+	a.address AS "address",
+	b.`name` "elactricationName",
+	b.id AS "elactricationId",
+	c.realName AS "groupName",
+	c.phone AS "phone",
+	c.headPic AS "headPic",
+	a.groupId AS "groupId",
+	a.star AS "starLevel",
+	a.nps AS "NPS" ,
+	a.elactricationId AS "elactricationId" ,
+	substring_index(a.pointXy, ',', 1) AS "lng",
+	substring_index(a.pointXy, ',' ,- 1) AS "lat",
+	(
+	SELECT
+	round(
+	6378.138 * 2 * asin(
+	sqrt(
+	pow(
+	sin(
+	(
+	(
+	SUBSTRING_INDEX(#{packLng}, ',', 1)
+	) * pi() / 180 - (
+	SUBSTRING_INDEX(c.pointXy, ',' ,- 1)
+	) * pi() / 180
+	) / 2
+	),
+	2
+	) + cos(
+	(
+	SUBSTRING_INDEX(#{packLng}, ',', 1)
+	) * pi() / 180
+	) * cos(
+	(
+	SUBSTRING_INDEX(c.pointXy, ',' ,- 1)
+	) * pi() / 180
+	) * pow(
+	sin(
+	(
+	(
+	SUBSTRING_INDEX(#{packLat}, ',' ,- 1)
+	) * pi() / 180 - (
+	SUBSTRING_INDEX(c.pointXy, ',', 1)
+	) * pi() / 180
+	) / 2
+	),
+	2
+	)
+	)
+	) * 1000
+	)
+
+	) AS "addressToWorkerAddressDistance",
+	(
+
+	SELECT
+	count(e1.empid)
+	FROM
+	biz_emgrouprelation e1
+	WHERE
+	e1.groupId = a.id
+	) AS "groupCount",
+	(
+	SELECT
+	count(r1.id)
+	FROM
+	biz_order_taskpackage r1
+	WHERE
+	a.id = r1.emp_groupid
+	AND r1.package_stateId IN (50, 60, 70)
+	) AS "targetPackageCount"
+
+
+	FROM
+	biz_employeegroup a
+	INNER JOIN biz_engineering_department b ON a.elactricationId = b.id
+	INNER JOIN biz_employee c ON a.groupId = c.id
+
+
+</select>
+
+<select id="findPageSpecialListNew"
+		parameterType="cn.damei.entity.modules.WorkgroupVo"
+		resultType="cn.damei.entity.modules.WorkgroupVo">
+		SELECT
+		a.taskPackageId AS "targetPackageId",
+		a.id AS "workerGroupId",
+		a.address AS "address",
+		c.`name` "elactricationName",
+		c.id AS "elactricationId",
+		b.realName AS "groupName",
+		b1.realName AS "itemManageName",
+		b1.phone AS "itemManagerPhone",
+		b.phone AS "phone",
+		b.headPic AS "headPic",
+		a.groupId AS "groupId",
+		a.star AS "starLevel",
+		b.exchange_order_times AS "exchangeOrderTimes",
+		a.nps AS "NPS",
+		substring_index(a.pointXy, ',', 1) AS "lng",
+		substring_index(a.pointXy, ',' ,- 1) AS "lat",
+		(
+		SELECT
+		round(
+		6378.138 * 2 * asin(
+		sqrt(
+		pow(
+		sin(
+		(
+		(SUBSTRING_INDEX(#{packLng}, ',', 1)) * pi() / 180 - (
+		SUBSTRING_INDEX(b.pointXy, ',' ,- 1)
+		) * pi() / 180
+		) / 2
+		),
+		2
+		) + cos(
+		(SUBSTRING_INDEX(#{packLng}, ',', 1)) * pi() / 180
+		) * cos(
+		(
+		SUBSTRING_INDEX(b.pointXy, ',' ,- 1)
+		) * pi() / 180
+		) * pow(
+		sin(
+		(
+		(SUBSTRING_INDEX(#{packLat}, ',' ,- 1)) * pi() / 180 - (
+		SUBSTRING_INDEX(b.pointXy, ',', 1)
+		) * pi() / 180
+		) / 2
+		),
+		2
+		)
+		)
+		) * 1000
+		)
+		) AS "addressToWorkerAddressDistance",
+		(
+		SELECT
+		count(e1.empid)
+		FROM
+		biz_emgrouprelation e1
+		WHERE
+		e1.groupId = a.id
+		) AS "groupCount",
+		(
+		SELECT
+		count(r1.id)
+		FROM
+		biz_order_taskpackage r1
+		WHERE
+		a.id = r1.emp_groupid
+		AND r1.package_stateId IN (50, 60, 70, 80)
+		and r1.package_code = #{packageCode}
+		) AS "targetPackageCount",
+		(
+			select t.project_max_count from biz_task_package_templat t
+			where t.`no` = #{packageCode}
+		) as "projectMaxCount"
+		FROM
+		biz_employeegroup a
+		LEFT JOIN biz_employee b ON a.groupId = b.id
+		left join biz_employee b1 on b.managerId = b1.id
+		LEFT JOIN biz_engineering_department c ON a.elactricationId = c.id
+
+		<where>
+		a.state = 0
+		AND a.orderStop = 0
+			<if test="itemManagerId != '' and itemManagerId != null">
+				and b.managerId = #{itemManagerId}
+			</if>
+			 <if test="itemManageName !='' and itemManageName != null">
+				and b.managerId in (select id from biz_employee t where t.realName like concat ('%', #{itemManageName},'%'))
+			</if> 
+			<if test="isSpecialPack!=0">
+			  AND FIND_IN_SET(#{packTempId}, a.taskPackageId) > 0
+
+			</if>
+
+			<if test="elactricationId != null and elactricationId != ''">
+				AND a.elactricationId = #{elactricationId}
+			</if>
+			<if test="starLevel != null and starLevel != ''">
+				AND a.star = #{starLevel}
+			</if>
+			<if test="groupName != null and groupName != ''">
+				AND b.realName like concat ('%', #{groupName},'%')
+			</if><if test="addressToWorkerAddressDistance!= null and addressToWorkerAddressDistance != ''">
+			and (
+			SELECT
+			round(
+			6378.138 * 2 * asin(
+			sqrt(
+			pow(
+			sin(
+			(
+			(SUBSTRING_INDEX(#{packLng}, ',', 1)) * pi() / 180 - (
+			SUBSTRING_INDEX(b.pointXy, ',' ,- 1)
+			) * pi() / 180
+			) / 2
+			),
+			2
+			) + cos(
+			(SUBSTRING_INDEX(#{packLng}, ',', 1)) * pi() / 180
+			) * cos(
+			(
+			SUBSTRING_INDEX(b.pointXy, ',' ,- 1)
+			) * pi() / 180
+			) * pow(
+			sin(
+			(
+			(SUBSTRING_INDEX(#{packLat}, ',' ,- 1)) * pi() / 180 - (
+			SUBSTRING_INDEX(b.pointXy, ',', 1)
+			) * pi() / 180
+			) / 2
+			),
+			2
+			)
+			)
+			) * 1000
+			)
+			) &lt;= #{addressToWorkerAddressDistance}
+
+			</if>
+
+
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				order by a.star desc ,addressToWorkerAddressDistance asc
+			</otherwise>
+		</choose>
+
+
+	</select>
+
+</mapper>

@@ -1,0 +1,9 @@
+
+创建新菜单：综合查询-->导出-->在册人员
+
+在册人员
+/employee/bizEmployeeRegistered/list
+employee:bizEmployeeRegistered:view,employee:bizEmployeeRegistered:edit
+
+
+

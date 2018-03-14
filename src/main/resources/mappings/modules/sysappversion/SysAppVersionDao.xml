@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.SysAppVersionDao">
+    
+	<sql id="sysAppVersionColumns">
+		a.id AS "id",
+		a.app_type AS "appType",
+		a.phone_type AS "phoneType",
+		a.version AS "version",
+		a.download_url AS "downloadUrl",
+		a.upload_employee_id AS "uploadEmployeeId",
+		a.upload_datetime AS "uploadDatetime",
+		a.is_enabled AS "isEnabled"
+	</sql>
+	
+	<sql id="sysAppVersionJoins">
+	</sql>
+    
+	<select id="get" resultType="cn.damei.entity.modules.SysAppVersion">
+		SELECT 
+			<include refid="sysAppVersionColumns"/>
+		FROM sys_app_version a
+		<include refid="sysAppVersionJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="cn.damei.entity.modules.SysAppVersion">
+		SELECT a.id as "id",b.label as "appName",a.version as "version",a.download_url as "downloadUrl",
+				c.name as "uploadEmployeeName",a.upload_datetime as "uploadDatetime",a.is_enabled as "isEnabled"
+		FROM sys_app_version a
+		left join sys_dict b on a.app_type = b.value
+		left join sys_user c on a.upload_employee_id = c.id
+		<where>
+			b.type = #{type}
+			<if test="appType != null and appType != ''">
+				AND a.app_type = #{appType}
+			</if>
+			<if test="isEnabled != null and isEnabled != ''">
+				AND a.is_enabled = #{isEnabled}
+			</if>
+			<if test="phoneType != null and phoneType != ''">
+				AND a.phone_type = #{phoneType}
+			</if>
+			<if test="version != null and version != ''">
+				AND a.version LIKE
+				<if test="dbName == 'oracle'">'%'||#{version}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{version}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{version},'%')</if>
+			</if>
+			<if test="beginUploadDatetime != null and beginUploadDatetime != '' and endUploadDatetime != null and endUploadDatetime != ''">
+				AND a.upload_datetime BETWEEN #{beginUploadDatetime} AND #{endUploadDatetime}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY b.label desc,a.version desc
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="cn.damei.entity.modules.SysAppVersion">
+		SELECT 
+			<include refid="sysAppVersionColumns"/>
+		FROM sys_app_version a
+		<include refid="sysAppVersionJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO sys_app_version(
+			id,
+			app_type,
+			phone_type,
+			version,
+			download_url,
+			upload_employee_id,
+			upload_datetime,
+			is_enabled
+		) VALUES (
+			#{id},
+			#{appType},
+			#{phoneType},
+			#{version},
+			#{downloadUrl},
+			#{uploadEmployeeId},
+			#{uploadDatetime},
+			#{isEnabled}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE sys_app_version SET 	
+			app_type = #{appType},
+			phone_type = #{phoneType},
+			version = #{version},
+			download_url = #{downloadUrl},
+			upload_employee_id = #{uploadEmployeeId},
+			upload_datetime = #{uploadDatetime},
+			is_enabled = #{isEnabled}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM sys_app_version
+		WHERE id = #{id}
+	</update>
+
+	<!--查询最大版本号-->
+	<select id="queryMaxVersion" parameterType="java.lang.String" resultType="java.lang.String">
+		select a.version from sys_app_version a where a.app_type = #{appType} order by a.upload_datetime desc limit 1
+	</select>
+
+	<!--查询版本个数-->
+	<select id="queryCountVersion" parameterType="java.util.Map" resultType="java.lang.Integer">
+		select count(*) from sys_app_version a where a.app_type = #{appType} and a.version = #{version}
+	</select>
+	
+	<!--接口-->
+	<select id="queryNewestVersion" parameterType="java.lang.String" resultType="cn.damei.entity.modules.SysAppVersion">
+		SELECT 
+			<include refid="sysAppVersionColumns"/>
+		FROM sys_app_version a
+		WHERE a.app_type = #{appType} and a.is_enabled = '1'
+		order by a.upload_datetime desc limit 1
+	</select>
+</mapper>

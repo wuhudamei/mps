@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.mobile.Inspector.ApplyCheckDetailDao">
+
+
+	<resultMap id="orderResultMap" type="cn.damei.entity.mobile.Inspector.ApplyCheckOrderEntity">
+		<result property="orderId" column="orderId"></result>
+		<result property="customerInfo" column="customerInfo"></result>
+		<result property="customerPhone" column="customerPhone"></result>
+		<result property="managerInfo" column="managerInfo"></result>
+		<result property="actualStartDate" column="actualStartDate"></result>
+		<collection property="checkDetailList" resultMap="checkDetailResultMap"></collection>
+	</resultMap>
+
+	<resultMap id="checkDetailResultMap" type="cn.damei.entity.mobile.Inspector.ApplyCheckDetailEntity">
+		<result column="qcNodeName" property="qcCheckNodeName"></result>
+
+
+
+	</resultMap>
+
+	<select id="findCheckDoneOrderListByManagerId" parameterType="cn.damei.entity.mobile.Inspector.ApplyCheckOrderEntity" resultMap="orderResultMap">
+
+		SELECT
+			b.id AS "orderId",
+			CONCAT_WS(
+					"-",
+					b.community_name,
+					b.build_number,
+					b.build_unit,
+					b.build_room,
+		b.customer_name
+			) AS "customerInfo",
+			b.customer_phone AS "customerPhone",
+			CONCAT_WS("-",e.realName, e.phone) AS "managerInfo",
+			b.actual_start_date AS "actualStartDate",
+		n.qc_check_node_name as "qcNodeName"
+		FROM
+			biz_order b
+			LEFT JOIN biz_qc_bill a ON a.order_id = b.id
+			LEFT JOIN biz_employee e ON b.item_manager_id = e.id
+		LEFT JOIN biz_qc_check_node n on a.qc_check_node_id = n.id
+		WHERE
+			a.`status` =#{pqcStatus}
+			and b.order_inspector_id=#{pqcId}
+		and a.is_recheck =#{isRecheck}
+		and a.qc_bill_type=#{qcBillType}
+			<if test="text!=null and text!=''">
+
+				and (e.realName like concat('%',#{text},'%') or  b.community_name like concat('%',#{text},'%') or  b.customer_name like concat('%',#{text},'%')   )
+
+			</if>
+
+	</select>
+
+
+
+
+
+	<resultMap id="orderResultMapDetail" type="cn.damei.entity.mobile.Inspector.ApplyCheckOrderEntity">
+
+		<result property="customerInfo" column="customerInfo"></result>
+		<collection property="checkDetailList" resultMap="checkDetailResultMapDetail"></collection>
+	</resultMap>
+
+	<resultMap id="checkDetailResultMapDetail" type="cn.damei.entity.mobile.Inspector.ApplyCheckDetailEntity">
+		<result column="qcCheckNodeName" property="qcCheckNodeName"></result>
+		<result column="qcBillId" property="qcBillId"></result>
+		<result column="managerApplyDate" property="managerApplyDate"></result>
+		<result column="hopePqcCheckDate" property="hopePqcCheckDate"></result>
+		<result column="pqcSignDate" property="pqcSignDate"></result>
+		<result column="pqcSubmitDate" property="pqcSubmitDate"></result>
+		<result column="pqcCheckDoneDate" property="pqcCheckDoneDate"></result>
+		<result column="scores" property="scores"></result>
+		<result column="delayReasonPm" property="delayReasonPm"></result>
+		<result column="delayReasonQc" property="delayReasonQc"></result>
+		<result column="bizEvalScoreId" property="bizEvalScoreId"></result>
+	</resultMap>
+
+	<select id="applyCheckDetailByOrderId" resultMap="orderResultMapDetail" parameterType="int">
+
+		SELECT
+			a.id as "qcBillId",
+			CONCAT_WS(
+					"-",
+					b.community_name,
+					b.build_number,
+					b.build_unit,
+					b.build_room
+
+			) AS "customerInfo",
+			n.qc_check_node_name AS "qcCheckNodeName",
+
+			a.create_date AS "managerApplyDate",
+			a.expect_check_datetime AS "hopePqcCheckDate",
+			s.sign_datetime AS "pqcSignDate",
+			a.check_datetime AS "pqcSubmitDate",
+			a.accept_check_datetime AS "pqcCheckDoneDate",
+			ifnull(a.delay_reason_pm,"无") as "delayReasonPm",
+			ifnull(a.delay_reason_qc,"无") as "delayReasonQc",
+			CONCAT_WS(
+					"/",
+					a.got_score,
+					a.total_score
+			) AS "scores",
+			e.id AS "bizEvalScoreId"
+		FROM
+			biz_order b
+			LEFT JOIN biz_qc_bill a ON a.order_id = b.id
+									   and a.is_recheck=0
+									   and a.qc_bill_type=1
+			LEFT JOIN biz_eval_score e on e.related_business_id = a.id and e.eval_type='2' and eval_status='2'
+			LEFT JOIN biz_qc_check_node n ON a.qc_check_node_id = n.id
+
+			LEFT JOIN biz_business_sign s ON a.id = s.related_business_id_int
+											 AND s.sign_type ='301'
+		WHERE
+			a.`status` = 30
+			AND b.id = #{orderId}
+
+
+
+	</select>
+
+
+
+<select id="picList" parameterType="int" resultType="String">
+select p.pic_url as "picUrl"
+	from  biz_business_pic p
+
+	where p.business_id_int = #{_parameter}
+	AND p.business_type = 3
+
+</select>
+
+
+
+
+
+
+</mapper>

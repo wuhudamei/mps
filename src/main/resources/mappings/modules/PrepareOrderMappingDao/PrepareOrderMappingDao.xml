@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.PrePareOrderMappingDao">
+    
+    
+   
+   
+   <select id="getDateTypeByDateField" parameterType="String" resultType="cn.damei.Quartz.OrderJsonMapping">
+   select a.mapping_data_from as "dataFrom",
+    a.mapping_data_to as "dataTo"  from biz_syn_data_mapping a 
+   
+   where a.business_type =1
+   and a.del_flag = 0
+   </select> 
+   
+   <select id="getPreapareOrderJsonAuto" resultType="cn.damei.Quartz.OrderJsonMapping">
+  SELECT
+	a.id as "dataId",
+	a.business_data as "dataJson"
+FROM
+	biz_syn_data a
+WHERE
+	a.data_direction = 1
+AND a.business_type = 101
+AND a.syn_status = 1
+AND a.del_flag = 0
+      </select>
+    <update id="updateSynDataStatus">
+    update biz_syn_data set syn_status =#{1}
+    where id = #{0}
+    </update>
+    
+    
+    <insert id="insert" parameterType="cn.damei.entity.modules.Order">
+		<selectKey keyProperty="orderId" order="AFTER" resultType="int">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+
+		INSERT INTO biz_prepare_order(
+		id,
+		syn_data_id,
+		order_number,
+		contract_number,
+		customer_type,
+		customer_description,
+		customer_name,
+		customer_phone,
+		community_name,
+		build_number,
+		build_unit,
+		build_room,
+		map_coordinate,
+		sale_type,
+		build_type,
+		house_type,
+		house_is_new,
+		is_elevator,
+		designer_name,
+		designer_phone,
+		order_reporter_name,
+		order_reporter_phone,
+		service_name,
+		service_phone,
+		contract_start_date,
+		contract_end_date,
+		covered_area,
+		contract_area,
+		contract_time,
+		sign_contract_date,
+		create_by,
+		create_date,
+		update_by,
+		update_date,
+		remarks,
+		del_flag,
+		store_id,
+		province,
+		city,
+		county,
+		detail_address,
+		biz_order_accept_area,
+		project_mode,
+		longway_amount,
+		engin_depart_id
+
+		) VALUES (
+		#{orderId},
+		#{synId},
+		#{orderNumber},
+		#{contractNumber},
+		#{customerType},
+		#{customerDescription},
+		#{customerName},
+		#{customerPhone},
+		#{communityName},
+		#{buildNumber},
+		#{buildUnit},
+		#{buildRoom},
+		#{mapCoordinate},
+		#{saleType},
+		#{buildType},
+		#{houseType},
+		#{houseIsNew},
+		#{isElevator},
+		#{designerName},
+		#{designerPhone},
+		#{orderReporterName},
+		#{orderReporterPhone},
+		#{serviceName},
+		#{servicePhone},
+		#{contractStartDate},
+		#{contractEndDate},
+		#{coveredArea},
+		#{contractArea},
+		#{contractTime},
+		#{signContractDate},
+		#{createBy.id},
+		#{createDate},
+		#{updateBy.id},
+		#{updateDate},
+		#{remarks},
+		#{delFlag},
+		#{storeId},
+		#{province},
+		#{city},
+		#{county},
+		#{detailAddress},
+		#{acceptAreaId},
+		#{projectMode},
+		#{distanceFee},
+		#{engineDepartId}
+		)
+	</insert>
+    
+</mapper>

@@ -1,0 +1,49 @@
+.Feedback img{
+    width: 100%;
+}
+.Feedback {
+    padding: 0.24rem 0.3rem;
+}
+.Feedback select{
+    font-size: 0.28rem;
+    color: #007aff;
+    height: 0.58rem;
+    line-height: 0.58rem;
+    width: 98%;
+    padding-left: 2%;
+    background: transparent;
+    position: relative;
+    /*z-index: 10;*/
+}
+.selectBtn{
+    background: url("../images/selectIcon.png") no-repeat ;
+    width: 0.2rem;
+    height: 0.14rem;
+    position: absolute;
+    right: 0.4rem;
+    top: 0.94rem;
+    background-size: 100%;
+
+}
+.Feedback {
+    border-bottom: none;
+}
+.Feedback textarea {
+    height: 2.9rem;
+}
+.mt06{
+    margin-top: 0.4rem;
+}
+.submitOne{
+    background: #ff9800;
+    border-radius: 30px;
+    width: 4.5rem;
+    height: 0.6rem;
+    line-height: 0.6rem;
+    border: none;
+    font-size: 0.32rem;
+    color: #ffffff;
+    display: block;
+    margin: 0.27rem auto;
+
+}

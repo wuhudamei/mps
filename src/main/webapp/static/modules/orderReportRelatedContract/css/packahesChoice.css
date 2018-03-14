@@ -1,0 +1,358 @@
+/* Reset styles begin */
+
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr, 
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    vertical-align: baseline;
+    outline: none;
+    font-family: Microsoft YaHei, PingFangSC-Light, HelveticaNeue-Light, sans-serif;
+}
+html,
+body {
+    height: 100%;
+}
+body {
+    background: #fff;
+    color: #666;
+}
+
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+    display: block;
+}
+
+ol,
+ul {
+    list-style: none;
+}
+
+blockquote,
+q {
+    quotes: none;
+}
+input[type=number] {
+    -moz-appearance:textfield;
+}
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+    content: '';
+    content: none;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+img {
+    border: 0;
+    max-width: 100%;
+}
+
+sub {
+    vertical-align: bottom;
+}
+
+sup {
+    vertical-align: top;
+}
+
+i,
+em {
+    font-style: normal;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6 {
+    font-weight: normal;
+}
+
+a {
+    text-decoration: none;
+    color: #333;
+}
+
+input {
+    outline: none;
+    color: #8e8e93;
+}
+
+input[type=button],
+input[type=submit],
+input[type=file],
+button {
+    cursor: pointer;
+    -webkit-appearance: none;
+}
+
+.clear {
+    height: 0px;
+    line-height: 0px;
+    clear: both;
+    overflow: hidden;
+    font-size: 0px;
+}
+
+.clearfix:after {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: "";
+    clear: both;
+    height: 0;
+}
+
+/* Hides from IE-mac */
+
+* html .clearfix {
+    height: 1%;
+    zoom: 1;
+}
+
+/* End hide from IE-mac */
+
+.show {
+    display: block;
+}
+
+.hide {
+    display: none;
+}
+
+.comfire_dudaofl {
+    float: left;
+}
+
+.fr {
+    float: right;
+}
+
+.fl {
+    float: left;
+}
+
+.tc {
+    text-align: center;
+}
+
+.tr {
+    text-align: right;
+}
+
+
+* html .clearfix {
+    height: 1%;
+    zoom: 1;
+}
+.packagesChoice_warpper {
+    width: 80%;
+    margin:  0 auto;
+}
+.packagesChoice_header {
+    height: 52px;
+    line-height: 52px;
+    text-align: center;
+    background: #26282b;
+    color: #fff;
+}
+.clearfix:after {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: "";
+    clear: both;
+    height: 0;
+}
+ .col_blue {
+    color: #1296db;
+}
+
+.col_remb {
+    color: #ff9800;
+}
+.col_333{
+    color: #323232;
+}
+.col_fff {
+    color:#fff;
+}
+.packagesChoice_warp {
+    font-size: 18px;
+    color: #5d5c5c;
+}
+.icon_line {
+    width: 6px;
+    height: 20px;
+    position: absolute;
+    left: 0px;
+    top:4px;
+    border-radius: 4px;
+    background: #1296db;
+}
+.font_20 {
+    font-size: 20px;
+}
+.basic .col_blue {
+   font-size: 20px;
+   color: #1296db;
+   position: relative;
+   padding-left: 4px;
+}
+.ml12 {
+    margin-left: 12px;
+}
+.mb14 {margin-bottom: 14px;}
+.mt40 {
+    margin-top: 40px;
+}
+.basic_content li{
+    line-height: 36px;
+}
+.mb20 {
+    margin-bottom: 20px;
+}
+.mt33 {
+    margin-top: 33px;
+}
+.pl16 {
+    padding-left: 16px;
+}
+.basic_content {
+    background: #f7f7f7;
+    padding:  24px 58px;
+}
+.w61{
+    width: 61%;
+}
+.basic_content ul li:first-child {
+    width: 24%;
+}
+.processesLog .basic_content ul li:first-child {
+ width: 40%;
+}
+.ml134 {
+    margin-left: 134px;
+}
+.basic_content ul.info_cont li:first-child {
+    width: 100%;
+}
+.content_info {
+    padding-left: 44px;
+    display: block
+}
+.content_info_cont {
+    padding-left: 80px;
+    display: block
+}
+.processesLog h2 {
+    border-bottom: 1px solid #e2e0e0;
+    padding-bottom: 14px;
+} 
+

@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.OrderReportRelatedContractDao">
+    
+	<sql id="orderReportRelatedContractColumns">
+		a.id AS "id",
+		a.store_id AS "storeId",
+		a.customer_name AS "customerName",
+		a.customer_phone AS "customerPhone",
+		a.community_name AS "communityName",
+		a.address AS "address",
+		a.build_number AS "buildNumber",
+		a.build_unit AS "buildUnit",
+		a.build_room AS "buildRoom",
+		a.report_remarks AS "reportRemarks",
+		a.reporter_employee_id AS "reporterEmployeeId",
+		a.reporter_name AS "reporterName",
+		a.reporter_phone AS "reporterPhone",
+		a.report_datetime AS "reportDatetime",
+		a.reporter_type AS "reporterType",
+		a.report_source_type AS "reportSourceType",
+		a.report_status AS "reportStatus",
+		a.instore_datetime AS "instoreDatetime",
+		a.instore_remarks AS "instoreRemarks",
+		a.sign_bill_datetime AS "signBillDatetime",
+		a.sign_bill_remarks AS "signBillRemarks",
+		a.remarks AS "remarks",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag",
+		a.service_name AS "serviceName",
+		a.service_phone as "servicePhone"
+	</sql>
+	
+	<sql id="orderReportRelatedContractJoins">
+	</sql>
+    
+	<select id="get" resultType="OrderReportRelatedContract">
+		SELECT 
+			<include refid="orderReportRelatedContractColumns"/>
+		FROM biz_order_report a
+		<include refid="orderReportRelatedContractJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="OrderReportRelatedContract">
+		SELECT
+		a.id AS "id",
+		a.store_id AS "storeId",
+		a.customer_name AS "customerName",
+		a.customer_phone AS "customerPhone",
+		a.community_name AS "communityName",
+		a.address AS "address",
+		a.build_number AS "buildNumber",
+		a.build_unit AS "buildUnit",
+		a.build_room AS "buildRoom",
+		a.report_remarks AS "reportRemarks",
+		a.reporter_employee_id AS "reporterEmployeeId",
+		a.reporter_name AS "reporterName",
+		a.reporter_phone AS "reporterPhone",
+		a.report_datetime AS "reportDatetime",
+		a.reporter_type AS "reporterType",
+		a.report_source_type AS "reportSourceType",
+		a.report_status AS "reportStatus",
+		a.instore_datetime AS "instoreDatetime",
+		a.instore_remarks AS "instoreRemarks",
+		a.sign_bill_datetime AS "signBillDatetime",
+		a.sign_bill_remarks AS "signBillRemarks",
+		a.remarks AS "remarks",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag",
+		a.service_name AS "serviceName",
+		a.service_phone as "servicePhone"
+		FROM
+		biz_order_report_related_order b inner JOIN  biz_order_report a
+		on a.id = b.order_report_id
+		INNER JOIN biz_order c on b.order_id = c.id
+		WHERE
+		a.report_status IN (10, 25, 30, 40)
+		<if test="storeId!=null and storeId !=''">
+			and a.store_id = #{storeId}
+
+		</if>
+		<if test="customerName!=null and customerName !=''">
+			and a.customer_name LIKE concat('%',#{customerName},'%')
+
+		</if>
+		<if test="customerPhone!=null and customerPhone !=''">
+			and a.customer_phone LIKE concat('%',#{customerPhone},'%')
+
+		</if>
+		<if test="communityName!=null and communityName !=''">
+			and a.community_name LIKE concat('%',#{communityName},'%')
+
+		</if>
+		<if test="serviceName!=null and serviceName !=''">
+			and a.service_name LIKE concat('%',#{serviceName},'%')
+
+		</if>
+		<if test="reporterName!=null and reporterName !=''">
+			and a.reporter_name  LIKE concat('%',#{reporterName},'%')
+
+		</if>
+		<if test="reporterPhone!=null and reporterPhone !=''">
+			and a.reporter_phone = #{reporterPhone}
+
+		</if>
+		<if test="reporterType!=null and reporterType !=''">
+			and a.reporter_type= #{reporterType}
+
+		</if>
+		<if test="start!=null and start !='' and  end!=null and end !=''">
+			and a.report_datetime between #{start} and #{end}
+
+		</if>
+
+		GROUP BY a.id
+
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+
+
+
+	<select id="findOrderInfoByReportId" parameterType="String" resultType="cn.damei.entity.modules.OrderReportRelatedContract">
+		SELECT
+		a.id as "orderId",
+		a.order_number as "orderNumber",
+		a.sign_contract_date as "orderSignContractDate",
+		a.customer_name as "orderCustomerName",
+		a.community_name as "orderCommunityName",
+		a.detail_address as "orderDetailAddress",
+		b.order_report_id as "id"
+		FROM
+		biz_order_report_related_order b	inner JOIN biz_order a
+			on b.order_id =a.id
+		where b.order_report_id =#{_parameter}
+	</select>
+	
+
+	<delete id="deleteRelatedInfoByOrderId" parameterType="java.util.Map">
+
+		delete from biz_order_report_related_order where  order_report_id=#{reportId}
+			<if test="orderIds !=null and orderIds!=''">
+				and order_id not in
+				<foreach collection="orderIds" separator="," item="item" close=")" open="(">
+
+					 #{item}
+
+				</foreach>
+
+
+
+			</if>
+
+
+
+	</delete>
+
+
+	<update id="updateOrderReportStatusById" parameterType="String" >
+
+		UPDATE  biz_order_report set report_status=50 where id  =#{_parameter}
+
+	</update>
+
+
+	<delete id="deleteRelatedInfoByOrderId2" parameterType="cn.damei.entity.modules.OrderReportRelatedContract">
+
+		delete from biz_order_report_related_order where  order_report_id=#{id}
+		and order_id= #{orderId}
+
+
+
+
+
+
+
+	</delete>
+
+
+</mapper>

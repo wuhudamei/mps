@@ -1,0 +1,358 @@
+body {
+  background: #eee;
+  position: relative;
+}
+.topTit{
+  width: 92%;
+  margin-left:4%;
+  line-height: 30px;
+  height: 30px;
+  background: #fff;
+  text-align: center;
+  color: #333;
+  font-size: 18px;
+  margin-top:10px;
+}
+.header {
+  width: 92%;
+  margin-left:4%;
+  line-height: 30px;
+  height: 30px;
+  background: #fff;
+  text-align: center;
+  color: #333;
+  font-size: 18px;
+  position: fixed;
+  top: 10px;
+}
+.header1{
+  width: 92%;
+  margin-left:4%;
+  line-height: 30px;
+  height: 30px;
+  background: #fff;
+  text-align: center;
+  color: #333;
+  font-size: 18px;
+  margin-top: -10px;
+}
+.wrap {
+  width: 92%;
+  margin: 10px 4%;
+}
+.wrap h3 {
+  color: #1f7ed0;
+  font-size: 16px;
+  line-height: 20px;
+  height: 20px;
+  border-bottom: #e9e8e8 solid 1px;
+}
+.wrap .basic {
+  padding: 20px 30px 30px;
+  background: #fff;
+  margin-bottom: 10px;
+}
+.wrap .basic h3 {
+  margin-bottom: 8px;
+}
+.wrap .basic p {
+  width: 100%;
+  height: 30px;
+  line-height: 30px;
+  color: #333;
+  font-size: 14px;
+  clear: both;
+}
+.wrap .basic p span {
+  display: inline-block;
+  width: 50%;
+  float: left;
+}
+.wrap .question {
+  background: #fff;
+  padding-top: 20px;
+  margin-bottom: 10px;
+}
+.wrap .question h3 {
+  margin: 0 30px;
+}
+.wrap .question h3 span {
+  display: block;
+  float: left;
+  width: 50%;
+}
+.wrap .question p {
+  height: 60px;
+  line-height: 60px;
+  font-size: 14px;
+  color: #333;
+  clear: both;
+}
+.wrap .question p span {
+  position: relative;
+  display: block;
+  float: left;
+  width: 50%;
+}
+.wrap .question p span:first-child {
+  padding-left: 30px;
+  line-height: 60px;
+}
+.wrap .question p span input {
+  width: 480px;
+  height: 34px;
+  color: #666;
+  line-height: 34px;
+  vertical-align: middle;
+  border: #d3d3d3 solid 1px;
+  padding: 0 15px;
+  margin-top: 14px; 
+}
+.wrap .question p span .del {
+  width: 24px;
+  height: 24px;
+  display: block;
+  position: absolute;
+  left: 450px;
+  top: 63px;
+  background: url(../img/del.png);
+  background-size: 100% 100%;
+  /* -ms-transform: translateY(-50%);
+  -moz-transform: translateY(-50%);
+  -o-transform: translateY(-50%);
+  transform: translateY(-50%);  */
+}
+.wrap .question p span select {
+  width: 238px;
+  line-height: 34px;
+  height: 34px;
+  padding-left: 16px;
+  color: #a9a9a9;
+  font-size: 14px;
+  border: #d3d3d3 solid 1px;
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  background: url(../img/select.png) no-repeat scroll 216px center transparent;
+}
+.wrap .question p span select::-ms-expand {
+  display: none;
+}
+.wrap .question p span ::-webkit-input-placeholder {
+  font-size: 14px;
+  color:#666;
+}
+.wrap .question p span ::-moz-input-placeholder {
+  font-size: 14px;
+  color:#666;
+}
+.wrap .question p span :-ms-input-placeholde {
+  font-size: 14px;
+  color:#666;
+}
+.wrap .question p:hover {
+  background: #f9f9f9;
+}
+.wrap .submit {
+  height: 80px;
+  line-height: 80px;
+  padding-top: 30px;
+}
+.wrap .submit a {
+  display: inline-block;
+  width: 88px;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  color: #fff;
+  background: #0387d9;
+  border-radius: 3px;
+  margin-left: 20%;
+  font-size:16px;
+}
+.wrap .submit a:nth-of-type(2){
+   width: 120px;
+   background:#00a0e9;
+   margin-left: 50px;
+}
+.wrap .submit a:nth-of-type(3){
+   background:#33b3ed;
+   margin-left: 50px;
+}
+
+.select2-container{
+  margin-top:15px;
+  width:200px;
+}
+.firstSelect,.secondSelect,.childSelect{
+  margin-top: 14px;
+  width: 238px;
+  line-height: 34px;
+  height: 34px;
+  padding-left: 16px;
+  color: #666;
+  font-size: 14px;
+  border: #d3d3d3 solid 1px;
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  background: url(../img/select.png) no-repeat scroll 216px center transparent;
+}
+.day{
+   width: 238px!important;
+   color:#00a0e9;
+}
+.wrap .question p span .day::-webkit-input-placeholder{
+    color:#00a0e9;
+}
+.wrap .question .text{
+  height:150px;
+  line-height:150px;
+  overflow: hidden;
+}
+.wrap .question .text .quesle{
+  line-height:150px;
+}
+.wrap .question p span textarea{
+     width: 480px;
+     height:112px;
+     line-height:22px;
+     padding:8px 40px 8px 16px;
+     border: #d3d3d3 solid 1px;
+     margin-top:19px;
+}
+.count{
+  line-height:14px;
+  position: absolute;
+  left: 412px;
+  top: 108px;
+  font-size:14px;
+}
+.count .num{
+  color:#00a0e9;
+}
+.Black{
+  display:none;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left:0;
+  background:rgba(0,0,0,0.6);
+}
+.Black .content{
+  width: 468px;
+  height: 312px;
+  background:#fff;
+  position: absolute;
+  top: 50%;
+  left:50%;
+  margin-top: -156px;
+  margin-left:-234px;
+}
+.Black .content h3{
+  line-height:58px;
+  font-size:16px;
+  color:#666;
+  text-align:center;
+}
+.Black .content textarea{
+  padding:8px 40px 8px 16px;
+  font-size:12px;
+  margin-left:31px;
+  width: 406px;
+  height: 176px;
+  background:#f5f5f5;
+  box-shadow:0px 1px 2px #ccc;
+  line-height:30px;
+  color:#666;
+}
+.Black .content .count{
+  left: 366px;
+  top: 210px;
+}
+.Black .content p{
+  text-align:center;
+  line-height:30px;
+  margin-top:25px;
+}
+.Black .content p span{
+    display:inline-block;
+    width:88px;
+    text-align:center;
+    border-radius:3px;
+    color:#fff;
+    background:#0387d9;
+    cursor: pointer;
+}
+.Black .content p span:last-child{
+    background:#00a0e9;
+    margin-left:10px;
+}
+.invalid{
+  background:#fff;
+  padding:20px 26px;
+}
+.invalid p{
+  line-height:36px;
+}
+.invalid p span{
+  display:inline-block;
+  width: 49%;
+  font-size:14px;
+  color:#333;
+}
+.Remarks p{
+    padding-left: 48px;
+    color:#333;
+    font-size:14px;
+}
+.Remarks span{
+    float:left;
+    width:48px;
+    display:block;
+    line-height:36px;
+    font-size:14px;
+    color:#333;
+}
+.invalist{
+  padding: 20px 0;
+  border-bottom:#e9e8e8 solid 1px;
+}
+.invalist:last-child{
+  border-bottom:0;
+}
+.right em{
+    display:block;
+    line-height:20px;
+}
+.quesLine{
+  background:#fff;
+  margin-bottom:38px;
+  padding:30px;
+}
+.quesLine h3 span{
+  display: block;
+  float: left;
+  width: 50%;
+}
+.Lines{
+   position: relative;
+}
+.Lines:hover{
+    background: #f9f9f9;
+}
+.Lines p:first-child{
+    position: absolute;
+    top: 50%;
+    left:30px;
+    transform:translateY(-50%);
+    -webkit-transform:translateY(-50%);
+}
+.Lines p:last-child{
+    margin-left:49%;
+    line-height:34px;
+    padding:10px 0;
+    width: 50%;
+}
+.font0{font-size:0;}

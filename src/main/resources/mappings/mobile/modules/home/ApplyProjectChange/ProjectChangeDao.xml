@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="cn.damei.dao.mobile.home.ProjectChangeDao">
+
+	<!-- 根据客户手机号 查询变更单 -->
+	<select id="findChangeList" parameterType="String"
+		resultType="cn.damei.entity.mobile.Manager.ApplyProjectChangeEntity">
+
+		SELECT
+			a.id AS "projectChangeId",
+			a.order_id AS "orderId",
+			a.apply_date AS "applyDate",
+			a.sub_item_total_price AS "minusItemTotalPrice",
+			a.add_item_total_price AS "addItemTotalPrice",
+			a.`status` AS "status",
+			b.label AS "statusName"
+		FROM
+			biz_project_change_bill a,
+			sys_dict b,
+			biz_order c
+		WHERE
+			c.customer_phone = #{customerPhone}
+		AND c.id = a.order_id
+		AND a.`status` = '30'
+		AND a.`status` = b.`value`
+		AND b.type = 'change_single_status'
+	</select>
+
+	<!-- 变更单审核 -->
+	<update id="updateChangeBill" parameterType="cn.damei.entity.mobile.home.BizProjectChangeBill">
+		UPDATE biz_project_change_bill SET 	
+			status = #{status},
+			check_employee_id = #{checkEmployeeId},
+			check_datetime = #{checkDate},
+			check_words = #{checkWords}
+		WHERE id = #{projectChangeId}
+	</update>
+
+	<!-- 根据Id查变更单 -->
+	<select id="findChangeBillDetailById" parameterType="int" resultType="cn.damei.entity.mobile.Manager.ApplyProjectChangeEntity">
+		SELECT
+			 a.id AS "projectChangeId",
+			 a.change_reason as "changeReason",
+			 a.order_id as "orderId"
+		FROM
+			`biz_project_change_bill` a 
+		where 
+			a.id=#{_parameter}
+	</select>
+	
+	<!-- 根据变更单id ,查询变更项 -->
+	
+	
+	<select id="findChangeItemByChangeBillId" parameterType="int" resultType="cn.damei.entity.mobile.Manager.ProjectItem">
+		SELECT
+			a.id AS "itemId",
+			a.project_intem_name AS "itemName",
+			a.project_intem_unit AS "itemUnit",
+			a.project_intem_price AS "itemPrice",
+			a.group_type AS "groupType",
+			a.explain_words AS "itemDescription",
+			a.project_intem_mold AS "itemWay",
+			a.project_intem_code AS "itemCode",
+			a.project_intem_amount AS "itemCount",
+			a.project_change_bill_id AS "changeBillId"
+		FROM
+			biz_project_change_bill_item a
+		WHERE
+			a.project_change_bill_id = #{_parameter}
+		
+	</select>
+</mapper>

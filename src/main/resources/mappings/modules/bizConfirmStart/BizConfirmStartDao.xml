@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizConfirmStartDao">
+
+	<sql id="bizConfirmStartColumns">
+		a.ID AS "id",
+		a.ORDER_NUMBER AS "orderNumber",
+		a.CONTRACT_NUMBER AS "contractNumber",
+		a.CUSTOMER_TYPE AS "customerType",
+		a.CUSTOMER_DESCRIPTION AS "customerDescription",
+		a.CUSTOMER_NAME AS "customerName",
+		a.CUSTOMER_PHONE AS "customerPhone",
+		a.COMMUNITY_NAME AS "communityName",
+		a.BUILD_NUMBER AS "buildNumber",
+		a.BUILD_UNIT AS "buildUnit",
+		a.BUILD_ROOM AS "buildRoom",
+		a.MAP_COORDINATE AS "mapCoordinate",
+		a.SALE_TYPE AS "saleType",
+		a.AREA AS "area",
+		a.BUILD_TYPE AS "buildType",
+		a.HOUSE_TYPE AS "houseType",
+		a.HOUSE_IS_NEW AS "houseIsNew",
+		a.IS_ELEVATOR AS "isElevator",
+		a.DESIGNER_NAME AS "designerName",
+		a.DESIGNER_PHONE AS "designerPhone",
+		a.ORDER_REPORTER_NAME AS "orderReporterName",
+		a.ORDER_REPORTER_PHONE AS "orderReporterPhone",
+		a.SERVICE_NAME AS "serviceName",
+		a.SERVICE_PHONE AS "servicePhone",
+		a.CONTRACT_START_DATE AS "contractStartDate",
+		a.CONTRACT_END_DATE AS "contractEndDate",
+		a.COVERED_AREA AS "coveredArea",
+		a.CONTRACT_AREA AS "contractArea",
+		a.CONTRACT_TIME AS "contractTime",
+		a.SIGN_CONTRACT_DATE AS "signContractDate",
+		a.ORDER_STATUS_NUMBER AS "orderStatusNumber",
+		a.ORDER_STATUS_DESCRIPTION AS "orderStatusDescription",
+		a.ORDER_INSPECTOR AS "orderInspector",
+		a.CREATE_BY AS "createBy.id",
+		a.CREATE_DATE AS "createDate",
+		a.UPDATE_BY AS "updateBy.id",
+		a.UPDATE_DATE AS "updateDate",
+		a.REMARKS AS "remarks",
+		a.DEL_FLAG AS "delFlag",
+		a.ITEM_MANAGER AS "itemManager",
+		a.STORE_ID AS "storeId",
+		a.CUS_MANAGER AS "cusManager",
+		a.ORDERTASKPACK_STATUS AS "orderTaskPackStatus",
+		a.ACTUAL_START_DATE AS actualStartDate,
+		a.ACTUAL_END_DATE AS actualEndDate,
+		a.ITEM_MANAGER_ID AS "itemManagerId",
+		a.SIGN_FLAG AS "signFlag",
+		a.DELAY_TYPE AS "delayType",
+		a.ORDER_INSPECTOR_ID AS "orderInspectorId",
+		a.engin_depart_id as "engineDepartId",
+		a.PROJECT_MODE AS "projectMode"
+	</sql>
+	
+	<select id="get" resultType="cn.damei.entity.modules.BizConfirmStartOrder">
+		SELECT 
+			<include refid="bizConfirmStartColumns"/>
+		FROM BIZ_ORDER a
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="cn.damei.entity.modules.BizConfirmStartOrder">
+		SELECT 
+			<include refid="bizConfirmStartColumns"/>,
+			c.CREATE_DATE AS "staCreateDate",
+			y.REALNAME AS "managerRealName",
+			y.PHONE AS "managerPhone",
+			DATEDIFF(a.ACTUAL_START_DATE, a.CONTRACT_START_DATE) AS "deplayDays",
+			c.IS_NEED_SIGN AS "dicIsNeedSign",
+			c.remarks AS "staRemarks",
+			c.ID AS "orderStartWorkID",
+			c.IS_SELF_DECORATE_NEED_SIGN AS "staIsSelfDecorateNeedSign",
+			c.self_decorate_delay_days AS "staSelfDecorateDelayDays",
+			f.name as "name",
+			y1.REALNAME as "inspectorName",
+			y1.PHONE AS "inspectorPhone",
+			ed.name as "enginDepartName"
+			<!-- (SELECT COUNT(p.ID) FROM BIZ_ORDER_CONFIRM_STARTWORK_PIC p WHERE p.ORDER_CONFIRM_STARTWORK_ID = c.ID) AS "countPhotos" -->
+		FROM BIZ_ORDER a,BIZ_ORDER_CONFIRM_STARTWORK c,BIZ_EMPLOYEE y,sys_OFFICE f,BIZ_EMPLOYEE y1,biz_engineering_department ed
+		<where>
+			c.ORDER_ID = a.ID
+			AND y.ID = a.ITEM_MANAGER_ID
+			and f.id = a.STORE_ID
+			and a.ORDER_INSPECTOR_ID = y1.id
+			and ed.id = a.engin_depart_id
+			<if test="managerRealName != null and managerRealName != ''">
+                AND y.REALNAME LIKE concat('%',#{managerRealName}, '%')
+            </if>
+            <!-- <if test="employeePhone != null and employeePhone != ''">
+                AND y.PHONE = #{employeePhone}
+            </if> -->
+            <if test="projectMode != null and projectMode != ''">
+				AND a.PROJECT_MODE = #{projectMode}
+			</if>
+			<if test="orderNumber != null and orderNumber != ''">
+                AND a.ORDER_NUMBER LIKE concat('%',#{orderNumber}, '%')
+            </if>
+            <if test="storeId != null and storeId != ''">
+                AND a.STORE_ID = #{storeId}
+            </if>
+            <if test="customerName != null and customerName != ''">
+                AND a.CUSTOMER_NAME LIKE concat('%',#{customerName}, '%')
+            </if>
+            <if test="actualStartDateBegin != null and actualStartDateBegin != ''">
+                AND a.ACTUAL_START_DATE &gt;= #{actualStartDateBegin}
+            </if>
+            <if test="actualStartDateEnd != null and actualStartDateEnd != ''">
+                AND a.ACTUAL_START_DATE &lt;= #{actualStartDateEnd}
+            </if>
+            <if test="engineDepartId != null and engineDepartId != ''">
+				AND a.engin_depart_id = #{engineDepartId}
+			</if>
+            <!-- <if test="applyIntoDateBegin != null and applyIntoDateBegin != ''">
+                AND p.APPLY_INTO_DATE &gt;= STR_TO_DATE(#{applyIntoDateBegin},'%Y-%m-%d %h:%i:%s')
+            </if>
+            <if test="applyIntoDateEnd != null and applyIntoDateEnd != ''">
+                AND p.APPLY_INTO_DATE &lt;= STR_TO_DATE(#{applyIntoDateEnd},'%Y-%m-%d %h:%i:%s')
+            </if> 
+            <if test="installStatus != null and installStatus != ''">
+                AND p.status = #{installStatus}
+            </if>-->
+            
+            <if test="phones != null">
+			  AND a.DESIGNER_PHONE IN 
+				<foreach collection="phones" item="item" open="("  separator="," close=")" index="index">
+					#{item}
+				</foreach> 
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY c.CREATE_DATE DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+</mapper>

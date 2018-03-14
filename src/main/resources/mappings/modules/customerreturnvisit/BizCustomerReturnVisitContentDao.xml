@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizCustomerReturnVisitContentDao">
+    
+	<sql id="bizCustomerReturnVisitContentColumns">
+		a.id AS "id",
+		a.return_visit_id AS "returnVisitId",
+		a.question_content AS "questionContent",
+		a.statistics_department AS "statisticsDepartment",
+		a.reply_mode AS "replyMode",
+		a.item_content AS "itemContent",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="bizCustomerReturnVisitContentJoins">
+	</sql>
+    
+	<select id="get" resultType="BizCustomerReturnVisitContent">
+		SELECT 
+			<include refid="bizCustomerReturnVisitContentColumns"/>
+		FROM biz_customer_return_visit_content a
+		<include refid="bizCustomerReturnVisitContentJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="getByReturnVisitId" resultType="BizCustomerReturnVisitContent">
+		SELECT 
+			<include refid="bizCustomerReturnVisitContentColumns"/>
+		FROM biz_customer_return_visit_content a
+		<include refid="bizCustomerReturnVisitContentJoins"/>
+		WHERE a.return_visit_id = #{returnVisitId}
+	</select>
+	
+	<select id="getByProjectNode" resultType="BizCustomerReturnVisitContent">
+		SELECT 
+			<include refid="bizCustomerReturnVisitContentColumns"/>
+		FROM biz_customer_return_visit_content a
+		WHERE a.return_visit_id = ( select id from biz_customer_return_visit where project_node = ${projectNode} and store_id = ${storeId} and project_mode=${projectMode}  and del_flag = 0)
+	</select>	
+	
+	<select id="findList" resultType="BizCustomerReturnVisitContent">
+		SELECT 
+			<include refid="bizCustomerReturnVisitContentColumns"/>
+		FROM biz_customer_return_visit_content a
+		<include refid="bizCustomerReturnVisitContentJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="BizCustomerReturnVisitContent">
+		SELECT 
+			<include refid="bizCustomerReturnVisitContentColumns"/>
+		FROM biz_customer_return_visit_content a
+		<include refid="bizCustomerReturnVisitContentJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO biz_customer_return_visit_content(
+			return_visit_id,
+			question_content,
+			statistics_department,
+			reply_mode,
+			item_content,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag
+		) VALUES (
+			#{returnVisitId},
+			#{questionContent},
+			#{statisticsDepartment},
+			#{replyMode},
+			#{itemContent},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag}
+		)
+	</insert>
+	
+	<!-- 批量新增 -->
+	<insert id="insertBatch" parameterType="java.util.List">
+		INSERT INTO biz_customer_return_visit_content(
+			return_visit_id,
+			question_content,
+			statistics_department,
+			reply_mode,
+			item_content,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag
+		) VALUES 
+		<foreach collection="list" item="item" index="index" separator="," >
+		(
+			#{item.returnVisitId},
+			#{item.questionContent},
+			#{item.statisticsDepartment},
+			#{item.replyMode},
+			#{item.itemContent},
+			#{item.createBy.id},
+			#{item.createDate},
+			#{item.updateBy.id},
+			#{item.updateDate},
+			#{item.delFlag}
+		)	
+		</foreach>
+	</insert>
+	
+	<update id="update">
+		UPDATE biz_customer_return_visit_content SET 	
+			return_visit_id = #{returnVisitId},
+			question_content = #{questionContent},
+			statistics_department = #{statisticsDepartment},
+			reply_mode = #{replyMode},
+			item_content = #{itemContent},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE biz_customer_return_visit_content SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+	<delete id="deleteByReturnVisitId">
+		delete from biz_customer_return_visit_content where return_visit_id = #{returnVisitId}
+	</delete>
+</mapper>

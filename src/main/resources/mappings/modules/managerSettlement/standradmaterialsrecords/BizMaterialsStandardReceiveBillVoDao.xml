@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizMaterialsStandardReceiveBillVoDao">
+
+	<select id="get" resultType="cn.damei.entity.modules.BizMaterialsStandardReceiveBillVo">
+		SELECT 
+			a.id AS "id",
+			a.store_id AS "storeId",
+			a.order_id AS "orderId",
+			a.materials_standard_receive_bill_code AS "materialsStandardReceiveBillCode",
+			a.receive_datetime AS "receiveDatetime",
+			a.receive_employee_id AS "receiveEmployeeId",
+			a.receive_bill_amount AS "receiveBillAmount",
+			a.is_settled AS "isSettled",
+			b.order_number AS "orderNo",
+			b.customer_name AS "customerName",
+			b.item_manager AS "receiveEmployeeName",
+			c.no AS "employeeNo"
+		FROM biz_materials_standard_receive_bill a 
+		left join biz_order b on a.order_id = b.id
+		inner join biz_employee c on b.item_manager_id = c.id
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findByCode" resultType="cn.damei.entity.modules.BizMaterialsStandardReceiveBillVo">
+		SELECT 
+			a.id AS "id",
+			a.store_id AS "storeId",
+			a.order_id AS "orderId",
+			a.materials_standard_receive_bill_code AS "materialsStandardReceiveBillCode",
+			a.receive_datetime AS "receiveDatetime",
+			a.receive_employee_id AS "receiveEmployeeId",
+			a.receive_bill_amount AS "receiveBillAmount",
+			a.is_settled AS "isSettled",
+			b.order_number AS "orderNo",
+			b.item_manager AS "receiveEmployeeName",
+			b.customer_name AS "customerName",
+			c.no AS "employeeNo"
+		FROM biz_materials_standard_receive_bill a 
+		left join biz_order b on a.order_id = b.id
+		inner join biz_employee c on b.item_manager_id = c.id
+		WHERE a.materials_standard_receive_bill_code = #{0}
+	</select>
+	
+	<select id="findList" resultType="cn.damei.entity.modules.BizMaterialsStandardReceiveBillVo">
+		SELECT 
+			a.id AS "id",
+			a.store_id AS "storeId",
+			a.order_id AS "orderId",
+			a.materials_standard_receive_bill_code AS "materialsStandardReceiveBillCode",
+			a.receive_datetime AS "receiveDatetime",
+			a.receive_employee_id AS "receiveEmployeeId",
+			a.receive_bill_amount AS "receiveBillAmount",
+			a.is_settled AS "isSettled",
+			b.order_number AS "orderNo",
+			b.item_manager AS "receiveEmployeeName",
+			b.customer_name AS "customerName",
+			c.no AS "employeeNo"
+		FROM biz_materials_standard_receive_bill a 
+		left join biz_order b on a.order_id = b.id
+		inner join biz_employee c on b.item_manager_id = c.id
+		<where>
+			<if test="storeId != null and storeId != ''">
+				AND a.store_id = #{storeId}
+			</if>
+			<if test="orderNo != null and orderNo != ''">
+				AND b.order_number like concat('%',#{orderNo},'%')
+			</if>
+			<if test="beginReceiveDatetime != null and endReceiveDatetime != null and beginReceiveDatetime != '' and endReceiveDatetime != ''">
+				AND a.receive_datetime BETWEEN #{beginReceiveDatetime} AND #{endReceiveDatetime}
+			</if>
+			<if test="receiveEmployeeName != null and receiveEmployeeName != ''">
+				AND b.item_manager = #{receiveEmployeeName}
+			</if>
+			<if test="customerName != null and customerName != ''">
+				AND b.customer_name = #{customerName}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				order by a.materials_standard_receive_bill_code desc
+			</otherwise>
+		</choose>
+		
+	</select>
+	<select id="findBySettleBillId" resultType="cn.damei.entity.modules.BizMaterialsStandardReceiveBillVo">
+	<!-- 	SELECT 
+			a.id AS "id",
+			a.store_id AS "storeId",
+			a.order_id AS "orderId",
+			a.materials_standard_receive_bill_code AS "materialsStandardReceiveBillCode",
+			a.receive_datetime AS "receiveDatetime",
+			a.receive_employee_id AS "receiveEmployeeId",
+			a.receive_bill_amount AS "receiveBillAmount",
+			a.is_settled AS "isSettled",
+			b.order_number AS "orderNo",
+			b.item_manager AS "receiveEmployeeName",
+			b.customer_name AS "customerName"
+		FROM 
+			biz_materials_standard_receive_bill a 
+		LEFT JOIN biz_order b on a.order_id = b.id
+		INNER JOIN biz_pm_settle_category_detail c on c.related_business_id = a.id 
+		INNER JOIN biz_pm_settle_category_summary d on c.pm_settle_category_summary_id = d.id and c.settle_category = '1'
+		INNER JOIN biz_pm_settle_bill e on d.pm_settle_bill_id = e.id  and e.id = #{0} -->
+		
+		SELECT 
+			c.id AS "id",
+			c.store_id AS "storeId",
+			c.order_id AS "orderId",
+			c.materials_standard_receive_bill_code AS "materialsStandardReceiveBillCode",
+			c.receive_datetime AS "receiveDatetime",
+			c.receive_employee_id AS "receiveEmployeeId",
+			c.receive_bill_amount AS "receiveBillAmount",
+			c.is_settled AS "isSettled",
+			d.order_number AS "orderNo",
+			d.item_manager AS "receiveEmployeeName",
+			d.customer_name AS "customerName"
+		FROM 
+		    biz_pm_settle_category_summary a 
+		INNER JOIN biz_pm_settle_category_detail b on b.pm_settle_category_summary_id = a.id 
+		INNER JOIN biz_order d on d.id = b.order_id
+		INNER JOIN biz_materials_standard_receive_bill c on c.id = b.related_business_id 
+		WHERE a.pm_settle_bill_id = #{0} and a.settle_category ='1';
+	</select>
+	
+	
+	<select id="findByOrderId" resultType="cn.damei.entity.modules.BizMaterialsStandardReceiveBillVo">
+		select 
+			c.id AS "id",
+			c.store_id AS "storeId",
+			c.order_id AS "orderId",
+			c.materials_standard_receive_bill_code AS "materialsStandardReceiveBillCode",
+			c.receive_datetime AS "receiveDatetime",
+			c.receive_employee_id AS "receiveEmployeeId",
+			c.receive_bill_amount AS "receiveBillAmount",
+			c.is_settled AS "isSettled"
+		from biz_materials_standard_receive_bill c
+		where c.order_id = #{0}
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO biz_materials_standard_receive_bill(
+			id,
+			store_id,
+			order_id,
+			materials_standard_receive_bill_code,
+			receive_datetime,
+			receive_employee_id,
+			receive_bill_amount,
+			is_settled,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag,
+			status
+		) VALUES (
+			#{id},
+			#{storeId},
+			#{orderId},
+			#{materialsStandardReceiveBillCode},
+			#{receiveDatetime},
+			#{receiveEmployeeId},
+			#{receiveBillAmount},
+			#{isSettled},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag},
+			20
+		)
+	</insert>
+	
+	
+	<update id="update">
+		UPDATE biz_materials_standard_receive_bill SET 	
+			store_id = #{storeId},
+			order_id = #{orderId},
+			materials_standard_receive_bill_code = #{materialsStandardReceiveBillCode},
+			receive_datetime = #{receiveDatetime},
+			receive_employee_id = #{receiveEmployeeId},
+			receive_bill_amount = #{receiveBillAmount},
+			is_settled = #{isSettled},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks},
+			status = 20
+		WHERE id = #{id}
+	</update>
+</mapper>

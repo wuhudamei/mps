@@ -1,0 +1,130 @@
+.problemReport .pic img {
+	height: 2.61rem;
+}
+body {
+	background-color: #f6f6f6;
+}
+.bor_bot_1{
+	border-bottom: 1px solid #e5e5e5;
+}
+.bor_top_1{
+	border-top: 1px solid #e5e5e5;
+}
+.problemReport  {
+	box-sizing: border-box;
+	font-size: 0.24rem;
+	overflow: hidden;
+    border-top: 1px solid #e5e5e5;
+}
+.select_option {
+	margin-top: 0.2rem;
+	line-height: 0.36rem;
+}
+.select_option li {
+	margin-bottom: 0.2rem;
+}
+.problemReport #camera{
+height: 2.6rem;
+}
+.problemReport >ul {
+	padding: 0.4rem 0.3rem 0.3rem;
+	width: 94%;
+	border-bottom: 1px solid #e5e5e5;
+
+}
+
+.icon_canlender {
+	background: url('../../img/common/canlender.png') no-repeat 96%;
+	background-size: 0.3rem 0.3rem;
+}
+.bg_f .intro{
+	border-top: 1px solid #e5e5e5;
+}
+.col_blue {
+	color: #0780ec;
+}
+.place_juli {
+	width: 100%;
+	height: 0.12rem;
+	background: url(../../images/bg_color.png);
+}
+
+.bg_lace {
+	background: url(../../images/bg_lace.png) repeat-x bottom #f6f6f6;
+	height: 0.3rem;
+	width: 100%;
+	position: absolute;
+	left: 0;
+	bottom: -0.3rem;
+}
+
+.problemReport ul span{
+	width: 31%;
+	display: inline-block;
+	line-height: 0.4rem;
+}
+.show_line {
+	position: relative;
+}
+.problemReport >ul  >li input,.problemReport >ul  >li textarea{
+	width: 62%;
+}
+.select_cont {
+	width: 61%;
+	position: relative;
+
+}
+.select_cont  >p {
+	width: 97%;
+	padding: 0.15rem 0.4rem 0.15rem 0.15rem;
+	min-height: 0.3rem;
+	border: 1px solid #9cccf7;
+}
+.enter_input {
+	    width: 100%;
+    padding: 0.15rem;
+    min-height: 0.3rem;
+    border: 1px solid #9cccf7;
+}
+.mar_btm40 {
+	margin-bottom: 0.4rem;
+}
+.font30 {
+	font-size: 0.3rem;
+}
+.problemReport >ul  >li input.climit_cont {
+	width: 50%;
+}
+.icon_blue_select {
+	background: url('../../images/select_cont_icon.png') no-repeat 95%;
+	background-size: 0.2rem 0.14rem;
+}
+.select_option {
+	display: none;
+}
+.bg_f8{
+	background-color: #f8f8f8;
+	box-shadow: inset 1px 1px 3px 3px #e8e8e8;
+}
+.h130{
+	height: 0.9rem;
+
+}
+.lh90{
+	line-height: 0.9rem;
+}
+.mb20{
+	margin-bottom: 0.2rem;
+}
+::-webkit-input-placeholder { /* WebKit browsers */
+color: #b9b9b9;
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+color: #b9b9b9;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+color: #b9b9b9;
+}
+:-ms-input-placeholder { /* Internet Explorer 10+ */
+color: #b9b9b9;
+}

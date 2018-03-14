@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizOrderScrapDao">
+    
+    
+	<select id="get" resultType="cn.damei.entity.modules.BizOrderScrap">
+		SELECT
+			a.id AS "orderId",
+			a.order_number AS "orderNumber",
+			a.community_name AS "communityName",
+			a.build_number AS "buildNumber",
+			a.build_unit AS "buildUnit",
+			a.build_room AS "buildRoom",
+			a.customer_name AS "customerName",
+			a.customer_phone AS "customerPhone",
+			a.designer_name AS "designerName",
+			a.designer_phone AS "designerPhone",
+			a.sign_contract_date AS "signContractDate",
+			a.contract_start_date AS "contractStartDate",
+			a.contract_end_date AS "contractEndDate",
+			a.get_order_datetime AS "getOrderDatetime",
+			a.order_status_number AS "orderStatusNumber",
+			a.order_status_description AS "orderStatusDescription",
+			a.item_manager AS "itemManager",
+			a.item_manager_id AS "itemManagerId",
+			a.is_scrap AS "isScrap",
+			a.scrap_operator_employee_id AS "scrapOperatorEmployeeId",
+			(CASE WHEN b.realName IS NULL AND a.scrap_operator_employee_id = 0 THEN '系统管理员' ELSE b.realName END) AS "scrapOperatorEmployeeName",
+			a.scrap_datetime AS "scrapDatetime",
+			a.scrap_reason_type AS "scrapReasonType",
+			a.scrap_describe AS "scrapDescribe",
+			c.label AS "scrapReasonTypeName"
+		FROM
+			biz_order a
+		LEFT JOIN biz_employee b ON a.scrap_operator_employee_id = b.id
+		LEFT JOIN sys_dict c ON c.`value` = a.scrap_reason_type
+		AND c.type = 'scrap_reason_type'
+		AND c.del_flag = 0
+		WHERE
+			a.id = #{0}
+	</select>
+	
+	<!-- 订单作废列表 -->
+	<select id="findList" resultType="cn.damei.entity.modules.BizOrderScrap">
+		
+		SELECT
+			a.id AS "orderId",
+			a.store_id AS "storeId",
+			c. NAME AS "storeName",
+			a.engin_depart_id AS "enginDepartId",
+			b.`name` AS "enginDepartName",
+			a.project_mode AS "projectMode",
+			m.label AS "projectModeName",
+			a.order_number AS "orderNumber",
+			a.community_name AS "communityName",
+			a.build_number AS "buildNumber",
+			a.build_unit AS "buildUnit",
+			a.build_room AS "buildRoom",
+			a.customer_name AS "customerName",
+			a.customer_phone AS "customerPhone",
+			a.designer_name AS "designerName",
+			a.designer_phone AS "designerPhone",
+			a.sign_contract_date AS "signContractDate",
+			a.contract_start_date AS "contractStartDate",
+			a.contract_end_date AS "contractEndDate",
+			a.get_order_datetime AS "getOrderDatetime",
+			a.order_status_number AS "orderStatusNumber",
+			a.order_status_description AS "orderStatusDescription",
+			a.order_inspector_id,
+			a.order_inspector AS "orderInspector",
+			a.item_manager AS "itemManager",
+			a.item_manager_id AS "itemManagerId",
+			a.is_scrap AS "isScrap" 
+		FROM
+			biz_order a
+		LEFT JOIN biz_engineering_department b ON b.id = a.engin_depart_id
+		AND b.del_flag = 0
+		LEFT JOIN sys_office c ON c.id = a.store_id
+		LEFT JOIN (SELECT d.`value`,d.label FROM sys_dict d WHERE d.type = 'project_mode' AND d.del_flag = 0 GROUP BY d.`value`) m ON m.`value` = a.project_mode
+		
+		
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="isScrap != null and isScrap != ''">
+				AND a.is_scrap = #{isScrap}
+			</if>
+			<if test="storeId != null and storeId != ''">
+				AND a.store_id = #{storeId}
+			</if>
+			<if test="projectMode != null and projectMode != ''">
+				AND a.project_mode = #{projectMode}
+			</if>
+			<if test="enginDepartId != null and enginDepartId != ''">
+				AND a.engin_depart_id =#{enginDepartId}
+			</if>
+			<if test="orderNumber != null and orderNumber != ''">
+				AND a.order_number LIKE CONCAT('%','${orderNumber}','%' )
+			</if>
+			<if test="customerName != null and customerName != ''">
+				AND a.customer_name LIKE CONCAT('%','${customerName}','%' )
+			</if>
+			<if test="itemManager != null and itemManager != ''">
+				AND a.item_manager LIKE CONCAT('%','${itemManager}','%' )
+			</if>
+			<if test="designerName != null and designerName != ''">
+				AND a.designer_name LIKE CONCAT('%','${designerName}','%' )
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.create_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<!-- 订单回收页面 -->
+	<select id="findRecoveryList" resultType="cn.damei.entity.modules.BizOrderScrap">
+		
+		SELECT
+			a.id AS "orderId",
+			a.store_id AS "storeId",
+			c. NAME AS "storeName",
+			a.engin_depart_id AS "enginDepartId",
+			b.`name` AS "enginDepartName",
+			a.project_mode AS "projectMode",
+			m.label AS "projectModeName",
+			a.order_number AS "orderNumber",
+			a.community_name AS "communityName",
+			a.build_number AS "buildNumber",
+			a.build_unit AS "buildUnit",
+			a.build_room AS "buildRoom",
+			a.customer_name AS "customerName",
+			a.customer_phone AS "customerPhone",
+			a.designer_name AS "designerName",
+			a.designer_phone AS "designerPhone",
+			a.sign_contract_date AS "signContractDate",
+			a.contract_start_date AS "contractStartDate",
+			a.contract_end_date AS "contractEndDate",
+			a.get_order_datetime AS "getOrderDatetime",
+			a.order_status_number AS "orderStatusNumber",
+			a.order_status_description AS "orderStatusDescription",
+			a.order_inspector_id,
+			a.order_inspector AS "orderInspector",
+			a.item_manager AS "itemManager",
+			a.item_manager_id AS "itemManagerId",
+			a.is_scrap AS "isScrap",
+			a.scrap_datetime AS "scrapDatetime",
+			a.scrap_reason_type AS "scrapReasonType",
+			a.scrap_describe AS "scrapDescribe",
+			n.label AS "scrapReasonTypeName"
+		FROM
+			biz_order a
+		LEFT JOIN biz_engineering_department b ON b.id = a.engin_depart_id
+		AND b.del_flag = 0
+		LEFT JOIN sys_office c ON c.id = a.store_id
+		LEFT JOIN (SELECT d.`value`,d.label FROM sys_dict d WHERE d.type = 'project_mode' AND d.del_flag = 0 GROUP BY d.`value`) m ON m.`value` = a.project_mode
+		LEFT JOIN (SELECT e.`value`,e.label FROM sys_dict e WHERE e.type = 'scrap_reason_type' AND e.del_flag = 0 GROUP BY e.`value`) n ON n.`value` = a.scrap_reason_type
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="isScrap != null and isScrap != ''">
+				AND a.is_scrap = #{isScrap}
+			</if>
+			<if test="scrapReasonType != null and scrapReasonType != ''">
+				AND a.scrap_reason_type = #{scrapReasonType}
+			</if>
+			<if test="storeId != null and storeId != ''">
+				AND a.store_id = #{storeId}
+			</if>
+			<if test="projectMode != null and projectMode != ''">
+				AND a.project_mode = #{projectMode}
+			</if>
+			<if test="enginDepartId != null and enginDepartId != ''">
+				AND a.engin_depart_id =#{enginDepartId}
+			</if>
+			<if test="orderNumber != null and orderNumber != ''">
+				AND a.order_number LIKE CONCAT('%','${orderNumber}','%' )
+			</if>
+			<if test="customerName != null and customerName != ''">
+				AND a.customer_name LIKE CONCAT('%','${customerName}','%' )
+			</if>
+			<if test="itemManager != null and itemManager != ''">
+				AND a.item_manager LIKE CONCAT('%','${itemManager}','%' )
+			</if>
+			<if test="designerName != null and designerName != ''">
+				AND a.designer_name LIKE CONCAT('%','${designerName}','%' )
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.create_date DESC
+			</otherwise>
+		</choose>
+	</select>
+		<update id="scrapUpdate">
+		UPDATE  biz_order 
+		<set>
+				
+			<if test=" istorefreshprocessdata != null ">
+				is_to_refresh_process_data = #{istorefreshprocessdata},
+			</if>
+			<if test=" isScrap != null ">
+				is_scrap = #{isScrap},
+			</if>
+			<if test=" scrapOperatorEmployeeId != null ">
+				scrap_operator_employee_id = #{scrapOperatorEmployeeId},
+			</if>
+				scrap_datetime = now(),
+			<if test=" scrapReasonType != null ">
+				scrap_reason_type = #{scrapReasonType},
+			</if>
+			<if test=" scrapDescribe != null ">
+				scrap_describe = #{scrapDescribe},
+			</if>
+		</set>	
+		WHERE id = #{orderId}
+	</update>
+	
+	
+	
+		<!-- 批量保存申请墙地砖图片 -->
+	<insert id="savePicAll" parameterType="java.util.List">
+		INSERT INTO biz_business_pic(
+			id,
+			business_type,
+			business_id_int,
+			pic_url,
+			create_date,
+			update_date,
+			del_flag
+		)VALUES 
+		<foreach collection="list" item="item" index="index" separator="," >
+			(
+				#{item.id},
+				#{item.picType},
+				#{item.purchaseId},
+				#{item.picUrl},
+				#{item.createDate},
+				#{item.updateDate},
+				#{item.delFlag}
+			)
+		</foreach>
+	</insert>
+	
+	<update id="updateOrderNumber">
+		UPDATE biz_order a SET a.order_number = ${orderNumber} where a.id = ${orderId}
+	</update>
+	
+</mapper>

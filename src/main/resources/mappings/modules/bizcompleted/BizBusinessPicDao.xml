@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizBusinessPicDao">
+    
+	<sql id="bizBusinessPicColumns">
+		t.ID AS "id",
+		t.BUSINESS_TYPE AS "businessType",
+		t.BUSINESS_ID_INT AS "businessIdInt",
+		t.BUSINESS_ID_VARCHAR AS "businessIdVarchar",
+		t.PIC_TYPE AS "picType",
+		t.PIC_INDEX AS "picIndex",
+		t.PIC_URL AS "picUrl",
+		t.PIC_DATETIME AS "picDatetime",
+		t.REMARKS AS "remarks",
+		t.CREATE_DATE AS "createDate",
+		t.UPDATE_DATE AS "updateDate",
+		t.DEL_FLAG AS "delFlag"
+	</sql>
+	
+	<select id="get" resultType="cn.damei.entity.modules.BizBusinessPic">
+		SELECT
+			<include refid="bizBusinessPicColumns"/> 
+		FROM BIZ_BUSINESS_PIC t
+		WHERE t.ID = #{0}
+	</select>
+	
+	<select id="getByBusinessId" resultType="cn.damei.entity.modules.BizBusinessPic">
+		SELECT
+			<include refid="bizBusinessPicColumns"/>
+		FROM BIZ_BUSINESS_PIC t,BIZ_ORDER_FINISH_PROJECT_BILL b
+		WHERE b.ID = t.BUSINESS_ID_INT
+		AND b.ORDER_ID = #{0}
+		AND t.BUSINESS_TYPE IN('101','102','103')
+	</select>
+	
+	<select id="getByRecheckID" resultType="cn.damei.entity.modules.BizBusinessPic">
+		SELECT
+			<include refid="bizBusinessPicColumns"/>
+		FROM BIZ_BUSINESS_PIC t
+		WHERE t.BUSINESS_ID_INT = #{0}
+		AND t.BUSINESS_TYPE = #{1}
+	</select>
+	
+</mapper>

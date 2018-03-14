@@ -1,0 +1,6 @@
+.budget_list{position: absolute;top: 1.08rem;width: 100%;}
+.budget_list li{margin-left: 5.3%;padding-right: 13%;height: .88rem;line-height: .88rem;box-sizing: border-box;}
+.budget_list li:last-child{border: none;}
+.num{float: right;}
+footer{position: fixed;bottom: 0;width: 100%;height: .94rem;border-top: 1px solid #ccc;}
+.foot_des{display: block;text-align: center;height: inherit;line-height: .94rem;}

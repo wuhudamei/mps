@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.mobile.Manager.RecheckScaleBillCurtainDao">
+    
+	<sql id="recheckScalBillCurtainColumns">
+		t.ID AS "id",
+		t.RECHECK_SCALE_BILL_ID AS "recheckScaleBillId",
+		t.POSITION AS "position",
+		t.POLE_TYPE AS "poleType",
+		t.POLE_LENGTH AS "poleLength",
+		t.CLOTH_HEIGHT AS "clothHeight",
+		t.REMARKS AS "remarks",
+		t.CREATE_DATE AS "createDate",
+		t.UPDATE_DATE AS "updateDate",
+		t.DEL_FLAG AS "delFlag"
+	</sql>
+	
+	<select id="get" resultType="cn.damei.entity.mobile.Manager.RecheckScaleBillCurtain" parameterType="java.lang.Integer">
+		SELECT 
+    	<include refid="recheckScalBillCurtainColumns"/> 
+    	FROM BIZ_RECHECK_SCALE_BILL_CURTAIN t
+    	WHERE t.ID = #{0}
+	</select>
+	
+	<select id="getByRecheckID" resultType="cn.damei.entity.mobile.Manager.RecheckScaleBillCurtain">
+		SELECT 
+    	<include refid="recheckScalBillCurtainColumns"/> 
+    	FROM BIZ_RECHECK_SCALE_BILL_CURTAIN t
+    	WHERE t.RECHECK_SCALE_BILL_ID = #{0}
+	</select>
+	
+	<insert id="insert" parameterType="cn.damei.entity.mobile.Manager.RecheckScaleBillCurtain">
+		INSERT INTO BIZ_RECHECK_SCALE_BILL_CURTAIN(
+			ID,
+			RECHECK_SCALE_BILL_ID,
+			POSITION,
+			POLE_TYPE,
+			POLE_LENGTH,
+			CLOTH_HEIGHT,
+			REMARKS,
+			CREATE_DATE,
+			UPDATE_DATE,
+			DEL_FLAG
+		) VALUES (
+			#{id},
+			#{recheckScaleBillId},
+			#{position},
+			#{poleType},
+			#{poleLength},
+			#{clothHeight},
+			#{remarks},
+			#{createDate},
+			#{updateDate},
+			#{delFlag}
+		)
+	</insert>
+	
+	<insert id="insertCurtain" parameterType="cn.damei.entity.mobile.Manager.RecheckScaleBillCurtain">
+		INSERT INTO BIZ_RECHECK_SCALE_BILL_CURTAIN(
+			ID,
+			RECHECK_SCALE_BILL_ID,
+			POSITION,
+			POLE_TYPE,
+			POLE_LENGTH,
+			CLOTH_HEIGHT,
+			REMARKS,
+			CREATE_DATE,
+			CREATE_BY,
+			UPDATE_DATE,
+			UPDATE_BY,
+			DEL_FLAG
+		) VALUES (
+			#{id},
+			#{recheckScaleBillId},
+			#{position},
+			#{poleType},
+			#{poleLength},
+			#{clothHeight},
+			#{remarks},
+			#{createDate},
+			#{createPeo},
+			#{updateDate},
+			#{updatePeo},
+			#{delFlag}
+		)
+	</insert>
+</mapper>

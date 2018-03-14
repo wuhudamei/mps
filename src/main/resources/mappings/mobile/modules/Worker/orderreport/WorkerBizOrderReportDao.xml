@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.mobile.Worker.WorkerBizOrderReportDao">
+   <sql id="workerOrderReportColumns">
+     a.id AS "id",
+     a.store_id AS "storeId",
+     a.customer_name AS "customerName",
+     a.customer_phone AS "customerPhone", 
+     a.community_name AS "communityName",
+     a.address AS "address",
+     a.build_number AS "buildNumber",
+     a.build_unit AS "buildUnit",
+     a.build_room AS "buildRoom",
+     a.report_remarks AS "reportRemarks",
+     a.reporter_employee_id AS "reporterEmployeeId",
+     a.reporter_name AS "reporterName",
+     a.reporter_phone AS "reporterPhone",
+     a.report_datetime AS "reportDatetime",
+     a.reporter_type AS "reporterType",
+     a.report_source_type AS "reportSourceType",
+     a.report_status AS "reportStatus",
+     a.instore_datetime AS "instoreDatetime",
+     a.instore_remarks AS "instoreRemarks",
+     a.sign_bill_datetime AS "signBillDatetime",
+     a.sign_bill_remarks AS "signBillRemarks",
+     a.remarks AS "remarks",
+     a.create_by AS "createBy.id",
+	 a.create_date AS "createDate",
+	 a.update_by AS "updateBy.id",
+	 a.update_date AS "updateDate",
+     a.del_flag AS "delFlag"
+   </sql>
+   
+   <sql id="workerOrderReportJoins">
+   </sql>
+   
+   <select id="get" resultType="cn.damei.entity.modules.BizOrderReport">
+		SELECT 
+			<include refid="workerOrderReportColumns"/>
+		FROM biz_order_report a
+		<include refid="workerOrderReportJoins"/>
+		WHERE a.id =#{id}
+	</select>
+	
+	<select id="getBizOrderReportByCustomerPhone" resultType="int" parameterType="String">
+		SELECT
+		(
+		SELECT
+		count(1)
+		FROM
+		biz_order_report a
+		WHERE
+		a.customer_phone = #{_parameter}
+		AND a.report_status != '90'
+		) + (
+		SELECT
+		count(1)
+		FROM
+		biz_order b
+		WHERE
+		b.customer_phone = #{_parameter}
+		)
+		FROM
+		DUAL
+	</select>
+	
+	
+	<select id="findList" resultType="cn.damei.entity.modules.BizOrderReport">
+	    SELECT 
+			<include refid="workerOrderReportColumns"/>
+		FROM biz_order_report a
+		<include refid="workerOrderReportJoins"/>
+		<where>
+		   a.del_flag = #{DEL_FLAG_NORMAL}
+		   AND a.reporter_employee_id = #{reporterEmployeeId}
+		   AND a.reporter_type = #{reporterType}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.report_datetime DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	
+	<select id="findAllList" resultType="cn.damei.entity.modules.BizOrderReport">
+	    SELECT 
+			<include refid="workerOrderReportColumns"/>
+		FROM biz_order_report a
+		<include refid="workerOrderReportJoins"/>
+		<where>
+		   a.del_flag = #{DEL_FLAG_NORMAL}
+		   AND a.reporter_employee_id = #{reporterEmployeeId}
+		   AND a.reporter_type = #{reporterType}
+		</where>
+	</select>
+	
+	<select id="queryOrderReportByParam" resultType="cn.damei.entity.modules.BizOrderReport">
+	    SELECT 
+			<include refid="workerOrderReportColumns"/>
+		FROM biz_order_report a
+		<include refid="workerOrderReportJoins"/>
+		<where>
+		   a.del_flag = #{DEL_FLAG_NORMAL}
+		   AND a.reporter_employee_id = #{reporterEmployeeId}
+		   AND a.reporter_type = #{reporterType}
+		   <if test="searchText != null and searchText != ''">
+		   AND (a.customer_name like CONCAT('%','${searchText}','%' ) or a.customer_phone like CONCAT('%','${searchText}','%' ))
+		   </if>
+		</where>
+	</select>
+	
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+	   INSERT INTO biz_order_report(
+	     id,
+	     store_id,
+	     customer_name,
+	     customer_phone,
+	     community_name,
+	     address,
+	     build_number,
+	     build_unit,
+	     build_room,
+	     report_remarks,
+	     reporter_employee_id,
+	     reporter_name,
+	     reporter_phone,
+	     report_datetime,
+	     reporter_type,
+	     report_source_type,
+	     report_status,
+	     instore_datetime,
+	     instore_remarks,
+	     sign_bill_datetime,
+	     sign_bill_remarks,
+	     remarks,
+	     create_by,
+	     create_date,
+	     update_by,
+	     update_date,
+	     del_flag,
+		 is_asked,
+		 service_employee_id,
+		 service_name,
+		 service_phone
+	   ) VALUES (
+	     #{id},
+	     #{storeId},
+	     #{customerName},
+	     #{customerPhone},
+	     #{communityName},
+	     #{address},
+	     #{buildNumber},
+	     #{buildUnit},
+	     #{buildRoom},
+	     #{reportRemarks},
+	     #{reporterEmployeeId},
+	     #{reporterName},
+	     #{reporterPhone},
+	     #{reportDatetime},
+	     #{reporterType},
+	     #{reportSourceType},
+	     #{reportStatus},
+	     #{instoreDatetime},
+	     #{instoreRemarks},
+	     #{signBillDatetime},
+	     #{signBillRemarks},
+	     #{remarks},
+	     #{createBy.id},
+	     #{createDate},
+	     #{updateBy.id},
+	     #{updateDate},
+	     #{delFlag},
+		 #{isAsked},
+		 #{serviceEmployeeId},
+		 #{serviceName},
+		 #{servicePhone}
+	   )
+	</insert>
+	
+	<update id="update">
+	  UPDATE biz_order_report SET
+	     store_id = #{storeId},
+	     customer_name = #{customerName},
+	     customer_phone = #{customerPhone},
+	     community_name = #{communityName},
+	     address = #{address},
+	     build_number = #{buildNumber},
+	     build_unit = #{buildUnit},
+	     build_room = #{buildRoom},
+	     report_remarks = #{reportRemarks},
+	     reporter_employee_id = #{reporterEmployeeId},
+	     reporter_name = #{reporterName},
+	     reporter_phone = #{reporterPhone},
+	     report_datetime = #{reportDatetime},
+	     reporter_type = #{reporterType},
+	     report_source_type = #{reportSourceType},
+	     report_status = #{reportStatus},
+	     instore_datetime = #{instoreDatetime},
+	     instore_remarks = #{instoreRemarks},
+	     sign_bill_datetime = #{signBillDatetime},
+	     sign_bill_remarks = #{signBillRemarks},
+	     remarks = #{remarks},
+	     update_by = #{updateBy.id},
+	     update_date = #{updateDate},
+		  is_asked =#{isAsked},
+		  service_employee_id= #{serviceEmployeeId},
+		  service_name =#{serviceName},
+		  service_phone	=  #{servicePhone}
+	  WHERE id=#{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE biz_order_report SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id =#{id}
+	</update>
+</mapper>

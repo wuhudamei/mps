@@ -1,0 +1,78 @@
+INSERT INTO `biz_cus_service_liable_type` (
+	`liable_type_code`,
+	`father_liable_type_code`,
+	`liable_type_level`,
+	`liable_type_name`,
+	`remarks`,
+	`create_by`,
+	`create_date`,
+	`update_by`,
+	`update_date`,
+	`del_flag`
+)
+VALUES
+	(
+		'120',
+		NULL,
+		'1',
+		'工程售后部',
+		NULL,
+		NULL,
+		NULL,
+		NULL,
+		NULL,
+		NULL
+	);
+
+INSERT INTO `biz_cus_service_liable_type` (
+	`liable_type_code`,
+	`father_liable_type_code`,
+	`liable_type_level`,
+	`liable_type_name`,
+	`remarks`,
+	`create_by`,
+	`create_date`,
+	`update_by`,
+	`update_date`,
+	`del_flag`
+)
+VALUES
+	(
+		'105',
+		NULL,
+		'1',
+		'质检部',
+		NULL,
+		NULL,
+		NULL,
+		NULL,
+		NULL,
+		NULL
+	);
+
+INSERT INTO `biz_cus_service_liable_type` (
+	`liable_type_code`,
+	`father_liable_type_code`,
+	`liable_type_level`,
+	`liable_type_name`,
+	`remarks`,
+	`create_by`,
+	`create_date`,
+	`update_by`,
+	`update_date`,
+	`del_flag`
+)
+VALUES
+	(
+		'103',
+		NULL,
+		'1',
+		'工程部',
+		NULL,
+		NULL,
+		NULL,
+		NULL,
+		NULL,
+		NULL
+	);
+

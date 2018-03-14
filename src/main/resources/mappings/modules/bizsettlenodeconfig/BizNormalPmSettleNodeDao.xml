@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizNormalPmSettleNodeDao">
+    
+	<sql id="bizNormalPmSettleNodeColumns">
+		a.id AS "id",
+		a.store_id AS "storeId",
+		a.settle_index AS "settleIndex",
+		a.settle_node_name AS "settleNodeName",
+		a.qc_check_node_id AS "qcCheckNodeId",
+		a.settle_type AS "settleType",
+		a.settle_rule AS "settleRule",
+		a.receive_money_type AS "receiveMoneyType",
+		a.is_required AS "isRequired",
+		a.remarks AS "remarks",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag"
+	</sql>
+	<sql id="bizNormalPmSettleNodeJoins">
+	</sql>
+
+<resultMap id="settleNodeResultType" type="cn.damei.entity.modules.BizNormalPmSettleNode">
+	<result column="storeId" property="storeId"></result>
+	<result column="settleType" property="settleType"></result>
+	<result column="projectMode" property="projectMode"></result>
+	<result column="storeSettleNodeCount" property="storeSettleNodeCount"></result>
+	<collection property="childEntity" resultMap="settleNodeChildResultType"></collection>
+</resultMap>
+
+	<resultMap id="settleNodeChildResultType" type="cn.damei.entity.modules.SettleNodeChildEntity">
+		<result column="settleIndex" property="settleIndex"></result>
+		<result column="settleNodeName" property="settleNodeName"></result>
+		<result column="qcCheckNodeId" property="qcCheckNodeId"></result>
+		<result column="qcCheckNodeName" property="qcCheckNodeName"></result>
+		<result column="createMan" property="createMan"></result>
+		<result column="settleRule" property="settleRule"></result>
+		<result column="receiveMoneyType" property="receiveMoneyType"></result>
+		<result column="isRequired" property="isRequired"></result>
+
+		<result column="settleStage" property="settleStage"></result>
+		<result column="settlePrice" property="settlePrice"></result>
+
+	</resultMap>
+
+
+	<select id="get" resultType="BizNormalPmSettleNode">
+		SELECT 
+			<include refid="bizNormalPmSettleNodeColumns"/>
+		FROM biz_normal_pm_settle_node a
+		<include refid="bizNormalPmSettleNodeJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultMap="settleNodeResultType">
+		SELECT
+		a.id AS "id",
+		a.store_id AS "storeId",
+		a.settle_index AS "settleIndex",
+		a.settle_node_name AS "settleNodeName",
+		a.qc_check_node_id AS "qcCheckNodeId",
+		a.settle_type AS "settleType",
+		a.settle_rule AS "settleRule",
+		a.receive_money_type AS "receiveMoneyType",
+		a.is_required AS "isRequired",
+		a.del_flag AS "delFlag",
+		b.qc_check_node_name as "qcCheckNodeName",
+		a.project_mode as 'projectMode',
+		a.settle_stage as 'settleStage',
+		a.settle_price as 'settlePrice',
+		(select count(1) from biz_normal_pm_settle_node g
+		where g.store_id = a.store_id  AND g.project_mode = a.project_mode AND g.settle_type = a.settle_type GROUP BY store_id,project_mode,settle_type) as "storeSettleNodeCount",
+		(select realName from biz_employee e where e.id = s.emp_id) as  "createMan"
+		FROM biz_normal_pm_settle_node a LEFT JOIN  biz_qc_check_node b on a.qc_check_node_id=b.id
+		inner join sys_user s on a.create_by = s.id
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="storeId != null and storeId != ''">
+				AND a.store_id = #{storeId}
+			</if>
+			<if test="settleNodeName != null and settleNodeName != ''">
+				AND a.settle_node_name = #{settleNodeName}
+			</if>
+			<if test="settleRule != null and settleRule != ''">
+				AND a.settle_rule = #{settleRule}
+			</if>
+			<if test="isRequired != null and isRequired != ''">
+				AND a.is_required = #{isRequired}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.store_id ASC,a.project_mode ASC,a.settle_type ASC,
+				a.settle_index ASC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="BizNormalPmSettleNode">
+		SELECT 
+			<include refid="bizNormalPmSettleNodeColumns"/>
+		FROM biz_normal_pm_settle_node a
+		<include refid="bizNormalPmSettleNodeJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO biz_normal_pm_settle_node(
+			store_id,
+			settle_index,
+			settle_node_name,
+			qc_check_node_id,
+			settle_type,
+			settle_rule,
+			receive_money_type,
+			is_required,
+			create_by,
+			create_date,
+			update_date,
+			del_flag,
+			project_mode,
+			settle_stage,
+			settle_price
+		) VALUES (
+			#{storeId},
+			#{settleIndex},
+			#{settleNodeName},
+			#{qcCheckNodeId},
+			#{settleType},
+			#{settleRule},
+			#{receiveMoneyType},
+			#{isRequired},
+			#{createBy.id},
+			#{createDate},
+			#{updateDate},
+			#{delFlag},
+			#{projectMode},
+			#{settleStage},
+			#{settlePrice}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE biz_normal_pm_settle_node SET 	
+			store_id = #{storeId},
+			settle_index = #{settleIndex},
+			settle_node_name = #{settleNodeName},
+			qc_check_node_id = #{qcCheckNodeId},
+			settle_type = #{settleType},
+			settle_rule = #{settleRule},
+			receive_money_type = #{receiveMoneyType},
+			is_required = #{isRequired},
+			create_date = #{createDate},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			project_mode = #{projectMode},
+			settle_stage = #{settleStage},
+			settle_price = #{settlePrice}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		delete from  biz_normal_pm_settle_node
+		WHERE store_id=#{storeId}
+			  <if test="settleIndex!=null and settleIndex!=''">
+				  and settle_index=#{settleIndex}
+
+			  </if>
+
+	</update>
+
+
+
+	<select id="checkCheckNodeIsExist"  resultType="int">
+		SELECT
+			count(1)
+		FROM
+			`biz_normal_pm_settle_node` a
+		WHERE
+			a.store_id = #{0}
+
+		<if test="param2!=null and param2!=''">
+			and settle_index=#{1}
+
+		</if>
+	</select>
+
+	
+	<select id="checkCheckNodeIsExistPulas"  resultType="int">
+		SELECT
+			count(1)
+		FROM
+			`biz_normal_pm_settle_node` a
+		WHERE
+			a.store_id = #{0}
+			and a.project_mode = #{1}
+	</select>	
+	
+	<select id="checkCheckNodeIsExistChecked"  resultType="int">
+		SELECT
+			count(1)
+		FROM
+			`biz_normal_pm_settle_node` a
+		WHERE
+			a.store_id = #{storeId}
+			and a.project_mode = #{projectMode}
+			and a.settle_index = #{settleIndex}
+			<if test="settleType != null and settleType != ''">
+				and a.settle_type=#{settleType}
+			</if>
+	</select>
+
+	<update id="updateSettleNodeByStoreIdAndSettleNodeIndex" parameterType="cn.damei.entity.modules.BizNormalPmSettleNode">
+
+		UPDATE biz_normal_pm_settle_node SET
+			settle_node_name =#{settleNodeName},
+			qc_check_node_id=#{qcCheckNodeId},
+			settle_type=#{settleType},
+			settle_rule=#{settleRule},
+			receive_money_type=#{receiveMoneyType},
+			is_required=#{isRequired},
+			settle_price=#{settlePrice}
+		WHERE store_id=#{storeId} and settle_index=#{settleIndex} AND project_mode = #{projectMode}  AND settle_type=#{settleType}
+	</update>
+
+
+	<select id="findSettleNodeListByStoreId" parameterType="int" resultMap="settleNodeResultType">
+		SELECT
+			a.id AS "id",
+			a.store_id AS "storeId",
+			a.settle_index AS "settleIndex",
+			a.settle_node_name AS "settleNodeName",
+			a.qc_check_node_id AS "qcCheckNodeId",
+			a.settle_type AS "settleType",
+			a.settle_rule AS "settleRule",
+			a.receive_money_type AS "receiveMoneyType",
+			a.is_required AS "isRequired",
+			a.del_flag AS "delFlag",
+			b.qc_check_node_name as "qcCheckNodeName"
+		FROM biz_normal_pm_settle_node a
+		 LEFT JOIN  biz_qc_check_node b on a.qc_check_node_id=b.id
+		where a.store_id = #{_parameter}
+		ORDER BY  a.settle_index ASC
+	</select>
+
+	<select id="findSettleNodeList" resultMap="settleNodeResultType">
+		SELECT
+			a.id AS "id",
+			a.store_id AS "storeId",
+			a.settle_index AS "settleIndex",
+			a.settle_node_name AS "settleNodeName",
+			a.qc_check_node_id AS "qcCheckNodeId",
+			a.settle_type AS "settleType",
+			a.settle_rule AS "settleRule",
+			a.receive_money_type AS "receiveMoneyType",
+			a.is_required AS "isRequired",
+			a.del_flag AS "delFlag",
+			b.qc_check_node_name as "qcCheckNodeName",
+			a.project_mode as 'projectMode',
+			a.settle_stage as 'settleStage',
+			a.settle_price as 'settlePrice'
+		FROM biz_normal_pm_settle_node a
+		 LEFT JOIN  biz_qc_check_node b on a.qc_check_node_id=b.id
+		where a.store_id = #{storeId} and a.project_mode = #{projectMode} and a.settle_type = #{settleType}
+		ORDER BY  a.settle_index ASC
+	</select>
+	
+	
+	
+	<select id="findSettleStage" resultType="int">
+		SELECT
+			count(1)
+		FROM
+			`biz_normal_pm_settle_node` a
+		WHERE
+			a.store_id = #{storeId}
+			and a.project_mode = #{projectMode}
+			and a.settle_stage = #{settleStage}
+	</select>
+	
+	<select id="querySettleNodeByParam" resultType="cn.damei.entity.modules.BizNormalPmSettleNode" parameterType="java.util.Map">
+	   SELECT
+			a.id AS "id",
+			a.store_id AS "storeId",
+			a.settle_index AS "settleIndex",
+			a.settle_node_name AS "settleNodeName",
+			a.qc_check_node_id AS "qcCheckNodeId",
+			a.settle_type AS "settleType",
+			a.settle_rule AS "settleRule",
+			a.receive_money_type AS "receiveMoneyType",
+			a.is_required AS "isRequired",
+			a.del_flag AS "delFlag",
+			a.project_mode as 'projectMode',
+			a.settle_stage as 'settleStage',
+			a.settle_price as 'settlePrice'
+		FROM biz_normal_pm_settle_node a
+		where a.store_id = #{storeId} and a.project_mode = #{projectMode} and a.settle_stage = #{settleStage}
+	   
+	</select>
+	
+</mapper>

@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizCustomerReturnVisitTraditionOrderDataDao">
+	<select id="findExistCount" resultType="java.lang.Integer">
+		SELECT
+		count(*)
+		FROM
+		biz_customer_return_visit_tradition_order_data
+		WHERE
+		order_id = #{0}
+		AND return_visit_node = #{1}
+	</select>
+
+	<insert id="insert"  useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO biz_customer_return_visit_tradition_order_data(
+		order_id,
+		return_visit_node,
+		return_visit_status,
+		return_visit_time,
+		return_visit_times,
+		create_by,
+		create_date,
+		update_by,
+		update_date,
+		del_flag
+		) VALUES (
+		#{orderId},
+		#{returnVisitNode},
+		#{returnVisitStatus},
+		#{returnVisitTime},
+		#{returnVisitTimes},
+		#{createBy.id},
+		#{createDate},
+		#{updateBy.id},
+		#{updateDate},
+		#{delFlag}
+		)
+	</insert>
+
+	<select id="findPageForTraditionOrder" resultType="cn.damei.entity.modules.BizCustomerReturnVisitTraditionOrderData">
+		SELECT
+		m.id AS orderId,
+		m.store_id AS storeId,
+		m.actual_start_date AS actualStartDate,
+		m.order_inspector AS orderInspector,
+		m.item_manager AS itemManager,
+		m.designer_name AS designerName,
+		m.customer_address AS customerAddress,
+		m.customer_name AS customerName,
+		m.customer_phone AS customerPhone,
+		m.order_number AS orderNumber,
+		m2.checkNode AS returnVisitNode,
+		f.return_visit_node AS returnVisitNodeName,
+		m2.checkDateTime AS nodeCheckDate,
+		ifnull(g.invalidNum, 0) invalidNum
+		FROM
+		biz_order m
+		INNER JOIN (
+		SELECT
+		x.order_id,
+		max(x.return_visit_node) AS checkNode,
+		max(x.create_date) checkDateTime
+		FROM
+		(
+		SELECT
+		order_id,
+		return_visit_node,
+		create_date
+		FROM
+		biz_customer_return_visit_tradition_order_data
+		where return_visit_status=1
+		) x
+		GROUP BY
+		x.order_id
+		) m2 ON m2.order_id = m.id
+		LEFT JOIN (
+		SELECT
+		y.order_id,
+		y.return_visit_node,
+		ifnull(COUNT(1), 0) AS num
+		FROM
+		biz_customer_return_visit_record y
+		GROUP BY
+		y.order_id,
+		y.return_visit_node
+		) y2 ON m2.order_id = y2.order_id
+		AND y2.return_visit_node = m2.checkNode
+		LEFT JOIN biz_engineering_department e ON e.id = m.engin_depart_id
+		INNER JOIN biz_customer_return_visit f ON m2.checkNode = f.project_node and  f.project_mode=m.project_mode
+		AND f.del_flag = 0
+		AND m.store_id = f.store_id
+		LEFT JOIN (
+		SELECT
+		order_id,
+		return_visit_node,
+		count(*) invalidNum
+		FROM
+		biz_customer_return_visit_invalid_record
+		GROUP BY
+		order_id,
+		return_visit_node
+		) g ON m2.order_id = g.order_id
+		AND m2.checkNode = g.return_visit_node
+		LEFT JOIN (
+		SELECT
+		order_id,
+		is_enabled
+		FROM
+		biz_customer_return_visit_order_enable
+		GROUP BY
+		order_id
+		) boe ON m2.order_id = boe.order_id
+		WHERE
+		f.return_visit_node IS NOT NULL
+		AND (y2.num &lt; 1 OR y2.num IS NULL)
+		AND (
+		boe.is_enabled = 1
+		OR boe.is_enabled IS NULL
+		)
+		AND (
+		g.invalidNum IS NULL
+		OR g.invalidNum &lt; 3
+		)
+		AND m.project_mode = 2
+		<if test="storeId != null and storeId != ''">
+			AND m.store_id = #{storeId}
+		</if>
+		<if test="projectMode != null and projectMode != ''">
+			AND m.project_mode = #{projectMode}
+		</if>
+		<if test="area != null and area != ''">
+			AND e.id = #{area}
+		</if>
+		<if test="orderNumber != null and orderNumber != ''">
+			AND m.order_number like concat('%',#{orderNumber},'%')
+		</if>
+		<if test="returnVisitNode != null and returnVisitNode != ''">
+			AND f.project_node = #{returnVisitNode}
+		</if>
+		<if test="customerPhone != null and customerPhone != ''">
+			AND m.customer_phone like concat('%', #{customerPhone},'%')
+		</if>
+		<if test="customerName != null and customerName != ''">
+			AND m.customer_name like concat('%', #{customerName},'%')
+		</if>
+		<if test="designerName != null and designerName != ''">
+			AND m.designer_name like concat('%', #{designerName},'%')
+		</if>
+		<if test="itemManager != null and itemManager != ''">
+			AND m.item_manager like concat('%', #{itemManager},'%')
+		</if>
+		<if test="orderInspector != null and orderInspector != ''">
+			AND m.order_inspector like concat('%', #{orderInspector},'%')
+		</if>
+
+		<if test="nodeCheckDateBegin != null ">
+			AND m2.checkDateTime &gt;= concat(#{nodeCheckDateBegin},' 00:00:00')
+		</if>
+		<if test="nodeCheckDateEnd != null ">
+			AND m2.checkDateTime &lt;  concat(#{nodeCheckDateEnd},' 23:59:59')
+		</if>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY m2.checkDateTime  DESC
+			</otherwise>
+		</choose>
+	</select>
+
+	<select id="findReturnVisitNode" resultType="cn.damei.entity.modules.BizCustomerReturnVisitTraditionOrderData">
+		SELECT
+		order_id AS orderId,
+		return_visit_node AS returnVisitNode
+		FROM
+		biz_customer_return_visit_tradition_order_data
+		WHERE
+		create_date NOT IN (
+		SELECT
+		max(create_date) AS createDate
+		FROM
+		biz_customer_return_visit_tradition_order_data
+		where return_visit_status=1
+		AND order_id=#{0}
+		)
+		AND order_id=#{0}
+	</select>
+
+	<update id="updateStatus">
+		UPDATE biz_customer_return_visit_tradition_order_data SET
+		return_visit_status=#{returnVisitStatus}
+		WHERE order_id=#{orderId}
+		and return_visit_node=#{returnVisitNode}
+	</update>
+
+	<select id="queryReturnVisitNodeByStoreId" resultType="map">
+		select return_visit_node as label,project_node as value from biz_customer_return_visit where store_id = ${storeId} and del_flag = 0 and project_mode=2 order by project_node asc
+	</select>
+
+	<select id="findIsThereNode" resultType="map">
+		SELECT
+			return_visit_node,
+			del_flag
+		FROM
+			biz_customer_return_visit
+		WHERE
+			store_id = #{0}
+		AND project_mode = 2
+		AND project_node = #{1}
+		AND del_flag = 0
+	</select>
+
+	<update id="updateStatusHaveDone">
+		UPDATE biz_customer_return_visit_tradition_order_data SET
+		return_visit_status=2
+		WHERE order_id=#{orderId} and return_visit_status &gt; 0
+	</update>
+
+</mapper>

@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizOrderInstallAcceptanceDetailDao">
+
+	<sql id="bizOrderInstallAcceptanceDetailColumns">
+		a.ID AS "id",
+		a.ORDER_NUMBER AS "orderNumber",
+		a.CONTRACT_NUMBER AS "contractNumber",
+		a.CUSTOMER_TYPE AS "customerType",
+		a.CUSTOMER_DESCRIPTION AS "customerDescription",
+		a.CUSTOMER_NAME AS "customerName",
+		a.CUSTOMER_PHONE AS "customerPhone",
+		a.COMMUNITY_NAME AS "communityName",
+		a.BUILD_NUMBER AS "buildNumber",
+		a.BUILD_UNIT AS "buildUnit",
+		a.BUILD_ROOM AS "buildRoom",
+		a.MAP_COORDINATE AS "mapCoordinate",
+		a.SALE_TYPE AS "saleType",
+		a.AREA AS "area",
+		a.BUILD_TYPE AS "buildType",
+		a.HOUSE_TYPE AS "houseType",
+		a.HOUSE_IS_NEW AS "houseIsNew",
+		a.IS_ELEVATOR AS "isElevator",
+		a.DESIGNER_NAME AS "designerName",
+		a.DESIGNER_PHONE AS "designerPhone",
+		a.ORDER_REPORTER_NAME AS "orderReporterName",
+		a.ORDER_REPORTER_PHONE AS "orderReporterPhone",
+		a.SERVICE_NAME AS "serviceName",
+		a.SERVICE_PHONE AS "servicePhone",
+		a.CONTRACT_START_DATE AS "contractStartDate",
+		a.CONTRACT_END_DATE AS "contractEndDate",
+		a.COVERED_AREA AS "coveredArea",
+		a.CONTRACT_AREA AS "contractArea",
+		a.CONTRACT_TIME AS "contractTime",
+		a.SIGN_CONTRACT_DATE AS "signContractDate",
+		a.ORDER_STATUS_NUMBER AS "orderStatusNumber",
+		a.ORDER_STATUS_DESCRIPTION AS "orderStatusDescription",
+		a.ORDER_INSPECTOR AS "orderInspector",
+		a.CREATE_BY AS "createBy.id",
+		a.CREATE_DATE AS "createDate",
+		a.UPDATE_BY AS "updateBy.id",
+		a.UPDATE_DATE AS "updateDate",
+		a.REMARKS AS "remarks",
+		a.DEL_FLAG AS "delFlag",
+		a.ITEM_MANAGER AS "itemManager",
+		a.STORE_ID AS "storeId",
+		a.CUS_MANAGER AS "cusManager",
+		a.ORDERTASKPACK_STATUS AS "orderTaskPackStatus",
+		a.ACTUAL_START_DATE AS actualStartDate,
+		a.ACTUAL_END_DATE AS actualEndDate,
+		a.ITEM_MANAGER_ID AS "itemManagerId",
+		a.SIGN_FLAG AS "signFlag",
+		a.DELAY_TYPE AS "delayType",
+		a.ORDER_INSPECTOR_ID AS "orderInspectorId",
+		a.PROJECT_MODE AS "projectMode"
+	</sql>
+	
+	<select id="get" resultType="cn.damei.entity.modules.BizOrderInstallAcceptanceDetail">
+		SELECT 
+			<include refid="bizOrderInstallAcceptanceDetailColumns"/>
+		FROM BIZ_ORDER a
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="cn.damei.entity.modules.BizOrderInstallAcceptanceDetail">
+		SELECT 
+			<include refid="bizOrderInstallAcceptanceDetailColumns"/>,
+			(SELECT y.REALNAME FROM BIZ_EMPLOYEE y WHERE y.ID = a.ITEM_MANAGER_ID) AS "employeeRealName",
+			(SELECT y.PHONE FROM BIZ_EMPLOYEE y WHERE y.ID = a.ITEM_MANAGER_ID) AS "employeePhone",
+			p.APPLY_INTO_DATE AS "installApplyIntoDate",
+			p.REAL_INTO_DATE AS "installRealIntoDate",
+			p.REAL_COMPLETE_DATE AS "installRealCompleteDate",
+			p.STATUS AS "installStatus",
+			p.INSTALL_ITEM_NAME AS "installItemName",
+			p.UPDATE_DATE AS "installUpdateDate",
+			p.APPLY_INTO_CREATE_DATETIME AS "installApplyInfoCreateDate",
+			p.ID AS "installID",
+			p.IS_COMPLETE_DELAY AS "installIsCompleteDelay",
+			p.COMPLETE_DELAY_REMARKS AS "installDeplayRemarks",
+			f.name as "name"
+			FROM BIZ_ORDER a
+			LEFT JOIN  BIZ_ORDER_INSTALL_PLAN p ON p.ORDER_ID = a.ID
+			LEFT JOIN biz_employee Y ON  y.ID = a.ITEM_MANAGER_ID
+			LEFT JOIN sys_office f ON f.id = a.STORE_ID
+		<where>
+			p.STATUS = '4'
+			<if test="employeeRealName != null and employeeRealName != ''">
+                AND y.REALNAME LIKE concat('%',#{employeeRealName}, '%')
+            </if>
+            <if test="projectMode != null and projectMode != ''">
+				AND a.PROJECT_MODE = #{projectMode}
+			</if>
+            <if test="employeePhone != null and employeePhone != ''">
+                AND y.PHONE LIKE concat('%',#{employeePhone}, '%')
+            </if>
+			<if test="orderNumber != null and orderNumber != ''">
+                AND a.ORDER_NUMBER = #{orderNumber}
+            </if>
+            <if test="storeId != null and storeId != ''">
+                AND a.STORE_ID = #{storeId}
+            </if>
+            <if test="customerName != null and customerName != ''">
+                AND a.CUSTOMER_NAME LIKE concat('%',#{customerName}, '%')
+            </if>
+            <if test="installItemName != null and installItemName != ''">
+                AND p.INSTALL_ITEM_NAME LIKE concat('%',#{installItemName}, '%') 
+            </if>
+            <if test="installRealIntoDateStart != null and installRealIntoDateStart != ''">
+                AND p.REAL_INTO_DATE &gt;= #{installRealIntoDateStart}
+            </if>
+            <if test="installRealIntoDateEnd != null and installRealIntoDateEnd != ''">
+                AND p.REAL_INTO_DATE &lt;= #{installRealIntoDateEnd}
+            </if>
+            <if test="installRealCompleteDateStart != null and installRealCompleteDateStart != ''">
+                AND p.REAL_COMPLETE_DATE &gt;= #{installRealCompleteDateStart}
+            </if>
+            <if test="installRealCompleteDateEnd != null and installRealCompleteDateEnd != ''">
+                AND p.REAL_COMPLETE_DATE &lt;= #{installRealCompleteDateEnd}
+            </if>
+            <if test="confirmAcceptanceDateBegin != null and confirmAcceptanceDateBegin != ''">
+                AND p.UPDATE_DATE &gt;= #{confirmAcceptanceDateBegin}
+            </if>
+            <if test="confirmAcceptanceDateEnd != null and confirmAcceptanceDateEnd != ''">
+                AND p.UPDATE_DATE &lt;= #{confirmAcceptanceDateEnd}
+            </if>
+           <if test="phones != null">
+			  AND a.DESIGNER_PHONE IN 
+				<foreach collection="phones" item="item" open="("  separator="," close=")" index="index">
+					#{item}
+				</foreach> 
+			</if>
+           
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY p.APPLY_INTO_CREATE_DATETIME DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+</mapper>

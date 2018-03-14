@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="cn.damei.dao.modules.BizOrderMaterialCarryCostDao">
+	<select id="get"
+		resultType="cn.damei.entity.modules.BizOrderMaterialCarryCost">
+		SELECT
+		a.id AS "id",
+		a.order_id AS "orderId",
+		a.carry_cost_amount AS
+		"carryCostAmount",
+		a.account_rate AS "accountRate",
+		a.account_amount AS
+		"accountAmount",
+		a.carry_cost_remarks AS "carryCostRemarks",
+		a.remarks
+		AS "remarks",
+		a.create_by AS "createBy",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy",
+		a.update_date AS "updateDate"
+		FROM
+		`biz_order_material_carry_cost` a
+		WHERE
+		a.id = #{id}
+	</select>
+
+	<select id="queryOrderMaterialCarryCostByOrderId"
+		resultType="cn.damei.entity.modules.BizOrderMaterialCarryCost">
+		SELECT
+		a.id AS "id",
+		a.order_id AS "orderId",
+		a.carry_cost_amount AS "carryCostAmount",
+		a.account_rate AS
+		"accountRate",
+		a.account_amount AS "accountAmount",
+		a.carry_cost_remarks AS "carryCostRemarks",
+		a.remarks AS "remarks",
+		a.create_by AS "createBy",
+		a.create_date AS "createDate",
+		a.update_by AS
+		"updateBy",
+		a.update_date AS "updateDate"
+		FROM
+		`biz_order_material_carry_cost` a
+		WHERE
+		a.order_id =#{orderId}
+	</select>
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO biz_order_material_carry_cost (
+		id,
+		order_id,
+		carry_cost_amount,
+		account_rate,
+		account_amount,
+		carry_cost_remarks,
+		remarks,
+		create_by,
+		create_date,
+		update_by,
+		update_date,
+		del_flag
+		) VALUES (
+		#{id},
+		#{orderId},
+		#{carryCostAmount},
+		#{accountRate},
+		#{accountAmount},
+		#{carryCostRemarks},
+		#{remarks},
+		#{createBy.id},
+		#{createDate},
+		#{updateBy.id},
+		#{updateDate},
+		#{delFlag}
+		)
+	</insert>
+
+	<update id="update">
+		update biz_order_material_carry_cost set
+		order_id=#{orderId},
+		carry_cost_amount = #{carryCostAmount},
+		account_rate = #{accountRate},
+		account_amount = #{accountAmount},
+		carry_cost_remarks = #{carryCostRemarks},
+		remarks = #{remarks},
+		update_by = #{updateBy.id},
+		update_date = #{updateDate}
+		where id = #{id}
+	</update>
+</mapper>

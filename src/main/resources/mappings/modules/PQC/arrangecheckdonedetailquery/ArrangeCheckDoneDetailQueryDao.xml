@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.ArrangeCheckDoneDetailQueryDao">
+    
+	<sql id="arrangeCheckDoneDetailQueryColumns">
+
+	</sql>
+	
+	<sql id="arrangeCheckDoneDetailQueryJoins">
+	</sql>
+    
+	<select id="get" resultType="ArrangeCheckDoneDetailQuery">
+		select 1 from dual
+	</select>
+	
+	<select id="findList" resultType="ArrangeCheckDoneDetailQuery">
+		SELECT
+		a.id AS "qcBillId",
+		b.store_id AS "storeId",
+		b.project_mode AS "projectMode",
+		b.order_number AS "orderNumber",
+		a.accept_check_datetime AS "applyCheckDoneDate",
+		d.qc_check_node_name AS "qcNodeName",
+		e.label AS "qcStatus",
+		CONCAT_WS(
+		"-",
+		b.community_name,
+		b.build_number,
+		b.build_unit,
+		b.build_room
+		) as "customerInfo",
+		b.customer_name AS "customerName",
+		b.item_manager AS "managerName",
+		b.order_inspector AS "pqcName",
+		DATE_FORMAT(
+		a.accept_check_datetime,
+		'%Y-%m-%d'
+		) AS "checkDoneDate",
+		c.name as "engineDepartName"
+		FROM
+		biz_qc_bill a
+
+
+		INNER JOIN biz_order b ON a.order_id = b.id
+
+		<if test="applyCheckDoneStartDate!=null and applyCheckDoneStartDate!=''">
+			and a.accept_check_datetime &gt;= #{applyCheckDoneStartDate}
+
+
+		</if>
+
+
+
+		<if test="applyCheckDoneEndDate!=null and applyCheckDoneEndDate!=''">
+			and a.accept_check_datetime &lt;=#{applyCheckDoneEndDate}
+
+
+		</if>
+
+
+
+		<if test="qcStatus!=null and qcStatus!=''">
+			and a.`status` =#{qcStatus}
+
+
+		</if>
+
+
+
+		<if test="storeId!=null and storeId!=''">
+			and b.store_id=#{storeId}
+
+
+		</if>
+
+
+
+
+
+		<if test="projectMode!=null and projectMode!=''">
+			and b.project_mode = #{projectMode}
+
+
+
+		</if>
+
+
+
+<if test="orderNumber!=null and orderNumber!=''">
+			and b.order_number = #{orderNumber}
+
+
+		</if>
+
+
+		<if test="customerName!=null and customerName!=''">
+			and b.customer_name like concat('%', #{customerName},'%')
+
+
+		</if>
+
+		<if test="managerName!=null and managerName!=''">
+			and b.item_manager  like concat('%', #{managerName},'%')
+
+
+	</if>
+
+		<if test="pqcName!=null and pqcName!=''">
+			and b.order_inspector like concat('%', #{pqcName},'%')
+
+
+		</if>
+
+
+		LEFT JOIN biz_engineering_department c ON b.store_id = c.store_id
+		AND b.project_mode = c.project_mode
+		and b.engin_depart_id = c.id
+		<if test="engineDepartId!=null and engineDepartId!=''">
+			and c.id =#{engineDepartId}
+		</if>
+
+
+		INNER JOIN biz_qc_check_node d ON a.qc_check_node_id = d.id
+
+		<if test="qcNodeName!=null and qcNodeName!=''">
+			and d.qc_check_node_name like concat('%', #{qcNodeName},'%')
+
+
+		</if>
+		INNER JOIN sys_dict e ON a.`status` = e.`value`
+		AND e.type = 'check_qcBill_status'
+WHERE
+
+		 a.qc_bill_type = 1
+		AND a.is_recheck = 0
+		AND a.`status` IN (10, 20, 30)
+
+
+		GROUP BY
+		a.id
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+
+
+
+	</select>
+	
+
+	<select id="findPqcByBillId" parameterType="String" resultType="String">
+
+		SELECT
+			a.pic_url
+		FROM
+			biz_business_pic a
+		WHERE
+			a.business_type = 3
+			AND a.business_id_int = #{_parameter}
+
+
+	</select>
+</mapper>

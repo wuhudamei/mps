@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.PurchaseReceiveBillDao">
+    
+	<select id="get" resultType="cn.damei.entity.modules.PurchaseReceiveBill">
+		SELECT
+			a.id AS "id",
+			a.purchase_id AS "purchaseId",
+			a.purchase_receive_bill_code AS "purchaseReceiveBillCode",
+			a.receive_date AS "receiveDate",
+			a.receive_employee_id AS "receiveEmployeeid",
+			b.purchase_code AS "purchaseCode",
+			b.purchase_type AS "purchaseType",
+			c.project_mode AS "projectMode",
+			c.store_id AS "storeId",
+			c.customer_address AS "customerAddress",
+			c.customer_name AS "customerName",
+			c.community_name AS "communityName",
+			c.build_number AS "buildNumber",
+			c.build_unit AS "buildUnit",
+			c.build_room AS "buildRoom",
+			d.realName AS "receiveName"
+		FROM
+			biz_purchase_receive_bill a
+		INNER JOIN biz_purchase b ON a.purchase_id = b.id
+		INNER JOIN biz_order c ON c.id = b.order_id
+		INNER JOIN biz_employee d ON a.receive_employee_id = d.id
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="cn.damei.entity.modules.PurchaseReceiveBill">
+			SELECT
+			a.id AS "id",
+			a.purchase_id AS "purchaseId",
+			a.purchase_receive_bill_code AS "purchaseReceiveBillCode",
+			a.receive_date AS "receiveDate",
+			a.receive_employee_id AS "receiveEmployeeid",
+			b.purchase_code AS "purchaseCode",
+			b.purchase_type AS "purchaseType",
+			c.project_mode AS "projectMode",
+			c.store_id AS "storeId",
+			c.customer_address AS "customerAddress",
+			c.customer_name AS "customerName",
+			c.community_name AS "communityName",
+			c.build_number AS "buildNumber",
+			c.build_unit AS "buildUnit",
+			c.build_room AS "buildRoom",
+			d.realName AS "receiveName",
+			c.order_number AS "orderNumber",
+			f.label AS "purchaseTypeName"
+		FROM
+			biz_purchase_receive_bill a
+		INNER JOIN biz_purchase b ON a.purchase_id = b.id
+		INNER JOIN biz_order c ON c.id = b.order_id
+		INNER JOIN biz_employee d ON a.receive_employee_id = d.id
+		LEFT JOIN (SELECT g.`value`,g.label AS "label" FROM sys_dict g WHERE g.type = 'purchase_type' AND g.del_flag = 0)f ON f.`value` = b.purchase_type
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="purchaseCode != null and purchaseCode !=''">
+				AND b.purchase_code LIKE 
+				<if test="dbName == 'oracle'">'%'||#{purchaseCode}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{purchaseCode}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{purchaseCode},'%')</if>
+			</if>
+			<if test="orderNumber != null and orderNumber !=''">
+				AND c.order_number LIKE CONCAT('%','${orderNumber}','%' )
+			</if>
+			<if test="receiveName != null and receiveName !=''">
+				AND d.realName LIKE CONCAT('%','${receiveName}','%' )
+			</if>
+			<if test="purchaseType != null and purchaseType !=''">
+				AND b.purchase_type = #{purchaseType}
+			</if>
+			<if test="customerName != null and customerName !=''">
+				AND c.customer_name  LIKE 
+				<if test="dbName == 'oracle'">'%'||#{customerName}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{customerName}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{customerName},'%')</if>
+			</if>
+			<if test="storeId != null and storeId !=''">
+				AND c.store_id = #{storeId}
+			</if>
+			<if test="purchaseReceiveBillCode != null and purchaseReceiveBillCode != ''">
+				AND a.purchase_receive_bill_code LIKE 
+					<if test="dbName == 'oracle'">'%'||#{purchaseReceiveBillCode}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{purchaseReceiveBillCode}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{purchaseReceiveBillCode},'%')</if>
+			</if>
+			<if test="beginReceiveDate != null and endReceiveDate != null and beginReceiveDate != '' and endReceiveDate != ''">
+				AND a.receive_date BETWEEN #{beginReceiveDate} AND #{endReceiveDate}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.receive_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="cn.damei.entity.modules.PurchaseReceiveBill">
+			SELECT
+				a.id AS "id",
+				a.purchase_id AS "purchaseId",
+				a.purchase_receive_bill_code AS "purchaseReceiveBillCode",
+				a.receive_date AS "receiveDate",
+				a.receive_employee_id AS "receiveEmployeeid",
+				b.purchase_code AS "purchaseCode",
+				b.purchase_type AS "purchaseType",
+				c.project_mode AS "projectMode",
+				c.store_id AS "storeId",
+				c.customer_address AS "customerAddress",
+				c.customer_name AS "customerName",
+				c.community_name AS "communityName",
+				c.build_number AS "buildNumber",
+				c.build_unit AS "buildUnit",
+				c.build_room AS "buildRoom",
+				d.realName AS "receiveName"
+			FROM
+				biz_purchase_receive_bill a
+			INNER JOIN biz_purchase b ON a.purchase_id = b.id
+			INNER JOIN biz_order c ON c.id = b.order_id
+			INNER JOIN biz_employee d ON a.receive_employee_id = d.id>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.receive_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO biz_purchase_receive_bill(
+			id,
+			purchase_id,
+			purchase_receive_bill_code,
+			receive_date,
+			receive_employee_id,
+			remarks,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag
+		) VALUES (
+			#{id},
+			#{purchaseId},
+			#{purchaseReceiveBillCode},
+			#{receiveDate},
+			#{receiveEmployeeId},
+			#{remarks},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE biz_purchase_receive_bill SET 	
+			purchase_id = #{purchaseId},
+			purchase_receive_bill_code = #{purchaseReceiveBillCode},
+			receive_date = #{receiveDate},
+			receive_employee_id = #{receiveEmployeeId},
+			remarks = #{remarks},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE biz_purchase_receive_bill SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

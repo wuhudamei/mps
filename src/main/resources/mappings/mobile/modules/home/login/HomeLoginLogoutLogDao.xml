@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.mobile.home.HomeLoginLogoutLogDao">
+	
+	<sql id="logColumns">
+		a.id AS "id",
+		a.deal_mode AS "dealMode",
+		a.deal_type AS "dealType",
+		a.deal_phone AS "deal_phone",
+		a.deal_time AS "dealTime",
+		a.remarks AS "remarks"
+	</sql>
+	
+	<insert id="insert">
+		INSERT INTO biz_home_login_logout_log(
+			deal_mode,deal_type,deal_phone,deal_time,remarks)
+		VALUES (#{dealMode},#{dealType},#{dealPhone},#{dealTime},#{remarks})
+	</insert>
+	
+	<select id="findList" resultType="cn.damei.entity.mobile.home.HomeLoginLogoutLog">
+		SELECT
+		<include refid="logColumns" />
+		FROM biz_home_login_logout_log a 
+		<where>
+			<if test="dealMode != null and dealMode != ''">
+				AND a.deal_mode = #{dealMode}
+			</if>
+			<if test="dealType != null and dealType != ''">
+				AND a.deal_type = #{dealType}
+			</if>
+			
+			<if test="beginDeal != null and beginDeal != '' ">
+				AND a.deal_time &gt;= #{beginDeal} 
+			</if>
+			<if test="endDeal != null and endDeal != '' ">
+				AND a.deal_time &lt;= #{endDeal} 
+			</if>
+		</where>
+		
+		ORDER BY a.deal_time DESC
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				,${page.orderBy}
+			</when>
+			<otherwise>
+				,a.deal_time DESC
+			</otherwise>
+		</choose> 
+	</select>
+	
+	<!-- 根据查询条件查询实际人数 -->
+	<select id="summaryQueryByCondition" resultType="map">
+		  select total.num as totalNum,app.num as appNum,wechat.num as wechatNum
+		    from 
+				( select ifnull(count(a.deal_phone),0) num from  
+					( select deal_phone from biz_home_login_logout_log 
+					   where 1=1
+						 <if test="dealType != null and dealType != ''">
+							AND deal_type = #{dealType}
+						 </if>
+						 <if test="beginDeal != null and beginDeal != '' ">
+							AND deal_time &gt;= #{beginDeal} 
+						</if>
+						<if test="endDeal != null and endDeal != '' ">
+							AND deal_time &lt;= #{endDeal} 
+						</if>
+						 group by deal_phone 
+					) a
+				) total,
+				(  select ifnull(count(a.deal_phone),0) num from
+					( select deal_phone from  biz_home_login_logout_log 
+					 where deal_mode = 'app'
+					 <if test="dealType != null and dealType != ''">
+						AND deal_type = #{dealType}
+					 </if> 
+					 <if test="beginDeal != null and beginDeal != '' ">
+						AND deal_time &gt;= #{beginDeal} 
+					 </if>
+					 <if test="endDeal != null and endDeal != '' ">
+						AND deal_time &lt;= #{endDeal} 
+					 </if>
+					 group by deal_phone
+					) a  
+				) app,
+				( select ifnull(count(a.deal_phone),0) num from
+					( select deal_phone from  biz_home_login_logout_log 
+						where deal_mode = 'wechat' 
+						<if test="dealType != null and dealType != ''">
+							AND deal_type = #{dealType}
+						</if>
+						<if test="beginDeal != null and beginDeal != '' ">
+							AND deal_time &gt;= #{beginDeal} 
+						</if>
+						<if test="endDeal != null and endDeal != '' ">
+							AND deal_time &lt;= #{endDeal} 
+						</if>
+						group by deal_phone 
+					) a
+		  ) wechat 
+	</select>
+	
+</mapper>

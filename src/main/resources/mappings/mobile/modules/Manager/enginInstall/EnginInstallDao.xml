@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.mobile.Manager.EnginInstallDao">
+    
+	<sql id="enginInstallColumns">
+		a.id AS "id",
+		a.order_number AS "orderNumber",
+		a.contract_number AS "contractNumber",
+		a.customer_type AS "customerType",
+		a.customer_description AS "customerDescription",
+		a.customer_name AS "customerName",
+		a.customer_phone AS "customerPhone",
+		a.community_name AS "communityName",
+		a.build_number AS "buildNumber",
+		a.build_unit AS "buildUnit",
+		a.build_room AS "buildRoom",
+		a.map_coordinate AS "mapCoordinate",
+		a.sale_type AS "saleType",
+		a.area AS "area",
+		a.build_type AS "buildType",
+		a.house_type AS "houseType",
+		a.house_is_new AS "houseIsNew",
+		a.is_elevator AS "isElevator",
+		a.designer_name AS "designerName",
+		a.designer_phone AS "designerPhone",
+		a.order_reporter_name AS "orderReporterName",
+		a.order_reporter_phone AS "orderReporterPhone",
+		a.service_name AS "serviceName",
+		a.service_phone AS "servicePhone",
+		a.contract_start_date AS "contractStartDate",
+		a.contract_end_date AS "contractEndDate",
+		a.covered_area AS "coveredArea",
+		a.contract_area AS "contractArea",
+		a.contract_time AS "contractTime",
+		a.sign_contract_date AS "signContractDate",
+		a.order_status_number AS "orderStatusNumber",
+		a.order_status_description AS "orderStatusDescription",
+		a.order_inspector AS "orderInspector",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag",
+		a.item_manager AS "itemManager",
+		a.store_id AS "storeId",
+		a.cus_manager AS "cusManager",
+		a.ordertaskpack_status AS "orderTaskPackStatus",
+		a.actual_start_date AS actualStartDate,
+		a.actual_end_date AS actualEndDate,
+		a.item_manager_id AS "itemManagerId",
+		a.sign_flag AS "signFlag",
+		a.delay_type AS "delayType",
+		a.order_inspector_id AS "orderInspectorId"
+	</sql>
+
+
+	<!-- 根据订单id获取订单详情 -->
+	<select id="queryOrderDetails" resultType="cn.damei.entity.mobile.Manager.EnginInstall">
+		SELECT 
+			<include refid="enginInstallColumns"/>
+		FROM biz_order a
+		WHERE a.id = #{0}
+	</select>
+	
+
+
+</mapper>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizCustomerReturnVisitInvalidRecordDao">
+    
+    <sql id="bizCustomerReturnVisitInvalidRecordColumns">
+       id AS id,
+	   order_id AS orderId,
+	   invalid_reason AS invalidReason,
+	   custom_service_id AS customServiceId,
+	   custom_service_name AS customServiceName,
+	   return_visit_time AS returnVisitTime,
+	   return_visit_node AS returnVisitNode,
+	   return_visit_node_name AS returnVisitNodeName,
+	   create_by AS createBy,
+	   create_date AS createDate,
+	   update_by AS updateBy,
+	   update_date AS updateDate,
+	   del_flag AS delFlag
+    </sql>
+    
+	<select id="findByOrderIdAndVisitNode" resultType="cn.damei.entity.modules.BizCustomerReturnVisitInvalidRecord">
+		SELECT 
+			<include refid="bizCustomerReturnVisitInvalidRecordColumns"/>
+		from biz_customer_return_visit_invalid_record
+		where 1=1 
+			<if test="returnVisitNode != null and returnVisitNode != ''">
+				AND return_visit_node = #{returnVisitNode}
+			</if>
+			<if test="orderId != null and orderId != ''">
+				AND order_id = #{orderId}
+			</if>
+			
+			ORDER BY return_visit_time DESC
+	</select>
+	
+	
+	<insert id="insertInvalidRecord" parameterType="cn.damei.entity.modules.BizCustomerReturnVisitInvalidRecord">
+		INSERT INTO biz_customer_return_visit_invalid_record(
+			order_id,
+			custom_service_id,
+			custom_service_name,
+			return_visit_time,
+			return_visit_node,
+			return_visit_node_name,
+			invalid_reason,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag
+		) VALUES (
+			#{orderId},
+			#{customServiceId},
+			#{customServiceName},
+			#{returnVisitTime},
+			#{returnVisitNode},
+			#{returnVisitNodeName},
+			#{invalidReason},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="delete">
+		UPDATE biz_customer_return_visit_invalid_record SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

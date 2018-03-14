@@ -1,0 +1,397 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="cn.damei.dao.modules.ProIndustryPmSettleDao">
+	<select id="queryProIndustryPmMidwaySettle"
+		resultType="cn.damei.entity.modules.ProIndustryPmSettleInfo">
+		SELECT
+		a.id AS "orderId",
+		a.store_id AS "storeId",
+		a.project_mode AS
+		"projectMode",
+		en.`name` AS "departmentName",
+		a.order_number AS
+		"orderNum",
+		a.community_name AS "communityName",
+		a.build_number AS
+		"buildNumber",
+		a.build_room AS "buildRoom",
+		a.build_unit AS "buildUnit",
+		a.customer_name AS "customerName",
+		a.customer_phone AS "customerPhone",
+		a.item_manager AS "itemCustomer",
+		em.phone AS "itemPhone",
+		a.order_inspector AS "inspector",
+		qb.accept_check_datetime AS
+		"acceptCheckDatetime",
+		p.receive_money_amount AS "secondPayment",
+		p.receive_money_datetime AS "secondPaymentDate"
+		FROM
+		biz_order a
+		INNER
+		JOIN biz_normal_pm_settle_node sn ON a.store_id = sn.store_id
+		AND
+		a.project_mode = sn.project_mode
+		AND sn.settle_stage = 10
+		INNER JOIN
+		biz_qc_bill qb ON qb.order_id = a.id
+		AND qb.qc_check_node_id =
+		sn.qc_check_node_id
+		LEFT JOIN biz_pre_pm_settle_finance_receive_moeny
+		p ON p.order_id = a.id AND p.receive_money_type = 1
+		LEFT JOIN biz_engineering_department en ON en.id
+		= a.engin_depart_id
+		LEFT JOIN biz_employee em ON em.id =
+		a.item_manager_id
+		<where>
+			qb.qc_bill_type = '1'
+			AND qb.is_recheck = '0'
+			AND qb.`status` >= 10
+			<!-- AND
+			p.receive_money_type = 1
+			AND p.receive_money_amount > 0 -->
+			AND a.id NOT IN
+			(
+			SELECT
+			order_id
+			FROM
+			biz_pm_pre_industry_settle_bill
+			WHERE
+			settle_bill_type = 1
+			)
+			AND a.id NOT IN (
+			SELECT DISTINCT
+			(a.order_id)
+			FROM
+			biz_order_taskpackage a
+			WHERE
+			a.package_stateId &lt; 150 and a.labor_auxiliary_materials_budget_amount >0
+			)
+			<if test="storeId != null and storeId != ''">
+				AND a.store_id = #{storeId}
+			</if>
+			<if test="projectMode != null and projectMode != ''">
+				AND a.project_mode = #{projectMode}
+			</if>
+			<if test="enginDepartIds != null and enginDepartIds.size>0">
+				AND a.engin_depart_id in
+				<foreach item="item" index="index" collection="enginDepartIds"
+					open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+
+			<if test="orderNum != null and orderNum != ''">
+				AND a.order_number = #{orderNum}
+			</if>
+			<if test="customerName != null and customerName != ''">
+				AND a.customer_name LIKE
+				<if test="dbName == 'oracle'">'%'||#{customerName}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{customerName}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{customerName},'%')</if>
+			</if>
+			<if test="itemCustomer != null and itemCustomer != ''">
+				AND a.item_manager LIKE
+				<if test="dbName == 'oracle'">'%'||#{itemCustomer}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{itemCustomer}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{itemCustomer},'%')</if>
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.create_date DESC
+			</otherwise>
+		</choose>
+	</select>
+
+	<select id="queryProIndustryPmCompleteSettle"
+		resultType="cn.damei.entity.modules.ProIndustryPmSettleInfo">
+		SELECT
+		a.id AS "orderId",
+		a.store_id AS "storeId",
+		a.project_mode AS
+		"projectMode",
+		en.`name` AS "departmentName",
+		a.order_number AS
+		"orderNum",
+		a.community_name AS "communityName",
+		a.build_number AS
+		"buildNumber",
+		a.build_room AS "buildRoom",
+		a.build_unit AS "buildUnit",
+		a.customer_name AS "customerName",
+		a.customer_phone AS "customerPhone",
+		a.item_manager AS "itemCustomer",
+		em.phone AS "itemPhone",
+		a.order_inspector AS "inspector",
+		b.apply_datetime AS
+		"completeAuditPassTime",
+		c.receive_money_amount AS "finalPayment",
+		c.receive_money_datetime AS "finalPaymentDate"
+		FROM
+		biz_order a
+		LEFT
+		JOIN
+		biz_order_finish_project_bill b ON a.id = b.order_id
+		LEFT JOIN
+		biz_pre_pm_settle_finance_receive_moeny c ON a.id = c.order_id AND c.receive_money_type = 2
+		LEFT
+		JOIN biz_engineering_department en ON en.id = a.engin_depart_id
+		LEFT
+		JOIN biz_employee em ON em.id = a.item_manager_id
+		<where>
+			a.order_status_number >= 340
+			<!-- AND c.receive_money_type = 2
+			AND
+			c.receive_money_amount > 0 -->
+			AND a.id NOT IN (
+			SELECT
+			order_id
+			FROM
+			biz_pm_pre_industry_settle_bill
+			WHERE
+			settle_bill_type = 2
+			)
+			AND a.id in
+			(
+			SELECT
+			order_id
+			FROM
+			biz_pm_pre_industry_settle_bill
+			WHERE
+			settle_bill_type = 1 and status in (40,50)
+			)
+			<if test="storeId != null and storeId != ''">
+				AND a.store_id = #{storeId}
+			</if>
+			<if test="projectMode != null and projectMode != ''">
+				AND a.project_mode = #{projectMode}
+			</if>
+			<if test="enginDepartIds != null and enginDepartIds.size>0">
+				AND a.engin_depart_id in
+				<foreach item="item" index="index" collection="enginDepartIds"
+					open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+
+			<if test="orderNum != null and orderNum != ''">
+				AND a.order_number = #{orderNum}
+			</if>
+			<if test="customerName != null and customerName != ''">
+				AND a.customer_name LIKE
+				<if test="dbName == 'oracle'">'%'||#{customerName}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{customerName}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{customerName},'%')</if>
+			</if>
+			<if test="itemCustomer != null and itemCustomer != ''">
+				AND a.item_manager LIKE
+				<if test="dbName == 'oracle'">'%'||#{itemCustomer}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{itemCustomer}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{itemCustomer},'%')</if>
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.create_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	<!-- 查询订单下辅料（沙子水泥）总金额 -->
+	<select id="queryAuxiliaryMaterialsAmountByOrderId"
+		parameterType="java.util.Map" resultType="java.lang.Double">
+		SELECT SUM(used_count*price)
+		FROM
+		`biz_order_taskpackage_auxiliary_materials` where order_id =
+		#{orderId} and is_sand_cement = #{isSandCement}
+	</select>
+
+	<select id="queryAuxiliaryInfoByParam" parameterType="java.util.Map"
+		resultType="cn.damei.entity.mobile.Worker.SettlementAuxiliary">
+		SELECT
+		a.id as "id",
+		a.auxiliary_materials_no as
+		"auxiliaryMaterialsNo",
+		b.auxiliary_materials_name as
+		"auxiliaryMaterialsName",
+		b.measurement_unit as "measurementUnit",
+		a.price as "laborPrice",
+		SUM(a.used_count) as "usedCount",
+		SUM(a.used_count*a.price) as "price"
+		FROM
+		`biz_order_taskpackage_auxiliary_materials` a
+		LEFT JOIN
+		biz_auxiliary_materials b on a.auxiliary_materials_no =
+		b.auxiliary_materials_no
+		WHERE
+		a.order_id = #{orderId}
+		AND
+		a.is_sand_cement = #{isSandCement}
+		GROUP BY
+		a.auxiliary_materials_no,price
+	</select>
+
+	<!-- 查询订单下标化辅料总金额 -->
+	<select id="queryMaterialsStandardAmountByOrderId" resultType="java.lang.Double">
+		SELECT SUM(a.materials_amount) FROM `biz_order_materials_standard` a
+		INNER JOIN biz_materials_standard b on a.materials_standard_id = b.id
+		and (b.materials_large_type = 1 or b.materials_large_type is NULL)
+		WHERE a.order_id = #{orderId}
+	</select>
+
+	<!-- 查询订单下开关面板总金额 -->
+	<select id="queryMainPanelAmountByOrderId" resultType="java.lang.Double">
+		SELECT
+		SUM(total_price) FROM `biz_purchase` where purchase_type='2' and
+		order_id = #{orderId} and `status` in (40,70,90)
+	</select>
+
+	<select id="queryMainPanelListByOrderId"
+		resultType="cn.damei.entity.modules.MainPanel">
+		SELECT
+		a.id as "purchaseId",
+		b.main_mate_code AS
+		"mainMaterialsCode",
+		b.brands AS
+		"brands",
+		b.main_materials_name AS
+		"mainMaterialsName",
+		b.specifications AS "specifications",
+		b.main_mate_count AS
+		"mainMateCount",
+		(
+		SELECT
+		b1.labor_price
+		FROM
+		biz_main_materials_supplier_rel b1
+		WHERE
+		b1.main_materials_id = ma.id
+		and b1.effective_date &lt; a.apply_time AND b1.del_flag =0
+		ORDER BY
+		b1.effective_date desc
+		LIMIT 1
+		) AS "laborPrice"
+		FROM
+		`biz_purchase` a
+		LEFT JOIN biz_purchase_main_mate b ON a.id = b.purchase_id
+		LEFT JOIN
+		biz_main_materials ma ON b.main_mate_code = ma.main_materials_no
+		WHERE
+		a.purchase_type = '2'
+		AND a.order_id = #{orderId}
+		AND a.`status` IN (40,
+		70, 90)
+	</select>
+
+	<!-- 查询订单下所有工人人工费用 -->
+	<select id="queryWorkerAmountByOrderId" resultType="java.lang.Double">
+		SELECT
+		SUM(a.amount)
+		FROM
+		biz_order_taskpackage_payment a
+		INNER JOIN
+		biz_order_taskpackage_settlement b ON
+		a.order_taskpackage_settlement_id = b.id
+		INNER JOIN
+		biz_order_taskpackage c on c.id = b.order_taskpackage_id
+		where
+		c.order_id=#{orderId} and a.`status` != 93;
+	</select>
+
+	<select id="queryPmQcFineByParam" resultType="java.lang.Double"
+		parameterType="java.util.Map">
+		SELECT
+		SUM(settle_amount)
+		FROM
+		biz_pm_settle_category_detail
+		WHERE
+		settle_category = 4
+		AND settle_role =1
+		<if test="settleStatus != null and settleStatus != ''">
+		AND settle_status = #{settleStatus}
+		</if>
+		<if test="settleStatus == null or settleStatus == ''">
+		AND settle_status = 10
+		</if>
+		AND order_id = #{orderId}
+		AND pm_employee_id =
+		#{pmEmployeeId}
+		<if test="summaryId != null and summaryId != ''">
+		AND pm_settle_category_summary_id = #{summaryId}
+		</if>
+		<if test="summaryId ==null or summaryId == ''">
+		AND (pm_settle_category_summary_id is null or
+		pm_settle_category_summary_id ='')
+		</if>
+		
+	</select>
+
+	<select id="queryPmQcFineInfoByParam"
+		resultType="cn.damei.entity.modules.InspectorPunish">
+		SELECT
+		c.qc_bill_code as "qcBillCode",
+		em.realName as
+		"checkEmployee",
+		c.check_datetime as "actualCheckDate",
+		d.qc_check_item_name as "qcBillCheckItemName",
+		e.qc_check_kind_name as
+		"qcBillCheckKindName",
+		j.break_describe as "breakDescribe",
+		b.punish_money_amount_real as "money"
+		FROM
+		biz_pm_settle_category_detail a
+		INNER JOIN biz_qc_bill_check_item b ON
+		a.related_business_id = b.id
+		INNER JOIN biz_qc_bill c ON b.qc_bill_id =
+		c.id
+		INNER JOIN biz_qc_check_item d ON d.id = b.qc_check_item_id
+		INNER
+		JOIN biz_qc_check_kind e ON d.qc_check_kind_id = e.id
+		INNER JOIN
+		biz_qc_bill_check_item_break j on j.qc_bill_check_item_id = b.id
+		LEFT
+		JOIN biz_employee em ON em.id = c.check_employee_id
+		WHERE
+		a.settle_category = 4
+		AND a.settle_role = 1
+		AND a.settle_status = #{settleStatus}
+		AND
+		a.order_id = #{orderId}
+		AND a.pm_employee_id = #{pmEmployeeId}
+		<if test="summaryId != null and summaryId != ''">
+		AND pm_settle_category_summary_id = #{summaryId}
+		</if>
+		<if test="summaryId ==null or summaryId == ''">
+		AND (pm_settle_category_summary_id is null or
+		pm_settle_category_summary_id ='')
+		</if>
+	</select>
+
+	<select id="querySubsidyPriceByParam" resultType="java.lang.Double"
+		parameterType="java.util.Map">
+		SELECT subsidy_price FROM `biz_pm_subsidy_cnfg` where
+		del_flag = 0 and is_enabled = 1
+		and store_id = #{storeId}
+		and project_mode = #{projectMode} and (square_min
+		&lt;=#{contractArea}
+		and square_max >= #{contractArea}) LIMIT 1
+	</select>
+
+	<!-- 查询基装增项金额 -->
+	<select id="queryBaseInstalledAmount" resultType="java.lang.Double"
+		parameterType="java.util.Map">
+		SELECT
+		change_account_amount
+		FROM
+		`biz_order_change`
+		WHERE
+		order_id = #{orderId}
+		AND change_type =#{changeType}
+	</select>
+</mapper>

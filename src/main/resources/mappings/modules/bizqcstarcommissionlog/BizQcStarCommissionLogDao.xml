@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizQcStarCommissionLogDao">
+    
+	<sql id="bizQcStarCommissionLogColumns">
+		a.id AS "id",
+		a.order_id AS "orderId",
+		a.qc_employee_id AS "qcEmployeeId",
+		a.star_level AS "starLevel",
+		a.commission_node AS "commissionNode",
+		a.commission_amount AS "commissionAmount",
+		a.commission_rate AS "commissionRate",
+		a.commission_datetime AS "commissionDatetime",
+		a.remarks AS "remarks",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="bizQcStarCommissionLogJoins">
+	</sql>
+    
+	<select id="get" resultType="cn.damei.entity.modules.BizQcStarCommissionLog">
+		SELECT 
+			<include refid="bizQcStarCommissionLogColumns"/>
+		FROM biz_qc_star_commission_log a
+		<include refid="bizQcStarCommissionLogJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="cn.damei.entity.modules.BizQcStarCommissionLog">
+		SELECT 
+			<include refid="bizQcStarCommissionLogColumns"/>
+		FROM biz_qc_star_commission_log a
+		<include refid="bizQcStarCommissionLogJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="cn.damei.entity.modules.BizQcStarCommissionLog">
+		SELECT 
+			<include refid="bizQcStarCommissionLogColumns"/>
+		FROM biz_qc_star_commission_log a
+		<include refid="bizQcStarCommissionLogJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO biz_qc_star_commission_log(
+			id,
+			order_id,
+			qc_employee_id,
+			star_level,
+			commission_node,
+			commission_amount,
+			commission_rate,
+			commission_datetime,
+			remarks,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag
+		) VALUES (
+			#{id},
+			#{orderId},
+			#{qcEmployeeId},
+			#{starLevel},
+			#{commissionNode},
+			#{commissionAmount},
+			#{commissionRate},
+			#{commissionDatetime},
+			#{remarks},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE biz_qc_star_commission_log SET 	
+			order_id = #{orderId},
+			qc_employee_id = #{qcEmployeeId},
+			star_level = #{starLevel},
+			commission_node = #{commissionNode},
+			commission_amount = #{commissionAmount},
+			commission_rate = #{commissionRate},
+			commission_datetime = #{commissionDatetime},
+			remarks = #{remarks},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE biz_qc_star_commission_log SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+	<insert id="insert1"  useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO biz_qc_star_commission_log(
+			order_id,
+			qc_employee_id,
+			star_level,
+			commission_node,
+			commission_amount,
+			commission_rate,
+			commission_datetime,
+			remarks,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag
+		) VALUES (
+			#{orderId},
+			#{qcEmployeeId},
+			#{starLevel},
+			#{commissionNode},
+			#{commissionAmount},
+			#{commissionRate},
+			#{commissionDatetime},
+			#{remarks},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag}
+		)
+	</insert>
+</mapper>

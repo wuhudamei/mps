@@ -1,0 +1,5 @@
+键值	标签	    类型	                    描述	排序	
+
+0	否	is_month_inspection	是否月度巡检	         1	
+
+1	是	is_month_inspection	是否月度巡检	         2	

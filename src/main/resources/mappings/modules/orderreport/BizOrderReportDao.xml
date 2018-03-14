@@ -1,0 +1,724 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizOrderReportDao">
+   <sql id="orderReportColumns">
+     a.id AS "id",
+     a.store_id AS "storeId",
+     a.customer_name AS "customerName",
+     a.customer_phone AS "customerPhone", 
+     a.community_name AS "communityName",
+     a.address AS "address",
+     a.build_number AS "buildNumber",
+     a.build_unit AS "buildUnit",
+     a.build_room AS "buildRoom",
+	 CONCAT_WS("-",a.address,a.build_number, a.build_unit, a.build_room) as "detailAddress",
+     a.report_remarks AS "reportRemarks",
+     a.reporter_employee_id AS "reporterEmployeeId",
+     a.reporter_name AS "reporterName",
+     a.reporter_phone AS "reporterPhone",
+     a.report_datetime AS "reportDatetime",
+     a.reporter_type AS "reporterType",
+     a.report_source_type AS "reportSourceType",
+     a.report_status AS "reportStatus",
+     a.instore_datetime AS "instoreDatetime",
+     a.instore_remarks AS "instoreRemarks",
+     a.sign_bill_datetime AS "signBillDatetime",
+     a.sign_bill_remarks AS "signBillRemarks",
+     a.remarks AS "remarks",
+     a.create_by AS "createBy.id",
+	 a.create_date AS "createDate",
+	 a.update_by AS "updateBy.id",
+	 a.update_date AS "updateDate",
+     a.del_flag AS "delFlag",
+	 a.service_name AS "serviceName",
+	 a.service_phone as "servicePhone"
+   </sql>
+   
+   <sql id="orderReportJoins">
+   </sql>
+   
+   <select id="get" resultType="cn.damei.entity.modules.BizOrderReport">
+		SELECT 
+			<include refid="orderReportColumns"/>
+		FROM biz_order_report a
+		<include refid="orderReportJoins"/>
+		WHERE a.id =#{id}
+	</select>
+	
+	<select id="getBizOrderReportByCustomerPhone" resultType="int">
+		SELECT
+		(
+		SELECT
+		count(1)
+		FROM
+		biz_order_report a
+		WHERE
+		a.customer_phone = #{_parameter}
+		AND a.report_status != '90'
+		) + (
+		SELECT
+		count(1)
+		FROM
+		biz_order b
+		WHERE
+		b.customer_phone = #{_parameter}
+		)
+		FROM
+		DUAL
+	</select>
+	
+	
+	<select id="findList" resultType="cn.damei.entity.modules.BizOrderReport">
+	    SELECT 
+			<include refid="orderReportColumns"/>
+		FROM biz_order_report a
+		<include refid="orderReportJoins"/>
+		<where>
+		   a.del_flag = #{DEL_FLAG_NORMAL}
+		   <if test="id != null and id != ''">
+				AND a.id =#{id}
+		   </if>
+		   
+		   <if test="storeId != null and storeId != ''">
+				AND a.store_id = #{storeId}
+		   </if>
+		   
+		   <if test="customerName != null and customerName != ''">
+		        AND a.customer_name LIKE
+					<if test="dbName == 'oracle'">'%'||#{customerName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{customerName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{customerName},'%')</if>
+		   </if>
+		   
+		   <if test="customerPhone != null and customerPhone != ''">
+				AND a.customer_phone = #{customerPhone}
+		   </if>
+		   
+		   <if test="reporterType != null and reporterType != ''">
+				AND a.reporter_type = #{reporterType}
+		   </if>
+		   
+		   <if test="reporterName != null and reporterName != ''">
+				AND a.reporter_name LIKE
+					<if test="dbName == 'oracle'">'%'||#{reporterName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{reporterName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{reporterName},'%')</if>
+		   </if>
+		   
+		   <if test="reporterPhone != null and reporterPhone != ''">
+				AND a.reporter_phone = #{reporterPhone}
+		   </if>
+		   
+		   <if test="reportStatus != null and reportStatus != ''">
+				AND a.report_status = #{reportStatus}
+		   </if>
+
+			<if test="serviceName != null and serviceName != ''">
+				AND a.service_name like concat('%',#{serviceName},'%')
+			</if>
+
+			<if test="start != null and end != null and start != '' and end != ''">
+				AND a.report_datetime BETWEEN #{start} AND #{end}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.report_datetime DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findByParam" resultType="cn.damei.entity.modules.BizOrderReport">
+	    SELECT 
+			<include refid="orderReportColumns"/>
+		FROM biz_order_report a
+		<include refid="orderReportJoins"/>
+		<where>
+		   a.del_flag = #{DEL_FLAG_NORMAL}
+		   <if test="id != null and id != ''">
+				AND a.id =#{id}
+		   </if>
+		   
+		   <if test="storeId != null and storeId != ''">
+				AND a.store_id = #{storeId}
+		   </if>
+		   
+		   <if test="customerName != null and customerName != ''">
+		        AND a.customer_name LIKE
+					<if test="dbName == 'oracle'">'%'||#{customerName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{customerName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{customerName},'%')</if>
+		   </if>
+		   
+		   <if test="customerPhone != null and customerPhone != ''">
+				AND a.customer_phone = #{customerPhone}
+		   </if>
+		   
+		   <if test="reporterType != null and reporterType != ''">
+				AND a.reporter_type = #{reporterType}
+		   </if>
+		   
+		   <if test="reporterName != null and reporterName != ''">
+				AND a.reporter_name LIKE
+					<if test="dbName == 'oracle'">'%'||#{reporterName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{reporterName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{reporterName},'%')</if>
+		   </if>
+		   
+		   <if test="reporterPhone != null and reporterPhone != ''">
+				AND a.reporter_phone = #{reporterPhone}
+		   </if>
+		   
+		   <if test="reportStatusList != null and reportStatusList != ''">
+				AND a.report_status IN 
+				<foreach collection="reportStatusList" item="item" open="("  separator="," close=")" index="index">
+					#{item}
+				</foreach>
+		   </if>
+		   
+		   <if test="start != null and end != null and start != '' and end != ''">
+				AND a.report_datetime BETWEEN #{start} AND #{end}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.report_datetime DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="cn.damei.entity.modules.BizOrderReport">
+	    SELECT 
+			<include refid="orderReportColumns"/>
+		FROM biz_order_report a
+		<include refid="orderReportJoins"/>
+		<where>
+		   a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+	   INSERT INTO biz_order_report(
+	     id,
+	     store_id,
+	     customer_name,
+	     customer_phone,
+	     community_name,
+	     address,
+	     build_number,
+	     build_unit,
+	     build_room,
+	     report_remarks,
+	     reporter_employee_id,
+	     reporter_name,
+	     reporter_phone,
+	     report_datetime,
+	     reporter_type,
+	     report_source_type,
+	     report_status,
+	     instore_datetime,
+	     instore_remarks,
+	     sign_bill_datetime,
+	     sign_bill_remarks,
+	     remarks,
+	     create_by,
+	     create_date,
+	     update_by,
+	     update_date,
+	     del_flag,
+		 is_asked
+	   ) VALUES (
+	     #{id},
+	     #{storeId},
+	     #{customerName},
+	     #{customerPhone},
+	     #{communityName},
+	     #{address},
+	     #{buildNumber},
+	     #{buildUnit},
+	     #{buildRoom},
+	     #{reportRemarks},
+	     #{reporterEmployeeId},
+	     #{reporterName},
+	     #{reporterPhone},
+	     #{reportDatetime},
+	     #{reporterType},
+	     #{reportSourceType},
+	     #{reportStatus},
+	     #{instoreDatetime},
+	     #{instoreRemarks},
+	     #{signBillDatetime},
+	     #{signBillRemarks},
+	     #{remarks},
+	     #{createBy.id},
+	     #{createDate},
+	     #{updateBy.id},
+	     #{updateDate},
+	     #{delFlag},
+		   #{isAsked}
+	   )
+	</insert>
+
+	<update id="update">
+		UPDATE biz_order_report SET
+		store_id = #{storeId},
+		customer_name = #{customerName},
+		customer_phone = #{customerPhone},
+		community_name = #{communityName},
+		address = #{address},
+		build_number = #{buildNumber},
+		build_unit = #{buildUnit},
+		build_room = #{buildRoom},
+		report_remarks = #{reportRemarks},
+		reporter_employee_id = #{reporterEmployeeId},
+		reporter_name = #{reporterName},
+		reporter_phone = #{reporterPhone},
+		report_datetime = #{reportDatetime},
+		reporter_type = #{reporterType},
+		report_source_type = #{reportSourceType},
+		report_status = #{reportStatus},
+		instore_datetime = #{instoreDatetime},
+		instore_remarks = #{instoreRemarks},
+		sign_bill_datetime = #{signBillDatetime},
+		sign_bill_remarks = #{signBillRemarks},
+		remarks = #{remarks},
+		update_by = #{updateBy.id},
+		update_date = #{updateDate},
+		is_asked=#{isAsked},
+		service_employee_id= #{serviceEmployeeId},
+		service_name =#{serviceName},
+		service_phone	=  #{servicePhone}
+
+		WHERE id=#{id}
+	</update>
+
+
+
+	<update id="updateStatus">
+	  UPDATE biz_order_report SET
+
+	     report_status = #{reportStatus},
+
+	     update_by = #{updateBy.id},
+	     update_date = #{updateDate}
+
+	  WHERE id=#{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE biz_order_report SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id =#{id}
+	</update>
+	<update id="updateReturnOrderRemarks">
+		UPDATE biz_order_report SET
+		remarks = #{remarks}
+		WHERE id =#{id}
+	</update>
+
+	<select id="findRemarksByReturnOrderId" parameterType="String" resultType="String">
+		select remarks from biz_order_report
+		WHERE id =#{_parameter}
+	</select>
+	
+	<select id="findServiceList" resultType="cn.damei.entity.modules.BizOrderReport" parameterType="java.util.Map">
+		SELECT
+		e.id as "serviceEmployeeId",
+		e.realName as "serviceName",
+		e.phone as "servicePhone",
+		e.employee_id_mapping_order_change_sys as "serviceMappingId",
+		e.storeId as "storeId"
+		FROM
+
+		biz_order_report_send_rule a  INNER JOIN biz_order_report_send_rule_service b  on a.id =b.send_rule_id
+		and a.`status`=1 INNER JOIN
+		biz_employee e on b.service_employee_id = e.id
+		WHERE
+		e.empType =4
+		AND e.employee_id_mapping_order_change_sys IS NOT NULL
+
+		<if test="serviceName!=null and  serviceName!=''">
+			and e.realName LIKE  concat('%',#{serviceName},'%')
+
+
+		</if>
+	</select>
+
+
+
+	<update id="saveTransferServiceInfo" parameterType="cn.damei.entity.modules.BizOrderReport">
+		UPDATE biz_order_report
+		SET service_employee_id = #{serviceEmployeeId} ,service_name =#{serviceName} , service_phone=#{servicePhone} where id = #{id}
+
+	</update>
+
+
+
+
+
+
+	<select id="selectReportInfoByNameAndPhone" parameterType="cn.damei.entity.modules.BizOrderReport" resultType="cn.damei.entity.modules.BizOrderReport">
+
+	select id,report_status from biz_order_report where
+	 customer_phone = #{customerPhone}
+	and report_status !=90 limit 1
+
+
+	</select>
+	<update id="batchUpdateOrderReportStatusByQuarz" parameterType="cn.damei.entity.modules.BizOrderReport">
+
+		UPDATE biz_order_report
+		SET report_status = #{reportStatus},
+			instore_datetime =#{instoreDatetime},
+			customer_name=#{customerName}
+		WHERE
+			(
+				report_status = 25
+				OR report_status = 10
+			)
+
+			AND customer_phone =#{customerPhone}
+
+
+	</update>
+
+	<update id="batchUpdateOrderReportStatusByQuarzTwo" parameterType="cn.damei.entity.modules.BizOrderReport" >
+
+		UPDATE biz_order_report
+		SET report_status = #{reportStatus},
+			sign_bill_datetime =#{signBillDatetime},
+			customer_name=#{customerName}
+
+		WHERE
+		(
+		report_status = 25
+		OR report_status = 10
+		OR report_status = 30
+		)
+
+		AND customer_phone =#{customerPhone}
+
+
+	</update>
+
+
+	<insert id="batchInsertRelatedContractContract" parameterType="cn.damei.entity.modules.BizOrderReport">
+
+		insert into biz_order_report_related_order (
+			order_report_id, order_id, order_number, remarks, create_by, create_date, update_by, update_date, del_flag
+
+
+		) VALUES
+			<foreach collection="list"  separator="," item="item">
+				(
+				#{item.id},
+				#{item.orderId},
+				#{item.orderNumber},
+				#{item.remarks},
+				#{item.createBy.id},
+				#{item.createDate},
+				#{item.updateBy.id},
+				#{item.updateDate},
+				"0"
+				)
+
+			</foreach>
+
+
+
+
+
+
+
+
+
+	</insert>
+
+
+
+
+
+	<select id="findListForExcel" resultType="cn.damei.entity.modules.BizOrderReport">
+
+		SELECT
+		a.id AS "id",
+		d.name AS "storeName",
+		a.customer_name AS "customerName",
+		a.customer_phone AS "customerPhone",
+		a.community_name AS "communityName",
+		a.address AS "address",
+		a.build_number AS "buildNumber",
+		a.build_unit AS "buildUnit",
+		a.build_room AS "buildRoom",
+		a.report_remarks AS "reportRemarks",
+
+		a.reporter_name AS "reporterName",
+		a.reporter_phone AS "reporterPhone",
+		a.report_datetime AS "reportDatetime",
+		b.label AS "reporterType",
+		a.report_source_type AS "reportSourceType",
+		c.label AS "reportStatus",
+		a.instore_datetime AS "instoreDatetime",
+		a.instore_remarks AS "instoreRemarks",
+		a.sign_bill_datetime AS "signBillDatetime",
+		a.sign_bill_remarks AS "signBillRemarks",
+		a.remarks AS "remarks",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag",
+		a.service_name AS "serviceName",
+		a.service_phone AS "servicePhone"
+		FROM
+		biz_order_report a
+		LEFT JOIN sys_dict b ON a.reporter_type = b.
+		VALUE
+
+		AND b.type = 'reporterType'
+		LEFT JOIN sys_dict c ON a.report_status = c.
+		VALUE
+
+		AND c.type = 'reportStatus'
+		LEFT JOIN sys_office d ON a.store_id = d.id
+
+		<include refid="orderReportJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="id != null and id != ''">
+				AND a.id =#{id}
+			</if>
+
+			<if test="storeId != null and storeId != ''">
+				AND a.store_id = #{storeId}
+			</if>
+
+			<if test="customerName != null and customerName != ''">
+				AND a.customer_name LIKE
+				<if test="dbName == 'oracle'">'%'||#{customerName}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{customerName}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{customerName},'%')</if>
+			</if>
+
+			<if test="customerPhone != null and customerPhone != ''">
+				AND a.customer_phone = #{customerPhone}
+			</if>
+
+			<if test="reporterType != null and reporterType != ''">
+				AND a.reporter_type = #{reporterType}
+			</if>
+
+			<if test="reporterName != null and reporterName != ''">
+				AND a.reporter_name LIKE
+				<if test="dbName == 'oracle'">'%'||#{reporterName}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{reporterName}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{reporterName},'%')</if>
+			</if>
+
+			<if test="reporterPhone != null and reporterPhone != ''">
+				AND a.reporter_phone = #{reporterPhone}
+			</if>
+
+
+			<if test="reportStatusList != null and reportStatusList != ''">
+				AND a.report_status in (
+
+				<foreach collection="reportStatusList" item="item" separator=",">
+					#{item}
+				</foreach>
+			 )
+			</if>
+
+			<if test="serviceName != null and serviceName != ''">
+				AND a.service_name like concat('%',#{serviceName},'%')
+			</if>
+
+			<if test="start != null and end != null and start != '' and end != ''">
+				AND a.report_datetime BETWEEN #{start} AND #{end}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.report_datetime DESC
+			</otherwise>
+		</choose>
+	</select>
+
+
+
+	<select id="findOrderNumberCountIsExist" parameterType="java.util.Map" resultType="int">
+		SELECT
+		count(1)
+		FROM
+		biz_order_report_related_order b
+		where b.order_report_id =#{reportId} and b.order_number=#{orderNumber}
+	</select>
+
+
+
+
+
+
+
+
+
+
+
+	<select id="findLogList1" resultType="cn.damei.entity.modules.OrderReportLogEntity" parameterType="int">
+
+select
+		c.operate_datetime AS "distributeServiceOperateDate",
+		u.`name` AS "distributeServiceOperateName",
+		c.service_name AS "distributeServiceName",
+		c.service_phone AS "distributeServicePhone"
+
+			FROM
+			biz_order_report a
+LEFT JOIN biz_business_status_log b ON a.id = b.business_only_mark_int
+AND b.business_type = '501'
+AND b.business_status = 20
+				LEFT JOIN biz_order_report_send_log c ON c.order_report_id = a.id
+														 AND c.send_type = 1
+				LEFT JOIN sys_user u ON c.operator_employee_id = u.id
+where a.id =#{_parameter}
+
+	</select>
+
+	<select id="findLogList2" resultType="cn.damei.entity.modules.OrderReportLogEntity" parameterType="int">
+
+		select
+
+			u2.`name` AS "transferServiceOperateName",
+			c2.service_name AS "transferServiceName",
+			c2.service_phone AS "transferServicePhone",
+			c2.operate_datetime AS "transferServiceOperateDate"
+
+
+		FROM
+		biz_order_report a
+			LEFT JOIN biz_order_report_send_log c2 ON c2.order_report_id = a.id
+													  AND c2.send_type = 2
+			LEFT JOIN sys_user u2 ON c2.operator_employee_id = u2.id
+		where a.id =#{_parameter}
+
+	</select>
+	<select id="findLogList3" resultType="cn.damei.entity.modules.OrderReportLogEntity" parameterType="int">
+
+		select
+			d.instore_datetime AS "inStoreDate",
+			d.instore_remarks AS "inStoreRemarks",
+			d.operate_datetime AS "inStoreOperateDate",
+			d.operator_name AS "inStoreOperateName",
+			p.msg_content AS "inStorePhoneMessageContent"
+		FROM
+		biz_order_report a
+			LEFT JOIN biz_order_report_instore_log d ON d.order_report_id = a.id
+														AND d.instore_type = 1
+			LEFT JOIN biz_phone_msg p ON p.related_business_id_varchar = d.id
+										 AND p.related_business_type = '66666'
+										 and p.related_business_id_int = a.id
+		where a.id =#{_parameter}
+
+	</select>
+	<select id="findLogList4" resultType="cn.damei.entity.modules.OrderReportLogEntity" parameterType="int">
+
+		select
+
+			d2.sign_datetime AS "signDateTime",
+			d2.sign_remarks AS "signRemarks",
+			d2.operate_datetime AS "signOperateDate",
+			d2.operator_name AS "signOperateName",
+			p2.msg_content AS "signPhoneMessageContent",
+			n.order_number as "signContractRelatedOrderNumbers"
+
+		FROM
+		biz_order_report a
+			LEFT JOIN biz_order_report_instore_log d2 ON d2.order_report_id = a.id
+														 AND d2.instore_type = 2
+			LEFT JOIN biz_order_report_sign_log_related_order n on d2.id =n.sign_log_id
+				LEFT JOIN biz_phone_msg p2 ON p2.related_business_id_varchar = d2.id
+										  AND p2.related_business_type = '66666'
+										  and p2.related_business_id_int = a.id
+		where a.id =#{_parameter}
+
+	</select>
+	<select id="findLogList5" resultType="cn.damei.entity.modules.OrderReportLogEntity" parameterType="int">
+
+		select
+			e.operate_datetime AS "signContractOperateDate",
+			e.operator_name AS "signContractOperateName",
+			f.order_number AS "signContractRelatedOrderNumbers",
+			p3.msg_content AS "signContractPhoneMessageContent",
+			e.create_date as "signContractDateTime"
+
+		FROM
+		biz_order_report a
+			LEFT JOIN biz_order_report_sign_log e ON e.order_report_id = a.id
+													 AND e.sign_type = 1
+			LEFT JOIN biz_order_report_sign_log_related_order f ON e.id = f.sign_log_id
+			LEFT JOIN biz_phone_msg p3 ON p3.related_business_id_varchar = e.id
+										  AND p3.related_business_type = '66666'
+										  and p3.related_business_id_int = a.id
+		where a.id =#{_parameter}
+	</select>
+	<select id="findLogList6" resultType="cn.damei.entity.modules.OrderReportLogEntity" parameterType="int">
+
+		select
+
+
+			e2.operate_datetime AS "replenishSignContractOperateDate",
+			e2.operator_name AS "replenishSignContractOperateName",
+			f2.order_number AS "replenishSignContractRelatedOrderNumbers",
+			p4.msg_content AS "replenishSignContractPhoneMessageContent",
+			e2.remarks as "replenishSignContractRemarks"
+
+
+		FROM
+		biz_order_report a
+			LEFT JOIN biz_order_report_sign_log e2 ON e2.order_report_id = a.id
+													  AND e2.sign_type = 2
+
+
+			LEFT JOIN biz_order_report_sign_log_related_order f2 ON e2.id = f2.sign_log_id
+
+
+			LEFT JOIN biz_phone_msg p4 ON p4.related_business_id_varchar = e2.id
+										  AND p4.related_business_type = '66666'
+										  and p4.related_business_id_int = a.id
+		where a.id =#{_parameter}
+	</select>
+	<select id="findLogList7" resultType="cn.damei.entity.modules.OrderReportLogEntity" parameterType="int">
+
+		select
+
+
+			g.status_datetime AS "outOfDateDate"
+
+		FROM
+		biz_order_report a
+
+			LEFT JOIN biz_business_status_log g ON a.id = g.business_only_mark_int
+												   AND g.business_type = '501'
+												   AND g.business_status = 90
+		where a.id =#{_parameter}
+	</select>
+
+</mapper>

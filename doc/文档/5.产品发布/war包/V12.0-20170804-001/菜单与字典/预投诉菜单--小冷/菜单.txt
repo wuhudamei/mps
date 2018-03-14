@@ -1,0 +1,15 @@
+
+
+
+父类菜单
+
+
+  内部投诉
+	
+
+
+	子菜单名				链接								权限
+
+
+	1:内部投诉 			/complaintforotherdepartment/complaintForOtherDepartMent		complaintforotherdepartment:complaintForOtherDepartMent:view,complaintforotherdepartment:complaintForOtherDepartMent:edit
+	2:内部投诉处理			/complaintforotherdepartment

@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizTaskPackageTemplatDao">
+    
+	<sql id="bizTaskPackageTemplatColumns">
+		a.id AS "id",
+		a.no AS "no",
+		a.templat_name AS "templatName",
+		a.task_package_type_id AS "taskPackageTypeId",
+		a.store_id AS "storeId",
+		a.project_mode AS "projectMode",
+		a.project_max_count as "projectMaxCount",
+		a.store_order AS "storeOrder",
+		a.advance_payment_rates AS "advancePaymentRates",
+		a.rest_payment_rates AS "restPaymentRates",
+		a.status AS "status",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag",
+		a.is_quality_guarantee AS "isQualityGuarantee",
+		a.quality_guarantee_rate AS "qualityGuaranteeRate",
+		a.settle_style AS "settleStyle",
+		a.emp_work_type AS "empWorkType",
+		a.apply_budget_ratio AS "applyBudgetRatioDouble",
+		TRUNCATE(a.apply_budget_ratio * 100,0) AS "applyBudgetRatio"
+		
+	</sql>
+	
+	<sql id="bizTaskPackageTemplatJoins">
+	</sql>
+    
+	<select id="get" resultType="BizTaskPackageTemplat">
+		SELECT 
+			<include refid="bizTaskPackageTemplatColumns"/>
+		FROM biz_task_package_templat a
+		<include refid="bizTaskPackageTemplatJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	<select id="findTaskPackageList" resultType="BizTaskPackageTemplat">
+		SELECT 
+			<include refid="bizTaskPackageTemplatColumns"/>
+		FROM biz_task_package_templat a
+		<include refid="bizTaskPackageTemplatJoins"/>
+		WHERE a.store_id = #{storeId} and a.status=1 and a.del_flag=0
+	</select>
+	
+	<select id="getByprocedureNo" resultType="BizTaskPackageTemplat">
+		SELECT 
+			<include refid="bizTaskPackageTemplatColumns"/>
+		FROM biz_task_package_templat a
+		<include refid="bizTaskPackageTemplatJoins"/>
+		WHERE a.no = #{0} and a.status=1 and a.del_flag=0
+	</select>
+	
+	<select id="getByNo" resultType="BizTaskPackageTemplat">
+		SELECT 
+			<include refid="bizTaskPackageTemplatColumns"/>
+		FROM biz_task_package_templat a
+		<include refid="bizTaskPackageTemplatJoins"/>
+		WHERE a.no = #{0} and a.status=1 and a.del_flag=0
+	</select>
+	
+	<select id="getByNo1" resultType="BizTaskPackageTemplat">
+		SELECT 
+			<include refid="bizTaskPackageTemplatColumns"/>
+		FROM biz_task_package_templat a
+		<include refid="bizTaskPackageTemplatJoins"/>
+		WHERE a.no = #{0} and a.status=1 and a.del_flag=0
+	</select>
+	
+	<select id="findList" resultType="BizTaskPackageTemplat">
+		SELECT 
+			<include refid="bizTaskPackageTemplatColumns"/>
+		FROM biz_task_package_templat a
+		<include refid="bizTaskPackageTemplatJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="no != null and no != ''">
+				AND a.no LIKE 
+					<if test="dbName == 'oracle'">'%'||#{no}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{no}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{no},'%')</if>
+			</if>
+			<if test="taskPackageTypeId != null and taskPackageTypeId != ''">
+				AND a.task_package_type_id = #{taskPackageTypeId}
+			</if>
+			<if test="storeId != null and storeId != ''">
+				AND a.store_id = #{storeId}
+			</if>
+			<if test="status != null and status != ''">
+				AND a.status = #{status}
+			</if>
+			<if test="projectMode != null and projectMode != ''">
+			    AND a.project_mode=#{projectMode}
+			</if>
+			<if test="empWorkType != null and empWorkType != ''">
+			    AND a.emp_work_type=#{empWorkType}
+			</if>
+			<if test="empWorkType == 0">
+			    AND a.emp_work_type=#{empWorkType}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.store_id ASC,a.`status` DESC,a.store_order ASC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="BizTaskPackageTemplat">
+		SELECT 
+			<include refid="bizTaskPackageTemplatColumns"/>
+		FROM biz_task_package_templat a
+		<include refid="bizTaskPackageTemplatJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.store_id ASC,a.`status` DESC,a.store_order ASC
+			</otherwise>
+		</choose>
+	</select>
+	<!-- 根据门店过滤任务包模板 页面显示 -->
+	<select id="findtaskpackageByStroeId" resultType="DropModel">
+		select 
+		id AS 'value',
+		templat_name AS 'label'
+		from biz_task_package_templat where store_id = #{0} and status = #{1}
+	</select>
+	
+	<select id="findtaskpackageByStroeId1" resultType="DropModel">
+		select 
+		id AS 'value',
+		templat_name AS 'label'
+		from biz_task_package_templat where status = #{0}
+	</select>
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO biz_task_package_templat(
+			no,
+			templat_name,
+			task_package_type_id,
+			store_id,
+			store_order,
+			project_mode,
+			advance_payment_rates,
+			rest_payment_rates,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag,
+			is_quality_guarantee,
+			quality_guarantee_rate,
+			project_max_count,
+			settle_style,
+			emp_work_type,
+			apply_budget_ratio
+		) VALUES (
+			#{no},
+			#{templatName},
+			#{taskPackageTypeId},
+			#{storeId},
+			#{storeOrder},
+			#{projectMode},
+			#{advancePaymentRates},
+			#{restPaymentRates},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag},
+			#{isQualityGuarantee},
+			#{qualityGuaranteeRate},
+			#{projectMaxCount},
+			#{settleStyle},
+			#{empWorkType},
+			#{applyBudgetRatioDouble}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE biz_task_package_templat SET 	
+			no = #{no},
+			templat_name = #{templatName},
+			task_package_type_id = #{taskPackageTypeId},
+			store_id = #{storeId},
+			store_order = #{storeOrder},
+			project_mode = #{projectMode},
+			advance_payment_rates = #{advancePaymentRates},
+			rest_payment_rates = #{restPaymentRates},
+			status = #{status},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks},
+			is_quality_guarantee = #{isQualityGuarantee},
+			quality_guarantee_rate = #{qualityGuaranteeRate},
+			project_max_count = #{projectMaxCount},
+			settle_style = #{settleStyle},
+			emp_work_type = #{empWorkType},
+			apply_budget_ratio = #{applyBudgetRatioDouble}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE biz_task_package_templat SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+	
+	<select id="queryTaskpackageTemplat" resultType="cn.damei.entity.modules.BizTaskPackageTemplat">
+		select id as "id",no as "no",templat_name as "templatName" from biz_task_package_templat
+	</select>
+	
+	<select id="queryByStoreId" resultType="cn.damei.entity.modules.BizTaskPackageTemplat">
+		SELECT 
+			<include refid="bizTaskPackageTemplatColumns"/>
+		FROM biz_task_package_templat a
+		where a.store_id = #{0} and a.project_mode=#{1} and a.status = '1' and a.advance_payment_rates &lt; 100 
+		order by a.store_order ASC 
+	</select>
+	
+	<select id="getTaskList" resultType="cn.damei.entity.modules.BizTaskPackageTemplat">
+		SELECT a.id AS "id", a.no AS "no", a.templat_name AS "templatName", a.task_package_type_id AS "taskPackageTypeId", a.store_id AS "storeId", a.project_max_count AS "projectMaxCount", a.store_order AS "storeOrder", a.advance_payment_rates AS "advancePaymentRates", a.rest_payment_rates AS "restPaymentRates", a.status AS "status", a.create_by AS "createBy.id", a.create_date AS "createDate", a.update_by AS "updateBy.id", a.update_date AS "updateDate", a.remarks AS "remarks", a.del_flag AS "delFlag", a.is_quality_guarantee AS "isQualityGuarantee", a.quality_guarantee_rate AS "qualityGuaranteeRate", a.settle_style AS "settleStyle" FROM biz_task_package_templat a 
+		WHERE a.store_id = #{storeid} AND a.status=1 AND a.del_flag=0 and a.project_mode = #{projectMode}
+	</select>
+	
+	<!-- 校验-门店+工程模式+工种的唯一性 -->
+	<select id="checkEmpWorkType" parameterType="cn.damei.entity.modules.BizTaskPackageTemplat" resultType="int">
+		
+		SELECT 
+			COUNT(1)
+		FROM biz_task_package_templat a
+		<where>
+			a.del_flag = 0
+			AND a.status = 1
+			AND a.emp_work_type=#{empWorkType}
+			<if test="storeId != null and storeId != ''">
+				AND a.store_id = #{storeId}
+			</if>
+			<if test="projectMode != null and projectMode != ''">
+			    AND a.project_mode=#{projectMode}
+			</if>
+			<if test="id != null and id != ''">
+				AND a.id != #{id}
+			</if>
+		</where>
+	
+	</select>
+
+</mapper>

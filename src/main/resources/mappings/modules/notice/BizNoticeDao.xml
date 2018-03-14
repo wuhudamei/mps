@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizNoticeDao">
+    
+	<sql id="bizNoticeColumns">
+		a.id AS "id",
+		a.store_id AS "storeId",
+		a.project_mode AS "projectMode",
+		a.notice_type AS "noticeType",
+		a.notice_title AS "noticeTitle",
+		a.notice_content AS "noticeContent",
+		a.notice_status AS "noticeStatus",
+		a.publish_datetime AS "publishDatetime",
+		a.remarks AS "remarks",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="bizNoticeJoins">
+	</sql>
+    
+	<select id="get" resultType="cn.damei.entity.modules.BizNotice">
+		SELECT 
+			<include refid="bizNoticeColumns"/>
+		FROM biz_notice a
+		<include refid="bizNoticeJoins"/>
+		WHERE a.id = #{id}
+	</select>
+
+	<select id="queryNoticeById" resultType="cn.damei.entity.modules.BizNotice">
+		SELECT a.id AS "id",
+			a.store_id AS "storeId",
+			a.project_mode AS "projectMode",
+			a.notice_type AS "noticeType",
+			a.notice_title AS "noticeTitle",
+			a.notice_content AS "noticeContent",
+			a.notice_status AS "noticeStatus",
+			a.publish_datetime AS "publishDatetime",
+			a.remarks AS "remarks",
+			a.create_by AS "createBy.id",
+			a.create_date AS "createDate",
+			a.update_by AS "updateBy.id",
+			a.update_date AS "updateDate",
+			a.del_flag AS "delFlag",
+			(select GROUP_CONCAT(DISTINCT b.receiver_role) from biz_notice_receiver b where b.notice_id = a.id) as "receiverRoleId"
+		FROM biz_notice a
+		WHERE a.id = #{id}
+	</select>
+
+	<select id="findList" resultType="cn.damei.entity.modules.BizNotice">
+		SELECT 
+			<include refid="bizNoticeColumns"/>
+		FROM biz_notice a
+		<include refid="bizNoticeJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="cn.damei.entity.modules.BizNotice">
+		SELECT 
+			<include refid="bizNoticeColumns"/>
+		FROM biz_notice a
+		<include refid="bizNoticeJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="cn.damei.entity.modules.BizNotice">
+		INSERT INTO biz_notice(
+			id,
+			store_id,
+			project_mode,
+			notice_type,
+			notice_title,
+			notice_content,
+			notice_status,
+			publish_datetime,
+			remarks,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag
+		) VALUES (
+			#{id},
+			#{storeId},
+			#{projectMode},
+			#{noticeType},
+			#{noticeTitle},
+			#{noticeContent},
+			#{noticeStatus},
+			#{publishDatetime},
+			#{remarks},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE biz_notice SET 	
+			store_id = #{storeId},
+			project_mode = #{projectMode},
+			notice_type = #{noticeType},
+			notice_title = #{noticeTitle},
+			notice_content = #{noticeContent},
+			notice_status = #{noticeStatus},
+			publish_datetime = #{publishDatetime},
+			remarks = #{remarks},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from biz_notice
+		WHERE id = #{id}
+	</delete>
+
+	<select id="queryNotice" resultType="cn.damei.entity.modules.BizNotice">
+		SELECT
+		<include refid="bizNoticeColumns"/>
+		FROM biz_notice a
+		WHERE a.store_id=#{storeId} and a.project_mode=#{projectMode} and a.notice_title=#{noticeTitle} order by a.create_by desc limit 1
+	</select>
+
+	<select id="findNoticeList" resultType="cn.damei.entity.modules.BizNoticeVo">
+		SELECT a.id as "id",a.store_id as "storeId",a.project_mode as "projectMode",a.notice_type as "noticeType",a.notice_title as "noticeTitle",
+				a.notice_status as "noticeStatus",a.publish_datetime as "publishDatetime",
+				datediff(date_format(#{nowDate},'%Y-%m-%d'),date_format(a.publish_datetime,'%Y-%m-%d')) as "dateDiff"
+		FROM biz_notice a
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="storeId != null and storeId != ''">
+				and a.store_id = #{storeId}
+			</if>
+			<if test="projectMode != null and projectMode != '' and projectMode &lt; 3">
+				and a.project_mode = #{projectMode}
+			</if>
+			<if test="noticeTitle != null and noticeTitle != ''">
+				AND a.notice_title LIKE
+				<if test="dbName == 'oracle'">'%'||#{noticeTitle}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{noticeTitle}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{noticeTitle},'%')</if>
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				order by a.notice_status asc,a.publish_datetime desc
+			</otherwise>
+		</choose>
+	</select>
+	<select id = "findAppNoticePageListNum" resultType="Integer">
+
+		SELECT
+			COUNT(1)
+		FROM
+			biz_notice_receiver a
+		INNER JOIN biz_notice b ON a.notice_id = b.id
+		LEFT JOIN (
+			SELECT
+				c.notice_id,
+				c.view_employee_id,
+				COUNT(1) AS "yesReadNum"
+			FROM
+				biz_notice_view_log c
+			GROUP BY
+				c.notice_id,
+				c.view_employee_id
+		) f ON f.notice_id = b.id
+		AND f.view_employee_id = a.receiver_employee_id
+		WHERE
+			a.receiver_employee_id = #{receiverEmployeeId}
+		AND b.notice_status = #{noticeStatus}
+		AND IFNULL(f.yesReadNum, 0) = 0
+
+	</select>
+	<select id="findAppNoticePageList" resultType="cn.damei.entity.modules.BizNotice">
+		SELECT
+		  b.id               as "id",
+		  b.publish_datetime as "publishDatetime",
+		  b.notice_title     as "noticeTitle",
+		  b.notice_type      as "noticeType",
+		  (case  when c.view_employee_id is null then 0 else 1 END) as "yesReadNum"
+		from biz_notice_receiver a
+		  left join biz_notice b
+		    on a.notice_id = b.id
+		    left join biz_notice_view_log c on c.notice_id = b.id and c.view_employee_id = a.receiver_employee_id
+		<where>
+			a.receiver_employee_id = #{receiverEmployeeId} and b.notice_status = #{noticeStatus}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				order by publishDatetime desc
+			</otherwise>
+		</choose>
+	</select>
+
+	<select id="findAppNoticePageListCount" resultType="java.lang.Integer">
+		SELECT count(*)
+		from biz_notice_receiver a inner join biz_notice b on a.notice_id = b.id
+		<where>
+			a.receiver_employee_id = #{receiverEmployeeId} and b.notice_status = #{noticeStatus}
+		</where>
+	</select>
+	<!-- 消息的总数量 -->
+	<select id="findNoticeSum" resultType="String">
+		SELECT COUNT(*) FROM biz_notice_receiver a WHERE a.notice_id = #{0}
+	</select>
+	<!-- 未读消息的数量 -->
+	<select id="findYesNoticeSum" resultType="String">
+	 SELECT b.view_employee_id FROM biz_notice_view_log b WHERE b.notice_id = #{0}
+	</select>
+	
+	
+	
+</mapper>

@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.InspectPunishMoneyQueryDao">
+	<select id="findList" resultType="cn.damei.entity.modules.InspectPunishMoneyQueryEntity">
+		SELECT
+		a.id AS "checkItemId",
+		(
+		SELECT
+		realName
+		FROM
+		biz_employee
+		WHERE
+		id = (
+		SELECT
+		a1.groupId
+		FROM
+		biz_employeegroup a1
+		WHERE
+		a1.id = a.worker_punish_employeegroup_id
+		)
+		) AS "workerGroupLeaderName",
+		e.realName AS "managerName",
+		e1.realName AS "orderInspectorName",
+		o.item_manager as "orderManagerName",
+		o.order_inspector as "orderPqcName",
+		o.store_id AS "storeId",
+		o.order_number AS "orderNumber",
+		o.project_mode AS "projectMode",
+		o.community_name AS 'xiaoqu',
+		o.build_unit AS 'danyuan',
+		o.build_number AS 'lou',
+		o.build_room AS 'shi',
+		o.customer_name AS "customerName",
+
+		o.item_manager_id AS "managerId",
+
+		b.qc_bill_code AS 'reportCode',
+		b.id AS "billId",
+		b.qc_bill_type AS 'reportType',
+		n.qc_check_node_name AS "checkNodeName",
+
+		e2.realName AS "checkManName",
+		k.qc_check_kind_name AS "checkTypeName",
+		c.qc_check_item_name AS "checkItemName",
+		a.punish_money_amount_real AS "punishMoney",
+		t.id AS "engineDepartId",
+		t.`name` AS "engineDepartName",
+		a.create_date AS "createDate",
+
+		a.worker_punish_amount AS "workerMoney",
+		a.worker_punish_score AS "workerScore",
+		a.qc_punish_amount AS "inspectorMoney",
+		a.qc_punish_score AS "inspectorScore",
+		a.pm_punish_score AS "managerScore"
+		FROM
+		biz_qc_bill_check_item a
+		INNER JOIN biz_qc_bill b ON a.qc_bill_id = b.id
+		INNER JOIN biz_qc_check_item c ON a.qc_check_item_id = c.id
+		LEFT JOIN biz_qc_check_node n ON b.qc_check_node_id = n.id
+		INNER JOIN biz_order o ON b.order_id = o.id
+		INNER JOIN biz_engineering_department t ON o.engin_depart_id = t.id
+		left JOIN biz_employee e ON a.pm_punish_employee_id = e.id
+		INNER JOIN biz_qc_check_kind k ON c.qc_check_kind_id = k.id
+		left JOIN biz_employee e1 ON a.qc_punish_employee_id= e1.id
+		INNER JOIN biz_employee e2 on b.check_employee_id = e2.id
+
+		where
+		a.is_punish_money = 1
+
+		AND b. STATUS NOT IN (- 1, 0)
+		<if test="startDate!=null and startDate != '' and endDate !=null and endDate !=''">
+		and b.check_datetime between #{startDate} and #{endDate}
+		</if>	
+	 <if test="storeId !='' and storeId != null">
+	 and  o.store_id = #{storeId}
+	 </if>
+	 <if test="engineDepartId !='' and engineDepartId != null">
+	 and  t.id = #{engineDepartId}
+	 </if>
+	 <if test="orderManagerName !='' and orderManagerName != null">
+	 and  o.item_manager like CONCAT('%','${orderManagerName}','%' )
+	 </if>
+	 <if test="projectMode !='' and projectMode != null">
+	 and  o.project_mode = #{projectMode}
+	 </if>
+	 <if test="orderNumber !='' and orderNumber != null">
+	 and  o.order_number like CONCAT('%','${orderNumber}','%' )  
+	 </if>
+	 <if test="customerName !='' and customerName != null">
+	 and  o.customer_name like CONCAT('%','${customerName}','%' )  
+	 </if>
+	
+	 <if test="orderPqcName !='' and orderPqcName != null">
+	 and o.order_inspector like CONCAT('%','${orderPqcName}','%' )
+	 </if>
+	 
+	 order by b.create_date desc
+	</select>
+	<select id="findListForExcel" resultType="cn.damei.entity.modules.InspectPunishMoneyQueryEntity">
+SELECT
+	a.id AS "checkItemId",
+	o.store_id AS "storeId",
+	o.order_number AS "orderNumber",
+	o.project_mode AS "projectMode",
+	o.community_name AS 'xiaoqu',
+	o.build_unit AS 'danyuan',
+	o.build_number AS 'lou',
+	o.build_room AS 'shi',
+	o.customer_name AS "customerName",
+	o.item_manager_id AS "managerId",
+	o.item_manager AS "managerName",
+	b.qc_bill_code AS 'reportCode',
+	b.id AS "billId",
+	b.qc_bill_type AS 'reportType',
+	n.qc_check_node_name AS "checkNodeName",
+	e.realName AS "orderInspectorName",
+	e1.realName AS "checkManName",
+	k.qc_check_kind_name AS "checkTypeName",
+	c.qc_check_item_name AS "checkItemName",
+	a.punish_money_amount_real AS "punishMoney",
+	t.id AS "engineDepartId",
+	t.`name` AS "engineDepartName",
+	a.create_date AS "createDate",
+	(
+		SELECT
+			realName
+		FROM
+			biz_employee
+		WHERE
+			id = (
+				SELECT
+					a1.groupId
+				FROM
+					biz_employeegroup a1
+				WHERE
+					a1.id = a.worker_punish_employeegroup_id
+			)
+	) AS "workerGroupLeaderName",
+	a.worker_punish_amount AS "workerMoney",
+	a.worker_punish_score AS "workerScore",
+	a.qc_punish_amount AS "inspectorMoney",
+	a.qc_punish_score AS "inspectorScore",
+	a.pm_punish_score AS "managerScore"
+FROM
+	biz_qc_bill_check_item a
+INNER JOIN biz_qc_bill b ON a.qc_bill_id = b.id
+INNER JOIN biz_qc_check_item c ON a.qc_check_item_id = c.id
+LEFT JOIN biz_qc_check_node n ON b.qc_check_node_id = n.id
+INNER JOIN biz_order o ON b.order_id = o.id
+INNER JOIN biz_engineering_department t ON o.engin_depart_id = t.id
+INNER JOIN biz_employee e ON o.order_inspector_id = e.id
+INNER JOIN biz_qc_check_kind k ON c.qc_check_kind_id = k.id
+INNER JOIN biz_employee e1 ON b.check_employee_id = e1.id
+AND a.is_punish_money = 1
+		
+		<if test="startDate!=null and startDate != '' and endDate !=null and endDate !=''">
+		and b.check_datetime between #{startDate} and #{endDate}
+		</if>	
+	 <if test="storeId !='' and storeId != null">
+	 and  o.store_id = #{storeId}
+	 </if>
+	 <if test="engineDepartId !='' and engineDepartId != null">
+	 and  t.id = #{engineDepartId}
+	 </if>
+	 <if test="managerName !='' and managerName != null">
+	 and  o.item_manager like CONCAT('%','${managerName}','%' )  
+	 </if>
+	 <if test="projectMode !='' and projectMode != null">
+	 and  o.project_mode = #{projectMode}
+	 </if>
+	 <if test="orderNumber !='' and orderNumber != null">
+	 and  o.order_number like CONCAT('%','${orderNumber}','%' )  
+	 </if>
+	 <if test="customerName !='' and customerName != null">
+	 and  o.customer_name like CONCAT('%','${customerName}','%' )  
+	 </if>
+	
+	 <if test="orderInspectorName !='' and orderInspectorName != null">
+	 and e.realName like CONCAT('%','${orderInspectorName}','%' )  
+	 </if>
+	 
+	 order by b.create_date desc
+	</select>
+	
+	<select id="findName" parameterType="int" resultType="cn.damei.entity.modules.InspectPunishMoneyQueryEntity">
+	SELECT break_describe as "illegalName" from biz_qc_bill_check_item_break where qc_bill_check_item_id = #{_parameter}
+	
+	</select>
+</mapper>

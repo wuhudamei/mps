@@ -1,0 +1,549 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+        namespace="cn.damei.dao.mobile.Manager.QualityControlDao">
+
+
+    <sql id="allColumnsOfPackage">
+        a.id AS "id",
+        a.order_number AS "orderNumber",
+        a.contract_number AS "contractNumber",
+        a.customer_type AS "customerType",
+        a.customer_description AS "customerDescription",
+        a.customer_name AS "customerName",
+        a.customer_phone AS "customerPhone",
+
+        a.customer_address AS "customerAddress",
+        a.community_name AS "communityName",
+        a.build_number AS "buildNumber",
+        a.build_unit AS "buildUnit",
+        a.build_room AS "buildRoom",
+
+        CONCAT_WS("-", a.community_name, a.build_number, a.build_unit, a.build_room) AS "info",
+        a.map_coordinate AS "mapCoordinate",
+        a.sale_type AS "saleType",
+        a.area AS "area",
+        a.build_type AS "buildType",
+        a.house_type AS "houseType",
+        a.house_is_new AS "houseIsNew",
+        a.is_elevator AS "isElevator",
+
+        a.designer_name AS "designerName",
+        a.designer_phone AS "designerPhone",
+        a.order_reporter_name AS "orderReporterName",
+        a.order_reporter_phone AS "orderReporterPhone",
+        a.service_name AS "serviceName",
+        a.service_phone AS "servicePhone",
+
+        a.contract_start_date AS "contractStartDate",
+        a.contract_end_date AS "contractEndDate",
+        a.covered_area AS "coveredArea",
+        a.contract_area AS "contractArea",
+        a.contract_time AS "contractTime",
+        a.sign_contract_date AS "signContractDate",
+
+        a.order_status_number AS "orderStatusNumber",
+        a.order_status_description AS "orderStatusDescription",
+        a.order_inspector AS "orderInspector",
+        a.item_manager AS "itemManager",
+        a.item_manager_id AS "itemManagerId",
+        a.store_id AS "storeId",
+        a.cus_manager AS "cusManager",
+
+        a.orderTaskPack_status AS "orderTaskPackStatus",
+        a.actual_start_date AS "actualStartDate",
+        a.actual_end_date AS "actualEndDate",
+        a.sign_flag AS "signFlag",
+        a.order_inspector_id AS "orderInspectorId",
+        a.project_mode AS "projectMode",
+        a.remarks AS "remarks"
+
+
+    </sql>
+
+    <!-- 通过项目经理id查询项目经理下所有的订单 -->
+    <select id="findOrderByItemManagerId"
+            parameterType="int"
+            resultType="cn.damei.entity.mobile.Manager.QualityControl">
+        SELECT
+        <include refid="allColumnsOfPackage"/>
+        from biz_order a
+        <where>
+            a.item_manager_id = #{itemManagerId} And a.order_status_number in ( 200,330)
+        </where>
+        order by a.create_date DESC
+    </select>
+
+    <!-- 通过订单id查询订单详情 -->
+    <select id="findOrderById"
+            parameterType="int"
+            resultType="cn.damei.entity.mobile.Manager.QualityControl">
+        SELECT
+        <include refid="allColumnsOfPackage"/>,
+        b.phone AS "orderInspectorPhone"
+        from biz_order a
+        LEFT JOIN biz_employee b ON a.order_inspector_id = b.id
+        where a.id = #{id}
+
+    </select>
+
+    <!-- 通过质检员id查询质检员信息 -->
+    <select id="findPhoneByOrderInspectorId"
+            parameterType="int"
+            resultType="cn.damei.entity.mobile.Manager.Inspector">
+        SELECT
+
+            b.id       AS "id",
+            b.no       AS "no",
+            b.realName AS "realName",
+            b.phone    AS "phone",
+            b.storeId  AS "storeId"
+
+        FROM biz_employee b
+        WHERE b.id = #{id}
+
+    </select>
+
+
+    <!-- 根据门店查询所有约检节点 -->
+    <select id="findBizQcCheckNodeByStoreId"
+            parameterType="cn.damei.entity.mobile.Manager.QualityControl"
+            resultType="cn.damei.entity.mobile.Manager.BizQcCheckNode">
+        SELECT
+            a.id                                                        AS "id",
+            a.store_id                                                  AS "storeId",
+            a.qc_check_node_name                                        AS "qcCheckNodeName",
+            a.qc_check_node_index                                       AS "qcCheckNodeIndex",
+            a.days_to_check                                             AS "daysToCheck",
+            a.construction_schedule_id                                  AS "constructionScheduleId",
+            a.is_urge_pay                                               AS "isUrgePay",
+            a.STATUS                                                    AS "status",
+            a.status_datetime                                           AS "statusDatetime",
+            DATE_ADD(b.actual_start_date, INTERVAL a.days_to_check DAY) AS "planCheckDate"
+        FROM
+            biz_qc_check_node a,
+            biz_order b
+        WHERE
+            a.store_id = #{storeId}
+            AND b.id = #{orderId}
+            AND a.project_mode = b.project_mode
+            AND a.STATUS = '1'
+        ORDER BY
+            a.qc_check_node_index
+    </select>
+    <!-- 根据订单id查询所有约检单 -->
+    <select id="findBizQcBillByOrderId"
+            parameterType="cn.damei.entity.mobile.Manager.BizQcBill"
+            resultType="String">
+        SELECT qc_bill_code AS "qcBillCode"
+        FROM biz_qc_bill
+        WHERE order_id = #{orderId} AND qc_check_node_id = #{qcCheckNodeId} AND is_recheck = '0' AND qc_bill_type = '1'
+
+    </select>
+
+
+    <select id="getCode" resultType="cn.damei.entity.mobile.Inspector.ReCheckCode">
+        SELECT
+            bussiness_type AS "bussinessType",
+            last_seiralnum AS "lastSeiralnum",
+            generate_time  AS "generateTime"
+        FROM biz_seiralnum
+        WHERE bussiness_type = "ZJ"
+    </select>
+
+
+    <update id="updateCode" parameterType="cn.damei.entity.mobile.Inspector.ReCheckCode">
+        UPDATE biz_seiralnum
+        SET last_seiralnum = #{lastSeiralnum}, generate_time = #{generateTime}
+        WHERE bussiness_type = "ZJ"
+    </update>
+
+    <insert id="saveCode">
+        INSERT INTO biz_seiralnum (bussiness_type, last_seiralnum, generate_time)
+        VALUES ('ZJ', '0', '2017-11-08 10:00:00');
+    </insert>
+
+
+    <!-- 保存约检单 -->
+    <insert id="insertQcBill"
+            parameterType="cn.damei.entity.mobile.Manager.BizQcBill">
+        <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        INSERT INTO biz_qc_bill (
+        id ,
+        qc_bill_code,
+        qc_bill_type,
+
+        is_recheck,
+        related_qc_bill_id,
+        order_id,
+        qc_check_node_id,
+
+        apply_remarks,
+        status,
+
+        apply_employee_id,
+        check_employee_id,
+
+        check_datetime,
+        expect_check_datetime,
+        accept_check_datetime,
+        total_score,
+        got_score,
+        create_date,
+        plan_check_datetime ,
+        delay_reason_pm
+        )
+        values(
+        #{id},
+        #{qcBillCode},
+        #{qcBillType},
+
+        #{isRecheck},
+        #{relatedQcBillId},
+        #{orderId},
+        #{qcCheckNodeId},
+
+        #{applyRemarks},
+        #{status},
+
+        #{applyEmployeeId},
+        #{checkEmployeeId},
+
+        #{checkDatetime},
+        #{expectCheckDatetime},
+        #{acceptCheckDatetime},
+        #{totalScore},
+        #{gotScore},
+        #{createDate},
+        #{planCheckDate},
+        #{delayReasonPm}
+        )
+
+    </insert>
+
+
+    <insert id="insertPurchase"
+            parameterType="cn.damei.entity.mobile.Manager.PurchaseTwoCode">
+        INSERT INTO biz_purchase_increnum (
+            id,
+            purchase_code,
+            auxiliary_date
+        )
+        VALUES (
+            #{id},
+            #{purchaseCode},
+            #{auxiliaryDate}
+        )
+
+    </insert>
+
+    <!-- 根据订单id，查询约检单biz_qc_bill中（约检节点最大）的一条记录 -->
+    <select id="findMax" parameterType="cn.damei.entity.mobile.Manager.BizQcBill"
+            resultType="cn.damei.entity.mobile.Manager.BizQcBill">
+        SELECT
+            a.qc_check_node_id    AS "qcCheckNodeId",
+            a.`status`            AS "status",
+            a.qc_bill_code        AS "qcBillCode",
+            b.qc_check_node_index AS "qcCheckNodeIndex"
+        FROM
+            biz_qc_bill a, biz_qc_check_node b
+        WHERE
+            a.order_id = #{orderId}
+            AND a.qc_bill_type = #{qcBillType}
+            AND a.is_recheck = #{isRecheck}
+            AND a.qc_check_node_id = b.id
+        ORDER BY a.qc_check_node_id DESC
+        LIMIT 1
+
+    </select>
+
+    <!-- 根据订单ID 加载传统所有未约检的节点 -->
+    <select id="findTraditionalNode" parameterType="int"
+            resultType="cn.damei.entity.mobile.Manager.BizQcCheckNode">
+        SELECT
+            a.id                                                                                 AS "id",
+            a.store_id                                                                           AS "storeId",
+            a.qc_check_node_name                                                                 AS "qcCheckNodeName",
+            a.qc_check_node_index                                                                AS "qcCheckNodeIndex",
+            a.days_to_check                                                                      AS "daysToCheck",
+            a.construction_schedule_id                                                           AS "constructionScheduleId",
+            a.is_urge_pay                                                                        AS "isUrgePay",
+            a.STATUS                                                                             AS "status",
+            a.status_datetime                                                                    AS "statusDatetime",
+            date_format(DATE_ADD(b.actual_start_date, INTERVAL a.days_to_check DAY), '%Y-%m-%d') AS "planCheckDate"
+        FROM
+            biz_qc_check_node a
+            INNER JOIN biz_order b ON a.project_mode = b.project_mode
+                                      AND a.store_id = b.store_id
+        WHERE
+            b.id = #{0}
+            AND a.STATUS = '1'
+            AND a.id NOT IN (
+                SELECT c.qc_check_node_id
+                FROM
+                    biz_qc_bill c
+                WHERE
+                    b.id = c.order_id
+                    AND c.qc_bill_type = 1
+                    AND c.is_recheck = 0
+            )
+        ORDER BY
+            a.qc_check_node_index
+
+    </select>
+
+
+    <!-- 根据订单查询是否有未验收的节点 -->
+    <select id="findNumber" parameterType="int" resultType="int">
+        SELECT COUNT(1)
+        FROM
+            biz_qc_bill d
+        WHERE
+            d.order_id = #{0}
+            AND d.qc_bill_type = 1
+            AND d.is_recheck = 0
+            AND d.`status` &lt; 10
+    </select>
+
+
+    <select id="findQcBillByOrderIdForCompleted"
+            parameterType="cn.damei.entity.mobile.Manager.BizQcBill"
+            resultType="cn.damei.entity.mobile.Manager.BizQcBill">
+        SELECT
+            a.qc_check_node_id AS "qcCheckNodeId",
+            a.`status`         AS "status",
+            a.qc_bill_code     AS "qcBillCode"
+        FROM
+            biz_qc_bill a
+            INNER JOIN biz_order b ON a.order_id = b.id
+        WHERE a.order_id = #{0}
+              AND a.qc_check_node_id = (SELECT c.id
+                                        FROM biz_qc_check_node c
+                                        WHERE c.store_id = b.store_id AND b.project_mode = c.project_mode AND
+                                              c.`status` = 1
+                                        ORDER BY c.qc_check_node_index DESC
+                                        LIMIT 1)
+              AND a.status >= 10
+              AND a.qc_bill_type = '1'
+              AND a.is_recheck = '0'
+    </select>
+
+
+    <!-- 判断该节点是否申请过 -->
+    <select id="checkIdIsExists"
+            parameterType="cn.damei.entity.mobile.Manager.BizQcBill"
+            resultType="int">
+        SELECT COUNT(1)
+        FROM
+            biz_qc_bill a
+        WHERE
+            a.qc_bill_type = #{qcBillType}
+            AND a.is_recheck = #{isRecheck}
+            AND a.order_id = #{orderId}
+            AND a.qc_check_node_id = #{qcCheckNodeId}
+
+    </select>
+
+    <!-- 距离上次申请时间是否超过了5分钟 -->
+    <select id="isOverTime" parameterType="cn.damei.entity.mobile.Manager.BizQcBill"
+            resultType="int">
+        SELECT COUNT(1)
+        FROM
+            biz_qc_bill a
+        WHERE
+            a.qc_bill_type = #{qcBillType}
+            AND a.is_recheck = #{isRecheck}
+            AND a.order_id = #{orderId}
+            AND a.create_date &gt; DATE_SUB(NOW(), INTERVAL 5 MINUTE)
+
+    </select>
+
+    <!-- 根据订单查询所有的约检记录 -->
+    <select id="findBizQcBillRecordByOrderId"
+            parameterType="cn.damei.entity.mobile.Manager.BizQcBill"
+            resultType="cn.damei.entity.mobile.Manager.BizQcBill">
+        SELECT
+            a.id                    AS "id",
+            a.qc_check_node_id      AS "qcCheckNodeId",
+            a.create_date           AS "createDate",
+            a.expect_check_datetime AS "expectCheckDatetime",
+            a.plan_check_datetime   AS "planCheckDate",
+            a.delay_reason_pm       AS "delayReasonPm",
+            b.qc_check_node_name    AS "qcCheckNodeName",
+            c.label                 AS "statusName",
+            e.realName              AS "checkManName",
+            e.phone                 AS "checkManPhone",
+            e2.realName             AS "preCheckManName",
+            e2.phone                AS "preCheckManPhone",
+            a.status                AS "status"
+
+        FROM
+            biz_qc_bill a
+            LEFT JOIN biz_qc_check_node b ON a.qc_check_node_id = b.id
+            LEFT JOIN sys_dict c ON a.`status` = c.`value`
+                                    AND c.type = 'apply_qc_bill_status'
+            LEFT JOIN biz_employee e ON a.check_employee_id = e.id
+            INNER JOIN BIZ_ORDER D ON A.order_id = D.id
+            LEFT JOIN biz_employee e2 ON d.order_inspector_id = e2.id
+        WHERE
+            a.qc_bill_type = #{qcBillType}
+            AND a.is_recheck = #{isRecheck}
+            AND a.order_id = #{orderId}
+        ORDER BY a.create_date DESC
+    </select>
+
+
+    <!-- 查看该门店订单的日期质检是否有空 -->
+    <select id="comparePqcDateIsAllowed" resultType="int">
+        SELECT (
+                   SELECT w.qc_max_count
+                   FROM
+                       biz_qc_max_count w
+                   WHERE
+                       w.store_id = b.store_id
+               ) - count(a.id)
+        FROM
+            biz_qc_bill a
+            INNER JOIN biz_order b ON a.order_id = b.id
+        WHERE
+            a.expect_check_datetime LIKE concat('%', #{0}, '%')
+            AND b.order_inspector_id = (
+                SELECT w.order_inspector_id
+                FROM
+                    biz_order w
+                WHERE
+                    w.id = #{1}
+            )
+
+
+    </select>
+    <insert id="saveCheckitemPicAll" parameterType="java.util.List">
+        INSERT INTO biz_business_pic(
+        id,
+        business_type,
+        business_id_int,
+        pic_url,
+        pic_dateTime,
+        del_flag
+        )VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.id},
+            #{item.businessType},
+            #{item.businessIdInt},
+            #{item.picUrl},
+            #{item.picDatetime},
+            #{item.delFlag}
+            )
+        </foreach>
+    </insert>
+    <!-- 通过约检单id查询图片数量 -->
+    <select id="findPicNum" parameterType="int" resultType="int">
+        SELECT COUNT(1)
+        FROM
+            biz_business_pic
+        WHERE
+            business_id_int = #{businessIdInt}
+            AND business_type = '2'
+    </select>
+    <!-- 通过约检单id查询图片 -->
+    <select id="findPic" parameterType="int"
+            resultType="cn.damei.entity.mobile.Manager.BusinessPic">
+        SELECT *
+        FROM
+            biz_business_pic
+        WHERE
+            business_id_int = #{businessIdInt}
+            AND business_type = '2'
+    </select>
+
+
+    <select id="findIsBasicByQcNodeId" parameterType="int" resultType="int">
+        SELECT is_for_basicwork
+        FROM biz_qc_check_node
+        WHERE id = #{_parameter}
+
+
+    </select>
+
+
+    <!-- 2为开关面板 21 为已废弃 -->
+    <select id="checkIsApplyPanelByOrderId" parameterType="int" resultType="int">
+
+        SELECT count(1)
+        FROM biz_purchase
+        WHERE order_id = #{_parameter}
+              AND purchase_type = 2
+              AND status != 21
+
+
+    </select>
+
+
+    <select id="checkIsForBasicNodeByMap" parameterType="map" resultType="map">
+
+        SELECT	q.is_for_basicwork as "isForBasicwork",
+            q.qc_check_node_name  as "qcName"
+        FROM
+            biz_qc_check_node q LEFT JOIN biz_order a
+
+                ON q.store_id = a.store_id
+                   AND q.project_mode = a.project_mode
+        WHERE
+            q.id > #{nodeId}
+            AND a.id = #{orderId}
+            AND q.`status` = 1
+        ORDER BY q.id
+        ASC
+        LIMIT 1
+
+    </select>
+
+
+
+    <!-- 根据订单id，查询约检单biz_qc_bill中（约检节点最大）的一条记录 -->
+    <select id="findMaxNodeIdByOrderId" parameterType="String"
+            resultType="String">
+        SELECT
+        a.qc_check_node_id
+
+        FROM
+        biz_qc_bill a
+        WHERE
+        a.order_id = #{orderId}
+        AND a.qc_bill_type = 1
+        AND a.is_recheck =0
+
+        ORDER BY a.qc_check_node_id DESC
+        LIMIT 1
+
+    </select>
+    
+    
+    <select id="findFirstNodeIdByOrderId" parameterType="String" resultType="int"> 
+    SELECT
+a.id
+FROM
+	biz_qc_check_node a
+INNER JOIN biz_order b ON a.store_id = b.store_id
+AND a.project_mode = b.project_mode
+
+where b.id = #{orderId}
+and a.del_flag =0
+and a.`status`=1
+
+ORDER BY a.qc_check_node_index ASC
+
+limit 1
+    
+    
+    
+    </select>
+    
+    
+    <select id="findCheckNode" resultType="String">
+    	select qc_check_node_name from biz_qc_check_node a where a.id =#{0}
+    </select>
+</mapper>

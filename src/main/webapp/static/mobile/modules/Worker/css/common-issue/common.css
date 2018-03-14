@@ -1,0 +1,119 @@
+
+html,body{font-family: 'Microsoft YaHei',sans-serif;}
+
+.pad-top110{padding-top:1.1rem;}
+
+.height88{
+	height: 0.88rem;
+	line-height: 0.88rem;
+}
+.font0{
+	font-size: 0;
+}
+.bgheader{
+	background: #0780ec;
+}
+.w30{
+	width: 0.3rem;
+}
+.bg-fff{
+	background: #fff;
+}
+.tc{
+	text-align: center;
+}
+.mt30{
+	margin-top: 0.3rem;
+}
+.ml20{
+	margin-left: 0.2rem;
+}
+.pl30{
+	padding-left: 0.3rem;
+}
+.pl34{
+	/* padding-left: 0.34rem; */
+}
+.pl20{
+	padding-left: 0.2rem;
+}
+.mt28 {
+	margin-bottom: 0.28rem;
+}
+.pr30 {
+	padding-right: 0.3rem;
+}
+.pr20 {
+	padding-right: 0.2rem;
+}
+.pt30{
+	padding-top: 0.3rem;
+}
+.pb30{
+	padding-bottom: 0.3rem;
+}
+.pt15 {
+	padding-top: 0.15rem;
+}
+.pb15 {
+	padding-bottom: 0.15rem;
+}
+.pt8 {
+	padding-top: 0.08rem;
+}
+.mb30 {
+	margin-bottom: 0.3rem;
+}
+.mb14 {
+	margin-bottom: 0.14rem
+
+}
+.mb24 {
+	margin-bottom: 0.24rem
+	
+}
+.pb28 {
+	padding-bottom:0.28rem; 
+}
+.lh46{
+	line-height: 0.46rem;
+}
+.lh50{
+	line-height: 0.5rem;
+}
+.col-333{
+	color: #333;
+}
+.col-666{
+	color: #666;
+}
+.col-999 {
+	color: #999;
+}
+.col-444{
+	color: #444;
+}
+.col-fff{
+	color: #fff;
+}
+.font-36{
+	font-size: 0.34rem;
+}
+.font-24{
+	font-size: 0.24rem;
+}
+.font-30 {
+	font-size: 0.3rem;
+}
+.icon_back{
+	position: absolute;
+	left: 0.3rem;
+	top: 0.24rem;
+	width: 0.24rem;
+	height: 0.4rem;
+	background: url(../../images/back_icon.png) no-repeat;
+	background-size: 100%;
+}
+.bor-b1{
+	border-bottom: 1px solid #dddddd;
+}

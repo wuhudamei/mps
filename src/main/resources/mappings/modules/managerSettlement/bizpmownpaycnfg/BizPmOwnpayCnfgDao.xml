@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizPmOwnpayCnfgDao">
+    
+	<sql id="bizPmOwnpayCnfgColumns">
+		a.id AS "id",
+		a.store_id AS "storeId",
+		a.is_old_new AS "isOldNew",
+		a.project_mode AS "projectMode",
+		a.ownpay_name AS "ownpayName",
+		a.unit AS "unit",
+		a.amount AS "amount",
+		a.is_enabled AS "isEnabled",
+		a.remarks AS "remarks",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="bizPmOwnpayCnfgJoins">
+	</sql>
+    
+	<select id="get" resultType="cn.damei.entity.modules.BizPmOwnpayCnfg">
+		SELECT 
+			<include refid="bizPmOwnpayCnfgColumns"/>
+		FROM biz_pm_ownpay_cnfg a
+		<include refid="bizPmOwnpayCnfgJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="cn.damei.entity.modules.BizPmOwnpayCnfg">
+		SELECT 
+			<include refid="bizPmOwnpayCnfgColumns"/>
+		FROM biz_pm_ownpay_cnfg a
+		<include refid="bizPmOwnpayCnfgJoins"/>
+		<where>
+			1=1
+			<if test="storeId != null and storeId != ''">
+				AND a.store_id = #{storeId}
+			</if>
+			<if test="isOldNew != null and isOldNew != ''">
+				AND a.is_old_new = #{isOldNew}
+			</if>
+			<if test="projectMode != null and projectMode != ''">
+				AND a.project_mode = #{projectMode}
+			</if>
+			ORDER BY a.store_id ASC,a.is_old_new DESC,a.project_mode ASC
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				,${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="cn.damei.entity.modules.BizPmOwnpayCnfg">
+		SELECT 
+			<include refid="bizPmOwnpayCnfgColumns"/>
+		FROM biz_pm_ownpay_cnfg a
+		<include refid="bizPmOwnpayCnfgJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO biz_pm_ownpay_cnfg(
+			id,
+			store_id,
+			is_old_new,
+			project_mode,
+			ownpay_name,
+			unit,
+			amount,
+			is_enabled,
+			remarks,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag
+		) VALUES (
+			#{id},
+			#{storeId},
+			#{isOldNew},
+			#{projectMode},
+			#{ownpayName},
+			#{unit},
+			#{amount},
+			#{isEnabled},
+			#{remarks},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE biz_pm_ownpay_cnfg SET 	
+			store_id = #{storeId},
+			is_old_new = #{isOldNew},
+			project_mode = #{projectMode},
+			ownpay_name = #{ownpayName},
+			unit = #{unit},
+			amount = #{amount},
+			is_enabled = #{isEnabled},
+			remarks = #{remarks},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE biz_pm_ownpay_cnfg SET 	
+			is_enabled = #{isEnabled},
+			remarks = #{remarks},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

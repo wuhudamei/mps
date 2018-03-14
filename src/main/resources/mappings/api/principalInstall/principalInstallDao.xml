@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.PrincipalInstallDao">
+
+    <select id="findPrincipalInstall" parameterType="String" resultType="cn.damei.entity.modules.PrincipalInstall">
+		SELECT bozi.install_item_name,bozi.status,sd.label,bozi.plan_into_date,bozi.real_into_date,
+		bozi.real_complete_date,bozi.real_accept_date,bozi.is_complete_delay,bozi.complete_delay_days,bozi.apply_into_date,bozi.apply_into_create_datetime
+		FROM biz_order_install_plan bozi
+		LEFT JOIN biz_order bo ON bozi.order_id = bo.id
+		LEFT JOIN sys_dict sd ON bozi.status = sd.value AND sd.type = 'install_status' AND sd.del_flag = 0
+		WHERE bo.order_number = #{orderno}
+	</select>
+
+</mapper>

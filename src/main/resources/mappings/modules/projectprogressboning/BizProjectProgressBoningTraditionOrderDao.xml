@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizProjectProgressBoningTraditionOrderDao">
+    
+	
+	
+	<select id="get" resultType="cn.damei.entity.modules.BizTraditionOrder">
+		SELECT 
+			a.id AS "orderId",
+			a.store_id AS "storeId",
+			a.engin_depart_id AS "engineDepartId",
+			a.house_is_new AS "houseIsNew",
+			a.customer_name AS "customerName",
+			a.customer_phone AS "customerPhone",
+			a.actual_start_date AS "actualStartDate",
+			a.area AS "area"
+		FROM biz_order a
+		WHERE a.id = #{id}
+	</select>
+	
+	<!-- 分页查询 传统订单进度看板 -->
+	<select id="findList" resultType="cn.damei.entity.modules.BizTraditionOrder">
+		SELECT
+			a.id AS "orderId",
+			a.store_id AS "storeId",
+			a.area AS "area",
+			d.name AS "storeName",
+			a.engin_depart_id AS "engineDepartId",
+			f.name AS "engineDepartName",
+			a.house_is_new AS "houseIsNew",
+			g.label AS "houseIsNewName",
+			a.get_order_datetime AS "getOrderDatetime",
+			a.customer_name AS "customerName",
+			a.customer_phone AS "customerPhone",
+			a.community_name AS "communityName",
+			a.build_number AS "buildNumber",
+			a.build_unit AS "buildUnit",
+			a.build_room AS "buildRoom",
+			e.realName AS "itemManager",
+			e.phone AS "itemManagerPhone",
+			h.realName AS "inspector",
+			h.phone AS "inspectorPhone",
+			a.designer_name AS "designerName",
+			a.designer_phone AS "designerPhone",
+			a.contract_start_date AS "contractStartDate",
+			a.contract_end_date AS "contractEndDate",
+			a.actual_start_date AS "actualStartDate",
+			a.actual_end_date AS "actualEndDate",
+			datediff(a.actual_start_date,a.contract_start_date) AS "startDiffDay",
+			b.is_need_sign AS "isNeedSign",
+			b.self_decorate_delay_days AS "selfDecorateDelayDays",
+			b.is_self_decorate_need_sign AS "isSelfDecorateNeedSign"
+		FROM
+			biz_order a
+			LEFT JOIN biz_order_confirm_startwork b ON a.id = b.order_id
+			LEFT JOIN sys_office d ON d.id = a.store_id
+			LEFT JOIN biz_employee e ON a.item_manager_id = e.id
+			LEFT JOIN biz_employee h ON a.order_inspector_id = h.id
+			LEFT JOIN biz_engineering_department f ON f.id = a.engin_depart_id
+			LEFT JOIN sys_dict g ON g.`value` = a.house_is_new
+			AND g.type = 'biz_is_new_house'
+			AND g.del_flag = 0
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			and a.project_mode = 2
+			<if test="storeId != null and storeId != ''">
+				and a.store_id = #{storeId}
+			</if>
+			<if test="area != null and area != ''">
+				AND a.area LIKE CONCAT('%','${area}','%' )
+			</if>
+			<if test="beginActualStartDate != null and beginActualStartDate != ''">
+				AND a.actual_start_date &gt;= #{beginActualStartDate} 
+			</if>
+			<if test="endActualStartDate != null and endActualStartDate != ''">
+				AND a.actual_start_date &lt;= #{endActualStartDate}
+			</if>
+			<if test="engineDepartId != null and engineDepartId != ''">
+				AND a.engin_depart_id =#{engineDepartId}
+			</if>
+			ORDER BY
+			a.contract_start_date ASC
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				,${page.orderBy}
+			</when>
+		</choose>
+	</select>
+	
+	<!-- 根据订单ID查询biz_node_plan表节点进度 -->
+	<select id="findPlanList" parameterType="int" resultType="cn.damei.entity.modules.BizNodePlanProject">
+		SELECT
+			c.node_index AS "nodeIndex",
+			c.plan_done_date AS "planDoneDate",
+			c.real_done_date AS "realDoneDate",
+			datediff(c.real_done_date,c.plan_done_date) AS "planDiffDay"
+		FROM
+			biz_node_plan c 
+		WHERE
+			c.order_id = #{0}
+		ORDER BY
+			c.node_index ASC
+	</select>
+	
+	<!-- 查询所有传统订单进度看板   无分页 -->
+	<resultMap
+		type="cn.damei.entity.modules.BizTraditionOrder"
+		id="traditionOrder">
+			
+		<result property="orderId" column="id" />
+		<result property="storeId" column="store_id" />
+		<result property="area" column="area" />
+		<result property="storeName" column="storeName" />
+		<result property="engineDepartId" column="engin_depart_id" />
+		<result property="engineDepartName" column="engineDepartName" />
+		<result property="houseIsNew" column="house_is_new" />
+		<result property="houseIsNewName" column="houseIsNewName" />
+		<result property="getOrderDatetime" column="get_order_datetime" />
+		<result property="customerName" column="customer_name" />
+		<result property="customerPhone" column="customer_phone" />
+		<result property="communityName" column="community_name" />
+		<result property="buildNumber" column="build_number" />
+		<result property="buildUnit" column="build_unit" />
+		<result property="buildRoom" column="build_room" />
+		<result property="itemManager" column="itemManager" />
+		<result property="itemManagerPhone" column="itemManagerPhone" />
+		<result property="inspector" column="inspector" />
+		<result property="inspectorPhone" column="inspectorPhone" />
+		<result property="designerName" column="designer_name" />
+		<result property="designerPhone" column="designer_phone" />
+		<result property="contractStartDate" column="contract_start_date" />
+		<result property="contractEndDate" column="contract_end_date" />
+		<result property="actualStartDate" column="actual_start_date" />
+		<result property="actualEndDate" column="actual_end_date" />
+		<result property="startDiffDay" column="startDiffDay" />
+		<result property="isNeedSign" column="is_need_sign" />
+		<result property="selfDecorateDelayDays" column="self_decorate_delay_days" />
+		<result property="isSelfDecorateNeedSign" column="is_self_decorate_need_sign" />
+		
+		<collection property="nodePlanList" resultMap="nodePlan"></collection>
+	</resultMap>
+
+
+	<resultMap
+		type="cn.damei.entity.modules.BizNodePlanProject"
+		id="nodePlan">
+		
+		<result property="nodeIndex" column="node_index" />
+		<result property="planDoneDate" column="plan_done_date" />
+		<result property="realDoneDate" column="real_done_date" />
+		<result property="planDiffDay" column="planDiffDay" />
+		
+		<association property="bizTraditionOrder" resultMap="traditionOrder"></association>
+	</resultMap>
+	
+	<select id="findListExcel" resultMap="traditionOrder">
+		SELECT
+			a.id,
+			a.store_id,
+			a.area,
+			d.name AS "storeName",
+			a.engin_depart_id,
+			f.name AS "engineDepartName",
+			a.house_is_new,
+			g.label AS "houseIsNewName",
+			a.get_order_datetime,
+			a.customer_name,
+			a.customer_phone,
+			a.community_name,
+			a.build_number,
+			a.build_unit,
+			a.build_room,
+			e.realName AS "itemManager",
+			e.phone AS "itemManagerPhone",
+			h.realName AS "inspector",
+			h.phone AS "inspectorPhone",
+			a.designer_name,
+			a.designer_phone,
+			a.contract_start_date,
+			a.contract_end_date,
+			a.actual_start_date,
+			a.actual_end_date,
+			datediff(a.actual_start_date,a.contract_start_date) AS "startDiffDay",
+			b.is_need_sign,
+			b.self_decorate_delay_days,
+			b.is_self_decorate_need_sign,
+			c.node_index,
+			c.plan_done_date,
+			c.real_done_date,
+			datediff(c.real_done_date,c.plan_done_date) AS "planDiffDay"
+		FROM
+			biz_order a
+			LEFT JOIN biz_order_confirm_startwork b ON a.id = b.order_id
+			LEFT JOIN biz_node_plan c ON a.id = c.order_id
+			LEFT JOIN sys_office d ON d.id = a.store_id
+			LEFT JOIN biz_employee e ON a.item_manager_id = e.id
+			LEFT JOIN biz_employee h ON a.order_inspector_id = h.id
+			LEFT JOIN biz_engineering_department f ON f.id = a.engin_depart_id
+			LEFT JOIN sys_dict g ON g.`value` = a.house_is_new
+			AND g.type = 'biz_is_new_house'
+			AND g.del_flag = 0
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			and a.project_mode = 2
+			<if test="storeId != null and storeId != ''">
+				and a.store_id = #{storeId}
+			</if>
+			<if test="area != null and area != ''">
+				AND a.area LIKE CONCAT('%','${area}','%' )
+			</if>
+			<if test="beginActualStartDate != null and beginActualStartDate != ''">
+				AND a.actual_start_date &gt;= #{beginActualStartDate} 
+			</if>
+			<if test="endActualStartDate != null and endActualStartDate != ''">
+				AND a.actual_start_date &lt;= #{endActualStartDate}
+			</if>
+			<if test="engineDepartId != null and engineDepartId != ''">
+				AND a.engin_depart_id =#{engineDepartId}
+			</if>
+			ORDER BY
+			a.contract_start_date ASC,
+			c.node_index ASC
+            LIMIT 100
+		</where>
+	</select>
+
+	<select id="findListExcel1" resultType="cn.damei.entity.modules.BizTraditionOrder">
+        SELECT
+        a.id,
+        a.store_id,
+        a.area,
+        d.name AS "storeName",
+        a.engin_depart_id,
+        f.name AS "engineDepartName",
+        a.house_is_new,
+        g.label AS "houseIsNewName",
+        a.get_order_datetime,
+        a.customer_name,
+        a.customer_phone,
+        a.community_name,
+        a.build_number,
+        a.build_unit,
+        a.build_room,
+        e.realName AS "itemManager",
+        e.phone AS "itemManagerPhone",
+        h.realName AS "inspector",
+        h.phone AS "inspectorPhone",
+        a.designer_name,
+        a.designer_phone,
+        a.contract_start_date,
+        a.contract_end_date,
+        a.actual_start_date,
+        a.actual_end_date,
+        datediff(a.actual_start_date,a.contract_start_date) AS "startDiffDay",
+        b.is_need_sign,
+        b.self_decorate_delay_days,
+        b.is_self_decorate_need_sign,
+        c.anode                      AS 'plan_done_date',
+        c.bnode                      AS 'real_done_date',
+        c.cnode                      AS 'planDiffDay'
+        FROM biz_order a
+        LEFT JOIN biz_order_confirm_startwork b
+        ON a.id = b.order_id
+        LEFT JOIN (SELECT
+        order_id,
+        GROUP_CONCAT(IFNULL(plan_done_date,0) ORDER BY node_index ASC)    aNode,
+        GROUP_CONCAT(IFNULL(real_done_date,0) ORDER BY node_index ASC)    bNode,
+        GROUP_CONCAT(IFNULL(delay_days,0) ORDER BY node_index ASC)    cNode
+        FROM biz_node_plan c
+        GROUP BY order_id) c
+        ON c.order_id = a.id
+        LEFT JOIN sys_office d
+        ON d.id = a.store_id
+        LEFT JOIN biz_employee e
+        ON a.item_manager_id = e.id
+        LEFT JOIN biz_employee h
+        ON a.order_inspector_id = h.id
+        LEFT JOIN biz_engineering_department f
+        ON f.id = a.engin_depart_id
+        LEFT JOIN sys_dict g
+        ON g.`value` = a.house_is_new
+        AND g.type = 'biz_is_new_house'
+        AND g.del_flag = 0
+        <where>
+            a.del_flag = #{DEL_FLAG_NORMAL}
+            and a.project_mode = 2
+            <if test="storeId != null and storeId != ''">
+                and a.store_id = #{storeId}
+            </if>
+            <if test="area != null and area != ''">
+                AND a.area LIKE CONCAT('%','${area}','%' )
+            </if>
+            <if test="beginActualStartDate != null and beginActualStartDate != ''">
+                AND a.actual_start_date &gt;= #{beginActualStartDate}
+            </if>
+            <if test="endActualStartDate != null and endActualStartDate != ''">
+                AND a.actual_start_date &lt;= #{endActualStartDate}
+            </if>
+            <if test="engineDepartId != null and engineDepartId != ''">
+                AND a.engin_depart_id =#{engineDepartId}
+            </if>
+            ORDER BY
+            a.contract_start_date
+        </where>
+
+    </select>
+	
+	
+	
+</mapper>

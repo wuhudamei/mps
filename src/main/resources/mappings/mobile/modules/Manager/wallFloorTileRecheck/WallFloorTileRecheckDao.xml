@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.mobile.Manager.WallFloorTileRecheckDao">
+
+	<!-- 查询该项目经理下的墙地砖复尺单列表 -->
+	<select id="findWallFloorTileRecheckList" resultType="cn.damei.entity.mobile.Manager.WallFloorTileRecheck">
+		
+		SELECT
+			a.id AS "orderId",
+			a.order_number AS "orderNumber",
+			a.customer_name AS "customerName",
+			a.customer_phone AS "customerPhone",
+			a.community_name AS "communityName",
+			a.build_number AS "buildNumber",
+			a.build_unit AS "buildUnit",
+			a.build_room AS "buildRoom",
+			a.is_scrap AS "isScrap",
+			a.order_status_number AS "orderStatusNumber",
+			a.order_status_description AS "orderStatusDescription",
+			a.actual_start_date AS "actualStartDate",
+			IFNULL(DATE_FORMAT(a.actual_start_date,'%Y-%m-%d'),"") AS "actualStartDateString",
+			b.id AS "wallFloorTileRecheckId",
+			b.`status` AS "status",
+			b.status_describe AS "statusDescribe",
+			IFNULL(DATE_FORMAT(b.real_measure_date,'%Y-%m-%d'),"") AS "realMeasureDateString"
+		FROM
+			biz_order a
+		INNER JOIN biz_wall_floor_tile_recheck b ON a.id = b.order_id
+		WHERE
+			a.item_manager_id = #{0}
+		AND b.`status` != 90
+		ORDER BY
+			(CASE WHEN b.`status`=40 THEN b.`status` = 5 ELSE b.`status` END) ASC,b.create_date DESC
+		
+	</select>
+	
+	<!-- 根据墙地砖复尺单id查询相关信息 -->
+	<select id="findWallFloorTileRecheckMessage" resultType="cn.damei.entity.mobile.Manager.WallFloorTileRecheck">
+		
+		SELECT
+			a.id AS "orderId",
+			a.order_number AS "orderNumber",
+			a.item_manager AS "itemManager",
+			a.customer_name AS "customerName",
+			a.customer_phone AS "customerPhone",
+			a.community_name AS "communityName",
+			a.build_number AS "buildNumber",
+			a.build_unit AS "buildUnit",
+			a.build_room AS "buildRoom",
+			a.order_status_number AS "orderStatusNumber",
+			a.order_status_description AS "orderStatusDescription",
+			a.actual_start_date AS "actualStartDate",
+			IFNULL(DATE_FORMAT(a.actual_start_date,'%Y-%m-%d'),"") AS "actualStartDateString",
+			b.id AS "wallFloorTileRecheckId",
+			b.square_budget AS "squareBudget",
+			b.square_quota AS "squareQuota",
+			b.square_purchase AS "squarePurchase",
+			b.square_measure AS "squareMeasure",
+			b.plan_measure_date AS "planMeasureDate",
+			b.real_measure_date AS "realMeasureDate",
+			b.measure_remarks AS "measureRemarks",
+			b.price AS "price",
+			b.assess_square_error_1 AS "assessSquareError1",
+			b.assess_square_error_2 AS "assessSquareError2",
+			b.assess_amount_1 AS "assessAmount1",
+			b.assess_amount_2 AS "assessAmount2",
+			b.assess_person_name_1 AS "assessPersonName1",
+			b.assess_person_name_2 AS "assessPersonName2",
+			b. STATUS AS "status",
+			b.status_describe AS "statusDescribe",
+			b.status_datetime AS "statusDatetime",
+			b.status_operate_employee_id AS "statusOperateEmployeeId",
+			b.recheck_remarks AS "recheckRemarks",
+			b.remarks AS "remarks"
+		FROM
+			biz_wall_floor_tile_recheck b
+		INNER JOIN biz_order a ON a.id = b.order_id
+		WHERE
+			b.id = #{0}
+	
+	
+	</select>
+	
+	
+	<!-- 查询该订单的墙砖/地砖面积 -->
+	<select id="findSquareCount" parameterType="cn.damei.entity.mobile.Manager.WallFloorTileRecheck" resultType="java.lang.Double">
+		SELECT
+			IFNULL(ROUND(SUM(b.apply_square), 2),0)
+		FROM
+			biz_purchase a
+		INNER JOIN biz_purchase_wall_floor_tile b ON a.id = b.purchase_id
+		WHERE
+			a.purchase_type = 5
+		AND a.order_id = #{orderId}
+		AND a.`status` != 21
+		AND b.is_count_square = 1
+		AND b.main_mate_type = #{purchaseType}
+		
+	</select>
+	
+	
+	<!-- 更新墙地砖复尺单 -->
+	<update id="saveWallFloorTileRecheck" parameterType="cn.damei.entity.modules.WallRecheck">
+		UPDATE biz_wall_floor_tile_recheck SET 	
+			square_measure = #{squareMeasure},
+			real_measure_date = #{realMeasureDate},
+			measure_remarks = #{measureRemarks},
+			status = #{status},
+			status_describe = #{statusDescribe},
+			status_datetime = #{statusDatetime},
+			status_operate_employee_id = #{statusOperateEmployeeId},
+			remarks = #{remarks},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	
+	
+	</update>
+	
+	<!-- 更新订单的相关信息 -->
+	<update id="saveWallFloorTileOrderCount" parameterType="cn.damei.entity.modules.BizWallFloorTileOrderCount">
+		UPDATE biz_wall_floor_tile_order_count SET 	
+			square_measure = #{squareMeasure},
+			remarks = #{remarks},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<!--  查询操作日志 -->
+	<select id="findOperationList" resultType="cn.damei.entity.modules.BizBusinessStatusLog">
+		
+		SELECT
+			b.id AS "id",
+			b.business_type AS "businessType",
+			b.business_only_mark_int AS "businessOnlyMarkInt",
+			b.business_status AS "businessStatus",
+			b.status_datetime AS "statusDatetime",
+			b.business_remarks AS "businessRemarks",
+			b.business_employee_id AS "businessEmployeeId",
+			b.create_by AS "createBy.id",
+			c.realName AS "businessEmployeeName",
+			d.label AS "businessStatusName"
+		FROM
+			biz_business_status_log b
+		LEFT JOIN biz_employee c ON c.id = b.business_employee_id
+		LEFT JOIN sys_dict d ON d.`value` = b.business_status AND d.type = 'wall_status' AND d.del_flag = 0
+		<where>
+			b.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="businessType != null and businessType != ''">
+			  AND b.business_type=#{businessType}
+			</if>
+			<if test="businessOnlyMarkInt != null and businessOnlyMarkInt != ''">
+			  AND b.business_only_mark_int=#{businessOnlyMarkInt}
+		    </if>
+		</where>
+		ORDER BY
+			b.create_date ASC
+
+	</select>
+	
+		<!-- 根据订单id查询实测面积 -->
+	<select id="findSquareActual" resultType="java.lang.Double">
+	SELECT  a.wall_floor_tile_measure_square FROM  biz_order_disclose a  where a.order_id=#{0}  ORDER BY id desc  LIMIT 1
+	</select>
+	
+</mapper>
+   

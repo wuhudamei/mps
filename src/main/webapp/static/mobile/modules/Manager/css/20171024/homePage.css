@@ -1,0 +1,574 @@
+.fastSec {
+    width: 33.3%;
+    float: left;
+    text-align: center;
+}
+
+.border-center {
+    box-sizing: border-box;
+    border-left: 1px solid #eee;
+    border-right: 1px solid #eee;
+}
+
+.fastPng {
+    width: 1.15rem;
+    height: 1.15rem;
+}
+
+.list-line {
+    height: 1rem;
+    display: block;
+}
+
+.list-text {
+    float: left;
+    margin-left: 12%;
+    width: 88%;
+    height: inherit;
+    line-height: 1rem;
+    border-bottom: 1px solid #ebebeb;
+    box-sizing: border-box;
+    background-image: url(../../img/common/rgtArrow.png);
+    background-repeat: no-repeat;
+    background-size: 0.16rem 0.27rem;
+    background-position: 94% center;
+    font-size: .3rem;
+    color: #333;
+}
+
+.list-text._fullwidth {
+    width: 100% !important;
+    padding-left: 12%;
+    margin-left: 0 !important;
+}
+
+.list-text._autowidth {
+    width: 100% !important;
+    margin-left: 0 !important;
+    height: auto;
+    line-height: normal;
+    background-size: 0.32rem 0.54rem;
+}
+
+.list-text span {
+    display: inline-block;
+}
+
+
+/*icon*/
+
+.icon {
+    background-repeat: no-repeat;
+    background-size: 0.44rem 0.46rem;
+    background-position: 4% center;
+}
+
+.meterialAuxiliary {
+    background-image: url('../../img/meterialManagement/meterialAuxiliary.png');
+}
+
+.meterialwallFloorTileRecheck {
+    background-image: url('../../img/meterialManagement/meterialwallFloorTileRecheck.png');
+}
+
+.meterialwallAndFloorNew {
+    background-image: url('../../img/meterialManagement/meterialwallAndFloorNew.png');
+}
+
+.meterialwallAndFloorQus {
+    background-image: url('../../img/meterialManagement/meterialwallAndFloorQus.png');
+}
+
+.meterialwallAndFloor {
+    background-image: url('../../img/meterialManagement/meterialwallAndFloor.png');
+}
+
+.meterialapplySwitchPanel {
+    background-image: url('../../img/meterialManagement/meterialapplySwitchPanel.png');
+}
+
+.meterialapplyStandard {
+    background-image: url('../../img/meterialManagement/meterialapplyStandard.png');
+}
+
+.meterialapplyLight {
+    background-image: url('../../img/meterialManagement/meterialapplyLight.png');
+}
+
+.meterialapplySand {
+    background-image: url('../../img/meterialManagement/meterialapplySand.png');
+}
+
+.meterialPurchase {
+    background-image: url('../../img/meterialManagement/meterialPurchase.png');
+}
+
+.meterialreceivedBill {
+    background-image: url('../../img/meterialManagement/meterialreceivedBill.png');
+}
+
+.meterialapplyExpense {
+    background-image: url('../../img/meterialManagement/meterialapplyExpense.png');
+}
+
+.settlementIcon01 {
+    background-image: url('../../img/settlement/settlementIcon01.png');
+}
+
+.settlementIcon02 {
+    background-image: url('../../img/settlement/settlementIcon02.png');
+}
+
+.settlementIcon03 {
+    background-image: url('../../img/settlement/settlementIcon03.png');
+}
+
+.settlementIcon04 {
+    background-image: url('../../img/settlement/settlementIcon04.png');
+}
+
+.settlementIcon05 {
+    background-image: url('../../img/settlement/settlementIcon05.png');
+}
+
+.settlementIcon06 {
+    background-image: url('../../img/settlement/settlementIcon06.png');
+}
+
+.settlementIcon07 {
+    background-image: url('../../img/settlement/settlementIcon07.png');
+}
+
+.settlementIcon08 {
+    background-image: url('../../img/settlement/settlementIcon08.png');
+}
+
+.detailsIcon01 {
+    background-image: url('../../img/settlement/detailsIcon01.png');
+}
+
+.detailsIcon02 {
+    background-image: url('../../img/settlement/detailsIcon02.png');
+}
+
+.detailsIcon03 {
+    background-image: url('../../img/settlement/detailsIcon03.png');
+}
+
+.detailsIcon04 {
+    background-image: url('../../img/settlement/detailsIcon04.png');
+}
+
+.detailsIcon05 {
+    background-image: url('../../img/settlement/detailsIcon05.png');
+}
+
+.detailsIcon06 {
+    background-image: url('../../img/settlement/detailsIcon06.png');
+}
+
+.detailsIcon07 {
+    background-image: url('../../img/settlement/detailsIcon07.png');
+}
+
+.detailsIcon08 {
+    background-image: url('../../img/settlement/detailsIcon08.png');
+}
+
+.detailsIcon11 {
+    background-image: url('../../img/settlement/detailsIcon11.png');
+}
+
+.detailsIcon12 {
+    background-image: url('../../img/settlement/detailsIcon12.png');
+}
+
+.detailsIcon13 {
+    background-image: url('../../img/settlement/detailsIcon13.png');
+}
+
+.detailsIcon14 {
+    background-image: url('../../img/settlement/detailsIcon14.png');
+}
+
+.detailsIcon15 {
+    background-image: url('../../img/settlement/detailsIcon15.png');
+}
+
+.myIcon01 {
+    background-image: url('../../img/settlement/myIcon01.png');
+}
+
+.myIcon02 {
+    background-image: url('../../img/settlement/myIcon02.png');
+}
+
+.myIcon03 {
+    background-image: url('../../img/settlement/myIcon03.png');
+}
+
+.myIcon04 {
+    background-image: url('../../img/settlement/myIcon04.png');
+}
+
+.one_mert {
+    background-image: url(../../img/firstPage/first-goods.png);
+    background-repeat: no-repeat;
+    background-size: 0.46rem 0.41rem;
+    background-position: 4% center;
+}
+
+.one_prog {
+    background-image: url(../../img/firstPage/first-progress.png);
+    background-repeat: no-repeat;
+    background-size: 0.44rem 0.42rem;
+    background-position: 4% center;
+}
+
+.one_task {
+    background-image: url(../../img/firstPage/first-task.png);
+    background-repeat: no-repeat;
+    background-size: 0.44rem 0.43rem;
+    background-position: 4% center;
+}
+
+.one_qual {
+    background-image: url(../../img/firstPage/first-quality.png);
+    background-repeat: no-repeat;
+    background-size: 0.47rem 0.46rem;
+    background-position: 4% center;
+}
+
+.one_proj {
+    background-image: url(../../img/firstPage/first-project.png);
+    background-repeat: no-repeat;
+    background-size: 0.44rem 0.43rem;
+    background-position: 4% center;
+}
+
+.one_chan {
+    background-image: url(../../img/firstPage/first-change.png);
+    background-repeat: no-repeat;
+    background-size: 0.43rem 0.47rem;
+    background-position: 4% center;
+}
+
+.one_sala {
+    background-image: url(../../img/firstPage/first-salary.png);
+    background-repeat: no-repeat;
+    background-size: 0.43rem 0.43rem;
+    background-position: 4% center;
+}
+
+.one_retu {
+    background-image: url(../../img/firstPage/first-return.png);
+    background-repeat: no-repeat;
+    background-size: 0.42rem 0.42rem;
+    background-position: 4% center;
+}
+
+
+/*meterialIndex*/
+
+.mert_auxi {
+    background-image: url(../../img/metri/auxi.png);
+    background-repeat: no-repeat;
+    background-size: 0.45rem 0.43rem;
+    background-position: 4% center;
+}
+
+.mert_wall {
+    background-image: url(../../img/metri/wall.png);
+    background-repeat: no-repeat;
+    background-size: 0.44rem 0.42rem;
+    background-position: 4% center;
+}
+
+.mert_switch {
+    background-image: url(../../img/metri/switch.png);
+    background-repeat: no-repeat;
+    background-size: 0.43rem 0.43rem;
+    background-position: 4% center;
+}
+
+.mert_biao {
+    background-image: url(../../img/metri/metriStard.png);
+    background-repeat: no-repeat;
+    background-size: 0.44rem 0.44rem;
+    background-position: 4% center;
+}
+
+.mert_sand {
+    background-image: url(../../img/metri/sand.png);
+    background-repeat: no-repeat;
+    background-size: 0.43rem 0.44rem;
+    background-position: 4% center;
+}
+
+.mert_goods {
+    background-image: url(../../img/metri/goods-get.png);
+    background-repeat: no-repeat;
+    background-size: 0.43rem 0.39rem;
+    background-position: 4% center;
+}
+
+.mert_record {
+    background-image: url(../../img/metri/goods-record.png);
+    background-repeat: no-repeat;
+    background-size: 0.44rem 0.41rem;
+    background-position: 4% center;
+}
+
+
+/*task*/
+
+.task_plan {
+    background-image: url(../../img/task/task-plan.png);
+    background-repeat: no-repeat;
+    background-size: 0.43rem 0.48rem;
+    background-position: 4% center;
+}
+
+.task_query {
+    background-image: url(../../img/task/task-query.png);
+    background-repeat: no-repeat;
+    background-size: 0.39rem 0.5rem;
+    background-position: 4% center;
+}
+
+.task_salary {
+    background-image: url(../../img/task/task-salary.png);
+    background-repeat: no-repeat;
+    background-size: 0.47rem 0.46rem;
+    background-position: 4% center;
+}
+
+.task_excel {
+    background-image: url(../../img/task/task-excel.png);
+    background-repeat: no-repeat;
+    background-size: 0.46rem 0.43rem;
+    background-position: 4% center;
+}
+
+.task_pic {
+    background-image: url(../../img/task/task-pic.png);
+    background-repeat: no-repeat;
+    background-size: 0.46rem 0.45rem;
+    background-position: 4% center;
+}
+
+
+/*progress*/
+
+.pro_jiaodi {
+    background-image: url(../../img/progress/jiaodi.png);
+    background-repeat: no-repeat;
+    background-size: 0.33rem 0.32rem;
+    background-position: 4% center;
+}
+
+.pro_chi1 {
+    background-image: url(../../img/progress/fuchi1.png);
+    background-repeat: no-repeat;
+    background-size: 0.32rem 0.28rem;
+    background-position: 4% center;
+}
+
+.pro_chi2 {
+    background-image: url(../../img/progress/fuchi2.png);
+    background-repeat: no-repeat;
+    background-size: 0.32rem 0.32rem;
+    background-position: 4% center;
+}
+
+.pro_start {
+    background-image: url(../../img/progress/start.png);
+    background-repeat: no-repeat;
+    background-size: 0.33rem 0.32rem;
+    background-position: 4% center;
+}
+
+.pro_sign {
+    background-image: url(../../img/progress/sign.png);
+    background-repeat: no-repeat;
+    background-size: 0.32rem 0.32rem;
+    background-position: 4% center;
+}
+
+.pro_tongbao {
+    background-image: url(../../img/progress/tongbao.png);
+    background-repeat: no-repeat;
+    background-size: 0.28rem 0.32rem;
+    background-position: 4% center;
+}
+
+.pro_an {
+    background-image: url(../../img/progress/anzhuang.png);
+    background-repeat: no-repeat;
+    background-size: 0.32rem 0.32rem;
+    background-position: 4% center;
+}
+
+.pro_finish {
+    background-image: url(../../img/progress/finish.png);
+    background-repeat: no-repeat;
+    background-size: 0.32rem 0.32rem;
+    background-position: 4% center;
+}
+
+
+/*change*/
+
+.chan_change {
+    background-image: url(../../img/change/change.png);
+    background-repeat: no-repeat;
+    background-size: 0.47rem 0.47rem;
+    background-position: 4% center;
+}
+
+
+/*budget*/
+
+.bud_self {
+    background-image: url(../../img/budget/bud-self.png);
+    background-repeat: no-repeat;
+    background-size: 0.43rem 0.39rem;
+    background-position: 4% center;
+}
+
+.bud_order {
+    background-image: url(../../img/budget/bud-order.png);
+    background-repeat: no-repeat;
+    background-size: 0.43rem 0.44rem;
+    background-position: 4% center;
+}
+
+.bud_month {
+    background-image: url(../../img/budget/bud-month.png);
+    background-repeat: no-repeat;
+    background-size: 0.42rem 0.44rem;
+    background-position: 4% center;
+}
+
+.bud_guar {
+    background-image: url(../../img/budget/bud-guar.png);
+    background-repeat: no-repeat;
+    background-size: 0.43rem 0.45rem;
+    background-position: 4% center;
+}
+
+.bud_ori {
+    background-image: url(../../img/budget/bud-ori.png);
+    background-repeat: no-repeat;
+    background-size: 0.42rem 0.4rem;
+    background-position: 4% center;
+}
+
+.bud_daily {
+    background-image: url(../../img/budget/bud-daily.png);
+    background-repeat: no-repeat;
+    background-size: 0.42rem 0.4rem;
+    background-position: 4% center;
+}
+
+
+/*quality*/
+
+.qual_date {
+    background-image: url(../../img/quality/date.png);
+    background-repeat: no-repeat;
+    background-size: 0.47rem 0.47rem;
+    background-position: 4% center;
+}
+
+.qual_again {
+    background-image: url(../../img/quality/again.png);
+    background-repeat: no-repeat;
+    background-size: 0.43rem 0.45rem;
+    background-position: 4% center;
+}
+
+.qual_report {
+    background-image: url(../../img/quality/report.png);
+    background-repeat: no-repeat;
+    background-size: 0.43rem 0.45rem;
+    background-position: 4% center;
+}
+
+.return_brod {
+    background-image: url(../../img/return/return.png);
+    background-repeat: no-repeat;
+    background-size: 0.38rem 0.36rem;
+    background-position: 4% center;
+}
+
+.return_reco {
+    background-image: url(../../img/return/return-record.png);
+    background-repeat: no-repeat;
+    background-size: 0.37rem 0.37rem;
+    background-position: 4% center;
+}
+
+.mar_top24 {
+    margin-top: .24rem;
+}
+
+.mar_top44 {
+    margin-top: .44rem;
+}
+
+.pad_top88 {
+    padding-top: .88rem;
+}
+
+.pdr-80 {
+    padding-right: .8rem;
+}
+
+.disN {
+    display: none;
+}
+
+.align-center {
+    text-align: center;
+}
+
+.align-right {
+    text-align: right;
+}
+
+.pull-right {
+    float: right;
+}
+
+.f30 {
+    font-size: .3rem;
+    font-style: normal;
+    vertical-align: middle;
+}
+
+.space-25 {
+    height: .25rem;
+}
+
+.mtb-25 {
+    margin-bottom: .25rem;
+}
+
+.item-title {
+    color: #0780ec;
+    font-size: 0.28rem;
+    padding-left: .3rem;
+    padding-top: .24rem;
+}
+
+.item-price {
+    font-size: .56rem;
+    color: #0780ec;
+    vertical-align: middle;
+}
+
+.item-total {
+    font-size: .26rem;
+    padding: .35rem .4rem;
+}

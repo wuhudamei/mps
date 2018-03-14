@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="cn.damei.dao.mobile.Inspector.PqcOrderTaskpackageSettlementDao">
+
+	<!--根据任务包id查询结算单 -->
+	<select id="querySettlementByOrderTaskpackageId" parameterType="java.lang.Integer"
+		resultType="cn.damei.entity.mobile.Inspector.PqcOrderTaskpackageSettlement">
+		select id as "id",settlement_no as
+		"settlementNo",order_taskpackage_id as "orderTaskpackageId",check_date
+		as "checkDate",
+		is_qualified as "isQualified",is_delay as "isDelay",delay_days as
+		"delayDays",delay_amerce as "delayAmerce",
+		is_manage_punish as "isManagePunish",punish_amerce as "punishAmerce",punish_reason as
+		"punishReason",
+		auxiliary_materials_deduct_amount as "auxiliaryMaterialsAmount",guarantee_money_amount as
+		"guaranteeMoneyAmount",
+		settlement_amount as "settlementAmount",status as "status",status_date as
+		"statusDate",refused_reason as "refusedReason",
+		remarks as "remarks",create_by as "createBy.id",create_date as
+		"createDate",update_by as "updateBy.id",store_id as "storeId",
+		update_date as "updateDate",del_flag as "delFlag",is_need_recheck as
+		"isNeedRecheck",recheck_datetime as "recheckDatetime"
+		from
+		biz_order_taskpackage_settlement
+		where
+		order_taskpackage_id=#{orderTaskpackageId}
+	</select>
+
+	<update id="update">
+		update biz_order_taskpackage_settlement set
+		settlement_no=#{settlementNo},order_taskpackage_id=#{orderTaskpackageId},
+		check_date=#{checkDate},is_qualified=#{isQualified},is_delay=#{isDelay},delay_days=#{delayDays},
+		delay_amerce=#{delayAmerce},is_manage_punish=#{isManagePunish},punish_amerce=#{punishAmerce},punish_reason=#{punishReason},
+		auxiliary_materials_deduct_amount=#{auxiliaryMaterialsAmount},guarantee_money_amount=#{guaranteeMoneyAmount},
+		settlement_amount=#{settlementAmount},status=#{status},status_date=#{statusDate},refused_reason=#{refusedReason},
+		remarks=#{remarks},update_by=#{updateBy.id},update_date=#{updateDate},del_flag=#{delFlag},is_need_recheck=#{isNeedRecheck},
+		store_id=#{storeId},recheck_datetime=#{recheckDatetime}
+		where id=#{id}
+	</update>
+</mapper>
+   

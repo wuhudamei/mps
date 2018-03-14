@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.mobile.Manager.NodePlanPicDao">
+    
+    <sql id="nodePlanPicColumns">
+		id AS "id",
+		node_plan_id AS "nodePlanId",
+		pic_url AS "picUrl",
+		create_by AS "createBy",
+		create_date AS "createDate",
+		update_by AS "updateBy",
+		update_date AS "updateDate",
+		del_flag AS "delFlag"
+	</sql>
+    
+    <select id="getByOrderIdList" parameterType="cn.damei.entity.mobile.Manager.NodePlanPic" resultType="cn.damei.entity.mobile.Manager.NodePlanPic">
+    	SELECT 
+    	<include refid="nodePlanPicColumns"/> 
+    	FROM BIZ_NODE_PLAN_PIC a  
+    </select>
+    
+	<insert id="insertNodePlanPic">
+		INSERT INTO BIZ_NODE_PLAN_PIC(
+			ID,
+			NODE_PLAN_ID,
+			PIC_URL,
+			CREATE_BY,
+			CREATE_DATE,
+			UPDATE_BY,
+			UPDATE_DATE,
+			DEL_FLAG
+		) VALUES (
+			#{id},
+			#{nodePlanId},
+			#{picUrl},
+			#{createBy},
+			#{createDate},
+			#{updateBy},
+			#{updateDate},
+			#{delFlag}
+		)
+	</insert>	
+</mapper>

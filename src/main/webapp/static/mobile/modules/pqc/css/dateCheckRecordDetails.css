@@ -1,0 +1,54 @@
+.font0{font-size: 0;}
+.font24{font-size: .24rem;}
+.font28{font-size: .28rem;}
+.font30{font-size: .3rem;}
+
+.col_3{color: #333;}
+.col_0780ec{color: #0780ec;}
+.col_9{color: #999;}
+.col_10{color: #101010;}
+.col_c20e0e{color: #c20e0e;}
+.pad_top24{padding-top: .24rem;}
+.pad_btm24{padding-bottom: .24rem;}
+.pad_top30{padding-top: .3rem;}
+.pad_btm30{padding-bottom: .3rem;}
+.pad_left30{padding-left: .3rem;}
+.pad_rgt30{padding-right: .3rem;}
+.pad_top88{padding-top: .88rem;}
+.locate{text-align: center;}
+.bor_btm_ccc{border-bottom: 1px solid #ccc;}
+.bor_top_ea{border-top: 1px solid #eaeaea;}
+.bor_btm_ea{border-bottom: 1px solid #eaeaea;}
+.bg_f{background-color: #fff;}
+.mar_btm26{margin-bottom: .26rem;}
+
+.list span{float: left;width: 45%;text-align: right;}
+.list p{overflow: hidden;}
+.rela{position: relative;}
+.seeBtn{
+	display: block;
+    position: absolute;
+    right: .3rem;
+    top: 0;
+    width: 1.2rem;
+    height: .78rem;
+    line-height: .78rem;
+    text-align: center;
+    padding-right: .2rem;
+    background-image: url(../images/RGT.png);
+    background-repeat: no-repeat;
+    background-size: .16rem .29rem;
+    background-position: right center;
+}
+.one_btn {
+	display: block;
+    width: 3.3rem;
+    height: .7rem;
+    line-height: .7rem;
+    color: #fff;
+    text-align: center;
+    background: #ff9800;
+    font-size: .28rem;
+    border-radius: .35rem;
+    margin: .36rem auto;
+}

@@ -1,0 +1,1 @@
+/mdn/src/main/webapp/WEB-INF/views/mobile/modules/Manager/progressMain/checksize/recheck_pic.jsp

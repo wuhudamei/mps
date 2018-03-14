@@ -1,0 +1,21 @@
+字典新增：（接单管理优化-徐强）   
+       键值	标签   	           类型     	             描述	       排序
+        41     上墙砖	      main_material_type	  主材类型	
+	40	
+        42     下墙砖         main_material_type	  主材类型
+		50
+        43      腰线          main_material_type	  主材类型
+		60
+        44      转角          main_material_type	  主材类型
+		70
+        45      花片          main_material_type	  主材类型
+		80
+        46      角花          main_material_type          主材类型
+		90
+        31    地砖踢脚线      main_material_type          主材类型
+		100
+        32    地线/波导线     main_material_type          主材类型
+		110
+        33   其它瓷砖配件     main_material_type          主材类型              120
+        1	信息不完整    refuse_reason_type	预备订单拒绝理由	10	
+        2	其他	      refuse_reason_type	预备订单拒绝理由	20

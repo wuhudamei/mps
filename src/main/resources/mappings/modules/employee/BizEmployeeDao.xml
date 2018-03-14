@@ -1,0 +1,973 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizEmployeeDao">
+
+    <sql id="bizEmployeeColumns">
+        a.id             AS "id",
+        a.no             AS "no",
+        a.loginname      AS "loginname",
+        a.realname       AS "realname",
+        a.phone          AS "phone",
+        a.empType        AS "empType",
+        a.idcardno       AS "idcardno",
+        a.entrytime      AS "entrytime",
+        a.birthday       AS "birthday",
+        a.sex            AS "sex",
+        a.household      AS "household",
+        a.roots          AS "roots",
+        a.family         AS "family",
+        a.age            AS "age",
+        a.education      AS "education",
+        a.postno         AS "postno",
+        a.address        AS "address",
+        a.headpic        AS "headpic",
+        a.star           AS "star",
+        a.sort           AS "sort",
+        a.nps            AS "nps",
+        a.iswebchat      AS "iswebchat",
+        a.orderarea      AS "orderarea",
+        a.housetype      AS "housetype",
+        a.orderStop      AS "orderstop",
+        a.smartphone     AS "smartphone",
+        a.worktype       AS "worktype",
+        a.electricancard AS "electricancard",
+        a.ncms           AS "ncms",
+        a.salarypoint    AS "salarypoint",
+        a.grouplead      AS "grouplead",
+        a.storeid        AS "storeid",
+        a.sysuserid      AS "sysuserid",
+        a.managerid      AS "managerid",
+        a.pointXy       AS "pointXy",
+		o.name           AS "storename",
+		a.del_flag		AS 'delFlag',
+		a.project_mode  AS "projectMode"
+    </sql>
+
+    <sql id="bizEmployeeJoins">
+   		 left join sys_office o on o.id=a.storeid
+    </sql>
+
+
+<select id="findEngineIdsByEmpId" parameterType="int" resultType="int">
+	SELECT
+		a.engin_depart_id
+	FROM
+		`biz_engin_depart_employee_position` a
+	WHERE
+		a.employee_id = #{_parameter}
+	AND a.del_flag = 0
+</select>
+
+<!-- 根据订单Id获取项目经理信息  -->
+<select id="findItemManagerInfoByOrderId" resultType="cn.damei.entity.modules.BizEmployee">
+      SELECT
+	a.id AS "id",
+	a. NO AS "no",
+	a.loginname AS "loginname",
+	a.realname AS "realname",
+	a.phone AS "phone",
+	a.empType AS "empType",
+	a.idcardno AS "idcardno",
+	a.entrytime AS "entrytime",
+	a.birthday AS "birthday",
+	a.sex AS "sex",
+	a.household AS "household",
+	a.roots AS "roots",
+	a.family AS "family",
+	a.age AS "age",
+	a.education AS "education",
+	a.postno AS "postno",
+	a.address AS "address",
+	a.headpic AS "headpic",
+	a.star AS "star",
+	a.sort AS "sort",
+	a.nps AS "nps",
+	a.iswebchat AS "iswebchat",
+	a.orderarea AS "orderarea",
+	a.housetype AS "housetype",
+	a.orderStop AS "orderstop",
+	a.smartphone AS "smartphone",
+	a.worktype AS "worktype",
+	a.electricancard AS "electricancard",
+	a.ncms AS "ncms",
+	a.salarypoint AS "salarypoint",
+	a.grouplead AS "grouplead",
+	a.storeid AS "storeid",
+	a.sysuserid AS "sysuserid",
+	a.managerid AS "managerid",
+	a.pointXy AS "pointXy",
+	a.del_flag AS 'delFlag',
+	a.project_mode AS "projectMode"
+FROM
+	biz_employee a,
+	biz_order b
+WHERE
+	a.id = b.item_manager_id
+AND b.id = #{orderId}   
+</select>
+
+<!-- 根据订单ID获取工人组长信息 -->
+<select id="findWorkGroupInfoByOrderId" resultType="cn.damei.entity.modules.BizEmployee">
+    SELECT
+	a.id AS "id",
+	a. NO AS "no",
+	a.loginname AS "loginname",
+	a.realname AS "realname",
+	a.phone AS "phone",
+	a.empType AS "empType",
+	a.idcardno AS "idcardno",
+	a.entrytime AS "entrytime",
+	a.birthday AS "birthday",
+	a.sex AS "sex",
+	a.household AS "household",
+	a.roots AS "roots",
+	a.family AS "family",
+	a.age AS "age",
+	a.education AS "education",
+	a.postno AS "postno",
+	a.address AS "address",
+	a.headpic AS "headpic",
+	a.star AS "star",
+	a.sort AS "sort",
+	a.nps AS "nps",
+	a.iswebchat AS "iswebchat",
+	a.orderarea AS "orderarea",
+	a.housetype AS "housetype",
+	a.orderStop AS "orderstop",
+	a.smartphone AS "smartphone",
+	a.worktype AS "worktype",
+	a.electricancard AS "electricancard",
+	a.ncms AS "ncms",
+	a.salarypoint AS "salarypoint",
+	a.grouplead AS "grouplead",
+	a.storeid AS "storeid",
+	a.sysuserid AS "sysuserid",
+	a.managerid AS "managerid",
+	a.pointXy AS "pointXy",
+	a.del_flag AS 'delFlag',
+	a.project_mode AS "projectMode"
+FROM
+	biz_employee a
+WHERE
+	a.id  in (select DISTINCT(b.group_id) as group_id from 	biz_order_taskpackage b where b.order_id=#{orderId})   
+</select>
+    <select id="get" resultType="BizEmployee">
+        SELECT
+        <include refid="bizEmployeeColumns" />
+        FROM biz_employee a
+        <include refid="bizEmployeeJoins" />
+        WHERE a.id = #{id}
+    </select>
+    <select id="getCountByNo" resultType="int">
+        SELECT count(*) FROM biz_employee a
+        <include refid="bizEmployeeJoins" />
+        <where>
+            <if test="no != null and no != ''">
+                AND a.no = #{no}
+            </if>
+        </where>
+    </select>
+    <select id="getCountByLoginName" resultType="int">
+        SELECT count(*) FROM biz_employee a
+        <include refid="bizEmployeeJoins" />
+        <where>
+            <if test="loginname != null and loginname != ''">
+                AND a.loginname = #{loginname}
+            </if>
+        </where>
+    </select>
+    <select id="getCountByPhone" resultType="int">
+        SELECT count(*) FROM biz_employee a
+        <include refid="bizEmployeeJoins" />
+        <where>
+            <if test="phone != null and phone != ''">
+                AND a.phone = #{phone}
+            </if>
+        </where>
+    </select>
+    <select id="getCountByIdcardno" resultType="int">
+        SELECT count(*) FROM biz_employee a
+        <include refid="bizEmployeeJoins" />
+        <where>
+            <if test="idcardno != null and idcardno != ''">
+                AND a.idcardno = #{idcardno}
+            </if>
+        </where>
+    </select>
+    <select id="findList" resultType="BizEmployee">
+        SELECT
+        <include refid="bizEmployeeColumns" />
+        FROM biz_employee a
+        <include refid="bizEmployeeJoins" />
+        <where>
+       		 <if test="projectMode != null and projectMode != ''">
+                AND a.project_mode = #{projectMode}
+            </if>
+            <if test="storeid != null and storeid != ''">
+                AND a.storeid = #{storeid}
+            </if>
+            <if test="no != null and no != ''">
+
+                AND a.no like CONCAT('%','${no}','%' )  
+
+            </if>
+            <if test="loginname != null and loginname != ''">
+
+                AND a.loginname like CONCAT('%','${loginname}','%' )
+
+
+            </if>
+            <if test="realname != null and realname != ''">
+
+                AND a.realname LIKE
+                	<if test="dbName == 'oracle'">'%'||#{realname}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{realname}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{realname},'%')</if>
+            </if>
+            <if test="phone != null and phone != ''">
+
+                AND a.phone like CONCAT('%','${phone}','%' )
+
+            </if>
+            <if test="empType != null and empType != ''">
+                AND a.empType = #{empType}
+            </if>
+             <if test="worktype != null ">
+                AND a.worktype in (${worktype})
+            </if>
+            <if test="noInGroup != null and noInGroup != ''">
+                AND a.`id` NOT IN (SELECT empId FROM biz_emgrouprelation) 
+            </if>
+            <if test="orderstop != null and orderstop !=''">
+				AND a.orderStop = #{orderstop}
+			</if>
+            and a.del_flag=0
+        </where>
+        <if test="noRelateCard == 1">
+            and e.num = 0
+        </if>
+        <if test="noRelateGroup == 1">
+            and (select count(*) from biz_emgrouprelation cc where cc.empId = a.id) = 0
+        </if>
+        <choose>
+            <when
+                test="page !=null and page.orderBy != null and page.orderBy != ''">
+                ORDER BY ${page.orderBy}
+            </when>
+            <otherwise>
+            	order by a.create_date desc
+            </otherwise>
+        </choose>
+    </select>
+
+	<select id="findManagerList" resultType="BizEmployee">
+		 SELECT
+        <include refid="bizEmployeeColumns" />,
+        <!-- (select count(m.id) from biz_employee m where m.managerId = a.id and m.empType = '2') as "workerIntroduceCount", -->
+        m.workerIntroduceCount AS "workerIntroduceCount",
+        c.name as "departmentName"
+        FROM biz_employee a
+        LEFT JOIN biz_engin_depart_employee_position b ON a.id = b.employee_id and b.position_type ='5'
+        LEFT JOIN biz_engineering_department c ON b.engin_depart_id = c.id 
+        LEFT JOIN (SELECT m.managerId,count(*)AS "workerIntroduceCount" FROM biz_employee m WHERE  m.empType = '2' GROUP BY m.managerId) m ON m.managerId = a.id
+        
+        <include refid="bizEmployeeJoins" />
+        <where>
+       		 <if test="projectMode != null and projectMode != ''">
+                AND a.project_mode = #{projectMode}
+            </if>
+            <if test="storeid != null and storeid != ''">
+                AND a.storeid = #{storeid}
+            </if>
+            <if test="no != null and no != ''">
+
+                AND a.no like CONCAT('%','${no}','%' )  
+
+            </if>
+            <if test="loginname != null and loginname != ''">
+                AND a.loginname like CONCAT('%','${loginname}','%' )
+            </if>
+            <if test="realname != null and realname != ''">
+
+                AND a.realname LIKE
+                	<if test="dbName == 'oracle'">'%'||#{realname}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{realname}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{realname},'%')</if>
+            </if>
+            <if test="phone != null and phone != ''">
+
+                AND a.phone like CONCAT('%','${phone}','%' )
+
+            </if>
+            <if test="empType != null and empType != ''">
+                AND a.empType = #{empType}
+            </if>
+             <if test="worktype != null ">
+                AND a.worktype in (${worktype})
+            </if>
+            <if test="noInDepartment != null and  noInDepartment!= ''">
+                and a.`id` NOT IN (SELECT employee_id FROM biz_engin_depart_employee_position) 
+            </if>
+            <if test="enginDepartIds!= null">
+            	and c.id in
+            	<foreach index="index" item="item" collection="enginDepartIds" open="(" separator="," close=")">
+            		#{item}
+            	</foreach>
+            </if>
+            <if test="orderstop != null and orderstop !=''">
+				AND a.orderStop = #{orderstop}
+			</if>
+            	and a.del_flag=0
+        </where>
+        <choose>
+            <when test="page !=null and page.orderBy != null and page.orderBy != ''">
+                ORDER BY ${page.orderBy}
+            </when>
+            <otherwise>
+            	order by a.create_date desc
+            </otherwise>
+        </choose>
+	</select>
+	
+	<select id="findInspectorList" resultType="BizEmployee">
+		 SELECT
+        <include refid="bizEmployeeColumns" />,
+        c.name as "departmentName"
+        FROM biz_employee a
+        left join biz_engin_depart_employee_position b on a.id = b.employee_id and b.position_type ='4'
+        left join biz_engineering_department c on b.engin_depart_id = c.id 
+        <include refid="bizEmployeeJoins" />
+        <where>
+       		 <if test="projectMode != null and projectMode != ''">
+                AND a.project_mode = #{projectMode}
+            </if>
+            <if test="storeid != null and storeid != ''">
+                AND a.storeid = #{storeid}
+            </if>
+            <if test="no != null and no != ''">
+
+                AND a.no like CONCAT('%','${no}','%' )  
+
+            </if>
+            <if test="loginname != null and loginname != ''">
+                AND a.loginname like CONCAT('%','${loginname}','%' )
+            </if>
+            <if test="realname != null and realname != ''">
+
+                AND a.realname LIKE
+                	<if test="dbName == 'oracle'">'%'||#{realname}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{realname}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{realname},'%')</if>
+            </if>
+            <if test="phone != null and phone != ''">
+
+                AND a.phone like CONCAT('%','${phone}','%' )
+
+            </if>
+            <if test="empType != null and empType != ''">
+                AND a.empType = #{empType}
+            </if>
+             <if test="worktype != null ">
+                AND a.worktype in (${worktype})
+            </if>
+            <if test="noInDepartment != null and  noInDepartment!= ''">
+                and a.`id` NOT IN (SELECT employee_id FROM biz_engin_depart_employee_position) 
+            </if>
+            <if test="enginDepartIds!= null">
+            	and c.id in
+            	<foreach index="index" item="item" collection="enginDepartIds" open="(" separator="," close=")">
+            		#{item}
+            	</foreach>
+            </if>
+            <if test="orderstop != null and orderstop !=''">
+				AND a.orderStop = #{orderstop}
+			</if>
+            and a.del_flag=0
+        </where>
+        <choose>
+            <when test="page !=null and page.orderBy != null and page.orderBy != ''">
+                ORDER BY ${page.orderBy}
+            </when>
+            <otherwise>
+            	order by a.create_date desc
+            </otherwise>
+        </choose>
+	</select>
+	
+    <select id="findAllList" resultType="BizEmployee">
+        SELECT
+        <include refid="bizEmployeeColumns" />
+        FROM biz_employee a
+        <include refid="bizEmployeeJoins" />
+        <where>
+
+        </where>
+        <choose>
+            <when
+                test="page !=null and page.orderBy != null and page.orderBy != ''">
+                ORDER BY ${page.orderBy}
+            </when>
+            <otherwise>
+           		order by a.create_date desc
+            </otherwise>
+        </choose>
+    </select>
+
+    <select id="findStoreList" resultType="BizEmpStore">
+        SELECT
+        id AS 'value',NAME
+        AS 'label'
+        FROM sys_office WHERE parent_id=1 AND del_flag=0
+    </select>
+    <select id="findAreaByStoreId" resultType="BizEmpStore">
+        SELECT
+        id as 'value',
+        name as 'label'
+        FROM
+        biz_area where store_id=#{0} and project_mode = #{1}
+        and del_flag=0
+    </select>
+    <select id="findEmployeeList" resultType="DropModel">
+        SELECT
+        id AS 'value',
+        CONCAT(realName,' ',no) AS 'label'
+        FROM biz_employee
+        <where>
+            <if test="empType != null and empType != ''">
+                AND empType = #{empType}
+            </if>
+            <if test="storeid != null and storeid != ''">
+                AND storeId = #{storeid}
+            </if>
+            and del_flag = 0
+        </where>
+    </select>
+    
+    <!-- 查询所有的组长 -->
+    <select id="findLeaderList" resultType="DropModel">
+        SELECT
+        a.id AS 'value',
+        CONCAT(a.realName,' ',a.no) AS 'label'
+        FROM biz_employeegroup b
+        left join biz_employee a on a.id = b.groupId
+        where a.del_flag = 0
+    </select>
+
+    <select id="findEmployeeListByCondition" resultType="DropModel" >
+        SELECT
+        id AS 'value',
+        CONCAT(realName,' ',no) AS 'label'
+        FROM biz_employee a
+        <where>
+            <if test="officeIds != null and officeIds != ''">
+                AND a.storeId in (${officeIds})
+            </if>
+            <if test="empTypes != null and empTypes != ''">
+                AND a.empType in (${empTypes})
+            </if>
+            <if test="workTypes != null and workTypes != ''">
+                AND a.workType in (${workTypes})
+            </if>
+            <if test="projectMode != null and projectMode != ''">
+                AND a.project_mode = ${projectMode}
+            </if>
+            AND	a.del_flag= 0
+        </where>
+    </select>
+
+    <select id="findEmployeeListByEmpType" resultType="DropModel" >
+        SELECT
+        a.id AS 'value',
+        CONCAT(a.realName,'-',a.phone) AS 'label'
+        FROM biz_employee a
+        <where>
+            <if test="storeId != null and storeId != ''">
+                AND a.storeId = ${storeId}
+            </if>
+            <if test="projectModeList != null and projectModeList != ''">
+                AND a.project_mode in
+                <foreach item="item" index="index" collection="projectModeList" open="(" separator="," close=")">
+                    ${item}
+                </foreach>
+            </if>
+            AND	a.del_flag= 0
+        </where>
+    </select>
+    
+       <!-- 根据门店过滤组长 -->
+     <select id="findLeaderListByCondition" resultType="DropModel" >
+        SELECT
+        a.id AS 'value',
+        CONCAT(a.realName,' ',a.no) AS 'label'
+        FROM biz_employeegroup b
+        left join biz_employee a on a.id = b.groupId
+        <where>
+            <if test="officeIds != null and officeIds != ''">
+                AND a.storeId in (${officeIds})
+            </if>
+            <if test="empTypes != null and empTypes != ''">
+                AND a.empType in (${empTypes})
+            </if>
+            <if test="workTypes != null and workTypes != ''">
+                AND a.workType in (${workTypes})
+            </if>
+            AND	a.del_flag= 0
+        </where>
+    </select>
+
+
+    <select id="findAllListByIds" resultType="DropModel">
+        SELECT
+        id AS 'value',
+        CONCAT(realName,' ',no) AS 'label'
+        FROM biz_employee a
+        where a.id in (${ids})
+    </select>
+	<select id="findAllListByDepartmentId" resultType="DropModel">
+	 	SELECT
+        b.id AS 'value',
+        CONCAT(b.realName,' ',b.no) AS 'label'
+        FROM biz_engin_depart_employee_position a
+        left join biz_employee b on a.employee_id = b.id 
+        where a.engin_depart_id = #{departmentId} and a.position_type = #{type}
+	</select>
+	
+	<select id="findListNotInGroup" resultType="BizEmployee">
+        SELECT
+        *
+        FROM biz_employee a
+        where a.id in not in (SELECT id FROM biz_emgrouprelation )
+    </select>
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO biz_employee(
+        no,
+        loginname,
+        realname,
+        phone,
+        empType,
+        idcardno,
+        entrytime,
+        birthday,
+        sex,
+        household,
+        roots,
+        family,
+        age,
+        education,
+        postno,
+        address,
+        headpic,
+        star,
+        sort,
+        nps,
+        iswebchat,
+        orderarea,
+        housetype,
+        orderstop,
+        smartphone,
+        worktype,
+        electricancard,
+        ncms,
+        salarypoint,
+        grouplead,
+        storeid,
+        sysuserid,
+        managerid,
+        pointXy,
+        project_mode,
+        remarks,
+		create_by,
+		create_date,
+		update_by,
+		update_date,
+		del_flag
+        ) VALUES (
+        #{no},
+        #{loginname},
+        #{realname},
+        #{phone},
+        #{empType},
+        #{idcardno},
+        #{entrytime},
+        #{birthday},
+        #{sex},
+        #{household},
+        #{roots},
+        #{family},
+        #{age},
+        #{education},
+        #{postno},
+        #{address},
+        #{headpic},
+        #{star},
+        #{sort},
+        #{nps},
+        #{iswebchat},
+        #{orderarea},
+        #{housetype},
+        #{orderstop},
+        #{smartphone},
+        #{worktype},
+        #{electricancard},
+        #{ncms},
+        #{salarypoint},
+        #{grouplead},
+        #{storeid},
+        #{sysuserid},
+        #{managerid},
+        #{pointXy},
+        #{projectMode},
+        #{remarks},
+		#{createBy.id},
+		#{createDate},
+		#{updateBy.id},
+		#{updateDate},
+		#{delFlag}
+        )
+    </insert>
+
+    <update id="update">
+        UPDATE biz_employee SET
+        no = #{no},
+        loginname = #{loginname},
+        realname = #{realname},
+        phone = #{phone},
+        empType = #{empType},
+        idcardno = #{idcardno},
+        entrytime = #{entrytime},
+        birthday = #{birthday},
+        sex = #{sex},
+        household = #{household},
+        roots = #{roots},
+        family = #{family},
+        age = #{age},
+        education = #{education},
+        postno = #{postno},
+        address = #{address},
+        headpic = #{headpic},
+        star = #{star},
+        sort = #{sort},
+        nps = #{nps},
+        iswebchat = #{iswebchat},
+        orderarea = #{orderarea},
+        housetype = #{housetype},
+        orderstop = #{orderstop},
+        smartphone = #{smartphone},
+        worktype = #{worktype},
+        electricancard = #{electricancard},
+        ncms = #{ncms},
+        salarypoint = #{salarypoint},
+        grouplead = #{grouplead},
+        storeid=#{storeid},
+        managerid = #{managerid},
+        pointXy = #{pointXy},
+        project_mode = #{projectMode},
+        remarks = #{remarks},
+		update_by = #{updateBy.id},
+		update_date = #{updateDate}
+        WHERE id = #{id}
+    </update>
+
+    <update id="delete">
+        UPDATE biz_employee SET	del_flag=1,update_by = #{updateBy.id},update_date = #{updateDate}
+        WHERE id = #{id}
+    </update>
+
+	
+	<!--更新被换单次数  -->
+	<update id="updateExchangeOrderTimes" parameterType="cn.damei.entity.modules.BizEmployee">
+		UPDATE biz_employee 
+		<set>
+			exchange_order_times =#{exchangeOrderTimes},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		</set>
+		
+		<where>
+			id = #{id}
+		</where>
+	</update>
+	
+	<!-- 根据id查询单表被换单次数 -->
+	<select id="selectExchangeOrderTimesById" resultType="cn.damei.entity.modules.BizEmployee" parameterType="int">
+		SELECT id,exchange_order_times
+		FROM biz_employee
+		WHERE id = #{oldGroupId}
+	</select>
+	
+	<select id="findLeadList" resultType="cn.damei.entity.modules.BizEmployee" parameterType="cn.damei.entity.modules.BizEmployee">
+        select * from (
+        SELECT
+        a.id             AS "id",
+        a.no             AS "no",
+        a.loginname      AS "loginname",
+        a.realname       AS "realname",
+        a.phone          AS "phone",
+        a.empType        AS "empType",
+        a.idcardno       AS "idcardno",
+        a.entrytime      AS "entrytime",
+        a.postno         AS "postno",
+        a.address        AS "address",
+        a.headpic        AS "headpic",
+        a.star           AS "star",
+        a.sort           AS "sort",
+        a.iswebchat      AS "iswebchat",
+        a.orderarea      AS "orderarea",
+        a.housetype      AS "housetype",
+        a.orderStop      AS "orderstop",
+        a.smartphone     AS "smartphone",
+        a.worktype       AS "worktype",
+        a.electricancard AS "electricancard",
+        a.grouplead      AS "grouplead",
+        a.storeid        AS "storeid",
+        a.sysuserid      AS "sysuserid",
+        a.managerid      AS "managerid",
+        a.pointXy       AS "pointXy",
+		a.del_flag		AS "delFlag",
+		d.name 			AS "departmentName",
+		(select count(*) from biz_order_distribute_log bl where bl.old_employee_id=a.id  
+					<if test="startExchanegeDate != null and startExchanegeDate != ''">
+	              	  AND bl.update_date  &gt;= #{startExchanegeDate}
+		             </if>
+		             <if test="endExchanegeDate != null and endExchanegeDate != ''">
+		                AND bl.update_date &lt;= #{endExchanegeDate}
+		             </if>) AS "exchangeOrderTimes",
+		a.project_mode  AS "projectMode"
+        
+        FROM biz_employeegroup b 
+        	
+        INNER JOIN  biz_employee a
+        	
+        ON(a.id = b.groupId)
+        INNER JOIN biz_engineering_department d
+	    ON b.elactricationId = d.id
+        <where>
+        	
+       		 <if test="projectMode != null and projectMode != ''">
+                AND a.project_mode = #{projectMode}
+            </if>
+            <if test="projectMode == null or projectMode == ''">
+            	and a.project_mode in('1','4')
+            </if>
+            <if test="storeid != null and storeid != ''">
+                AND a.storeid = #{storeid}
+            </if>
+            <if test="enginDepartId != null and enginDepartId != ''">
+				AND d.id = #{enginDepartId}
+			</if>
+            <if test="realname != null and realname != ''">
+                AND a.realname LIKE CONCAT('%',#{realname},'%')
+            </if>
+            <if test="phone != null and phone != ''">
+                AND a.phone = #{phone}
+            </if>
+            <if test="empType != null and empType != ''">
+                AND a.empType = #{empType}
+            </if>
+            and a.del_flag=0 AND a.exchange_order_times &gt;0
+        </where>) oa where oa.exchangeOrderTimes  &gt;0
+        ORDER BY oa.storeid,oa.id,oa.realname ASC
+    </select>
+	
+	<select id="findExCahangeManagerList" resultType="cn.damei.entity.modules.BizEmployee" parameterType="cn.damei.entity.modules.BizEmployee">
+		SELECT 
+		    oa.id             AS "id",
+	        oa.no             AS "no",
+	        oa.loginname      AS "loginname",
+	        oa.realname       AS "realname",
+	        oa.phone          AS "phone",
+	        oa.empType        AS "empType",
+	        oa.star           AS "star",
+	        oa.sort           AS "sort",
+	        oa.worktype       AS "worktype",
+	        oa.grouplead      AS "grouplead",
+	        oa.storeid        AS "storeid",
+	        oa.sysuserid      AS "sysuserid",
+	        oa.managerid      AS "managerid",
+			oa.delFlag		AS "delFlag",
+			oa.departmentName 			AS "departmentName",
+			oa.exchangeOrderTimes     AS "exchangeOrderTimes",
+			oa.projectMode  AS "projectMode"
+	FROM (
+		SELECT
+			a.id             AS "id",
+	        a.no             AS "no",
+	        a.loginname      AS "loginname",
+	        a.realname       AS "realname",
+	        a.phone          AS "phone",
+	        a.empType        AS "empType",
+	        a.star           AS "star",
+	        a.sort           AS "sort",
+	        a.worktype       AS "worktype",
+	        a.grouplead      AS "grouplead",
+	        a.storeid        AS "storeid",
+	        a.sysuserid      AS "sysuserid",
+	        a.managerid      AS "managerid",
+			a.del_flag		AS "delFlag",
+			d.name 			AS "departmentName",
+			(select count(*) from biz_order_distribute_log bl where bl.old_employee_id=a.id  
+					<if test="startExchanegeDate != null and startExchanegeDate != ''">
+	              	  AND bl.update_date  &gt;= #{startExchanegeDate}
+		             </if>
+		             <if test="endExchanegeDate != null and endExchanegeDate != ''">
+		                AND bl.update_date &lt;= #{endExchanegeDate}
+		             </if>) AS "exchangeOrderTimes",
+			a.project_mode  AS "projectMode"
+        	
+        	FROM biz_employee a
+        	
+        	INNER JOIN biz_engin_depart_employee_position c 
+			ON (a.id = c.employee_id) 
+			AND c.position_type ='5'
+			INNER JOIN biz_engineering_department d
+			ON (c.engin_depart_id = d.id)
+        	
+        <where>
+       		 <if test="projectMode != null and projectMode != ''">
+                AND a.project_mode = #{projectMode}
+            </if>
+            <if test="storeid != null and storeid != ''">
+                AND a.storeid = #{storeid}
+            </if>
+            <if test="enginDepartId != null and enginDepartId !=''">
+            	AND d.id = #{enginDepartId}
+            </if>
+            <if test="realname != null and realname != ''">
+                AND a.realname LIKE CONCAT('%',#{realname},'%')
+            </if>
+            <if test="empType != null and empType != ''">
+                AND a.empType = #{empType}
+            </if>
+           
+            and a.del_flag=0 AND a.exchange_order_times &gt;0
+        </where>
+        ) oa where oa.exchangeOrderTimes &gt;0 ORDER BY oa.storeid,oa.projectMode,oa.departmentName,oa.realname ASC
+	</select>
+	
+	<select id="findExCahangeInspectorList" resultType="cn.damei.entity.modules.BizEmployee" parameterType="cn.damei.entity.modules.BizEmployee">
+		SELECT
+			a.id             AS "id",
+	        a.no             AS "no",
+	        a.loginname      AS "loginname",
+	        a.realname       AS "realname",
+	        a.phone          AS "phone",
+	        a.empType        AS "empType",
+	        a.star           AS "star",
+	        a.sort           AS "sort",
+	        a.worktype       AS "worktype",
+	        a.grouplead      AS "grouplead",
+	        a.storeid        AS "storeid",
+	        a.sysuserid      AS "sysuserid",
+	        a.managerid      AS "managerid",
+			a.del_flag		AS "delFlag",
+			d.name 			AS "departmentName",
+			a.exchange_order_times AS "exchangeOrderTimes",
+			a.project_mode  AS "projectMode"
+        	
+        	FROM biz_employee a
+        	
+        	INNER JOIN biz_engin_depart_employee_position c 
+			ON (a.id = c.employee_id) 
+			AND c.position_type ='4'
+			INNER JOIN biz_engineering_department d
+			ON (c.engin_depart_id = d.id)
+        	
+        <where>
+       		 <if test="projectMode != null and projectMode != ''">
+                AND a.project_mode = #{projectMode}
+            </if>
+            <if test="storeid != null and storeid != ''">
+                AND a.storeid = #{storeid}
+            </if>
+            <if test="enginDepartId != null and enginDepartId !=''">
+            	AND d.id = #{enginDepartId}
+            </if>
+            <if test="realname != null and realname != ''">
+                AND a.realname LIKE CONCAT('%',#{realname},'%')
+            </if>
+            <if test="empType != null and empType != ''">
+                AND a.empType = #{empType}
+            </if>
+            and a.del_flag=0 AND a.exchange_order_times &gt;0
+        </where>
+        ORDER BY a.storeId,a.project_mode,d.name,a.realname ASC
+	</select>
+	<update id="updateEmployee">
+		UPDATE 
+		biz_employee 
+		SET 
+		realName = #{realname},
+		loginName = #{loginname},
+		phone = #{phone},
+		storeId =#{storeid},
+		remarks = #{remarks},
+		update_by = #{updateBy.id},
+		update_date = #{updateDate}
+		WHERE id =#{id} 
+	</update>
+	
+	<select id="getEmployeeListByEmpType" resultType="cn.damei.entity.modules.BizEmployee">
+		SELECT
+			t.id AS "id",
+			t.realName AS "realname",
+			t.phone AS "phone"
+		from biz_employee t
+		<where>
+			<if test="empType != ''and empType != null">
+				and t.empType = #{empType }
+			</if>
+			<if test="empPhone != '' and empPhone != null">
+				and t.phone = #{empPhone }
+			</if>
+			<if test="empName != '' and empName != null">
+				and t.realName = #{empName }
+			</if>
+		</where>
+	</select>
+	
+	<select id="getEmployeeCount" resultType="Integer">
+		select 
+			count(t.id)
+		from biz_employee t
+		<where>
+			and t.realName = #{empName }
+			and t.phone = #{empPhone }
+		</where>
+	</select>
+
+    <select id="findStoreLabel" resultType="cn.damei.entity.modules.Office">
+        SELECT
+          c.`id`,
+            c.`parent_id`,
+            c.`parent_ids`,
+            c.`name`,
+            c.`sort`,
+            c.`area_id`,
+            c.`code`,
+            c.`type`,
+            c.`grade`,
+            c.`address`,
+            c.`zip_code`,
+            c.`master`,
+            c.`phone`,
+            c.`fax`,
+            c.`email`,
+            c.`USEABLE`,
+            c.`PRIMARY_PERSON`,
+            c.`DEPUTY_PERSON`,
+            c.`create_by`,
+            c.`create_date`,
+            c.`update_by`,
+            c.`update_date`,
+            c.`remarks`,
+            c.`del_flag`
+        FROM sys_user a
+          LEFT JOIN biz_employee b
+            ON a.emp_id = b.id
+          LEFT JOIN sys_office c
+            ON c.id = b.storeId
+        WHERE a.emp_id = #{0}
+    </select>
+	
+	
+</mapper>

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizAuxiliarMaterialsVerifySettlementRelDao">
+	<sql id="verifySettleColumns">
+		a.id as "id",
+		a.auxiliary_materials_verify_id as "auxiliaryMaterialsVerifyId",
+		a.order_taskpackage_settlement_id as "orderTaskpackageSettlementId",
+		a.remarks AS "remarks",
+		a.create_by
+		AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS
+		"updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag"
+	</sql>
+	<sql id="verifySettleJoins">
+	</sql>
+	<select id="get"
+		resultType="cn.damei.entity.modules.BizAuxiliarMaterialsVerifySettlementRel">
+		SELECT
+		<include refid="verifySettleColumns" />
+		FROM biz_auxiliary_materials_verify_settlement_rel a
+		<include refid="verifySettleJoins" />
+		WHERE a.id =#{id}
+	</select>
+
+	<select id="findList"
+		resultType="cn.damei.entity.modules.BizAuxiliarMaterialsVerifySettlementRel">
+		SELECT
+		<include refid="verifySettleColumns" />
+		FROM biz_auxiliary_materials_verify_settlement_rel a
+		<include refid="verifySettleJoins" />
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="id != null and id != ''">
+				AND a.id =#{id}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.create_date DESC
+			</otherwise>
+		</choose>
+	</select>
+
+	<select id="findAllList"
+		resultType="cn.damei.entity.modules.BizAuxiliarMaterialsVerifySettlementRel">
+		SELECT
+		<include refid="verifySettleColumns" />
+		FROM biz_auxiliary_materials_verify_settlement_rel a
+		<include refid="verifySettleJoins" />
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id"
+		keyColumn="id">
+		INSERT INTO biz_auxiliary_materials_verify_settlement_rel(
+		id,
+		auxiliary_materials_verify_id,
+		order_taskpackage_settlement_id,
+		remarks,
+		create_by,
+		create_date,
+		update_by,
+		update_date,
+		del_flag
+		) VALUES (
+		#{id},
+		#{auxiliaryMaterialsVerifyId},
+		#{orderTaskpackageSettlementId},
+		#{remarks},
+		#{createBy.id},
+		#{createDate},
+		#{updateBy.id},
+		#{updateDate},
+		#{delFlag}
+		)
+	</insert>
+
+	<update id="update">
+		UPDATE biz_auxiliary_materials_verify_settlement_rel SET
+		auxiliary_materials_verify_id = #{auxiliaryMaterialsVerifyId},
+		order_taskpackage_settlement_id = #{orderTaskpackageSettlementId},
+		remarks = #{remarks},
+		update_by = #{updateBy.id},
+		update_date = #{updateDate}
+		WHERE id=#{id}
+	</update>
+
+	<update id="delete">
+		UPDATE biz_auxiliary_materials_verify_settlement_rel SET
+		del_flag =
+		#{DEL_FLAG_DELETE}
+		WHERE id =#{id}
+	</update>
+
+</mapper>

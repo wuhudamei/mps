@@ -1,0 +1,1 @@
+UPDATE biz_employeegroup SET project_mode = '1';

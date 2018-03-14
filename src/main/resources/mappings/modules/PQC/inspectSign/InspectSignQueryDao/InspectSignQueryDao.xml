@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="cn.damei.dao.modules.InspectSignQueryDao">
+	<select id="findList"
+		resultType="cn.damei.entity.modules.InspectSignQueryEntity">
+	SELECT
+	a.id AS "orderId",
+	b.sign_address AS "signAddress",
+	b.sign_datetime AS "signDate",
+	b.sign_error_distance AS "signDistance",
+	c.realName AS "inspectName",
+	e.id AS "storeId",
+	a.order_number AS "orderNumber",
+	a.community_name AS "communityName",
+	a.build_number AS "buildNumber",
+	a.build_room AS "buildRoom",
+	a.build_unit AS "buildUnit",
+	a.customer_name AS "customerName",
+	a.project_mode as "projectMode"
+FROM
+	biz_business_sign b
+,biz_qc_bill d  
+, biz_order a  
+,biz_employee c 
+, sys_office e 
+where  a.store_id = e.id
+AND b.related_business_id_int = d.id
+AND d.order_id = a.id
+ AND c.id = a.order_inspector_id
+and b.sign_type in (301,302,303)
+		
+		
+		
+			<if test="storeId != null and storeId != ''">
+				AND a.store_id = #{storeId}
+			</if>
+			<if test="projectMode != null and projectMode != ''">
+				AND a.project_mode = #{projectMode}
+			</if>
+			<if test="inspectName != null and inspectName != ''">
+				AND c.realName LIKE
+				<if test="dbName == 'mysql'">concat('%',#{inspectName},'%')</if>
+			</if>
+			<if
+				test="startDate != null and startDate != ''  and endDate !=null and endDate != ''">
+				AND b.sign_datetime between #{startDate} and #{endDate}
+			</if>
+			<if test="customerName != null and customerName != ''">
+				AND a.customer_name LIKE
+				<if test="dbName == 'mysql'">concat('%',#{customerName},'%')</if>
+			</if>
+			ORDER BY b.sign_datetime desc
+	
+	
+	</select>
+
+
+
+</mapper>

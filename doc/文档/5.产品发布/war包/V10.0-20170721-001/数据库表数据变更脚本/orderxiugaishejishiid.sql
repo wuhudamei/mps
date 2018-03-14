@@ -1,0 +1,15 @@
+update biz_order t,biz_employee t1 set t.designer_employee_id = t1.id where t1.realName ='买晓春' and t.designer_name = '买晓春' and t.designer_employee_id is null;
+update biz_order t,biz_employee t1 set t.designer_employee_id = t1.id where t1.realName = '薄晓阳' and t.designer_name = '薄晓阳' and t.designer_employee_id is null;
+update biz_order t,biz_employee t1 set t.designer_employee_id = t1.id where t1.realName = '周长华' and t.designer_name = '周长华' and t.designer_employee_id is null;
+update biz_order t,biz_employee t1 set t.designer_employee_id = t1.id where t1.realName = '王嘉俊' and t.designer_name = '王嘉俊' and t.designer_employee_id is null;
+update biz_order t,biz_employee t1 set t.designer_employee_id = t1.id where t1.realName = '杜晓晨' and t.designer_name = '杜晓晨' and t.designer_employee_id is null;
+update biz_order t,biz_employee t1 set t.designer_employee_id = t1.id where t1.realName = '徐立星' and t.designer_name = '徐立星' and t.designer_employee_id is null;
+update biz_order t,biz_employee t1 set t.designer_employee_id = t1.id where t1.realName = '李金昊' and t.designer_name = '李金昊' and t.designer_employee_id is null;
+update biz_order t,biz_employee t1 set t.designer_employee_id = t1.id where t1.realName = '王美子' and t.designer_name = '王美子' and t.designer_employee_id is null;
+update biz_order t,biz_employee t1 set t.designer_employee_id = t1.id where t1.realName = '赵佳衡' and t.designer_name = '赵佳衡' and t.designer_employee_id is null;
+update biz_order t,biz_employee t1 set t.designer_employee_id = t1.id where t1.realName = '何灵敏' and t.designer_name = '何灵敏' and t.designer_employee_id is null;
+update biz_order t,biz_employee t1 set t.designer_employee_id = t1.id where t1.realName = '崔建松' and t.designer_name = '崔建松' and t.designer_employee_id is null;
+update biz_order t,biz_employee t1 set t.designer_employee_id = t1.id where t1.realName = '王硕果' and t.designer_name = '王硕果' and t.designer_employee_id is null;
+update biz_order t,biz_employee t1 set t.designer_employee_id = t1.id where t1.realName = '蒿国兴' and t.designer_name = '蒿国兴' and t.designer_employee_id is null;
+update biz_order t,biz_employee t1 set t.designer_employee_id = t1.id where t1.realName = '赖志凯' and t.designer_name = '赖志凯' and t.designer_employee_id is null;
+update biz_order t,biz_employee t1 set t.designer_employee_id = t1.id where t1.realName = '黄飞翔' and t.designer_name = '黄飞翔' and t.designer_employee_id is null;

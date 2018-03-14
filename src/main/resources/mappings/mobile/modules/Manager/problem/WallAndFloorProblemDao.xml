@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.mobile.Manager.WallAndFloorProblemDao">
+
+
+	<!-- 墙地砖问题上报订单列表 -->
+	<select id="findOrderList" parameterType="cn.damei.entity.mobile.Manager.MaterialManagement"
+	resultType="cn.damei.entity.mobile.Manager.MaterialManagement">
+		SELECT
+			a.id AS "orderId",
+			a.order_number AS "orderNumber",
+			a.customer_address AS "customerAddress",
+			a.community_name AS "communityName",
+			a.build_number AS "buildNumber",
+			a.build_unit AS "buildUnit",
+			a.build_room AS "buildRoom",
+			a.is_scrap AS "isScrap",
+			a.customer_name AS "customerName",
+			a.customer_phone AS "customerPhone",
+			a.contract_time AS "contractTime",
+			a.contract_start_date AS "contractStartDate",
+			a.actual_start_date AS "actualStartDate",
+			a.order_status_number AS "orderStatusNumber",
+			a.order_status_description AS "orderStatusDescription"
+		FROM
+			biz_order a
+		INNER JOIN (
+			SELECT
+				b.order_id,
+				COUNT(1) AS "purchaseCount"
+			FROM
+				biz_purchase b
+			WHERE
+				b.purchase_type = #{purchaseType}
+			GROUP BY
+				b.order_id
+		) m ON m.order_id = a.id
+		AND m.purchaseCount &gt; 0
+		<where>
+			a.item_manager_id = #{itemManagerId}
+			AND a.order_status_number = 200
+			<if test="text != null and text !=''">
+				and (a.community_name like CONCAT('%','${text}','%' )  or a.customer_name like CONCAT('%','${text}','%' ))
+			</if>
+			ORDER BY a.actual_start_date DESC
+		</where>
+	</select>
+	
+	
+	<!-- 根据订单id查询订单信息 -->
+	<select id="findOrder" parameterType="int" 
+	resultType="cn.damei.entity.mobile.Manager.MaterialManagement">
+		SELECT
+			a.id AS "orderId",
+			a.store_id AS "storeId",
+			a.project_mode AS "projectMode",
+			a.order_number AS "orderNumber",
+			a.customer_address AS "customerAddress",
+			a.community_name AS "communityName",
+			a.build_number AS "buildNumber",
+			a.build_unit AS "buildUnit",
+			a.build_room AS "buildRoom",
+			a.customer_name AS "customerName",
+			a.customer_phone AS "customerPhone",
+			a.contract_time AS "contractTime",
+			a.contract_start_date AS "contractStartDate",
+			a.actual_start_date AS "actualStartDate",
+			a.designer_name AS "designerName",
+			a.designer_phone AS "designerPhone",
+			a.order_status_number AS "orderStatusNumber",
+			a.order_status_description AS "orderStatusDescription"
+		FROM
+			biz_order a
+		WHERE
+			a.id = #{0}
+	</select>
+	
+	<!-- 动态加载墙地砖问题上报记录页面 -->
+	<select id="findProblemLogList" parameterType="cn.damei.entity.modules.BizOrderInstallItemProblem" resultType="cn.damei.entity.modules.BizOrderInstallItemProblem">
+			SELECT
+				a.id AS "id",
+				a.business_only_mark_int AS "businessOnlyMarkId",
+				a.is_delay AS "isDelay",
+				a.delay_days AS "delayDays",
+				a.problem_describe AS "problemDescribe",
+				a.problem_type_id AS "businessType",
+				a. STATUS AS "status",
+				a.create_date AS "createDate",
+				e.type_name AS "typeName",
+				b.create_date AS "logDate",
+				b.problem_solve_notes AS "problemSolveNotes"
+			FROM
+				biz_business_problem a
+			LEFT JOIN biz_business_problem_log b ON b.business_problem_id = a.id
+			AND b.problem_solve_role = #{problemSolveRole}
+			AND b.`status` = #{status}
+			LEFT JOIN biz_business_problem_type e ON e.id = a.problem_type_id
+			WHERE
+				a.business_only_mark_int = #{businessOnlyMarkId}
+			AND a.business_type = #{businessType}
+			ORDER BY a.create_date DESC
+	
+	</select>
+</mapper>
+   

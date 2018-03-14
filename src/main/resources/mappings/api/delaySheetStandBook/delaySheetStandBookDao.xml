@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.DelaySheetStandBookDao">
+
+    <select id="findDelaySheet" parameterType="String" resultType="cn.damei.entity.modules.DelaySheet">
+		SELECT bb.delay_bill_stage_status,bc.delay_type_name,bb.deferred_instruction,bb.delay_begin_datetime,
+		bb.delay_end_datetime,bb.delay_days,sd.label,bb.status
+		FROM biz_order_delay_bill bb
+		LEFT JOIN biz_order_delay_category bc ON bb.delay_bill_category_id = bc.id
+		LEFT JOIN sys_dict sd ON bb.delay_bill_stage_status = sd.value
+		WHERE bb.order_id = (SELECT bo.id FROM biz_order bo WHERE bo.order_number= #{orderno}) AND sd.type = 'delayed_stage'
+	</select>
+
+</mapper>

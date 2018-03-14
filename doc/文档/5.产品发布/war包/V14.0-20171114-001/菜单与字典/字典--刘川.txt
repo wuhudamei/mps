@@ -1,0 +1,34 @@
+字典
+键值	                        标签	               类型	           描述	       排序	           操作
+industrialWorkers	产业工人	                  using_platform	使用平台	        10	修改 删除 添加键值
+materialSystem	        选材系统	                  using_platform	使用平台   	20	修改 删除 添加键值
+					
+					
+jizhuangdinge	       基桩定额	                  subordinate_category	所属类别	        10	修改 删除 添加键值
+jizhuangzengxiang      基桩增项综合费	          subordinate_category	所属类别	        20	修改 删除 添加键值
+qitazonmghefei	       其他综合费	          subordinate_category	所属类别	        30	修改 删除 添加键值
+laofangchaichu	       老房拆除基桩定额	          subordinate_category	所属类别	        40	修改 删除 添加键值
+laofangzonghefei	老房拆除基桩增项综合费	  subordinate_category	所属类别         50	修改 删除 添加键值
+laofangqitazonghefei	老房拆除其他综合费	  subordinate_category	所属类别	        60	修改 删除 添加键值
+					
+					
+					
+fixedUnitPrice	          固定单价	         valuation_method	计价方式	       10	修改 删除 添加键值
+foundationPileTotal	  基桩增项总价占比	 valuation_method	计价方式	       20	修改 删除 添加键值
+renovationFoundationPile  装修工程总价占比	 valuation_method	计价方式	       30	修改 删除 添加键值
+dismantleFoundationPile	   拆除基桩定额总价占比	 valuation_method	计价方式	       40	修改 删除 添加键值
+demolitionProjectTotal	  拆除工程总价占比	 valuation_method	计价方式        50	修改 删除 添加键值
+					
+					
+					
+m	                     m	           biz_build_unit	施工计量单位	10	修改 删除 添加键值
+㎡	                     ㎡	           biz_build_unit	施工计量单位	20	修改 删除 添加键值
+个	                     个	           biz_build_unit	施工计量单位	30	修改 删除 添加键值
+台	                     台	           biz_build_unit	施工计量单位	40	修改 删除 添加键值
+块	                     块	           biz_build_unit	施工计量单位	50	修改 删除 添加键值
+套	                     套	           biz_build_unit	施工计量单位	60	修改 删除 添加键值
+户	                     户	           biz_build_unit	施工计量单位	70	修改 删除 添加键值
+根	                     根	           biz_build_unit	施工计量单位	80	修改 删除 添加键值
+步	                     步	           biz_build_unit	施工计量单位	90	修改 删除 添加键值
+种	                     种	           biz_build_unit	施工计量单位	100	修改 删除 添加键值
+

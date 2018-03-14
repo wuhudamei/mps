@@ -1,0 +1,1 @@
+UPDATE biz_order SET is_scrap = 0 

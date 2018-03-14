@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizNodePlanPicDao">
+    
+	<sql id="bizNodePlanPicColumns">
+		a.id AS "id",
+		a.node_plan_id AS "nodePlanId",
+		a.pic_url AS "picUrl",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="bizNodePlanPicJoins">
+	</sql>
+    
+	<select id="get" resultType="cn.damei.entity.modules.BizNodePlanPic">
+		SELECT 
+			<include refid="bizNodePlanPicColumns"/>
+		FROM biz_node_plan_pic a
+		<include refid="bizNodePlanPicJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="getByNodePlanId" resultType="cn.damei.entity.modules.BizNodePlanPic">
+    	SELECT 
+    	<include refid="bizNodePlanPicColumns"/>
+    	FROM BIZ_NODE_PLAN_PIC a
+    	WHERE a.node_plan_id = #{0}
+    </select>
+	
+	<select id="findList" resultType="cn.damei.entity.modules.BizNodePlanPic">
+		SELECT 
+			<include refid="bizNodePlanPicColumns"/>
+		FROM biz_node_plan_pic a
+		<include refid="bizNodePlanPicJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="cn.damei.entity.modules.BizNodePlanPic">
+		SELECT 
+			<include refid="bizNodePlanPicColumns"/>
+		FROM biz_node_plan_pic a
+		<include refid="bizNodePlanPicJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO biz_node_plan_pic(
+			id,
+			node_plan_id,
+			pic_url,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag
+		) VALUES (
+			#{id},
+			#{nodePlanId},
+			#{picUrl},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE biz_node_plan_pic SET 	
+			node_plan_id = #{nodePlanId},
+			pic_url = #{picUrl},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE biz_node_plan_pic SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

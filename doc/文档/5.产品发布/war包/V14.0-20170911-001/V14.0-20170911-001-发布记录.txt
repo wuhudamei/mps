@@ -1,0 +1,40 @@
+打包名称：mdn.war
+打包版本：V13.0-20170908-001
+
+
+
+功能变更:
+	1.工人银行卡bug修复-康健
+	2.项目经理考勤签到Bug修复-刘志明
+
+
+文件路径：
+	1、替换文件【BizEmployeeBankcardController.class】在文件夹【工人银行卡bug修复-康健】
+		路径在【工人银行卡bug修复-康健】文件夹内的【文件路径.txt】
+	2、替换文件【BizEmployeeBankcardDao.class】在文件夹【工人银行卡bug修复-康健】
+		路径在【工人银行卡bug修复-康健】文件夹内的【文件路径.txt】
+	3、替换文件【BizEmployeeBankcardDao.xml】在文件夹【工人银行卡bug修复-康健】
+		路径在【工人银行卡bug修复-康健】文件夹内的【文件路径.txt】
+	4、替换文件【bizEmployeeBankcardForm.jsp】在文件夹【工人银行卡bug修复-康健】
+		路径在【工人银行卡bug修复-康健】文件夹内的【文件路径.txt】
+	5、替换文件【BizEmployeeBankcardService.class】在文件夹【工人银行卡bug修复-康健】
+		路径在【工人银行卡bug修复-康健】文件夹内的【文件路径.txt】
+	6、替换文件【SignController.class】在文件夹【项目经理考勤签到Bug修复-刘志明】
+		路径在【工人银行卡bug修复-康健】文件夹内的【文件路径.txt】
+
+
+
+	
+	
+
+	
+
+	
+
+
+	
+
+
+
+
+	 

@@ -1,0 +1,14 @@
+
+.icon_order {
+	background: url('../../images/problem_up/material.png') no-repeat;
+}
+.icon_month {
+	background: url('../../images/problem_up/design.png') no-repeat;
+}
+.icon_guar {
+	background: url('../../images/problem_up/report.png') no-repeat;
+}
+.icon_order ,.icon_month,.icon_guar {
+	 background-size: 0.43rem 0.44rem;
+    background-position: 4% center;
+}

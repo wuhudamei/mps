@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="cn.damei.dao.mobile.Inspector.MaterialsInfoDao">
+
+	<!-- 查询标化辅料的材料信息 -->
+	<select id="queryMaterialsStandardInfoByParam" parameterType="java.util.Map"
+		resultType="cn.damei.entity.mobile.Inspector.MaterialsInfo">
+		SELECT
+		a.materials_name as "assistItemName",
+		a.receive_number_total as "lastCount",
+		a.materials_unit as "unit",
+		a.materials_type as "materialCateName",
+		f.accept_check_datetime as
+		"acceptanceDate",
+		em.realName as "projectManagerName",
+		em.phone as "projectManagerMobile",
+		a.materials_price AS "workerPrice",
+		0 AS "supplierPrice",
+		0 AS "unitPrice"
+		FROM
+		`biz_order_materials_standard` a
+		LEFT
+		JOIN
+		biz_materials_standard b
+		ON
+		a.materials_standard_id = b.id
+		LEFT JOIN
+		biz_main_materials_supplier_rel c on c.main_materials_id =
+		a.materials_standard_id
+		LEFT JOIN biz_supplier d on d.id =
+		c.supplier_id
+		INNER JOIN (
+		SELECT
+		q.order_id,q.apply_employee_id,q.accept_check_datetime from
+		biz_qc_bill q LEFT JOIN biz_qc_check_node n on q.qc_check_node_id =
+		n.id
+		where n.qc_check_node_index = 6 and q.`status`>=10
+		) f on
+		f.order_id = a.order_id
+		LEFT JOIN biz_employee em on em.id =
+		f.apply_employee_id
+		WHERE
+		a.order_id =
+		#{orderId} and
+		(b.materials_large_type =
+		#{type} or b.materials_large_type is null)
+	</select>
+	<!-- 查询筒灯灯带的材料信息 -->
+	<select id="queryMaterialsStandardInfoByParam2" parameterType="java.util.Map"
+		resultType="cn.damei.entity.mobile.Inspector.MaterialsInfo">
+		SELECT
+		a.materials_name as "assistItemName",
+		a.receive_number_total as "lastCount",
+		a.materials_unit as "unit",
+		a.materials_type as "materialCateName",
+		f.accept_check_datetime as
+		"acceptanceDate",
+		em.realName as "projectManagerName",
+		em.phone as
+		"projectManagerMobile",
+		a.materials_price AS "workerPrice",
+		0 AS "supplierPrice",
+		0 AS "unitPrice"
+		FROM
+		`biz_order_materials_standard` a
+		LEFT
+		JOIN
+		biz_materials_standard b
+		ON
+		a.materials_standard_id = b.id
+		LEFT JOIN
+		biz_main_materials_supplier_rel c on c.main_materials_id =
+		a.materials_standard_id
+		LEFT JOIN biz_supplier d on d.id =
+		c.supplier_id
+		INNER JOIN (
+		SELECT
+		q.order_id,q.apply_employee_id,q.accept_check_datetime from
+		biz_qc_bill q LEFT JOIN biz_qc_check_node n on q.qc_check_node_id =
+		n.id
+		where n.qc_check_node_index = 9 and q.`status`>=10
+		) f on
+		f.order_id = a.order_id
+		LEFT JOIN biz_employee em on em.id =
+		f.apply_employee_id
+		WHERE
+		a.order_id =
+		#{orderId} and
+		b.materials_large_type =
+		#{type}
+	</select>
+	<!-- 查询沙子水泥信息（查询订单任务包下的沙子水泥信息） -->
+	<select id="querySandMaterialsInfo"
+		resultType="cn.damei.entity.mobile.Inspector.MaterialsInfo">
+		SELECT
+		c.auxiliary_materials_name AS "assistItemName",
+		c.auxiliary_materials_no as "assistItemNo",
+		s.label AS "unit",
+		b.wangzhen_price AS 'unitPrice',
+		b.price AS "workerPrice",
+		b.supplier_price AS "supplierPrice",
+		sum(b.auxi_mate_count) AS "lastCount",
+		f.supplier_name AS "supplierName",
+		f.supplier_no AS "supplierCode",
+		"沙子水泥" AS "materialCateName",
+		fq.accept_check_datetime AS "acceptanceDate",
+		em.realName AS "projectManagerName",
+		em.phone AS "projectManagerMobile"
+		FROM
+		biz_purchase a
+		LEFT JOIN biz_purchase_auxi_mate b ON b.purchase_id = a.id and
+		b.is_sand_cement = 1
+		LEFT JOIN biz_auxiliary_materials c ON c.auxiliary_materials_no =
+		b.auxi_mate_code and c.is_sand_cement = 1
+		LEFT JOIN (
+		SELECT
+		MAX(d.effective_date),
+		d.auxiliary_materials_id,
+		d.supplier_id
+		FROM
+		biz_auxiliary_materials_supplier_rel d
+		WHERE
+		d.del_flag = 0
+		GROUP BY
+		d.auxiliary_materials_id
+		) e ON e.auxiliary_materials_id = c.id
+		LEFT JOIN biz_supplier f ON f.id = e.supplier_id
+		INNER JOIN (
+		SELECT
+		q.order_id,
+		q.apply_employee_id,
+		q.accept_check_datetime
+		FROM
+		biz_qc_bill q
+		LEFT JOIN biz_qc_check_node n ON q.qc_check_node_id = n.id
+		WHERE
+		n.qc_check_node_index = 9
+		AND q.`status` >= 10
+		) fq ON fq.order_id = a.order_id
+		LEFT JOIN biz_employee em ON em.id = fq.apply_employee_id
+		LEFT JOIN sys_dict s on s.`value` = c.measurement_unit and
+		s.type='biz_material_unit'
+		WHERE
+		a.order_id = #{orderId}
+		AND a.`status` IN ('40', '70', '90')
+		AND a.purchase_type = 6
+		GROUP BY
+		b.auxi_mate_code,b.wangzhen_price
+	</select>
+	<!-- 查询墙地砖信息 （查询订单的墙地砖采购单下的墙地砖信息） -->
+	<select id="queryQdzMaterialsInfo"
+		resultType="cn.damei.entity.mobile.Inspector.MaterialsInfo">
+		SELECT
+		(
+		CASE b.main_mate_type
+		WHEN '3' THEN '地砖'
+		WHEN '4' THEN
+		'墙砖'
+		END
+		) as "assistItemName",
+		SUM(b.apply_counta) as "lastCount",
+		b.unit as "unit",
+		(
+		CASE b.main_mate_type
+		WHEN '3' THEN '地砖'
+		WHEN '4' THEN
+		'墙砖'
+		END
+		) as "materialCateName",
+		b.brand_combo as "brand",
+		b.model as
+		"type",
+		f.accept_check_datetime as
+		"acceptanceDate",
+		em.realName as
+		"projectManagerName",
+		em.phone as "projectManagerMobile"
+		FROM
+		biz_purchase a
+		LEFT JOIN biz_purchase_wall_floor_tile b
+		ON
+		a.id =
+		b.purchase_id
+		LEFT JOIN (
+		SELECT
+		q.order_id,q.apply_employee_id,q.accept_check_datetime from
+		biz_qc_bill q LEFT JOIN biz_qc_check_node n on q.qc_check_node_id =
+		n.id
+		where n.qc_check_node_index = 6 and q.`status`>=10
+		) f on
+		f.order_id = a.order_id
+		LEFT JOIN biz_employee em on em.id =
+		f.apply_employee_id
+		WHERE
+		a.order_id =
+		#{orderId}
+		AND a.purchase_type
+		= 5
+		AND a.`status` in ('40','70','90')
+		GROUP BY
+		b.main_mate_type,brand_combo,model
+	</select>
+	<!-- 查询开关面板信息（查询订单的开关面板采购单下的开关面板信息） -->
+	<select id="queryKgmbMaterialsInfo"
+		resultType="cn.damei.entity.mobile.Inspector.MaterialsInfo">
+		SELECT
+		b.main_materials_name AS "assistItemName",
+		b.measurement_unit AS "unit",
+		sum(b.main_mate_count) AS "lastCount",
+		f.supplier_name as "supplierName",
+		f.supplier_no as "supplierCode",
+		"开关面板" as "materialCateName",
+		fq.accept_check_datetime as
+		"acceptanceDate",
+		em.realName as "projectManagerName",
+		em.phone as
+		"projectManagerMobile",
+		sr.labor_price as "workerPrice",
+		sr.supplier_price AS "supplierPrice",
+		0 AS "unitPrice",
+		c.main_materials_no AS "assistItemNo"
+		FROM
+		biz_purchase a
+		LEFT JOIN
+		biz_purchase_main_mate b ON a.id = b.purchase_id
+		LEFT JOIN
+		biz_main_materials c ON c.main_materials_no = b.main_mate_code
+		LEFT
+		JOIN (
+		SELECT
+		MAX(d.effective_date) as "effective_date",
+		d.main_materials_id,
+		d.supplier_id
+		FROM
+		biz_main_materials_supplier_rel d
+		WHERE
+		d.del_flag = 0
+		GROUP BY
+		d.main_materials_id
+		) e ON e.main_materials_id = c.id
+		LEFT JOIN biz_main_materials_supplier_rel sr ON sr.effective_date = e.effective_date AND sr.main_materials_id = e.main_materials_id
+		LEFT JOIN
+		biz_supplier f on f.id = e.supplier_id
+		INNER JOIN (
+		SELECT
+		q.order_id,q.apply_employee_id,q.accept_check_datetime from
+		biz_qc_bill q LEFT JOIN biz_qc_check_node n on q.qc_check_node_id =
+		n.id
+		where n.qc_check_node_index = 9 and q.`status`>=10
+		) fq on
+		fq.order_id = a.order_id
+		LEFT JOIN biz_employee em on em.id =
+		fq.apply_employee_id
+		WHERE
+		a.order_id =
+		#{orderId}
+		AND
+		a.purchase_type = 2
+		AND a.`status` IN ('40', '70', '90')
+		GROUP BY
+		b.main_mate_code
+	</select>
+	<!-- 查询辅料 (查询订单任务包下的辅料信息) -->
+	<select id="queryFlMaterialsInfo"
+		resultType="cn.damei.entity.mobile.Inspector.MaterialsInfo">
+		SELECT
+			c.auxiliary_materials_name AS "assistItemName",
+			c.auxiliary_materials_no as "assistItemNo",
+			s.label AS "unit",
+			b.wangzhen_price AS 'unitPrice',
+			b.price AS "workerPrice",
+			b.supplier_price AS "supplierPrice",
+			sum(b.auxi_mate_count) AS "lastCount",
+			f.supplier_name AS "supplierName",
+			f.supplier_no AS "supplierCode",
+			"辅料" AS "materialCateName",
+			fq.accept_check_datetime AS "acceptanceDate",
+			em.realName AS "projectManagerName",
+			em.phone AS "projectManagerMobile"
+		FROM
+			biz_purchase a
+		LEFT JOIN biz_purchase_auxi_mate b ON b.purchase_id = a.id and b.is_sand_cement = 0
+		LEFT JOIN biz_auxiliary_materials c ON c.auxiliary_materials_no = b.auxi_mate_code  and c.is_sand_cement = 0
+		LEFT JOIN (
+			SELECT
+			MAX(d.effective_date),
+			d.auxiliary_materials_id,
+			d.supplier_id
+			FROM
+			biz_auxiliary_materials_supplier_rel d
+			WHERE
+			d.del_flag = 0
+			GROUP BY
+			d.auxiliary_materials_id
+			) e ON e.auxiliary_materials_id = c.id
+		LEFT JOIN biz_supplier f ON f.id = e.supplier_id
+		INNER JOIN (
+			SELECT
+			q.order_id,
+			q.apply_employee_id,
+			q.accept_check_datetime
+			FROM
+			biz_qc_bill
+			q
+			LEFT JOIN biz_qc_check_node n ON q.qc_check_node_id = n.id
+			WHERE
+			n.qc_check_node_index = 9
+			AND q.`status` >= 10
+			) fq ON fq.order_id = a.order_id
+		LEFT JOIN biz_employee em ON em.id = fq.apply_employee_id
+		LEFT JOIN sys_dict s on s.`value` = c.measurement_unit and s.type='biz_material_unit'
+		WHERE
+			a.order_id = #{orderId}
+			AND a.`status` IN ('40', '70', '90')
+			AND a.purchase_type = 1
+		GROUP BY
+		b.auxi_mate_code,b.wangzhen_price
+	</select>
+</mapper>

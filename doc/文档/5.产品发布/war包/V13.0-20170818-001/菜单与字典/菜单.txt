@@ -1,0 +1,49 @@
+菜单新增：
+	订单作废
+1、订单作废
+	   材料调度--订单作废--订单作废
+	     名称：订单作废
+	     链接：/orderScrap/orderScrap/preList
+             权限标识：orderScrap:orderScrap:view,orderScrap:orderScrap:edit
+2、订单回收
+           材料调度--订单作废--订单回收
+             名称：订单回收
+             链接：/orderScrap/orderScrap/preRecoveryList
+             权限标识：orderScrap:orderScrap:view,orderScrap:orderScrap:edit
+3、菜单新增：
+    名称： 基装变更单查询页面   
+    链接： /bizprojectchangebill/bizProjectChangeBill/queryAllChangeBill
+
+
+	项目经理考勤
+
+1、项目经理考勤基础设置
+链接：/bizpmattendcnfg/bizPmAttendCnfg/list
+权限标识：bizpmattendcnfg:bizPmAttendCnfg:view,bizpmattendcnfg:bizPmAttendCnfg:edit
+2、项目经理签到修改
+链接：/managersign/managerSign/getDayOrderlist
+权限标识：managersign:managerSign:view
+3、生成项目经理月度考勤单
+链接：/attend/bizPmAttendMonth/list
+权限标识：attend:bizPmAttendMonth:view,attend:bizPmAttendMonth:edit
+4、项目经理月度考勤单列表
+链接：/attend/bizPmAttendMonth/bizPmAttendList
+权限标识：attend:bizPmAttendMonth:view,attend:bizPmAttendMonth:edit,attend:bizPmAttendSalaryBill:view,attend:bizPmAttendSalaryBill:edit
+5、工程部月度工资单审计
+链接：/attend/bizPmAttendSalaryBill/salaryBillAuditing
+权限标识：attend:bizPmAttendSalaryBill:view
+6、工程部生成月度工资批次
+链接：/attend/bizPmAttendSalaryBill/salaryBillAuditingBatch
+权限标识：attend:bizPmAttendSalaryBill:view,attend:bizPmAttendSalarySummaryBill:edit
+7、工程部月度工资批次审核
+链接：/attend/bizPmAttendSalarySummaryBillRel/list
+权限标识：attend:bizPmAttendSalarySummaryBillRel:view,attend:bizPmAttendSalarySummaryBillRel:edit
+8、项目经理工资批次查询
+链接：/attend/bizPmAttendSalarySummaryBillRel/findList
+权限标识：attend:bizPmAttendSalarySummaryBillRel:view
+9、项目经理考勤单查询
+链接：/attend/bizPmAttendMonth/bizPmAttendFindList
+权限标识：attend:bizPmAttendMonth:view,attend:bizPmAttendMonth:edit
+10、项目经理工资单查询
+链接：/attend/bizPmAttendSalaryBill/salaryBillAuditingList
+权限标识：attend:bizPmAttendSalaryBill:view

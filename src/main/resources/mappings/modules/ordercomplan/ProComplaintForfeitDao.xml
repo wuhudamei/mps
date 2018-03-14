@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.ProComplaintForfeitDao">
+    
+	<sql id="proComplaintForfeitColumns">
+		a.id AS "id",
+		a.order_id AS "orderId",
+		a.complaint_problem_item_id AS "complaintProblemItemId",
+		a.promise_com_date AS "promiseComDate",
+		a.actual_com_date AS "actualComDate",
+		a.punish_money AS "punishMoney",
+		a.exa_opinion AS "exaOpinion",
+		a.status AS "status",
+		a.remarks AS "remarks",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag"
+	</sql>
+
+	<sql id="proComplaintForfeitJoins">
+	</sql>
+    
+	<select id="get" resultType="ProComplaintForfeit">
+		SELECT 
+			<include refid="proComplaintForfeitColumns"/>
+		FROM biz_pro_complaint_forfeit a
+		<include refid="proComplaintForfeitJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="ProComplaintForfeit">
+		
+			SELECT 
+			@x:=ifnull(@x,0)+1 AS sortId,
+			pcf.id AS "id",
+			s.id AS storeId,
+			#门店
+			o.engin_depart_id AS orderacceptarea,
+			#区域
+			o.get_order_datetime as getOrderDatetime ,#工程部接单日期
+			o.get_order_datetime as  receivePerson,# 接单人什么鬼
+			oc.complaint_source as   complaintSource ,# 投诉部门
+			oc.complaint_person_name as   complaintPersonName,#投诉人姓名
+			o.order_number AS orderNmber,
+			#订单编号 
+			o.customer_name AS customername,
+			# 客户姓名 
+			o.customer_phone as customerPhone,
+			#客户手机
+				CONCAT(
+				o.customer_address,
+				'-',
+				o.community_name,
+				'-',
+				o.build_number,
+				'-',
+				o.build_unit,
+				'-',
+				o.build_room,
+				'-',
+				o.customer_name
+			) AS "customerAddr",
+			#地址 
+			o.item_manager AS itemManager,
+			#项目经理 
+			o.item_manager_id as itemManagerId,
+			#项目经理ID
+			e.phone as  itemManagerPhone, # 项目经理手机号
+			
+			cpi.item_name as itemName, #事项名称
+			pcf.promise_com_date AS promiseComDate,#承诺完成时间
+			pcf.actual_com_date AS actualComDate,#实际完成时间
+			pcf.punish_money  as punishMoney,#处罚金额
+			pcf.exa_opinion as exaOpinion,#审批意见
+			pcf.`status` as status,#审批状态
+			pcf.order_id as orderId,#订单ID
+			pcf.remarks AS "remarks",
+			pcf.create_by AS "createBy.id",
+			pcf.create_date AS "createDate",
+			pcf.update_by AS "updateBy.id",
+			pcf.update_date AS "updateDate",
+			pcf.del_flag AS "delFlag"
+		FROM
+			biz_pro_complaint_forfeit pcf
+			LEFT JOIN biz_order o ON pcf.order_id = o.id
+			LEFT JOIN biz_complaint_problem_item cpi  ON cpi.id=pcf.complaint_problem_item_id
+			LEFT JOIN sys_office s ON o.store_id = s.id
+			LEFT JOIN biz_order_complaint_problem ocp  ON  pcf.order_complaint_problem_id=ocp.id
+			LEFT JOIN biz_order_complaint oc ON oc.id = ocp.order_complaint_id
+			LEFT JOIN biz_employee e ON o.item_manager_id = e.id, (SELECT @x := 0) AS it
+		<where>
+			pcf.del_flag = #{DEL_FLAG_NORMAL}
+		<if test="storeId != null and storeId != ''">
+			AND s.id = #{storeId}
+		</if>
+
+		<if test="itemManager != null and itemManager != ''">
+			AND o.item_manager LIKE
+		<if test="dbName == 'oracle'">'%'||#{itemManager}||'%'</if>
+		<if test="dbName == 'mssql'">'%'+#{itemManager}+'%'</if>
+		<if test="dbName == 'mysql'">concat('%',#{itemManager},'%')</if>
+		</if>
+		<if test="orderacceptarea != null and orderacceptarea != ''">
+			AND o.engin_depart_id = #{orderacceptarea}
+		</if>
+		<if test="beginGetOrderDatetime != null and endGetOrderDatetime != null and beginGetOrderDatetime != '' and endGetOrderDatetime != ''">
+			AND o.get_order_datetime BETWEEN #{beginGetOrderDatetime} AND #{endGetOrderDatetime}
+		</if>
+		<if test="beginPromiseComDate != null and endPromiseComDate != null and beginPromiseComDate != '' and endPromiseComDate != ''">
+			AND pcf.promise_com_date BETWEEN #{beginPromiseComDate} AND #{endPromiseComDate}
+		</if>
+		<if test="beginActualComDate != null and endActualComDate != null and beginActualComDate != '' and endActualComDate != ''">
+			AND pcf.actual_com_date BETWEEN #{beginActualComDate} AND #{endActualComDate}
+		</if>
+		</where>
+		<choose>
+		<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+			ORDER BY ${page.orderBy}
+		</when>
+		<otherwise>
+			ORDER BY o.get_order_datetime desc
+		</otherwise>
+	</choose>
+		
+	</select>
+
+
+	<select id="findAllList" resultType="ProComplaintForfeit">
+		SELECT 
+			<include refid="proComplaintForfeitColumns"/>
+		FROM biz_pro_complaint_forfeit a
+			<include refid="proComplaintForfeitJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+		<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+		</when>
+		<otherwise>
+				ORDER BY a.update_date DESC
+		</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO biz_pro_complaint_forfeit(
+			id,
+			order_id,
+			order_complaint_problem_item_id,
+			promise_com_date,
+			actual_com_date,
+			punish_money,
+			exa_opinion,
+			status,
+			remarks,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag
+		) VALUES (
+			#{id},
+			#{orderId},
+			#{complaintProblemItemId},
+			#{promiseComDate},
+			#{actualComDate},
+			#{punishMoney},
+			#{exaOpinion},
+			#{status},
+			#{remarks},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE biz_pro_complaint_forfeit SET 	
+			order_id = #{orderId},
+			order_complaint_problem_item_id = #{complaintProblemItemId},
+			promise_com_date = #{promiseComDate},
+			actual_com_date = #{actualComDate},
+			punish_money = #{punishMoney},
+			exa_opinion = #{exaOpinion},
+			status = #{status},
+			remarks = #{remarks},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE biz_pro_complaint_forfeit SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="updateAgreeForfeit">
+		UPDATE biz_pro_complaint_forfeit SET 
+			status = #{status},
+			update_date = now()
+		WHERE id = #{id}
+	</update>
+	<update id="updateRefuseForfeit">
+		UPDATE biz_pro_complaint_forfeit SET 
+			status = #{status},
+			exa_opinion = #{exaOpinion},
+			update_date = now()
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

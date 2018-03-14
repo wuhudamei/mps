@@ -1,0 +1,5 @@
+/mdn/src/main/java/com/thinkgem/jeesite/modules/empbankcard/web/BizEmployeeBankcardController.class
+/mdn/src/main/java/com/thinkgem/jeesite/modules/empbankcard/service/BizEmployeeBankcardService.class
+/mdn/src/main/java/com/thinkgem/jeesite/modules/empbankcard/dao/BizEmployeeBankcardDao.class
+/mdn/src/main/resources/mappings/modules/empbankcard/BizEmployeeBankcardDao.xml
+/mdn/src/main/webapp/WEB-INF/views/modules/empbankcard/bizEmployeeBankcardForm.jsp

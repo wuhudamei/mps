@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizProjectInstallItemDao">
+    
+	<sql id="bizProjectInstallItemColumns">
+		a.id AS "id",
+		a.store_id AS "storeId",
+		a.project_mode as "projectMode",
+		a.install_item_name AS "installItemName",
+		a.install_item_sequence AS "installItemSequence",
+		a.work_apply_day AS "workApplyDay",
+		a.work_enter_day AS "workEnterDay",
+		a.work_complete_day AS "workCompleteDay",
+		a.is_on AS "isOn" ,
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag",
+		a.days_plan_checksize as "daysPlanChecksize",
+		a.is_to_checksize as "isToChecksize",
+		a.is_show_install_description AS "isShowInstallDescription",
+		a.install_mode AS "installMode",
+		a.install_description AS "installDescription"
+	</sql>
+	
+	<sql id="bizProjectInstallItemJoins">
+		LEFT JOIN sys_office o2 ON o2.id = a.store_id
+	</sql>
+    
+	<select id="get" resultType="BizProjectInstallItem">
+		SELECT 
+			<include refid="bizProjectInstallItemColumns"/>
+		FROM biz_project_install_item a
+		<include refid="bizProjectInstallItemJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="BizProjectInstallItem">
+		SELECT 
+			<include refid="bizProjectInstallItemColumns"/>
+		FROM biz_project_install_item a
+		<include refid="bizProjectInstallItemJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="id != null and id != ''">
+				AND a.id = #{id}
+			</if>
+			<if test="storeId != null and storeId != ''">
+				AND a.store_id = #{storeId}
+			</if>
+			<if test="installItemName != null and installItemName != ''">
+				AND a.install_item_name = #{installItemName}
+			</if>
+			<if test="installItemSequence != null and installItemSequence != ''">
+				AND a.install_item_sequence = #{installItemSequence}
+			</if>
+			<if test="workApplyDay != null and workApplyDay != ''">
+				AND a.work_apply_day = #{workApplyDay}
+			</if>
+			<if test="workEnterDay != null and workEnterDay != ''">
+				AND a.work_enter_day = #{workEnterDay}
+			</if>
+			 
+			<if test="workCompleteDay != null and workCompleteDay != ''">
+				AND a.work_complete_day = #{workCompleteDay}
+			</if>
+			<if test="projectMode != null and projectMode != ''">
+				AND a.project_mode = #{projectMode}
+			</if>
+			<if test="installMode != null and installMode != ''">
+				AND a.install_mode = #{installMode}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.store_id ASC,a.is_on DESC,a.install_item_sequence ASC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="queryInstallItemList" resultType="BizProjectInstallItem">
+		SELECT 
+			<include refid="bizProjectInstallItemColumns"/>
+		FROM biz_project_install_item a
+		<include refid="bizProjectInstallItemJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="id != null and id != ''">
+				AND a.id = #{id}
+			</if>
+			<if test="storeId != null and storeId != ''">
+				AND a.store_id = #{storeId}
+			</if>
+			<if test="installItemName != null and installItemName != ''">
+				AND a.install_item_name = #{installItemName}
+			</if>
+			<if test="installItemSequence != null and installItemSequence != ''">
+				AND a.install_item_sequence = #{installItemSequence}
+			</if>
+			<if test="workApplyDay != null and workApplyDay != ''">
+				AND a.work_apply_day = #{workApplyDay}
+			</if>
+			<if test="workEnterDay != null and workEnterDay != ''">
+				AND a.work_enter_day = #{workEnterDay}
+			</if>
+			 
+			<if test="workCompleteDay != null and workCompleteDay != ''">
+				AND a.work_complete_day = #{workCompleteDay}
+			</if>
+			<if test="projectMode != null and projectMode != ''">
+				AND a.project_mode = #{projectMode}
+			</if>
+			<if test="installMode != null and installMode != ''">
+				AND a.install_mode = #{installMode}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.store_id ASC,a.is_on DESC,a.install_item_sequence ASC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="BizProjectInstallItem">
+		SELECT 
+			<include refid="bizProjectInstallItemColumns"/>
+		FROM biz_project_install_item a
+		<include refid="bizProjectInstallItemJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.store_id ASC,a.is_on DESC,a.install_item_sequence ASC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO biz_project_install_item(
+			
+			store_id,
+			install_item_name,
+			install_item_sequence,
+			work_apply_day,
+			work_enter_day,
+			work_complete_day,
+			is_on,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag,
+			project_mode,
+			days_plan_checksize,
+			is_to_checksize,
+			is_show_install_description,
+			install_mode ,
+			install_description
+		) VALUES (
+			
+			#{storeId},
+			#{installItemName},
+			#{installItemSequence},
+			#{workApplyDay},
+			#{workEnterDay},
+			#{workCompleteDay},
+			#{isOn},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag},
+			#{projectMode},
+			#{daysPlanChecksize},
+			#{isToChecksize},
+			#{isShowInstallDescription},
+			#{installMode},
+			#{installDescription}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE biz_project_install_item SET 	
+			store_id = #{storeId},
+			install_item_name = #{installItemName},
+			install_item_sequence = #{installItemSequence},
+			work_apply_day = #{workApplyDay},
+			work_enter_day = #{workEnterDay},
+			work_complete_day = #{workCompleteDay},
+			is_on = #{isOn},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks},
+			project_mode = #{projectMode},
+			is_to_checksize = #{isToChecksize},
+			days_plan_checksize = #{daysPlanChecksize},
+			is_show_install_description = #{isShowInstallDescription},
+			install_description = #{installDescription},
+			install_mode = #{installMode}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE biz_project_install_item SET 
+			is_on = #{isOn}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="isON">
+		UPDATE biz_project_install_item SET 
+			is_on = #{isOn}
+		WHERE id = #{id}
+	</update>
+	<select id="getAllInstallItemByStoreId" parameterType="java.lang.String" resultType="BizProjectInstallItem">
+	select 
+	<include refid="bizProjectInstallItemColumns"/>
+	from biz_project_install_item a  where  a.store_id = #{storeId} 
+	</select>
+	
+	
+</mapper>

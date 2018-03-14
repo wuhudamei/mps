@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.AuxiliaryDao">
+   	
+   	<select id="findListByPurchaseId" resultType="cn.damei.entity.modules.Auxiliary">
+   		
+   		SELECT 
+	   		a.id AS "id",
+	   		a.purchase_id AS "purchaseId",<!-- 采购单id -->
+	   		a.auxi_mate_code AS "auxiMateCode",<!-- 编号 -->
+	   		a.auxi_mate_count AS "auxiMateCount",<!-- 数量 -->
+	   		b.category_id AS "categoryId",<!-- 材料类别id -->
+	   		b.auxiliary_materials_name AS "auxiliaryMaterialsName",<!--名字  -->
+	   		b.measurement_unit AS "measurementUnit",<!-- 单位 -->
+	   		b.specifications AS "specifications",<!-- 规格 -->
+	   		b.brands AS "brands",<!-- 品牌 -->
+	   		c.category_name AS "categoryName",<!-- 材料类别名称 -->
+	   		a.received_auxi_mate_count as "receivedCount",
+	   		a.owed_auxi_mate_count as "owedCount"
+   		FROM 
+   			biz_purchase_auxi_mate a,biz_auxiliary_materials b, biz_material_category c
+   		WHERE 
+   			a.auxi_mate_code = b.auxiliary_materials_no and b.category_id = c.id and a.purchase_id = #{0}
+   			and b.store_id = #{1}
+   		
+   	</select>
+   	
+   	 <select id="findSuppliersByPurchaseId" resultType="cn.damei.entity.modules.BizSupplier">
+   			SELECT
+				DISTINCT b.id as "id",
+				b.supplier_no AS "supplierNo",
+				b.supplier_name AS "supplierName",
+				b.contacts AS "contacts",
+				b.contacts_phone AS "contactsPhone",
+				b.email AS "email",
+				b.status AS "status"
+			from biz_supplier b 
+			inner join biz_auxiliary_materials_supplier_rel a on a.supplier_id = b.id
+			INNER JOIN biz_auxiliary_materials c on c.id = a.auxiliary_materials_id
+			where c.auxiliary_materials_no in(
+					SELECT 
+			   		a.auxi_mate_code
+		   		FROM 
+		   			biz_purchase_auxi_mate a,biz_auxiliary_materials b, biz_material_category c
+		   		WHERE 
+		   			a.auxi_mate_code = b.auxiliary_materials_no and b.category_id = c.id and a.purchase_id = #{0}
+		   			and b.store_id = #{1}
+)
+   	</select>
+   	
+   	<select id="findListPriceByPurchaseId" resultType="cn.damei.entity.modules.Auxiliary">
+   		SELECT 
+	   		a.id AS "id",
+	   		a.purchase_id AS "purchaseId",
+	   		a.auxi_mate_code AS "auxiMateCode",
+	   		a.auxi_mate_count AS "auxiMateCount",
+	   		b.category_id AS "categoryId",
+	   		b.auxiliary_materials_name AS "auxiliaryMaterialsName",
+	   		b.measurement_unit AS "measurementUnit",
+	   		b.specifications AS "specifications",
+	   		b.brands AS "brands",
+	   		c.category_name AS "categoryName",
+	   		a.received_auxi_mate_count AS "receivedCount",
+	   		a.owed_auxi_mate_count AS "owedCount",
+	   		d.labor_price
+   		FROM 
+   			biz_purchase_auxi_mate a 
+   			LEFT JOIN biz_auxiliary_materials b ON a.auxi_mate_code = b.auxiliary_materials_no
+   			LEFT JOIN biz_material_category c  ON b.category_id = c.id 
+	   		LEFT JOIN (
+						SELECT 
+								b.auxiliary_materials_id,
+								b.id,b.effective_date,
+								b.labor_price 
+						FROM 
+								biz_auxiliary_materials_supplier_rel b 
+						LEFT JOIN 
+	   							(
+	   								SELECT 
+	   									a.id,
+	   									a.auxiliary_materials_id as "amid",
+	   									MAX(effective_date) "maxdate" 
+	   								FROM 
+	   									biz_auxiliary_materials_supplier_rel a 
+	   								WHERE 
+	   									a.effective_date &lt;#{2} 
+	   									AND a.del_flag = 0
+	   								GROUP BY 
+	   									a.auxiliary_materials_id
+	   									) c 
+	   					ON c.amid = b.auxiliary_materials_id 
+			WHERE  c.maxdate = b.effective_date AND b.del_flag = 0) d 
+			ON b.id = d.auxiliary_materials_id
+   		WHERE 
+   			a.purchase_id = #{0} AND b.store_id = #{1}
+   	</select>
+   
+</mapper>

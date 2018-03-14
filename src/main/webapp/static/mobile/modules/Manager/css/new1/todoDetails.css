@@ -1,0 +1,16 @@
+.pt112{padding-top: 1.12rem;}
+.lineHgt18{line-height: 1.8em;}
+.pt20{padding-top: .2rem;}
+.pb55{padding-bottom: .55rem;}
+.contentTit{font-size: .34rem;color: #0780ec;padding-top: .4rem;padding-bottom: .22rem;
+	border-bottom: 1px dashed #ebebeb;}
+
+.tips{font-size: .24rem;color: #c30606;line-height: 1.8em;padding-top: .24rem;padding-left: .74rem;
+	padding-right: .3rem;background: url(img/tipsIcon.png) no-repeat;background-size: .28rem .29rem;
+	background-position: .3rem .3rem;}
+footer{width: 100%;height: .86rem;background: #0780ec;position: fixed;bottom: 0;left: 0;}
+.warnBtn{float: left;width: 50%;height: inherit;line-height: .86rem;text-align: center;}
+.nowBtn{float: left;width: 50%;height: inherit;text-align: center;}
+.col_f{color: #fff;}
+.col_7abcf8{color: #7abcf8;}
+.warnBtnSpan{width: 100%;display: inline-block;height: .4rem;margin-top: .23rem;border-right: 1px solid #9cccf7;}

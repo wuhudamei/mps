@@ -1,0 +1,17 @@
+菜单新增：
+	1、名称：主材安装项二级类目关系列表
+	   链接：/materialMappingRelation/list
+
+	2、选材系统
+
+		名称：选材变更单
+		链接：/bizmaterialschoicechangebill/bizMaterialsChoiceChangeBill/preList
+		权限标识：bizmaterialschoicechangebill:bizMaterialsChoiceChangeBill:view,bizma
+
+		名称：选材清单
+		链接：/bizmaterialchoicebill/bizMaterialsChoiceBill/preList
+		权限标识：bizmaterialchoicebill:bizMaterialsChoiceBill:view,bizmaterialchoicebill:bizMaterialsChoiceBill:edit
+
+		名称：选材类目明细查询
+		链接：/bizmaterialschoicebillitem/bizMaterialsChoiceBillItem/preList
+		权限标识：bizmaterialschoicebillitem:bizMaterialsChoiceBillItem:view,bizmaterialschoicebillitem:bizMaterialsChoiceBillItem:edit

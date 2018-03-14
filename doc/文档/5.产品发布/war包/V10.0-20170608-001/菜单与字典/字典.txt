@@ -1,0 +1,26 @@
+字典新增：
+	1、评价工人、项目经理
+
+		键值	标签		类型			描述		排序
+		2	项目经理	eval_target_type	评价对象	20
+
+		键值	标签		类型			描述		排序
+		3	质检员		eval_target_type	评价对象	30
+
+		键值	标签			类型			描述			排序
+		1	基础装修验收完成评价	manager_eval_stage	项目经理评价阶段	10
+
+		
+		键值	标签			类型			描述			排序
+		2	竣工验收完成评价	manager_eval_stage	项目经理评价阶段	20
+
+	2、项目经理工地设计问题反馈APP+PC
+
+		键值	标签		类型			描述			排序
+		4	工程设计问题	problem_business_type	问题上报所属业务	40
+
+		键值	标签		类型			描述			排序
+		10	项目经理已上报	site_design_problem	工程设计问题上报	10
+
+		键值	标签		类型			描述			排序
+		70	设计部已处理	site_design_problem	工程设计问题上报	20

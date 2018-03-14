@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.DelayBillDao">
+
+	<select id="findDelayOrder" resultType = "cn.damei.entity.mobile.Manager.DelaySheet">
+		SELECT a.id AS 'aid',b.id,a.customer_name AS 'customerName',a.community_name AS 'communityName',a.build_number AS 'buildNumber',
+		a.build_unit AS 'buildUnit',a.build_room AS 'buildRoom',b.delay_bill_stage_status AS 'delayBillStageStatus',
+		DATE_FORMAT(b.delay_begin_datetime,'%Y-%c-%d') AS 'delayBeginDatetime',DATE_FORMAT(b.delay_end_datetime,'%Y-%c-%d') AS 'delayEndDatetime',b.delay_days AS 'delayDays',
+		b.deferred_instruction AS 'deferredInstruction',DATE_FORMAT(b.deferred_application_datetime,'%Y-%c-%d') AS 'deferredApplicationDatetime',b.status,b.status_datetime AS 'statusDatetime',
+		c.delay_type_name AS 'delayBillCategoryId',c.parent_id AS 'delayBillCategoryIdReson',a.order_status_description AS 'orderStatus',a.id AS 'orderId',b.create_date
+		FROM biz_order a 
+		LEFT JOIN (SELECT * FROM ( SELECT * FROM biz_order_delay_bill a ORDER BY a.create_date DESC ) a GROUP BY a.order_id) b ON a.id = b.order_id
+		LEFT JOIN biz_order_delay_category c ON c.id = b.delay_bill_category_id
+		WHERE a.item_manager_id = #{0}
+	</select>
+	<select id="findDelayCategory" resultType = "cn.damei.entity.modules.Dict">
+		SELECT a.id as 'value',a.delay_type_name as 'label' FROM biz_order_delay_category a WHERE a.delay_type_level = #{0};
+	</select>
+	
+	<select id="findDelayCategorytow" resultType = "cn.damei.entity.modules.Dict">
+		SELECT a.id as 'value',a.delay_type_name as 'label' FROM biz_order_delay_category a WHERE a.delay_type_level = #{1} and a.parent_id = #{0};
+	</select>
+	
+	<insert id = "insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO biz_order_delay_bill(
+		order_id,
+		delay_bill_stage_status,
+		delay_bill_category_id,
+		delay_begin_datetime,
+		delay_end_datetime,
+		delay_days,
+		deferred_instruction,
+		deferred_application_datetime,
+		create_date,
+		create_by,
+		update_date,
+		update_by,
+		del_flag,
+		remarks,
+		status
+		)
+		VALUES(
+		#{orderId},
+		#{delayBillStageStatus},
+		#{delayBillCategoryIdReson},
+		#{delayBeginDatetime},
+		#{delayEndDatetime},
+		#{delayDays},
+		#{deferredInstruction},
+		#{createDate},
+		#{createDate},
+		#{createBy.id},
+		#{updateDate},
+		#{updateBy.id},
+		#{delFlag},
+		#{remarks},
+		#{status}
+		)
+	</insert>
+	<select id="findDelayCategoryStatus" resultType = "cn.damei.entity.modules.Dict">
+		select a.value as value,a.label as label from sys_dict a where a.type = 'delayed_stage' and a.del_flag = 0;
+	</select>
+	<select id="checkSubmit" resultType = "cn.damei.entity.mobile.Manager.DelaySheet">
+		SELECT * FROM biz_order_delay_bill a WHERE a.order_id = #{0} 
+		<if test = "#{1} != null">
+			and a.delay_bill_stage_status = #{1}
+		</if>
+		
+	
+	</select>
+	
+	<select id ="findDelayDetails" resultType = "cn.damei.entity.mobile.Manager.DelaySheet">
+		SELECT b.delay_type_name AS 'delayBillCategoryIdReson',c.delay_type_name AS 'delay_bill_category_id',d.label AS 'delay_bill_stage_status',
+		DATE_FORMAT(a.delay_begin_datetime,'%Y-%c-%d') as 'delayBeginDatetime',DATE_FORMAT(a.delay_end_datetime,'%Y-%c-%d') AS 'delayEndDatetime',a.delay_days,a.deferred_instruction,
+		e.customer_name AS 'customerName',e.community_name AS 'communityName',e.build_number AS 'buildNumber',
+		e.build_unit AS 'buildUnit',e.build_room AS 'buildRoom',a.remarks,a.order_id,a.id
+		FROM biz_order_delay_bill a 
+		LEFT JOIN biz_order_delay_category b ON b.id = a.delay_bill_category_id
+		LEFT JOIN biz_order_delay_category c ON b.parent_id = c.id
+		LEFT JOIN sys_dict d ON d.value = a.delay_bill_stage_status AND d.type = 'delayed_stage'
+		LEFT JOIN biz_order e ON a.order_id = e.id
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="get" resultType = "cn.damei.entity.mobile.Manager.DelaySheet">
+		SELECT 
+		a.delay_bill_stage_status AS 'delayBillStageStatus',
+		DATE_FORMAT(a.delay_begin_datetime,'%Y-%c-%d') AS 'delayBeginDatetime',DATE_FORMAT(a.delay_end_datetime,'%Y-%c-%d') AS 'delayEndDatetime',a.delay_days AS 'delayDays',
+		a.deferred_instruction AS 'deferredInstruction',DATE_FORMAT(a.deferred_application_datetime,'%Y-%c-%d') AS 'deferredApplicationDatetime',a.status,a.status_datetime AS 'statusDatetime',
+		b.id AS 'delayBillCategoryId',b.parent_id AS 'delayBillCategoryIdReson',a.id AS 'orderId'
+		FROM biz_order_delay_bill a 
+		LEFT JOIN biz_order_delay_category b ON a.delay_bill_category_id  = b.id
+		WHERE a.id = #{0}
+	</select>
+
+
+	<select id = "findList" resultType="cn.damei.entity.modules.DelayBill">
+		SELECT 
+		d.order_number AS 'orderNumber',d.item_manager AS 'itemManager',d.store_id AS 'storeId',
+		d.project_mode AS 'projectMode',
+		a.id,
+		d.customer_name AS 'customerName',
+		d.community_name AS 'communityName',
+		d.customer_phone as 'customerPhone',
+		d.build_number AS 'buildNumber',
+		d.build_unit AS 'buildUnit',d.build_room AS 'buildRoom',a.delay_bill_stage_status AS 'delayBillStageStatus',
+		DATE_FORMAT(a.delay_begin_datetime,'%Y-%c-%d') AS 'delayBeginDatetime',DATE_FORMAT(a.delay_end_datetime,'%Y-%c-%d') AS 'delayEndDatetime',a.delay_days AS 'delayDays',
+		a.deferred_instruction AS 'deferredInstruction',a.deferred_application_datetime AS 'deferredApplicationDatetime',a.status,a.status_datetime AS 'statusDatetime',
+		c.delay_type_name AS 'delayBillCategoryId',b.delay_type_name AS 'delayBillCategoryIdReson',a.create_date as 'createDate',
+		e.phone as 'itemManagerPhone',f.node_name as 'delayBillStageStatusName'
+		FROM biz_order_delay_bill a
+		LEFT JOIN biz_order_delay_category b ON a.delay_bill_category_id = b.id
+		LEFT JOIN biz_order_delay_category c ON c.id = b.parent_id
+		LEFT JOIN biz_order d ON a.order_id  = d.id
+		LEFT JOIN biz_employee e on e.id = d.item_manager_id
+		left join biz_node_plan f on f.id = a.delay_bill_stage_status
+		<where>
+			d.is_scrap = '0'
+		<if test="projectMode != null and projectMode != ''">
+               AND d.project_mode = #{projectMode}
+        </if>
+        <if test="storeId != null and storeId != ''">
+              AND d.store_id = #{storeId}
+         </if>
+         <if test="orderNumber != null and orderNumber != ''">
+              AND d.order_number = #{orderNumber}
+         </if>
+         <if test="orderId != null and orderId != ''">
+              AND d.id = #{orderId}
+         </if>
+         <if test="itemManager != null and itemManager !=''">
+         	AND d.item_manager like concat('%',#{itemManager},'%') 
+         </if>
+          <if test="customerName != null and customerName !=''">
+         	AND d.customer_name like concat('%',#{customerName},'%') 
+         </if>
+         <if test="delayBillCategoryId != null and delayBillCategoryId !=''">
+         	AND c.id like concat('%',#{delayBillCategoryId},'%') 
+         </if>
+         <if test="delayBillCategoryIdReson != null and delayBillCategoryIdReson !=''">
+         	AND b.id like concat('%',#{delayBillCategoryIdReson},'%')
+         </if>
+         <if test="delayBillStageStatus != null and delayBillStageStatus !=''">
+         	AND f.node_index = #{delayBillStageStatus}
+         </if>
+          <if test="status != null and status !=''">
+         	AND a.status in (${status})
+         </if>
+         </where>
+		order by a.create_date desc
+	</select>
+	
+	<update id="pass">
+		update biz_order_delay_bill set status = '20' where id = #{id}
+	</update>
+	<update id="refuse">
+		update biz_order_delay_bill set status = '15',remarks =#{remarks} where id = #{id}
+	</update>
+	
+	<update id = "update">
+		update biz_order_delay_bill set delay_begin_datetime = #{delayBeginDatetime},delay_end_datetime = #{delayEndDatetime},delay_days = #{delayDays} where id = #{id}
+	</update>
+
+	<update id="delayBillInvalid">
+		update biz_order_delay_bill set status = #{status} where id = #{id}
+	</update>
+
+	<select id="findDelayBillDetailById" resultType="cn.damei.entity.modules.DelayBill">
+		SELECT
+			a.order_id,
+			a.delay_days,
+			b.node_index
+		FROM biz_order_delay_bill a
+		INNER JOIN biz_node_plan b ON a.delay_bill_stage_status = b.id
+		WHERE a.id = #{id}
+	</select>
+
+	<select id="findNodePlan" resultType="cn.damei.entity.modules.BizNodePlan">
+		SELECT a.id,a.plan_done_date,a.plan_check_time FROM biz_node_plan a WHERE a.order_id = #{orderId} AND a.node_index &gt;= #{nodeIndex}
+	</select>
+	
+	<update id="updataCheckTime">
+		UPDATE biz_node_plan a SET a.plan_check_time = #{planDoneDate} WHERE a.id =  #{id}
+	</update>
+	
+
+</mapper>

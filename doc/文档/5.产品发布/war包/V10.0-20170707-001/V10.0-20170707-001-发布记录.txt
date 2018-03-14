@@ -1,0 +1,25 @@
+ 打包名称：mdn.war
+打包版本：V10.0-20170707-001
+	
+功能新增：
+
+	1、工人调度新加查询页
+	2、订单安装计划
+	3、工料分离
+
+
+数据库表数据变更（后执行）：
+
+	1、执行文件夹名【数据库表数据处理】内的【chuliyuangongbiaoidsjh.sql】脚本
+	2、执行文件夹名【数据库表数据处理】内的【gongliaofenli.sql】脚本
+	3、执行文件夹名【数据库表数据处理】内的【charurizhibiao.sql】脚本
+
+
+数据库表结构变更（先执行）：
+
+	注意：请按顺序执行
+
+	1、执行文件夹名【数据库表结构变更】内的【jeesite_table-v12.0_08_gongliao.sql】
+	2、执行文件夹名【数据库表结构变更】内的【jeesite_table-v12.0_09_zhucai_anzhuangxiang.sql】
+	3、执行文件夹名【数据库表结构变更】内的【jeesite_table-v12.0_13_pm_jiesuan_leimu_youhua.sql】
+	

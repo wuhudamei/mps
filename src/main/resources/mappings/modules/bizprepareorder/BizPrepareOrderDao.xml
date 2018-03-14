@@ -1,0 +1,378 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizPrepareOrderDao">
+    
+	<sql id="bizPrepareOrderColumns">
+		a.id AS "id",
+		a.syn_data_id AS "synDataId",
+		a.store_id AS "storeId",
+		a.project_mode AS "projectMode",
+		a.order_number AS "orderNumber",
+		a.engin_depart_id AS "enginDepartId",
+		a.contract_number AS "contractNumber",
+		a.customer_type AS "customerType",
+		a.customer_description AS "customerDescription",
+		a.customer_name AS "customerName",
+		a.customer_phone AS "customerPhone",
+		a.customer_address AS "customerAddress",
+		a.is_longway_commission AS "isLongwayCommission",
+		a.longway_amount AS "longwayAmount",
+		a.community_name AS "communityName",
+		a.detail_address AS "detailAddress",
+		a.build_number AS "buildNumber",
+		a.build_unit AS "buildUnit",
+		a.build_room AS "buildRoom",
+		a.map_coordinate AS "mapCoordinate",
+		a.province AS "province",
+		a.city AS "city",
+		a.county AS "county",
+		a.sale_type AS "saleType",
+		a.build_type AS "buildType",
+		a.house_type AS "houseType",
+		a.house_is_new AS "houseIsNew",
+		a.is_elevator AS "isElevator",
+		a.designer_name AS "designerName",
+		a.designer_phone AS "designerPhone",
+		a.order_reporter_name AS "orderReporterName",
+		a.order_reporter_phone AS "orderReporterPhone",
+		a.service_name AS "serviceName",
+		a.service_phone AS "servicePhone",
+		a.contract_start_date AS "contractStartDate",
+		a.contract_end_date AS "contractEndDate",
+		a.covered_area AS "coveredArea",
+		a.contract_area AS "contractArea",
+		a.contract_time AS "contractTime",
+		a.sign_contract_date AS "signContractDate",
+		a.biz_order_accept_area AS "bizOrderAcceptArea",
+		a.remarks AS "remarks",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag",
+		a.status AS "status",
+		a.get_order_datetime AS "getOrderDatetime",
+		b.`name` AS "bizOrderAcceptAreaName",
+		c.`name` AS "enginDepartName",
+		a.floor AS "floor",
+		a.contract_amount AS "contractAmount",
+		a.auditor_employee_id AS "auditorEmployeeId",
+		a.auditor_name AS "auditorName",
+		a.auditor_phone AS "auditorPhone",
+		a.refuse_reason_type AS "refuseReasonType",
+		e.label AS "refuseReasonTypeName",
+		a.refuse_reason AS "refuseReason"
+	</sql>
+	
+	<sql id="bizPrepareOrderJoins">
+	LEFT JOIN biz_area b ON b.id = a.biz_order_accept_area AND a.store_id = b.store_id AND a.project_mode = b.project_mode
+	LEFT JOIN biz_engineering_department c ON c.id = a.engin_depart_id AND a.store_id = c.store_id AND a.project_mode = c.project_mode
+	LEFT JOIN sys_dict e ON a.refuse_reason_type = e.`value` AND e.type = 'refuse_reason_type' AND e.del_flag = 0
+	</sql>
+    
+	<select id="get" resultType="cn.damei.entity.modules.BizPrepareOrder">
+		SELECT 
+			<include refid="bizPrepareOrderColumns"/>
+		FROM biz_prepare_order a
+		<include refid="bizPrepareOrderJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="cn.damei.entity.modules.BizPrepareOrder">
+		SELECT 
+			<include refid="bizPrepareOrderColumns"/>
+		FROM biz_prepare_order a
+		<include refid="bizPrepareOrderJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			AND a.`status` IN (10,20,15)
+			<if test="storeId != null and storeId != ''">
+				AND a.store_id = #{storeId}
+			</if>
+			<if test="refuseReasonType != null and refuseReasonType != ''">
+				AND a.refuse_reason_type = #{refuseReasonType}
+			</if>
+			<if test="orderNumber != null and orderNumber != ''">
+				AND a.order_number LIKE CONCAT('%','${orderNumber}','%' )
+			</if>
+			<if test="customerName != null and customerName != ''">
+				AND a.customer_name LIKE
+				CONCAT('%','${customerName}','%' )
+			</if>
+			<if test="customerPhone != null and customerPhone != ''">
+				AND a.customer_phone LIKE
+				CONCAT('%','${customerPhone}','%' )
+			</if>
+			<if test="designerName != null and designerName != ''">
+				AND a.designer_name LIKE
+				CONCAT('%','${designerName}','%' )
+			</if>
+			<if test="beginContractStartDate != null and beginContractStartDate != ''">
+				AND a.contract_start_date &gt;= #{beginContractStartDate}
+			</if>
+			<if test="endContractStartDate != null and endContractStartDate != ''">
+				AND a.contract_start_date &lt;= #{endContractStartDate}
+			</if>
+			<if test="beginSignContractDate != null and beginSignContractDate != ''">
+				AND a.sign_contract_date &gt;= #{beginSignContractDate}
+			</if>
+			<if test="endSignContractDate != null and endSignContractDate != ''">
+				AND a.sign_contract_date &lt;= #{endSignContractDate}
+			</if>
+			<if test="beginCreateDate != null and beginCreateDate != ''">
+				AND a.create_date &gt;= #{beginCreateDate}
+			</if>
+			<if test="endCreateDate != null and endCreateDate != ''">
+				AND a.create_date &lt;= #{endCreateDate}
+			</if>
+			ORDER BY a.`status` ASC,a.create_date DESC
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				,${page.orderBy}
+			</when>
+			<otherwise>
+				,a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="cn.damei.entity.modules.BizPrepareOrder">
+		SELECT 
+			<include refid="bizPrepareOrderColumns"/>
+		FROM biz_prepare_order a
+		<include refid="bizPrepareOrderJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO biz_prepare_order(
+			id,
+			syn_data_id,
+			store_id,
+			project_mode,
+			order_number,
+			engin_depart_id,
+			contract_number,
+			customer_type,
+			customer_description,
+			customer_name,
+			customer_phone,
+			customer_address,
+			is_longway_commission,
+			longway_amount,
+			community_name,
+			detail_address,
+			build_number,
+			build_unit,
+			build_room,
+			map_coordinate,
+			province,
+			city,
+			county,
+			sale_type,
+			build_type,
+			house_type,
+			house_is_new,
+			is_elevator,
+			designer_name,
+			designer_phone,
+			order_reporter_name,
+			order_reporter_phone,
+			service_name,
+			service_phone,
+			contract_start_date,
+			contract_end_date,
+			covered_area,
+			contract_area,
+			contract_time,
+			sign_contract_date,
+			biz_order_accept_area,
+			remarks,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag,
+			status,
+			get_order_datetime,
+			floor,
+			contract_amount,
+			auditor_employee_id,
+			auditor_name,
+			auditor_phone,
+			auditor_tagname
+		) VALUES (
+			#{id},
+			#{synDataId},
+			#{storeId},
+			#{projectMode},
+			#{orderNumber},
+			#{enginDepartId},
+			#{contractNumber},
+			#{customerType},
+			#{customerDescription},
+			#{customerName},
+			#{customerPhone},
+			#{customerAddress},
+			#{isLongwayCommission},
+			#{longwayAmount},
+			#{communityName},
+			#{detailAddress},
+			#{buildNumber},
+			#{buildUnit},
+			#{buildRoom},
+			#{mapCoordinate},
+			#{province},
+			#{city},
+			#{county},
+			#{saleType},
+			#{buildType},
+			#{houseType},
+			#{houseIsNew},
+			#{isElevator},
+			#{designerName},
+			#{designerPhone},
+			#{orderReporterName},
+			#{orderReporterPhone},
+			#{serviceName},
+			#{servicePhone},
+			#{contractStartDate},
+			#{contractEndDate},
+			#{coveredArea},
+			#{contractArea},
+			#{contractTime},
+			#{signContractDate},
+			#{bizOrderAcceptArea},
+			#{remarks},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag},
+			#{status},
+			#{getOrderDatetime},
+			#{floor},
+			#{contractAmount},
+			#{auditorEmployeeId},
+			#{auditorName},
+			#{auditorPhone},
+			#{auditorTagname}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE biz_prepare_order SET 	
+			syn_data_id = #{synDataId},
+			store_id = #{storeId},
+			project_mode = #{projectMode},
+			order_number = #{orderNumber},
+			engin_depart_id = #{enginDepartId},
+			contract_number = #{contractNumber},
+			customer_type = #{customerType},
+			customer_description = #{customerDescription},
+			customer_name = #{customerName},
+			customer_phone = #{customerPhone},
+			customer_address = #{customerAddress},
+			is_longway_commission = #{isLongwayCommission},
+			longway_amount = #{longwayAmount},
+			community_name = #{communityName},
+			detail_address = #{detailAddress},
+			build_number = #{buildNumber},
+			build_unit = #{buildUnit},
+			build_room = #{buildRoom},
+			map_coordinate = #{mapCoordinate},
+			province = #{province},
+			city = #{city},
+			county = #{county},
+			sale_type = #{saleType},
+			build_type = #{buildType},
+			house_type = #{houseType},
+			house_is_new = #{houseIsNew},
+			is_elevator = #{isElevator},
+			designer_name = #{designerName},
+			designer_phone = #{designerPhone},
+			order_reporter_name = #{orderReporterName},
+			order_reporter_phone = #{orderReporterPhone},
+			service_name = #{serviceName},
+			service_phone = #{servicePhone},
+			contract_start_date = #{contractStartDate},
+			contract_end_date = #{contractEndDate},
+			covered_area = #{coveredArea},
+			contract_area = #{contractArea},
+			contract_time = #{contractTime},
+			sign_contract_date = #{signContractDate},
+			biz_order_accept_area = #{bizOrderAcceptArea},
+			remarks = #{remarks},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			status = #{status},
+			get_order_datetime = #{getOrderDatetime},
+			floor = #{floor},
+			contract_amount=#{contractAmount},
+			auditor_employee_id=#{auditorEmployeeId},
+			auditor_name=#{auditorName},
+			auditor_phone=#{auditorPhone},
+			refuse_reason_type=#{refuseReasonType},
+			refuse_reason=#{refuseReason}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE biz_prepare_order SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	<select id="findPrepareOrderCount" resultType="long">
+		SELECT COUNT(*) FROM biz_prepare_order a WHERE a.status = #{status} 
+		<if test="storeId != null and storeId != ''">
+			and a.store_id = #{storeId}
+		</if>
+	</select>
+	<select id="ordertaskingCount" resultType ="cn.damei.entity.modules.OrdertaskingCount">
+		SELECT 
+			b.store_id as storeId,
+			c.name as area,
+			COUNT(a.id) as count,
+			f.ss as erverDayCount
+		FROM biz_business_status_log a 
+			LEFT JOIN biz_prepare_order b ON  b.id = a.business_only_mark_int
+			LEFT JOIN biz_engineering_department c ON c.id = b.engin_depart_id
+			LEFT JOIN
+				(SELECT b.store_id,b.engin_depart_id,c.name,COUNT(a.id) ss
+				FROM biz_business_status_log a 
+				LEFT JOIN biz_prepare_order b ON  b.id = a.business_only_mark_int
+				LEFT JOIN biz_engineering_department c ON c.id = b.engin_depart_id
+				WHERE a.business_status  = '30' AND a.business_type ='101' AND a.create_date between #{beginCreateDate} and DATE_ADD(#{endCreateDate},INTERVAL 1 DAY)
+				GROUP BY b.engin_depart_id,b.store_id) f ON f.store_id = b.store_id AND f.engin_depart_id = b.engin_depart_id
+		WHERE 
+			a.business_status  = '30' 
+		AND a.business_type ='101' 
+		<if test="storeId !=null and storeId != ''">
+			AND b.store_id = #{storeId}
+		</if>
+		GROUP BY b.engin_depart_id,b.store_id
+	</select>
+	<select id="findMaterialsChoiceBillId" resultType="Integer">
+		SELECT a.id FROM biz_materials_choice_bill a WHERE a.order_number = #{0} LIMIT 1
+	</select>
+	
+	<select id="updateCadOrderId">
+		UPDATE biz_order_cadfile SET order_id = #{1} where order_number = #{0}
+	</select>
+	
+	
+	<select id="findAuditorId" resultType="String">
+		SELECT a.id FROM biz_employee a WHERE a.realName = #{0} and a.phone = #{1} and empType = #{2} limit 0,1
+	</select>
+</mapper>

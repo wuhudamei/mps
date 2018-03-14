@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="cn.damei.dao.mobile.home.ProjectProgressDao">
+
+<select id="getOrderListByCustomerPhone" parameterType="String" resultType="cn.damei.entity.mobile.home.ProjectProgressVo">
+
+SELECT
+	a.id AS "orderId",
+	a.customer_name AS "customerName",
+	a.community_name AS "communityname",
+	a.build_number AS "buildNumber",
+	a.build_room AS "buildRoom",
+	a.build_unit AS "buildUnit",
+	b.id AS "managerId",
+	b.realName AS "managerName",
+	b.phone AS "managerPhone",
+	a.contract_start_date as "contractStartDate",
+a.actual_start_date as "actualStartDate",
+(SELECT
+ count(1)
+FROM
+	biz_business_view_log a1
+WHERE
+	a1.business_type = '555'
+AND a1.business_id_int = a.id) as "viewLogCount"
+FROM
+	biz_order a,
+	biz_employee b
+WHERE
+	a.customer_phone = #{_parameter}
+AND a.item_manager_id = b.id 
+ORDER BY 
+ viewLogCount 
+ASC
+
+</select>
+
+
+
+<select id="getConfirmStartInfoByOrderId" parameterType="cn.damei.entity.mobile.home.ProjectProgressVo" resultType="cn.damei.entity.mobile.home.ProjectProgressVo">
+
+SELECT
+	a.self_decorate_delay_days AS "delayDays",
+	a.is_need_sign AS "isNeedSign",
+	a.is_self_decorate_need_sign AS "selfNeedSign",
+	a.remarks AS "delayDescription",
+	b.delay_type AS "delayType",
+	b.contract_start_date AS "contractStartDate",
+	b.actual_start_date AS "actualStartDate"
+FROM
+	biz_order b LEFT JOIN biz_order_confirm_startwork a on b.id = a.order_id  left JOIN
+	biz_employee c on   b.item_manager_id = c.id
+WHERE
+ a.order_id = #{orderId}
+</select>
+
+<insert id="insertLogForProjectProgress" parameterType="cn.damei.entity.mobile.home.ProjectProgressVo">
+insert into biz_business_view_log (
+business_type,
+business_id_int
+
+)values(
+
+#{logType},
+#{logRelatedId}
+)
+</insert>
+<select id="findLog" parameterType="cn.damei.entity.mobile.home.ProjectProgressVo" resultType="int">
+select count(1) from biz_business_view_log a where a.business_type='555' and a.business_id_int=#{orderId}
+
+
+</select>
+
+	
+	</mapper>

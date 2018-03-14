@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.TaskPackCountDao">
+    
+	<select id="findCount" resultType="cn.damei.entity.modules.TaskPackCount">
+	select a.userName as employeName,a.enName as area,a.store_id as storeId,
+	 MAX(
+	        CASE 
+	        WHEN  a.task_package_type='1' THEN
+	            sumcount
+	        END
+	    ) AS shuidian,
+	
+	 MAX(
+	        CASE 
+	        WHEN  a.task_package_type='10' THEN
+		sumcount
+	        END
+	    ) AS chaichu,
+	  MAX(
+	        CASE 
+	        WHEN  a.task_package_type='12' THEN
+		sumcount
+	        END
+	    ) AS yingxiao,
+	    MAX(
+	        CASE 
+	        WHEN  a.task_package_type='13' THEN
+		sumcount
+	        END
+	    ) AS teshu,
+	        MAX(
+	        CASE 
+	        WHEN  a.task_package_type='7' THEN
+		sumcount
+	        END
+	    ) AS wagong,
+	       MAX(
+	        CASE 
+	        WHEN  a.task_package_type='8' THEN
+		sumcount
+	        END
+	    ) AS mugong,
+	  MAX(
+	        CASE 
+	        WHEN  a.task_package_type='9' THEN
+		sumcount
+	        END
+	    ) AS yougong
+
+	from  
+	(SELECT a.store_id,h.name AS enName,c.name AS userName,b.name,a.task_package_type,COUNT(a.task_package_type) AS sumcount FROM 
+	biz_order_distribute_log g
+	INNER JOIN biz_order_taskpackage a ON g.order_taskpackage_id = a.id
+	LEFT JOIN biz_task_package_type b ON b.id = a.task_package_type
+	LEFT JOIN sys_user c ON c.id = g.create_by
+	LEFT JOIN biz_engin_depart_employee_position f ON c.emp_id = f.employee_id
+	LEFT JOIN biz_engineering_department h ON h.id =  f.engin_depart_id
+	LEFT JOIN biz_order d ON d.id = a.order_id
+	WHERE 
+	g.distribute_type in (301,302)
+	<if test="planStartdate !=null and planStartdate !=''">
+		and g.create_date BETWEEN #{planStartdate} and DATE_ADD(#{planStartdate},INTERVAL 1 DAY)
+	</if>
+	<if test="storeId != null and storeId !=''">
+		and d.store_id = #{storeId}
+	</if>
+	<if test="area != null and area !=''">
+		and h.id = #{area}
+	</if>
+	<if test="employeName != null and employeName !=''">
+		and c.name like 
+		<if test="dbName == 'oracle'">'%'||#{employeName}||'%'</if>
+		<if test="dbName == 'mssql'">'%'+#{employeName}+'%'</if>
+		<if test="dbName == 'mysql'">concat('%',#{employeName},'%')</if>
+	</if>
+	GROUP BY a.task_package_type,g.create_by) a
+	group by a.userName
+	order by a.store_id
+	</select>
+	
+	
+	<select id="findList" resultType="cn.damei.entity.modules.TaskPackCount">
+		SELECT 
+		o.store_id as storeId,
+		p.name as area,
+		o.order_number as orderNumber,
+		o.item_manager as itemManager,
+		o.customer_name as customerName,
+		a.order_task_package_code as orderTaskPackageCode,
+		a.package_name AS packageName,
+		a.create_date AS 'taskPackStatus10',
+		c.create_date AS 'taskPackStatus20',
+		a.dispatch_time AS 'taskPackStatus50',
+		MAX(c1.create_date) AS 'taskPackStatus55',
+		c2.create_date AS 'taskPackStatus60',
+		MAX(b.sign_date) AS 'taskPackStatus70',
+		a.actual_enddate AS 'taskPackStatus80',
+		o.is_scrap AS  isScrap,
+		o.scrap_datetime AS "scrapDatetime"
+		FROM  biz_order_taskpackage a 
+		INNER JOIN biz_business_status_log c ON c.business_only_mark_int = a.id AND c.business_type = '1001'
+		LEFT JOIN biz_order o ON o.id  = a.order_id
+		LEFT JOIN biz_engineering_department p ON p.id = o.engin_depart_id
+		LEFT JOIN biz_business_status_log c1 ON c1.business_only_mark_int = a.id AND c1.business_type = '1201'
+		LEFT JOIN biz_business_status_log c2 ON c2.business_only_mark_int = a.id AND c2.business_type = '1101'
+		LEFT JOIN biz_sign b ON a.id = b.pack_id
+		WHERE 
+		a.create_date &gt;#{planStartdate} and a.create_date &lt;#{planEnddate} 
+		<if test="storeId != null and storeId !=''">
+			and o.store_id = #{storeId}
+		</if>
+		<if test="area != null and area !=''">
+			and o.engin_depart_id = #{area}
+		</if>
+		<if test="orderNumber != null and orderNumber !=''">
+			and o.order_number like 
+			<if test="dbName == 'oracle'">'%'||#{orderNumber}||'%'</if>
+			<if test="dbName == 'mssql'">'%'+#{orderNumber}+'%'</if>
+			<if test="dbName == 'mysql'">concat('%',#{orderNumber},'%')</if>
+		</if>
+		<if test="itemManager != null and itemManager !=''">
+			and o.item_manager like 
+			<if test="dbName == 'oracle'">'%'||#{itemManager}||'%'</if>
+			<if test="dbName == 'mssql'">'%'+#{itemManager}+'%'</if>
+			<if test="dbName == 'mysql'">concat('%',#{itemManager},'%')</if>
+		</if>
+		<if test="customerName != null and  customerName !=''">
+			and o.customer_name like 
+			<if test="dbName == 'oracle'">'%'||#{customerName}||'%'</if>
+			<if test="dbName == 'mssql'">'%'+#{customerName}+'%'</if>
+			<if test="dbName == 'mysql'">concat('%',#{customerName},'%')</if>
+		</if>
+		<if test="orderTaskPackageCode != null and orderTaskPackageCode !=''">
+			and a.order_task_package_code like 
+			<if test="dbName == 'oracle'">'%'||#{orderTaskPackageCode}||'%'</if>
+			<if test="dbName == 'mssql'">'%'+#{orderTaskPackageCode}+'%'</if>
+			<if test="dbName == 'mysql'">concat('%',#{orderTaskPackageCode},'%')</if>
+		</if>
+		<if test="isScrap != null and isScrap != ''">
+				AND o.is_scrap = #{isScrap}
+			</if>
+		 GROUP BY a.id,c1.business_only_mark_int
+	</select>
+
+    <select id="findOrderTaskpack" resultType="cn.damei.entity.modules.TaskPackCount">
+        SELECT
+        a.id,
+        o.store_id as storeId,
+        p.name as area,
+        o.order_number as orderNumber,
+        o.item_manager as itemManager,
+        o.customer_name as customerName,
+        a.order_task_package_code as orderTaskPackageCode,
+        a.package_name AS packageName,
+        a.create_date AS 'taskPackStatus10',
+        a.dispatch_time AS 'taskPackStatus50',
+        MAX(b.sign_date) AS 'taskPackStatus70',
+        a.actual_enddate AS 'taskPackStatus80',
+        o.is_scrap AS  isScrap,
+        o.scrap_datetime AS "scrapDatetime"
+        FROM  biz_order_taskpackage a
+        LEFT JOIN biz_order o ON o.id  = a.order_id
+        LEFT JOIN biz_engineering_department p ON p.id = o.engin_depart_id
+        LEFT JOIN biz_sign b ON a.id = b.pack_id
+        WHERE
+        a.create_date &gt;#{planStartdate} and a.create_date &lt;#{planEnddate}
+        <if test="storeId != null and storeId !=''">
+            and o.store_id = #{storeId}
+        </if>
+        <if test="area != null and area !=''">
+            and o.engin_depart_id = #{area}
+        </if>
+        <if test="orderNumber != null and orderNumber !=''">
+            and o.order_number like
+            <if test="dbName == 'oracle'">'%'||#{orderNumber}||'%'</if>
+            <if test="dbName == 'mssql'">'%'+#{orderNumber}+'%'</if>
+            <if test="dbName == 'mysql'">concat('%',#{orderNumber},'%')</if>
+        </if>
+        <if test="itemManager != null and itemManager !=''">
+            and o.item_manager like
+            <if test="dbName == 'oracle'">'%'||#{itemManager}||'%'</if>
+            <if test="dbName == 'mssql'">'%'+#{itemManager}+'%'</if>
+            <if test="dbName == 'mysql'">concat('%',#{itemManager},'%')</if>
+        </if>
+        <if test="customerName != null and  customerName !=''">
+            and o.customer_name like
+            <if test="dbName == 'oracle'">'%'||#{customerName}||'%'</if>
+            <if test="dbName == 'mssql'">'%'+#{customerName}+'%'</if>
+            <if test="dbName == 'mysql'">concat('%',#{customerName},'%')</if>
+        </if>
+        <if test="orderTaskPackageCode != null and orderTaskPackageCode !=''">
+            and a.order_task_package_code like
+            <if test="dbName == 'oracle'">'%'||#{orderTaskPackageCode}||'%'</if>
+            <if test="dbName == 'mssql'">'%'+#{orderTaskPackageCode}+'%'</if>
+            <if test="dbName == 'mysql'">concat('%',#{orderTaskPackageCode},'%')</if>
+        </if>
+        <if test="isScrap != null and isScrap != ''">
+        AND o.is_scrap = #{isScrap}
+        </if>
+        group by a.id
+    </select>
+    <select id="findLogDatetime" parameterType="java.util.Map" resultType="cn.damei.entity.modules.TaskPackCount">
+        SELECT
+          a.business_only_mark_int as 'id',
+          max(a.create_date) as 'taskPackStatus20'
+        FROM biz_business_status_log a
+        WHERE a.business_type = #{type}
+            AND a.business_only_mark_int IN (
+            <foreach collection="ids" item="item" separator="," >
+                #{item}
+            </foreach>)
+        group by a.business_only_mark_int
+    </select>
+
+</mapper>

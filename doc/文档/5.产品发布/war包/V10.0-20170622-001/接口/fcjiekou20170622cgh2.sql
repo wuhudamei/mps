@@ -1,0 +1,1 @@
+insert into `biz_syn_data_cnfg` (`data_direction`, `business_type`, `interface_url`, `is_enabled`, `remarks`, `create_by`, `create_date`, `update_by`, `update_date`, `del_flag`) values('2','401','http://103.249.255.142:8013/IndustryWorkerSyncMaterial/SyncMainMaterialInfo',NULL,NULL,NULL,NULL,NULL,NULL,NULL);

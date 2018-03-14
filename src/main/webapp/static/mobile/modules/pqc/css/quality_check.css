@@ -1,0 +1,192 @@
+.qua_check{padding-top: 1rem;margin-bottom: 5rem;}
+.funs{width: 100%;height: 1.18rem;line-height: 1.18rem;background: #fff;font-size: .28rem;position: relative;margin-bottom: .2rem;}
+.change{position: absolute;right: .3rem;top: 0;color: #fff;font-size: .28rem;height: .8rem;line-height: .8rem;}
+.col3{color: #333;margin-left: .6rem;float: left;}
+.up{width: .6rem;float: left;height: .6rem;position: relative;overflow: hidden;margin-top: .29rem;margin-left: .2rem;}
+.up img{width: 100%;height: 100%;position: absolute;top: 0;left: 0;}
+.up input{opacity: 0;width: 100%;font-size: 100px;position: absolute;top: 0;left: 0;}
+.wtc_btn{
+    display: block;
+    position: absolute;
+    right: .2rem;
+    top: .16rem;
+    width: 1.2rem;
+    height: .86rem;
+    line-height: .86rem;
+    text-align: center;
+    font-size: .24rem;
+    color: #0780ec;
+    padding-right: .2rem;
+    background-image: url(../images/rightArrow.png);
+    background-repeat: no-repeat;
+    background-size: .16rem .29rem;
+    background-position: right center;
+    }
+.item_lists{background: #fff;margin-bottom: 5rem;}
+.line_hgt86{height: .86rem;line-height: .86rem;}
+.font28{font-size: .28rem;}
+.font26{font-size: .26rem;}
+.mar_left3{margin-left: .3rem;}
+.bor_btm{border-bottom: 1px solid #ccc;}
+.pad_top3{padding-top: .3rem;}
+.pad_rgt2{padding-right: .2rem;}
+.span_left{float: left;height: inherit;line-height: .86rem;color: #666;}
+.p_left{line-height: 1.3em;color: #666;}
+.p_right{font-size: 0.26rem;color: #666;overflow: hidden;margin-right: .6rem;}
+input[type="radio"]{
+    margin: 3px 3px 3px 5px;
+    display: none;
+}
+label{
+    padding-left: .44rem;
+    cursor: pointer;
+    background: url(../images/radio1.png) no-repeat left center;
+    background-size: .26rem .26rem;
+}
+label.checked{
+    background: url(../images/radio2.png) no-repeat left center;
+    background-size: .26rem .26rem;
+}
+p span:first-child label{margin-right: .7rem;}
+.item_lists li:last-child{border:none;}
+footer {
+    width: 100%;
+    height: .86rem;
+    background: #0780ec;
+    position: fixed;
+    bottom: 0;
+}
+footer a {
+    float: left;
+    width: 50%;
+    height: .86rem;
+}
+.btn {
+    display: block;
+    margin-top: .23rem;
+    height: .4rem;
+    line-height: .4rem;
+    color: #fff;
+    text-align: center;
+    box-sizing: border-box;
+}
+/*.btn:first-child {
+    border-right: 1px solid #b4b4b4;
+    box-sizing: border-box;
+}*/
+/*照片弹出层*/
+.mask{width: 100%;height: 100%;overflow: auto;background: rgba(0,0,0,.2);position: fixed;top: 0;left: 0;}
+.mask1{z-index: 10;}
+.pic_container{margin-top: 1.4rem;background: #eee;padding: .4rem .1rem;}
+.pic_wraper{width: 32%;float: left;padding: 0;position: relative;overflow: hidden;margin-right: 2%;font-size: 0;}
+.pic_wraper:nth-of-type(3n){margin-right: 0;}
+.pic_wraper img{width: 100%;height: 3rem;}
+.del_btn{
+	display: block;
+    font-size: .28rem;
+    color: #0780ec;
+    margin: .2rem auto;
+    line-height: .42rem;
+    width: 46%;
+    text-align: center;
+    border: 1px solid #0780ec;
+}
+.mask2{z-index: 11;background: rgba(0,0,0,.7);}
+.big_pic_wraper{width: 80%;/*height: 80%;*/margin: 1.5rem auto;}
+.big_pic_wraper img{width: 100%;}
+.mask3{z-index: 12;}
+.obey{margin: 0 .26rem .4rem;height: 100%;overflow: auto;}
+.obey_header{width: 100%;line-height: .5rem;background:#9cccf7;text-align: center;font-size: .3rem;color: #666;}
+.counts{background: #fff;padding: .3rem;}
+.obey_li{min-height: .4rem;font-size: .26rem;color: #888;}
+.obey_li input{margin: 3px 3px 3px 5px;display: none;}
+.obey_li label {
+    display: inline-block;
+    width: 100%;
+    line-height: .5rem;
+    box-sizing: border-box;
+    padding-left: .3rem;
+    cursor: pointer;
+    background: url(../images/box_no.png) no-repeat left .12rem;
+    background-size: .22rem .22rem;
+}
+input.date {
+	display: inline-block;
+    border: none;
+    width: 2.3rem;
+    line-height: .34rem;
+    padding: .05rem .12rem;
+    border: 1px solid #9cf;
+    border-radius: 0.1rem;
+    background-image: url(../images/canlender.png);
+    background-repeat: no-repeat;
+    background-size: .3rem .32rem;
+    background-position: 1.8rem center;
+    color: #999;
+}
+.other{width: 90%;height: .76rem;resize: none;border: 1px solid #9cf;margin-left: .3rem;}
+.mar_left3{margin-left: .3rem;}
+.method{height: .76rem;line-height: .76rem;}
+.p_right{height: .86rem;line-height: .86rem;}
+.mask3 .p_right label{width: 1.5rem;background: url(../images/radio1.png) no-repeat left center;background-size: .22rem .22rem;}
+.obey_li input.money{width: 80%;height: .46rem;border: 1px solid #9cf;margin-left: .3rem;display: inline-block;}
+.counts:last-child{margin-bottom: 2rem;}
+.bor_rht{border-right: 1px solid #ccc;}
+
+
+.obey_li label.checked {
+    background: url(../images/box_yes.png) no-repeat left .12rem;
+    background-size: .26rem .26rem;
+}
+.obey_li .p_right label.checked {
+    background: url(../images/radio2.png) no-repeat left .12rem;
+    background-size: .26rem .26rem;
+}
+#yes{margin-left:0.24rem;}
+label{
+    padding-left: .44rem;
+    cursor: pointer;
+    background: url(../images/radio1.png) no-repeat left center;
+    background-size: .26rem .26rem;	
+}
+label.checked{
+    background: url(../images/radio2.png) no-repeat left center;
+    background-size: .26rem .26rem;
+}
+label.checked3{
+    background: url(../images/radio3.png) no-repeat left center;
+    background-size: .26rem .26rem;
+}
+label.checked4{
+    background: url(../images/radio4.png) no-repeat left center;
+    background-size: .26rem .26rem;
+}
+/*提交复检按钮*/
+.repeat{
+    width: 100%;float: none;
+}
+
+/*照片列表回退按钮*/
+.back{display: block;width: 100%;height: .76rem;line-height: .76rem;background: #0780ec;font-size: .28rem;text-align: center;color: #fff;position: fixed;bottom: 0;}
+
+
+.mar_left144{margin-left: 1.44rem;}
+.mar_btm50{margin-bottom: .4rem;}
+.obey_li input.short-text{
+	display: inline-block;
+    border: none;
+    width: 1.4rem;
+    line-height: .46rem;
+    padding: .05rem .12rem;
+    border: 1px solid #9cf;
+    color: #999;
+    font-size: .24rem;
+}
+.long-option{
+	width: 4.1rem;
+  		height: .46rem;
+  		border: 1px solid #9cf;
+  		font-size: .24rem;
+  		color: #0780ec;
+  		padding: 0 .12rem;
+}

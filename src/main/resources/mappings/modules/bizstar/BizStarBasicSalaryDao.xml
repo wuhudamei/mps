@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizStarBasicSalaryDao">
+    
+    <sql id="bizStarBasicSalaryColumns">
+		a.id AS "id",
+		a.basic_salary AS "basicSalary",
+		a.effect_date AS "effectDate",
+		a.version AS "version",
+		a.status AS "status",
+		a.remarks AS "remarks",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag",
+		a.star_id AS "bizManagerStar.id",
+		B.store_id AS "storeId",
+		B.project_mode AS "projectMode",
+		B.star_level AS "starLevel"
+	</sql>
+  
+  <select id="findList" parameterType="cn.damei.entity.modules.BizStarBasicSalary"
+  resultType="cn.damei.entity.modules.BizStarBasicSalary">
+		SELECT 
+			<include refid="bizStarBasicSalaryColumns"/>
+		
+		FROM biz_star_basic_salary a
+		
+		INNER JOIN biz_star_cnfg B ON (a.star_id = B.id)
+		
+		<where>
+			<if test="storeId != null and storeId != ''">
+				AND B.store_id = #{storeId}
+			</if>
+		</where>
+		ORDER BY a.update_date DESC
+	</select>
+	
+	<insert id="insert" parameterType="cn.damei.entity.modules.BizStarBasicSalary" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+		INSERT INTO 
+		biz_star_basic_salary(
+			id,
+			basic_salary,
+			effect_date,
+			version,
+			status,
+			remarks,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag,
+			star_id
+		) VALUES (
+			#{id},
+			#{basicSalary},
+			#{effectDate},
+			#{version},
+			#{status},
+			#{remarks},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag},
+			#{bizManagerStar.id}
+		)
+	</insert>
+	
+	<select id="get" resultType="cn.damei.entity.modules.BizStarBasicSalary">
+		SELECT 
+			<include refid="bizStarBasicSalaryColumns"/>
+		FROM biz_star_basic_salary a
+		INNER JOIN biz_star_cnfg B ON (a.star_id = B.id)
+		WHERE a.id = #{id}
+	</select>
+  	
+  	<update id="update" parameterType="cn.damei.entity.modules.BizStarBasicSalary">
+		UPDATE biz_star_basic_salary 
+		
+		SET 	
+			basic_salary = #{basicSalary},
+			effect_date = #{effectDate},
+			version = #{version},
+			status = #{status},
+			remarks = #{remarks},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			star_id = #{bizManagerStar.id}
+		WHERE id = #{id}
+	</update>
+  	
+  	<select id="getMaxVersion" resultType="string">
+  		SELECT MAX(version) version 
+  		FROM biz_star_basic_salary
+  		WHERE 1 = 1
+  	</select>
+  	
+  	<select id="getSalary" resultType="double">
+  		SELECT 
+		  basic_salary 
+		FROM
+		  biz_star_basic_salary 
+		WHERE effect_date = 
+		  (SELECT 
+		    MAX(effect_date) 
+		  FROM
+		    biz_star_basic_salary a 
+		    INNER JOIN biz_star_cnfg b 
+		      ON (a.star_id = b.`id`) 
+		  WHERE DATE_FORMAT(effect_date, '%Y-%m') = #{attendMonth} 
+		    AND b.store_id = #{storeId} 
+		    AND b.project_mode = #{projectMode} 
+		    AND b.star_level = #{starLevel}
+		    AND b.`status` = '1' 
+		    AND a.status = '1') 
+		ORDER BY id DESC 
+		LIMIT 1 
+  	</select>
+  
+</mapper>

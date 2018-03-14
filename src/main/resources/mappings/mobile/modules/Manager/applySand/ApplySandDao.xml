@@ -1,0 +1,413 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="cn.damei.dao.mobile.Manager.ApplySandDao">
+
+
+	<sql id="allOrderColumns">
+
+		a.id As "id" ,
+		a.item_manager_id As "itemManagerId" ,
+		a.customer_name AS "customerName" ,
+		a.community_name AS "communityName",
+		a.build_number AS "buildNumber" ,
+		a.build_unit AS "buildUnit" ,
+		a.build_room As "buildRoom" ,
+		a.contract_start_date AS "contractStartDate",
+		a.actual_start_date AS "actualStartDate",
+		a.is_scrap AS "isScrap",
+		a.contract_time AS "contractTime",
+		a.order_status_description AS "orderStatus"
+
+	</sql>
+
+
+
+	<!-- 查询项目经理名下的订单（状态等于200施工中） -->
+	<select id="getOrderListForSandByManagerId"
+		parameterType="cn.damei.entity.mobile.Manager.SwitchPanelOrderVo"
+		resultType="cn.damei.entity.mobile.Manager.SwitchPanelOrderVo">
+
+		SELECT
+			<include refid="allOrderColumns" />
+		FROM 
+			biz_order a 
+		WHERE 
+			a.item_manager_id =#{itemManagerId} 
+			AND a.order_status_number = #{orderStatus}
+		ORDER BY a.create_date DESC
+
+	</select>
+
+	<!-- 查询该订单下已经申请的最新一条沙子水泥采购单 -->
+	<select id="selectPurchaseByOrderIdNewOne" parameterType="cn.damei.entity.mobile.Manager.Purchase"
+		resultType="cn.damei.entity.mobile.Manager.Purchase">
+		SELECT
+			a.id AS "id",
+			a.purchase_code AS "purchaseCode",
+			a.apply_receive_time AS "hopeForTime",
+			a.apply_time AS "applyTime",
+			(
+				SELECT
+					COUNT(1)
+				FROM
+					biz_business_view_log b
+				WHERE
+					a.id = b.business_id_int
+				AND b.business_type = #{businessType}
+				AND b.business_viewer_only_mark = #{businessViewerOnlyMark}
+				AND b.business_viewer_employee_id = #{businessViewerEmployeeId}
+			) AS "count",
+			(
+				SELECT
+					COUNT(1)
+				FROM
+					biz_purchase f
+				WHERE
+					f.order_id = a.order_id
+				AND f.purchase_type = a.purchase_type
+				AND f.`status` NOT IN (#{status})
+			) AS "purchaseCount"
+		FROM
+			biz_purchase a
+		WHERE
+			a.purchase_type = #{purchaseType}
+		AND a.order_id = #{orderId}
+		ORDER BY
+			a.apply_time DESC
+		LIMIT 1
+
+	</select>
+	
+
+	<resultMap
+		type="cn.damei.entity.mobile.Manager.Supplier"
+		id="supplierMap">
+			
+		<result property="supplierId" column="supplierId" />
+		<result property="supplierName" column="supplierName" />
+		
+		<collection property="sandGoodsList" resultMap="sandGoods"></collection>
+	</resultMap>
+
+
+	<resultMap
+		type="cn.damei.entity.mobile.Manager.SandGoods"
+		id="sandGoods">
+		
+		<result property="auxiliaryMaterialsId" column="auxiliaryMaterialsId" />
+		<result property="auxiliaryMaterialsNo" column="auxiliaryMaterialsNo" />
+		<result property="auxiliaryMaterialsName" column="auxiliaryMaterialsName" />
+		<result property="specifications" column="specifications" />
+		<result property="measurementUnit" column="measurementUnit" />
+		<result property="measurementUnitLabel" column="measurementUnitLabel" />
+		<result property="picUrl" column="picUrl" />
+		<result property="brands" column="brands" />
+		<result property="auxiliaryMaterialsSupplierRelId" column="auxiliaryMaterialsSupplierRelId" />
+		<result property="laborPrice" column="laborPrice" />
+		<result property="supplierPrice" column="supplierPrice" />
+		<result property="wangzhenPrice" column="wangzhenPrice" />
+		
+		<association property="supplier" resultMap="supplierMap"></association>
+	</resultMap>
+	<!-- 查询出所有的供应商及沙子水泥商品 -->
+	<select id="findSupplierAndGoods" parameterType="cn.damei.entity.mobile.Manager.Supplier"
+	resultMap="supplierMap">
+		SELECT
+			c.id AS "auxiliaryMaterialsId",
+			c.auxiliary_materials_no AS "auxiliaryMaterialsNo",
+			c.auxiliary_materials_name AS "auxiliaryMaterialsName",
+			c.specifications AS "specifications",
+			c.measurement_unit AS "measurementUnit",
+			g.label AS "measurementUnitLabel",
+			c.pic_url AS "picUrl",
+			c.brands AS "brands",
+			w.id AS "auxiliaryMaterialsSupplierRelId",
+			w.labor_price AS "laborPrice",
+			w.supplier_price AS "supplierPrice",
+			w.wangzhen_price AS "wangzhenPrice",
+			f.id AS "supplierId",
+			f.supplier_name AS "supplierName"
+		FROM
+			biz_order a
+		INNER JOIN biz_auxiliary_materials c ON a.store_id = c.store_id
+		INNER JOIN (
+			SELECT
+				b.auxiliary_materials_id,
+				MAX(b.id) AS "maxId"
+			FROM
+				biz_auxiliary_materials_supplier_rel b
+			WHERE
+				b.effective_date &lt;= NOW()
+			AND b.del_flag = #{delFlag}
+			GROUP BY
+				b.auxiliary_materials_id
+		) w1 ON w1.auxiliary_materials_id = c.id
+		LEFT JOIN biz_auxiliary_materials_supplier_rel w ON w.id = w1.maxId
+		INNER JOIN biz_supplier f ON w.supplier_id = f.id
+		AND f.`status` = #{status}
+		AND f.del_flag = #{delFlag}
+		LEFT JOIN sys_dict g ON g.type = 'biz_material_unit'
+		AND c.measurement_unit = g.`value`
+		AND g.del_flag = #{delFlag}
+		WHERE
+			c.`status` = #{status}
+		AND c.is_sand_cement = #{isSandCement}
+		AND a.id = #{orderId}
+		AND c.del_flag = #{delFlag}
+		ORDER BY f.supplier_name ASC,c.auxiliary_materials_no ASC
+	</select>
+
+
+	<!-- 保存采购单 -->
+	<insert id="savePurchase"
+		parameterType="cn.damei.entity.mobile.Manager.Purchase">
+		<selectKey resultType="java.lang.Integer" keyProperty="id"
+			order="AFTER">
+			SELECT LAST_INSERT_ID();
+		</selectKey>
+
+			INSERT INTO biz_purchase (
+					id ,
+					order_id,
+					purchase_code,
+					purchase_type,
+					receiver_name,
+					receiver_phone,
+					apply_receive_time,
+					apply_employee,
+					apply_time,
+					remarks,
+					status,
+					total_price,
+					create_date,
+					update_date,
+					del_flag,
+					transfer_supplier_datetime,
+					receive_all_goods_datetime,
+					over_number,
+					over_reason_type,
+					over_reason_words,
+					supplier_id,
+					is_elevator,
+					upstairs_pay,
+					upstairs_floor
+				)
+				values(
+
+						#{id},
+						#{orderId},
+						#{purchaseCode},
+						#{purchaseType},
+						#{receiverName},
+						#{receiverPhone},
+						#{applyReceiveTime},
+						#{applyEmployee},
+						#{applyTime},
+						#{remarks},
+						#{status},
+						#{totalPrice},
+						#{createDate},
+						#{updateDate},
+						#{delFlag},
+						#{transferSupplierDatetime},
+						#{receiveAllGoodsDatetime},
+						#{overNumber},
+						#{overReasonType},
+						#{overReasonWords},
+						#{supplierId},
+						#{isElevator},
+						#{upstairsPay},
+						#{upstairsFloor}
+				)
+	</insert>
+
+
+	<!-- 批量保存商品 -->
+	<insert id="savePurchaseAuxiMate" parameterType="java.util.List">
+		INSERT INTO biz_purchase_auxi_mate(
+				id,
+				purchase_id,
+				auxi_mate_code,
+				auxi_mate_count,
+				remarks,
+				submmit_status,
+				create_date,
+				update_date,
+				del_flag,
+				order_id,
+				received_auxi_mate_count,
+				owed_auxi_mate_count,
+				price,
+				supplier_price,
+				wangzhen_price,
+				is_sand_cement
+			) VALUES 
+			<foreach collection="list" item="item" index="index" separator="," >
+				(
+					#{item.id},
+					#{item.purchaseId},
+					#{item.auxiMateCode},
+					#{item.auxiMateCount},
+					#{item.remarks},
+					#{item.submmitStatus},
+					#{item.createDate},
+					#{item.updateDate},
+					#{item.delFlag},
+					#{item.orderId},
+					#{item.receivedAuxiMateCount},
+					#{item.owedAuxiMateCount},
+					#{item.price},
+					#{item.supplierPrice},
+					#{item.wangzhenPrice},
+					#{item.isSandCement}
+				)
+			</foreach>
+	</insert>
+
+	<!-- 如果保存商品失败，则删除采购单 -->
+	<delete id="deletePurchase" parameterType="int">
+		DELETE
+		FROM
+			biz_purchase
+		WHERE
+			id = #{0}
+	</delete>
+
+	<!-- 根据orderId 查询沙子水泥采购单 -->
+	<select id="selectPurchaseByOrderId" parameterType="cn.damei.entity.mobile.Manager.Purchase"
+		resultType="cn.damei.entity.mobile.Manager.Purchase">
+		SELECT
+			a.id AS "purchaseId",
+			a.purchase_code AS "purchaseCode",
+			a.`status` AS "status",
+			c.label AS "statusName",
+			a.apply_receive_time AS "applyReceiveTime",
+			a.apply_time AS "applyTime",
+			a.supplier_id AS "supplierId",
+			b.supplier_name AS "supplierName",
+			b.contacts_phone AS "supplierPhone",
+			b.contacts AS "supplierContactsName"
+		FROM
+			biz_purchase a
+		LEFT JOIN biz_supplier b ON b.id = a.supplier_id
+		AND b.del_flag = #{delFlag}
+		LEFT JOIN sys_dict c ON c.`value` = a.`status`
+		AND c.type = 'purchase_auxiliary_status'
+		AND c.del_flag = #{delFlag}
+		WHERE
+			a.order_id = #{orderId}
+		AND a.purchase_type = #{purchaseType}
+		ORDER BY a.apply_time DESC
+	</select>
+
+
+	<!-- 查询沙子水泥采购单 -->
+	<select id="findPurchase" parameterType="int" resultType="cn.damei.entity.mobile.Manager.Purchase">
+		SELECT
+			a.id AS "purchaseId",
+			a.purchase_code AS "purchaseCode",
+			a.`status` AS "status",
+			c.label AS "statusName",
+			a.apply_receive_time AS "applyReceiveTime",
+			a.apply_time AS "applyTime",
+			a.supplier_id AS "supplierId",
+			a.is_elevator AS "isElevator",
+			a.upstairs_floor AS "upstairsFloor",
+			a.total_price AS "totalPrice",
+			b.supplier_name AS "supplierName",
+			b.contacts_phone AS "supplierPhone",
+			b.contacts AS "supplierContactsName"
+		FROM
+			biz_purchase a
+		LEFT JOIN biz_supplier b ON b.id = a.supplier_id
+		AND b.del_flag = 0
+		LEFT JOIN sys_dict c ON c.`value` = a.`status`
+		AND c.type = 'purchase_auxiliary_status'
+		AND c.del_flag = 0
+		WHERE
+			a.id = #{0}
+	</select>
+
+
+
+	<!-- 查询采购单商品 -->
+	<select id="findPurchaseGoods" parameterType="cn.damei.entity.mobile.Manager.AuxiliaryVo" resultType="cn.damei.entity.mobile.Manager.AuxiliaryVo">
+		SELECT
+			a.auxi_mate_count AS "auxiMateCount",
+			a.price AS "price",
+			b.pic_url AS "pic",
+			b.auxiliary_materials_name AS "name",
+			b.brands AS "brand",
+			b.specifications AS "specifications",
+			c.label AS "unit",
+			a.auxi_mate_code AS "auxiMateCode",
+			a.received_auxi_mate_count AS "receivedAuxiMateCount",
+			a.owed_auxi_mate_count AS "owedAuxiMateCount",
+			b.category_id AS "categoryId",
+			f.category_name AS "categoryName"
+		FROM
+			biz_purchase_auxi_mate a
+		INNER JOIN biz_auxiliary_materials b ON b.auxiliary_materials_no = a.auxi_mate_code
+		AND b.is_sand_cement = #{isSandCement}
+		LEFT JOIN sys_dict c ON b.measurement_unit = c.value
+		AND c.type = 'biz_material_unit' AND c.del_flag = #{delFlag}
+		LEFT JOIN biz_material_category f ON f.id = b.category_id AND f.del_flag = #{delFlag} AND f.`status` = 1
+		WHERE
+			a.purchase_id = #{purchaseId}
+		AND a.is_sand_cement = #{isSandCement}
+	</select>
+
+	
+
+
+
+
+	<!-- 采==============购=====================单================的====================编==================号 -->
+
+
+	<!-- 得到编号组成码 -->
+	<select id="getCode"
+		resultType="cn.damei.entity.mobile.Manager.PurchaseCode">
+		SELECT a.id AS "id", a.purchase_code AS "purchaseCode"
+		,a.auxiliary_date AS
+		"auxiliaryDate" from biz_purchase_increNum a where a.id = 2 ;
+
+	</select>
+	<!-- 更新辅料编号生成码规则 -->
+	<select id="updateCode"
+		parameterType="cn.damei.entity.mobile.Manager.PurchaseCode">
+		UPDATE biz_purchase_increNum SET
+		purchase_code=#{purchaseCode}
+		,auxiliary_date =#{auxiliaryDate} where
+		id =#{id}
+
+	</select>
+	<!-- 采==============购=====================单================的====================编==================号 -->
+
+
+
+	<!-- 判断【基装】约检节点的状态是否大于等于10-质检员已提交约检验收。 -->
+	<select id="findQcBillAcceptStatus" parameterType="int" resultType="int">
+		
+		SELECT
+			COUNT(1)
+		FROM
+			biz_order a
+		INNER JOIN biz_qc_check_node b ON b.store_id = a.store_id
+		AND b.project_mode = a.project_mode
+		AND b.is_for_basicwork = 1
+		INNER JOIN biz_qc_bill c ON c.qc_check_node_id = b.id
+		AND c.is_recheck = 0
+		AND c.qc_bill_type = 1
+		AND c.order_id = a.id
+		WHERE
+			a.id = #{0}
+		AND c.`status` &gt;= 10
+
+	
+	</select>
+	
+	
+	
+</mapper>

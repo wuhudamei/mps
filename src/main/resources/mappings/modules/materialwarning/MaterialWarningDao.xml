@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.MaterialWarningDao">
+	<select id="findAllDelayOrderId" resultType="String">
+	
+	select a.order_id from biz_node_plan a where a.node_index in(#{0},3) and a.plan_done_date  &lt; CURDATE() and a.create_date &gt;='2017-03-01' group by a.order_id
+	
+	</select>
+	<select id = "findCompleteOrderId" resultType="String">
+	select a.order_id from biz_purchase a where a.status in (70,90) and a.create_date &gt;='2017-03-01' group by a.order_id	
+	</select>
+	
+	<select id="findList" resultType="cn.damei.entity.modules.MaterialWarning">
+	select a.id,
+	count(b.id) as 'allOrderSum',
+	a.store_id,
+	a.project_mode ,a.is_old_house as "isNewHouse",
+	a.sort,
+	a.construction_schedule_name 
+	from biz_construction_schedule a
+	left join 
+	(
+	select a.id,c.sort AS 'nodeIndex',a.store_id,a.project_mode,a.house_is_new from biz_order a
+	left join biz_node_plan b on a.id = b.order_id
+	LEFT JOIN biz_construction_schedule c ON b.construction_schedule_id = c.id
+	where 
+	a.order_status_number &lt; 340
+	and
+	a.id in (
+			<foreach collection="orderIds" item="item" index="index" separator="," >
+				#{item}
+			</foreach>
+	) 
+	AND c.id IN (2,19) AND b.plan_done_date &lt;CURDATE()
+	)b ON a.store_id = b.store_id AND a.project_mode = b.project_mode AND a.is_old_house = b.house_is_new AND b.nodeIndex = a.sort
+	WHERE
+	a.sort IN (
+	SELECT sort FROM biz_construction_schedule WHERE id IN (2,19)
+	)
+			<if test="storeId != null and storeId != ''">
+				AND a.store_id = #{storeId}
+			</if>
+			<if test="projectMode != null and projectMode != ''">
+				AND a.project_mode = #{projectMode}
+			</if> 
+			<if test="isNewHouse != null and isNewHouse != ''">
+				and a.is_old_house = #{isNewHouse} 
+			</if>
+			<if test="constructionScheduleName != null and constructionScheduleName != ''">
+				and a.construction_schedule_name like CONCAT('%','${constructionScheduleName}','%')
+			</if>
+	group by a.store_id,a.project_mode,a.is_old_house,a.sort
+	</select>
+</mapper>

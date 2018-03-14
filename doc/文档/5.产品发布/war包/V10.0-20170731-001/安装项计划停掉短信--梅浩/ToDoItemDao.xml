@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.ToDoItemDao">
+
+	 <select id="get" resultType="ToDoItemEntity">
+		select 1 from dual
+	</select>
+	
+	<select id="findList" resultType="ToDoItemEntity">
+		select 
+			a.id as "id",
+			a.todo_item_type_id as "toDoItemTypeId",
+			a.related_business_type as "relatedBusinessType",
+			a.related_business_id as "relatedBusinessId",
+			a.todo_item_employee_id as "toDoItemEmployeeId",
+			a.todo_item_remind_title as "toDoItemRemindTitle",
+			a.todo_item_deal_url as "toDoItemDealUrl",
+			a.todo_item_generated_datetime as "toDoItemGeneratedDatetime",
+			a.todo_item_remind_datetime as "toDoItemRemindDatetime",
+			a.todo_item_view_datetime as "toDoItemViewDatetime",
+			a.todo_item_deal_datetime as "toDoItemDealDatetime",
+			a.is_viewed as "isViewd",
+			a.is_solved as "isSolved",
+			a.remarks as "remarks",
+			a.create_by as "createBy",
+			a.create_date as "createDate",
+			a.update_by as "updateBy",
+			a.update_date as "updateDate",
+			a.del_flag as "delFlag",
+			o.id AS "orderId",
+			o.store_id AS "storeId",
+			o.order_number AS "orderNumber",
+			o.project_mode AS "projectMode",
+			o.community_name AS 'xiaoqu',
+			o.build_unit AS 'danyuan',
+			o.build_number AS 'lou',
+			o.build_room AS 'shi',
+			o.customer_name AS "customerName",
+			o.customer_phone AS "customerPhone",	
+			o.item_manager_id AS "managerId",
+			o.item_manager AS "managerName",
+			t.id AS "engineDepartId",
+			t.name AS "engineDepartName"
+		from    biz_todo_item  a 
+		inner join biz_order o ON a.order_id = o.id
+		inner join biz_engineering_department t ON o.engin_depart_id = t.id
+		<if test="storeId !='' and storeId != null">
+			 and  o.store_id = #{storeId}
+		 </if>
+		<if test="projectMode !='' and projectMode != null">
+			 and  o.project_mode = #{projectMode}
+		 </if>
+		<if test="engineDepartId !='' and engineDepartId != null">
+			 and  t.id = #{engineDepartId}
+		 </if>
+		 <if test="orderNumber !='' and orderNumber != null">
+			 and  o.order_number like CONCAT('%','${orderNumber}','%' )  
+		 </if>
+		  <if test="customerName !='' and customerName != null">
+			 and  o.customer_name like CONCAT('%','${customerName}','%' )  
+		 </if>
+		 <if test="isViewd !='' and isViewd != null">
+			 and a.is_viewed = #{isViewd}  
+		 </if>
+		 <if test="isSolved !='' and isSolved != null">
+			 and a.is_solved = #{isSolved}  
+		 </if>
+		  <if test="managerName !='' and managerName != null">
+			 and  o.item_manager like CONCAT('%','${managerName}','%' )  
+		 </if>
+		 order by a.todo_item_remind_datetime desc 
+	</select>
+	<select id="findList1" resultType="ToDoItemEntity">
+		select 
+			a.rownum as "rowNo",
+			a.id as "id",
+			a.todo_item_type_id as "toDoItemTypeId",
+			a.related_business_type as "relatedBusinessType",
+			a.related_business_id as "relatedBusinessId",
+			a.todo_item_employee_id as "toDoItemEmployeeId",
+			a.todo_item_remind_title as "toDoItemRemindTitle",
+			a.todo_item_deal_url as "toDoItemDealUrl",
+			a.todo_item_generated_datetime as "toDoItemGeneratedDatetime",
+			a.todo_item_remind_datetime as "toDoItemRemindDatetime",
+			a.todo_item_view_datetime as "toDoItemViewDatetime",
+			a.todo_item_deal_datetime as "toDoItemDealDatetime",
+			a.is_viewed as "isViewd",
+			a.is_solved as "isSolved",
+			a.remarks as "remarks",
+			a.create_by as "createBy",
+			a.create_date as "createDate",
+			a.update_by as "updateBy",
+			a.update_date as "updateDate",
+			a.del_flag as "delFlag",
+			o.id AS "orderId",
+			o.store_id AS "storeId",
+			o.order_number AS "orderNumber",
+			o.project_mode AS "projectMode",
+			o.community_name AS 'xiaoqu',
+			o.build_unit AS 'danyuan',
+			o.build_number AS 'lou',
+			o.build_room AS 'shi',
+			o.customer_name AS "customerName",
+			o.customer_phone AS "customerPhone",	
+			o.item_manager_id AS "managerId",
+			o.item_manager AS "managerName",
+			t.id AS "engineDepartId",
+			t.name AS "engineDepartName"
+		from ( select   (@i:=@i+1)   as   rownum,b.*   from   biz_todo_item b,(select   @i:=0)   as   it  )  a 
+		inner join biz_order o ON a.order_id = o.id
+		inner join biz_engineering_department t ON o.engin_depart_id = t.id
+			and  DATEDIFF(a.todo_item_remind_datetime,CURDATE())=0
+		 order by a.todo_item_remind_datetime desc 
+	</select>
+	<update id="updateViewdByObj">
+		update biz_todo_item set
+			is_viewed  = 1,
+			todo_item_view_datetime = NOW()
+		where id=#{id}
+	</update>
+	<update id="updateSolvedByObj">
+		update biz_todo_item set
+			is_solved  = 1,
+			todo_item_deal_datetime = NOW()
+		where id=#{id}
+	</update>
+	<update id="updateViewedAndSolvedByObj">
+		update biz_todo_item set
+			is_solved  = 1,
+			is_viewed  = 1,
+			todo_item_view_datetime = NOW(),
+			todo_item_deal_datetime = NOW()
+		where id=#{id}
+	</update>
+	<select id="selectId" parameterType="java.util.Map" resultType="java.lang.String">
+		select id from biz_todo_item where 1=1
+		<if test="relatedBusinessType !='' and relatedBusinessType != null">
+			 and related_business_type  = #{relatedBusinessType}
+		 </if>
+		 <if test="relatedBusinessId !='' and relatedBusinessId != null">
+			 and related_business_id  = #{relatedBusinessId}
+		 </if>
+		 <if test="orderId !='' and orderId != null">
+			 and order_id = #{orderId}
+		 </if>
+		limit 1
+	</select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO biz_todo_item (
+
+            todo_item_type_id,
+            related_business_type,
+            related_business_id,
+            order_id,
+            todo_item_employee_id,
+            todo_item_remind_title,
+            todo_item_deal_url,
+            todo_item_generated_datetime,
+            todo_item_remind_datetime,
+            todo_item_view_datetime,
+            todo_item_deal_datetime,
+            is_viewed,
+            is_solved,
+            remarks,
+
+            create_date,
+
+            update_date,
+            del_flag
+        ) VALUES (
+
+            #{toDoItemTypeId},
+            #{relatedBusinessType},
+            #{relatedBusinessId},
+            #{orderId},
+            #{toDoItemEmployeeId},
+            #{toDoItemRemindTitle},
+            #{toDoItemDealUrl},
+            #{toDoItemGeneratedDatetime},
+            #{toDoItemRemindDatetime},
+            #{toDoItemViewDatetime},
+            #{toDoItemDealDatetime},
+            #{isViewd},
+            #{isSolved},
+            #{remarks},
+
+            #{createDate},
+
+            #{updateDate},
+            #{delFlag}
+        )
+    </insert>
+
+
+    <select id="getToDoInfoByMap" parameterType="java.util.Map" resultType="java.util.Map">
+
+        SELECT
+        a.id AS "relatedBusinessId",
+        a.is_urge_pay as "urgePay",
+        c.todo_item_name as "remindTitle",
+        c.is_to_remind AS "isToRemind",
+        c.id AS "relatedTypeId",
+        b.id AS "orderId",
+        b.item_manager_id AS "toDoEmployeeId",
+        DATE_ADD(
+        b.actual_start_date,
+        INTERVAL (IFNULL(a.days_to_apply,0) + IFNULL(c.days_to_remind ,0))DAY
+        ) AS "confirmRemindTime",
+        IFNULL(a.days_to_apply,0) + IFNULL(c.days_to_remind ,0) AS "toDoItemRemindTime"
+        FROM
+        biz_qc_check_node a
+        LEFT JOIN biz_order b ON a.store_id = b.store_id
+        AND a.project_mode = b.project_mode
+        AND a.`status` = 1
+
+		<if test="relatedBusinessType==200">
+			LEFT JOIN biz_todo_item_type c ON  c.related_business_type = #{relatedBusinessType}
+			and a.store_id = c.store_id and a.project_mode = c.project_mode
+		</if>
+
+		<if test="relatedBusinessType==100">
+			LEFT JOIN biz_todo_item_type c ON a.id = c.related_business_id
+			AND c.related_business_type = #{relatedBusinessType}
+		</if>
+
+        WHERE
+        b.id =#{orderId}
+
+        <if test="qcNodeId==null or qcNodeId==''">
+            ORDER BY
+            a.qc_check_node_index ASC
+            LIMIT 1
+
+        </if>
+        <if test="qcNodeId!=null and qcNodeId!=''">
+            and a.id =#{qcNodeId}
+        </if>
+
+    </select>
+
+    <select id="findNextIdByPreId" parameterType="String" resultType="String">
+
+        SELECT
+            a1.id
+        FROM
+            biz_qc_check_node a1
+            LEFT JOIN biz_qc_check_node a ON a1.store_id = a.store_id
+                                             AND a1.project_mode = a.project_mode
+                                             AND a1.qc_check_node_index >a.qc_check_node_index
+                                             AND a1. STATUS = 1
+        WHERE
+            a.id = #{_parameter}
+        ORDER BY a1.qc_check_node_index ASC
+        limit 1
+
+    </select>
+ 
+	<update id="updateToDoItemInfoByOrderAndManagerId">
+	
+		UPDATE biz_todo_item
+		SET todo_item_employee_id = #{1}
+		WHERE
+			order_id = #{0}
+			AND is_viewed != 1
+			and is_solved!=1
+			and related_business_type =666
+	</update>
+	 <update id="saveDealUrlById">
+    	update biz_todo_item set todo_item_deal_url=#{1} where id=#{0}
+    </update>
+    <update id="updateUrgePayStatusByItemId">
+		update biz_business_urge_pay set status=#{1} where id=(select related_business_id from biz_todo_item where id=#{0})
+	</update>
+
+	<select id="findIsUrgePay" parameterType="String" resultType="int">
+		SELECT
+			IFNULL(a.is_urge_pay, 0)
+		FROM
+			biz_qc_check_node a
+		WHERE
+			a.id = #{_parameter}
+
+
+	</select>
+</mapper>

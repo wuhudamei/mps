@@ -1,0 +1,32 @@
+打包名称：mdn.war
+打包版本：V10.0-20170419-001
+
+功能变更：
+1、沙子水泥功能优化（武艺博）
+2、预备订单必填项校验（武艺博）
+3、预备订单分配质检员、分配项目经理、生成任务包功能增加订单必填项校验（武艺博）
+4、主材安装申请检索展示结果优化（武艺博）
+5、业主端施工过程中客户评价（李万财）
+6、辅料管理导出功能增加门店价、供应商价格。（武艺博）
+
+功能新增：
+1.业主端评价（李万财）
+2.辅料对账（郝永辉）
+
+
+数据库变更：
+1.修改表biz_order_taskpackage_auxiliary_materials 增加 supplier_price和wangzhen_price
+2.修改表biz_purchase_auxi_mate 增加supplier_price和wangzhen_price
+3.新增表biz_auxiliary_materials_verify
+4.新增表biz_auxiliary_materials_verify_include
+5.新增表biz_auxiliary_materials_verify_settlement_rel
+
+数据历史变更：
+1.表名【biz_purchase】-更新历史数据-沙子水泥采购单的【楼层、是否有电梯】
+ （执行【 沙子水泥采购单/更新历史数据--沙子水泥采购单.txt】 脚本）
+2.表名【biz_business_status_log】插入结算单通过状态的日志
+ （执行【 对账单/插入结算单通过状态的日志.txt】 脚本）
+3.表名【biz_order_taskpackage_auxiliary_materials】插入供应商价格和网真价格
+ （执行【 对账单/修改 biz_order_taskpackage_auxiliary_materials中的供应商价格和网真价格.txt】 脚本）
+4.表名【biz_purchase_auxi_mate】插入供应商价格和网真价格
+ （执行【 对账单/修改 biz_purchase_auxi_mate中的供应商价格和网真价格.txt】 脚本）

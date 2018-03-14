@@ -1,0 +1,7 @@
+.pad_left_p4{padding-left: 4%;}
+.mar_rgt_p6{margin-right: 6%;}
+.list{display: block;height: .88rem;line-height: .88rem;}
+.bg_rgt_arr{background-image: url(../images/rightArrow.png);
+    background-repeat: no-repeat;
+    background-size: 0.16rem 0.29rem;
+    background-position: 98% center;}

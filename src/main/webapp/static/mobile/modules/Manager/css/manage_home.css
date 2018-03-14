@@ -1,0 +1,36 @@
+.g_info li:first-child{
+	background-image: url(../images/order.png);
+	background-repeat: no-repeat;
+	background-size: 0.32rem 0.32rem;
+	background-position: 0.3rem center;
+}
+.g_info li:nth-child(2){
+	background-image: url(../images/progess.png);
+	background-repeat: no-repeat;
+	background-size: 0.32rem 0.32rem;
+	background-position: 0.3rem center;
+}
+.g_info li:nth-child(3){
+	background-image: url(../images/mete_icon.png);
+	background-repeat: no-repeat;
+	background-size: 0.32rem 0.32rem;
+	background-position: 0.3rem center;
+}
+.g_info li:nth-child(4){
+	background-image: url(../images/task.png);
+	background-repeat: no-repeat;
+	background-size: 0.32rem 0.32rem;
+	background-position: 0.3rem center;
+}
+.g_info li:nth-child(5){
+	background-image: url(../images/qulity_icon.png);
+	background-repeat: no-repeat;
+	background-size: 0.3rem 0.32rem;
+	background-position: 0.3rem center;
+}
+.g_info li:nth-child(6){
+	background-image: url(../images/method_icon.png);
+	background-repeat: no-repeat;
+	background-size: 0.32rem 0.32rem;
+	background-position: 0.3rem center;
+}

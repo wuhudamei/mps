@@ -1,0 +1,77 @@
+.g-sign{
+	width: 100%;
+	height: 100%;
+	background: #eee;
+}
+.g-sign .position_text{
+	position: fixed;
+	top: 0.8rem;
+	width: 100%;
+	height: 0.74rem;
+	line-height: 0.74rem;
+	text-align: center;
+	font-size: 0.3rem;
+	color: #666;
+	background-color: #eee;
+	z-index: 9;
+}
+#map{
+	padding-top: 1.54rem;
+	width: 100%;
+	height: 100%;
+}
+.g-sign .position_point{
+	width: 0.54rem;
+	height: 0.74rem;
+	background-image: url(../images/position_point.png);
+	background-size: 0.54rem 0.74rem;
+	position: absolute;
+	top: 3rem;
+	left: 47%;
+	z-index: 9;
+}
+.g-sign .btns{
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 9;
+	text-align: center;
+}
+.g-sign .btns a{
+	/*position: fixed;*/
+	display: inline-block;
+	width: 3.76rem;
+	height: 0.8rem;
+	line-height: 0.8rem;
+	text-align: center;
+	font-size: 0.28rem;
+	color: #fff;
+	background: #09f;
+	border-radius: 0.1rem;
+}
+.g-sign .btns a.dispos_btn{
+	/*position: fixed;
+	left: 50%;
+	transform: translateX(-50%);
+	top: 50%;*/
+	margin-top: 60%;
+}
+.g-sign .btns a.pos_btn{
+	/*position: fixed;
+	left: 50%;
+	transform: translateX(-50%);
+	top: 60%;*/
+	margin-top: 20%;
+}
+.g-sign .btns a.unpos_btn{
+	/*position: fixed;
+	left: 50%;
+	transform: translateX(-50%);
+	top: 60%;*/
+	/*margin-top: 60%;*/
+}
+.g-sign .btns a.undis{
+	display: none;
+}

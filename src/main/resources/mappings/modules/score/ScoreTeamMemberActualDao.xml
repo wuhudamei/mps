@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.ScoreTeamMemberActualDao">
+    
+    <sql id="TeamMemberActualColumns">
+		a.id AS "id",
+		a.employee_id AS "employeeId",
+		a.employee_name AS "employeeName",
+		a.employee_phone AS "employeePhone",
+		a.belong_office as "belongOffice",
+		a.employee_post as "employeePost",
+		a.current_score AS "currentScore",
+		a.current_good_num AS "currentGoodNum",
+		a.current_bad_num AS "currentBadNum",
+		a.init_flag AS "initFlag",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+    
+    <!-- 插入方法 -->
+    <insert id="insert">
+		INSERT INTO biz_score_team_member_actual(
+			employee_id,employee_name,employee_phone,belong_office,employee_post,
+			current_score,current_good_num,current_bad_num,init_flag,
+			create_by,create_date,update_by,update_date,remarks,del_flag
+		)
+		values
+		(
+			#{employeeId},#{employeeName},#{employeePhone},#{belongOffice},#{employeePost},
+			#{currentScore},#{currentGoodNum},#{currentBadNum},#{initFlag},
+			#{createBy},#{createDate},#{updateBy},#{updateDate},#{remarks},#{delFlag}
+		)
+	</insert>
+	
+	<!-- 更新员工评分以及好评差评数 -->
+	<update id="updateEmployee" parameterType="map" >
+		update biz_score_team_member_actual
+		<set >
+			<if test=" currentScore != null ">
+				current_score = #{currentScore},
+			</if>
+			
+			<if test=" currentGoodNum != null ">
+				current_good_num = #{currentGoodNum},
+			</if>
+			
+			<if test=" currentBadNum != null ">
+				current_bad_num = #{currentBadNum},
+			</if>
+			
+			<if test=" initFlag != null ">
+				init_flag = #{initFlag},
+			</if>
+		</set>
+		 where employee_name = #{employeeName} and employee_phone = #{employeePhone}
+	</update>
+	
+	<!-- 根据员工姓名/手机查询评分记录 -->
+	<select id="selectByEmployee" parameterType="map" resultType="cn.damei.entity.modules.ScoreTeamMemberActual">
+		select <include refid="TeamMemberActualColumns"/>
+		  from biz_score_team_member_actual a where a.employee_name = #{employeeName} and a.employee_phone = #{employeePhone}
+	</select>
+	
+ 
+</mapper>

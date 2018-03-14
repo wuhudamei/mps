@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.mobile.Manager.OrderConfirmStartworkPicDao">
+    
+	<sql id="orderConfirmStartworkColumns">
+		a.ID AS "id",
+		a.ORDER_CONFIRM_STARTWORK_ID AS "orderConfirmStartworkId",
+		a.PIC_URL AS "picurl",
+		a.REMARKS AS "remarks",
+		a.CREATE_BY AS "createBy",
+		a.CREATE_DATE AS "createDate",
+		a.UPDATE_BY AS "updateBy",
+		a.UPDATE_DATE AS "updateDate",
+		a.DEL_FLAG AS "delFlag"
+	</sql>
+	
+	<!-- 保存开工图片 -->
+	<insert id="insertConfirmStartworkPic">
+		INSERT INTO BIZ_ORDER_CONFIRM_STARTWORK_PIC(
+			ID,
+			ORDER_CONFIRM_STARTWORK_ID,
+			PIC_URL,
+			REMARKS,
+			CREATE_DATE,
+			UPDATE_DATE,
+			DEL_FLAG
+		) VALUES (
+			#{id},
+			#{orderConfirmStartworkId},
+			#{picUrl},
+			#{remarks},
+			#{createDate},
+			#{updateDate},
+			#{delFlag}
+		)
+	</insert>
+	
+	<!-- 批量保存开工图片 -->
+	<insert id="saveConfirmStartPicList" parameterType="java.util.List">
+		INSERT INTO biz_order_confirm_startwork_pic(
+			id,
+			order_confirm_startwork_id,
+			pic_url,
+			remarks,
+			create_date,
+			update_date,
+			del_flag
+		) values
+		<foreach collection="list" item="item" index="index" separator="," >
+			(
+				#{item.id},
+				#{item.orderConfirmStartworkId},
+				#{item.picUrl},
+				#{item.remarks},
+				#{item.createDate},
+				#{item.updateDate},
+				#{item.delFlag}
+			)
+		</foreach>
+	</insert>
+</mapper>

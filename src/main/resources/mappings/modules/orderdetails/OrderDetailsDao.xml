@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace = "cn.damei.dao.modules.OrderDetailsDao">
+
+	<select id="findOrderDtailsById" resultType="cn.damei.entity.modules.OrderDetails">
+		SELECT bg.name,bo.store_id,bo.project_mode,bo.order_number,bo.biz_order_accept_area,bo.longway_amount,bo.sale_type,
+		bo.sign_contract_date,bo.contract_time,bo.contract_start_date,bo.contract_end_date,bo.actual_start_date,bo.actual_end_date,
+		bo.customer_type,bo.customer_description,bo.customer_name,bo.customer_phone,bo.service_name,bo.service_phone,bo.designer_name,
+		bo.designer_phone,bo.order_reporter_name,bo.order_reporter_phone,be.realName,be.phone,bo.order_inspector,bo.community_name,
+		bo.build_number,bo.build_unit,bo.build_room,bo.map_coordinate,bo.customer_address,bo.province,bo.city,bo.county,bo.area,
+		bo.build_type,bo.house_type,bo.house_is_new,bo.is_elevator,bo.covered_area,bo.contract_area,bo.detail_address,be.realName,
+		bo.is_scrap,bo.auditor_employee_id,bo.auditor_name,bo.auditor_phone
+
+		FROM biz_order bo 
+		LEFT JOIN sys_office so 
+		ON so.id = bo.store_id 
+		LEFT JOIN biz_employee be
+		ON be.id = bo.item_manager_id
+		LEFT JOIN biz_engineering_department bg 
+		ON bg.id = bo.engin_depart_id
+		WHERE bo.id = #{0}
+		
+		
+		
+	</select>
+	<select id="findIntallPlanByOrderId" resultType="cn.damei.entity.modules.OrderDetailsInstallPlan">
+		SELECT 
+		bt.install_item_name,bp.plan_into_date,bp.real_into_date,bp.real_accept_date FROM biz_order_install_item bt 
+		LEFT JOIN 
+		biz_order_install_plan bp 
+		ON 
+		bp.order_install_item_id = bt.id
+		WHERE 
+		bt.order_id = #{0};
+	</select>
+	<select id="findEmployeeByOrderId" resultType="cn.damei.entity.modules.OrderDtailsEmployee">
+		SELECT bp.name,be.realName,be.phone FROM biz_order_taskpackage bo 
+		LEFT JOIN 
+		biz_employee be ON bo.group_id = be.id 
+		LEFT JOIN biz_task_package_type bp 
+		ON bp.id = bo.task_package_type
+		WHERE bo.order_id=#{0};
+	</select>
+	<select id="findInspector" resultType="String">
+		SELECT be.phone FROM  biz_order bo LEFT JOIN biz_employee be ON bo.order_inspector_id = be.id WHERE bo.id=#{0}
+	</select>
+</mapper>

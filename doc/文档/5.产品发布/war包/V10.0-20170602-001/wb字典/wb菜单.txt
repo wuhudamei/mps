@@ -1,0 +1,32 @@
+	4、筒灯灯带--小冷
+		基础设置--产业管家结算设置
+
+		名称：筒灯灯带定义
+		链接：/standradmaterials/bizMaterialsLight/list
+		权限标识：standradmaterials:bizMaterialsLight:view,standradmaterials:bizMaterialsLight:edit
+
+
+		材料调度--筒灯灯带管理
+		筒灯灯带管理
+		名称：筒灯灯带累计汇总申请记录
+		链接：/orderMaterialsStandard/bizOrderMaterialsLight/list
+		权限标识：managersettlement:bizOrderMaterialsLight:view
+
+		名称：筒灯灯带申请记录
+		链接：/standradmaterialsrecords/bizMaterialsLightReceiveBillApply/list
+		权限标识：lightmaterialsapplyrecords:bizMaterialsLightReceiveBillApply:edit
+
+		基础设置--业务基础规则--客户回访节点设置
+		
+		名称：客户回访节点设置
+		链接：/customerreturnvisit/bizCustomerReturnVisit/list
+		权限标识：customerreturnvisit:bizCustomerReturnVisit:view,customerreturnvisit:bizCustomerReturnVisit:edit
+
+		基础设置--工程安装管理
+		名称：客户回访记录查询
+		链接：/customerreturnvisitrecorecord/bizCustomerReturnVisitRecord/list
+		权限标识：customerreturnvisitrecorecord:bizCustomerReturnVisitRecord:view,customerreturnvisitrecorecord:bizCustomerReturnVisitRecord:edit
+
+		名称：待回访订单查询
+		链接：/customerreturnvisitrecorecord/bizCustomerReturnVisitRecord/checkingList
+		权限标识：customerreturnvisitrecorecord:bizCustomerReturnVisitRecord:view,customerreturnvisitrecorecord:bizCustomerReturnVisitRecord:edit

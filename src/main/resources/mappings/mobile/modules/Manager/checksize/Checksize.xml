@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.mobile.Manager.ChecksizeDao">
+    
+    <sql id="ChecksizeOrder">
+		a.id AS "id",
+		
+		a.customer_address AS "customerAddress",
+		a.community_name AS "communityName",
+		a.build_number AS "buildNumber",
+		a.build_unit AS "buildUnit",
+		a.build_room AS "buildRoom",
+		a.customer_name AS "customerName",
+		
+		
+		a.contract_start_date AS "contractStartDate",
+		a.contract_end_date AS "contractEndDate",
+		a.contract_time AS "contractTime",
+		
+		a.order_status_number AS "orderStatusNumber",
+		a.order_status_description AS "orderStatusDescription"
+	
+
+	</sql>
+    
+    <!-- 根据项目经理id查询项目经理下的状态小于300的所有订单 -->
+	<select id="findOrderByManagerId"
+		parameterType="int"
+		resultType="cn.damei.entity.mobile.Manager.ChecksizeOrder">
+		SELECT
+		<include refid="ChecksizeOrder" />
+		from biz_order a 
+		<where>
+			a.item_manager_id = #{itemManagerId} And a.order_status_number &lt; '300' and a.order_status_number &gt;=200
+		</where>
+		order by a.create_date DESC
+
+	</select>
+	
+	<!-- 保存上报复尺信息 -->
+	<insert id="saveChecksize" parameterType="cn.damei.entity.mobile.Manager.Checksize">
+		<selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+			SELECT LAST_INSERT_ID();
+  		</selectKey>
+  		INSERT INTO biz_order_checksize (
+				id,
+				order_id,
+				order_install_item_id,
+				checksize_date,
+				checksize_employee_id,
+				remarks,
+				create_by,
+				create_date,
+				update_by,
+				update_date,
+				del_flag,
+				checksize_status,
+				checksize_status_datetime,
+				supplier_confirm_date,
+				material_department_deal_datetime,
+				material_department_deal_employee_id,
+				material_department_deal_reply,
+				checksize_type
+		)
+		values(
+				#{id},
+				#{orderId},
+				#{orderInstallItemId},
+				#{checksizeDate},
+				#{checksizeEmployeeId},
+				#{remarks},
+				#{createBy.id},
+				#{createDate},
+				#{updateBy.id},
+				#{updateDate},
+				#{delFlag},
+				#{checksizeStatus},
+				#{checksizeStatusDatetime},
+				#{supplierConfirmDate},
+				#{materialDepartmentDealDatetime},
+				#{materialDepartmentDealEmployeeId},
+				#{materialDepartmentDealReply},
+				#{checksizeType}
+		)
+	</insert>
+	<!-- 保存复尺图片 -->
+	<insert id="saveChecksizePic">
+		INSERT INTO biz_order_checksize_pic(
+			id,
+			order_checksize_id,
+			pic_url,
+			create_date,
+			update_date,
+			del_flag
+		)VALUES (
+			#{id},
+			#{orderChecksizeId},
+			#{picUrl},
+			#{createDate},
+			#{updateDate},
+			#{delFlag}
+			
+		)
+	</insert>
+	
+	<!-- 批量插入上报厂家复尺图片 -->
+	<insert id="saveChecksizePicAll" parameterType="java.util.List">
+		INSERT INTO biz_order_checksize_pic(
+			id,
+			order_checksize_id,
+			pic_url,
+			create_date,
+			update_date,
+			del_flag
+		)VALUES 
+		<foreach collection="list" item="item" index="index" separator="," >
+			(
+				#{item.id},
+				#{item.orderChecksizeId},
+				#{item.picUrl},
+				#{item.createDate},
+				#{item.updateDate},
+				#{item.delFlag}
+			)
+		</foreach>
+	</insert>
+	
+	<!-- 查询复尺类型 -->
+	<select id="findType" resultType="cn.damei.entity.mobile.Manager.ChecksizeType">
+		SELECT a.id AS "type",b.install_item_name AS "name",a.id as "orderInstallItemId",
+		b.days_plan_checksize as "daysPlanChecksize" FROM biz_order_install_item a 
+		LEFT JOIN  biz_project_install_item b ON b.id = a.project_install_item_id
+		WHERE a.order_id = #{0} AND b.is_to_checksize = 1 AND b.is_on = 1
+	</select>
+	<select id="findDaysPlanChecksize" resultType="String">
+	
+		SELECT b.days_plan_checksize FROM biz_order_install_item a 
+		LEFT JOIN biz_project_install_item b ON a.project_install_item_id = b.id
+		WHERE a.id =#{0}
+	
+	</select>
+	<!-- 查询订单 -->
+	<select id="findOrder" parameterType="int" resultType="cn.damei.entity.mobile.Manager.ChecksizeOrder">
+		SELECT
+			a.customer_address AS "customerAddress",
+			a.community_name AS "communityName",
+			a.build_number AS "buildNumber",
+			a.build_unit AS "buildUnit",
+			a.build_room AS "buildRoom",
+			a.customer_name AS "customerName",
+			a.customer_phone AS "customerPhone",
+			a.store_id AS "storeId",
+			a.actual_start_date AS "actualStartDate"
+		FROM
+			biz_order a
+		WHERE
+			a.id = #{orderId}
+	</select>
+	<!-- 查询复尺内容 -->
+	<select id="findcheck" parameterType="String" resultType="String">
+		SELECT
+			a.label AS "name"
+		FROM
+			sys_dict a
+		WHERE
+			a.type = 'check_scale'
+		AND a.`value` = #{0}
+		AND a.del_flag = '0'
+	</select>
+	
+	<!-- 查询该订单最新一次申请厂家复尺的时间是否间隔有5分钟 -->
+	<select id="findTimeSpan" parameterType="int" resultType="cn.damei.entity.mobile.Manager.Checksize">
+		SELECT
+			a.create_date AS "createDate",
+			a.id AS "id"
+		FROM
+			biz_order_checksize a
+		WHERE
+			a.order_id = #{_parameter}
+		ORDER BY
+ 			a.create_date DESC
+		LIMIT 1
+	</select>
+
+	<select	id ="findByOrderIdAndType" resultType="java.util.Date">
+		select a.create_date from biz_recheck_scale_bill a where a.order_id = #{0} and a.type = #{1} order by a.create_date desc limit 1;
+	</select>
+	
+	<!-- 根据订单ID查询所有的厂家复尺 -->
+	<select id="findCheckSizeList" parameterType="int" resultType="cn.damei.entity.mobile.Manager.Checksize">
+		SELECT
+			a.id AS "id",
+			a.order_id AS "orderId",
+			a.checksize_type AS "checksizeType",
+			b.label AS "checksizeTypeName",
+			a.checksize_date AS "checksizeDate",
+			a.checksize_employee_id AS "checksizeEmployeeId",
+			a.remarks AS "remarks",
+			a.create_date AS "createDate",
+			a.update_date AS "updateDate",
+			a.checksize_status AS "checksizeStatus",
+			c.label AS "checksizeStatusName",
+			a.checksize_status_datetime AS "checksizeStatusDatetime",
+			a.supplier_confirm_date AS "supplierConfirmDate",
+			a.material_department_deal_datetime AS "materialDepartmentDealDatetime",
+			a.material_department_deal_employee_id AS "materialDepartmentDealEmployeeId",
+			a.material_department_deal_reply AS "materialDepartmentDealReply",
+			(SELECT COUNT(1) FROM biz_order_checksize_pic f WHERE f.order_checksize_id = a.id) AS "picCount"
+		FROM
+			biz_order_checksize a
+		LEFT JOIN sys_dict b ON a.checksize_type = b.`value`
+		AND b.type = 'check_scale'
+		AND b.del_flag = 0
+		LEFT JOIN sys_dict c ON a.checksize_status = c.`value`
+		AND c.type = 'checksize_status'
+		AND c.del_flag = 0
+		WHERE
+			a.order_id = #{_parameter}
+		ORDER BY
+			a.create_date DESC
+		
+	</select>
+	<!-- 查询安装项的名字 -->
+	<select id="findInstallItemName" resultType="String">
+		SELECT b.install_item_name FROM biz_order_install_item a 
+		LEFT JOIN biz_project_install_item b ON b.id = a.project_install_item_id
+		WHERE a.id = #{0}
+	</select>
+	<!-- 查询字典表里的值 -->
+	<select id="findDictValue" resultType = "String">
+		SELECT a.value FROM sys_dict a WHERE a.type='check_scale' AND a.label LIKE concat('%',#{0},'%') limit 1
+	</select>
+	
+	
+	<!-- 校验：该工地2017-7-1开工，按照工程部规定主材（橱柜、台面）开工10天后（2017-7-21）才可以申请橱柜复尺，如有提前完工或疑问请联系大区经理。 -->
+	<select id="findChecksizeCanApplyDate"  resultType="cn.damei.entity.mobile.Manager.Checksize">
+	
+		SELECT
+			b.days_plan_checksize AS "daysPlanChecksizeString",
+			b.install_item_name AS "installItemName",
+			DATE_FORMAT(c.actual_start_date,'%Y-%m-%d') AS "orderActualStartDateString",
+			DATE_FORMAT(DATE_ADD(c.actual_start_date,INTERVAL b.days_plan_checksize DAY),'%Y-%m-%d') AS "canApplyChecksizeDateString"
+		FROM
+			biz_order_install_item a
+		LEFT JOIN biz_project_install_item b ON a.project_install_item_id = b.id
+		LEFT JOIN biz_order c ON a.order_id = c.id
+		WHERE
+			a.id = #{0}
+		 AND DATE_FORMAT(DATE_ADD(c.actual_start_date,INTERVAL b.days_plan_checksize DAY),'%Y-%m-%d') > DATE_FORMAT(NOW(),'%Y-%m-%d')
+ 
+	
+	</select>
+</mapper>

@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="cn.damei.dao.modules.BizGuaranteeMoneyPaidUsedDao">
+	<sql id="bizGuaranteeMoneyPaidUsedColumns">
+		a.id as "id",
+		a.order_id as "orderId",
+		a.guarantee_money_type as "guaranteeMoneyType",
+		a.used_employee_type as
+		"usedEmployeeType",
+		a.used_employee_id as "usedEmployeeId",
+		a.guarantee_money_for as "guaranteeMoneyFor",
+		a.guarantee_money_amount
+		as "guaranteeMoneyAmount",
+		a.guarantee_money_type_amount_total as
+		"guaranteeMoneyTypeAmountTotal",
+		a.guarantee_money_balance as
+		"guaranteeMoneyBalance",
+		a.guarantee_money_date_time as
+		"guaranteeMoneyDateTime",
+		a.guarantee_money_reason as
+		"guaranteeMoneyReason",
+		a.remarks AS "remarks",
+		a.create_by AS
+		"createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS
+		"updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag"
+	</sql>
+
+	<sql id="bizGuaranteeMoneyPaidUsedJoins">
+	</sql>
+
+	<select id="get"
+		resultType="cn.damei.entity.modules.BizGuaranteeMoneyPaidUsed">
+		SELECT
+		DISTINCT(a.id) as "id",
+		a.order_id as "orderId",
+		a.guarantee_money_type as "guaranteeMoneyType",
+		a.used_employee_type as
+		"usedEmployeeType",
+		a.used_employee_id as "usedEmployeeId",
+		a.guarantee_money_for as "guaranteeMoneyFor",
+		a.guarantee_money_amount
+		as "guaranteeMoneyAmount",
+		a.guarantee_money_type_amount_total as
+		"guaranteeMoneyTypeAmountTotal",
+		a.guarantee_money_balance as
+		"guaranteeMoneyBalance",
+		a.guarantee_money_date_time as
+		"guaranteeMoneyDateTime",
+		a.guarantee_money_reason as
+		"guaranteeMoneyReason",
+		a.remarks AS "remarks",
+		a.create_by AS
+		"createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS
+		"updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag",
+		b.customer_name as "customerName",
+		b.customer_phone as "customerPhone",
+		b.community_name as "communityName",
+		b.build_number as "buildNumber",
+		b.build_unit as "buildUnit",
+		b.build_room as "buildRoom",
+		b.store_id as
+		"storeId",
+		b.project_mode as "projectMode",
+		b.engin_depart_id as
+		"engineDepartId",
+		e.realName as "usedEmpName",
+		e.phone as
+		"usedEmpPhone",
+		e.workType as "workType"
+		FROM
+		biz_guarantee_money_paid_used a
+		left join biz_order b on a.order_id =
+		b.id
+		left join biz_order_taskpackage c on a.order_id = c.order_id
+		LEFT
+		JOIN biz_employee e ON e.id = a.used_employee_id
+		WHERE a.id =#{id}
+	</select>
+
+	<select id="findList"
+		resultType="cn.damei.entity.modules.BizGuaranteeMoneyPaidUsed">
+		SELECT
+		DISTINCT(a.id) as "id",
+		a.order_id as "orderId",
+		a.guarantee_money_type as "guaranteeMoneyType",
+		a.used_employee_type as
+		"usedEmployeeType",
+		a.used_employee_id as "usedEmployeeId",
+		a.guarantee_money_for as "guaranteeMoneyFor",
+		a.guarantee_money_amount
+		as "guaranteeMoneyAmount",
+		a.guarantee_money_type_amount_total as
+		"guaranteeMoneyTypeAmountTotal",
+		a.guarantee_money_balance as
+		"guaranteeMoneyBalance",
+		a.guarantee_money_date_time as
+		"guaranteeMoneyDateTime",
+		a.guarantee_money_reason as
+		"guaranteeMoneyReason",
+		a.remarks AS "remarks",
+		a.create_by AS
+		"createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS
+		"updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag",
+		b.customer_name as "customerName",
+		b.customer_phone as "customerPhone",
+		b.community_name as "communityName",
+		b.build_number as "buildNumber",
+		b.build_unit as "buildUnit",
+		b.build_room as "buildRoom",
+		b.store_id as
+		"storeId",
+		b.project_mode as "projectMode",
+		b.engin_depart_id as
+		"engineDepartId",
+		e.realName as "usedEmpName",
+		e.phone as
+		"usedEmpPhone",
+		e.workType as "workType"
+		FROM
+		biz_guarantee_money_paid_used a
+		left join biz_order b on a.order_id =
+		b.id
+		left join biz_order_taskpackage c on a.order_id = c.order_id
+		LEFT
+		JOIN biz_employee e ON e.id = a.used_employee_id
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="guaranteeMoneyType!= null and guaranteeMoneyType != ''">
+				AND a.guarantee_money_type=#{guaranteeMoneyType}
+			</if>
+			<if test="id != null and id != ''">
+				AND a.id =#{id}
+			</if>
+			<if test="storeId != null and storeId !=''">
+				AND b.store_id = #{storeId}
+			</if>
+			<if test="projectMode != null and projectMode != ''">
+				AND b.project_mode=#{projectMode}
+			</if>
+			<if test="engineDepartId != null and engineDepartId != ''">
+				AND b.engin_depart_id = #{engineDepartId}
+			</if>
+			<if test="usedEmpName != null and usedEmpName != ''">
+				AND e.realName LIKE
+				<if test="dbName == 'oracle'">'%'||#{usedEmpName}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{usedEmpName}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{usedEmpName},'%')</if>
+			</if>
+
+			<if test="customerName != null and customerName != null">
+				AND b.customer_name like
+				<if test="dbName == 'oracle'">'%'||#{customerName}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{customerName}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{customerName},'%')</if>
+			</if>
+			<if test="usedEmployeeType != null and usedEmployeeType !=''">
+				AND a.used_employee_type = #{usedEmployeeType}
+			</if>
+			<if test="guaranteeMoneyFor != null and guaranteeMoneyFor != ''">
+				AND a.guarantee_money_for=#{guaranteeMoneyFor}
+			</if>
+			<if test="start != null and start !='' and end != null and end != ''">
+				AND a.guarantee_money_date_time BETWEEN #{start} AND
+				#{end}
+			</if>
+			<if test="usedEmployeeId != null and usedEmployeeId != ''">
+				AND a.used_employee_id = #{usedEmployeeId}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.create_date DESC
+			</otherwise>
+		</choose>
+	</select>
+
+	<!-- 查询项目经理结算上缴信息 -->
+	<select id="findManagerGuaranteeMoneyAmountPaidSettle"
+		resultType="cn.damei.entity.modules.BizGuaranteeMoneyPaidUsed">
+		<!-- SELECT a.create_date AS "guaranteeMoneyDateTime", a.settle_amount 
+			AS "guaranteeMoneyAmount", b.community_name AS "communityName", b.build_number 
+			AS "buildNumber", b.build_unit AS "buildUnit", b.build_room AS "buildRoom", 
+			b.customer_name AS "customerName" FROM biz_pm_settle_category_detail a LEFT 
+			JOIN biz_order b ON a.order_id = b.id <where> a.settle_category = 6 AND settle_role 
+			= 1 <if test="usedEmployeeId != null and usedEmployeeId != '' "> AND a.pm_employee_id 
+			= #{usedEmployeeId} </if> </where> <choose> <when test="page !=null and page.orderBy 
+			!= null and page.orderBy != ''"> ORDER BY ${page.orderBy} </when> <otherwise> 
+			ORDER BY a.create_date desc </otherwise> </choose> -->
+
+		SELECT 
+		a.takeoff_amount AS "guaranteeMoneyAmount", 
+		a.takeoff_datetime AS "guaranteeMoneyDateTime", 
+		b.community_name AS "communityName",
+		b.build_number AS "buildNumber", 
+		b.build_unit AS "buildUnit", 
+		b.build_room AS "buildRoom",
+		b.customer_name AS "customerName" 
+		FROM biz_pm_guarantee_money_log a
+		LEFT JOIN biz_order b ON a.order_id = b.id
+		<where>
+			1=1
+			<if test="usedEmployeeId != null and usedEmployeeId != '' "> 
+			AND a.pm_employee_id = #{usedEmployeeId}
+			</if>
+		</where>
+		<choose>
+			<when
+				test="page !=null and page.orderBy != null 
+			and page.orderBy != ''"> ORDER BY ${page.orderBy} </when>
+			<otherwise> ORDER
+				BY a.create_date desc
+			</otherwise>
+		</choose>
+
+
+	</select>
+
+	<!-- 查询工人结算上缴信息 -->
+	<select id="findWorkerGuaranteeMoneyAmountPaidSettle"
+		resultType="cn.damei.entity.modules.BizGuaranteeMoneyPaidUsed">
+		SELECT
+		b.customer_name AS "customerName",
+		b.customer_message AS
+		"customerAddress",
+		a.deduct_time AS
+		"guaranteeMoneyDateTime",
+		a.guarantee_money_amount AS "guaranteeMoneyAmount",
+		b.package_name AS
+		"packageName"
+		FROM
+		biz_guarantee_money a
+		LEFT
+		JOIN biz_order_taskpackage b
+		ON a.order_taskpackage_id = b.id
+		<where>
+			a.is_deduct = '1'
+			AND a.guarantee_money_amount > 0
+			AND
+			a.employee_id = #{usedEmployeeId}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.deduct_time desc
+			</otherwise>
+		</choose>
+
+
+	</select>
+	<!-- 查询某个人最近一次的质保金信息 -->
+	<select id="findNewestBizGuaranteeMoneyPaidUsed">
+		SELECT
+		<include refid="bizGuaranteeMoneyPaidUsedColumns" />
+		FROM biz_guarantee_money_paid_used a
+		<include refid="bizGuaranteeMoneyPaidUsedJoins" />
+		WHERE a.del_flag = #{DEL_FLAG_DELETE}
+		and a.used_employee_id =
+		#{usedEmployeeId}
+		and a.guarantee_money_type = #{guaranteeMoneyType}
+		order by a.id desc
+		LIMIT 1
+	</select>
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id"
+		keyColumn="id">
+		INSERT INTO biz_guarantee_money_paid_used(
+		id,
+		order_id,
+		guarantee_money_type,
+		used_employee_type,
+		used_employee_id,
+		guarantee_money_for,
+		guarantee_money_amount,
+		guarantee_money_type_amount_total,
+		guarantee_money_balance,
+		guarantee_money_date_time,
+		guarantee_money_reason,
+		remarks,
+		create_by,
+		create_date,
+		update_by,
+		update_date,
+		del_flag
+		) VALUES (
+		#{id},
+		#{orderId},
+		#{guaranteeMoneyType},
+		#{usedEmployeeType},
+		#{usedEmployeeId},
+		#{guaranteeMoneyFor},
+		#{guaranteeMoneyAmount},
+		#{guaranteeMoneyTypeAmountTotal},
+		#{guaranteeMoneyBalance},
+		#{guaranteeMoneyDateTime},
+		#{guaranteeMoneyReason},
+		#{remarks},
+		#{createBy.id},
+		#{createDate},
+		#{updateBy.id},
+		#{updateDate},
+		#{delFlag}
+		)
+	</insert>
+
+	<update id="update">
+		UPDATE biz_guarantee_money_paid_used SET
+		order_id=#{orderId},
+		guarantee_money_type=#{guaranteeMoneyType},
+		used_employee_type=#{usedEmployeeType},
+		used_employee_id=#{usedEmployeeId},
+		guarantee_money_for=#{guaranteeMoneyFor},
+		guarantee_money_amount=#{guaranteeMoneyAmount},
+		guarantee_money_type_amount_total=#{guaranteeMoneyTypeAmountTotal},
+		guarantee_money_balance=#{guaranteeMoneyBalance},
+		guarantee_money_date_time=#{guaranteeMoneyDateTime},
+		guarantee_money_reason=#{guaranteeMoneyReason},
+		remarks = #{remarks},
+		update_by = #{updateBy.id},
+		update_date = #{updateDate}
+		WHERE id=#{id}
+	</update>
+
+	<update id="delete">
+		UPDATE biz_guarantee_money_paid_used SET
+		del_flag =
+		#{DEL_FLAG_DELETE}
+		WHERE id =#{id}
+	</update>
+</mapper>

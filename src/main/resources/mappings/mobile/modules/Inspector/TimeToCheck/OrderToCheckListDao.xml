@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="cn.damei.dao.mobile.Inspector.OrderToCheckListDao">
+
+
+	<!-- 根据质检员id 查询由项目经理申请的约检单 -->
+	<select id="findOrderByInspectorId"  parameterType="cn.damei.entity.mobile.Inspector.InspectorOrderVo"
+		resultType="cn.damei.entity.mobile.Inspector.InspectorOrderVo">
+
+	SELECT
+	a.id AS "orderId",
+	a.customer_name AS "customerName",
+	a.build_room as "buildRoom",
+	a.build_number as "buildNumber",
+	a.build_unit as  "buildUnit",
+	a.community_name AS "communityAddress",
+	a.customer_phone AS "customerPhone",
+	a.item_manager AS "managerName",
+	a.actual_start_date AS "actualStartDate",
+	substring_index(a.map_coordinate, ',', 1) AS "lon",
+	substring_index(a.map_coordinate, ',', - 1) AS "lat",
+	b.id AS "id",
+	d.qc_check_node_name AS "checkNodeName",
+	d.id AS "checkNodeId",
+	b.expect_check_datetime AS "checkTime",
+	b.apply_employee_id AS "managerId",
+	ifnull(b.delay_reason_pm,'无') as "delayDaysPm",
+	b. STATUS AS "status",
+	e.phone as "managerPhone",
+	a.is_scrap  AS "isScrap"
+FROM
+	`biz_order` a,
+	biz_qc_bill b,
+	biz_qc_check_node d,
+	biz_employee e
+WHERE
+	a.id = b.order_id
+AND b.qc_check_node_id = d.id
+AND a.order_inspector_id = #{id}
+AND b. STATUS IN ("0", "2", "5","10","20")
+AND b.qc_bill_type = '1'
+AND b.is_recheck = '0'
+AND b.is_recheck='0'
+AND b.qc_bill_type = '1'
+and a.item_manager_id = e.id
+
+<if test="text!=null and text!=''">
+and (a.community_name like CONCAT('%','${text}','%' )  or a.customer_name like CONCAT('%','${text}','%' ) or a.item_manager  like CONCAT('%','${text}','%'))
+
+</if>
+
+	</select>
+
+
+
+<!-- 得到订单经纬度 -->
+<select id="getOrderLngLatByOrderId" parameterType="int" resultType="String">
+
+select map_coordinate from biz_order where id = #{orderId}
+
+</select>
+
+
+
+
+<insert id="inspectorSign" parameterType="cn.damei.entity.mobile.Inspector.InspectSign">
+  
+ 
+		   insert into biz_business_sign(
+			   id,
+			   sign_type,
+			   related_business_id_int,
+			   sign_employee_id,
+			   sign_datetime,
+			   sign_address,
+			   sign_xy,
+			   sign_error_distance,
+			   remarks,
+			   create_by,
+			   create_date,
+			   update_by,
+			   update_date,
+			   del_flag
+		  
+		   ) VALUES(
+		   	   #{id},
+			   #{signType},
+			   #{relatedBusinessId},
+			   #{signEmployeeId},
+			   #{signDateTime},
+			   #{signAddress},
+			   #{signXy},
+			   #{signErrorDistance},
+			   #{remarks},
+			   #{createBy},
+			   #{createDate},
+			   #{updateBy},
+			   #{updateDate},
+			   #{delFlag}
+		  
+		   )
+   </insert>
+   
+   <!-- 签到判断 ,根据质检单id判断 -->
+  <select id="findInspectSignRecord" parameterType="int" resultType="int">
+  SELECT count(id) FROM BIZ_BUSINESS_SIGN WHERE related_business_id_int = #{INSPECTID} AND sign_type="301"
+  </select> 
+   
+
+<update id="updateInspectRecord" parameterType="cn.damei.entity.mobile.Inspector.InspectSign">
+update biz_business_sign set 
+   sign_datetime =#{signDateTime} ,
+   sign_address =#{signAddress},
+   sign_xy =#{signXy},
+   sign_error_distance=#{signErrorDistance},
+   remarks =#{remarks},
+   update_by = #{updateBy},
+   update_date = #{updateDate}
+
+
+where sign_employee_id  =#{signEmployeeId} and sign_type=#{signType} and related_business_id_int =#{relatedBusinessId}
+
+</update>
+<select id="noScoreCount" resultType="Integer">
+	select count(*) from biz_eval_score_role r where r.eval_role_type=201 
+	and r.eval_by_employee_id= #{1} and r.eval_status = "0" and eval_score_id 
+	in( select id from biz_eval_score s where s.eval_type=1 and EXISTS 
+	(select * from biz_order_taskpackage t where t.order_id=#{0} and t.id= s.related_business_id)
+	);
+</select>
+</mapper>

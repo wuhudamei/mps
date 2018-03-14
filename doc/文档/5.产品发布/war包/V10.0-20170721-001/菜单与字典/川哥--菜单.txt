@@ -1,0 +1,6 @@
+郝永辉--川哥--项目经理结算
+
+	名称：订单项目经理提成结算查询
+	链接：/pmsettlebill/bizPmCommissionSettleController/queryPmComkissionSettle
+
+

@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizStarDao">
+    
+	<sql id="bizStarColumns">
+		a.id AS "id",
+		a.store_id AS "storeId",
+		a.star0 AS "star0",
+		a.star1 AS "star1",
+		a.description AS "description",
+		a.star2 AS "star2",
+		a.create_by AS "createBy.id",
+		a.star3 AS "star3",
+		a.create_date AS "createDate",
+		a.star4 AS "star4",
+		a.project_mode AS "projectMode",
+		a.update_by AS "updateBy.id",
+		a.star5 AS "star5",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="bizStarJoins">
+	</sql>
+    
+	<select id="get" resultType="BizStar">
+		SELECT 
+			<include refid="bizStarColumns"/>
+		FROM biz_star a
+		<include refid="bizStarJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<!-- 通过门店id查询 -->
+	<select id="findStarByStoreId" resultType="BizStar">
+		SELECT <include refid="bizStarColumns"/>
+		 FROM biz_star a WHERE a.store_id = #{storeId}
+	</select>
+	
+	<select id="findList" resultType="BizStar">
+		SELECT 
+			<include refid="bizStarColumns"/>
+		FROM biz_star a
+		<include refid="bizStarJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="storeId != null and storeId != ''">
+				AND a.store_id = #{storeId}
+			</if>
+			<if test="projectMode != null and projectMode != ''">
+				AND a.project_mode = #{projectMode}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="BizStar">
+		SELECT 
+			<include refid="bizStarColumns"/>
+		FROM biz_star a
+		<include refid="bizStarJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO biz_star(
+			id,
+			store_id,
+			star0,
+			star1,
+			description,
+			star2,
+			create_by,
+			star3,
+			create_date,
+			star4,
+			update_by,
+			star5,
+			project_mode,
+			update_date,
+			remarks,
+			del_flag
+		) VALUES (
+			#{id},
+			#{storeId},
+			#{star0},
+			#{star1},
+			#{description},
+			#{star2},
+			#{createBy.id},
+			#{star3},
+			#{createDate},
+			#{star4},
+			#{updateBy.id},
+			#{star5},
+			#{projectMode},
+			#{updateDate},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE biz_star SET 	
+			store_id = #{storeId},
+			star0 = #{star0},
+			star1 = #{star1},
+			description = #{description},
+			star2 = #{star2},
+			star3 = #{star3},
+			star4 = #{star4},
+			update_by = #{updateBy.id},
+			star5 = #{star5},
+			project_mode = #{projectMode},
+			update_date = #{updateDate},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE biz_star SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

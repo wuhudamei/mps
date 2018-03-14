@@ -1,0 +1,32 @@
+.pad_top8{padding-top: .8rem;}
+.dot{
+	height: 0.8rem;
+	line-height: 0.8rem;
+	background-image: url(../images/details_icon.png);
+	background-repeat: no-repeat;
+	background-position: 0.2rem center;
+	background-size: 0.2rem 0.2rem;
+	font-size: 0.3rem;
+	font-weight: bold;
+	color: #333;
+	padding-left: 0.5rem;
+}
+.bg_0{background: #fff;}
+.float_l{float: left;}
+.font28{font-size: .28rem;}
+.col_6{color: #666;}
+.wid_50{width: 50%;}
+.align_c{text-align: center;}
+.draw_pic{width: 2rem;height: 2rem;}
+.block{display: block;}
+.mar_btm{margin-bottom: .44rem}
+.pad_btm3{padding-bottom: .3rem;}
+.btn{
+	color: #0780ec;
+	border: 1px solid #0780ec;
+	width: 1.7rem;
+	height: .42rem;
+	line-height: .42rem;
+	text-align: center;
+	margin: .2rem auto;
+}

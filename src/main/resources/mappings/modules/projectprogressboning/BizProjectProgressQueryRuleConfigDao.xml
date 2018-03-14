@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+        namespace="cn.damei.dao.modules.BizProjectProgressQueryRuleConfigDao">
+
+    <sql id="configColumns">
+        a.id,
+        a.parent_id,
+        a.index_no,
+        a.main_sql_content,
+        a.en_column_name,
+        a.cn_column_name,
+        a.is_special,
+        a.group_flag_content,
+        a.remarks,
+        a.create_by,
+        a.create_time,
+        a.update_by,
+        a.update_time,
+        a.del_flag
+    </sql>
+
+    <select id="findList"
+            resultType="cn.damei.entity.modules.BizProjectProgressQueryRuleConfig">
+        SELECT
+        <include refid="configColumns"/>
+        FROM
+        biz_project_progress_query_rule_config a
+        where a.del_flag = 0
+        ORDER BY a.index_no
+    </select>
+
+    <select id="findFirstList"
+            resultType="cn.damei.entity.modules.BizProjectProgressQueryRuleConfig">
+        SELECT
+        <include refid="configColumns"/>
+        FROM
+        biz_project_progress_query_rule_config a
+        where a.del_flag = 0
+        AND a.parent_id is NULL
+        ORDER BY a.index_no
+    </select>
+
+    <select id="findChildList"
+            resultType="cn.damei.entity.modules.BizProjectProgressQueryRuleConfig">
+        SELECT
+        <include refid="configColumns"/>
+        FROM
+        biz_project_progress_query_rule_config a
+        where a.del_flag = 0
+        AND a.parent_id = #{parendId}
+        ORDER BY a.index_no
+    </select>
+
+    <select id="get"
+            resultType="cn.damei.entity.modules.BizProjectProgressQueryRuleConfig">
+        SELECT
+        <include refid="configColumns"/>
+        FROM
+        biz_project_progress_query_rule_config a
+        where a.id=#{id}
+    </select>
+
+    <insert id="insert">
+        INSERT INTO biz_project_progress_query_rule_config (
+        id,
+        parent_id,
+        index_no,
+        main_sql_content,
+        en_column_name,
+        cn_column_name,
+        is_special,
+        group_flag_content,
+        remarks,
+        create_by,
+        create_time,
+        update_by,
+        update_time,
+        del_flag
+        ) VALUES (
+        #{id},
+        #{parentId},
+        #{indexNo},
+        #{mainSqlContent},
+        #{enColumnName},
+        #{cnColumnName},
+        #{isSpecial},
+        #{groupFlagContent},
+        #{remarks},
+        #{createBy.id},
+        #{createDate},
+        #{updateBy.id},
+        #{updateDate},
+        #{delFlag}
+        )
+    </insert>
+
+    <update id="update">
+        UPDATE biz_project_progress_query_rule_config set
+        parent_id = #{parentId},
+        index_no = #{indexNo},
+        main_sql_content = #{mainSqlContent},
+        en_column_name = #{enColumnName},
+        cn_column_name = #{cnColumnName},
+        is_special = #{isSpecial},
+        group_flag_content = #{groupFlagContent},
+        update_by = #{updateBy.id},
+		update_time = #{updateDate},
+		remarks = #{remarks}
+		WHERE id = #{id}
+    </update>
+
+    <update id="delete">
+        UPDATE biz_project_progress_query_rule_config set
+        del_flag = #{delFlag}
+        WHERE  id = #{id} OR parent_id = #{id}
+    </update>
+
+    <update id="deleteBatch">
+        UPDATE biz_project_progress_query_rule_config set
+        del_flag = 1
+        WHERE  id IN
+        <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
+</mapper>

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.mobile.Manager.ProjectManagerSettlementDao">
+
+	<sql id="orderColumn">
+		a.customer_name AS 'customerName',
+		a.community_name AS 'communityName',
+		a.build_number AS 'buildNumber',
+		a.build_unit AS 'buildUnit',
+		a.build_room AS 'buildRoom'
+	</sql>
+	<sql id="industrySettlebBill">
+		b.id,
+		b.contract_amount,
+		b.midway_qc_check_punish_amount,
+		b.reward_amount,
+		b.punish_amount,
+		b.order_change_add_amount,
+		b.order_change_reduce_amount,
+		b.midway_basicwork_add_amount,
+		b.midway_materials_standard_amount,
+		b.midway_materials_auxiliary_amount,
+		b.midway_sand_cement_amount,
+		b.midway_switch_panel_amount,
+		b.midway_worker_salary_amount,
+		b.midway_material_carry_cost_amount,
+		b.midway_contract_settle_rate,
+		b.complete_guarantee_money_amount,
+		b.complete_longway_commission_amount,
+		b.contract_settle_amount,
+		b.real_settle_amount,
+		b.status,
+		b.status_describe,
+		b.settle_bill_type,
+		b.pm_pre_industry_settle_bill_code,
+		DATE_FORMAT(b.status_datetime,'%Y-%m-%d %H:%i:%S') as statusDatetime,
+		b.status_describe,
+		b.pm_pre_industry_settle_bill_code,
+		b.order_id,
+		b.is_new_settle_bill
+	</sql>
+
+   <select id = "findList" resultType="cn.damei.entity.mobile.Manager.ProjectManagerSettlement">
+   	SELECT 
+		<include refid="orderColumn"/>,
+		<include refid="industrySettlebBill"></include>
+		FROM 
+			biz_pm_pre_industry_settle_bill b 
+		LEFT JOIN 
+			biz_order a ON b.order_id = a.id
+		WHERE b.status IN (35,38) 
+		<if test="itemManagerId != null and itemManagerId !=''">
+			and a.item_manager_id = #{itemManagerId}
+		</if>
+		<if test="id !=null and id != ''">
+			and b.id = #{id}
+		</if>
+   </select>
+   
+   <update id="updateManagerSettlement">
+   	update 
+   		biz_pm_pre_industry_settle_bill 
+   	set 
+   		update_by = #{updateBy.id},
+   		status_operator_employee_id = #{updateBy.id},
+   		update_date = #{updateDate},
+   		status = #{status},
+   		status_datetime = now(),
+   		status_describe = #{statusDescribe}
+   		<if test="remarks != null and remarks!=''">
+   			,remarks = #{remarks}
+   		</if>
+   		WHERE id = #{id}
+   </update>
+   
+   
+   <select id="findSettlement" resultType="cn.damei.entity.mobile.Manager.ProjectManagerSettlement">
+   		SELECT 
+			
+		a.contract_settle_amount
+			
+		FROM biz_pm_pre_industry_settle_bill a WHERE a.order_id = #{0} AND a.settle_bill_type = #{1}
+   </select>
+   
+   <select id="findSettlementEndList" resultType="cn.damei.entity.mobile.Manager.ProjectManagerSettlement">
+		SELECT 
+		<include refid="orderColumn"/>,
+		<include refid="industrySettlebBill"/>,
+		count(b.order_id) as countType,
+		DATE_FORMAT(a.contract_start_date,'%Y-%c-%d') as 'contractStartSate',
+		DATE_FORMAT(a.actual_start_date,'%Y-%c-%d')  AS 'actualStartDate',
+		a.contract_time,
+		a.order_status_description
+		FROM 
+			biz_pm_pre_industry_settle_bill b 
+		LEFT JOIN 
+			biz_order a ON b.order_id = a.id
+		WHERE b.status = 50 
+		<if test="itemManagerId != null and itemManagerId !=''">
+			and a.item_manager_id = #{itemManagerId}
+		</if>
+		<if test="customerName != null and customerName !=''">
+   			and a.customer_name LIKE concat('%',#{customerName},'%') 
+   			or a.item_manager like concat('%',#{customerName},'%') 
+   			or a.community_name like concat('%',#{customerName},'%')
+   		</if>
+		group by b.order_id
+   </select>
+   
+   <select id="findSettlementEndDetails" resultType="cn.damei.entity.mobile.Manager.ProjectManagerSettlement">
+		SELECT 
+		<include refid="orderColumn"/>,
+		<include refid="industrySettlebBill"/>,
+       c.packaged_square as 'contractArea'
+		FROM 
+			biz_pm_pre_industry_settle_bill b 
+		LEFT JOIN 
+			biz_order a ON b.order_id = a.id
+       LEFT JOIN biz_order_contract_settle c ON c.order_id = b.order_id AND (CASE WHEN c.settle_stage = 10 THEN 1 ELSE 2 END) = b.settle_bill_type
+		WHERE b.order_id = #{orderId} and b.settle_bill_type = #{settleBillType}
+   </select>
+   
+   <select id = "get" resultType="cn.damei.entity.mobile.Manager.ProjectManagerSettlement">
+   		SELECT a.id FROM biz_pm_pre_industry_settle_bill a WHERE a.id = #{id} AND a.status IN (40,45)
+   </select>
+
+</mapper>

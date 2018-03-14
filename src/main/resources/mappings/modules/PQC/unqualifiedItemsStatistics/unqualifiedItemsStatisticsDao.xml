@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="cn.damei.dao.modules.unqualifiedItemsStatisticsDao">
+	<select id="findList"
+		resultType="cn.damei.entity.modules.unqualifiedItemsStatisticsEntity">
+SELECT
+	e.id AS "orderId",
+	e.store_id AS "storeId",
+	e.project_mode as "projectMode",
+	e.order_number AS 'orderNumber',
+	e.community_name AS "xiaoqu",
+	e.build_number AS "lou",
+	e.build_room AS "shi",
+	e.build_unit AS "danyuan",
+	e.customer_name AS "customerName",
+	(
+		SELECT
+			f.realName
+		FROM
+			biz_employee f
+		WHERE
+			f.id = e.order_inspector_id
+	) AS "orderInspectName",
+	(
+		SELECT
+			count(c.is_passed)
+		FROM
+			biz_qc_bill_check_item c,
+			biz_qc_bill b
+		WHERE
+			c.qc_bill_id = b.id
+		AND b.order_id = e.id
+		AND c.is_passed = 1
+			and b.status <![CDATA[>3]]>
+		<if test="startDate!=null and startDate != '' and endDate !=null and endDate !=''">
+		and b.check_datetime between #{startDate} and #{endDate}
+		
+		</if>		
+	) AS "qualifiedItems",
+	(
+		SELECT
+			count(a.is_warned)
+		FROM
+			biz_qc_bill_check_item a,
+			biz_qc_bill b
+		WHERE
+			a.qc_bill_id = b.id
+		AND b.order_id = e.id
+		AND a.is_warned = 1
+		and b.status <![CDATA[>3]]>
+		<if test="startDate!=null and startDate != '' and endDate !=null and endDate !=''">
+		and b.check_datetime between #{startDate} and #{endDate}
+		</if>	
+	) AS "warnCount",
+	(
+		SELECT
+			count(a.is_locale_repaire)
+		FROM
+			biz_qc_bill_check_item a,
+			biz_qc_bill b
+		WHERE
+			a.qc_bill_id = b.id
+		AND b.order_id = e.id
+		AND a.is_locale_repaire = 1
+			and b.status <![CDATA[>3]]>
+		<if test="startDate!=null and startDate != '' and endDate !=null and endDate !=''">
+		and b.check_datetime between #{startDate} and #{endDate}
+		
+		</if>
+	) AS "localChangeCount",
+		(
+		SELECT
+		IFNULL(
+		SUM(
+		CASE
+		WHEN IFNULL(a.is_punish_money, 0) > 0 THEN
+		1
+		ELSE
+		0
+		END + CASE
+		WHEN IFNULL(a.worker_punish_amount, 0) > 0  THEN
+		1
+		ELSE
+		0
+		END + CASE
+		WHEN IFNULL(a.qc_punish_amount, 0) > 0 THEN
+		1
+		ELSE
+		0
+		END
+		),
+		0
+		)
+		FROM
+		biz_qc_bill_check_item a,
+		biz_qc_bill b
+		WHERE
+		a.qc_bill_id = b.id
+		AND b.order_id = e.id
+		AND b. STATUS > 3
+		AND a.is_punish_money = 1
+		<if test="startDate!=null and startDate != '' and endDate !=null and endDate !=''">
+			and b.check_datetime between #{startDate} and #{endDate}
+		</if>
+		) AS "punishMoneyCount",
+
+
+
+
+		(
+		SELECT
+		IFNULL(
+		sum(
+		IFNULL(
+		a.punish_money_amount_real,
+		0
+		) + IFNULL(a.worker_punish_amount, 0) + IFNULL(a.qc_punish_amount, 0)
+		),
+		0
+		)
+		FROM
+		biz_qc_bill_check_item a,
+		biz_qc_bill b
+		WHERE
+		a.qc_bill_id = b.id
+		AND b.order_id = e.id
+		AND b. STATUS > 3
+		AND a.is_punish_money = 1
+		<if test="startDate!=null and startDate != '' and endDate !=null and endDate !=''">
+			and b.check_datetime between #{startDate} and #{endDate}
+		</if>
+		) AS "punishMoney" ,
+	(
+		SELECT
+			count(a.is_limit_date_repaire)
+		FROM
+			biz_qc_bill_check_item a,
+			biz_qc_bill b
+		WHERE
+			a.qc_bill_id = b.id
+		AND e.id = b.order_id
+		AND a.is_limit_date_repaire = 1
+			and b.status <![CDATA[>3]]>
+		<if test="startDate!=null and startDate != '' and endDate !=null and endDate !=''">
+		and b.check_datetime between #{startDate} and #{endDate}
+		
+		</if>
+	) AS "limitDateChangeCount",
+	(
+		SELECT
+			count(
+				a.limit_date_repaire_check_style
+			)
+		FROM
+			biz_qc_bill_check_item a,
+			biz_qc_bill b
+		WHERE
+			a.qc_bill_id = b.id
+		AND b.order_id = e.id
+		AND a.limit_date_repaire_check_style = 0
+			and b.status <![CDATA[>3]]>
+		<if test="startDate!=null and startDate != '' and endDate !=null and endDate !=''">
+		and b.check_datetime between #{startDate} and #{endDate}
+		
+		</if>
+	) AS "xianshangCount",
+	(
+		SELECT
+			count(
+				a.limit_date_repaire_check_style
+			)
+		FROM
+			biz_qc_bill_check_item a,
+			biz_qc_bill b
+		WHERE
+			a.qc_bill_id = b.id
+		AND b.order_id = e.id
+		AND a.limit_date_repaire_check_style = 1
+			and b.status <![CDATA[>3]]>
+		<if test="startDate!=null and startDate != '' and endDate !=null and endDate !=''">
+		and b.check_datetime between #{startDate} and #{endDate}
+		
+		</if>	
+	) AS "xianxiaCount"
+FROM
+	biz_order e
+
+	
+	<where>
+			1=1
+			<if test="storeId != null and storeId != ''">
+				AND e.store_id = #{storeId}
+			</if>
+			<if test="projectMode != null and projectMode != ''">
+				AND e.project_mode = #{projectMode}
+			</if>
+			<if test="orderInspectName != null and orderInspectName != ''">
+				AND  (
+		SELECT
+			f.realName
+		FROM
+			biz_employee f
+		WHERE
+			f.id = e.order_inspector_id
+	) like
+				<if test="dbName == 'mysql'">concat('%',#{orderInspectName},'%')</if>
+			</if>
+		
+			<if test="customerName != null and customerName != ''">
+				AND e.customer_name LIKE
+				<if test="dbName == 'mysql'">concat('%',#{customerName},'%')</if>
+			</if>
+			<if test="orderNumber != null and orderNumber != ''">
+				AND e.order_number =#{orderNumber}
+			</if>
+				GROUP BY e.id
+	
+		ORDER BY e.create_date DESC
+		</where>
+		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				, ${page.orderBy}
+			</when>
+			
+		</choose>
+		
+	
+	</select>
+
+
+
+</mapper>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.MaterialScheduleQueryDao">
+	<select id="findList" resultType="cn.damei.entity.modules.MaterialScheduleQueryEntity">
+	SELECT 
+		b.id as "purchaseId",
+		a.store_id AS "storeId",
+		a.project_mode as "projectMode",
+		a.order_number AS "orderNumber",
+		a.community_name AS "communityName",
+		a.build_number AS "buildNumber",
+		a.build_unit AS "buildUnit",
+		a.build_room AS "buildRoom",
+		a.customer_name AS "customerName",
+		a.item_manager AS "itemManager",
+		b.purchase_type AS "purchaseType",
+		b.purchase_code AS "purchaseCode",
+		b.`status` AS "status",
+		b.apply_time AS "applyTime",
+		b.receive_all_goods_datetime as "recieveGoodsDate",
+		b.transfer_supplier_datetime as "transferDate",
+		(SELECT count(c.purchase_id) from biz_purchase_receive_bill c  where  c.purchase_id =b.id GROUP BY c.purchase_id ) as "acceptMaterialCount"
+	FROM
+		biz_order a,
+		biz_purchase b
+	<where>
+		a.id = b.order_id
+		<if test="storeId != null and storeId != ''">
+			AND a.store_id = #{storeId}
+		</if>
+		<if test="projectMode != null and projectMode != ''">
+			AND a.project_mode = #{projectMode}
+		</if>
+		<if test="orderNumber != null and orderNumber != ''">
+			AND  a.order_number LIKE CONCAT('%','${orderNumber}','%' )  
+		</if>
+		<if test="customerName != null and customerName != ''">
+			AND a.customer_name LIKE
+				<if test="dbName == 'oracle'">'%'||#{customerName}||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{customerName}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{customerName},'%')</if>
+		</if>
+		
+		<if test="purchaseCode != null and purchaseCode != ''">
+			AND b.purchase_code LIKE
+			<if test="dbName == 'mysql'">concat('%',#{purchaseCode},'%')</if>
+		</if>
+		<if test="purchaseType != null and purchaseType != ''">
+			AND b.purchase_type = #{purchaseType}
+		</if>
+		<if test="beginApplyTime != null and endAapplyTime != null and beginApplyTime != '' and endAapplyTime != ''">
+			AND b.apply_time BETWEEN #{beginApplyTime} AND #{endAapplyTime}
+		</if>
+		<if test="beginTransferDate != null and endTransferDate != null and beginTransferDate != '' and endTransferDate != ''">
+			AND b.transfer_supplier_datetime  BETWEEN #{beginTransferDate} AND #{endTransferDate}
+		</if>
+		<if test="beginCompletionDate != null and endCompletionDate != null and beginCompletionDate != '' and endCompletionDate != ''">
+			AND b.receive_all_goods_datetime	 BETWEEN #{beginCompletionDate} AND #{endCompletionDate}
+		</if>
+			<if test="purchaseStatusList != null">
+				AND b.status IN 
+				<foreach collection="purchaseStatusList" item="item" open="("  separator="," close=")" index="index">
+					#{item}
+				</foreach>
+			</if>
+			ORDER BY a.create_date DESC
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				,${page.orderBy}
+			</when>
+			<otherwise>
+				,a.update_date DESC
+			</otherwise>
+		</choose>		
+	</select>
+
+	
+</mapper>

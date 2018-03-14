@@ -1,0 +1,9 @@
+
+数据库
+
+biz_business_problem    表名改变  business_only_mark_int 改变  business_type新增
+
+biz_business_problem_log    表名改变 business_problem_id 改变
+
+biz_business_problem_type    表名改变 business_type新增
+

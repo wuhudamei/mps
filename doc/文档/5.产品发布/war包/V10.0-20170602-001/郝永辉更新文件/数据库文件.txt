@@ -1,0 +1,4 @@
+基础设置--工人任务包奖励--工人评价分数查询
+
+biz_eval_taskpack_role_score表 添加 eval_status 字段
+新增 biz_eval_activity_stage表

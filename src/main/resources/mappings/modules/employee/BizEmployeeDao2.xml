@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizEmployeeDao2">
+
+    <sql id="bizEmployeeColumns">
+        a.id             AS "id",
+        a.no             AS "no",
+        a.loginname      AS "loginname",
+        a.realname       AS "realname",
+        a.phone          AS "phone",
+        a.empType        AS "empType",
+        a.idcardno       AS "idcardno",
+        a.entrytime      AS "entrytime",
+        a.birthday       AS "birthday",
+        a.sex            AS "sex",
+        a.household      AS "household",
+        a.roots          AS "roots",
+        a.family         AS "family",
+        a.age            AS "age",
+        a.education      AS "education",
+        a.postno         AS "postno",
+        a.address        AS "address",
+        a.headpic        AS "headpic",
+        a.star           AS "star",
+        a.sort           AS "sort",
+        a.nps            AS "nps",
+        a.iswebchat      AS "iswebchat",
+        a.orderarea      AS "orderarea",
+        a.housetype      AS "housetype",
+        a.orderstop      AS "orderstop",
+        a.smartphone     AS "smartphone",
+        a.worktype       AS "worktype",
+        a.electricancard AS "electricancard",
+        a.ncms           AS "ncms",
+        a.salarypoint    AS "salarypoint",
+        a.grouplead      AS "grouplead",
+        a.storeid        AS "storeid",
+        a.sysuserid      AS "sysuserid",
+        a.managerid      AS "managerid",
+        a.pointXy       AS "pointXy",
+		o.name           AS "storename",
+		a.del_flag		AS 'delFlag',
+		a.project_mode  AS "projectMode"
+    </sql>
+    
+    <sql id="bizEmployeeColumnsByduanXin" >
+        a.id             AS "id",
+        a.no             AS "no",
+        a.loginname      AS "loginname",
+        a.realname       AS "realname",
+        a.phone          AS "phone",
+        a.empType        AS "empType",
+        a.idcardno       AS "idcardno",
+        a.entrytime      AS "entrytime",
+        a.birthday       AS "birthday",
+        a.sex            AS "sex",
+        a.household      AS "household",
+        a.roots          AS "roots",
+        a.family         AS "family",
+        a.age            AS "age",
+        a.education      AS "education",
+        a.postno         AS "postno",
+        a.address        AS "address",
+        a.headpic        AS "headpic",
+        a.star           AS "star",
+        a.sort           AS "sort",
+        a.nps            AS "nps",
+        a.iswebchat      AS "iswebchat",
+        a.orderarea      AS "orderarea",
+        a.housetype      AS "housetype",
+        a.orderstop      AS "orderstop",
+        a.smartphone     AS "smartphone",
+        a.worktype       AS "worktype",
+        a.electricancard AS "electricancard",
+        a.ncms           AS "ncms",
+        a.salarypoint    AS "salarypoint",
+        a.grouplead      AS "grouplead",
+        a.storeid        AS "storeid",
+        a.sysuserid      AS "sysuserid",
+        a.managerid      AS "managerid",
+        a.pointXy       AS "pointXy",
+		a.del_flag		AS "delFlag"
+    </sql>
+
+    <sql id="bizEmployeeJoins">
+   		 left join sys_office o on o.id=a.storeid
+    </sql>
+
+    <select id="get" resultType="cn.damei.entity.modules.BizEmployee2">
+        SELECT
+        <include refid="bizEmployeeColumns" />
+        FROM biz_employee a
+        <include refid="bizEmployeeJoins" />
+        WHERE a.id = #{id}
+    </select>
+    
+   <select id="getById" resultType="cn.damei.entity.modules.BizEmployee2">
+        SELECT
+        <include refid="bizEmployeeColumnsByduanXin" />
+        FROM biz_employee a
+        WHERE a.id in 
+        <foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+   <select id="queryEmployeeByPhoneAndEmployeeType" resultType="cn.damei.entity.modules.BizEmployee2">
+ 	  SELECT
+        <include refid="bizEmployeeColumns" />
+      FROM biz_employee a
+      <include refid="bizEmployeeJoins" />
+   	  WHERE a.phone = #{0} and a.empType = #{1} and a.del_flag ='0'
+   </select>
+
+	<select id="queryEmployeeByPhoneAndEmployeeTypeOrIsLeader" resultType="cn.damei.entity.modules.BizEmployee2">
+ 	  SELECT
+        <include refid="bizEmployeeColumns" />
+      FROM biz_employee a
+      <include refid="bizEmployeeJoins" />
+   	  WHERE a.phone = #{0} and a.del_flag ='0' and (a.empType = #{1} or a.id in(select b.manager_employee_id from biz_qc_manager b where b.is_enabled = '1' and b.del_flag = '0'))
+   </select>
+
+    <select id="findGuaranteeMoneyList" resultType="cn.damei.entity.modules.BizEmployee2">
+        select b.id as "id",b.storeId as "storeid",b.no as "no",b.realName as "realname",b.phone as "phone",b.star as "star",b.workType as "worktype",
+               sum(c.guarantee_money_amount) as "totalAmount"
+        from biz_employeegroup a
+        inner join biz_employee b on a.groupId = b.id
+        inner join biz_guarantee_money c on c.employee_id = b.id and c.employeegroup_id = a.id
+        <where>
+            b.del_flag = '0' AND c.is_deduct = '1' AND c.guarantee_money_amount > 0
+            <if test="storeid != null and storeid != ''">
+                and b.storeId = #{storeid}
+            </if>
+            <if test="realname != null and realname != ''">
+                AND b.realName LIKE
+                <if test="dbName == 'oracle'">'%'||#{realname}||'%'</if>
+                <if test="dbName == 'mssql'">'%'+#{realname}+'%'</if>
+                <if test="dbName == 'mysql'">concat('%',#{realname},'%')</if>
+            </if>
+            <if test="phone != null and phone != ''">
+                AND b.phone LIKE
+                <if test="dbName == 'oracle'">'%'||#{phone}||'%'</if>
+                <if test="dbName == 'mssql'">'%'+#{phone}+'%'</if>
+                <if test="dbName == 'mysql'">concat('%',#{phone},'%')</if>
+            </if>
+        </where>
+          group by c.employee_id
+        <choose>
+            <when test="page !=null and page.orderBy != null and page.orderBy != ''">
+                ORDER BY ${page.orderBy}
+            </when>
+            <otherwise>
+                order by b.no desc
+            </otherwise>
+        </choose>
+    </select>
+
+    <select id="queryGuaranteeMoneyList" parameterType="java.lang.Integer" resultType="cn.damei.entity.modules.BizEmployeeGuaranteeMoney">
+        SELECT b.customer_name AS "customerName",b.customer_message AS "customerAddress",b.item_customer AS "itemCustomer",a.deduct_time AS "deductTime",a.guarantee_money_amount
+          FROM biz_guarantee_money a LEFT JOIN biz_order_taskpackage b ON a.order_taskpackage_id = b.id
+          WHERE a.employee_id = #{employeeId} and a.is_deduct = '1' and a.guarantee_money_amount > 0
+    </select>
+
+    <select id="queryGuaranteeMoneyTotal" parameterType="java.lang.Integer" resultType="java.lang.Double">
+        SELECT SUM(a.guarantee_money_amount)
+          FROM biz_guarantee_money a
+          WHERE a.employee_id = #{employeeId} and a.is_deduct = '1' and a.guarantee_money_amount > 0
+    </select>
+
+    <select id="queryEmployeeByEmpType" resultType="cn.damei.entity.modules.BizEmployee2">
+        SELECT
+         a.id             AS "id",
+        a.no             AS "no",
+        a.loginname      AS "loginname",
+        a.realname       AS "realname",
+        a.phone          AS "phone",
+        a.empType        AS "empType",
+        a.idcardno       AS "idcardno",
+        a.entrytime      AS "entrytime",
+        a.birthday       AS "birthday",
+        a.sex            AS "sex",
+        a.household      AS "household",
+        a.roots          AS "roots",
+        a.family         AS "family",
+        a.age            AS "age",
+        a.education      AS "education",
+        a.postno         AS "postno",
+        a.address        AS "address",
+        a.headpic        AS "headpic",
+        a.star           AS "star",
+        a.sort           AS "sort",
+        a.nps            AS "nps",
+        a.iswebchat      AS "iswebchat",
+        a.orderarea      AS "orderarea",
+        a.housetype      AS "housetype",
+        a.orderstop      AS "orderstop",
+        a.smartphone     AS "smartphone",
+        a.worktype       AS "worktype",
+        a.electricancard AS "electricancard",
+        a.ncms           AS "ncms",
+        a.salarypoint    AS "salarypoint",
+        a.grouplead      AS "grouplead",
+        a.storeid        AS "storeid",
+        a.sysuserid      AS "sysuserid",
+        a.managerid      AS "managerid",
+        a.pointXy       AS "pointXy",
+		a.del_flag		AS 'delFlag',
+		a.project_mode  AS "projectMode"
+        FROM biz_employee a
+        WHERE a.del_flag = '0' and a.empType = #{empType}
+    </select>
+     <select id="queryEmployeeByEmpType2" resultType="cn.damei.entity.modules.BizEmployee2">
+        SELECT
+         a.id             AS "id",
+        a.no             AS "no",
+        a.loginname      AS "loginname",
+        a.realname       AS "realname",
+        a.phone          AS "phone",
+        a.empType        AS "empType",
+        a.idcardno       AS "idcardno",
+        a.entrytime      AS "entrytime",
+        a.birthday       AS "birthday",
+        a.sex            AS "sex",
+        a.household      AS "household",
+        a.roots          AS "roots",
+        a.family         AS "family",
+        a.age            AS "age",
+        a.education      AS "education",
+        a.postno         AS "postno",
+        a.address        AS "address",
+        a.headpic        AS "headpic",
+        a.star           AS "star",
+        a.sort           AS "sort",
+        a.nps            AS "nps",
+        a.iswebchat      AS "iswebchat",
+        a.orderarea      AS "orderarea",
+        a.housetype      AS "housetype",
+        a.orderstop      AS "orderstop",
+        a.smartphone     AS "smartphone",
+        a.worktype       AS "worktype",
+        a.electricancard AS "electricancard",
+        a.ncms           AS "ncms",
+        a.salarypoint    AS "salarypoint",
+        a.grouplead      AS "grouplead",
+        a.storeid        AS "storeid",
+        a.sysuserid      AS "sysuserid",
+        a.managerid      AS "managerid",
+        a.pointXy       AS "pointXy",
+		a.del_flag		AS 'delFlag',
+		a.project_mode  AS "projectMode"
+        FROM biz_employee a
+        WHERE a.del_flag = '0' and a.empType = #{noticeType} and a.storeid = #{storeId} 
+        <if test="projectMode != 3">
+        	and a.project_mode = #{projectMode}
+        </if>
+    </select>
+
+    <select id="findManagerGuaranteeMoneyList" resultType="cn.damei.entity.modules.BizEmployee2">
+        select a.id as "id",a.storeId as "storeid",a.project_mode as "projectMode",a.realName as "realname",a.phone as "phone",a.star as "star",
+        (select IFNULL(sum(b.guarantee_money_amount),0) from biz_pm_settle_bill b where b.pm_employee_id = a.id) as "totalAmount"
+        from biz_employee a
+        <where>
+            a.del_flag = '0' and a.empType = #{empType}
+            <if test="storeid != null and storeid != ''">
+                and a.storeId = #{storeid}
+            </if>
+            <if test="projectMode != null and projectMode != '' and projectMode != 3">
+                AND a.project_mode = #{projectMode}
+            </if>
+            <if test="realname != null and realname != ''">
+                AND a.realName LIKE
+                <if test="dbName == 'oracle'">'%'||#{realname}||'%'</if>
+                <if test="dbName == 'mssql'">'%'+#{realname}+'%'</if>
+                <if test="dbName == 'mysql'">concat('%',#{realname},'%')</if>
+            </if>
+        </where>
+        <choose>
+            <when test="page !=null and page.orderBy != null and page.orderBy != ''">
+                ORDER BY ${page.orderBy}
+            </when>
+            <otherwise>
+                order by a.realName asc
+            </otherwise>
+        </choose>
+    </select>
+
+    <!--查询已删除员工-->
+    <select id="findDeleteEmployeeList" resultType="cn.damei.entity.modules.BizEmployee2">
+        select a.id AS "id",a.storeId as "storeid",a.no as "no",a.loginName as "loginname",a.realName as "realname",a.phone as "phone",a.empType as "empType",
+                b.name as "name",a.update_date as "updateDate"
+        from biz_employee a
+        left join sys_user b on a.update_by = b.id
+        <where>
+            a.del_flag = '1'
+            <if test="storeid != null and storeid != ''">
+                and a.storeId = #{storeid}
+            </if>
+            <if test="no != null and no != ''">
+                AND a.no LIKE
+                <if test="dbName == 'oracle'">'%'||#{no}||'%'</if>
+                <if test="dbName == 'mssql'">'%'+#{no}+'%'</if>
+                <if test="dbName == 'mysql'">concat('%',#{no},'%')</if>
+            </if>
+            <if test="realname != null and realname != ''">
+                AND a.realName LIKE
+                <if test="dbName == 'oracle'">'%'||#{realname}||'%'</if>
+                <if test="dbName == 'mssql'">'%'+#{realname}+'%'</if>
+                <if test="dbName == 'mysql'">concat('%',#{realname},'%')</if>
+            </if>
+            <if test="phone != null and phone != ''">
+                AND a.phone LIKE
+                <if test="dbName == 'oracle'">'%'||#{phone}||'%'</if>
+                <if test="dbName == 'mssql'">'%'+#{phone}+'%'</if>
+                <if test="dbName == 'mysql'">concat('%',#{phone},'%')</if>
+            </if>
+        </where>
+        <choose>
+            <when test="page !=null and page.orderBy != null and page.orderBy != ''">
+                ORDER BY ${page.orderBy}
+            </when>
+            <otherwise>
+                order by a.update_date desc
+            </otherwise>
+        </choose>
+    </select>
+    
+     <update id="delete">
+        UPDATE biz_employee SET	del_flag=0,update_by = #{updateBy.id},update_date = #{updateDate}
+        WHERE id = #{id}
+    </update>
+    <!-- 查询userID -->
+    <select id="findsysUserId" resultType = "String">
+    	SELECT a.sysUserId FROM biz_employee a WHERE a.id  = #{0}
+    </select>
+    <!-- 根据StorId 和  projectMode 查询是否已经配置过星级 -->
+    <select id="findListByBizStar" resultType="cn.damei.entity.modules.BizStar">
+    	select * from biz_star t
+    	<where>
+    		<if test="projectMode != '' and projectMode != null">
+    			and t.project_mode = #{projectMode}
+    		</if>
+    		<if test="storeId != '' and storeId != null">
+    			and t.store_id = #{storeId}
+    		</if>
+    	</where>
+    </select>
+    <select id="findIsLeader" resultType="String">
+    	SELECT id FROM biz_emgrouprelation a WHERE a.is_leader = '1' AND a.empId = #{0}
+    </select>
+    <update id="updateGroupState">
+    	update biz_employeegroup set state = #{delFlag} WHERE groupId = #{id} 
+    </update>
+</mapper>

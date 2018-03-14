@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.DictDao">
+    
+	<select id="get" resultType="Dict">
+		SELECT 
+			* 
+		FROM sys_dict 
+		WHERE id = #{id}
+	</select>
+	
+	<select id="getByType" resultType="Dict">
+		SELECT 
+			a.VALUE AS "value",
+			a.LABEL AS "label",
+			a.SORT AS "sort"
+		FROM SYS_DICT a
+		WHERE a.TYPE = #{0} 
+		AND a.DEL_FLAG = '0'
+		ORDER BY a.VALUE
+	</select>
+	
+	<select id="findList" resultType="Dict">
+		SELECT 
+			* 
+		FROM sys_dict 
+		WHERE del_flag = #{DEL_FLAG_NORMAL} 
+		<if test="type != null and type != ''">
+			AND type = #{type}
+		</if>
+		<if test="description != null and description != ''">
+			AND description LIKE 
+					<if test="dbName == 'oracle'">'%'||#{description}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{description}+'%'</if>
+					<if test="dbName == 'mysql'">CONCAT('%', #{description}, '%')</if>
+		</if>
+		<if test="label != null and label != ''">
+			AND label LIKE 
+					<if test="dbName == 'oracle'">'%'||#{label}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{label}+'%'</if>
+					<if test="dbName == 'mysql'">CONCAT('%', #{label}, '%')</if>
+		</if>
+		ORDER BY type, sort, update_date DESC
+	</select>
+	
+	<select id="findAllList" resultType="Dict">
+		SELECT 
+			* 
+		FROM sys_dict 
+		WHERE del_flag = #{DEL_FLAG_NORMAL} 
+		ORDER BY type, sort, update_date DESC
+	</select>
+	
+	<select id="getTaskPackageStatusList" resultType="Dict">
+		SELECT 
+			* 
+		FROM sys_dict a
+		WHERE 
+			 a.type = #{0} 
+			 and a.value in('120','130','140')
+		ORDER BY a.type, a.sort, a.update_date DESC
+	</select>
+	
+	<select id="getInstallProblemStatusList" resultType="Dict">
+		SELECT 
+			* 
+		FROM sys_dict a
+		WHERE 
+			 a.type = #{0} 
+			 and a.value in('30','50')
+		ORDER BY a.type, a.sort, a.update_date DESC
+	</select>
+	
+	<select id="getOrderTaskPackageStatusList" resultType="Dict">
+		SELECT 
+			* 
+		FROM sys_dict a
+		WHERE 
+			 a.type = #{0} 
+			 and a.value in('95','110','130')
+		ORDER BY a.type, a.sort, a.update_date DESC
+	</select>
+	
+	<select id="getSummaryStatusList" resultType="Dict">
+		SELECT 
+			* 
+		FROM sys_dict a
+		WHERE 
+			 a.type = #{0} 
+			 and a.value != '90'
+		ORDER BY a.type, a.sort, a.update_date DESC
+	</select>
+	
+	<select id="getSummaryCheckedStatusList" resultType="Dict">
+		SELECT 
+			* 
+		FROM sys_dict a
+		WHERE 
+			 a.type = #{0} 
+			 and a.value in ('20','50','100')
+		ORDER BY a.type, a.sort, a.update_date DESC
+	</select>
+	
+	<select id="findTypeList" resultType="string">
+		SELECT 
+			type 
+		FROM sys_dict 
+		WHERE del_flag = #{DEL_FLAG_NORMAL} 
+		GROUP BY type
+		ORDER BY type
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO sys_dict(
+			id, 
+			value, 
+			label, 
+			type, 
+			description, 
+			sort, 
+			create_by, 
+			create_date, 
+			update_by, 
+			update_date, 
+			remarks, 
+			del_flag
+		) VALUES (
+			#{id}, 
+			#{value}, 
+			#{label}, 
+			#{type}, 
+			#{description}, 
+			#{sort}, 
+			#{createBy.id}, 
+			#{createDate}, 
+			#{updateBy.id}, 
+			#{updateDate}, 
+			#{remarks}, 
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE sys_dict SET 
+			value = #{value}, 
+			label = #{label}, 
+			type = #{type}, 
+			description = #{description}, 
+			sort = #{sort}, 
+			update_by = #{updateBy.id}, 
+			update_date = #{updateDate}, 
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE sys_dict SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+
+	<select id="getDictListByType" parameterType="java.util.Map" resultType="cn.damei.entity.modules.Dict">
+		select * from sys_dict where del_flag = '0' and type=#{type}
+		<if test="valueList != null and valueList != ''">
+			and value in
+			<foreach collection="valueList" index="index" item="item" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+		order by sort asc
+	</select>
+</mapper>

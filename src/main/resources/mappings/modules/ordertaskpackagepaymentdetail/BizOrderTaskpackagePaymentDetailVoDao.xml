@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.modules.BizOrderTaskpackagePaymentDetailVoDao">
+
+	<select id="findPaymentDatailsBySummaryId" resultType="cn.damei.entity.modules.BizOrderTaskpackagePaymentDetailVo">
+		SELECT 
+			a.order_taskpackage_payment_summary_code AS "summaryCode",
+			b.order_taskpackage_payment_id AS "paymentId",
+			c.order_taskpackage_settlement_id AS "settlementId",
+			c.order_taskpackage_payment_type AS "paymentType",
+			c.payment_rates AS "paymentRates",
+			d.settlement_no AS "settlementCode",
+			d.check_date AS "settlementApplyDate",
+			d.settlement_amount AS "settlementAmount",
+			d.worker_group_settle_amount AS "workerGroupSettleAmount",
+			d.status_date AS "settlementExamineDate",
+			d.order_taskpackage_id AS "orderTaskpackageId",
+			f.customer_name AS "customerName",
+			f.customer_phone AS "customerPhone",
+			e.package_name AS "packageName",
+			e.customer_message As "customerAddress",
+			f.contract_area AS "contractArea",
+			f.item_manager AS "itemManager",
+			f.order_number AS "orderNumber"
+		FROM 
+			biz_order_taskpackage_payment_summary a,
+			biz_order_taskpackage_payment_summary_rel b,
+			biz_order_taskpackage_payment c,
+			biz_order_taskpackage_settlement d,
+			biz_order_taskpackage e,
+			biz_order f
+		WHERE 
+			a.id = b.order_taskpackage_payment_summary_id
+		AND
+			b.order_taskpackage_payment_id = c.id
+		AND
+			c.order_taskpackage_settlement_id = d.id
+		AND 
+			d.order_taskpackage_id = e.id
+		AND
+			e.order_id = f.id
+		AND 
+			b.order_taskpackage_payment_summary_id = #{0}
+	</select>
+
+
+</mapper>

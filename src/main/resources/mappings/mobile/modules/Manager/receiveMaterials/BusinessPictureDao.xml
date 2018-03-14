@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.damei.dao.mobile.Manager.BusinessPictureDao">
+	
+	<select id="queryPicture" resultType="cn.damei.entity.mobile.Manager.BusinessPicture">
+		select 
+			id as "id",
+			business_type as "businessType",	
+			business_id_int as "businessIdInt",
+			business_id_varchar as "businessIdVarchar",
+			pic_type as "picType",
+			pic_index as "picIndex",
+			pic_url as "picUrl",
+			pic_datetime as "picDateTime"
+		from biz_business_pic
+		where business_id_int in (SELECT id from biz_purchase_receive_bill
+				where purchase_id = #{0}) and business_type = #{1}
+	</select>
+
+
+	<select id="queryOverPicture" resultType="cn.damei.entity.mobile.Manager.BusinessPicture">
+		select 
+			id as "id",
+			business_type as "businessType",	
+			business_id_int as "businessIdInt",
+			business_id_varchar as "businessIdVarchar",
+			pic_type as "picType",
+			pic_index as "picIndex",
+			pic_url as "picUrl",
+			pic_datetime as "picDateTime"
+		from biz_business_pic 
+		where business_id_int = #{0} and business_type = #{1}
+	</select>
+	
+	<insert id="savePic" parameterType="cn.damei.entity.mobile.Manager.BusinessPicture">
+		INSERT INTO biz_business_pic (
+				id ,
+				business_type,
+				business_id_int,
+				business_id_varchar,
+				pic_type,
+				pic_index,
+				pic_url,
+				pic_datetime
+		)
+		values(
+				#{id},
+				#{businessType},
+				#{businessIdInt},
+				#{businessIdVarchar},
+				#{picType},
+				#{picIndex},
+				#{picUrl},
+				#{picDateTime}
+		)
+	</insert>
+	
+	<delete id="deletePic">
+		delete from biz_business_pic where id = #{0}
+	</delete>
+	
+	
+	
+	<select id="queryByReceiveBillId" resultType="cn.damei.entity.mobile.Manager.BusinessPicture">
+		select 
+			id as "id",
+			business_type as "businessType",	
+			business_id_int as "businessIdInt",
+			business_id_varchar as "businessIdVarchar",
+			pic_type as "picType",
+			pic_index as "picIndex",
+			pic_url as "picUrl",
+			pic_datetime as "picDateTime"
+		from 
+			biz_business_pic
+		where
+			business_id_int = #{0} and business_type ='5'
+	</select>
+	
+	<select id="queryPictureByBussinessIdAndType" resultType="cn.damei.entity.mobile.Manager.BusinessPicture">
+		select 
+			id as "id",
+			business_type as "businessType",	
+			business_id_int as "businessIdInt",
+			business_id_varchar as "businessIdVarchar",
+			pic_type as "picType",
+			pic_index as "picIndex",
+			pic_url as "picUrl",
+			pic_datetime as "picDateTime"
+		from 
+			biz_business_pic
+		where
+			business_id_int = #{0} and business_type =#{1}
+	</select>
+</mapper>

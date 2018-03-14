@@ -1,0 +1,146 @@
+.total{position: absolute;top: .88rem;left: 0;background: #f6f6f6;padding-left: 4%;padding-right: 4%;width: 100%;box-sizing: border-box;}
+.nav_bar{display: block;position: relative;height: .52rem;text-align: center;border: 1px solid #e5e5e5;box-sizing: border-box;border-radius: .26rem;margin-top: .24rem;}
+.select{line-height: .52rem;}
+.select_btn{width: .27rem;height: .14rem;position: absolute;right: .3rem;top: .19rem;}
+.mask,.mask1{position: fixed;top: 0;left: 0;width: 100%;height: 100%;z-index: 9;background: rgba(0,0,0,.5);}
+.construct-state{
+
+}
+.construct-state .item{
+	position: relative;
+	padding: 0 0 0.2rem 0.3rem;
+	margin-left: 0.1rem;
+	border-left:1px solid #b2b2b2;
+}
+.construct-state .item:before{
+	content: ' ';
+	display: inline-block;
+	width: 0.22rem;
+	height: 0.22rem;
+	border-radius: 0.22rem;
+	background-color: #0780ec;
+	position: absolute;
+	left: -0.12rem;
+}
+.construct-state .view-box{
+	background-color: #FFF; font-size: 0;
+	padding: 0.24rem .1rem 0.2rem; border:1px solid #e5e5e5;
+}
+.construct-state .item p{ 
+	font-size: 0.28rem;
+	color: #666;
+	position: relative;
+}
+.construct-state .state{
+	height: 0.34rem;
+	line-height: 0.34rem;
+}
+.construct-state .state.new{
+	background: url(../images/constructionSite/icon-new1.png) 92% center no-repeat;
+	background-size: 0.32rem 0.32rem;
+}
+.construct-state .state span{
+	margin-top: 0.06rem;
+	border-left: 2px solid #0780ec;color: #0780ec;
+	height: 0.24rem;line-height: 0.24rem;
+	display: inline-block; padding-left: .14rem;
+}
+.construct-state .swiper-container{
+	height: 1.72rem;
+	width: 100%;
+}
+.construct-state .swiper-container .swiper-slide{
+	width: auto;
+	padding-right: 0.1rem;
+}
+.construct-state .swiper-container img{
+	height: 1.72rem; width: 1.72rem;
+}
+
+.show-bigimg{
+}
+.show-bigimg .content{
+	position: fixed;top: 0;left: 0;width: 100%;height: 100%;z-index: 10;
+}
+.show-bigimg .content .back_btn{
+	position: fixed;
+	display: block;
+  width: 0.88rem;
+  height: 0.88rem;
+  background: url(../images/back_icon.png) 0.3rem 0.23rem no-repeat;
+  background-size: 0.2rem 0.34rem;
+  left: 0;
+  top: 0;
+}
+.show-bigimg .construct-state-box{
+	position:absolute;margin: 150px auto;width: 100%;
+	/* position: absolute; top: 50%; left: 50%;
+	width: 100%;
+	transform: translate(-50%, -50%); */
+}
+.show-bigimg .construct-state-big{
+	background-color: #FFF;
+	height:5.60rem;
+}
+.swiper-button-prev{
+	background-image:url("../images/constructionSite/btn-prev.png") !important;
+	background-size: 0.52rem 0.52rem;
+	width: 0.52rem; height: 0.52rem;
+}
+.swiper-button-next{
+	background-image:url("../images/constructionSite/btn-next.png") !important;
+	background-size: 0.52rem 0.52rem;
+	width: 0.52rem; height: 0.52rem;
+}
+.now-page{
+	position: fixed;
+	display: block;
+  width: 100%; 
+  text-align: center;
+  height: 0.44rem;
+  left: 0;
+  bottom: 1.20rem;
+  color: #FFF;
+  font-size: 0;
+}
+.now-page div{
+	position: absolute; top: 0; left: 50%; 
+	width: 1rem; height: 0.4rem;
+	margin-left: -0.5rem;
+}
+.now-page .current-page{
+	margin-top: -0.1rem;
+	font-size: 0.46rem;color: #ff9800;
+	position: absolute;
+  margin: -0.02rem 0rem 0 -0.12rem;
+}
+.now-page .all-page{
+	font-size: 0.32rem;
+	position: absolute;
+  margin: 0.30rem 0 0 0.25rem;
+}
+.now-page .pre{
+	font-size: 0.48rem;
+	position: absolute;
+	margin: 0.1rem;
+}
+.nav_sec{position: relative;}
+.nav_box{ position: relative;width: 100%;}
+.options{position: absolute; width: 100%;top: .7rem;padding-left: .24rem;padding-right: .24rem;box-sizing: border-box;border-radius: .1rem;}
+.options:before,.options:after{
+	content: "";
+    display: inline-block;
+    position: absolute;
+    top: -0.16rem;
+    right: .3rem;
+    width: 0;
+    height: 0;
+    border: none;
+    border-left: 0.08rem solid transparent;
+    border-right: 0.08rem solid transparent;
+    border-bottom: 0.16rem solid #fff;
+}
+.options a{display: block;height: .7rem;line-height: .7rem;width: 100%;border-bottom: 1px solid #e4e4e4;text-align: center;}
+.options a:last-child{border-bottom: none;}
+.item:last-child{margin-bottom: 300px;}
+

@@ -1,0 +1,33 @@
+菜单新增：
+	1、评价项目经理
+	   基础设置--工人任务包奖励--项目经理评分查询
+	     名称：项目经理评分查询
+	     链接：/evaluate/bizEvalManagerGrade/openBizEvalManagerGradePage
+
+	2、空闲工人组长查询
+	   综合查询--任务包进度监控--空闲工人组长查询
+	     名称：空闲工人组长查询
+	     链接：/empgroup/bizEmployeegroup/toFindFreeLeader
+	     权限标识：empgroup:bizEmployeegroup:view
+
+	3、工人回访电话查询
+	    综合查询--明细查询--工人回访电话查询
+	     名称：工人回访电话查询
+	     链接：/laborCapital/laborCapital/queryOrderList
+	     权限标识：laborCapital:laborCapital:view
+
+	4、约检节点明细查询
+	    质检管理--质检节点报表--约检节点验收明细查询
+	     名称：约检节点验收明细查询
+	     链接：/arrangecheckdonedetailquery/arrangeCheckDoneDetailQuery/list
+	     权限标识：arrangecheckdonedetailquery:arrangeCheckDoneDetailQuery:view
+
+	5、工地设计问题处理
+	    材料调度--问题上报--工地设计问题处理
+	     名称：工地设计问题处理
+	     链接：/bizorderinstallitemproblem/siteDesignProblem/preList
+
+	6、工程设计问题查询
+	   材料调度--问题上报--工程设计问题查询
+	     名称：工程设计问题查询
+	     链接：/bizorderinstallitemproblem/siteDesignProblem/query/list

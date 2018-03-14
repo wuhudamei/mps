@@ -1,0 +1,110 @@
+.alertMask {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, .5);
+    z-index: 1000;
+    display: none;
+}
+
+.alertMask._in {
+    display: block;
+}
+
+.maskWrapper {
+    position: fixed;
+    z-index: 1001;
+    width: 84%;
+    top: 50%;
+    margin-top: -10%;
+    left: 50%;
+    margin-left: -42%;
+    border-radius: .1rem;
+    background: #fff;
+    font-size: .32rem;
+    display: none;
+}
+
+.maskWrapper._in {
+    display: block;
+    transition-duration: 400ms;
+    transform: translate3d(0, 0, 0) scale(1);
+}
+
+.maskTit {
+    height: 1rem;
+    line-height: 1rem;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+
+.maskContent {
+    padding: .3rem .4rem;
+    border-bottom: 1px solid #ddd;
+    line-height: 2;
+    font-size: .3rem;
+}
+
+.maskContent p:first-child {
+    font-size: .32rem;
+}
+
+.maskContent p:last-child {
+    font-size: .26rem;
+    line-height: 1.5;
+}
+
+.maskContent input {
+    margin-right: .05rem;
+}
+
+.maskBtns {
+    width: 83%;
+    margin: 0 auto;
+    padding-bottom: .2rem;
+    padding-top: .2rem;
+}
+
+.maskBtns button:first-child {
+    color: #fff;
+}
+
+.maskBtnOne {
+    background: #0780ec;
+    border-radius: .1rem;
+    display: block;
+    text-align: center;
+    line-height: .76rem;
+    font-size: .33rem;
+    margin: 0 auto;
+    padding: 0 .2rem;
+    min-width: 46%;
+}
+
+.maskBtn {
+    background: #0780ec;
+    border-radius: .1rem;
+    display: block;
+    width: 47.6%;
+    text-align: center;
+    line-height: .76rem;
+    font-size: .33rem;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+.twoBtns .maskBtn:first-child {
+    background: #0780ec;
+    border: 1px solid #0780ec;
+    border-radius: .1rem;
+    float: left;
+}
+
+.twoBtns .maskBtn:last-child {
+    border: 1px solid #0780ec;
+    border-radius: .1rem;
+    float: right;
+    background: #fff;
+}

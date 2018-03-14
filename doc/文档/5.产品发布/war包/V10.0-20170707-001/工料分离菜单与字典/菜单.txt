@@ -1,0 +1,21 @@
+菜单变更：
+
+	1、名称：项目经理任务包材料结算单查询
+	   链接：/pmMaterialsSettleInfo/pmMaterialsSettleInfo/queryPmMaterialsSettleInfo
+
+
+字典变更：
+	1、工料分离--永辉：
+
+		键值	标签		类型			描述			排序
+		10	已创建		pm_settle_status	项目经理结算状态	10
+		15	已撤回		pm_settle_status	项目经理结算状态	15
+		20	已验收节点	pm_settle_status	项目经理结算状态	20
+		30	已收客户款	pm_settle_status	项目经理结算状态	30	
+		50	已生成结算	pm_settle_status	项目经理结算状态	50	
+
+	2、工料分离--汉伟：
+	
+		键值	标签		类型		描述		排序
+		2	包工		settle_style	结算方式	10
+		1	包工包料	settle_style	结算方式	10
