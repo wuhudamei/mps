@@ -11,10 +11,7 @@ import cn.damei.common.service.CrudService2;
 import cn.damei.common.utils.ConstantUtils;
 import cn.damei.dao.mobile.Manager.BizOrderTaskpackageProcedureDao;
 import cn.damei.entity.mobile.Manager.BizOrderTaskpackageProcedure;
-/**
- * @author 邱威威qww
- * @version 创建时间：2016年9月19日 下午5:00:04 类说明
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizOrderTaskpackageProcedureService extends CrudService2<BizOrderTaskpackageProcedureDao, BizOrderTaskpackageProcedure> {

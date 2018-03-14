@@ -21,10 +21,7 @@ import cn.damei.entity.modules.BizConfirmStartOrder;
 import cn.damei.entity.modules.BizOrderConfirmStartworkPic;
 import cn.damei.entity.modules.BizOrderConfirmStartworkPicService;
 
-/**
- * @author llp
- * @version 创建时间：2016年10月27日 下午5:05:38 类说明
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/bizconfirmstartwork/bizConfirmStartwork")
 public class BizOrderConfirmStartworkController extends BaseController {
@@ -34,11 +31,7 @@ public class BizOrderConfirmStartworkController extends BaseController {
 	@Autowired
 	private BizOrderConfirmStartworkPicService bizOrderConfirmStartworkPicService;
 
-	/**
-	 * 确认开工查看图片
-	 * 
-	 * @return photoList
-	 */
+
 	@RequestMapping(value = { "confirmPhotos", "" })
 	public String confirmPhotos(BizConfirmStartOrder bizConfirmStartOrder, Model model, String startWorkID, HttpServletRequest request) throws IOException {
 		logger.info("biz_order_confirm_startwork主键：" + startWorkID);
@@ -56,11 +49,7 @@ public class BizOrderConfirmStartworkController extends BaseController {
 		return "modules/bizconfirmstart/confirmPicPhotos";
 	}
 
-	/**
-	 * 确认开工查看图片
-	 * 
-	 * @return photoList
-	 */
+
 	@RequestMapping(value = "/ajaxConfirmPhotos")
 	@ResponseBody
 	public Map<Object, Object> ajaxConfirmPhotos(BizConfirmStartOrder bizConfirmStartOrder, Model model, String startWorkID, HttpServletRequest request) throws IOException {

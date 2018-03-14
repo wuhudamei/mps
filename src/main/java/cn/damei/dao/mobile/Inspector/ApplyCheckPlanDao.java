@@ -6,9 +6,7 @@ import cn.damei.entity.mobile.Inspector.ApplyCheckPlanEntity;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by joseph on 2017/6/13.
- */
+
 @MyBatisDao
 public interface ApplyCheckPlanDao extends PqcOrderInterface {
 

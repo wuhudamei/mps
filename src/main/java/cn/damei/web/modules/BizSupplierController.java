@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import java.util.ArrayList;
@@ -30,12 +28,7 @@ import cn.damei.entity.modules.BizSupplier;
 import cn.damei.service.modules.BizSupplierService;
 import cn.damei.common.utils.DictUtils;
 
-/**
- * 供应商管理Controller
- * 
- * @author lc
- * @version 2016-09-08
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/supplier/bizSupplier")
 public class BizSupplierController extends BaseController {
@@ -95,13 +88,7 @@ public class BizSupplierController extends BaseController {
 		return "redirect:" + Global.getAdminPath() + "/supplier/bizSupplier/?repage";
 	}
 
-	/**
-	 * 停用/启用
-	 * 
-	 * @param bizTaskPackageType
-	 * @param redirectAttributes
-	 * @return
-	 */
+
 	@RequiresPermissions("supplier:bizSupplier:edit")
 	@RequestMapping(value = "enable")
 	public String enable(BizSupplier bizSupplier, RedirectAttributes redirectAttributes) {
@@ -112,18 +99,7 @@ public class BizSupplierController extends BaseController {
 		return "redirect:" + Global.getAdminPath() + "/supplier/bizSupplier/?repage";
 	}
 
-	/**
-	 * 根据供应商业务类型查询供应商信息
-	 * 
-	 * @Title: ajaxgetSupplier
-	 * @Description: TODO
-	 * @param @param bizSupplier
-	 * @param @param redirectAttributes
-	 * @param @return
-	 * @return Map<String,Object>
-	 * @author ZhangTongWei
-	 * @throws
-	 */
+
 	@RequestMapping(value = "ajaxgetSupplier")
 	@ResponseBody
 	public Map<String, Object> ajaxgetSupplier(BizSupplier bizSupplier, RedirectAttributes redirectAttributes) {
@@ -135,18 +111,7 @@ public class BizSupplierController extends BaseController {
 
 	}
 
-	/**
-	 * 根据ID查询供应商信息
-	 * 
-	 * @Title: ajaxgetSupplierId
-	 * @Description: TODO
-	 * @param @param bizSupplier
-	 * @param @param redirectAttributes
-	 * @param @return
-	 * @return Map<String,Object>
-	 * @author ZhangTongWei
-	 * @throws
-	 */
+
 
 	@RequestMapping(value = "ajaxgetSupplierId")
 	@ResponseBody

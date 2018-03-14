@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.util.List;
@@ -13,11 +11,7 @@ import cn.damei.common.persistence.Page;
 import cn.damei.common.service.CrudService2;
 import cn.damei.dao.modules.BizOrderDistributeLogDao;
 
-/**
- * 订单分配记录Service
- * @author 汪文
- * @version 2017-03-08
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizOrderDistributeLogService extends CrudService2<BizOrderDistributeLogDao, BizOrderDistributeLog> {

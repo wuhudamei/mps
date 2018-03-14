@@ -24,11 +24,7 @@ import cn.damei.entity.modules.BizMessagegroup;
 import cn.damei.service.modules.BizMessagegroupService;
 import cn.damei.entity.modules.BizPhoneMsg;
 import cn.damei.service.modules.BizPhoneMsgService;
-/**
- * 施工变更单
- * @author Administrator
- *
- */
+
 @Service
 @Transactional(readOnly=true)
 public class NewProjectChangeService {
@@ -47,11 +43,7 @@ public class NewProjectChangeService {
 	private BizProjectChangeBillService bizProjectChangeBillService;
 	
 	
-	/**
-	 * 查询订单列表
-	 * @param customerPhone
-	 * @return
-	 */
+
 	public List<BizOrder> findOrderList(String customerPhone) {
 		List<BizOrder> list = dao.findOrderList(customerPhone);
 		if(null!=list && list.size()>0){
@@ -62,12 +54,7 @@ public class NewProjectChangeService {
 	}
 
 
-	/**
-	 * 查询施工变更单列表
-	 * @param customerPhone
-	 * @param orderId
-	 * @return
-	 */
+
 	public BizOrder findProjectChangeBillList(String customerPhone, Integer orderId) {
 		
 		BizOrder bizOrder = new BizOrder();
@@ -83,11 +70,7 @@ public class NewProjectChangeService {
 	}
 
 
-	/**
-	 * 查看消息是否已读
-	 * @param qcBillId
-	 * @return
-	 */
+
 	public Integer findView(Integer projectChangeId) {
 		
 		ViewLog viewLog = new ViewLog();
@@ -98,10 +81,7 @@ public class NewProjectChangeService {
 	}
 
 
-	/**
-	 * 如果未读则插入已读消息
-	 * @param projectChangeId
-	 */
+
 	@Transactional(readOnly=false)
 	public void insertView(Integer projectChangeId) {
 		
@@ -120,11 +100,7 @@ public class NewProjectChangeService {
 	}
 
 
-	/**
-	 * 变更单详情
-	 * @param projectChangeId
-	 * @return
-	 */
+
 	public BizProjectChangeBill projectChangeDetail(Integer projectChangeId) {
 		
 		BizProjectChangeBill projectChange = dao.projectChangeDetail(projectChangeId);
@@ -136,12 +112,7 @@ public class NewProjectChangeService {
 	}
 
 
-	/**
-	 * 客户审核
-	 * @param projectChangeId
-	 * @param reason
-	 * @param status 
-	 */
+
 	@Transactional(readOnly=false)
 	public void updateChangeBill(Integer projectChangeId, String reason, String status) {
 		BizProjectChangeBill bizProjectChangeBill = new BizProjectChangeBill();
@@ -155,23 +126,18 @@ public class NewProjectChangeService {
 	}
 
 
-	/**
-	 * 审核通过  短信发送
-	 * @param projectChangeId
-	 */
+
 	@Transactional(readOnly = false)
 	public void mesesagePass(Integer projectChangeId) {
 		
-		//通过变更单id查询客户信息
+
 		BizProjectChangeBill change = dao.projectChangeDetail(projectChangeId);
 		
 		Date date = new Date();
 		
-		//=====================================短信start========================================================
-		/**
-		 * 1.客户审核==通过==项目经理
-		 */
-		//【大美装饰管理平台】订单（小区名-楼号-单元号-门牌号-客户姓名-手机号），施工变更单客户已审核通过，请登录APP查看详情。
+
+
+
 		String content = "订单（"+change.getCommunityName()+"-"+change.getBuildNumber()+"-"+change.getBuildUnit()+"-"+change.getBuildRoom()+"-"+change.getCustomerName()+"-"+change.getCustomerPhone()+"），施工变更单客户已审核通过，请登录APP查看详情。";
 		BizPhoneMsg phone = new BizPhoneMsg();
 		phone.setReceiveEmployeeId(change.getItemManagerId());
@@ -183,10 +149,8 @@ public class NewProjectChangeService {
 		phone.setRelatedBusinessIdInt(projectChangeId);
 		bizPhoneMsgService.insert(phone);
 
-		/**
-		 * 2.客户审核==通过==财务
-		 */
-		//【大美装饰管理平台】订单（小区名-楼号-单元号-门牌号-客户姓名-手机号），施工变更单客户已审核通过，请及时登录系统存档。
+
+
 		String content2 = "订单（"+change.getCommunityName()+"-"+change.getBuildNumber()+"-"+change.getBuildUnit()+"-"+change.getBuildRoom()+"-"+change.getCustomerName()+"-"+change.getCustomerPhone()+"），施工变更单客户已审核通过，请及时登录系统存档。";
 		BizMessagegroup bizMessagegroup = bizMessagegroupService.getByStoreId(change.getStoreId(),"10");
 		List<Integer> list = new ArrayList<Integer>();
@@ -212,10 +176,8 @@ public class NewProjectChangeService {
 				}
 			}
 		}
-		/**
-		 * 3.客户审核==通过==设计师
-		 */
-		//【大美装饰管理平台】订单（小区名-楼号-单元号-门牌号-客户姓名-手机号），施工变更单客户已审核通过，请登录系统查看详情。
+
+
 		String content3 = "订单（"+change.getCommunityName()+"-"+change.getBuildNumber()+"-"+change.getBuildUnit()+"-"+change.getBuildRoom()+"-"+change.getCustomerName()+"-"+change.getCustomerPhone()+"），施工变更单客户已审核通过，请登录系统查看详情。";
 		BizPhoneMsg phone3 = new BizPhoneMsg();
 		phone3.setReceivePhone(change.getDesignerPhone());
@@ -226,10 +188,8 @@ public class NewProjectChangeService {
 		phone3.setRelatedBusinessIdInt(projectChangeId);
 		bizPhoneMsgService.insert(phone3);
 		
-		/**
-		 * 4.客户审核==通过==审计员
-		 */
-		//【大美装饰管理平台】订单（小区名-楼号-单元号-门牌号-客户姓名-手机号），施工变更单客户已审核通过，请登录系统查看详情。
+
+
 		String content4 = "订单（"+change.getCommunityName()+"-"+change.getBuildNumber()+"-"+change.getBuildUnit()+"-"+change.getBuildRoom()+"-"+change.getCustomerName()+"-"+change.getCustomerPhone()+"），施工变更单客户已审核通过，请登录系统查看详情。";
 		BizMessagegroup bizMessagegroup2 = bizMessagegroupService.getByStoreId(change.getStoreId(),"11");
 		List<Integer> list2 = new ArrayList<Integer>();
@@ -256,14 +216,12 @@ public class NewProjectChangeService {
 			}
 		}
 		
-		//=====================================短信end========================================================
+
 		
 
-		//=====================================消息推送start========================================================
+
 		
-		/**
-		 * 消息推送   消息推送类型 101001005-通知项目经理-客户审核通过
-		 */
+
 		BizMsg bizMsg = new BizMsg();
 		bizMsg.setMsgTitle("施工变更单客户审核通过");
 		bizMsg.setMsgTime(date);
@@ -273,29 +231,23 @@ public class NewProjectChangeService {
 		bizMsg.setBusiIdInt(projectChangeId);
 		bizMsg.setEmployeeId(change.getItemManagerId());
 		bizProjectChangeBillService.saveBizMsg(bizMsg);
-		//=====================================消息推送end========================================================
+
 		
 		
 	}
 
 
-	/**
-	 * 审核驳回   短信发送
-	 * @param projectChangeId
-	 * @param reason 
-	 */
+
 	@Transactional(readOnly = false)
 	public void mesesageRefuse(Integer projectChangeId, String reason) {
 		
 		Date date = new Date();
-		//通过变更单id查询客户信息
+
 		BizProjectChangeBill change = dao.projectChangeDetail(projectChangeId);
 		
-		//=====================================短信start========================================================
-		/**
-		 * 客户审核==驳回==项目经理
-		 */
-		//【大美装饰管理平台】订单（小区名-楼号-单元号-门牌号-客户姓名-手机号），施工变更单客户审核不通过，驳回原因（原因），请登录APP重新提交。
+
+
+
 		String content = "订单（"+change.getCommunityName()+"-"+change.getBuildNumber()+"-"+change.getBuildUnit()+"-"+change.getBuildRoom()+"-"+change.getCustomerName()+"-"+change.getCustomerPhone()+"），施工变更单客户审核不通过，驳回原因（"+reason+"），请登录APP重新提交。";
 		BizPhoneMsg phone = new BizPhoneMsg();
 		phone.setReceiveEmployeeId(change.getItemManagerId());
@@ -306,13 +258,11 @@ public class NewProjectChangeService {
 		phone.setRelatedBusinessType(SendMsgBusinessType.RELATED_BUSINESS_TYPE_400405);
 		phone.setRelatedBusinessIdInt(projectChangeId);
 		bizPhoneMsgService.insert(phone);
-		//=====================================短信end========================================================
+
 		
-		//=====================================消息推送start========================================================
+
 		
-		/**
-		 * 消息推送   消息推送类型 101001006-通知项目经理-客户审核不通过
-		 */
+
 		BizMsg bizMsg = new BizMsg();
 		bizMsg.setMsgTitle("施工变更单客户审核不通过");
 		bizMsg.setMsgTime(date);
@@ -322,7 +272,7 @@ public class NewProjectChangeService {
 		bizMsg.setBusiIdInt(projectChangeId);
 		bizMsg.setEmployeeId(change.getItemManagerId());
 		bizProjectChangeBillService.saveBizMsg(bizMsg);
-		//=====================================消息推送end========================================================
+
 				
 		
 	}

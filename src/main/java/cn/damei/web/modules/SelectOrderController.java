@@ -35,12 +35,7 @@ import cn.damei.service.modules.SelectOrderService;
 import cn.damei.entity.modules.User;
 import cn.damei.common.utils.UserUtils;
 
-/**
- * 订单管理Controller
- * 
- * @author wyb
- * @version 2016-09-08
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/selectOrder/selectOrder")
 public class SelectOrderController extends BaseController {
@@ -70,16 +65,9 @@ public class SelectOrderController extends BaseController {
 	public String list(SelectOrder selectOrder, HttpServletRequest request, HttpServletResponse response, Model model) {
 		
 		User user = UserUtils.getUser();
-		//过滤门店
-		/*if(null==selectOrder.getStoreId()){
-			if(null!=user.getStoreId()){
-				selectOrder.setStoreId(user.getStoreId());
-			}
-		}
-		if(StringUtils.isBlank(user.getStoreId())){
-			model.addAttribute("storeDropEnable", true);
-		}*/
-		//过滤工程模式
+
+
+
 		if(StringUtils.isBlank(selectOrder.getProjectMode())){
 			if(StringUtils.isBlank(user.getProjectMode())||user.getProjectMode().equals("3")){
 				model.addAttribute("gongcheng", true);
@@ -120,7 +108,7 @@ public class SelectOrderController extends BaseController {
 		
 	
 		
-		//过滤工程模式
+
 		if(StringUtils.isBlank(selectOrder.getProjectMode())){
 			if(StringUtils.isBlank(user.getProjectMode())||user.getProjectMode().equals("3")){
 				model.addAttribute("gongcheng", true);
@@ -145,7 +133,7 @@ public class SelectOrderController extends BaseController {
 	public String maplist(SelectOrder selectOrder, HttpServletRequest request, HttpServletResponse response, Model model) {
 		
 		User user = UserUtils.getUser();
-		//过滤门店
+
 		if(null==selectOrder.getStoreId()){
 			if(null!=user.getStoreId()){
 				selectOrder.setStoreId(user.getStoreId());
@@ -154,7 +142,7 @@ public class SelectOrderController extends BaseController {
 		if(StringUtils.isBlank(user.getStoreId())){
 			model.addAttribute("storeDropEnable", true);
 		}
-		//过滤工程模式
+
 		if(StringUtils.isBlank(selectOrder.getProjectMode())){
 			if(StringUtils.isBlank(user.getProjectMode())||user.getProjectMode().equals("3")){
 				model.addAttribute("gongcheng", true);
@@ -176,7 +164,7 @@ public class SelectOrderController extends BaseController {
 	public String maplist2(SelectOrder selectOrder, HttpServletRequest request, HttpServletResponse response, Model model) {
 		
 		User user = UserUtils.getUser();
-		//过滤门店
+
 		if(null==selectOrder.getStoreId()){
 			if(null!=user.getStoreId()){
 				selectOrder.setStoreId(user.getStoreId());
@@ -185,7 +173,7 @@ public class SelectOrderController extends BaseController {
 		if(StringUtils.isBlank(user.getStoreId())){
 			model.addAttribute("storeDropEnable", true);
 		}
-		//过滤工程模式
+
 		if(StringUtils.isBlank(selectOrder.getProjectMode())){
 			if(StringUtils.isBlank(user.getProjectMode())||user.getProjectMode().equals("3")){
 				model.addAttribute("gongcheng", true);
@@ -208,7 +196,7 @@ public class SelectOrderController extends BaseController {
 		
 		
 		User user = UserUtils.getUser();
-		//过滤门店
+
 		if(null==selectOrder.getStoreId()){
 			if(null!=user.getStoreId()){
 				selectOrder.setStoreId(user.getStoreId());
@@ -217,7 +205,7 @@ public class SelectOrderController extends BaseController {
 		if(StringUtils.isBlank(user.getStoreId())){
 			model.addAttribute("storeDropEnable", true);
 		}
-		//过滤工程模式
+
 		if(StringUtils.isBlank(selectOrder.getProjectMode())){
 			if(StringUtils.isBlank(user.getProjectMode())||user.getProjectMode().equals("3")){
 				model.addAttribute("gongcheng", true);
@@ -282,21 +270,16 @@ public class SelectOrderController extends BaseController {
 		return list;
 	}
 
-	/**
-	 * 导出excel--订单信息
-	 * @param selectOrder
-	 * @param response
-	 * @throws Exception
-	 */
+
 	@RequestMapping(value="exportExcel")
 	public void exportExcel(SelectOrder selectOrder, HttpServletResponse response) throws Exception{
 		SimpleDateFormat sf = new SimpleDateFormat("yyyyMMddHHmmss");
 		HSSFWorkbook excel = selectOrderService.exportExcel(selectOrder);
-		ServletOutputStream out= null;//创建一个输出流对象
+		ServletOutputStream out= null;
 		try {
 			response.setContentType("application/binary;charset=utf-8");
-			String headerStr =new String(("订单信息-"+sf.format(new Date())).getBytes("utf-8"), "ISO8859-1");//headerString为中文时转码
-			response.setHeader("Content-disposition","attachment; filename="+headerStr+".xls");//filename是下载的xls的名
+			String headerStr =new String(("订单信息-"+sf.format(new Date())).getBytes("utf-8"), "ISO8859-1");
+			response.setHeader("Content-disposition","attachment; filename="+headerStr+".xls");
 			out = response.getOutputStream();
 			excel.write(out);
 		} catch (IOException ex) {

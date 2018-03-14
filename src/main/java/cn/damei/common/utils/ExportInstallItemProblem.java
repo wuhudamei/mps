@@ -16,16 +16,16 @@ import org.apache.poi.hssf.util.CellRangeAddress;
 
 public class ExportInstallItemProblem {
 	public static void main(String[] args) throws Exception {
-		HSSFWorkbook wb = new HSSFWorkbook();// 创建一个Excel文件
-		HSSFSheet sheet = wb.createSheet("结算明细表");// 创建一个Excel的Sheet
-		// 定义样式
-		HSSFCellStyle cellStyleCenter = ExportFileNameUtils.initColumnHeadStyle(wb);// 表头样工
-		HSSFCellStyle cellStyleRight = ExportFileNameUtils.initColumnCenterstyle(wb);// 单元格样式
-		HSSFCellStyle cellStyleLeft = ExportFileNameUtils.initColumnCenterstyle(wb);
-		cellStyleRight.setAlignment(HSSFCellStyle.ALIGN_RIGHT);// 右对齐
-		cellStyleLeft.setAlignment(HSSFCellStyle.ALIGN_LEFT);// 左对齐
+		HSSFWorkbook wb = new HSSFWorkbook();
+		HSSFSheet sheet = wb.createSheet("结算明细表");
 
-		// 设置列宽
+		HSSFCellStyle cellStyleCenter = ExportFileNameUtils.initColumnHeadStyle(wb);
+		HSSFCellStyle cellStyleRight = ExportFileNameUtils.initColumnCenterstyle(wb);
+		HSSFCellStyle cellStyleLeft = ExportFileNameUtils.initColumnCenterstyle(wb);
+		cellStyleRight.setAlignment(HSSFCellStyle.ALIGN_RIGHT);
+		cellStyleLeft.setAlignment(HSSFCellStyle.ALIGN_LEFT);
+
+
 		sheet.setColumnWidth(0, 2000);
 		sheet.setColumnWidth(1, 4000);
 		sheet.setColumnWidth(2, 4000);
@@ -52,7 +52,7 @@ public class ExportInstallItemProblem {
 		try {  
             HSSFRow row = null;
             HSSFCell cell = null; 
-            // ---------------------------1.初始化带边框的表头------------------------------  
+
             for (int i = 0; i < 22; i++) {
                 row = sheet.createRow(i);  
                 for (int j = 0; j < 22; j++) {  
@@ -60,7 +60,7 @@ public class ExportInstallItemProblem {
                     cell.setCellStyle(cellStyleCenter);  
                 }  
             }  
-            // ---------------------------2.指定单元格填充数据------------------------------
+
             sheet.getRow(0).setHeight((short) 600);
             cell = sheet.getRow(0).getCell(0);  
             cell.setCellValue(new HSSFRichTextString("主材安装问题明细")); 
@@ -108,8 +108,8 @@ public class ExportInstallItemProblem {
             cell.setCellValue(new HSSFRichTextString("材料部说明"));
             cell = sheet.getRow(1).getCell(21);  
             cell.setCellValue(new HSSFRichTextString("材料部处理日期"));
-            // ---------------------------3.合并单元格------------------------------  
-            sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 21));// 开始行，结束行，开始列，结束列  
+
+            sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 21));
             sheet.addMergedRegion(new CellRangeAddress(1, 2, 0, 0));  
             sheet.addMergedRegion(new CellRangeAddress(1, 2, 1, 1));  
             sheet.addMergedRegion(new CellRangeAddress(1, 2, 2, 2));  
@@ -142,16 +142,16 @@ public class ExportInstallItemProblem {
     } 
 	
 	public static HSSFWorkbook exportInstallItemProblem(List<BizOrderInstallItemProblemVo> list){
-		HSSFWorkbook wb = new HSSFWorkbook();// 创建一个Excel文件
-		HSSFSheet sheet = wb.createSheet("主材安装问题明细表");// 创建一个Excel的Sheet
-		// 定义样式
-		HSSFCellStyle cellStyleCenter = ExportFileNameUtils.initColumnHeadStyle(wb);// 表头样工
-		HSSFCellStyle cellStyleRight = ExportFileNameUtils.initColumnCenterstyle(wb);// 单元格样式
-		HSSFCellStyle cellStyleLeft = ExportFileNameUtils.initColumnCenterstyle(wb);
-		cellStyleRight.setAlignment(HSSFCellStyle.ALIGN_RIGHT);// 右对齐
-		cellStyleLeft.setAlignment(HSSFCellStyle.ALIGN_LEFT);// 左对齐
+		HSSFWorkbook wb = new HSSFWorkbook();
+		HSSFSheet sheet = wb.createSheet("主材安装问题明细表");
 
-		// 设置列宽
+		HSSFCellStyle cellStyleCenter = ExportFileNameUtils.initColumnHeadStyle(wb);
+		HSSFCellStyle cellStyleRight = ExportFileNameUtils.initColumnCenterstyle(wb);
+		HSSFCellStyle cellStyleLeft = ExportFileNameUtils.initColumnCenterstyle(wb);
+		cellStyleRight.setAlignment(HSSFCellStyle.ALIGN_RIGHT);
+		cellStyleLeft.setAlignment(HSSFCellStyle.ALIGN_LEFT);
+
+
 		sheet.setColumnWidth(0, 2000);
 		sheet.setColumnWidth(1, 3000);
 		sheet.setColumnWidth(2, 4000);
@@ -171,14 +171,12 @@ public class ExportInstallItemProblem {
 		sheet.setColumnWidth(16, 5000);
 		sheet.setColumnWidth(17, 3000);
 		sheet.setColumnWidth(18, 5000);
-		/*sheet.setColumnWidth(19, 5000);
-		sheet.setColumnWidth(20, 3000);
-		sheet.setColumnWidth(21, 5000);*/
+
 		
 		try {  
             HSSFRow row = null;
             HSSFCell cell = null; 
-            // ---------------------------1.初始化带边框的表头------------------------------  
+
             for (int i = 0; i < 3; i++) {
                 row = sheet.createRow(i);  
                 for (int j = 0; j < 19; j++) {  
@@ -186,7 +184,7 @@ public class ExportInstallItemProblem {
                     cell.setCellStyle(cellStyleCenter);  
                 }  
             }  
-            // ---------------------------2.指定单元格填充数据------------------------------
+
             sheet.getRow(0).setHeight((short) 600);
             cell = sheet.getRow(0).getCell(0);  
             cell.setCellValue(new HSSFRichTextString("主材安装问题明细")); 
@@ -228,14 +226,9 @@ public class ExportInstallItemProblem {
             cell.setCellValue(new HSSFRichTextString("材料部说明"));
             cell = sheet.getRow(1).getCell(18);  
             cell.setCellValue(new HSSFRichTextString("材料部处理日期"));
-            /*cell = sheet.getRow(1).getCell(19);  
-            cell.setCellValue(new HSSFRichTextString("工程部处理日期"));
-            cell = sheet.getRow(1).getCell(20);  
-            cell.setCellValue(new HSSFRichTextString("材料部说明"));
-            cell = sheet.getRow(1).getCell(21);  
-            cell.setCellValue(new HSSFRichTextString("材料部处理日期"));*/
-            // ---------------------------3.合并单元格------------------------------  
-            sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 18));// 开始行，结束行，开始列，结束列  
+
+
+            sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 18));
             sheet.addMergedRegion(new CellRangeAddress(1, 2, 0, 0));  
             sheet.addMergedRegion(new CellRangeAddress(1, 2, 1, 1));  
             sheet.addMergedRegion(new CellRangeAddress(1, 2, 2, 2));  
@@ -262,7 +255,7 @@ public class ExportInstallItemProblem {
             
             for (int i= 0; i<list.size();i++) {
             	row = sheet.createRow(i+3);
-            	//for(int j = 0; j< 22; j++ ){
+
 					row.createCell(0).setCellValue(i+1);
 					row.createCell(1).setCellValue(list.get(i).getCustomerName());
 					row.createCell(2).setCellValue(list.get(i).getCustomerPhone());
@@ -287,29 +280,7 @@ public class ExportInstallItemProblem {
 					
 					row.createCell(16).setCellValue(DateUtils.formatDateTime(list.get(i).getCreateDate()));
 					
-					/*if(list.get(i).getLogStatus() != null ){
-						if("30".equals(list.get(i).getLogStatus())){
-							row.createCell(17).setCellValue("通过");
-						}
-						if("35".equals(list.get(i).getLogStatus())){
-							row.createCell(17).setCellValue("驳回");
-						}
-					} else {
-						row.createCell(17).setCellValue("");
-					}
-					
-					if(list.get(i).getProjectNote() != null){
-						row.createCell(18).setCellValue(list.get(i).getProjectNote());
-					} else {
-						row.createCell(18).setCellValue("");
-					}
-					
-					if(list.get(i).getProjectCreateDate() != null){
-						row.createCell(19).setCellValue(DateUtils.formatDateTime(list.get(i).getProjectCreateDate()));
-					}else {
-						row.createCell(19).setCellValue("");
-					}
-					*/
+
 					
 					if(list.get(i).getMaterialNote() != null){
 						row.createCell(17).setCellValue(list.get(i).getMaterialNote());
@@ -323,7 +294,7 @@ public class ExportInstallItemProblem {
 						row.createCell(18).setCellValue("");
 					}
 				}
-			//}
+
         } catch (Exception e) {  
             e.printStackTrace();  
         }

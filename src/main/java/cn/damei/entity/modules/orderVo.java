@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import java.util.Date;
@@ -10,16 +8,12 @@ import org.hibernate.validator.constraints.Length;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import cn.damei.common.persistence.DataEntity;
 
-/**
- * 订单管理Entity
- * @author wyb
- * @version 2016-09-08
- */
+
 public class orderVo extends DataEntity<orderVo> {
 	
 	private static final long serialVersionUID = 1L;
 	
-	private Integer orderId;//订单id
+	private Integer orderId;
 	private Integer engineDepartId;
 	public Integer getEngineDepartId() {
 		return engineDepartId;
@@ -37,53 +31,53 @@ public class orderVo extends DataEntity<orderVo> {
 		this.orderId = orderId;
 	}
 
-	private String orderNumber;		// 订单编号
-	private String contractNumber;		// 合同编号
-	private String customerType;		// 客户类型
-	private String customerDescription;		// 客户属性描述
-	private String customerName;		// 客户姓名
-	private String customerPhone;		// 客户电话
-	private String communityName;		// 小区名称
-	private String buildNumber;		// 几号楼
-	private String buildUnit;		// 几单元
-	private String buildRoom;		// 哪一室
-	private String mapCoordinate;		// 地图坐标
-	private String saleType;		// 套餐类型
-	private String area;		// 片区
-	private String buildType;		// 房屋类型
-	private String houseType;		// 户型
-	private String houseIsNew;		// 新房老房  1为新房  0为老房  默认老房
-	private String isElevator;		// 是否有电梯  1代表有   0代表没有   默认没有
-	private String designerName;		// 设计师姓名
-	private String designerPhone;		// 设计师电话
-	private String orderReporterName;		// 跟单员姓名
-	private String orderReporterPhone;		// 跟单员电话
-	private String serviceName;		// 客服姓名
-	private String servicePhone;		// 客服电话
-	private Date contractStartDate;		// 合同开工日期
-	private Date contractEndDate;		// 合同竣工日期
-	private String coveredArea;		// 建筑面积
-	private String contractArea;		// 合同面积
-	private Integer contractTime;		// 合同工期
-	private Date signContractDate;		// 签约日期
-	private String orderStatusNumber;		// 订单状态码  创建订单成功默认状态码 105
-	private String orderStatusDescription;		// 订单状态码详情   默认详情 确认订单   状态码105
-	private String orderInspector;		// 订单质检员
-	private String itemManager;		// 项目经理
-	private Integer itemManagerId;	//项目经理id
-	private String storeId;		// 门店id1
-	private String cusManager;		// 客户经理
+	private String orderNumber;
+	private String contractNumber;
+	private String customerType;
+	private String customerDescription;
+	private String customerName;
+	private String customerPhone;
+	private String communityName;
+	private String buildNumber;
+	private String buildUnit;
+	private String buildRoom;
+	private String mapCoordinate;
+	private String saleType;
+	private String area;
+	private String buildType;
+	private String houseType;
+	private String houseIsNew;
+	private String isElevator;
+	private String designerName;
+	private String designerPhone;
+	private String orderReporterName;
+	private String orderReporterPhone;
+	private String serviceName;
+	private String servicePhone;
+	private Date contractStartDate;
+	private Date contractEndDate;
+	private String coveredArea;
+	private String contractArea;
+	private Integer contractTime;
+	private Date signContractDate;
+	private String orderStatusNumber;
+	private String orderStatusDescription;
+	private String orderInspector;
+	private String itemManager;
+	private Integer itemManagerId;
+	private String storeId;
+	private String cusManager;
 	
-	private Date beginContractStartDate;		// 开始 合同开工日期
-	private Date endContractStartDate;		// 结束 合同开工日期
-	private Date beginSignContractDate;		// 开始 签约日期
-	private Date endSignContractDate;		// 结束 签约日期
-	private Date beginCreateDate;		// 开始 创建时间
-	private Date endCreateDate;		// 结束 创建时间
-	private String orderTaskPackStatus; //任务包状态
-	private String customerAddress;//地址
-	private Date actualStartDate ;//合同实际开工日期
-	private String projectMode; //工程模式
+	private Date beginContractStartDate;
+	private Date endContractStartDate;
+	private Date beginSignContractDate;
+	private Date endSignContractDate;
+	private Date beginCreateDate;
+	private Date endCreateDate;
+	private String orderTaskPackStatus;
+	private String customerAddress;
+	private Date actualStartDate ;
+	private String projectMode;
 	public Date getActualStartDate() {
 		return actualStartDate;
 	}

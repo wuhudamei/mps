@@ -14,9 +14,7 @@ import java.util.List;
 
 
 
-/**
- * Created by joseph on 2017/4/7.
- */
+
 @Service
 @Transactional(readOnly = false)
 public class ApplyCheckEarlyWarningQueryService extends CrudService<ApplyCheckEarlyWarningQueryDao,ApplyCheckEarlyWarningQueryEntity>{

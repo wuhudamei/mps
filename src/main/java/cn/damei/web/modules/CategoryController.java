@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import java.util.List;
@@ -32,11 +30,7 @@ import cn.damei.service.modules.FileTplService;
 import cn.damei.service.modules.SiteService;
 import cn.damei.common.utils.TplUtils;
 
-/**
- * 栏目Controller
- * @author ThinkGem
- * @version 2013-4-21
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/cms/category")
 public class CategoryController extends BaseController {
@@ -118,9 +112,7 @@ public class CategoryController extends BaseController {
 		return "redirect:" + adminPath + "/cms/category/";
 	}
 
-	/**
-	 * 批量修改栏目排序
-	 */
+
 	@RequiresPermissions("cms:category:edit")
 	@RequestMapping(value = "updateSort")
 	public String updateSort(String[] ids, Integer[] sorts, RedirectAttributes redirectAttributes) {

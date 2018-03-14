@@ -6,18 +6,18 @@ import cn.damei.common.persistence.DataEntity2;
 @SuppressWarnings("serial")
 public class OrderInstallPlanAcceptLog extends DataEntity2<OrderInstallPlanAcceptLog> {
 
-	private Integer orderId; //订单id
-	private Integer orderInstallPlanId; //订单安装计划id
-	private String acceptType; //验收类型（合格、不合格）
-	private Integer orderInstallIteamId; //安装项名称id
-	private String orderInstallIteam; //安装项名称
-	private String unqualifiedReason; //验收不合格原因
-	private String acceptRemarks; //验收备注
-	private Integer operaterId; //操作人id
-	private String unqualifiedReasonName; //验收不合格原因
+	private Integer orderId;
+	private Integer orderInstallPlanId;
+	private String acceptType;
+	private Integer orderInstallIteamId;
+	private String orderInstallIteam;
+	private String unqualifiedReason;
+	private String acceptRemarks;
+	private Integer operaterId;
+	private String unqualifiedReasonName;
 
-	private Integer unqualifiedReasonId; //不合格原因id
-	private String unqualifiedReasonConfigure; //不合格原因（配置）
+	private Integer unqualifiedReasonId;
+	private String unqualifiedReasonConfigure;
 
 
 	public Integer getOrderId() {

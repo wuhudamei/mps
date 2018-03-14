@@ -1,38 +1,32 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import java.util.Date;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 考勤日次订单表
- * @author lzm
- * date 2017-08-11
- */
+
 public class BizPmAttendDayOrder extends DataEntity2<BizPmAttendDayOrder> {
 	
 	private static final long serialVersionUID = 1L;
 	
 	private Integer orderId;
 	private Integer pmEmployeeId;
-	private String managerName; //项目经理姓名
+	private String managerName;
 	private Date signDatetime;
 	private double signErrorDistance;
 	private String isValid;
 	private String signStep;
-	private String orderNumber;//订单编号
-	private String orderProjectMode;//订单相关工程模式
+	private String orderNumber;
+	private String orderProjectMode;
 
-	private Integer storeId; //门店id
-	private String storeName;//门店名称
-	private Integer engineDepartId;//区域
-	private Date signDate1;  //签到时间查询1
-	private Date signDate2;	 //签到时间查询2
-	private Double conditionDistance1;//条件距离1
-	private Double conditionDistance2;//条件距s离2
+	private Integer storeId;
+	private String storeName;
+	private Integer engineDepartId;
+	private Date signDate1;
+	private Date signDate2;
+	private Double conditionDistance1;
+	private Double conditionDistance2;
 	private String customerAddress;
 	private String communityName;
 	private String buildNumber;

@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import java.util.ArrayList;
@@ -33,11 +31,7 @@ import cn.damei.dao.modules.BizTaskPackageTemplatRelDao;
 import cn.damei.entity.modules.BizTaskPackageTemplat;
 import cn.damei.entity.modules.BizTaskPackageTemplatRelProcedure;
 
-/**
- * 工序和工人星级对照Controller
- * @author chy
- * @version 2016-09-17
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/procedureworkercross/bizProcedureWorkerCrossReferences")
 public class BizProcedureWorkerCrossReferencesController extends BaseController {
@@ -65,7 +59,7 @@ public class BizProcedureWorkerCrossReferencesController extends BaseController 
 	@RequiresPermissions("procedureworkercross:bizProcedureWorkerCrossReferences:view")
 	@RequestMapping(value = {"list", ""})
 	public String list(BizProcedureWorkerCrossReferences bizProcedureWorkerCrossReferences, HttpServletRequest request, HttpServletResponse response, Model model) {
-		//过滤门店
+
 		if(StringUtils.isBlank(bizProcedureWorkerCrossReferences.getStoreId())){
 			bizProcedureWorkerCrossReferences.setStoreId(UserUtils.getUser().getStoreId());
 		}

@@ -1,28 +1,22 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import org.hibernate.validator.constraints.Length;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 自主支配项定义Entity
- * @author wyb
- * @version 2016-12-26
- */
+
 public class BizPmOwnpayCnfg extends DataEntity2<BizPmOwnpayCnfg> {
 	
 	private static final long serialVersionUID = 1L;
-	private Integer storeId;		// 门店id -- '
-	private String isOldNew;		// 新老房 -- '0.老房；1.新房
-	private String projectMode;		// 工程模式 -- '
-	private String ownpayName;		// 支配项名称 -- '
-	private String unit;		// 单位 -- '
-	private Double amount;		// 金额 -- '
-	private String remarks;		// 备注 -- '
-	private String isEnabled;		// 是否启用 -- '1.启用；0.停用
+	private Integer storeId;
+	private String isOldNew;
+	private String projectMode;
+	private String ownpayName;
+	private String unit;
+	private Double amount;
+	private String remarks;
+	private String isEnabled;
 	
 	public BizPmOwnpayCnfg() {
 		super();

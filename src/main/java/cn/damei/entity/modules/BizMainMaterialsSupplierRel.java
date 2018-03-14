@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import org.hibernate.validator.constraints.Length;
@@ -9,22 +7,18 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 主材供应商管理Entity
- * @author qww
- * @version 2016-10-11
- */
+
 public class BizMainMaterialsSupplierRel extends DataEntity2<BizMainMaterialsSupplierRel> {
 	
 	private static final long serialVersionUID = 1L;
-	private Integer mainMaterialsId;		// 主料id -- '
-	private Integer supplierId;		// 供应商Id -- '
-	private String supplierNo;		// 供应商编号 -- '
-	private Integer supplierCycle;		// 供货周期（天） -- '
-	private String supplierPrice;		// 供应商供货价 -- '
-	private String laborPrice;		// 工人结算价 -- '
-	private Integer version;		// 版本号 -- '
-	private Date effectiveDate;		// 生效日期 -- '
+	private Integer mainMaterialsId;
+	private Integer supplierId;
+	private String supplierNo;
+	private Integer supplierCycle;
+	private String supplierPrice;
+	private String laborPrice;
+	private Integer version;
+	private Date effectiveDate;
 	
 	public BizMainMaterialsSupplierRel() {
 		super();

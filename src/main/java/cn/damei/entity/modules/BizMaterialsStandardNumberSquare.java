@@ -1,26 +1,20 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import org.hibernate.validator.constraints.Length;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 筒灯面积计算类Entity
- * @author lft
- * @version 2017-05-19
- */
+
 public class BizMaterialsStandardNumberSquare extends DataEntity2<BizMaterialsStandardNumberSquare> {
 	
 	private static final long serialVersionUID = 1L;
-	private Integer sId; //主键 为了resultmap
-	private String materialsStandardId;		// 筒灯灯带id
-	private double squareMin;		// 面积下限
-	private double squareMax;		// 面积上限
-	private String numberRuleCode;		// 面积计算规则
-	private String numberRuleDescribe;		// 面积计算描述
+	private Integer sId;
+	private String materialsStandardId;
+	private double squareMin;
+	private double squareMax;
+	private String numberRuleCode;
+	private String numberRuleDescribe;
 	
 	
 	

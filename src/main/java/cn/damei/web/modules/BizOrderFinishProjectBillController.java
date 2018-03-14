@@ -84,9 +84,7 @@ import cn.damei.common.utils.UserUtils;
 
 import net.sf.json.JSONObject;
 
-/**
- * 订单 确认竣工 biz_order
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/bizorderfinishprojectbill/bizOrderFinishProjectBill")
 public class BizOrderFinishProjectBillController extends BaseController {
@@ -176,16 +174,7 @@ public class BizOrderFinishProjectBillController extends BaseController {
 		return "modules/bizcompleted/updateDate";
 	}
 
-	/**
-	 * 修改实际竣工日期
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @param id
-	 * @param orderID
-	 * @param realFinishProjectDate
-	 * @return
-	 */
+
 	@ResponseBody
 	@RequestMapping(value = "updateByDate")
 	public String updateByDate(HttpServletRequest request, HttpServletResponse response, Model model, String id,
@@ -193,7 +182,7 @@ public class BizOrderFinishProjectBillController extends BaseController {
 		String result = "0";
 		if (!id.equals("")) {
 			result = bizOrderFinishProjectBillService.updateByDate(Integer.valueOf(id), realFinishProjectDate);
-			// 更新order表actual_end_date 实际竣工时间
+
 			bizOrderFinishProjectBillService.updateOrderById(Integer.valueOf(orderID), realFinishProjectDate);
 
 		} else {
@@ -203,13 +192,7 @@ public class BizOrderFinishProjectBillController extends BaseController {
 		return result;
 	}
 
-	/**
-	 * list页面审核通过 340-结算员竣工审核通过
-	 * 
-	 * @throws NoSuchAlgorithmException
-	 * @throws UnsupportedEncodingException
-	 * @throws NumberFormatException
-	 */
+
 	@ResponseBody
 	@RequestMapping(value = "auditSucess")
 	public String auditSucess(String orderID,String realFinishProjectDate) throws Exception {
@@ -219,7 +202,7 @@ public class BizOrderFinishProjectBillController extends BaseController {
 		User user = UserUtils.getUser();
 		if (!orderID.equals("")) {
 			order = bizCompletedAuditService.get(Integer.valueOf(orderID));
-			if (order.getProjectMode().equals("1")) {// 订单为产业才产生项目经理结算
+			if (order.getProjectMode().equals("1")) {
 				result = checkSettleAmount(Integer.valueOf(orderID));
 				if (result.equals("-1")) {
 					return result;
@@ -242,14 +225,14 @@ public class BizOrderFinishProjectBillController extends BaseController {
 			}
 
 			result = bizOrderFinishProjectBillService.updateByOrderID(Integer.valueOf(orderID), jiesuan);
-			// 更新order表actual_end_date 实际竣工时间
+
 			bizOrderFinishProjectBillService.updateOrderById(Integer.valueOf(orderID), realFinishProjectDate);
 		}
 
 		if (result.equals("0")) {
 			result = bizCompletedAuditService.updateOrderStatus(ConstantUtils.ORDERSTATUS_340_VALUE,
 					ConstantUtils.ORDERSTATUS_340_VALUE_REMARK, Integer.valueOf(orderID));
-			// 向biz_syn_data表中保存数据 --- 确认竣工结算员审核通过时间
+
 			Map<String, String> jsonMap = new HashMap<String, String>();
 			jsonMap.put("time", DateUtils.formatDateTime(new Date()));
 			jsonMap.put("orderId", order.getOrderNumber());
@@ -266,7 +249,7 @@ public class BizOrderFinishProjectBillController extends BaseController {
 			bizSynData.preInsert();
 			bizSynDataService.insert(bizSynData);
 
-			// 保存结算员竣工审核通过时间
+
 			BizBusinessStatusLog bizBusinessStatusLog = new BizBusinessStatusLog();
 			bizBusinessStatusLog.setBusinessType(BusinessLogConstantUtil.BUSINESS_TYPE_303);
 			bizBusinessStatusLog.setBusinessOnlyMarkInt(Integer.valueOf(orderID));
@@ -330,16 +313,16 @@ public class BizOrderFinishProjectBillController extends BaseController {
 		Integer orderId = Integer.parseInt(orderID);
 
 		try {
-			if (order.getProjectMode().equals("1")) {// 订单为产业才产生项目经理结算
-				// 一、项目经理结算
-				// 1.星级提成明细插入
-				// 从biz_pm_star_commission_cnfg_snap(项目经理结算比例快照信息)中获取数据，通过订单id
-				// 插入biz_pm_settle_category_detail中
+			if (order.getProjectMode().equals("1")) {
+
+
+
+
 				BizPmStarCommissionCnfgSnap bizPmStarCommissionCnfgSnap = bizPmStarCommissionCnfgSnapService
 						.findSccs(orderId);
 				BizEmployee2 manager = bizEmployeeService2.get(order.getItemManagerId());
 				if (null != bizPmStarCommissionCnfgSnap) {
-					// 项目经理竣工星级提成记录
+
 					BizPmStarCommissionLog bizPmStarCommissionLog = new BizPmStarCommissionLog();
 					bizPmStarCommissionLog.setOrderId(orderId);
 					bizPmStarCommissionLog.setPmEmployeeId(bizPmStarCommissionCnfgSnap.getPmEmployeeId());
@@ -350,7 +333,7 @@ public class BizOrderFinishProjectBillController extends BaseController {
 					bizPmStarCommissionLog.setCommissionDatetime(new Date());
 					bizPmStarCommissionLog.preInsert();
 					Integer id = bizPmStarCommissionLogService.insert1(bizPmStarCommissionLog);
-					// 项目经理竣工星级提成结算明细
+
 					BizPmSettleCategoryDetail details = new BizPmSettleCategoryDetail();
 					details.setOrderId(orderId);
 					details.setPmEmployeeId(bizPmStarCommissionCnfgSnap.getPmEmployeeId());
@@ -361,21 +344,21 @@ public class BizOrderFinishProjectBillController extends BaseController {
 					details.setSettleAmount(price);
 					details.setSettleStatus(ConstantUtils.PM_SETTLE_STATUS_20);
 					details.setSettleStatusDatetime(new Date());
-					// details.setRelatedBusinessId(bizPmStarCommissionCnfgSnap.getId());---最初的业务id
+
 					details.setRelatedBusinessId(bizPmStarCommissionLog.getId());
 					details.setSettleRole(ConstantUtils.SETTLE_ROLE_1);
 					details.preInsert();
 					bizPmSettleCategoryDetailService.insert(details);
 				}
-				// 2.质保金明细插入
+
 				BizPmGuaranteeMoneyCnfgSnap gmcs = bizPmGuaranteeMoneyCnfgSnapService.findGmc(orderId);
 				if (gmcs != null) {
-					// Double totalGuarantee =
-					// bizPmSettleCategoryDetailService.findMoneyByemployeeId(gmcs.getPmEmployeeId(),ConstantUtils.PM_SETTLE_CATEGORY_6);
-					// 质保金日志
+
+
+
 					Double money = 0.0;
 					BizPmGuaranteeMoneyLog log = bizPmGuaranteeMoneyLogService.findByEmployeeId(gmcs.getPmEmployeeId());
-					// 插入项目经理质保金日志之前，先去更新这个项目经理的质保金余额信息
+
 					BizGuaranteeMoneyBalance bizGuaranteeMoneyBalance = bizGuaranteeMoneyBalanceService
 							.findGuaranteeMoneyBalanceByEmployeeId(gmcs.getPmEmployeeId());
 					if (bizGuaranteeMoneyBalance == null || bizGuaranteeMoneyBalance.getId() == null) {
@@ -407,7 +390,7 @@ public class BizOrderFinishProjectBillController extends BaseController {
 					gml.preInsert();
 
 					Integer id = bizPmGuaranteeMoneyLogService.insert1(gml);
-					// 更新余额信息
+
 					if (bizGuaranteeMoneyBalance == null || bizGuaranteeMoneyBalance.getId() == null) {
 						bizGuaranteeMoneyBalance = new BizGuaranteeMoneyBalance();
 						bizGuaranteeMoneyBalance.setEmployeeId(gml.getPmEmployeeId());
@@ -418,7 +401,7 @@ public class BizOrderFinishProjectBillController extends BaseController {
 					}
 					bizGuaranteeMoneyBalance.setGuaranteeMoneyBalance(gml.getGuaranteeMoneyBalance());
 					bizGuaranteeMoneyBalanceService.save(bizGuaranteeMoneyBalance);
-					// 项目经理竣工结算明细质保金
+
 					BizPmSettleCategoryDetail details = new BizPmSettleCategoryDetail();
 					if (gml.getTakeoffAmount() != null) {
 						details.setSettleAmount(0 - gml.getTakeoffAmount());
@@ -434,7 +417,7 @@ public class BizOrderFinishProjectBillController extends BaseController {
 					bizPmSettleCategoryDetailService.insert(details);
 				}
 
-				// 竣工项目经理奖励
+
 				List<BizAssessRewardPunish> updateList = new ArrayList<BizAssessRewardPunish>();
 				Map<String, Object> rewarPunishParam = new HashMap<String, Object>();
 				rewarPunishParam.put("relatedBusinessIdInt", orderId);
@@ -482,7 +465,7 @@ public class BizOrderFinishProjectBillController extends BaseController {
 					}
 
 				}
-				// 竣工项目经理扣款
+
 				rewarPunishParam.put("isRewardOrPunish", 2);
 				List<BizAssessRewardPunish> pmPunishList = bizAssessRewardPunishDao
 						.queryAssessRewardPunishByParam(rewarPunishParam);
@@ -526,9 +509,9 @@ public class BizOrderFinishProjectBillController extends BaseController {
 					}
 				}
 
-				//巡检
+
 				rewarPunishParam.put("isMonthInspection", 1);
-				//项目经理竣工巡检奖励
+
 				rewarPunishParam.put("isRewardOrPunish", 1);
 				List<PmSettleCategoryDetail> list7 = new ArrayList<PmSettleCategoryDetail>();
 				List<BizAssessRewardPunish> pmInspectionRewardList = bizAssessRewardPunishDao
@@ -570,7 +553,7 @@ public class BizOrderFinishProjectBillController extends BaseController {
 
 				}
 
-				//项目经理竣工巡检罚款
+
 				rewarPunishParam.put("isRewardOrPunish", 2);
 				List<PmSettleCategoryDetail> list8 = new ArrayList<PmSettleCategoryDetail>();
 				List<BizAssessRewardPunish> pmInspectionPunishList = bizAssessRewardPunishDao
@@ -620,7 +603,7 @@ public class BizOrderFinishProjectBillController extends BaseController {
 					bizAssessRewardPunishDao.updateRewardPunishStatus(updateList);
 				}
 
-				// 3.更新竣工罚款明细状态 ---根据orderID更新明细的状态 明细状态--10 结算类目--4
+
 				Map<String, Object> map = new HashMap<String, Object>();
 				map.put("orderId", orderId);
 				map.put("settleStatus", ConstantUtils.PM_SETTLE_STATUS_10);
@@ -628,7 +611,7 @@ public class BizOrderFinishProjectBillController extends BaseController {
 				map.put("settleStatus20", ConstantUtils.PM_SETTLE_STATUS_20);
 				bizPmSettleCategoryDetailService.updateStatusByOrderId(map);
 
-				// 4.更新自采材料明细状态 ---根据orderID更新明细的状态 明细状态--10 结算类目--11
+
 				Map<String, Object> map1 = new HashMap<String, Object>();
 				map1.put("orderId", orderId);
 				map1.put("settleStatus", ConstantUtils.PM_SETTLE_STATUS_10);
@@ -636,7 +619,7 @@ public class BizOrderFinishProjectBillController extends BaseController {
 				map1.put("settleStatus20", ConstantUtils.PM_SETTLE_STATUS_20);
 				bizPmSettleCategoryDetailService.updateStatusByOrderId(map1);
 
-				// 5.更新竣工项目经理材料结算类目明细
+
 				Map<String, Object> map2 = new HashMap<String, Object>();
 				map2.put("orderId", orderId);
 				map2.put("settleStatus", ConstantUtils.PM_SETTLE_STATUS_10);
@@ -653,23 +636,23 @@ public class BizOrderFinishProjectBillController extends BaseController {
 				collectionStatus.add("30");
 				param.put("collectionStatus", collectionStatus);
 				int collectionCount = bizOrderFinanceCollectionService.checkIsExistByParam(param);
-				if (collectionCount > 0) {// 已存在订单尾款结算收款信息
+				if (collectionCount > 0) {
 					weikuanMoney(orderId, date,user);
 				}
-				// 二、质检员结算
-				// 1.远程费快照
+
+
 				BizQcLongwayCommissionCnfgSnap bizQcLongwayCommissionCnfgSnap = bizQcLongwayCommissionCnfgSnapService
 						.findBqlccsByOrderId(orderId);
 				BizEmployee2 bizEmployee = bizEmployeeService2.get(order.getOrderInspectorId());
 				if (bizQcLongwayCommissionCnfgSnap != null) {
-					// 竣工远程费记录
+
 					BizQcLongwayCommissionLog bizQcLongwayCommissionLog = new BizQcLongwayCommissionLog();
 					bizQcLongwayCommissionLog.setOrderId(bizQcLongwayCommissionCnfgSnap.getOrderId());
 					bizQcLongwayCommissionLog
 							.setLongwayCommissionEmployeeId(bizQcLongwayCommissionCnfgSnap.getPmEmployeeId());
 					bizQcLongwayCommissionLog.setStarLevel(bizEmployee.getStar());
 					bizQcLongwayCommissionLog.setCommissionNode(ConstantUtils.COMMISSION_NODE_2);
-					// bizQcLongwayCommissionLog.setCommissionAmount(Double.parseDouble(df.format(bizQcLongwayCommissionCnfgSnap.getCommissionAmount()*bizQcLongwayCommissionCnfgSnap.getCommissionRateComplete())));
+
 					bizQcLongwayCommissionLog.setCommissionAmount(bizQcLongwayCommissionCnfgSnap.getCommissionAmount());
 					bizQcLongwayCommissionLog
 							.setCommissionRate(bizQcLongwayCommissionCnfgSnap.getCommissionRateComplete());
@@ -677,7 +660,7 @@ public class BizOrderFinishProjectBillController extends BaseController {
 					bizQcLongwayCommissionLog.setLongwayCommissionType("20");
 					bizQcLongwayCommissionLog.preInsert();
 					Integer id = bizQcLongwayCommissionLogService.insert1(bizQcLongwayCommissionLog);
-					// 竣工远程费结算明细
+
 					BizPmSettleCategoryDetail details = new BizPmSettleCategoryDetail();
 					details.setOrderId(bizQcLongwayCommissionCnfgSnap.getOrderId());
 					details.setPmEmployeeId(bizQcLongwayCommissionCnfgSnap.getPmEmployeeId());
@@ -692,23 +675,23 @@ public class BizOrderFinishProjectBillController extends BaseController {
 					details.preInsert();
 					bizPmSettleCategoryDetailService.insert(details);
 				}
-				// 2.星级提成快照
+
 				BizQcStarCommissionCnfgSnap bizQcStarCommissionCnfgSnap = bizQcStarCommissionCnfgSnapService
 						.findBqsccsByOrderId(orderId);
 				if (bizQcStarCommissionCnfgSnap != null) {
-					// 竣工星级提成记录
+
 					BizQcStarCommissionLog bizQcStarCommissionLog = new BizQcStarCommissionLog();
 					bizQcStarCommissionLog.setOrderId(bizQcStarCommissionCnfgSnap.getOrderId());
 					bizQcStarCommissionLog.setQcEmployeeId(bizQcStarCommissionCnfgSnap.getPmEmployeeId());
 					bizQcStarCommissionLog.setStarLevel(bizQcStarCommissionCnfgSnap.getStarLevel());
 					bizQcStarCommissionLog.setCommissionNode(ConstantUtils.COMMISSION_NODE_2);
-					// bizQcStarCommissionLog.setCommissionAmount(Double.parseDouble(df.format(bizQcStarCommissionCnfgSnap.getCommissionAmount()*bizQcStarCommissionCnfgSnap.getCommissionRateComplete())));
+
 					bizQcStarCommissionLog.setCommissionAmount(bizQcStarCommissionCnfgSnap.getCommissionAmount());
 					bizQcStarCommissionLog.setCommissionRate(bizQcStarCommissionCnfgSnap.getCommissionRateComplete());
 					bizQcStarCommissionLog.setCommissionDatetime(new Date());
 					bizQcStarCommissionLog.preInsert();
 					Integer id = bizQcStarCommissionLogService.insert1(bizQcStarCommissionLog);
-					// 竣工星级提成结算明细
+
 					BizPmSettleCategoryDetail details = new BizPmSettleCategoryDetail();
 					details.setOrderId(bizQcStarCommissionCnfgSnap.getOrderId());
 					details.setPmEmployeeId(bizQcStarCommissionCnfgSnap.getPmEmployeeId());
@@ -731,9 +714,7 @@ public class BizOrderFinishProjectBillController extends BaseController {
 		return result;
 	}
 
-	/**
-	 * list页面审核不通过 330-结算员竣工审核不通过
-	 */
+
 	@ResponseBody
 	@RequestMapping(value = "auditFail")
 	public String auditFail(HttpServletRequest request, HttpServletResponse response, Model model, String orderID,
@@ -742,13 +723,7 @@ public class BizOrderFinishProjectBillController extends BaseController {
 		BizCompletedAudit order = null;
 		String result = "0";
 		if (!orderID.equals("")) {
-			/*
-			 * BizOrderFinishProjectBill bizOrderFinishProjectBill =
-			 * bizOrderFinishProjectBillService.getByOrderID(Integer.valueOf(
-			 * orderID)); if(bizOrderFinishProjectBill != null &&
-			 * !bizOrderFinishProjectBill.getStatus().equals("1")){ return
-			 * result="3"; }
-			 */
+
 			order = bizCompletedAuditService.get(Integer.valueOf(orderID));
 			if (!order.getOrderStatusNumber().equals(ConstantUtils.ORDERSTATUS_300_VALUE)) {
 				return result = "3";
@@ -818,10 +793,10 @@ public class BizOrderFinishProjectBillController extends BaseController {
 	public String checkSettleAmount(Integer orderId) {
 		BizPmStarCommissionCnfgSnap bizPmStarCommissionCnfgSnap = inspectorConfirmDao
 				.queryManagerCommissionByOrderId(orderId);
-		// 竣工提成
+
 		Double commissionAmount = bizPmStarCommissionCnfgSnap.getCommissionAmount()
 				* bizPmStarCommissionCnfgSnap.getCommissionRateComplete();
-		// 质保金
+
 		Double pmGuaranteeMoney = 0.0;
 		BizPmGuaranteeMoneyCnfgSnap gmcs = bizPmGuaranteeMoneyCnfgSnapService.findGmc(orderId);
 		if(gmcs != null){
@@ -839,7 +814,7 @@ public class BizOrderFinishProjectBillController extends BaseController {
             	pmGuaranteeMoney=gmcs.getGuaranteeMoneyPerOrder();
             }			
 		}
-		// 竣工罚款
+
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("orderId", orderId);
 		map.put("settleCategory", ConstantUtils.PM_SETTLE_CATEGORY_4);
@@ -849,7 +824,7 @@ public class BizOrderFinishProjectBillController extends BaseController {
 		if (managerPenalty < 0) {
 			managerPenalty = 0 - managerPenalty;
 		}
-		// 自采材料报销金额
+
 		Map<String, Object> map1 = new HashMap<String, Object>();
 		map1.put("orderId", orderId);
 		map1.put("settleCategory", ConstantUtils.PM_SETTLE_CATEGORY_11);
@@ -862,7 +837,7 @@ public class BizOrderFinishProjectBillController extends BaseController {
 		param.put("orderId", orderId);
 		param.put("pmEmployeeId", bizPmStarCommissionCnfgSnap.getPmEmployeeId());
 
-		// 竣工任务包材料结算总金额
+
 		double pmMaterialsSettleAmount = 0.00;
 		List<PmMaterialsSettleInfo> pmMaterials = pmMaterialsSettleInfoService.queryPmMaterialsByOrderId(orderId);
 		if (pmMaterials != null && pmMaterials.size() > 0) {
@@ -871,7 +846,7 @@ public class BizOrderFinishProjectBillController extends BaseController {
 			}
 		}
 
-		// 竣工奖励金额
+
 		double pmRewardAmount = 0.0;
 		BizAssessRewardPunish rewardPunish = new BizAssessRewardPunish();
 		rewardPunish.setRelatedBusinessIdInt(orderId);
@@ -882,23 +857,23 @@ public class BizOrderFinishProjectBillController extends BaseController {
 		rewardPunish.setIsMonthInspection("0");
 		rewardPunish.setRewardPunishStatus("1");
 		pmRewardAmount = bizAssessRewardPunishService.queryTotalAmountByParam(rewardPunish);
-		// 竣工扣款金额
+
 		double pmPunishAmount = 0.0;
 		rewardPunish.setIsRewardOrPunish("2");
 		pmPunishAmount = bizAssessRewardPunishService.queryTotalAmountByParam(rewardPunish);
 
-		//巡检
+
 		rewardPunish.setIsMonthInspection("1");
-		//竣工巡检奖励金额
+
 		double pmInspectionRewardAmount = 0.0;
 		rewardPunish.setIsRewardOrPunish("1");
 		pmInspectionRewardAmount = bizAssessRewardPunishService.queryTotalAmountByParam(rewardPunish);
-		//竣工巡检罚款金额
+
 		double pmInspectionPunishAmount = 0.0;
 		rewardPunish.setIsRewardOrPunish("2");
 		pmInspectionPunishAmount = bizAssessRewardPunishService.queryTotalAmountByParam(rewardPunish);
 
-		// 竣工提成合计金额
+
 		Double settleAmount = commissionAmount + sinceMaterials - pmGuaranteeMoney - managerPenalty
 				+ pmMaterialsSettleAmount + pmRewardAmount - pmPunishAmount + pmInspectionRewardAmount - pmInspectionPunishAmount;
 		if (settleAmount < 0) {
@@ -917,7 +892,7 @@ public class BizOrderFinishProjectBillController extends BaseController {
 		int count = bizPmSettleBillService.queryPmSettleBillByParam(param);
 		if (count == 0) {
 
-			// 1.新增结算类目汇总
+
 			Map<String, Object> map1 = new HashMap<String, Object>();
 			map1.put("orderId", orderId);
 			map1.put("settleStatus", ConstantUtils.PM_SETTLE_STATUS_20);
@@ -960,8 +935,8 @@ public class BizOrderFinishProjectBillController extends BaseController {
 				bizPmSettleCategorySummaryService.insertBatch(summaryList);
 			}
 
-			// 2.更新结算类目明细关联的结算类目汇总id(之前新增时该字段为空，所以更新该字段)
-			// 更新竣工提成、质保金、自采材料报销、竣工奖励、竣工扣款的结算类目明细
+
+
 			Map<String, Object> updateMap = new HashMap<String, Object>();
 			updateMap.put("orderId", orderId);
 			updateMap.put("settleStatus", ConstantUtils.PM_SETTLE_STATUS_20);
@@ -982,7 +957,7 @@ public class BizOrderFinishProjectBillController extends BaseController {
 			updateMap.put("settleCategoryList", settleCategoryListUpdateMap);
 			bizPmSettleCategoryDetailService.updateRelateSummary(updateMap);
 
-			// 更新质检罚款的结算类目明细
+
 			Map<String, Object> updateMap2 = new HashMap<String, Object>();
 			updateMap2.put("orderId", orderId);
 			updateMap2.put("sign", "02");
@@ -995,7 +970,7 @@ public class BizOrderFinishProjectBillController extends BaseController {
 			updateMap2.put("updateBy", user);
 			bizPmSettleCategoryDetailService.updateRelateSummaryCategory(updateMap2);
 
-			// 更新项目经理材料结算类目明细
+
 			Map<String, Object> updateMap3 = new HashMap<String, Object>();
 			updateMap3.put("orderId", orderId);
 			updateMap3.put("sign", "2");
@@ -1008,7 +983,7 @@ public class BizOrderFinishProjectBillController extends BaseController {
 			updateMap3.put("updateBy", user);
 			bizPmSettleCategoryDetailService.updateRelateSummaryCategory(updateMap3);
 
-			// 3.新增结算单
+
 			Map<String, Object> map2 = new HashMap<String, Object>();
 			map2.put("orderId", orderId);
 			map2.put("settleStatus", ConstantUtils.PM_SETTLE_STATUS_30);
@@ -1047,7 +1022,7 @@ public class BizOrderFinishProjectBillController extends BaseController {
 				bizPmSettleBillService.insertBatch(settleBillList);
 			}
 
-			// 4.更新结算类目汇总关联的结算单id(之前新增时该字段为空，所以更新该字段)
+
 			Map<String, Object> map3 = new HashMap<String, Object>();
 			map3.put("orderId", orderId);
 			map3.put("settleStatus", ConstantUtils.PM_SETTLE_STATUS_30);
@@ -1068,7 +1043,7 @@ public class BizOrderFinishProjectBillController extends BaseController {
 			map4.put("settleType", 2);
 			bizAssessRewardPunishDao.updateByParam(map4);
 
-			// 保存财务确认尾款款时间
+
 			BizBusinessStatusLog bizBusinessStatusLog = new BizBusinessStatusLog();
 			bizBusinessStatusLog.setBusinessType(BusinessLogConstantUtil.BUSINESS_TYPE_305);
 			bizBusinessStatusLog.setBusinessOnlyMarkInt(Integer.valueOf(orderId));

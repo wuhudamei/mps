@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.util.List;
@@ -13,11 +11,7 @@ import cn.damei.common.service.CrudService;
 import cn.damei.entity.modules.BizNormalPmSettle;
 import cn.damei.dao.modules.BizNormalPmSettleDao;
 
-/**
- * 经理申请结算单Service
- * @author 梅浩
- * @version 2017-04-17
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizNormalPmSettleService extends CrudService<BizNormalPmSettleDao, BizNormalPmSettle> {
@@ -45,22 +39,13 @@ public class BizNormalPmSettleService extends CrudService<BizNormalPmSettleDao, 
 	}
 
 
-	/**
-	 *申请结算图片
-	 * @param settleId
-	 * @param picType 666
-	 * @return
-	 */
+
 	public List<String> findSettlePicBySettleId(Integer settleId, String picType){
 
 		return dao.findSettlePicBySettleId(settleId,picType);
 	}
 
-	/**
-	 * 根据门店查询结算节点
-	 * @param storeId
-	 * @return
-	 */
+
 	public List<String> findSettleNodeByStoreId(Integer storeId){
 
 

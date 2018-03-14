@@ -18,7 +18,7 @@ public class BizEmployeeBankcardService2 extends CrudService2<BizEmployeeBankcar
 	
 	@Transactional(readOnly = false)
 	public void update(BizEmployeeBankcard2 bizEmployeeBankcard) {
-		// TODO Auto-generated method stub
+
 		dao.update(bizEmployeeBankcard);
 	}
 

@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,11 +21,7 @@ import cn.damei.common.utils.UserUtils;
 import cn.damei.entity.modules.GenTemplate;
 import cn.damei.service.modules.GenTemplateService;
 
-/**
- * 代码模板Controller
- * @author ThinkGem
- * @version 2013-10-15
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/gen/genTemplate")
 public class GenTemplateController extends BaseController {

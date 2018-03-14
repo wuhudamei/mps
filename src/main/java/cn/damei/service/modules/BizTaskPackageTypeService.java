@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.util.List;
@@ -16,11 +14,7 @@ import cn.damei.entity.modules.User;
 import cn.damei.dao.modules.BizTaskPackageTypeDao;
 import cn.damei.entity.modules.BizTaskPackageType;
 
-/**
- * 单表生成Service
- * @author ThinkGem
- * @version 2016-09-03
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizTaskPackageTypeService extends CrudService<BizTaskPackageTypeDao, BizTaskPackageType> {

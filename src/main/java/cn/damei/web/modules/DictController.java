@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import java.util.List;
@@ -28,12 +26,7 @@ import cn.damei.common.web.BaseController;
 import cn.damei.entity.modules.Dict;
 import cn.damei.service.modules.DictService;
 
-/**
- * 字典Controller
- * 
- * @author ThinkGem
- * @version 2014-05-16
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/sys/dict")
 public class DictController extends BaseController {
@@ -50,20 +43,7 @@ public class DictController extends BaseController {
 		}
 	}
 
-	/**
-	 * 根据标签/类型/描述查字典
-	 * 
-	 * @Title: list
-	 * @Description: TODO
-	 * @param @param dict
-	 * @param @param request
-	 * @param @param response
-	 * @param @param model
-	 * @param @return
-	 * @return String
-	 * @author ZhangTongWei
-	 * @throws
-	 */
+
 	@RequiresPermissions("sys:dict:view")
 	@RequestMapping(value = { "list", "" })
 	public String list(Dict dict, HttpServletRequest request, HttpServletResponse response, Model model) {
@@ -83,7 +63,7 @@ public class DictController extends BaseController {
 
 	@RequiresPermissions("sys:dict:edit")
 	@RequestMapping(value = "save")
-	// @Valid
+
 	public String save(Dict dict, Model model, RedirectAttributes redirectAttributes) {
 		if (Global.isDemoMode()) {
 			addMessage(redirectAttributes, "演示模式，不允许操作！");

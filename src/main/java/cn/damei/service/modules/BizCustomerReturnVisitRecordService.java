@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.text.NumberFormat;
@@ -28,11 +26,7 @@ import cn.damei.entity.modules.BizCustomerReturnVisitRecord;
 import cn.damei.entity.modules.User;
 import cn.damei.common.utils.UserUtils;
 
-/**
- * 客户回访记录Service
- * @author lft
- * @version 2017-05-26
- */
+
 @Service
 public class BizCustomerReturnVisitRecordService extends CrudService2<BizCustomerReturnVisitRecordDao, BizCustomerReturnVisitRecord> {
 	
@@ -66,43 +60,26 @@ public class BizCustomerReturnVisitRecordService extends CrudService2<BizCustome
 		return super.findPage(page, bizCustomerReturnVisitRecord);
 	}
 	
-	/**
-	 * 待回访订单列表查询
-	 * @param page
-	 * @param bizCustomerReturnVisitRecord
-	 * @return
-	 */
+
 	public Page<BizCustomerReturnVisitRecord> findPageForChecking(Page<BizCustomerReturnVisitRecord> page,BizCustomerReturnVisitRecord bizCustomerReturnVisitRecord) {
 		bizCustomerReturnVisitRecord.setPage(page);
 		page.setList(returnVisitRecordDao.findPageForChecking(bizCustomerReturnVisitRecord));
 		return page;
 	}
 	
-	/**
-	 * 回访管理查询
-	 * @param page
-	 * @param bizCustomerReturnVisitRecord
-	 * @return
-	 */
+
 	public Page<BizCustomerReturnVisitRecord> findPageForChecking1(Page<BizCustomerReturnVisitRecord> page,BizCustomerReturnVisitRecord bizCustomerReturnVisitRecord) {
 		bizCustomerReturnVisitRecord.setPage(page);
 		page.setList(returnVisitRecordDao.findPageForChecking1(bizCustomerReturnVisitRecord));
 		return page;
 	}
 	
-	/**
-	 * 根据订单ID和回访节点获取订单详情
-	 * @param bizCustomerReturnVisitRecord
-	 * @return
-	 */
+
 	public Map<String,String> getOrderInfoForCheck(BizCustomerReturnVisitRecord bizCustomerReturnVisitRecord){
 		return returnVisitRecordDao.getOrderInfoForCheck(bizCustomerReturnVisitRecord);
 	}
 	
-	/**
-	 * 存储停止回访
-	 * @param bizCustomerReturnVisitOrderEnable
-	 */
+
 	@Transactional()
 	public void saveStop(Integer id) {
 		User user = UserUtils.getUser();
@@ -131,10 +108,7 @@ public class BizCustomerReturnVisitRecordService extends CrudService2<BizCustome
 		
 	}
 
-	/**
-	 * 启用回访
-	 * @param bizCustomerReturnVisitOrderEnable
-	 */
+
 	@Transactional()
 	public void deleteStop(Integer id) {
 		User user = UserUtils.getUser();
@@ -149,12 +123,7 @@ public class BizCustomerReturnVisitRecordService extends CrudService2<BizCustome
 		returnVisitOrderEnableDao.delete(bizCustomerReturnVisitOrderEnable);
 	}
 	
-	/**
-	 * 回访信息提交保存操作
-	 * @param bizCustomerReturnVisitRecord
-	 * @param questionContent
-	 * @param questionAnswer
-	 */
+
 	@Transactional()
 	public void save(BizCustomerReturnVisitRecord bizCustomerReturnVisitRecord,
 			String[] questionContent,
@@ -174,7 +143,7 @@ public class BizCustomerReturnVisitRecordService extends CrudService2<BizCustome
 		bizCustomerReturnVisitRecord.setCreateDate( date );
 		returnVisitRecordDao.insert(bizCustomerReturnVisitRecord);
 		
-		//批量插入答案信息
+
 		List<BizCustomerReturnVisitRecordAnswer> contentList = new ArrayList<BizCustomerReturnVisitRecordAnswer>();
 		for(int i = 0 ; i < questionContent.length; i++){
 			BizCustomerReturnVisitRecordAnswer answer = new BizCustomerReturnVisitRecordAnswer();
@@ -193,11 +162,7 @@ public class BizCustomerReturnVisitRecordService extends CrudService2<BizCustome
 		returnVisitRecordAnswerDao.insertBatch(contentList);
 	}
 	
-	/**
-	 * 无效回访提交
-	 * @param bizCustomerReturnVisitRecord
-	 * @param invalidReason
-	 */
+
 	@Transactional()
 	public void saveInvalidRecord(BizCustomerReturnVisitRecord bizCustomerReturnVisitRecord,String invalidReason) {
 		User user = UserUtils.getUser();
@@ -218,24 +183,16 @@ public class BizCustomerReturnVisitRecordService extends CrudService2<BizCustome
 		invalidRecordDao.insertInvalidRecord(invalidRecord);
 	}
 	
-	/**
-	 * 获取回访题目信息
-	 * @param returnVisitRecordId
-	 * @return
-	 */
+
 	public List<BizCustomerReturnVisitRecordAnswer> getReturnVisitRecordQuestion(Integer returnVisitRecordId){
 		return returnVisitRecordAnswerDao.getListByRecordId(returnVisitRecordId);
 	}
 	
-	/**
-	 * 根据汇总结果组装结果展示
-	 * @param param
-	 * @return
-	 */
+
 	public Map<String,Object> visitRecordSummaryQuery(Map<String,String> param){
 		Map<String,Object> resultMap = new HashMap<String,Object>();
 		
-		//查询汇总表头title
+
 		List<String> returnVisitNode = new ArrayList<String>();
 		List<String> returnVisitNodeNames = new ArrayList<String>();
 		returnVisitNode.add("node_9999");
@@ -284,7 +241,7 @@ public class BizCustomerReturnVisitRecordService extends CrudService2<BizCustome
 						tempMap.put(str, map.get("num").toString());
 						totalVisitNum = totalVisitNum + Integer.parseInt( map.get("num").toString() );
 						
-						//无效回访数量
+
 						if( ("node_9999").equals( map.get("visit_node") ) ){
 							failVisitNum = Integer.parseInt( map.get("num").toString() );
 						}
@@ -302,22 +259,12 @@ public class BizCustomerReturnVisitRecordService extends CrudService2<BizCustome
 		return resultMap;
 	}
 	
-	/**
-	 * 满意度汇总查询组装数据
-	 * @param param
-	 * @param satisfactionDegreeCodeArray	统计维度编码数组
-	 * @param satisfactionDegreeNameArray	统计维度名称数组
-	 * @return
-	 */
+
 	public List<Map<String,Object>> satisfactionDegreeQuery(Map<String,String> param,String[] satisfactionDegreeCodeArray,String[] satisfactionDegreeNameArray){
 		
 		List<Map<String,Object>> resultList = new ArrayList<Map<String,Object>>();
 		
-		/**查询汇总结果,格式如下
-		 *  department_name			statistic_item
-		 * 	木工						|满意|_1,|不满意|_1
-			水电工					|满意|_3
-		 */
+
 		List<Map<String,Object>> list = returnVisitRecordDao.satisfactionDegreeQuery(param);
 		if( list != null && list.size() > 0 ){
 			for( Map<String,Object> map : list){
@@ -326,7 +273,7 @@ public class BizCustomerReturnVisitRecordService extends CrudService2<BizCustome
 				Integer satisfiedNum = 0;
 				String statistic_item = map.get("statistic_item").toString();
 				String temp  = "";
-				//如果有统计内容，则根据统计数组进行遍历整理数据
+
 				if( StringUtils.isNotBlank( statistic_item ) ){
 					statistic_item = statistic_item + ",";
 					
@@ -368,27 +315,11 @@ public class BizCustomerReturnVisitRecordService extends CrudService2<BizCustome
 		return resultList;
 	}
 	
-	/**
-	 * 根据订单id查询该订单的回访历史记录信息，按照前端展示结构进行组装
-	 * 格式如下：
-	 * [
-	 * 	{
-	 * 		"return_visit_node_name":"开工回访",
-	 * 		"questionList":[
-	 * 			{
-	 * 				"return_visit_question":"请问您家是哪天开始施工的呢？	",
-	 * 				"question_answer":"2017/6/12"
-	 * 			}
-	 * 		]
-	 * 	}
-	 * ]
-	 * @param orderId
-	 * @return
-	 */
+
 	public List<Map<String,Object>> getOrderHistoryVisitRecord(Integer orderId){
 		List<Map<String,Object>> resultList = new ArrayList<Map<String,Object>>();
 		
-		//实际回访记录
+
 		List<Map<String,String>> list = returnVisitRecordDao.getOrderHistoryVisitRecord(orderId);
 		String tempStr = "";
 		Map<String,Object> baseMap = new HashMap<String,Object>();
@@ -418,12 +349,7 @@ public class BizCustomerReturnVisitRecordService extends CrudService2<BizCustome
 		return resultList;
 	}
  	
-	/**
-	 * 计算百分比，保留两位小数
-	 * @param cs
-	 * @param bcs
-	 * @return
-	 */
+
 	private static String getPercent(Integer cs,Integer bcs ){
 		String percent ;
 		Double p3 = 0.0;
@@ -433,38 +359,23 @@ public class BizCustomerReturnVisitRecordService extends CrudService2<BizCustome
 			p3 = cs*1.0/bcs;
 		}
 		NumberFormat nf = NumberFormat.getPercentInstance();
-		nf.setMinimumFractionDigits(2);//控制保留小数点后几位，2：表示保留2位小数点
+		nf.setMinimumFractionDigits(2);
 		percent = nf.format(p3);
 		return percent;
 	}
 
-	/**
-	 * 无效回访记录
-	 * @param 
-	 * @param 
-	 * @return
-	 */
+
 	public Page<BizCustomerReturnVisitRecord> invalidList(Page<BizCustomerReturnVisitRecord> page,BizCustomerReturnVisitRecord bizCustomerReturnVisitRecord) {
 		bizCustomerReturnVisitRecord.setPage(page);
 		page.setList(returnVisitRecordDao.invalidList(bizCustomerReturnVisitRecord));
 		return page;
 	}
-	/**
-	 * 过滤工程模式
-	 * @param
-	 * @param
-	 * @return
-	 */
+
     public List<Dict> findProjectMode() {
 		return returnVisitRecordDao.findProjectMode();
     }
 
-	/**
-	 * 传统待回访订单
-	 * @param
-	 * @param
-	 * @return
-	 */
+
     public Page<BizCustomerReturnVisitTraditionOrderData> findPageForTraditionOrder(Page<BizCustomerReturnVisitTraditionOrderData> page, BizCustomerReturnVisitTraditionOrderData bizCustomerReturnVisitTraditionOrderData) {
 		bizCustomerReturnVisitTraditionOrderData.setPage(page);
 		page.setList(bizCustomerReturnVisitTraditionOrderDataDao.findPageForTraditionOrder(bizCustomerReturnVisitTraditionOrderData));
@@ -475,7 +386,7 @@ public class BizCustomerReturnVisitRecordService extends CrudService2<BizCustome
 		return bizCustomerReturnVisitTraditionOrderDataDao.findReturnVisitNode(orderId);
 	}
 
-	//向传统回访订单表中插入数据
+
 	@Transactional()
 	public void insertBizCustomerReturnVisitTraditionOrderData(BizCustomerReturnVisitTraditionOrderData bto){
 		bizCustomerReturnVisitTraditionOrderDataDao.insert(bto);
@@ -490,24 +401,24 @@ public class BizCustomerReturnVisitRecordService extends CrudService2<BizCustome
 		}
 	}
 
-	//判断传统订单表中是否插入过该订单对应的节点数据
+
 	public Integer findExistCount(Integer orderId, Integer qcCheckNodeId) {
 		return bizCustomerReturnVisitTraditionOrderDataDao.findExistCount(orderId,qcCheckNodeId);
 	}
 
-	//传统订单将状态更新为已回访2
+
 	@Transactional()
 	public void updateStatusHaveDone(Integer orderId) {
 		bizCustomerReturnVisitTraditionOrderDataDao.updateStatusHaveDone(orderId);
 	}
 
-	//传统订单将状态更新为已过期0
+
 	@Transactional()
 	public void updateStatus(BizCustomerReturnVisitTraditionOrderData bto) {
 		bizCustomerReturnVisitTraditionOrderDataDao.updateStatus(bto);
 	}
 
-	//查询回访节点表是否设置过这个节点
+
 	public List<Map<String,Object>> findIsThereNode(String storeId, Integer qcCheckNodeId) {
 		return  bizCustomerReturnVisitTraditionOrderDataDao.findIsThereNode(storeId,qcCheckNodeId);
 	}

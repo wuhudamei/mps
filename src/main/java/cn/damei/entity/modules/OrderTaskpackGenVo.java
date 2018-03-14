@@ -6,62 +6,42 @@ public class OrderTaskpackGenVo extends DataEntity<OrderTaskpackGenVo>{
 	private static final long serialVersionUID = -2499276448176454118L;
 
 	private Integer templatId;
-	/**
-	 * 任务包模板名称
-	 */
+
 	private String templatName;
 	
-	/**
-	 * 任务包模板编号
-	 */
+
 	private String templatNumber;
 	
-	/**
-	 * 工序编号 
-	 */
+
 	private String procedureNo;
 	
-	/**
-	 * 工序名称
-	 */
+
 	private String procedureName;
 	
-	/**
-	 * 预算员确认数量
-	 */
+
 	private String budgetNumber;
 	
-	/**
-	 * 定额综合价
-	 */
+
 	private String synthesizePrice;
 	
-	/**
-	 * 辅料价格
-	 */
+
 	private String accessoriesPrice;
 	
-	/**
-	 * 人工价
-	 */
+
 	private String laborPrice;
 	
-	/**
-	 * 单位
-	 */
+
 	private String measurementUnit;
 	
-	/**
-	 * 备注
-	 */
+
 	private String remarks;
 	private String laborAuxiliaryMaterialsBudgetAmount;
 	private String taskpackageId;
 	private String packageName;
 	private String projectMode;
 	
-	private String laborBudgetAmount;// 人工预算金额
-	private String auxiliaryMaterialsBudgetAmount;// 辅料预算金额
+	private String laborBudgetAmount;
+	private String auxiliaryMaterialsBudgetAmount;
 	
 	public String getTaskpackageId() {
 		return taskpackageId;

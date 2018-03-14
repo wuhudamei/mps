@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import java.io.IOException;
@@ -34,11 +32,7 @@ import cn.damei.entity.modules.WeiKuanService;
 
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-/**
- * 财务确认尾款Controller
- * @author 梅浩
- * @version 2016-12-28
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/balancecomplete/WeiKuan")
 public class WeiKuanController extends BaseController {
@@ -62,11 +56,10 @@ public class WeiKuanController extends BaseController {
 	@RequestMapping(value = {"list", ""})
 	public String list(WeiKuanEntity WeiKuanEntity, HttpServletRequest request, HttpServletResponse response, Model model) {
 		
-		/*List<Integer> orderIds = (List<Integer>) request.getSession().getAttribute("wkOrderIds");
-		if(orderIds != null && orderIds.size()>0){*/
+
 		List<Integer> list = new ArrayList<Integer>();
 		request.getSession().setAttribute("wkOrderIds",list);
-		//}
+
 		
 		return "modules/balancecomplete/WeiKuanEntityList";
 	}
@@ -95,12 +88,7 @@ public class WeiKuanController extends BaseController {
 		return result;
 	}
 	
-	/**
-	 * 批量
-	 * @param orderIds
-	 * @param redirectAttributes
-	 * @return
-	 */
+
 	@RequiresPermissions("balancecomplete:WeiKuanEntity:edit")
 	@RequestMapping(value = "confirmCheckEndMoneys")
 	public String confirmCheckEndMoneys(Integer [] orderIds, RedirectAttributes redirectAttributes,HttpServletRequest request) {
@@ -139,23 +127,18 @@ public class WeiKuanController extends BaseController {
 		return "redirect:"+ Global.getAdminPath()+"/balancecomplete/WeiKuan/list2?repage";
 	}
 	
-	/**
-	 * 导出execl
-	 * @param orderIds
-	 * @param redirectAttributes
-	 * @return
-	 */
+
 	@RequiresPermissions("balancecomplete:WeiKuanEntity:edit")
 	@RequestMapping(value = "exportExcel")
 	public void exportExcel(WeiKuanEntity weiKuanEntity,HttpServletResponse response){
 		
 		SimpleDateFormat sf = new SimpleDateFormat("yyyyMMddHHmmss");
 		HSSFWorkbook excel = weiKuanService.exportExcel(weiKuanEntity);
-		ServletOutputStream out= null;//创建一个输出流对象
+		ServletOutputStream out= null;
 		try {  
 			response.setContentType("application/binary;charset=utf-8"); 
-			String headerStr =new String(("确认尾款"+sf.format(new Date())).getBytes("utf-8"), "ISO8859-1");//headerString为中文时转码  
-			response.setHeader("Content-disposition","attachment; filename="+headerStr+".xls");//filename是下载的xls的名
+			String headerStr =new String(("确认尾款"+sf.format(new Date())).getBytes("utf-8"), "ISO8859-1");
+			response.setHeader("Content-disposition","attachment; filename="+headerStr+".xls");
 			out = response.getOutputStream();    
 			excel.write(out);
 		} catch (IOException ex) {  
@@ -179,13 +162,13 @@ public class WeiKuanController extends BaseController {
 		
 		if (checkedStr != null) {
 			List<Integer> list2 = (List<Integer>) request.getSession().getAttribute("wkOrderIds");
-			// session 获取list
+
 			if (list2 != null && list2.size() > 0) {
 
 				if (!list2.contains(checkedStr)) {
 					list2.add(checkedStr);
 				} else {
-					// 判断是否有重复
+
 					Iterator<Integer> it = list2.iterator();
 					while (it.hasNext()) {
 						if (it.next().equals(checkedStr)) {

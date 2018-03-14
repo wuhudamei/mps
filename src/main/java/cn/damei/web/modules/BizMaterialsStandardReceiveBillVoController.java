@@ -44,7 +44,7 @@ public class BizMaterialsStandardReceiveBillVoController extends BaseController{
 		BizMaterialsStandardReceiveBillVo entity = null;
 		if (id != null){
 			entity = bizMaterialsStandardReceiveBillVoService.get(id);
-			//关联数据
+
 			BizMaterialsStandardReceiveDetail detail = new BizMaterialsStandardReceiveDetail();
 			detail.setMaterialsStandardReceiveBillId(id);
 			List<BizMaterialsStandardReceiveDetail> details =  bizMaterialsStandardReceiveDetailService.findList(detail);
@@ -79,21 +79,16 @@ public class BizMaterialsStandardReceiveBillVoController extends BaseController{
 	@RequiresPermissions("standradmaterialsrecords:bizMaterialsStandardReceiveBill:edit")
 	@RequestMapping(value = "saveVo")
 	public String save(BizMaterialsStandardReceiveBillVo bizMaterialsStandardReceiveBill,HttpServletRequest request, Model model, RedirectAttributes redirectAttributes) {
-		/*if (!beanValidator(model, bizMaterialsStandardReceiveBill)){
-			return form(bizMaterialsStandardReceiveBill, model);
-		}*/
+
 		List<BizMaterialsStandardReceiveDetail> list = new ArrayList<BizMaterialsStandardReceiveDetail>();
 		String[] ids = request.getParameterValues("ids");
-		/*if(ids.length == 0 || ids == null){
-			addMessage(redirectAttributes, "请先选择标化辅材！");
-			return "redirect:"+Global.getAdminPath()+"/standradmaterialsrecords/bizMaterialsStandardReceiveBill/list";
-		}*/
+
 		String[] amounts = request.getParameterValues("amounts");
 		double a = 0d;
 		for (int i=0; i<ids.length;i++) {
 			BizMaterialsStandardReceiveDetail detail = new BizMaterialsStandardReceiveDetail();
 			BizMaterialsStandard bizMaterialsStandard = bizMaterialsStandardService.get(Integer.parseInt(ids[i]));
-			//detail.setMaterialsStandardReceiveBillId(bill.getId());
+
 			detail.setMaterialsId(Integer.parseInt(ids[i]));
 			detail.setMaterialsName(bizMaterialsStandard.getMaterialsName());
 			detail.setMaterialsType(bizMaterialsStandard.getMaterialsType());
@@ -103,7 +98,7 @@ public class BizMaterialsStandardReceiveBillVoController extends BaseController{
 			detail.setMaterialsAmount(Double.valueOf(amounts[i])*bizMaterialsStandard.getMaterialsPrice());
 			a += Double.valueOf(amounts[i])*bizMaterialsStandard.getMaterialsPrice();
 			list.add(detail);
-			//bizMaterialsStandardReceiveDetailService.save(detail);
+
 		}
 		bizMaterialsStandardReceiveBill.setReceiveBillAmount(a);
 		bizMaterialsStandardReceiveBill.setIsSettled(ConstantUtils.IS_SETTLED_0);
@@ -116,14 +111,14 @@ public class BizMaterialsStandardReceiveBillVoController extends BaseController{
 		}
 		bizMaterialsStandardReceiveBillVoService.save(bizMaterialsStandardReceiveBill);
 		BizMaterialsStandardReceiveBillVo bill = bizMaterialsStandardReceiveBillVoService.findByCode(bizMaterialsStandardReceiveBill.getMaterialsStandardReceiveBillCode());
-		//List<BizMaterialsStandardReceiveDetail> details = bizMaterialsStandardReceiveDetailService.findDetailsByBillId(bill.getId());
+
 		for (BizMaterialsStandardReceiveDetail detail : list) {
 			detail.setMaterialsStandardReceiveBillId(bill.getId());
-			//bizMaterialsStandardReceiveDetailService.add(detail);
+
 		}
-		//根据billId查询details
+
 		bizMaterialsStandardReceiveDetailService.add1(list,bill.getId());
-		//判断是否存在
+
 		
 		
 		addMessage(redirectAttributes, "保存标化辅材记录成功");

@@ -7,10 +7,7 @@ import cn.damei.common.utils.UserUtils;
 
 import java.util.Date;
 
-/**
- * Created by joseph on 2017/5/15.
- * 进店已签单
- */
+
 public class OrderReportLogInStoreWithBigOrderImpl implements OrderReportLogStatePolicyInterface{
 
 

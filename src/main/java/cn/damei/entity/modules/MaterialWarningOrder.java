@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import java.util.Date;
@@ -8,20 +6,16 @@ import java.util.List;
 
 import cn.damei.common.persistence.DataEntity;
 
-/**
- * 预警
- * @author 张康健
- * @version 2017-05-11
- */
+
 public class MaterialWarningOrder extends DataEntity<MaterialWarningOrder> {
 
 	private static final long serialVersionUID = 1L;
 	
 	
-	//private Integer id; //订单id
+
 	private String projectMode;
 	private String sort;
-	private String nodeName;//节点名称
+	private String nodeName;
 	
 	public String getNodeName() {
 		return nodeName;
@@ -29,11 +23,11 @@ public class MaterialWarningOrder extends DataEntity<MaterialWarningOrder> {
 	public void setNodeName(String nodeName) {
 		this.nodeName = nodeName;
 	}
-	private String customerName;		// 客户姓名
-	private String customerPhone;		// 客户电话
-	private String storeId;		// 门店id
-	private String communityName;		// 小区名称
-	private String isNewHouse;		// 新房老房  1为新房  0为老房  默认老房
+	private String customerName;
+	private String customerPhone;
+	private String storeId;
+	private String communityName;
+	private String isNewHouse;
 	private List<String> orderIds;
 	
 	
@@ -43,21 +37,21 @@ public class MaterialWarningOrder extends DataEntity<MaterialWarningOrder> {
 	public void setOrderIds(List<String> orderIds) {
 		this.orderIds = orderIds;
 	}
-	private String designerName;		// 设计师姓名
-	private String designerPhone;		// 设计师电话
-	private Date contractStartDate;		// 合同开工日期
-	private Date contractEndDate;		// 合同竣工日期
-	private Date planDoneDate;		// 计划完成日期
-	private String extensionDays; //延期天数
-	private String enginDepartId; //接单区域
-	private String orderInspector;		// 订单质检员
+	private String designerName;
+	private String designerPhone;
+	private Date contractStartDate;
+	private Date contractEndDate;
+	private Date planDoneDate;
+	private String extensionDays;
+	private String enginDepartId;
+	private String orderInspector;
 	private String orderInspectorPhone;
-	private String itemManager;		// 项目经理
+	private String itemManager;
 	private Integer itemManagerId;
 	private Integer orderInspectorId;
 	private String managerName;
 	private String managerPhone;
-	private Date actualStartDate;//实际开工时间
+	private Date actualStartDate;
 	
 	public String getOrderInspectorPhone() {
 		return orderInspectorPhone;

@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import java.util.List;
@@ -29,11 +27,7 @@ import cn.damei.service.modules.OfficeService;
 import cn.damei.common.utils.DictUtils;
 import cn.damei.common.utils.UserUtils;
 
-/**
- * 机构Controller
- * @author ThinkGem
- * @version 2013-5-15
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/sys/office")
 public class OfficeController extends BaseController {
@@ -53,7 +47,7 @@ public class OfficeController extends BaseController {
 	@RequiresPermissions("sys:office:view")
 	@RequestMapping(value = {""})
 	public String index(Office office, Model model) {
-//        model.addAttribute("list", officeService.findAll());
+
 		return "modules/sys/officeIndex";
 	}
 
@@ -75,7 +69,7 @@ public class OfficeController extends BaseController {
 		if (office.getArea()==null){
 			office.setArea(user.getOffice().getArea());
 		}
-		// 自动获取排序号
+
 		if (StringUtils.isBlank(office.getId())&&office.getParent()!=null){
 			int size = 0;
 			List<Office> list = officeService.findAll();
@@ -130,23 +124,16 @@ public class OfficeController extends BaseController {
 			addMessage(redirectAttributes, "演示模式，不允许操作！");
 			return "redirect:" + adminPath + "/sys/office/list";
 		}
-//		if (Office.isRoot(id)){
-//			addMessage(redirectAttributes, "删除机构失败, 不允许删除顶级机构或编号空");
-//		}else{
+
+
+
 			officeService.delete(office);
 			addMessage(redirectAttributes, "删除机构成功");
-//		}
+
 		return "redirect:" + adminPath + "/sys/office/list?id="+office.getParentId()+"&parentIds="+office.getParentIds();
 	}
 
-	/**
-	 * 获取机构JSON数据。
-	 * @param extId 排除的ID
-	 * @param type	类型（1：公司；2：部门/小组/其它：3：用户）
-	 * @param grade 显示级别
-	 * @param response
-	 * @return
-	 */
+
 	@RequiresPermissions("user")
 	@ResponseBody
 	@RequestMapping(value = "treeData")

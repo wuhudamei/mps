@@ -28,12 +28,7 @@ import cn.damei.common.web.BaseController;
 import cn.damei.entity.modules.ScoreOrderQuery;
 import cn.damei.service.modules.ScoreOrderService;
 
-/**
- * 订单评分Controller
- * 
- * @author lft
- * @version 2017-04-14
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/score/order")
 public class ScoreOrderController extends BaseController {
@@ -49,18 +44,11 @@ public class ScoreOrderController extends BaseController {
 		}
 		return entity;
 	}
-	/**
-	 * 
-	 * @param model
-	 * @param scoreOrderQuery
-	 * @param request
-	 * @param response
-	 * @return 根据 条件查询列表
-	 */
+
 	@RequiresPermissions("scoreOrderList:view")
 	@RequestMapping(value = { "ScoreOrderlist2", "" })	
 	public String ScoreOrderlist(Model model,ScoreOrderQuery scoreOrderQuery,HttpServletRequest request,HttpServletResponse  response) {
-        //过滤门店
+
         User user = UserUtils.getUser();
         if(null==scoreOrderQuery.getName()){
             if(null!=user.getStoreId()){
@@ -109,14 +97,14 @@ public class ScoreOrderController extends BaseController {
 			scoreOrderQuery.setScoreQuery(null);
 		}
 		SimpleDateFormat sf = new SimpleDateFormat("yyyyMMddHHmmss");
-		ServletOutputStream ouputStream= null;//创建一个输出流对象
+		ServletOutputStream ouputStream= null;
 		List<ScoreOrderQuery> selectOrderScoreQuery = scoreOrderService.selectOrderScoreQuery(null,scoreOrderQuery);
 		scoreOrderQuery.setScoreContent(scoreContent);
 		HSSFWorkbook problemDetail = ExportOrderScore.exportOrderScore(selectOrderScoreQuery);
 		try {  
 			response.setContentType("application/binary;charset=utf-8"); 
-			String headerStr =new String(("订单评分统计表"+sf.format(new Date())).getBytes("utf-8"), "ISO8859-1");//headerString为中文时转码  
-			response.setHeader("Content-disposition","attachment; filename="+headerStr+".xls");//filename是下载的xls的名
+			String headerStr =new String(("订单评分统计表"+sf.format(new Date())).getBytes("utf-8"), "ISO8859-1");
+			response.setHeader("Content-disposition","attachment; filename="+headerStr+".xls");
 			ouputStream = response.getOutputStream();    
 			problemDetail.write(ouputStream);  
 			ouputStream.flush();    
@@ -125,11 +113,7 @@ public class ScoreOrderController extends BaseController {
             ex.printStackTrace();  
         }
 	}
-	/**
-	 * 根据门店获取订单评价类型
-	 * @param storeId
-	 * @return
-	 */
+
 	@RequestMapping(value = { "getScoreContentByStoreId", "" })	
 	public @ResponseBody List<Map<String ,Object> > getScoreContentByStoreId(String storeId) {
 		return

@@ -1,26 +1,20 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import org.hibernate.validator.constraints.Length;
 
 import cn.damei.common.persistence.DataEntity;
 
-/**
- * 工序和工人星级对照Entity
- * @author chy
- * @version 2016-09-17
- */
+
 public class BizProcedureWorkerCrossReferences extends DataEntity<BizProcedureWorkerCrossReferences> {
 	
 	private static final long serialVersionUID = 1L;
-	private String storeId;		// 门店
-	private String taskPackageId;		// 任务包id
-	private String procedureNo;		// 工序编号
-	private String workerGroupStar;		// 工人组星级
-	private String settlementRate;		// 结算比率
-	private String isEnable;		// 启用标记
+	private String storeId;
+	private String taskPackageId;
+	private String procedureNo;
+	private String workerGroupStar;
+	private String settlementRate;
+	private String isEnable;
 	
 	public BizProcedureWorkerCrossReferences() {
 		super();

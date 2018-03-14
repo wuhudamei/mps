@@ -7,58 +7,38 @@ public class OrderTaskpackVo extends DataEntity<OrderTaskpackVo>{
 	
 	private String id;
 
-	/**
-	 * 工序归属任务包
-	 */
+
 	private String packageName;
 	
-	/**
-	 * 工序编号 
-	 */
+
 	private String procedureNo;
 	
-	/**
-	 * 工序名称
-	 */
+
 	private String procedureName;
 	
-	/**
-	 * 预算员确认数量
-	 */
+
 	private String budgetNumber;
 	
-	/**
-	 * 计量单位
-	 */
+
 	private String label;
 	
-	/**
-	 * 工料结算价
-	 */
+
 	private String synthesizePrice;
 	
-	/**
-	 * 工料费预算金额
-	 */
+
 	private String laborAuxiliaryMaterialsBudgetAmount;
 	
-	/**
-	 * 备注
-	 */
+
 	private String remarks;
 	
-	/**
-	 * 人工结算价
-	 */
+
 	private String laborPrice;
 	
-	/**
-	 * 辅料结算价
-	 */
+
 	private String accessoriesPrice;
 	
-	private String laborBudgetAmount;// 人工费预算金额
-	private String auxiliaryMaterialsBudgetAmount; // 辅料费预算金额
+	private String laborBudgetAmount;
+	private String auxiliaryMaterialsBudgetAmount;
 
 	public String getPackageName() {
 		return packageName;

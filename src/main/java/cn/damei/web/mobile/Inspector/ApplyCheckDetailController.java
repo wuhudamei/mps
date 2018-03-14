@@ -22,9 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by joseph on 2017/4/22. 我的约检记录
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/app/pqc/apply-check-detail")
 public class ApplyCheckDetailController {
@@ -86,7 +84,7 @@ public class ApplyCheckDetailController {
 	public String evalDetail(Integer evalScoreId, HttpServletRequest request, Model model) {
 		BizEvalManagerDetail bizEvalManagerDetail = inspectorEvaluateWorkerService.queryEvalManagerDetail(evalScoreId);
 		
-		//评价项目经理
+
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("relatedBusinessId", bizEvalManagerDetail.getRelatedBusinessId());
 		map.put("evalType", "2");

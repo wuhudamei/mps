@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import java.util.ArrayList;
@@ -51,12 +49,7 @@ import cn.damei.common.utils.DictUtils;
 import cn.damei.common.utils.DropUtils;
 import cn.damei.common.utils.UserUtils;
 
-/**
- * 工人组管理Controller
- * 
- * @author qhy
- * @version 2016-09-01
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/empgroup/bizEmployeegroup")
 public class BizEmployeegroupController extends BaseController {
@@ -83,7 +76,7 @@ public class BizEmployeegroupController extends BaseController {
 		BizEmployeegroup entity = null;
 		if (StringUtils.isNotBlank(id)) {
 			entity = bizEmployeegroupService.get(id);
-			// 关联数据
+
 			BizEmgrouprelation relation = new BizEmgrouprelation();
 			relation.setGroupId(id);
 			List<BizEmgrouprelation> empGropRelation = bizEmGroupRelationService.findList(relation);
@@ -105,28 +98,26 @@ public class BizEmployeegroupController extends BaseController {
 	@RequestMapping(value = { "list", "" })
 	public String list(BizEmployeegroupVO bizEmployeegroup, HttpServletRequest request, HttpServletResponse response, Model model) {
 		if (UserUtils.getUser().getStoreId() != null) {
-			// 当前登录用户门店
+
 			bizEmployeegroup.setStoreId(UserUtils.getUser().getStoreId());
 		} else {
-			// 门店是总部的查询所有部门信息
+
 			if (bizEmployeegroup.getStoreId() == null || bizEmployeegroup.getStoreId().equals("1")) {
 				bizEmployeegroup.setStoreId("2");
 			}
 		}
-		/**
-		 * 工程模式控制
-		 */
+
 		User user = UserUtils.getUser();
 		String projectMode = user.getProjectMode();
 		if(projectMode.equals("3") || projectMode.equals("2")){
-			/*bizEmployeegroup.setProjectMode(null);*/
+
 		}else{
 			bizEmployeegroup.setProjectMode(projectMode);
 			model.addAttribute("projectModeEnable", true);
 		}
 		
 
-		// 区域
+
 		if (StringUtils.isBlank(bizEmployeegroup.getElactricationId())) {
 			if (StringUtils.isNoneBlank(UserUtils.getUser().getEmpId())) {
 				List<Integer> list = bizEmployeeService2.findEngineIdsByEmpId(Integer.parseInt(UserUtils.getUser().getEmpId()));
@@ -161,16 +152,16 @@ public class BizEmployeegroupController extends BaseController {
 			BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
 			if (null != be.getProjectMode()) {
 				if (be.getProjectMode().equals(ConstantUtils.EMPLOYEE_PROJECT_MODE_3)) {
-					// bizEmployee.setProjectMode(ConstantUtils.EMPLOYEE_PROJECT_MODE_1);
+
 					model.addAttribute("projectMode", ConstantUtils.EMPLOYEE_PROJECT_MODE_1);
 				} else {
-					// bizEmployee.setProjectMode(be.getProjectMode());
-					// model.addAttribute("projectModeEnable",true);
+
+
 					model.addAttribute("projectMode", be.getProjectMode());
 				}
 			}
 		} else {
-			// bizEmployee.setProjectMode(ConstantUtils.EMPLOYEE_PROJECT_MODE_1);
+
 			model.addAttribute("projectMode", ConstantUtils.EMPLOYEE_PROJECT_MODE_1);
 		}
 		if (bizEmployeegroup.getOrderstop() == null) {
@@ -200,7 +191,7 @@ public class BizEmployeegroupController extends BaseController {
 			bizEmployeegroup.setOrderStopOperatorEmployeeId(UserUtils.getUser().getId());
 			bizEmployeegroup.setOrderStopOperateDatetime(new Date());
 		}
-		// 任务包 逗号
+
 		String taskId = bizEmployeegroup.getTaskpackageid();
 		if (taskId != null && !taskId.equals("")) {
 			String[] taskIdArray = taskId.split(",");
@@ -212,7 +203,7 @@ public class BizEmployeegroupController extends BaseController {
 			bizEmployeegroup.setTaskpackageid(taskIds);
 		}
 
-		String leaderId = bizEmployeegroup.getIsLeader();// 组长
+		String leaderId = bizEmployeegroup.getIsLeader();
 		List<BizEmgrouprelation> emgroupRelatinList = new ArrayList<BizEmgrouprelation>();
 		if (!"".equals(bizEmployeegroup.getEmpId())) {
 			String[] empIdArray = bizEmployeegroup.getEmpId().split(",");
@@ -230,7 +221,7 @@ public class BizEmployeegroupController extends BaseController {
 				}
 			}
 		}
-		bizEmployeegroup.setGroupid(leaderId);// 更新组长1
+		bizEmployeegroup.setGroupid(leaderId);
 		bizEmployeegroupService.save(bizEmployeegroup);
 		System.out.println("工人组ID——————————————" + bizEmployeegroup.getId());
 		bizEmployeegroup.setEmpGropRelation(emgroupRelatinList);
@@ -255,10 +246,7 @@ public class BizEmployeegroupController extends BaseController {
 		return "redirect:" + Global.getAdminPath() + "/empgroup/bizEmployeegroup/?repage";
 	}
 
-	/*
-	 * 
-	 * 工人组添加工人信息表格
-	 */
+
 	@RequiresPermissions("empgroup:bizEmployeegroup:view")
 	@ResponseBody
 	@RequestMapping(value = "employee_add")
@@ -283,9 +271,7 @@ public class BizEmployeegroupController extends BaseController {
 		return JsonMapper.getInstance().toJson(employee4Group);
 	}
 
-	/*
-	 * 删除工人组关联关系表
-	 */
+
 	@RequiresPermissions("empgroup:bizEmployeegroup:edit")
 	@RequestMapping(value = "delete_relation")
 	public String deleteRelation(Integer idr, RedirectAttributes redirectAttributes) {
@@ -294,10 +280,7 @@ public class BizEmployeegroupController extends BaseController {
 		return "redirect:" + Global.getAdminPath() + "/empgroup/bizEmployeegroup/?repage";
 	}
 
-	/*
-	 * 
-	 * 工人组星级变化明细
-	 */
+
 	@RequestMapping(value = "detail")
 	public String detail(BizEmployeegroup bizEmployeegroup,  Model model, RedirectAttributes redirectAttributes, HttpServletRequest request,Date endChangeDatetime,Date startChangeDatetime,String selectId) {
 		HttpSession session = request.getSession();
@@ -339,10 +322,7 @@ public class BizEmployeegroupController extends BaseController {
 		return  "modules/empgroup/bizEmployeegroupStarChange";
 	}
 
-	/*
-	 * 
-	 * 工人下拉框
-	 */
+
 	@ResponseBody
 	@RequestMapping(value = "employees")
 	public String employeeList(BizEmployeegroup bizEmployeegroup, Model model, HttpServletRequest request) {
@@ -352,24 +332,12 @@ public class BizEmployeegroupController extends BaseController {
 		return JsonMapper.getInstance().toJson(dropModel);
 	}
 
-	/**
-	 * 根据门店 和工种
-	 * 
-	 * @Title: ajaxemployeegroup
-	 * @Description: TODO
-	 * @param @param bizEmployeegroup
-	 * @param @param model
-	 * @param @param request
-	 * @param @return
-	 * @return String
-	 * @author ZhangTongWei
-	 * @throws
-	 */
+
 	@ResponseBody
 	@RequestMapping(value = "ajaxemployeegroup")
 	public Map<String, Object> ajaxemployeegroup(BizEmployeegroupVO bizEmployeegroupVO, Model model, HttpServletRequest request) {
-		// List<BizEmgrouprelation> bizEmgrouprelationlist =
-		// bizEmGroupRelationService.queryemployeegroup(bizEmployeegroup);
+
+
 		List<BizEmployeegroupVO> bizEmployeegroupVOList = bizEmployeegroupVoService.queryemployeegroup(bizEmployeegroupVO);
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		resultMap.put("resultMap", bizEmployeegroupVOList);

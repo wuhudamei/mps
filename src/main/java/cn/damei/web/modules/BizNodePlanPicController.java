@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import java.io.IOException;
@@ -26,11 +24,7 @@ import cn.damei.common.utils.StringUtils;
 import cn.damei.common.web.BaseController;
 import cn.damei.service.modules.BizNodePlanPicService;
 
-/**
- * llpController
- * @author llp
- * @version 2016-10-11
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/biznodeplanpic/bizNodePlanPic")
 public class BizNodePlanPicController extends BaseController {

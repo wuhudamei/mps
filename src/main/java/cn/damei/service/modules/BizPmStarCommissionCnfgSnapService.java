@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.util.List;
@@ -13,11 +11,7 @@ import cn.damei.common.service.CrudService2;
 import cn.damei.dao.modules.BizPmStarCommissionCnfgSnapDao;
 import cn.damei.entity.modules.BizPmStarCommissionCnfgSnap;
 
-/**
- * 项目经理星级提成快照Service
- * @author 汪文文
- * @version 2016-12-28
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizPmStarCommissionCnfgSnapService extends CrudService2<BizPmStarCommissionCnfgSnapDao, BizPmStarCommissionCnfgSnap> {
@@ -45,7 +39,7 @@ public class BizPmStarCommissionCnfgSnapService extends CrudService2<BizPmStarCo
 	}
 
 	public BizPmStarCommissionCnfgSnap findSccs(Integer orderId) {
-		// TODO Auto-generated method stub
+
 		return dao.findSccs(orderId);
 	}
 	

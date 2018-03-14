@@ -27,7 +27,7 @@ public class LogoutController {
 	
 	@Autowired
 	private HomeLoginLogoutLogService homeLoginLogoutLogService;
-	//登录类型(登出)
+
 	private static String DEAL_TYPE_OUT = "out";
 	
 	public Logger logger = LoggerFactory.getLogger(getClass());
@@ -38,7 +38,7 @@ public class LogoutController {
 	
 		String client = (String) request.getSession().getAttribute("client");
 		
-		//登出成功，记录登录日志
+
 		HomeLoginLogoutLog homeLoginLogoutLog = new HomeLoginLogoutLog();
 		homeLoginLogoutLog.setDealMode("app");
 		homeLoginLogoutLog.setDealType(DEAL_TYPE_OUT);
@@ -47,13 +47,13 @@ public class LogoutController {
 		homeLoginLogoutLog.setRemarks( StringUtils.isNotBlank(client) && ("wechat").equals(client) ? "wechat" : "app" + "app退出调用（方法名：logout）");
 		homeLoginLogoutLogService.save(homeLoginLogoutLog);
 		
-		if("wechat".equals(client)){ //微信
-			//根据手机修改openid的状态
-			//weiChatOpenIdService.updateByPhone(phone);
+		if("wechat".equals(client)){
+
+
 			request.getSession().removeAttribute("customerPhone");
 			return "mobile/modules/home/weichat/weiChatLogin";
 		}else{
-			//根据手机号删除tokenid
+
 			sysTokenService.deleteByPhone(phone,ConstantUtils.EMP_TYPE_4);
 			request.getSession().removeAttribute("customerPhone");
 			return "mobile/modules/api/loginFailed";

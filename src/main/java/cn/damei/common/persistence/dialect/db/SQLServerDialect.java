@@ -1,17 +1,9 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.common.persistence.dialect.db;
 
 import cn.damei.common.persistence.dialect.Dialect;
 
-/**
- * MSSQLServer 数据库实现分页方言
- *
- * @author poplar.yfyang
- * @version 1.0 2010-10-10 下午12:31
- * @since JDK 1.5
- */
+
 public class SQLServerDialect implements Dialect {
 
     public boolean supportsLimit() {
@@ -28,19 +20,7 @@ public class SQLServerDialect implements Dialect {
         return getLimit(sql, offset, limit);
     }
 
-    /**
-     * 将sql变成分页sql语句,提供将offset及limit使用占位符号(placeholder)替换.
-     * <pre>
-     * 如mysql
-     * dialect.getLimitString("select * from user", 12, ":offset",0,":limit") 将返回
-     * select * from user limit :offset,:limit
-     * </pre>
-     *
-     * @param sql    实际SQL语句
-     * @param offset 分页开始纪录条数
-     * @param limit  分页每页显示纪录条数
-     * @return 包含占位符的分页sql
-     */
+
     public String getLimit(String sql, int offset, int limit) {
         if (offset > 0) {
             throw new UnsupportedOperationException("sql server has no offset");

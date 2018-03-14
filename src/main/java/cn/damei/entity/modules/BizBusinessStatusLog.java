@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import java.util.Date;
@@ -9,33 +7,28 @@ import org.hibernate.validator.constraints.Length;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 业务状态记录表Entity
- * 
- * @author wyb
- * @version 2017-03-16
- */
+
 public class BizBusinessStatusLog extends DataEntity2<BizBusinessStatusLog> {
 
 	private static final long serialVersionUID = 1L;
-	private String businessType; // 业务类型
-	private Integer businessOnlyMarkInt; // 业务唯一标识整形
-	private String businessOnlyMarkVarchar; // 业务唯一标识字符型
-	private String businessStatus; // 业务状态
-	private String businessStatusName; // 业务状态 名称
-	private Date statusDatetime; // 状态时间
-	private String businessRemarks; // 业务备注
-	private Integer businessEmployeeId; // 业务人员员工id
+	private String businessType;
+	private Integer businessOnlyMarkInt;
+	private String businessOnlyMarkVarchar;
+	private String businessStatus;
+	private String businessStatusName;
+	private Date statusDatetime;
+	private String businessRemarks;
+	private Integer businessEmployeeId;
 	private String businessEmployeeName;
 	private String rejectedIdName;
-	private String tianshu; // 延期天数
-	private String yuany; // 延期原因
-	private String shuom; // 延期说明
-	private String planId; // 计划ID
+	private String tianshu;
+	private String yuany;
+	private String shuom;
+	private String planId;
 
-	private String businessName;//节点
+	private String businessName;
 	
-	private String businessDate;//期望验收日期、
+	private String businessDate;
 	
 	
 	

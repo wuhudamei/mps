@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.util.List;
@@ -14,11 +12,7 @@ import cn.damei.common.service.CrudService;
 import cn.damei.dao.modules.BizTaskPackageTemplatRelDao;
 import cn.damei.entity.modules.BizTaskPackageTemplatRel;
 
-/**
- * 单表生成Service
- * @author ThinkGem
- * @version 2016-09-03
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizTaskPackageTemplatRelService extends CrudService<BizTaskPackageTemplatRelDao, BizTaskPackageTemplatRel> {
@@ -44,7 +38,7 @@ public class BizTaskPackageTemplatRelService extends CrudService<BizTaskPackageT
 	}
 
 	public List<BizTaskPackageTemplatRel> getByProcedureNo(String taskPackageTemplatId, List<String> list) {
-		// TODO Auto-generated method stub
+
 		return bizTaskPackageTemplatRelDao.getByProcedureNo(taskPackageTemplatId, list);
 	}
 	

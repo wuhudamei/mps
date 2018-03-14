@@ -27,7 +27,7 @@ public class BizPurchaseVoService extends CrudService2<BizPurchaseVoDao,BizPurch
 	}
 
 	public BizPurchaseVo findById(Integer id) {
-//		return dao.findById(id);
+
 		return dao.get(id);
 	}
 
@@ -37,18 +37,11 @@ public class BizPurchaseVoService extends CrudService2<BizPurchaseVoDao,BizPurch
 	}
 
 	public List<BizPurchaseVo> findList1(Integer applyemployeeId,String type) {
-		// TODO Auto-generated method stub
+
 		return dao.findList1(applyemployeeId,type);
 	}
 
-	/**
-	 * 供应商列表
-	 * @param phone
-	 * @param purchaseType6
-	 * @param purchaseStatusYes1
-	 * @param purchaseDelFlagNo0
-	 * @return
-	 */
+
 	public List<BizPurchaseVo> findSupplierList(String phone, String purchaseType6, String purchaseStatusYes1,
 			String purchaseDelFlagNo0) {
 		

@@ -26,44 +26,35 @@ public class InstallItemListController {
 
 	
 	
-	/**
-	 * 安装项列表
-	 * @param model
-	 * @param request
-	 * @return
-	 */
+
 	@RequestMapping(value="list")
 	public String list(){
 		
 		return "mobile/modules/Worker/installer/installItemList/installList";
 	}
 	
-	/**
-	 * 动态加载施工单列表
-	 * @param type
-	 * @return
-	 */
+
 	@RequestMapping(value="install_construct_bill_ajax_list")
     public @ResponseBody  List<InstallItem> installConstructBillAjaxList(String type,HttpServletRequest request){
 
-		//1.已登录的安装工信息
+
 		Worker worker = (Worker)request.getSession().getAttribute("worker");
 		
-		//2.判断施工单状态
+
 		List<String> statusList = new ArrayList<String>();
 		if(StringUtils.isNotBlank(type)){
 			if(type.equals("1")){
-				//未完工
+
 				statusList.add(InstallPlanConstantUtil.SUPPLIER_INSTALL_CONSTRUCT_BILL_STATUS_10);
 				statusList.add(InstallPlanConstantUtil.SUPPLIER_INSTALL_CONSTRUCT_BILL_STATUS_20);
 			}else{
-				//已完工
+
 				statusList.add(InstallPlanConstantUtil.SUPPLIER_INSTALL_CONSTRUCT_BILL_STATUS_30);
 				statusList.add(InstallPlanConstantUtil.SUPPLIER_INSTALL_CONSTRUCT_BILL_STATUS_50);
 			}
 		}
 		
-		//3.查询施工单列表
+
 		List<InstallItem> list = null;
 		if(worker != null && null!=worker.getEmgrouprelationId()){
 			

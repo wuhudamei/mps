@@ -4,42 +4,37 @@ import java.util.Date;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 换单
- * 详情
- * @author chenguanhua
- *
- */
+
 public class ExchangeOrderDetails extends DataEntity2<ExchangeOrderDetails> {
 
 	private static final long serialVersionUID = 1L;
-	//被换时间
+
 	private Date exChangeDate;
-	//客户
+
 	private String customer;
-	//任务包
+
 	private String packageName;
-	//原工人组长
+
 	private String oldLeaderName;
-	//新工人组长
+
 	private String newLeaderName;
-	//原因
+
 	private String reasonType;
-	//说明
+
 	private String reasonRemarks;
-	//小区名称
+
 	private String communityName;
-	//几号楼
+
 	private String buildNumber;
-	//几单元
+
 	private String buildUnit;
-	//哪一室
+
 	private String buildRoom;
 	
 	private Integer oldEmployeeId;
 	
-	private Date startExChangeDate; //查询 范围：开始交换时间
-	private Date endExChangeDate; //查询 范围：截至交换时间
+	private Date startExChangeDate;
+	private Date endExChangeDate;
 	
 	
 	public Date getStartExChangeDate() {
@@ -58,7 +53,7 @@ public class ExchangeOrderDetails extends DataEntity2<ExchangeOrderDetails> {
 		this.endExChangeDate = endExChangeDate;
 	}
 
-	//详细地址+ 客户
+
 	public String getAdd(){
 		
 		return getCommunityName()+"-"+getBuildNumber()+"-"+getBuildUnit()+"-"+getBuildRoom()+"-"+getCustomer();

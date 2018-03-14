@@ -2,11 +2,7 @@ package cn.damei.entity.modules;
 
 import java.util.Date;
 
-/**
- * 
- * @author hyh
- *
- */
+
 public class PmSettleInfo {
 
 	private String orderNum;

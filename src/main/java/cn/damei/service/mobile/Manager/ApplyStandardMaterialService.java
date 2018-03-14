@@ -33,7 +33,7 @@ public class ApplyStandardMaterialService extends CrudService2<BizEvalRewardTask
 		
 	}
 	public List<BizMaterialsStandardReceiveBillApply> findMaterialStandardBillByOrderId(String orderId,String receiveBillType) {
-		// TODO Auto-generated method stub
+
 		List<BizMaterialsStandardReceiveBillApply> list = applyStandardMaterialDao.findMaterialStandardBillByOrderId(orderId,receiveBillType);
 		return list;
 	}
@@ -43,44 +43,44 @@ public class ApplyStandardMaterialService extends CrudService2<BizEvalRewardTask
 		
 	}
 	public BizMaterialsStandard findStandardPriceById(String id) {
-		// TODO Auto-generated method stub
+
 		return applyStandardMaterialDao.findStandardPriceById(id);
 	}
 	public Integer saveMaterialsStandardReceiveBill(BizMaterialsStandardReceiveBillApply bsr) {
-		// TODO Auto-generated method stub
+
 		return applyStandardMaterialDao.saveMaterialsStandardReceiveBill(bsr);
 		 
 	}
 	public void insertMaterialBillVO(List<ApplyMaterialsStandardReceiveDetail> listBD) {
-		// TODO Auto-generated method stub
+
 		applyStandardMaterialDao.insertMaterialBillVO(listBD);
 	}
 	public ApplyStandardMaterial findApplyStandardMaterialByOrderId(String orderId) {
-		// TODO Auto-generated method stub
+
 		return applyStandardMaterialDao.findApplyStandardMaterialByOrderId(orderId);
 		
 	}
 	public List<ApplyMaterialsStandardReceiveDetail> findApplyMaterialsStandardReceiveDetailById(String id) {
-		// TODO Auto-generated method stub
+
 		List<ApplyMaterialsStandardReceiveDetail>  list = applyStandardMaterialDao.findApplyMaterialsStandardReceiveDetailById(id);
 		return list;
 	}
 	public BizMaterialsStandardReceiveBillApply findBizMaterialsStandardReceiveBillApplyByid(String id) {
-		// TODO Auto-generated method stub
+
 		return applyStandardMaterialDao.findBizMaterialsStandardReceiveBillApplyByid(id);
 	}
 	public String findStoreIdByEmployeeId(Integer managerId) {
-		// TODO Auto-generated method stub
+
 		return applyStandardMaterialDao.findStoreIdByEmployeeId(managerId);
 		 
 	}
 	public Seiralnum findSeiralnum(int i) {
-		// TODO Auto-generated method stub
+
 		return applyStandardMaterialDao.findSeiralnum(i);
 		 
 	}
 	public void saveSeiralnum(Seiralnum seiralnum) {
-		// TODO Auto-generated method stub
+
 		applyStandardMaterialDao.saveSeiralnum(seiralnum);
 	}
 	public List<String> getRuleCodeNumber(String materialsStandardId){

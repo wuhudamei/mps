@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.util.List;
@@ -13,11 +11,7 @@ import cn.damei.common.service.CrudService;
 import cn.damei.entity.modules.BizProcedureWorkerCrossReferences;
 import cn.damei.dao.modules.BizProcedureWorkerCrossReferencesDao;
 
-/**
- * 工序和工人星级对照Service
- * @author chy
- * @version 2016-09-17
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizProcedureWorkerCrossReferencesService extends CrudService<BizProcedureWorkerCrossReferencesDao, BizProcedureWorkerCrossReferences> {

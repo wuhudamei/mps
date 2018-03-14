@@ -18,14 +18,7 @@ import cn.damei.common.web.BaseController;
 import cn.damei.entity.modules.ProblemItemReport;
 import cn.damei.service.modules.ProblemItemReportService;
 
-/**
- * 问题事项统计报表查询
- * 
- * @ClassName: ProblemItemReport
- * @Description: TODO
- * @author ZhangTongWei
- * @date 2017年10月13日 下午1:42:33
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/ordercomplan/problemItemReport")
 public class ProblemItemReportController extends BaseController {
@@ -33,20 +26,7 @@ public class ProblemItemReportController extends BaseController {
 	@Autowired
 	private ProblemItemReportService problemItemReportService;
 
-	/**
-	 * 查询问题事项报表
-	 * 
-	 * @Title: queryItemReport
-	 * @Description: TODO
-	 * @param @param problemItemReport
-	 * @param @param request
-	 * @param @param response
-	 * @param @param model
-	 * @param @return
-	 * @return String
-	 * @author ZhangTongWei
-	 * @throws
-	 */
+
 	@RequestMapping(value = "/queryItemReport")
 	@RequiresPermissions("ordercomplan:problemItemReport:view")
 	public String queryItemReport(ProblemItemReport problemItemReport, Model model) {
@@ -56,31 +36,18 @@ public class ProblemItemReportController extends BaseController {
 
 	}
 
-	/**
-	 * 导出问题事项报表Excel
-	 * 
-	 * @Title: excelExportItem
-	 * @Description: TODO
-	 * @param @param problemItemReport
-	 * @param @param request
-	 * @param @param response
-	 * @param @param model
-	 * @param @return
-	 * @return String
-	 * @author ZhangTongWei
-	 * @throws
-	 */
+
 	@RequestMapping(value = "/excelExportItem")
 	@RequiresPermissions("ordercomplan:problemItemReport:view")
 	public String excelExportItem(ProblemItemReport problemItemReport, HttpServletRequest request, HttpServletResponse response, Model model) {
 		List<ProblemItemReport> itemList = problemItemReportService.queryList(problemItemReport);
-		// 输出Excel文件
+
 		try {
-			// 创建HSSFWorkbook对象(excel的文档对象)
+
 			HSSFWorkbook wb = new HSSFWorkbook();
 			problemItemReportService.excelExportItem(problemItemReport, itemList, wb);
 			String fileName = "投诉事项报表" + DateUtils.getDate("yyyyMMddHHmmss") + ".xls";
-			// 输出Excel文件
+
 			OutputStream output = response.getOutputStream();
 			response.reset();
 			response.setHeader("Content-disposition", "attachment; filename=" + fileName);

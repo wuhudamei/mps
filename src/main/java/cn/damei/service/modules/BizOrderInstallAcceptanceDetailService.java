@@ -10,10 +10,7 @@ import cn.damei.common.service.CrudService2;
 import cn.damei.dao.modules.BizOrderInstallAcceptanceDetailDao;
 import cn.damei.entity.modules.BizOrderInstallAcceptanceDetail;
 
-/**
- * 订单交底
- * @author llp
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizOrderInstallAcceptanceDetailService extends CrudService2<BizOrderInstallAcceptanceDetailDao, BizOrderInstallAcceptanceDetail>{

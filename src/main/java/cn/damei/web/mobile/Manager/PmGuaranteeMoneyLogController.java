@@ -46,18 +46,18 @@ public class PmGuaranteeMoneyLogController extends BaseController{
 
 	@RequestMapping(value="queryPmGuaranteeMoneyLog")
 	public String queryPmGuaranteeMoneyLog(HttpServletRequest request, Model model){
-		// 已登录的项目经理
+
 		Manager manager = SessionUtils.getManagerSession(request);
-		// 项目经理质保金余额信息
+
 		BizGuaranteeMoneyBalance bizGuaranteeMoneyBalance = bizGuaranteeMoneyBalanceService.findGuaranteeMoneyBalanceByEmployeeId(manager.getId());
-		//项目经理结算上缴质保金信息
+
 		List<PmGuaranteeMoneyLog> list = pmGuaranteeMoneyLogService.queryPmGuaranteeMoneyLog(manager.getId());
-		//项目经理线下上缴质保金信息
+
 		BizGuaranteeMoneyPaidUsed bizGuaranteeMoneyPaidUsed = new BizGuaranteeMoneyPaidUsed();
 		bizGuaranteeMoneyPaidUsed.setUsedEmployeeId(manager.getId());
 		bizGuaranteeMoneyPaidUsed.setGuaranteeMoneyType("1");
 		List<BizGuaranteeMoneyPaidUsed> PaidOffineList = bizGuaranteeMoneyPaidUsedService.findList(bizGuaranteeMoneyPaidUsed);
-		//项目经理使用质保金信息
+
 		bizGuaranteeMoneyPaidUsed.setGuaranteeMoneyType("2");
 		List<BizGuaranteeMoneyPaidUsed> usedList = bizGuaranteeMoneyPaidUsedService.findList(bizGuaranteeMoneyPaidUsed);
 		if(bizGuaranteeMoneyBalance == null){
@@ -86,7 +86,7 @@ public class PmGuaranteeMoneyLogController extends BaseController{
 	
 	@RequestMapping(value="attendSettlement")
 	public String attendSettlement(Integer id,HttpServletRequest request, HttpServletResponse response, Model model){
-		// 已登录的项目经理
+
 		Manager manager = SessionUtils.getManagerSession(request);
 		BizPmAttendSalaryBill bizPmAttendSalaryBill= new BizPmAttendSalaryBill();
 		bizPmAttendSalaryBill.setItemManagerId(manager.getId().toString());

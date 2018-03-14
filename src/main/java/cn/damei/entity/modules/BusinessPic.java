@@ -6,16 +6,13 @@ import cn.damei.common.persistence.DataEntity;
 
 public class BusinessPic extends DataEntity<BusinessPic>{
 
-	/**
-	 * 工地设计问题图片
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 
-	private String businessType; //图片业务类型
-	private String businessIdInt; //业务ID int型
-	private String picUrl;	//图片文件路径
-	private Date picDatetime;	//图片上传日期时间
+	private String businessType;
+	private String businessIdInt;
+	private String picUrl;
+	private Date picDatetime;
 	public String getBusinessType() {
 		return businessType;
 	}

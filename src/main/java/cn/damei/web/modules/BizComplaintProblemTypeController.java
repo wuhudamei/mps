@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,11 +24,7 @@ import cn.damei.service.modules.BizComplaintProblemTypeService;
 import java.util.List;
 import java.util.Map;
 
-/**
- * 工程投诉Controller
- * @author mh
- * @version 2017-07-03
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/bizcomplaintproblemtype/bizComplaintProblemType")
 public class BizComplaintProblemTypeController extends BaseController {

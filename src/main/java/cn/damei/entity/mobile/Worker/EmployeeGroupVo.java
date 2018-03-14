@@ -6,25 +6,22 @@ import cn.damei.common.persistence.DataEntity2;
 
 public class EmployeeGroupVo extends DataEntity2<EmployeeGroupVo>{
 
-	/**
-	 * @author wang
-	 * 2016-10-17
-	 */
+
 	private static final long serialVersionUID = 1L;
 	
 	private Integer id;
-	private Integer star;		// 星级
-	private String nps;		// NPS
-	private Integer sort;		// 排名
-	private Integer orderstop;		// 是否停单
-	private String address;		// 现住址
-	private String ordersarea;		// 接单区域
-	private Date createtime;		// 创建时间
-	private String createuser;		// 创建人
-	private Integer state;		// 是否删除状态
-	private Integer worktype;		// 工种
-	private Integer groupid;		// 组长id
-	private Integer storeid;		// 门店Id
+	private Integer star;
+	private String nps;
+	private Integer sort;
+	private Integer orderstop;
+	private String address;
+	private String ordersarea;
+	private Date createtime;
+	private String createuser;
+	private Integer state;
+	private Integer worktype;
+	private Integer groupid;
+	private Integer storeid;
 	public Integer getId() {
 		return id;
 	}

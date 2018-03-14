@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import java.util.Date;
@@ -24,11 +22,7 @@ import cn.damei.entity.modules.Site;
 import cn.damei.service.modules.GuestbookService;
 import cn.damei.common.utils.CmsUtils;
 
-/**
- * 留言板Controller
- * @author ThinkGem
- * @version 2013-3-15
- */
+
 @Controller
 @RequestMapping(value = "${frontPath}/guestbook")
 public class FrontGuestbookController extends BaseController{
@@ -36,9 +30,7 @@ public class FrontGuestbookController extends BaseController{
 	@Autowired
 	private GuestbookService guestbookService;
 
-	/**
-	 * 留言板
-	 */
+
 	@RequestMapping(value = "", method=RequestMethod.GET)
 	public String guestbook(@RequestParam(required=false, defaultValue="1") Integer pageNo,
 			@RequestParam(required=false, defaultValue="30") Integer pageSize, Model model) {
@@ -53,24 +45,22 @@ public class FrontGuestbookController extends BaseController{
 		return "modules/cms/front/themes/"+site.getTheme()+"/frontGuestbook";
 	}
 	
-	/**
-	 * 留言板-保存留言信息
-	 */
+
 	@RequestMapping(value = "", method=RequestMethod.POST)
 	public String guestbookSave(Guestbook guestbook, String validateCode, HttpServletRequest request, HttpServletResponse response, RedirectAttributes redirectAttributes) {
-//		if (StringUtils.isNotBlank(validateCode)){
-//			if (ValidateCodeServlet.validate(request, validateCode)){
+
+
 				guestbook.setIp(request.getRemoteAddr());
 				guestbook.setCreateDate(new Date());
 				guestbook.setDelFlag(Guestbook.DEL_FLAG_AUDIT);
 				guestbookService.save(guestbook);
 				addMessage(redirectAttributes, "提交成功，谢谢！");
-//			}else{
-//				addMessage(redirectAttributes, "验证码不正确。");
-//			}
-//		}else{
-//			addMessage(redirectAttributes, "验证码不能为空。");
-//		}
+
+
+
+
+
+
 		return "redirect:"+Global.getFrontPath()+"/guestbook";
 	}
 	

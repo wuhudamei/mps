@@ -36,12 +36,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-/**
- * 项目经理准产业结算单Controller
- * 
- * @author hyh
- *
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/bizPmPreIndustrySettleBill/bizPmPreIndustrySettleBill")
 public class BizPmPreIndustrySettleBillController extends BaseController {
@@ -73,7 +68,7 @@ public class BizPmPreIndustrySettleBillController extends BaseController {
 	@RequestMapping(value = "openPmPreIndustrySettleBill")
 	public String openPmPreIndustrySettleBill(BizPmPreIndustrySettleBill bizPmPreIndustrySettleBill,
 			HttpServletRequest request, HttpServletResponse response, Model model) {
-		// 过滤门店
+
 		if (bizPmPreIndustrySettleBill.getStoreId() == null) {
 			String storeId = UserUtils.getUser().getStoreId();
 			if (StringUtils.isBlank(storeId)) {
@@ -98,7 +93,7 @@ public class BizPmPreIndustrySettleBillController extends BaseController {
 	@RequestMapping(value = "pmPreIndustrySettleBillList")
 	public String pmPreIndustrySettleBillList(BizPmPreIndustrySettleBill bizPmPreIndustrySettleBill,
 			HttpServletRequest request, HttpServletResponse response, Model model) {
-		// 过滤门店
+
 		if (bizPmPreIndustrySettleBill.getStoreId() == null) {
 			String storeId = UserUtils.getUser().getStoreId();
 			if (StringUtils.isBlank(storeId)) {
@@ -116,7 +111,7 @@ public class BizPmPreIndustrySettleBillController extends BaseController {
 		if (bizPmPreIndustrySettleBill.getProjectMode() == null) {
 			bizPmPreIndustrySettleBill.setProjectMode(4);
 		}
-		// 区域
+
 		if (bizPmPreIndustrySettleBill.getEnginDepartId() == null) {
 			if (StringUtils.isNoneBlank(UserUtils.getUser().getEmpId())) {
 				List<Integer> list = bizEmployeeService2
@@ -163,11 +158,7 @@ public class BizPmPreIndustrySettleBillController extends BaseController {
 		return "modules/bizPmPreIndustrySettleBill/pmPreIndustrySettleBillList";
 	}
 
-	/**
-	 * 下发结算单给项目经理
-	 * 
-	 * @return
-	 */
+
 	@RequestMapping(value = "sendingSettleBill")
 	public @ResponseBody String sendingSettleBill(Integer id) {
 		String result = "0";
@@ -181,12 +172,7 @@ public class BizPmPreIndustrySettleBillController extends BaseController {
 		return result;
 	}
 
-	/**
-	 * 修改结算单
-	 * 
-	 * @param id
-	 * @return
-	 */
+
 	@RequestMapping(value = "editSettleBill")
 	public String editSettleBill(Integer id, HttpServletRequest request, HttpServletResponse response, Model model) {
 		BizPmPreIndustrySettleBill settleBill = bizPmPreIndustrySettleBillService.get(id);
@@ -195,13 +181,13 @@ public class BizPmPreIndustrySettleBillController extends BaseController {
 		model.addAttribute("order2", order2);
 		model.addAttribute("settleBill", settleBill);
 		String result = null;
-		if (settleBill.getSettleBillType().equals("1")) {// 中期结算单
+		if (settleBill.getSettleBillType().equals("1")) {
             if("0".equals(isNewSettleBill)){
                 result = "modules/proIndustryPmSettle/editMidwaySettleInfo";
             }else {
                 result = "modules/proIndustryPmSettle/newEditMidwaySettleInfo";
             }
-		} else if (settleBill.getSettleBillType().equals("2")) {// 竣工结算单
+		} else if (settleBill.getSettleBillType().equals("2")) {
 			Map<String, Object> param = new HashMap<String, Object>();
 			param.put("orderId", settleBill.getOrderId());
 			param.put("settleBillType", 1);
@@ -217,15 +203,11 @@ public class BizPmPreIndustrySettleBillController extends BaseController {
 		return result;
 	}
 
-	/**
-	 * 准产业项目经理月度结算
-	 * 
-	 * @return
-	 */
+
 	@RequestMapping(value = "monthlyPmPreIndustrySettle")
 	public String monthlyPmPreIndustrySettle(BizPmPreIndustrySettleBill bizPmPreIndustrySettleBill,
 			HttpServletRequest request, HttpServletResponse response, Model model) {
-		// 过滤门店
+
 		if (bizPmPreIndustrySettleBill.getStoreId() == null) {
 			String storeId = UserUtils.getUser().getStoreId();
 			if (StringUtils.isBlank(storeId)) {
@@ -242,19 +224,11 @@ public class BizPmPreIndustrySettleBillController extends BaseController {
 		return "modules/bizPmPreIndustrySettleBill/monthlyPmPreIndustrySettle";
 	}
 
-	/**
-	 * 准产业项目经理月度结算查询
-	 * 
-	 * @param bizPmPreIndustrySettleBill
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @return
-	 */
+
 	@RequestMapping(value = "monthlyPmPreIndustrySettleList")
 	public String monthlyPmPreIndustrySettleList(BizPmPreIndustrySettleBill bizPmPreIndustrySettleBill,
 			HttpServletRequest request, HttpServletResponse response, Model model) {
-		// 过滤门店
+
 		if (bizPmPreIndustrySettleBill.getStoreId() == null) {
 			String storeId = UserUtils.getUser().getStoreId();
 			if (StringUtils.isBlank(storeId)) {
@@ -273,7 +247,7 @@ public class BizPmPreIndustrySettleBillController extends BaseController {
 			bizPmPreIndustrySettleBill.setProjectMode(4);
 		}
 
-		// 区域
+
 		if (bizPmPreIndustrySettleBill.getEnginDepartId() == null) {
 			if (StringUtils.isNoneBlank(UserUtils.getUser().getEmpId())) {
 				List<Integer> list = bizEmployeeService2
@@ -315,15 +289,7 @@ public class BizPmPreIndustrySettleBillController extends BaseController {
 		return resultMap;
 	}
 
-	/**
-	 * 生成项目经理月度结算
-	 * 
-	 * @param ids
-	 * @param settleMonth
-	 * @param storeId
-	 * @param redirectAttributes
-	 * @return
-	 */
+
 	@RequestMapping(value = "createMonthlySettle")
 	public String createMonthlySettle(String ids, String settleMonth, String storeId,
 			RedirectAttributes redirectAttributes) {
@@ -337,7 +303,7 @@ public class BizPmPreIndustrySettleBillController extends BaseController {
 	@RequestMapping(value = "queryPmSettleBill")
 	public String queryPmSettleBill(BizPmPreIndustrySettleBill bizPmPreIndustrySettleBill, HttpServletRequest request,
 			HttpServletResponse response, Model model) {
-		// 过滤门店
+
 		if (bizPmPreIndustrySettleBill.getStoreId() == null) {
 			String storeId = UserUtils.getUser().getStoreId();
 			if (StringUtils.isBlank(storeId)) {
@@ -360,7 +326,7 @@ public class BizPmPreIndustrySettleBillController extends BaseController {
 	@RequestMapping(value = "queryPmSettleBillList")
 	public String queryPmSettleBillList(BizPmPreIndustrySettleBill bizPmPreIndustrySettleBill,
 			HttpServletRequest request, HttpServletResponse response, Model model) {
-		// 过滤门店
+
 		if (bizPmPreIndustrySettleBill.getStoreId() == null) {
 			String storeId = UserUtils.getUser().getStoreId();
 			if (StringUtils.isBlank(storeId)) {
@@ -378,7 +344,7 @@ public class BizPmPreIndustrySettleBillController extends BaseController {
 		if (bizPmPreIndustrySettleBill.getProjectMode() == null) {
 			bizPmPreIndustrySettleBill.setProjectMode(4);
 		}
-		// 区域
+
 		if (bizPmPreIndustrySettleBill.getEnginDepartId() == null) {
 			if (StringUtils.isNoneBlank(UserUtils.getUser().getEmpId())) {
 				List<Integer> list = bizEmployeeService2
@@ -478,15 +444,15 @@ public class BizPmPreIndustrySettleBillController extends BaseController {
 		model.addAttribute("bizOrderChange", bizOrderChange);
 		model.addAttribute("order2", order2);
 		String result = null;
-		if (changeType.equals("10")) {// 基装增项
+		if (changeType.equals("10")) {
 			result = "modules/bizPmPreIndustrySettleBill/baseInstalled";
-		} else if (changeType.equals("20")) {// 中期变更增项
+		} else if (changeType.equals("20")) {
 			result = "modules/bizPmPreIndustrySettleBill/midwayChangeAdd";
-		} else if (changeType.equals("30")) {// 中期变更减项
+		} else if (changeType.equals("30")) {
 			result = "modules/bizPmPreIndustrySettleBill/midwayChangeReduce";
-		} else if (changeType.equals("40")) {// 竣工变更增项
+		} else if (changeType.equals("40")) {
 			result = "modules/bizPmPreIndustrySettleBill/completeChangeAdd";
-		} else if (changeType.equals("50")) {// 竣工变更减项
+		} else if (changeType.equals("50")) {
 			result = "modules/bizPmPreIndustrySettleBill/completeChangeReduce";
 		}
 		return result;
@@ -512,16 +478,16 @@ public class BizPmPreIndustrySettleBillController extends BaseController {
 		model.addAttribute("bizBusinessRewardPunish", bizBusinessRewardPunish);
 		model.addAttribute("order2", order2);
 		String result = null;
-		if (rewardPunishType.equals("1")) {// 奖励
-			if (relatedBusinessType.equals("1")) {// 准产业项目经理中期结算
+		if (rewardPunishType.equals("1")) {
+			if (relatedBusinessType.equals("1")) {
 				result = "modules/bizPmPreIndustrySettleBill/midwayRewardAmount";
-			} else if (relatedBusinessType.equals("2")) { // 准产业项目经理竣工结算
+			} else if (relatedBusinessType.equals("2")) {
 				result = "modules/bizPmPreIndustrySettleBill/completeRewardAmount";
 			}
-		} else if (rewardPunishType.equals("2")) { // 惩罚
-			if (relatedBusinessType.equals("1")) {// 准产业项目经理中期结算
+		} else if (rewardPunishType.equals("2")) {
+			if (relatedBusinessType.equals("1")) {
 				result = "modules/bizPmPreIndustrySettleBill/midwayPunishAmount";
-			} else if (relatedBusinessType.equals("2")) { // 准产业项目经理竣工结算
+			} else if (relatedBusinessType.equals("2")) {
 				result = "modules/bizPmPreIndustrySettleBill/completePunishAmount";
 			}
 		}
@@ -560,7 +526,7 @@ public class BizPmPreIndustrySettleBillController extends BaseController {
 	public void exportPmSettleBill(BizPmPreIndustrySettleBill bizPmPreIndustrySettleBill,
 			HttpServletResponse response) {
 		SimpleDateFormat sf = new SimpleDateFormat("yyyyMMddHHmmss");
-		// 区域
+
 		if (bizPmPreIndustrySettleBill.getEnginDepartId() == null) {
 			if (StringUtils.isNoneBlank(UserUtils.getUser().getEmpId())) {
 				List<Integer> list = bizEmployeeService2
@@ -596,11 +562,11 @@ public class BizPmPreIndustrySettleBillController extends BaseController {
 		bizPmPreIndustrySettleBill.setStatusList(statusList);
 		
 		HSSFWorkbook excel = bizPmPreIndustrySettleBillService.exportPmSettleBill(bizPmPreIndustrySettleBill);
-		ServletOutputStream out = null;// 创建一个输出流对象
+		ServletOutputStream out = null;
 		try {
 			response.setContentType("application/binary;charset=utf-8");
-			String headerStr = new String(("准产业项目结算单明细" + sf.format(new Date())).getBytes("utf-8"), "ISO8859-1");// headerString为中文时转码
-			response.setHeader("Content-disposition", "attachment; filename=" + headerStr + ".xls");// filename是下载的xls的名
+			String headerStr = new String(("准产业项目结算单明细" + sf.format(new Date())).getBytes("utf-8"), "ISO8859-1");
+			response.setHeader("Content-disposition", "attachment; filename=" + headerStr + ".xls");
 			out = response.getOutputStream();
 			excel.write(out);
 		} catch (IOException ex) {

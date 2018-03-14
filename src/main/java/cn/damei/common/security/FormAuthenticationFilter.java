@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.common.security;
 
 import javax.servlet.ServletRequest;
@@ -16,11 +14,7 @@ import org.springframework.stereotype.Service;
 
 import cn.damei.common.utils.StringUtils;
 
-/**
- * 表单验证（包含验证码）过滤类
- * @author ThinkGem
- * @version 2014-5-19
- */
+
 @Service
 public class FormAuthenticationFilter extends org.apache.shiro.web.filter.authc.FormAuthenticationFilter {
 
@@ -65,9 +59,7 @@ public class FormAuthenticationFilter extends org.apache.shiro.web.filter.authc.
 		return messageParam;
 	}
 	
-	/**
-	 * 登录成功之后跳转URL
-	 */
+
 	public String getSuccessUrl() {
 		return super.getSuccessUrl();
 	}
@@ -75,17 +67,15 @@ public class FormAuthenticationFilter extends org.apache.shiro.web.filter.authc.
 	@Override
 	protected void issueSuccessRedirect(ServletRequest request,
 			ServletResponse response) throws Exception {
-//		Principal p = UserUtils.getPrincipal();
-//		if (p != null && !p.isMobileLogin()){
+
+
 			 WebUtils.issueRedirect(request, response, getSuccessUrl(), null, true);
-//		}else{
-//			super.issueSuccessRedirect(request, response);
-//		}
+
+
+
 	}
 
-	/**
-	 * 登录失败调用事件
-	 */
+
 	@Override
 	protected boolean onLoginFailure(AuthenticationToken token,
 			AuthenticationException e, ServletRequest request, ServletResponse response) {
@@ -99,7 +89,7 @@ public class FormAuthenticationFilter extends org.apache.shiro.web.filter.authc.
 		}
 		else{
 			message = "系统出现点问题，请稍后再试！";
-			e.printStackTrace(); // 输出到控制台
+			e.printStackTrace();
 		}
         request.setAttribute(getFailureKeyAttribute(), className);
         request.setAttribute(getMessageParam(), message);

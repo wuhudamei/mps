@@ -1,30 +1,24 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import org.hibernate.validator.constraints.Length;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 质检员星级和提成设置Entity
- * @author wyb
- * @version 2017-02-13
- */
+
 public class BizQcStarCommissionCnfg extends DataEntity2<BizQcStarCommissionCnfg> {
 	
 	private static final long serialVersionUID = 1L;
-	private Integer storeId;		// 门店
-	private String isOldNew;		// 新老房
-	private String houseType;		// 房屋类型
-	private String starLevel;		// 星级
-	private String commissionAmount;		// 提成金额
-	private Integer commissionRateMidway;		// 中期提成比例
-	private Integer commissionRateComplete;		// 竣工提成比例
-	private String isEnabled;		// 是否启用
-	private Double commissionRateMidwayTwo;		// 中期提成比例
-	private Double commissionRateCompleteTwo;		// 竣工提成比例
+	private Integer storeId;
+	private String isOldNew;
+	private String houseType;
+	private String starLevel;
+	private String commissionAmount;
+	private Integer commissionRateMidway;
+	private Integer commissionRateComplete;
+	private String isEnabled;
+	private Double commissionRateMidwayTwo;
+	private Double commissionRateCompleteTwo;
 	
 	public BizQcStarCommissionCnfg() {
 		super();

@@ -5,33 +5,31 @@ import java.util.List;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 质检罚款Entity
- */
+
 public class InspectorPunish extends DataEntity2<InspectorPunish> {
 	
 	private static final long serialVersionUID = 1L;
 	private Integer orderId;
 	private Integer pmEmployeeId;
-	private Integer pmSettleBillId;		// 结算单id
-	private String type; //类型
-	private String orderNumber;	//订单编号
-	private String customerAddress; //地址
-	private String communityName; //小区
-	private String buildNumber; //几号楼
-	private String buildUnit; //几单元
-	private String buildRoom; //几室
-	private String customerName; //顾客
+	private Integer pmSettleBillId;
+	private String type;
+	private String orderNumber;
+	private String customerAddress;
+	private String communityName;
+	private String buildNumber;
+	private String buildUnit;
+	private String buildRoom;
+	private String customerName;
 	
-	private String qcBillCode; //质检单编号
-	private String checkEmployee;//提交人
-	private Date actualCheckDate;//提交时间
+	private String qcBillCode;
+	private String checkEmployee;
+	private Date actualCheckDate;
 	
-	private String qcBillCheckKindName; //检查分类
-	private String qcBillCheckItemName; //检查项
+	private String qcBillCheckKindName;
+	private String qcBillCheckItemName;
 	
 	
-	private Double money;//罚款金额
+	private Double money;
 	
 	private List<ReportCheckBreakSettleBill> reportCheckBreakSettleBillList;
 	

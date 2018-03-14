@@ -5,25 +5,21 @@ import java.util.List;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 质检报告vo
- * @author Administrator
- *
- */
+
 public class ReportCheckDetailsPic extends DataEntity2<ReportCheckDetailsPic>{
 
 	private static final long serialVersionUID = 1L;
 	
-	private Integer picId; //图片id
-	private String businessType; //业务类型 '1.申请质检上传的照片；2.检查时上传的照片；3.质检验收上传的照片
-	private Integer businessIdInt; //业务id整型
-	private String businessIdVarchar; //业务id字符型
-	private String picType; //图片类型'1.缩略图；2.大图
-	private Integer picIndex; //图片序号
-	private String picUrl; //图片路径
-	private Date picDatetime; //图片上传日期时间
+	private Integer picId;
+	private String businessType;
+	private Integer businessIdInt;
+	private String businessIdVarchar;
+	private String picType;
+	private Integer picIndex;
+	private String picUrl;
+	private Date picDatetime;
 	
-	private	List<String> picList = null; //订单状态集合
+	private	List<String> picList = null;
 	
 	
 	

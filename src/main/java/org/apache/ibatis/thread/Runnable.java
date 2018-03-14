@@ -12,12 +12,7 @@ import org.apache.log4j.Logger;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.springframework.core.NestedIOException;
 
-/**
- * 刷新使用进程
- * 
- * @author liubaoquan
- * 
- */
+
 public class Runnable implements java.lang.Runnable {
 
 	public static Logger log = Logger.getLogger(Runnable.class);
@@ -25,12 +20,12 @@ public class Runnable implements java.lang.Runnable {
 	private String location;
 	private Configuration configuration;
 
-	private Long beforeTime = 0L; // 上一次刷新时间
-	private static boolean refresh = false; // 是否执行刷新
+	private Long beforeTime = 0L;
+	private static boolean refresh = false;
 
-	private static String mappingPath = "mappings"; // xml文件夹匹配字符串，需要根据需要修改
-	private static int delaySeconds = 10;// 延迟刷新秒数
-	private static int sleepSeconds = 1;// 休眠时间
+	private static String mappingPath = "mappings";
+	private static int delaySeconds = 10;
+	private static int sleepSeconds = 1;
 	
 	private static boolean enabled = false;
 
@@ -108,21 +103,10 @@ public class Runnable implements java.lang.Runnable {
 		}).start();
 	}
 
-	/**
-	 * 执行刷新
-	 * 
-	 * @param filePath
-	 *            刷新目录
-	 * @param beforeTime
-	 *            上次刷新时间
-	 * @throws NestedIOException
-	 *             解析异常
-	 * @throws FileNotFoundException
-	 *             文件未找到
-	 */
+
 	public void refresh(String filePath, Long beforeTime) throws Exception {
 
-		// 本次刷新时间
+
 		Long refrehTime = System.currentTimeMillis();
 
 		List<File> refreshs = this.getRefreshFile(new File(filePath),
@@ -140,21 +124,13 @@ public class Runnable implements java.lang.Runnable {
 			SqlSessionFactoryBean.refresh(new FileInputStream(refreshs.get(i)),
 					refreshs.get(i).getAbsolutePath(), configuration);
 		}
-		// 如果刷新了文件，则修改刷新时间，否则不修改
+
 		if (refreshs.size() > 0) {
 			this.beforeTime = refrehTime;
 		}
 	}
 
-	/**
-	 * 获取需要刷新的文件列表
-	 * 
-	 * @param dir
-	 *            目录
-	 * @param beforeTime
-	 *            上次刷新时间
-	 * @return 刷新文件列表
-	 */
+
 	public List<File> getRefreshFile(File dir, Long beforeTime) {
 		List<File> refreshs = new ArrayList<File>();
 
@@ -175,15 +151,7 @@ public class Runnable implements java.lang.Runnable {
 		return refreshs;
 	}
 
-	/**
-	 * 判断文件是否需要刷新
-	 * 
-	 * @param file
-	 *            文件
-	 * @param beforeTime
-	 *            上次刷新时间
-	 * @return 需要刷新返回true，否则返回false
-	 */
+
 	public boolean check(File file, Long beforeTime) {
 		if (file.lastModified() > beforeTime) {
 			return true;

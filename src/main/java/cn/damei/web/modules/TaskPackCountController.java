@@ -70,7 +70,7 @@ public class TaskPackCountController {
 		
 		
 		if(planEnddate!=null&&planStartdate!=null){
-			//把时间加一天
+
 			Date parse = sdf.parse(planEnddate);
 			Calendar  calendar  =  new  GregorianCalendar();
 			calendar.setTime(parse);

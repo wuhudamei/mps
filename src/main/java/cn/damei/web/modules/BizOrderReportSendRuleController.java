@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import java.util.Date;
@@ -20,11 +18,7 @@ import cn.damei.entity.modules.StatusDto;
 import cn.damei.entity.modules.BizOrderReportSendRule;
 import cn.damei.service.modules.BizOrderReportSendRuleService;
 
-/**
- * 返单客服轮训规则业务处理Controller
- * @author Liwancai
- * @version 2017-05-06
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/orderreportsendrule/OrderReportSendRule")
 public class BizOrderReportSendRuleController extends BaseController {
@@ -32,12 +26,7 @@ public class BizOrderReportSendRuleController extends BaseController {
 	@Autowired
 	private BizOrderReportSendRuleService bizOrderReportSendRuleService;
 	
-	/**
-	 * 
-	 * @param bizOrderReportSendRule
-	 * @param model
-	 * @return
-	 */
+
 	@RequiresPermissions("orderreportsendrule:bizOrderReportSendRule:edit")
 	@RequestMapping(value = "form")
 	public String form(Model model) {
@@ -47,20 +36,15 @@ public class BizOrderReportSendRuleController extends BaseController {
 		model.addAttribute("sendRuleId",bizOrderReportSendRule != null && bizOrderReportSendRule.getStatus().equals("0") ? bizOrderReportSendRule.getId() : null) ;
 		model.addAttribute("startDateTime", bizOrderReportSendRule != null ?  DateUtils.formatDate( bizOrderReportSendRule.getStartDatetime(),"yyyy-MM-dd") : DateUtils.formatDate( DateUtils.addDate( new Date(),1 ),"yyyy-MM-dd" ) ) ;
 		
-		//待执行规则客服人员信息
+
 		model.addAttribute("serviceMembers",bizOrderReportSendRuleService.selectServiceMembersForPendingRule());
 		
-		//规则执行记录
+
 		model.addAttribute("ruleExecuteRuleRecord",bizOrderReportSendRuleService.selectRuleExecuteRecord());
 		return "modules/orderreportsendrule/bizOrderReportSendRule";
 	}
 
-	/**
-	 * 轮循规则保存
-	 * @param startDateTime，开始执行时间
-	 * @param serviceMembers，客服人员id，以逗号拼接，eg:1,2,3
-	 * @return
-	 */
+
 	@RequestMapping(value = "save",method=RequestMethod.POST)
 	@ResponseBody
 	public Object saveOrUpdate(
@@ -82,11 +66,7 @@ public class BizOrderReportSendRuleController extends BaseController {
 		
 	}
 	
-	/**
-	 * 根据规则id查询对应的客服人员
-	 * @param sendRuleId
-	 * @return
-	 */
+
 	@RequestMapping(value = "getServiceMembers",method=RequestMethod.GET)
 	@ResponseBody
 	public Object getServiceMembers(@RequestParam(required = true) Integer sendRuleId){

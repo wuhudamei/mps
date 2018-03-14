@@ -3,25 +3,25 @@ package cn.damei.entity.modules;
 import java.util.Date;
 
 import cn.damei.common.persistence.DataEntity2;
-//薪级底薪
+
 public class BizStarBasicSalary extends DataEntity2<BizStarBasicSalary>{
 
 	private static final long serialVersionUID = 1L;
-	//底薪
+
 	private Double basicSalary;
-	//生效日期
+
 	private Date effectDate;
-	//版本号
+
 	private String version;
-	//状态 1启用 0 停用
+
 	private String status;
-	//薪级
+
 	private BizManagerStar bizManagerStar;
-	//星级级别
+
 	private Integer starLevel;
-	//门店id
+
 	private Integer storeId;
-	//工程模式
+
 	private String projectMode;
 	
 	public Double getBasicSalary() {

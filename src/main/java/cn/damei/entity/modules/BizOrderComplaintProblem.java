@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import java.util.ArrayList;
@@ -11,59 +9,54 @@ import org.springframework.web.multipart.MultipartFile;
 
 import cn.damei.common.persistence.DataEntity;
 
-/**
- * 工程问题Entity
- * 
- * @author ztw
- * @version 2017-07-06
- */
+
 public class BizOrderComplaintProblem extends DataEntity<BizOrderComplaintProblem> {
 
 	private static final long serialVersionUID = 1L;
-	private String orderComplaintId; // 投訴訂單ID
-	private String complaintProblemId; // 投訴問題ID
-	private String complaintProblemTypeId; // 问题分类ID
-	private String complaintProblemnei; // 问题内容
-	private String complaintProblemNr; // 第二个问题内容字段
-	private String complaintProblemName; // 问题分类名稱
-	private String taskPackageTemplatId; // 任务包模板ID
-	private String orderTaskpackageId; // 订单任务包ID
-	private String complaintRoleType; // 被投诉对象
-	private String complaintProblemDescribe; // 投诉问题描述
-	private String status; // 状态
-	private String complaintProblemItemIds; // 问题事项串
-	private String ciIds; // 问题事项串
-	private String ordersarea; // 问题事项串
-	private String complaintProblemItemPics; // 图片urlS
-	private BizComplaintProblemItem bizComplaintProblemItemBean = new BizComplaintProblemItem(); // 问题事项集合
-	private List<BizComplaintProblemItem> bizComplaintProblemItemList = new ArrayList<BizComplaintProblemItem>(); // 问题事项集合
+	private String orderComplaintId;
+	private String complaintProblemId;
+	private String complaintProblemTypeId;
+	private String complaintProblemnei;
+	private String complaintProblemNr;
+	private String complaintProblemName;
+	private String taskPackageTemplatId;
+	private String orderTaskpackageId;
+	private String complaintRoleType;
+	private String complaintProblemDescribe;
+	private String status;
+	private String complaintProblemItemIds;
+	private String ciIds;
+	private String ordersarea;
+	private String complaintProblemItemPics;
+	private BizComplaintProblemItem bizComplaintProblemItemBean = new BizComplaintProblemItem();
+	private List<BizComplaintProblemItem> bizComplaintProblemItemList = new ArrayList<BizComplaintProblemItem>();
 
-	private String complaintId; // 投诉订单ID
-	private String orderid; // 订单ID
-	private String ordernumber; // 订单编号
-	private String itemmanagerid; // 项目经理ID
-	private String itemmanager; // 项目经理名字
-	private String itemmanagerIphone; // 项目经理手机号
-	private String orderinspectorid; // 质检员id
-	private String orderinspector; // 质检员姓名
-	private String orderinspectoriphone; // 质检员手机号
-	private String customername; // 客户姓名
-	private String packageid; // 任务包ID
-	private String packagename; // 任务包名称
-	private String templatid; // 任务包di
-	private String templatname; // 任务包名称
-	private String groupid; // 人员组di
-	private String groupaddress; // 人员组地址
-	private String emgrouprelationid; // 人员组对照表id
-	private String emgrouprelationgroupId; // 人员组中的工人组ID
-	private String emgrouprelationgroupempId; // 人员组中的工人ID
-	private String empId; // 工人ID
-	private String empName; // 工人姓名
-	private String empphone; // 工人手机
-	private String empids; // 工人手机
-	private String custaddress; // 工人手机
-	private MultipartFile[] photo; // 上传图片类
-	private String photos; // 售后带过来的图片地址
+	private String complaintId;
+	private String orderid;
+	private String ordernumber;
+	private String itemmanagerid;
+	private String itemmanager;
+	private String itemmanagerIphone;
+	private String orderinspectorid;
+	private String orderinspector;
+	private String orderinspectoriphone;
+	private String customername;
+	private String packageid;
+	private String packagename;
+	private String templatid;
+	private String templatname;
+	private String groupid;
+	private String groupaddress;
+	private String emgrouprelationid;
+	private String emgrouprelationgroupId;
+	private String emgrouprelationgroupempId;
+	private String empId;
+	private String empName;
+	private String empphone;
+	private String empids;
+	private String custaddress;
+	private MultipartFile[] photo;
+	private String photos;
 
 	public BizOrderComplaintProblem() {
 		super();

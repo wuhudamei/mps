@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.util.List;
@@ -13,11 +11,7 @@ import cn.damei.common.service.CrudService;
 import cn.damei.entity.modules.BizTaskPackageAuxiliaryMaterials;
 import cn.damei.dao.modules.BizTaskPackageAuxiliaryMaterialsDao;
 
-/**
- * 任务包辅料对照表管理Service
- * @author wangchao
- * @version 2016-09-09
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizTaskPackageAuxiliaryMaterialsService extends CrudService<BizTaskPackageAuxiliaryMaterialsDao, BizTaskPackageAuxiliaryMaterials> {

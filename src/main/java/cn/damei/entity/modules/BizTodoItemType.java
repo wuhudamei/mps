@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import cn.damei.common.utils.UserUtils;
@@ -8,24 +6,20 @@ import org.hibernate.validator.constraints.Length;
 
 import cn.damei.common.persistence.DataEntity;
 
-/**
- * 待办配置Entity
- * @author mh
- * @version 2017-07-14
- */
+
 public class BizTodoItemType extends DataEntity<BizTodoItemType> {
 	
 	private static final long serialVersionUID = 1L;
-	private String storeId= UserUtils.getUser().getStoreId();		// store_id
-	private String projectMode;		// project_mode
-	private String todoItemCode;		// todo_item_code
-	private String todoItemName;		// todo_item_name
-	private String daysToRemind;		// days_to_remind
-	private String sortIndex;			//排序
-	private String businessStep;		// ҵ
-	private String isToRemind;		// is_to_remind
-	private String todoItemGenerateStyle;		// todo_item_generate_style
-	private String todoItemRemarks;		// todo_item_remarks
+	private String storeId= UserUtils.getUser().getStoreId();
+	private String projectMode;
+	private String todoItemCode;
+	private String todoItemName;
+	private String daysToRemind;
+	private String sortIndex;
+	private String businessStep;
+	private String isToRemind;
+	private String todoItemGenerateStyle;
+	private String todoItemRemarks;
 	private String relatedBusinessType;
 	private String relatedBusinessId;
 

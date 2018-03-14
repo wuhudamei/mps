@@ -1,35 +1,29 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import cn.damei.common.persistence.ActEntity;
 
-/**
- * 审批Entity
- * @author thinkgem
- * @version 2014-05-16
- */
+
 public class TestAudit extends ActEntity<TestAudit> {
 	
 	private static final long serialVersionUID = 1L;
-	private User 	user;	//	归属用户
-	private Office 	office;	//	归属部门
-	private String 	post;	//	岗位
-	private String 	age;	//	性别
-	private String 	edu;	//	学历
-	private String 	content;	//	调整原因
-	private String 	olda;	//	现行标准 薪酬档级
-	private String 	oldb;	//	现行标准 月工资额
-	private String 	oldc;	//	现行标准 年薪总额
-	private String 	newa;	//	调整后标准 薪酬档级
-	private String 	newb;	//	调整后标准 月工资额
-	private String 	newc;	//	调整后标准 年薪总额
-	private String 	addNum;	//	月增资
-	private String 	exeDate;	//	执行时间
-	private String 	hrText;		//	人力资源部门意见
-	private String 	leadText;	//	分管领导意见
-	private String 	mainLeadText;//	集团主要领导意见
+	private User 	user;
+	private Office 	office;
+	private String 	post;
+	private String 	age;
+	private String 	edu;
+	private String 	content;
+	private String 	olda;
+	private String 	oldb;
+	private String 	oldc;
+	private String 	newa;
+	private String 	newb;
+	private String 	newc;
+	private String 	addNum;
+	private String 	exeDate;
+	private String 	hrText;
+	private String 	leadText;
+	private String 	mainLeadText;
 
 	public TestAudit() {
 		super();

@@ -8,22 +8,22 @@ public class DelaySheet extends DataEntity<DelaySheet>{
 	private String buildNumber                       ;
 	private String buildUnit                         ;
 	private String buildRoom                         ;
-	private String delayBillStageStatus            ;//延期阶段
+	private String delayBillStageStatus            ;
 	private String delayBillCategoryId             ;
-	private String delayBillCategoryIdReson             ;//延期原因
-	private String delayBeginDatetime               ;//延期开始时间
-	private String delayEndDatetime                 ;//延期结束时间
-	private String delayDays                         ;//延期天数
-	private String deferredInstruction               ;//延期说明
-	private String deferredApplicationDatetime      ;//延期申请时间
-	private String status                             ;//状态
-	private String statusDatetime                    ;//状态日期时间
+	private String delayBillCategoryIdReson             ;
+	private String delayBeginDatetime               ;
+	private String delayEndDatetime                 ;
+	private String delayDays                         ;
+	private String deferredInstruction               ;
+	private String deferredApplicationDatetime      ;
+	private String status                             ;
+	private String statusDatetime                    ;
 	private String delayBillStageStatusName;
-	private String orderStatus; //订单状态
-	private Integer orderId;//订单ID
+	private String orderStatus;
+	private Integer orderId;
 	
-	private String remarks;//拒绝原因
-	private String isScrap;//是否废弃
+	private String remarks;
+	private String isScrap;
 
 	public String getDelayBillStageStatusName() {
 		return delayBillStageStatusName;

@@ -26,12 +26,7 @@ import cn.damei.common.web.BaseController;
 import cn.damei.entity.modules.ScoreOrderComplain;
 import cn.damei.service.modules.ScoreOrderService;
 
-/**
- * 客诉Controller
- * 
- * @author lft
- * @version 2017-04-14
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/score/complain")
 public class ScoreComplainController extends BaseController {
@@ -47,18 +42,11 @@ public class ScoreComplainController extends BaseController {
 		}
 		return entity;
 	}
-	/**
-	 * 
-	 * @param model
-	 * @param scoreOrderQuery
-	 * @param request
-	 * @param response
-	 * @return 根据 条件查询列表
-	 */
+
 	@RequiresPermissions("scoreOrderComplainList:view")
 	@RequestMapping(value = { "ScoreOrderlist2", "" })	
 	public String ScoreOrderlist(Model model,ScoreOrderComplain scoreOrderComplain,HttpServletRequest request,HttpServletResponse  response) {
-        //过滤门店
+
         User user = UserUtils.getUser();
         if(null==scoreOrderComplain.getName()){
             if(null!=user.getStoreId()){
@@ -100,13 +88,13 @@ public class ScoreComplainController extends BaseController {
 			scoreOrderComplain.setLabel(null);
 		}
 		SimpleDateFormat sf = new SimpleDateFormat("yyyyMMddHHmmss");
-		ServletOutputStream ouputStream= null;//创建一个输出流对象
+		ServletOutputStream ouputStream= null;
 		List<ScoreOrderComplain> selectScoreOrderComplainQuery = scoreOrderService.selectScoreOrderComplainQuery(null,scoreOrderComplain);
 		HSSFWorkbook problemDetail = ExportComplainOrder.exportComplainOrder(selectScoreOrderComplainQuery);
 		try {  
 			response.setContentType("application/binary;charset=utf-8"); 
-			String headerStr =new String(("客诉统计表"+sf.format(new Date())).getBytes("utf-8"), "ISO8859-1");//headerString为中文时转码  
-			response.setHeader("Content-disposition","attachment; filename="+headerStr+".xls");//filename是下载的xls的名
+			String headerStr =new String(("客诉统计表"+sf.format(new Date())).getBytes("utf-8"), "ISO8859-1");
+			response.setHeader("Content-disposition","attachment; filename="+headerStr+".xls");
 			ouputStream = response.getOutputStream();    
 			problemDetail.write(ouputStream);  
 			ouputStream.flush();    

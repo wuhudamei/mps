@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.common.security.shiro.cache;
 
 import java.util.Collection;
@@ -21,11 +19,7 @@ import com.google.common.collect.Sets;
 import cn.damei.common.utils.JedisUtils;
 import cn.damei.common.web.Servlets;
 
-/**
- * 自定义授权缓存管理类
- * @author ThinkGem
- * @version 2014-7-20
- */
+
 public class JedisCacheManager implements CacheManager {
 
 	private String cacheKeyPrefix = "shiro_cache_";
@@ -43,11 +37,7 @@ public class JedisCacheManager implements CacheManager {
 		this.cacheKeyPrefix = cacheKeyPrefix;
 	}
 	
-	/**
-	 * 自定义授权缓存管理类
-	 * @author ThinkGem
-	 * @version 2014-7-20
-	 */
+
 	public class JedisCache<K, V> implements Cache<K, V> {
 
 		private Logger logger = LoggerFactory.getLogger(getClass());
@@ -56,11 +46,11 @@ public class JedisCacheManager implements CacheManager {
 
 		public JedisCache(String cacheKeyName) {
 			this.cacheKeyName = cacheKeyName;
-//			if (!JedisUtils.exists(cacheKeyName)){
-//				Map<String, Object> map = Maps.newHashMap();
-//				JedisUtils.setObjectMap(cacheKeyName, map, 60 * 60 * 24);
-//			}
-//			logger.debug("Init: cacheKeyName {} ", cacheKeyName);
+
+
+
+
+
 		}
 		
 		@SuppressWarnings("unchecked")

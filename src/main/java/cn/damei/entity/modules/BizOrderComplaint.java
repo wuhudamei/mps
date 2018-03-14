@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import java.util.ArrayList;
@@ -11,55 +9,50 @@ import org.hibernate.validator.constraints.Length;
 
 import cn.damei.common.persistence.DataEntity;
 
-/**
- * 订单投诉问题Entity
- * 
- * @author ztw
- * @version 2017-07-04
- */
+
 public class BizOrderComplaint extends DataEntity<BizOrderComplaint> {
 
 	private static final long serialVersionUID = 1L;
-	private String orderId; // 订单ID
-	private String complaintSource; // 投诉来源
-	private String dataInputChannel; // 数据录入渠道
-	private String cusServiceProblemId; // 售后问题id
-	private String complaintPersonName; // 投诉人姓名
-	private String complaintPersonPhone; // 投诉人手机号
-	private String status; // 状态
-	private String storeId; // 门店
-	private String typeName; // 类型名称
-	private String orderNumber; // 订单编号
-	private String projectMode; // 工程模式
-	private String acceptArea; // 区域
-	private String customerAddress; // 地址
-	private String customerName; // 客户姓名
-	private String customerPhone; // 客户电话
-	private String itemManager; // 项目经理
-	private String itemManagerIphnoe; // 项目经理手机
-	private String comcreateDate; // 问题创建时间
-	private Date comcreateDateNstring; // 问题创建时间
+	private String orderId;
+	private String complaintSource;
+	private String dataInputChannel;
+	private String cusServiceProblemId;
+	private String complaintPersonName;
+	private String complaintPersonPhone;
+	private String status;
+	private String storeId;
+	private String typeName;
+	private String orderNumber;
+	private String projectMode;
+	private String acceptArea;
+	private String customerAddress;
+	private String customerName;
+	private String customerPhone;
+	private String itemManager;
+	private String itemManagerIphnoe;
+	private String comcreateDate;
+	private Date comcreateDateNstring;
 	private Order order = new Order();
-	private String tsNmae; // 投诉人姓名
-	private String biItembeans; // 问题 事项集合集合
-	private String dataInput; // 问题录入来源 1部门上报 2 售后
-	private String afterId; // 售后ID
-	private String complaintProblemnei; // 售后需要在页面显示的字段
-	private String complaintProblemNr; // 售后需要在页面显示的字段第二次更改
-	private BizComplaintProblemType bizComplaintProblemType = new BizComplaintProblemType(); // 问题分类实体
-	private BizOrderComplaintProblem bizOrderComplaintProblem = new BizOrderComplaintProblem(); // 投诉问题实体
-	private String bizComplaintProblemTypeID; // 问题分类ID
-	private List<BizComplaintProblemItem> biItemList = new ArrayList<BizComplaintProblemItem>(); // 问题事项集合
+	private String tsNmae;
+	private String biItembeans;
+	private String dataInput;
+	private String afterId;
+	private String complaintProblemnei;
+	private String complaintProblemNr;
+	private BizComplaintProblemType bizComplaintProblemType = new BizComplaintProblemType();
+	private BizOrderComplaintProblem bizOrderComplaintProblem = new BizOrderComplaintProblem();
+	private String bizComplaintProblemTypeID;
+	private List<BizComplaintProblemItem> biItemList = new ArrayList<BizComplaintProblemItem>();
 	private String pqcName;
 	private String detailAddress;
-	private String cusServiceId;// 售后ID
-	private String workOrderCode;// 售后系统表中唯一的标示
+	private String cusServiceId;
+	private String workOrderCode;
 
 	private String departName;
 	private String businesstype;
 	private Integer businessid;
 
-	// 地图
+
 
 	private Double pointx;
 	private Double pointy;
@@ -152,13 +145,13 @@ public class BizOrderComplaint extends DataEntity<BizOrderComplaint> {
 		this.pqcName = pqcName;
 	}
 
-	// 没用
 
-	private List<BizOrderComplaintProblem> bizOrderComplaintProblemList = new ArrayList<BizOrderComplaintProblem>(); // 问题事项集合
 
-	private String tsiphone; // 投诉人手机
-	private String tsnr; // 投诉内容
-	private String complaintId; // 投诉订单ID
+	private List<BizOrderComplaintProblem> bizOrderComplaintProblemList = new ArrayList<BizOrderComplaintProblem>();
+
+	private String tsiphone;
+	private String tsnr;
+	private String complaintId;
 
 	public BizOrderComplaint() {
 		super();

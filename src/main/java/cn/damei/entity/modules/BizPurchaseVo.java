@@ -6,51 +6,46 @@ import cn.damei.common.persistence.DataEntity2;
 
 public class BizPurchaseVo extends DataEntity2<BizPurchaseVo> {
 
-	/**
-	 * 辅材采购单
-	 * 
-	 * @author wang
-	 * @version 2016-9-27
-	 */
+
 	private static final long serialVersionUID = 1L;
 
-	private Integer id; // 采购单id
-	private Integer orderId; // 订单id
-	private String orderNumber; // 订单id
-	private Integer storeId; // 门店id
-	private Date applyTime; // 申请时间
-	private Date applyReceiveTime; // 期望送货时间
-	private String purchaseCode; // 采购单编号
-	private String purchaseType; // 采购单类型 辅材，主材
-	private String receiverName; // 收货人
-	private String receiverPhone; // 收货电话
-	private Integer applyEmployee; // 申请人 id
-	private String applyName; // 申请人姓名
-	private String applyEmployeePhone; // 申请人电话
-	private String status; // 状态
-	private String remarks; // 备注
-	private String customerName; // 客户姓名
-	private String customerPhone; // 客户电话
-	private String customerAddress; // 地址
-	private String communityName; // 小区名称
-	private String buildNumber; // 几号楼
-	private String buildUnit; // 几单元
-	private String buildRoom; // 哪一室
-	private String itemManager; // 项目经理
-	private Integer itemManagerId; // 项目经理id
+	private Integer id;
+	private Integer orderId;
+	private String orderNumber;
+	private Integer storeId;
+	private Date applyTime;
+	private Date applyReceiveTime;
+	private String purchaseCode;
+	private String purchaseType;
+	private String receiverName;
+	private String receiverPhone;
+	private Integer applyEmployee;
+	private String applyName;
+	private String applyEmployeePhone;
+	private String status;
+	private String remarks;
+	private String customerName;
+	private String customerPhone;
+	private String customerAddress;
+	private String communityName;
+	private String buildNumber;
+	private String buildUnit;
+	private String buildRoom;
+	private String itemManager;
+	private Integer itemManagerId;
 	private String itemManagerPhone;
-	private String isScrap;// 订单是否作废标志
-	private Date beginApplyReceiveTime; // 开始 期望送货日期
-	private Date endApplyReceiveTime; // 结束 期望送货日期
-	private Date beginApplyTime; // 开始 申请时间
-	private Date endApplyTime; // 结束 申请时间
+	private String isScrap;
+	private Date beginApplyReceiveTime;
+	private Date endApplyReceiveTime;
+	private Date beginApplyTime;
+	private Date endApplyTime;
 	private String projectMode;
-	private Integer supplierId; // 供应商
-	private String supplierName; // 供应商名称
-	private String supplierContactsPhone; // 供应商联系电话
-	private String supplierContacts; // 供应商联系人
-	private String isElevator; // 是否有电梯
-	private Integer upstairsFloor; // 楼层
+	private Integer supplierId;
+	private String supplierName;
+	private String supplierContactsPhone;
+	private String supplierContacts;
+	private String isElevator;
+	private Integer upstairsFloor;
 
 	public String getApplyEmployeePhone() {
 		return applyEmployeePhone;

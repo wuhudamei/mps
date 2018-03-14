@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import cn.damei.common.constantUtils.BusinessLogConstantUtil;
@@ -62,10 +60,7 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-/**
- * 结算员审核验收单Service
- * 
- */
+
 @Service
 @Transactional(readOnly = true)
 public class InspectorConfirmService extends CrudService<InspectorConfirmDao, InspectorConfirm> {
@@ -118,42 +113,24 @@ public class InspectorConfirmService extends CrudService<InspectorConfirmDao, In
 		return super.findPage(page, InspectorConfirm);
 	}
 
-	/**
-	 * 查看验收图片
-	 * 
-	 * @param reportCheckDetailsPic
-	 * @return
-	 */
+
 	public List<ReportCheckDetailsPic> findPic(ReportCheckDetailsPic reportCheckDetailsPic) {
 		return dao.findPic(reportCheckDetailsPic);
 	}
 
-	/**
-	 * 更新约检验收单
-	 * 
-	 * @param inspectorConfirm
-	 */
+
 	@Transactional(readOnly = false)
 	public void updateQcBill(InspectorConfirm inspectorConfirm) {
 		dao.updateQcBill(inspectorConfirm);
 	}
 
-	/**
-	 * 插入结算类目明细
-	 * 
-	 * @param detail
-	 */
+
 	@Transactional(readOnly = false)
 	public void saveDetail(PmSettleCategoryDetail details) {
 		dao.saveDetail(details);
 	}
 
-	/**
-	 * 从biz_pm_star_commission_cnfg_snap(项目经理结算比例快照信息)中获取数据，通过订单id
-	 * 
-	 * @param orderId
-	 * @return
-	 */
+
 	public BizPmStarCommissionCnfgSnap findFirst(Integer orderId) {
 		return dao.findFirst(orderId);
 	}
@@ -166,128 +143,72 @@ public class InspectorConfirmService extends CrudService<InspectorConfirmDao, In
 		return dao.queryManagerCommissionByParam(param);
 	}
 
-	/**
-	 * 查询项目经理的自主支配金额
-	 * 
-	 * @param orderId
-	 * @return
-	 */
+
 	public double queryManagerOwnpay(Integer orderId) {
 		return dao.queryManagerOwnpay(orderId);
 	}
 
-	/**
-	 * 查询项目经理的中期罚款
-	 * 
-	 * @param map
-	 * @return
-	 */
+
 	public double queryManangerPenalty(Map<String, Object> map) {
 		return dao.queryManangerPenalty(map);
 	}
 
-	/**
-	 * 从biz_pm_settle_category_detail（质检罚款明细）中获取数据
-	 * 
-	 * @param qcBreak
-	 * @return
-	 */
+
 	public List<PmSettleCategoryDetail> findSecond(PmSettleCategoryDetail qcBreak) {
 		return dao.findSecond(qcBreak);
 	}
 
-	/**
-	 * 更新biz_pm_settle_category_detail中（质检罚款明细）
-	 * 
-	 * @param inspectorCheck
-	 */
+
 	@Transactional(readOnly = false)
 	public void updateDetail(PmSettleCategoryDetail inspectorCheck) {
 		dao.updateDetail(inspectorCheck);
 	}
 
-	/**
-	 * 从biz_materials_standard_receive_bill(标化辅料录入表)中获取数据，通过订单id
-	 * 
-	 * @param orderId
-	 * @return
-	 */
+
 	public List<BizMaterialsStandardReceiveBill> findThree(Integer orderId) {
 		return dao.findThree(orderId);
 	}
 
-	/**
-	 * 更新biz_materials_standard_receive_bill中状态
-	 * 
-	 * @param details3
-	 */
+
 	@Transactional(readOnly = false)
 	public void updateMaterials(BizMaterialsStandardReceiveBill details3) {
 		dao.updateMaterials(details3);
 	}
 
-	/**
-	 * 从biz_pm_ownpay_cnfg_snap(自主支配快照信息)中获取数据，通过订单id
-	 * 
-	 * @param orderId
-	 * @return
-	 */
+
 	public List<BizPmOwnpayCnfgSnap> findFour(Integer orderId) {
 		return dao.findFour(orderId);
 	}
 
-	/**
-	 * 批量插入结算类目明细
-	 * 
-	 * @param list4
-	 */
+
 	@Transactional(readOnly = false)
 	public void saveDetailAll(List<PmSettleCategoryDetail> list4) {
 		dao.saveDetailAll(list4);
 	}
 
-	/**
-	 * 批量更新中期罚款biz_pm_settle_category_detail中（质检罚款明细）
-	 * 
-	 * @param qcBreak
-	 */
+
 	@Transactional(readOnly = false)
 	public void updateDetailAll(PmSettleCategoryDetail qcBreak) {
 		dao.updateDetailAll(qcBreak);
 
 	}
 
-	/**
-	 * 从biz_qc_longway_commission_cnfg_snap(质检员远程费提成快照信息)中获取数据，通过订单id
-	 * 
-	 * @param orderId
-	 * @return
-	 */
+
 	public BizQcLongwayCommissionCnfgSnap findFive(Integer orderId) {
 		return dao.findFive(orderId);
 	}
 
-	/**
-	 * 从biz_qc_star_commission_cnfg_snap(质检员星级配置快照信息)中获取数据，通过订单id
-	 * 
-	 * @param orderId
-	 * @return
-	 */
+
 	public BizQcStarCommissionCnfgSnap findSix(Integer orderId) {
 		return dao.findSix(orderId);
 	}
 
 	public InspectorConfirm findById(Integer qcBillId) {
-		// TODO Auto-generated method stub
+
 		return dao.findById(qcBillId);
 	}
 
-	/**
-	 * 约检验收单审核--通过
-	 * 
-	 * @return 0:成功 1:失败 2:已提交
-	 * @throws Exception
-	 */
+
 	@Transactional(readOnly = false)
 	public String pass(Integer orderId, Integer qcBillId, Integer qcCheckNodeId) throws Exception {
 		String result = "0";
@@ -300,12 +221,12 @@ public class InspectorConfirmService extends CrudService<InspectorConfirmDao, In
 			return result;
 		}
 		Order2 order = orderDao2.get(orderId);
-		if (order.getProjectMode().equals("1")) {// 订单为产业才产生项目经理结算
+		if (order.getProjectMode().equals("1")) {
 			BizPmStarCommissionCnfgSnap bizPmStarCommissionCnfgSnap = dao.findFirst(orderId);
-			// 中期提成
+
 			Double commissionAmount = bizPmStarCommissionCnfgSnap.getCommissionAmount()
 					* bizPmStarCommissionCnfgSnap.getCommissionRateMidway();
-			// 标化材料扣款金额
+
 			List<BizMaterialsStandardReceiveBill> list2 = dao.findThree(orderId);
 			BizMaterialsStandardReceiveBill details3 = new BizMaterialsStandardReceiveBill();
 			details3.setReceiveBillAmount(0.0);
@@ -318,10 +239,10 @@ public class InspectorConfirmService extends CrudService<InspectorConfirmDao, In
 			if (details3.getReceiveBillAmount() < 0) {
 				details3.setReceiveBillAmount((0 - details3.getReceiveBillAmount()));
 			}
-			// 自主支配金额
+
 			Double managerOwnpay = dao.queryManagerOwnpay(orderId);
 
-			// 中期罚款
+
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("orderId", orderId);
 			map.put("settleCategory", ConstantUtils.PM_SETTLE_CATEGORY_4);
@@ -332,7 +253,7 @@ public class InspectorConfirmService extends CrudService<InspectorConfirmDao, In
 			if (managerPenalty < 0) {
 				managerPenalty = 0 - managerPenalty;
 			}
-			// 中期任务包材料结算总金额
+
 			double pmMaterialsSettleAmount = 0.00;
 			List<PmMaterialsSettleInfo> pmMaterials = pmMaterialsSettleInfoDao.queryPmMaterialsByOrderId(orderId);
 			if (pmMaterials == null) {
@@ -344,7 +265,7 @@ public class InspectorConfirmService extends CrudService<InspectorConfirmDao, In
 				}
 			}
 
-			// 中期奖励金额
+
 			double pmRewardAmount = 0.0;
 			BizAssessRewardPunish rewardPunish = new BizAssessRewardPunish();
 			rewardPunish.setRelatedBusinessIdInt(orderId);
@@ -355,18 +276,18 @@ public class InspectorConfirmService extends CrudService<InspectorConfirmDao, In
 			rewardPunish.setIsMonthInspection("0");
 			rewardPunish.setRewardPunishStatus("1");
 			pmRewardAmount = bizAssessRewardPunishDao.queryTotalAmountByParam(rewardPunish);
-			// 中期扣款金额
+
 			double pmPunishAmount = 0.0;
 			rewardPunish.setIsRewardOrPunish("2");
 			pmPunishAmount = bizAssessRewardPunishDao.queryTotalAmountByParam(rewardPunish);
 
-			//巡检
+
 			rewardPunish.setIsMonthInspection("1");
-			//中期巡检奖励
+
 			double pmInspectionRewardAmount = 0.0;
 			rewardPunish.setIsRewardOrPunish("1");
 			pmInspectionRewardAmount = bizAssessRewardPunishDao.queryTotalAmountByParam(rewardPunish);
-			//中期巡检罚款
+
 			double pmInspectionPunishAmount = 0.0;
 			rewardPunish.setIsRewardOrPunish("2");
 			pmInspectionPunishAmount = bizAssessRewardPunishDao.queryTotalAmountByParam(rewardPunish);
@@ -377,7 +298,7 @@ public class InspectorConfirmService extends CrudService<InspectorConfirmDao, In
 				return result = "-1";
 			}
 		}
-		// 一.工人尾款结算
+
 		Integer count = checkConfirmDao.findCheckNodeRel(qcBillId);
 		if (count != 0) {
 			Map<String, Object> map = new HashMap<String, Object>();
@@ -386,7 +307,7 @@ public class InspectorConfirmService extends CrudService<InspectorConfirmDao, In
 			map.put("ischeck", "0");
 			map.put("orderTaskpackagePaymentType", ConstantUtils.PAYMENT_TYPE_1);
 			map.put("qcBillId", qcBillId);
-			map.put("cnrStatus", "1");// 任务包和之间节点关系状态--启用
+			map.put("cnrStatus", "1");
 			List<BizOrderTaskpackagePaymentVo> list = bizOrderTaskpackagePaymentDao.queryPaymentForCheckByQcBillId(map);
 			for (BizOrderTaskpackagePaymentVo bizOrderTaskpackagePaymentVo : list) {
 				bizOrderTaskpackagePaymentDao.updateStatusByPaymentId(bizOrderTaskpackagePaymentVo.getId(),
@@ -395,8 +316,8 @@ public class InspectorConfirmService extends CrudService<InspectorConfirmDao, In
 		}
 
 		CheckConfirm settlementCount = checkConfirmDao.findSettlement(qcBillId);
-		if (order.getProjectMode().equals("1")) {// 订单为产业才产生项目经理结算
-			// 二.项目经理结算
+		if (order.getProjectMode().equals("1")) {
+
 			if (settlementCount.getManagerCount() != 0) {
 				Map<String, Object> settleBillParam = new HashMap<String, Object>();
 				settleBillParam.put("orderId", orderId);
@@ -404,12 +325,12 @@ public class InspectorConfirmService extends CrudService<InspectorConfirmDao, In
 				settleBillParam.put("settleBillType", ConstantUtils.PM_SETTLE_BILL_TYPE_1);
 				int settleBillCount = bizPmSettleBillDao.queryPmSettleBillByParam(settleBillParam);
 				if (settleBillCount == 0) {
-					// 1.中期提成
-					// 从biz_pm_star_commission_cnfg_snap(项目经理结算比例快照信息)中获取数据，通过订单id
-					// 插入biz_pm_settle_category_detail中
+
+
+
 					BizPmStarCommissionCnfgSnap bizPmStarCommissionCnfgSnap = dao.findFirst(orderId);
 					if (null != bizPmStarCommissionCnfgSnap) {
-						// 项目经理中期提成日志
+
 						BizPmStarCommissionLog bizPmStarCommissionLog = new BizPmStarCommissionLog();
 						bizPmStarCommissionLog.setOrderId(orderId);
 						bizPmStarCommissionLog.setPmEmployeeId(bizPmStarCommissionCnfgSnap.getPmEmployeeId());
@@ -446,7 +367,7 @@ public class InspectorConfirmService extends CrudService<InspectorConfirmDao, In
 						dao.saveDetail(details);
 					}
 
-					// 2.中期质检罚款 批量直接更新
+
 					PmSettleCategoryDetail qcBreak = new PmSettleCategoryDetail();
 					qcBreak.setOrderId(orderId);
 					qcBreak.setSettleStatus(ConstantUtils.PM_SETTLE_STATUS_10);
@@ -458,7 +379,7 @@ public class InspectorConfirmService extends CrudService<InspectorConfirmDao, In
 					qcBreak.setSettleRole(ConstantUtils.SETTLE_ROLE_1);
 					dao.updateDetailAll(qcBreak);
 
-					// 项目经理材料结算类目明细 更新
+
 					PmSettleCategoryDetail PmMaterials = new PmSettleCategoryDetail();
 					PmMaterials.setOrderId(orderId);
 					PmMaterials.setSettleStatus(ConstantUtils.PM_SETTLE_STATUS_10);
@@ -470,9 +391,9 @@ public class InspectorConfirmService extends CrudService<InspectorConfirmDao, In
 					PmMaterials.setSettleRole(ConstantUtils.SETTLE_ROLE_1);
 					dao.updateDetailAll(PmMaterials);
 
-					// 3.标化辅料
-					// 从biz_materials_standard_receive_bill(标化辅料录入表)中获取数据，通过订单id
-					// 插入biz_pm_settle_category_detail中,并更新biz_materials_standard_receive_bill中状态
+
+
+
 					List<BizMaterialsStandardReceiveBill> list = dao.findThree(orderId);
 					if (list != null && list.size() > 0) {
 						Double receiveBillAmount = 0d;
@@ -514,14 +435,14 @@ public class InspectorConfirmService extends CrudService<InspectorConfirmDao, In
 						dao.saveDetail(details);
 					}
 
-					// 4.自主支配
-					// 从biz_pm_ownpay_cnfg_snap(自主支配快照信息)中获取数据，通过订单id
-					// 插入biz_pm_settle_category_detail中
+
+
+
 					List<BizPmOwnpayCnfgSnap> details4 = dao.findFour(orderId);
 					List<PmSettleCategoryDetail> list4 = new ArrayList<PmSettleCategoryDetail>();
 					if (null != details4 && details4.size() > 0) {
 						for (BizPmOwnpayCnfgSnap a : details4) {
-							// 自主支配日志
+
 							BizPmOwnpayLog bizPmOwnpayLog = new BizPmOwnpayLog();
 							bizPmOwnpayLog.setStoreId(a.getStoreId());
 							bizPmOwnpayLog.setOrderId(a.getOrderId());
@@ -558,7 +479,7 @@ public class InspectorConfirmService extends CrudService<InspectorConfirmDao, In
 						dao.saveDetailAll(list4);
 					}
 
-					// 中期项目经理奖励
+
 					List<BizAssessRewardPunish> updateList = new ArrayList<BizAssessRewardPunish>();
 					Map<String, Object> rewarPunishParam = new HashMap<String, Object>();
 					rewarPunishParam.put("relatedBusinessIdInt", orderId);
@@ -606,7 +527,7 @@ public class InspectorConfirmService extends CrudService<InspectorConfirmDao, In
 						}
 
 					}
-					// 中期项目经理扣款
+
 					rewarPunishParam.put("isRewardOrPunish", 2);
 					List<BizAssessRewardPunish> pmPunishList = bizAssessRewardPunishDao
 							.queryAssessRewardPunishByParam(rewarPunishParam);
@@ -650,9 +571,9 @@ public class InspectorConfirmService extends CrudService<InspectorConfirmDao, In
 						}
 					}
 
-					//巡检
+
 					rewarPunishParam.put("isMonthInspection", 1);
-					// 中期项目经理巡检奖励
+
 					rewarPunishParam.put("isRewardOrPunish", 1);
 					List<PmSettleCategoryDetail> list7 = new ArrayList<PmSettleCategoryDetail>();
 					List<BizAssessRewardPunish> pmInspectionRewardList = bizAssessRewardPunishDao
@@ -694,7 +615,7 @@ public class InspectorConfirmService extends CrudService<InspectorConfirmDao, In
 
 					}
 
-					// 中期项目经理巡检罚款
+
 					rewarPunishParam.put("isRewardOrPunish", 2);
 					List<PmSettleCategoryDetail> list8 = new ArrayList<PmSettleCategoryDetail>();
 					List<BizAssessRewardPunish> pmInspectionPunishList = bizAssessRewardPunishDao
@@ -743,7 +664,7 @@ public class InspectorConfirmService extends CrudService<InspectorConfirmDao, In
 						bizAssessRewardPunishDao.updateRewardPunishStatus(updateList);
 					}
 
-					// 判断订单结算中期收款信息是否存在
+
 					Map<String, Object> param = new HashMap<String, Object>();
 					param.put("orderId", orderId);
 					param.put("collectionType", 1);
@@ -753,10 +674,10 @@ public class InspectorConfirmService extends CrudService<InspectorConfirmDao, In
 					collectionStatus.add("30");
 					param.put("collectionStatus", collectionStatus);
 					int collectionCount = bizOrderFinanceCollectionDao.checkIsExistByParam(param);
-					if (collectionCount > 0) {// 已存在订单中期结算收款信息
+					if (collectionCount > 0) {
 						erqiMoney(orderId, date, user);
 					}
-					// 保存结算员通过约检节点的时间
+
 					BizBusinessStatusLog bizBusinessStatusLog = new BizBusinessStatusLog();
 					bizBusinessStatusLog.setBusinessType(BusinessLogConstantUtil.BUSINESS_TYPE_302);
 					bizBusinessStatusLog.setBusinessOnlyMarkInt(orderId);
@@ -771,15 +692,15 @@ public class InspectorConfirmService extends CrudService<InspectorConfirmDao, In
 
 				}
 			}
-			// 三.质检员结算
+
 			if (settlementCount.getInspectorCount() != 0) {
 
-				// 1.远程费快照
-				// 从biz_qc_longway_commission_cnfg_snap(质检员远程费提成快照信息)中获取数据，通过订单id
+
+
 				BizQcLongwayCommissionCnfgSnap bizQcLongwayCommissionCnfgSnap = dao.findFive(orderId);
 
 				if (bizQcLongwayCommissionCnfgSnap != null) {
-					// 中期远程费记录
+
 					BizQcLongwayCommissionLog bizQcLongwayCommissionLog = new BizQcLongwayCommissionLog();
 					bizQcLongwayCommissionLog.setOrderId(bizQcLongwayCommissionCnfgSnap.getOrderId());
 					bizQcLongwayCommissionLog
@@ -798,8 +719,8 @@ public class InspectorConfirmService extends CrudService<InspectorConfirmDao, In
 					bizQcLongwayCommissionLog.setLongwayCommissionType("20");
 					Integer id = bizQcLongwayCommissionLogDao.insert1(bizQcLongwayCommissionLog);
 
-					// 中期远程费结算明细
-					// 插入biz_pm_settle_category_detail中
+
+
 					PmSettleCategoryDetail details = new PmSettleCategoryDetail();
 					details.setOrderId(orderId);
 					details.setPmEmployeeId(bizQcLongwayCommissionCnfgSnap.getPmEmployeeId());
@@ -820,10 +741,10 @@ public class InspectorConfirmService extends CrudService<InspectorConfirmDao, In
 					dao.saveDetail(details);
 				}
 
-				// 2.星级提成快照
+
 				BizQcStarCommissionCnfgSnap bizQcStarCommissionCnfgSnap = dao.findSix(orderId);
 				if (bizQcStarCommissionCnfgSnap != null) {
-					// 中期星级提成记录
+
 					BizQcStarCommissionLog bizQcStarCommissionLog = new BizQcStarCommissionLog();
 					bizQcStarCommissionLog.setOrderId(bizQcStarCommissionCnfgSnap.getOrderId());
 					bizQcStarCommissionLog.setQcEmployeeId(bizQcStarCommissionCnfgSnap.getPmEmployeeId());
@@ -840,8 +761,8 @@ public class InspectorConfirmService extends CrudService<InspectorConfirmDao, In
 					bizQcStarCommissionLog.setDelFlag("0");
 					Integer id = bizQcStarCommissionLogDao.insert1(bizQcStarCommissionLog);
 
-					// 中期星级提成结算明细
-					// 插入biz_pm_settle_category_detail中
+
+
 					PmSettleCategoryDetail details = new PmSettleCategoryDetail();
 					details.setOrderId(orderId);
 					details.setPmEmployeeId(bizQcStarCommissionCnfgSnap.getPmEmployeeId());
@@ -865,20 +786,20 @@ public class InspectorConfirmService extends CrudService<InspectorConfirmDao, In
 			}
 		}
 
-		// 四.验收-质检单
-		// InspectorConfirm inspectorConfirm = new InspectorConfirm();
-		// inspectorConfirm.setQcBillId(qcBillId);
+
+
+
 		InspectorConfirm inspectorConfirm = dao.findById(qcBillId);
 		if(inspectorConfirm!=null) {
 			inspectorConfirm.setStatus("30");
 			inspectorConfirm.setReviewStatus("1");
 			inspectorConfirm.setReviewDatetime(date);
-			// 更新约检验收单
+
 			dao.updateQcBill(inspectorConfirm);
 		}
 		if (inspectorConfirm != null && inspectorConfirm.getQcCheckNodeName().contains("涂饰工程及基装验收")) {
 
-			// 向biz_syn_data表中保存数据 --- 基装验收时间
+
 			Map<String, String> jsonMap = new HashMap<String, String>();
 			jsonMap.put("time", DateUtils.formatDateTime(date));
 			jsonMap.put("orderId", order.getOrderNumber());
@@ -911,7 +832,7 @@ public class InspectorConfirmService extends CrudService<InspectorConfirmDao, In
 	}
 
 	public void erqiMoney(Integer orderId, Date date, User user) {
-		// 系统处理【确认二期款】的业务数据
+
 		SimpleDateFormat format = new SimpleDateFormat("yyyyMM");
 		Map<String, Object> settleBillParam = new HashMap<String, Object>();
 		settleBillParam.put("orderId", orderId);
@@ -919,7 +840,7 @@ public class InspectorConfirmService extends CrudService<InspectorConfirmDao, In
 		settleBillParam.put("settleBillType", ConstantUtils.PM_SETTLE_BILL_TYPE_1);
 		int settleBillCount = bizPmSettleBillDao.queryPmSettleBillByParam(settleBillParam);
 		if (settleBillCount == 0) {
-			// 1.新增结算类目汇总
+
 			Map<String, Object> map1 = new HashMap<String, Object>();
 			map1.put("orderId", orderId);
 			map1.put("settleStatus", ConstantUtils.PM_SETTLE_STATUS_20);
@@ -963,8 +884,8 @@ public class InspectorConfirmService extends CrudService<InspectorConfirmDao, In
 				bizPmSettleCategorySummaryDao.insertBatch(summaryList);
 			}
 
-			// 2.更新结算类目明细关联的结算类目汇总id(之前新增时该字段为空，所以更新该字段)
-			// 更新标化辅材、自主支配、中期提成、中期奖励、中期扣款的结算类目明细
+
+
 			Map<String, Object> updateMap = new HashMap<String, Object>();
 			updateMap.put("orderId", orderId);
 			updateMap.put("settleStatus", ConstantUtils.PM_SETTLE_STATUS_20);
@@ -984,7 +905,7 @@ public class InspectorConfirmService extends CrudService<InspectorConfirmDao, In
 			updateMap.put("settleCategoryList", settleCategoryListUpdateMap);
 			bizPmSettleCategoryDetailDao.updateRelateSummary(updateMap);
 
-			// 更新质检罚款的结算类目明细
+
 			Map<String, Object> updateMap2 = new HashMap<String, Object>();
 			updateMap2.put("orderId", orderId);
 			updateMap2.put("sign", "01");
@@ -997,7 +918,7 @@ public class InspectorConfirmService extends CrudService<InspectorConfirmDao, In
 			updateMap2.put("updateBy", user);
 			bizPmSettleCategoryDetailDao.updateRelateSummaryCategory(updateMap2);
 
-			// 更新项目经理材料结算类目明细
+
 			Map<String, Object> updateMap3 = new HashMap<String, Object>();
 			updateMap3.put("orderId", orderId);
 			updateMap3.put("sign", "1");
@@ -1010,7 +931,7 @@ public class InspectorConfirmService extends CrudService<InspectorConfirmDao, In
 			updateMap3.put("updateBy", user);
 			bizPmSettleCategoryDetailDao.updateRelateSummaryCategory(updateMap3);
 
-			// 3.新增结算单
+
 			Map<String, Object> map2 = new HashMap<String, Object>();
 			map2.put("orderId", orderId);
 			map2.put("settleStatus", ConstantUtils.PM_SETTLE_STATUS_30);
@@ -1048,7 +969,7 @@ public class InspectorConfirmService extends CrudService<InspectorConfirmDao, In
 				bizPmSettleBillDao.insertBatch(settleBillList);
 			}
 
-			// 4.更新结算类目汇总关联的结算单id(之前新增时该字段为空，所以更新该字段)
+
 			Map<String, Object> map3 = new HashMap<String, Object>();
 			map3.put("orderId", orderId);
 			map3.put("settleStatus", ConstantUtils.PM_SETTLE_STATUS_30);
@@ -1068,7 +989,7 @@ public class InspectorConfirmService extends CrudService<InspectorConfirmDao, In
 			map4.put("settleStage", 1);
 			map4.put("settleType", 2);
 			bizAssessRewardPunishDao.updateByParam(map4);
-			// 保存财务确认二期款时间
+
 			BizBusinessStatusLog bizBusinessStatusLog = new BizBusinessStatusLog();
 			bizBusinessStatusLog.setBusinessType(BusinessLogConstantUtil.BUSINESS_TYPE_304);
 			bizBusinessStatusLog.setBusinessOnlyMarkInt(orderId);

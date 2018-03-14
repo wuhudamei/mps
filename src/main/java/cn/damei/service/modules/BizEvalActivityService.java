@@ -19,11 +19,7 @@ import cn.damei.entity.modules.BizEvalWorkGrade;
 import cn.damei.entity.modules.Dict;
 import cn.damei.dao.modules.BizEvalActivityDao;
 
-/**
- * 评价活动设置Service
- * @author wyb
- * @version 2017-02-25
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizEvalActivityService extends CrudService2<BizEvalActivityDao, BizEvalActivity> {
@@ -42,14 +38,14 @@ public class BizEvalActivityService extends CrudService2<BizEvalActivityDao, Biz
 	
 	@Transactional(readOnly = false)
 	public void save(BizEvalActivity bizEvalActivity,String[] managerEvalStage,String[] evalStageCheckNode, String[] evalRoleType, String[] evalIndexId, String[] evalTotalScore) {
-		//评价活动总表--保存
+
 		super.save(bizEvalActivity);
 		
-		//删除之前相关联的任务包
-		//dao.deleteEvalActivityTaskpackTemp(bizEvalActivity.getId());
+
+
 		
-		if(bizEvalActivity.getEvalTargetType().equals("1")){//评价工人
-			//保存之后相关联的任务包
+		if(bizEvalActivity.getEvalTargetType().equals("1")){
+
 			String[] taskpackTempId= bizEvalActivity.getTaskpackTempId().split(",");
 			List<BizEvalActivityTaskpackTemp> packageList = new ArrayList<BizEvalActivityTaskpackTemp>();
 			if(null!=taskpackTempId && taskpackTempId.length>0){
@@ -62,7 +58,7 @@ public class BizEvalActivityService extends CrudService2<BizEvalActivityDao, Biz
 				}
 				dao.saveEvalActivityTaskpackTemp(packageList);
 			}
-		}else if(bizEvalActivity.getEvalTargetType().equals("2")){//评价项目经理
+		}else if(bizEvalActivity.getEvalTargetType().equals("2")){
 			List<BizEvalActivityStage> stageList = new ArrayList<BizEvalActivityStage>();
 			for(int i = 0;i<managerEvalStage.length;i++){
 				BizEvalActivityStage stage = new BizEvalActivityStage();
@@ -76,9 +72,9 @@ public class BizEvalActivityService extends CrudService2<BizEvalActivityDao, Biz
 		}
 		
 		
-		//删除之前相关联的评价指标设置
-		//dao.deleteEvalActivityIndex(bizEvalActivity.getId());
-		//保存之后相关联的评价指标设置
+
+
+
 		List<BizEvalActivityIndex> indexList = new ArrayList<BizEvalActivityIndex>();
 		if(null!=evalRoleType && evalRoleType.length>0 && null!=evalIndexId && evalIndexId.length>0 && null!=evalTotalScore && evalTotalScore.length>0){
 			for(int i=0;i<evalRoleType.length;i++){
@@ -96,9 +92,7 @@ public class BizEvalActivityService extends CrudService2<BizEvalActivityDao, Biz
 		
 	}
 	
-	/**
-	 * 删除
-	 */
+
 	@Transactional(readOnly = false)
 	public void delete(BizEvalActivity bizEvalActivity) {
 		dao.deleteEvalActivityTaskpackTemp(bizEvalActivity.getId());
@@ -106,21 +100,14 @@ public class BizEvalActivityService extends CrudService2<BizEvalActivityDao, Biz
 		dao.deleteEvalActivity(bizEvalActivity.getId());
 	}
 
-	/**
-	 * 停启用
-	 * @param bizEvalActivity
-	 */
+
 	@Transactional(readOnly = false)
 	public void isEnabled(BizEvalActivity bizEvalActivity) {
 		
 		dao.isEnabled(bizEvalActivity);
 	}
 	
-	/**
-	 * 判断评价活动中的任务包是否已经存在
-	 * @param bizEvalActivity
-	 * @return
-	 */
+
 	public Integer isTaskpackage(BizEvalActivity bizEvalActivity,List<Integer> list){
 		
 		Map<String,Object> map = new HashMap<String, Object>();
@@ -152,29 +139,17 @@ public class BizEvalActivityService extends CrudService2<BizEvalActivityDao, Biz
 		return count;
 	}
 
-	/**
-	 * 修改操作 查询已选择的任务包
-	 * @param id
-	 * @return
-	 */
+
 	public List<BizEvalActivityTaskpackTemp> findEvalActivityTaskpackTemp(Integer id) {
 		return dao.findEvalActivityTaskpackTemp(id);
 	}
 
-	/**
-	 * 修改操作 查询已添加的评价指标设置
-	 * @param id
-	 * @return
-	 */
+
 	public List<BizEvalActivityIndex> findEvalActivityIndex(Integer id) {
 		return dao.findEvalActivityIndex(id);
 	}
 
-	/**
-	 * 查询字典表  评价类型
-	 * @param type
-	 * @return
-	 */
+
 	public List<Dict> findDict(String type) {
 		
 		return dao.findDict(type);
@@ -185,20 +160,12 @@ public class BizEvalActivityService extends CrudService2<BizEvalActivityDao, Biz
 		return dao.queryIdByMap(map);
 	}
 
-	/**
-	 * 是否可以启用
-	 * @param id
-	 * @return
-	 */
+
 	public List<Integer> isEnabledEval(Integer id) {
 		return dao.isEnabledEval(id);
 	}
 	
-	/**
-	 * 工人评分查询
-	 * @param bizEvalWorkGrade
-	 * @return
-	 */
+
 	public Page<BizEvalWorkGrade> queryBizEvalWorkGradePage(Page<BizEvalWorkGrade> page, BizEvalWorkGrade bizEvalWorkGrade){
 		bizEvalWorkGrade.setPage(page);
 		page.setList(dao.queryBizEvalWorkGradeList(bizEvalWorkGrade));
@@ -211,12 +178,7 @@ public class BizEvalActivityService extends CrudService2<BizEvalActivityDao, Biz
 		return page;
 	}
 	
-	/**
-	 * 查询活动指标的评分
-	 * @param orderTaskpackageId
-	 * @param evalRoleType
-	 * @return
-	 */
+
 	public  List<BizEvalActivityIndex> queryEvalIndexRoleScore(Map<String,Object> map){
 		return dao.queryEvalIndexRoleScore(map);
 	}
@@ -226,34 +188,34 @@ public class BizEvalActivityService extends CrudService2<BizEvalActivityDao, Biz
 	}
 
 	public List<String> findEvalType(BizEvalActivity bizEvalActivity) {
-		// TODO Auto-generated method stub
+
 		return dao.findEvalType(bizEvalActivity);
 	}
 
 	public String checkExist(BizEvalActivity bizEvalActivity) {
-		// TODO Auto-generated method stub
+
 		return dao.checkExist(bizEvalActivity);
 	}
 	@Transactional(readOnly=false)
 	public void saveActivityRoleCycle(BizEvalActivity bizEvalActivity) {
-		// TODO Auto-generated method stub
+
 		dao.saveActivityRoleCycle(bizEvalActivity);
 	}
 
 	public Page<BizEvalActivity> findMyPage(Page<BizEvalActivity> page, BizEvalActivity bizEvalActivity) {
-		// TODO Auto-generated method stub
+
 		List<BizEvalActivity> list = dao.findEvalActivityRoleCycle(bizEvalActivity);
 		page.setList(list);
 		return page;
 	}
 	@Transactional(readOnly=false)
 	public void updateActivityRoleCycle(BizEvalActivity bizEvalActivity) {
-		// TODO Auto-generated method stub
+
 		dao.updateActivityRoleCycle(bizEvalActivity);
 	}
 
 	public String findEvalActivity(BizEvalActivity bizEvalActivity) {
-		// TODO Auto-generated method stub
+
 		return dao.findEvalActivity(bizEvalActivity);
 	} 
 }

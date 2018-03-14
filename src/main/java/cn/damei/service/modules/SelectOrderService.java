@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.util.Arrays;
@@ -28,12 +26,7 @@ import cn.damei.entity.modules.ItemManagerMap;
 import cn.damei.dao.modules.SelectOrderDao;
 import cn.damei.entity.modules.SelectOrder;
 
-/**
- * 订单管理Service
- * 
- * @author wyb
- * @version 2016-09-08
- */
+
 @Service
 @Transactional(readOnly = true)
 public class SelectOrderService extends CrudService2<SelectOrderDao, SelectOrder> {
@@ -43,18 +36,12 @@ public class SelectOrderService extends CrudService2<SelectOrderDao, SelectOrder
 		return super.get(id);
 	}
 
-	/**
-	 * 订单明细查询
-	 */
+
 	public List<SelectOrder> findList(SelectOrder selectOrder) {
 		return super.findList(selectOrder);
 	}
 	
-	/**
-	 * 工地地图
-	 * @param selectOrder
-	 * @return
-	 */
+
 	public List<SelectOrder> findListMap(SelectOrder selectOrder) {
 		
 		return dao.findListMap(selectOrder);
@@ -78,56 +65,52 @@ public class SelectOrderService extends CrudService2<SelectOrderDao, SelectOrder
 		return super.findPage(page, selectOrder);
 	}
 
-	/**
-	 * 导出excel--订单信息
-	 * @param selectOrder
-	 * @return
-	 */
+
 	public HSSFWorkbook exportExcel(SelectOrder selectOrder) {
-		HSSFWorkbook wb = new HSSFWorkbook();// 创建一个Excel文件
-		HSSFSheet sheet = wb.createSheet("订单信息");// 创建一个Excel的Sheet
+		HSSFWorkbook wb = new HSSFWorkbook();
+		HSSFSheet sheet = wb.createSheet("订单信息");
 		
-		//设置字体
+
 		HSSFFont font = wb.createFont();
-		font.setColor(HSSFFont.COLOR_NORMAL);//字体颜色
-		font.setFontName("黑体");//字体
-		font.setFontHeightInPoints((short)10);//字体高度
-		font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);//宽度
+		font.setColor(HSSFFont.COLOR_NORMAL);
+		font.setFontName("黑体");
+		font.setFontHeightInPoints((short)10);
+		font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
 		
-		//单元格样式--标题
+
 		HSSFCellStyle columnHeadStyle = wb.createCellStyle();
 		columnHeadStyle.setFont(font);
-		columnHeadStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);// 左右居中
-		columnHeadStyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);// 上下居中
+		columnHeadStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+		columnHeadStyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
 		columnHeadStyle.setLocked(true);
 		columnHeadStyle.setWrapText(true);
-		columnHeadStyle.setLeftBorderColor(HSSFColor.BLACK.index);// 左边框的颜色
-		columnHeadStyle.setBorderLeft((short) 1);// 边框的大小
-		columnHeadStyle.setRightBorderColor(HSSFColor.BLACK.index);// 右边框的颜色
-		columnHeadStyle.setBorderRight((short) 1);// 边框的大小
-		columnHeadStyle.setTopBorderColor(HSSFColor.BLACK.index);// 上边框的颜色
-		columnHeadStyle.setBorderTop((short) 1);// 边框的大小
-		columnHeadStyle.setBottomBorderColor(HSSFColor.BLACK.index);// 下边框的颜色
-		columnHeadStyle.setBorderBottom((short) 1);// 边框的大小
-		columnHeadStyle.setBorderBottom(HSSFCellStyle.BORDER_THIN); // 设置单元格的边框为粗体
-		columnHeadStyle.setBottomBorderColor(HSSFColor.BLACK.index); // 设置单元格的边框颜色
-		columnHeadStyle.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);// 设置单元格的背景颜色（单元格的样式会覆盖列或行的样式）
+		columnHeadStyle.setLeftBorderColor(HSSFColor.BLACK.index);
+		columnHeadStyle.setBorderLeft((short) 1);
+		columnHeadStyle.setRightBorderColor(HSSFColor.BLACK.index);
+		columnHeadStyle.setBorderRight((short) 1);
+		columnHeadStyle.setTopBorderColor(HSSFColor.BLACK.index);
+		columnHeadStyle.setBorderTop((short) 1);
+		columnHeadStyle.setBottomBorderColor(HSSFColor.BLACK.index);
+		columnHeadStyle.setBorderBottom((short) 1);
+		columnHeadStyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+		columnHeadStyle.setBottomBorderColor(HSSFColor.BLACK.index);
+		columnHeadStyle.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
 		columnHeadStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);		
 		
 		
-		//单元格样式
+
 		HSSFCellStyle columnStyle = wb.createCellStyle();
-		columnStyle.setLeftBorderColor(HSSFColor.BLACK.index); // 左边框线的颜色
-		columnStyle.setBorderLeft((short) 1);// 左边框线的大小
-		columnStyle.setRightBorderColor(HSSFColor.BLACK.index); // 右边框线的颜色
-		columnStyle.setBorderRight((short) 1);// 右边框线的大小
-		columnStyle.setTopBorderColor(HSSFColor.BLACK.index); // 上边框线的颜色
-		columnStyle.setBorderTop((short) 1);// 上边框线的大小
-		columnStyle.setBottomBorderColor(HSSFColor.BLACK.index); // 下边框线的颜色
-		columnStyle.setBorderBottom((short) 1);// 下边框线的大小
+		columnStyle.setLeftBorderColor(HSSFColor.BLACK.index);
+		columnStyle.setBorderLeft((short) 1);
+		columnStyle.setRightBorderColor(HSSFColor.BLACK.index);
+		columnStyle.setBorderRight((short) 1);
+		columnStyle.setTopBorderColor(HSSFColor.BLACK.index);
+		columnStyle.setBorderTop((short) 1);
+		columnStyle.setBottomBorderColor(HSSFColor.BLACK.index);
+		columnStyle.setBorderBottom((short) 1);
 		columnStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
 		
-		// 单元格宽度
+
 		sheet.setColumnWidth(0, 2000);
 		sheet.setColumnWidth(1, 4000);
 		sheet.setColumnWidth(2, 3000);
@@ -147,7 +130,7 @@ public class SelectOrderService extends CrudService2<SelectOrderDao, SelectOrder
 		sheet.setColumnWidth(16, 3000);
 		sheet.setColumnWidth(17, 3000);
 		
-		//标题---订单信息
+
 		HSSFRow rowTitle = sheet.createRow(0);
 		rowTitle.setHeightInPoints(30);
 		HSSFCell cell = rowTitle.createCell(0);
@@ -157,10 +140,10 @@ public class SelectOrderService extends CrudService2<SelectOrderDao, SelectOrder
 			HSSFCell cella = rowTitle.createCell(i+1);
 			cella.setCellStyle(columnHeadStyle);
 		}
-		//合并单元格--开始行，结束行，开始列，结束列  
-		sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 17));// 
+
+		sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 17));
 		
-		//标题
+
 		HSSFRow rowTitle2 = sheet.createRow(1);
 		
 		HSSFCell headCell0 = rowTitle2.createCell(0);
@@ -246,27 +229,27 @@ public class SelectOrderService extends CrudService2<SelectOrderDao, SelectOrder
 			}
 		}
 		
-		//合并单元格--开始行，结束行，开始列，结束列  
-		sheet.addMergedRegion(new CellRangeAddress(1, 1, 8, 9));// 
-		sheet.addMergedRegion(new CellRangeAddress(1, 2, 0, 0));// 
-		sheet.addMergedRegion(new CellRangeAddress(1, 2, 1, 1));// 
-		sheet.addMergedRegion(new CellRangeAddress(1, 2, 2, 2));// 
-		sheet.addMergedRegion(new CellRangeAddress(1, 2, 3, 3));// 
-		sheet.addMergedRegion(new CellRangeAddress(1, 2, 4, 4));// 
-		sheet.addMergedRegion(new CellRangeAddress(1, 2, 5, 5));// 
-		sheet.addMergedRegion(new CellRangeAddress(1, 2, 6, 6));// 
-		sheet.addMergedRegion(new CellRangeAddress(1, 2, 7, 7));// 
-		sheet.addMergedRegion(new CellRangeAddress(1, 2, 10, 10));// 
-		sheet.addMergedRegion(new CellRangeAddress(1, 2, 11, 11));// 
-		sheet.addMergedRegion(new CellRangeAddress(1, 2, 12, 12));// 
-		sheet.addMergedRegion(new CellRangeAddress(1, 2, 13, 13));// 
-		sheet.addMergedRegion(new CellRangeAddress(1, 2, 14, 14));// 
-		sheet.addMergedRegion(new CellRangeAddress(1, 2, 15, 15));// 
-		sheet.addMergedRegion(new CellRangeAddress(1, 2, 16, 16));// 
-		sheet.addMergedRegion(new CellRangeAddress(1, 2, 17, 17));// 
+
+		sheet.addMergedRegion(new CellRangeAddress(1, 1, 8, 9));
+		sheet.addMergedRegion(new CellRangeAddress(1, 2, 0, 0));
+		sheet.addMergedRegion(new CellRangeAddress(1, 2, 1, 1));
+		sheet.addMergedRegion(new CellRangeAddress(1, 2, 2, 2));
+		sheet.addMergedRegion(new CellRangeAddress(1, 2, 3, 3));
+		sheet.addMergedRegion(new CellRangeAddress(1, 2, 4, 4));
+		sheet.addMergedRegion(new CellRangeAddress(1, 2, 5, 5));
+		sheet.addMergedRegion(new CellRangeAddress(1, 2, 6, 6));
+		sheet.addMergedRegion(new CellRangeAddress(1, 2, 7, 7));
+		sheet.addMergedRegion(new CellRangeAddress(1, 2, 10, 10));
+		sheet.addMergedRegion(new CellRangeAddress(1, 2, 11, 11));
+		sheet.addMergedRegion(new CellRangeAddress(1, 2, 12, 12));
+		sheet.addMergedRegion(new CellRangeAddress(1, 2, 13, 13));
+		sheet.addMergedRegion(new CellRangeAddress(1, 2, 14, 14));
+		sheet.addMergedRegion(new CellRangeAddress(1, 2, 15, 15));
+		sheet.addMergedRegion(new CellRangeAddress(1, 2, 16, 16));
+		sheet.addMergedRegion(new CellRangeAddress(1, 2, 17, 17));
 		
 		
-		//内容  数据
+
 		String houseisnow =selectOrder.getHouseIsNew();
 		if(null!=houseisnow && houseisnow!="" && houseisnow.equals("2")){
 			selectOrder.setHouseIsNew("");

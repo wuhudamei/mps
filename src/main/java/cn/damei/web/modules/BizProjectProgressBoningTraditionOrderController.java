@@ -25,11 +25,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-/**
- * 传统订单工程进度大看板Controller
- * @author qww
- * @version 2016-10-26
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/projectprogressboning/bizProjectProgressBoningTraditionOrder")
 public class BizProjectProgressBoningTraditionOrderController extends BaseController {
@@ -57,16 +53,7 @@ public class BizProjectProgressBoningTraditionOrderController extends BaseContro
 	@RequiresPermissions("projectprogressboning:bizProjectProgressBoningTraditionOrder:view")
 	@RequestMapping(value = {"list", ""})
 	public String list(BizTraditionOrder bizTraditionOrder, Model model, HttpServletRequest request, HttpServletResponse response) {
-		/*User user = UserUtils.getUser();
-		//过滤门店
-		if(null==bizTraditionOrder.getStoreId()){
-			if(null!=user.getStoreId()){
-				bizTraditionOrder.setStoreId(Integer.valueOf(user.getStoreId()));
-			}
-		}
-		if(StringUtils.isBlank(user.getStoreId())){
-			model.addAttribute("storeDropEnable", true);
-		}*/
+
 		return "modules/projectprogressboning/bizProjectProgressBoningList3";
 	}
 
@@ -74,16 +61,16 @@ public class BizProjectProgressBoningTraditionOrderController extends BaseContro
 	@RequestMapping(value = {"loadList", ""})
 	public String loadList(BizTraditionOrder bizTraditionOrder, Model model, HttpServletRequest request, HttpServletResponse response) {
 		
-//		User user = UserUtils.getUser();
-//		//过滤门店
-//		if(null==bizTraditionOrder.getStoreId()){
-//			if(null!=user.getStoreId()){
-//				bizTraditionOrder.setStoreId(Integer.valueOf(user.getStoreId()));
-//			}
-//		}
-//		if(StringUtils.isBlank(user.getStoreId())){
-//			model.addAttribute("storeDropEnable", true);
-//		}
+
+
+
+
+
+
+
+
+
+
 		
 
 		Page<BizTraditionOrder> page = bizProjectProgressBoningTraditionOrderService.findPage(new Page<BizTraditionOrder>(request, response), bizTraditionOrder);
@@ -102,7 +89,7 @@ public class BizProjectProgressBoningTraditionOrderController extends BaseContro
 	@RequestMapping(value="exportExcel")
 	public void exportExcel(BizTraditionOrder bizTraditionOrder, HttpServletResponse response) throws Exception{
 		User user = UserUtils.getUser();
-		//过滤门店
+
 		if(null==bizTraditionOrder.getStoreId()){
 			if(null!=user.getStoreId()){
 				bizTraditionOrder.setStoreId(Integer.valueOf(user.getStoreId()));
@@ -111,11 +98,11 @@ public class BizProjectProgressBoningTraditionOrderController extends BaseContro
 
 		SimpleDateFormat sf = new SimpleDateFormat("yyyyMMddHHmmss");
 		HSSFWorkbook excel = bizProjectProgressBoningTraditionOrderService.exportExcel(bizTraditionOrder);
-		ServletOutputStream out= null;//创建一个输出流对象
+		ServletOutputStream out= null;
 		try {
 			response.setContentType("application/binary;charset=utf-8");
-			String headerStr =new String(("传统订单工程进度大看板"+sf.format(new Date())).getBytes("utf-8"), "ISO8859-1");//headerString为中文时转码
-			response.setHeader("Content-disposition","attachment; filename="+headerStr+".xls");//filename是下载的xls的名
+			String headerStr =new String(("传统订单工程进度大看板"+sf.format(new Date())).getBytes("utf-8"), "ISO8859-1");
+			response.setHeader("Content-disposition","attachment; filename="+headerStr+".xls");
 			out = response.getOutputStream();
 			excel.write(out);
 		} catch (IOException ex) {

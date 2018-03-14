@@ -16,12 +16,7 @@ import cn.damei.entity.modules.PmMaterialsSettleInfo;
 import cn.damei.service.modules.PmMaterialsSettleInfoService;
 import cn.damei.common.utils.UserUtils;
 
-/**
- * 项目经理材料结算信息Controller
- * 
- * @author hyh
- *
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/pmMaterialsSettleInfo/pmMaterialsSettleInfo")
 public class PmMaterialsSettleInfoController extends BaseController {
@@ -40,14 +35,14 @@ public class PmMaterialsSettleInfoController extends BaseController {
 		
 		if(UserUtils.getUser().getStoreId()!=null)
 		{
-			//当前登录用户门店
+
 			pmMaterialsSettleInfo.setStoreId(Integer.valueOf(UserUtils.getUser().getStoreId()));
 		}
 		else{
-			//门店是总部的查询所有部门信息
+
 			if(pmMaterialsSettleInfo.getStoreId()!=null && pmMaterialsSettleInfo.getStoreId() == 1)
 			{
-				//总部
+
 				pmMaterialsSettleInfo.setStoreId(null);
 			}
 		}

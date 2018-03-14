@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,11 +22,7 @@ import cn.damei.service.modules.BizSynDateSendAndReceiveService;
 import cn.damei.entity.modules.ProjectItemPrice;
 import cn.damei.service.modules.ProjectItemPriceService;
 
-/**
- * 施工项价格Controller
- * @author 梅浩
- * @version 2016-11-16
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/projectitemprice/projectItemPrice")
 public class ProjectItemPriceController extends BaseController {
@@ -50,16 +44,7 @@ public class ProjectItemPriceController extends BaseController {
 		return entity;
 	}
 	
-	/** 
-	* @Description: 施工项修改价格操作
-	* @param @param projectItemPrice
-	* @param @param request
-	* @param @param response
-	* @param @param model
-	* @param @return
-	* @author zkj 
-	* @date 2017年11月2日 下午5:42:16 
-	*/
+
 	@RequiresPermissions("projectitemprice:projectItemPrice:view")
 	@RequestMapping(value = {"list", ""})
 	public String list(ProjectItemPrice projectItemPrice, HttpServletRequest request, HttpServletResponse response, Model model) {
@@ -69,14 +54,7 @@ public class ProjectItemPriceController extends BaseController {
 		return "modules/projectitemprice/projectItemPriceList";
 	}
 
-	/** 
-	* @Description: 施工项价格添加操作
-	* @param @param projectItemPrice
-	* @param @param model
-	* @param @return
-	* @author zkj 
-	* @date 2017年11月2日 下午5:42:58 
-	*/
+
 	@RequiresPermissions("projectitemprice:projectItemPrice:view")
 	@RequestMapping(value = "form")
 	public String form(ProjectItemPrice projectItemPrice, Model model) {
@@ -84,15 +62,7 @@ public class ProjectItemPriceController extends BaseController {
 		return "modules/projectitemprice/projectItemPriceForm";
 	}
 
-	/** 
-	* @Description: 施工价格添加
-	* @param @param projectItemPrice
-	* @param @param model
-	* @param @param redirectAttributes
-	* @param @return
-	* @author zkj 
-	* @date 2017年11月3日 上午11:04:18 
-	*/
+
 	@RequiresPermissions("projectitemprice:projectItemPrice:edit")
 	@RequestMapping(value = "save")
 	public String save(ProjectItemPrice projectItemPrice, Model model, RedirectAttributes redirectAttributes) {
@@ -100,20 +70,14 @@ public class ProjectItemPriceController extends BaseController {
 			return form(projectItemPrice, model);
 		}
 		projectItemPriceService.save(projectItemPrice);
-		//推送数据到订单流转系统
-		//bizSynDateSendAndReceiveService.insertBizSynData(projectItemPrice, ConstantUtils.BUSINESS_TYPE_401, ConstantUtils.DATA_DIRECTION_2, ConstantUtils.SYN_STATUS_4);
+
+
 		bizSynDateSendAndReceiveService.sendProjectItemPrice(projectItemPrice);
 		addMessage(redirectAttributes, "保存施工项价格成功");
 		return "redirect:"+Global.getAdminPath()+"/projectitemprice/projectItemPrice/?repage&projectIntemId="+projectItemPrice.getProjectIntemId();
 	}
 
-	/**
-	* @Description: 校验重复生效时间
-	* @Author zhangkangjian
-	* @param
-	* @return
-	* @Date 2017/11/8 16:30
-	*/
+
 	@RequestMapping(value="/checkedData")
 	@ResponseBody
 	public boolean checkedData(ProjectItemPrice projectItemPrice, Model model, RedirectAttributes redirectAttributes){

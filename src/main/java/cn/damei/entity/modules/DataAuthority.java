@@ -7,7 +7,7 @@ public class DataAuthority extends DataEntity<DataAuthority>{
 	private static final long serialVersionUID = 1L;
 	
 	private String id;
-	private String transactionData;//业务数据
+	private String transactionData;
 	private String dataAuthOptionId;
 	private String roleId;
 	

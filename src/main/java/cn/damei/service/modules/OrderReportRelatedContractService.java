@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.util.*;
@@ -21,11 +19,7 @@ import cn.damei.common.service.CrudService;
 import cn.damei.entity.modules.OrderReportRelatedContract;
 import cn.damei.dao.modules.OrderReportRelatedContractDao;
 
-/**
- * 返单关联合同信息Service
- * @author mh
- * @version 2017-05-08
- */
+
 @Service
 @Transactional(readOnly = true)
 public class OrderReportRelatedContractService extends CrudService<OrderReportRelatedContractDao, OrderReportRelatedContract> {
@@ -69,11 +63,7 @@ private BizOrderReportDao reportDao;
 	private BizOrderReportLogDao orderReportLogDao;
 	@Autowired
 	private PhoneMessageDao messageDao;
-	/**
-	 * 更新返单状态, 删除不是参数orderIds的 关联信息
-	 *
-	 * @param reportId
-	 */
+
 	@Transactional(readOnly = false)
 	public void updateOrderReportStatusById(String reportId, String[] orderIds,String []orderNums) {
 
@@ -103,17 +93,17 @@ private BizOrderReportDao reportDao;
 
 
 
-//			List<OrderReportRelatedContract> orderInfo=	dao.findOrderInfoByReportId(reportId);
 
 
 
 
 
 
-//		BizOrderReport orderReport= reportDao.get(Integer.valueOf(reportId));
 
-			//插入log
-			// 返单上报日志
+
+
+
+
 			OrderReportLogEntity logEntity = new OrderReportLogEntity();
 			Map<String,Object> logRelatedMap = new HashMap<>();
 			logEntity.setOperateSource(BizOrderReportConstantUtil.REPORT_SOURCE_TYPE_4);
@@ -125,7 +115,7 @@ private BizOrderReportDao reportDao;
 			logEntity.setOperateEmployeeName(UserUtils.getUser().getName());
 			logEntity.preInsert();
 			orderReportLogDao.saveSignLog(logEntity);
-			//保存该次log关联订单
+
 			logRelatedMap.put("logId",logEntity.getId());
 			logRelatedMap.put("orderNums",sb.toString());
 
@@ -134,27 +124,25 @@ private BizOrderReportDao reportDao;
 
 
 
-			/**
-			 * 发送短信
-			 */
 
 
-			//2017-08-15 停掉短信
-			//PhoneMessageEntity phone = new PhoneMessageEntity();
-            //
-            //
-			//String content = "【大美装饰管理平台】亲爱的大美装饰管理平台员工，您推荐的客户"+orderReport.getCustomerName()+"与大美装饰管理平台签订装修合同了，您的奖励将在下月兑现。如有新的客户，记得再次向“小美返单”推荐哦";
-            //
-			//phone.setReceivePhone(orderReport.getReporterPhone());
-			//phone.setMessageContent(content);
-			//phone.setMessageGenerateTime(new Date());
-			//phone.setStatus(ConstantUtils.SEND_MSG_STATUS_0);
-			//phone.setRelatedBusinessType(SendMsgBusinessType.SEND_MSG_BUSINESS_TYPE_66666);
-			//phone.setRelatedBusinessId(Integer.valueOf(reportId));
-			//phone.setRelatedBusinessVarchar(logEntity.getId());
-            //
-            //
-			//	messageDao.saveMessageContent(phone);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 			}
 

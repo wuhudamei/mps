@@ -6,11 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import cn.damei.service.mobile.Manager.OrderFinishProjectBillService;
 
-/**
- * 项目经理端APP
- * 申请竣工
- * biz_order_finish_project_bill
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/app/manager")
 public class OrderFinishProjectBillController {

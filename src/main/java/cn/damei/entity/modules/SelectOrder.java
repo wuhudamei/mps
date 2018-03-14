@@ -1,16 +1,10 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import java.util.Date;
 import java.util.List;
 
-/**
- * 订单管理Entity
- * @author wyb
- * @version 2016-09-08
- */
+
 public class SelectOrder extends DataAuthorityEntitySelect {
 	
 	private static final long serialVersionUID = 1L;
@@ -35,106 +29,106 @@ public class SelectOrder extends DataAuthorityEntitySelect {
 	public void setTotalCount(Integer totalCount) {
 		this.totalCount = totalCount;
 	}
-	private Integer orderId;//订单id
-	private String storeId;		// 门店id
+	private Integer orderId;
+	private String storeId;
 	
-	private String orderNumber;		// 订单编号
-	private String contractNumber;		// 合同编号
+	private String orderNumber;
+	private String contractNumber;
 	
-	private String customerType;		// 客户类型
-	private String customerDescription;		// 客户属性描述
+	private String customerType;
+	private String customerDescription;
 	
-	private String orderStatusNumber;		// 订单状态码  创建订单成功默认状态码 105
-	private String orderStatusDescription;		// 订单状态码详情   默认详情 确认订单   状态码105
-	private String orderTaskPackStatus; //任务包状态
-	private	List<String> orderStatusList = null; //订单状态集合
+	private String orderStatusNumber;
+	private String orderStatusDescription;
+	private String orderTaskPackStatus;
+	private	List<String> orderStatusList = null;
 	
-	private String communityName;		// 小区名称
-	private String buildNumber;		// 几号楼
-	private String buildUnit;		// 几单元
-	private String buildRoom;		// 哪一室
-	private String mapCoordinate;		// 地图坐标
+	private String communityName;
+	private String buildNumber;
+	private String buildUnit;
+	private String buildRoom;
+	private String mapCoordinate;
 	private String lng;
 	private String lat; 
 	
-	private String customerAddress;//客户地址
-	private String province;//省
-	private String city;//市
-	private String county ;//县
-	private String detailAddress;//详细地址
-	private String  acceptArea;//接单区域
-	private Integer acceptAreaId;//接单区域id
+	private String customerAddress;
+	private String province;
+	private String city;
+	private String county ;
+	private String detailAddress;
+	private String  acceptArea;
+	private Integer acceptAreaId;
 	
-	private String saleType;		// 套餐类型
-	private String area;		// 片区
-	private String buildType;		// 房屋类型
-	private String houseType;		// 户型
-	private String houseIsNew;		// 新房老房  1为新房  0为老房  默认老房
-	private String isElevator;		// 是否有电梯  1代表有   0代表没有   默认没有
-	private String coveredArea;		// 建筑面积
-	private String contractArea;		// 合同面积
-	private Integer contractTime;		// 合同工期
+	private String saleType;
+	private String area;
+	private String buildType;
+	private String houseType;
+	private String houseIsNew;
+	private String isElevator;
+	private String coveredArea;
+	private String contractArea;
+	private Integer contractTime;
 	
-	private String customerName;		// 客户姓名
-	private String customerPhone;		// 客户电话
-	private String cusManager;		// 客户经理
+	private String customerName;
+	private String customerPhone;
+	private String cusManager;
 	
-	private Integer itemManagerId;	//项目经理id
-	private String itemManager;		// 项目经理
-	private String itemManagerPhone;// 项目经理手机号
-	private Integer itemManagerStar;	//项目经理星级
-	private Integer itemManagerBuildingCount;	//项目经理承接量
+	private Integer itemManagerId;
+	private String itemManager;
+	private String itemManagerPhone;
+	private Integer itemManagerStar;
+	private Integer itemManagerBuildingCount;
 	
-	private Integer orderInspectorId;	//订单质检员
-	private String orderInspector;		// 订单质检员
-	private String orderInspectorPhone;		// 订单质检员手机号
+	private Integer orderInspectorId;
+	private String orderInspector;
+	private String orderInspectorPhone;
 	
-	private String designerName;		// 设计师姓名
-	private String designerPhone;		// 设计师电话
+	private String designerName;
+	private String designerPhone;
 	
-	private String orderReporterName;		// 跟单员姓名
-	private String orderReporterPhone;		// 跟单员电话
+	private String orderReporterName;
+	private String orderReporterPhone;
 	
-	private String serviceName;		// 客服姓名
-	private String servicePhone;		// 客服电话
+	private String serviceName;
+	private String servicePhone;
 	
-	private Date contractStartDate;			// 合同开工日期
-	private Date beginContractStartDate;	// 开始 合同开工日期
-	private Date endContractStartDate;		// 结束 合同开工日期
+	private Date contractStartDate;
+	private Date beginContractStartDate;
+	private Date endContractStartDate;
 	
-	private Date contractEndDate;		// 合同竣工日期
-	private Date beginContractEndDate;	// 开始  合同竣工日期
-	private Date endContractEndDate;	// 结束  合同竣工日期
+	private Date contractEndDate;
+	private Date beginContractEndDate;
+	private Date endContractEndDate;
 	
-	private Date actualStartDate;      //实际开工日期
-	private Date beginActualStartDate; // 开始   实际开工日期
-	private Date endActualStartDate;   // 结束   实际开工日期
+	private Date actualStartDate;
+	private Date beginActualStartDate;
+	private Date endActualStartDate;
 	
-	private Date actualEndDate;			//实际竣工日期
-	private Date beginActualEndDate;    // 开始 实际竣工日期
-	private Date endActualEndDate;      // 结束  实际竣工日期
+	private Date actualEndDate;
+	private Date beginActualEndDate;
+	private Date endActualEndDate;
 	
-	private Date signContractDate;		// 签约日期
-	private Date beginSignContractDate;	// 开始 签约日期
-	private Date endSignContractDate;	// 结束 签约日期
+	private Date signContractDate;
+	private Date beginSignContractDate;
+	private Date endSignContractDate;
 	
-	private Date getOrderDatetime;		// 接单日期
-	private Date beginGetOrderDatetime;	// 开始 接单日期
-	private Date endGetOrderDatetime;	// 结束 接单日期
+	private Date getOrderDatetime;
+	private Date beginGetOrderDatetime;
+	private Date endGetOrderDatetime;
 	
-	private Date orderDistributeLogDate;		// 派项目经理日期
-	private Date beginOrderDistributeLogDate;	// 开始 派项目经理日期
-	private Date endOrderDistributeLogDate;	// 结束 派项目经理日期
+	private Date orderDistributeLogDate;
+	private Date beginOrderDistributeLogDate;
+	private Date endOrderDistributeLogDate;
 	
-	private Date beginCreateDate;	// 开始   订单创建日期
-	private Date endCreateDate;		//结束   订单创建日期
-	private String projectMode;		//工程模式   1-产业模式；2-传统模式
+	private Date beginCreateDate;
+	private Date endCreateDate;
+	private String projectMode;
 	
-	private Integer engineDepartId;	//区域id
-	private String engineDepartName;	//区域名称
+	private Integer engineDepartId;
+	private String engineDepartName;
 	
-	private Integer beforeSiteCount;	//原工地数
-	private Integer NowSiteCount;	//现工地数
+	private Integer beforeSiteCount;
+	private Integer NowSiteCount;
 	
 	
 	private List<String> phones;

@@ -5,41 +5,37 @@ import java.util.Date;
 import cn.damei.common.persistence.DataEntity2;
 import cn.damei.entity.mobile.home.BizOrder;
 
-/**
- * 质检评价工人
- * @author Administrator
- *
- */
+
 public class EvaluateWorker extends DataEntity2<EvaluateWorker>{
 
 	
 	private static final long serialVersionUID = 1L;
    
-	private Integer orderId;	//订单ID
-    private String communityName; //小区
-    private String buildNumber; //几号楼
-    private String buildUnit; //几单元
-    private String buildRoom; //几室
-    private String customerName; //客户姓名
+	private Integer orderId;
+    private String communityName;
+    private String buildNumber;
+    private String buildUnit;
+    private String buildRoom;
+    private String customerName;
     
-	private String groupRealname;	//工人组长
-	private String packageName;	//任务包名称
+	private String groupRealname;
+	private String packageName;
 	
-	private Integer evalTaskpackScoreId; //评价单ID
-	private Date checkDate; //验收日期
+	private Integer evalTaskpackScoreId;
+	private Date checkDate;
 	
-	private Integer orderInspectorId; //质检员ID
-	private Integer orderTaskpackageId; //任务包ID
-	private Integer groupId; //工人组长ID
+	private Integer orderInspectorId;
+	private Integer orderTaskpackageId;
+	private Integer groupId;
 	
-	private String text; //文本框  搜索条件
-	private Date nowDate; //现在时间
-	private String evalRoleType; //评价类别
+	private String text;
+	private Date nowDate;
+	private String evalRoleType;
 	
-	private Integer count; //数量
-	private Date addEvalStartDatetime; //24小时后
-	private String indexName; //名称
-	private String evalFeedback; //反馈
+	private Integer count;
+	private Date addEvalStartDatetime;
+	private String indexName;
+	private String evalFeedback;
 	
 	private BizOrder order;
 	

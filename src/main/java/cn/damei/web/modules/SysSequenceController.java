@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,11 +20,7 @@ import cn.damei.common.utils.StringUtils;
 import cn.damei.entity.modules.SysSequence;
 import cn.damei.service.modules.SysSequenceService;
 
-/**
- * 编号序列管理Controller
- * @author 魏建勇
- * @version 2016-08-21
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/sequence/sysSequence")
 public class SysSequenceController extends BaseController {

@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,11 +20,7 @@ import cn.damei.common.utils.StringUtils;
 import cn.damei.entity.modules.BizBusinessStatusLog;
 import cn.damei.service.modules.BizBusinessStatusLogService;
 
-/**
- * 业务状态记录表Controller
- * @author wyb
- * @version 2017-03-16
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/bizbusinessstatuslog/bizBusinessStatusLog")
 public class BizBusinessStatusLogController extends BaseController {

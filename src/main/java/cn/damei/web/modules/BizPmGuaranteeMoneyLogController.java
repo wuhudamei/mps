@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,11 +19,7 @@ import cn.damei.common.web.BaseController;
 import cn.damei.entity.modules.BizPmGuaranteeMoneyLog;
 import cn.damei.service.modules.BizPmGuaranteeMoneyLogService;
 
-/**
- * 质保金日志Controller
- * @author 汪文文
- * @version 2017-01-05
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/pmguaranteemoneylog/bizPmGuaranteeMoneyLog")
 public class BizPmGuaranteeMoneyLogController extends BaseController {

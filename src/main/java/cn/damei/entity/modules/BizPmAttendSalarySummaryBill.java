@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import org.hibernate.validator.constraints.Length;
@@ -9,25 +7,21 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import cn.damei.common.persistence.DataEntity;
 
-/**
- * 月度工资单批次Entity
- * @author wl
- * @version 2017-08-10
- */
+
 public class BizPmAttendSalarySummaryBill extends DataEntity<BizPmAttendSalarySummaryBill> {
 	
 	private static final long serialVersionUID = 1L;
-	private String storeId;		// 门店ID
-	private String projectMode;		// 工程模式
-	private String pmAttendSalarySummaryBillCode;		// 工资单汇总编号
-	private String salaryMonth;		// 工资月份
-	private Date generatedDatetime;		// 汇总生成时间
-	private String salrayBillCount;		// 工资单数量
-	private String salaryTotalAmount;		// 工资总额
-	private String status;		// 状态
-	private Date statusDatetime;		// 状态日期
-	private String statusEmployeeId;		// 状态操作人
-	private String statusDescribe;		// 状态描述
+	private String storeId;
+	private String projectMode;
+	private String pmAttendSalarySummaryBillCode;
+	private String salaryMonth;
+	private Date generatedDatetime;
+	private String salrayBillCount;
+	private String salaryTotalAmount;
+	private String status;
+	private Date statusDatetime;
+	private String statusEmployeeId;
+	private String statusDescribe;
 	
 	public BizPmAttendSalarySummaryBill() {
 		super();

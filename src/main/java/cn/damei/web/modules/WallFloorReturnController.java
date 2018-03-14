@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,12 +20,7 @@ import cn.damei.common.web.BaseController;
 import cn.damei.entity.modules.WallFloorReturn;
 import cn.damei.service.modules.WallFloorReturnService;
 
-/**
- * 墙地砖退货Controller
- * 
- * @author 张同维
- * @version 2017-09-26
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/materialwallfloor/wallFloorReturn")
 public class WallFloorReturnController extends BaseController {

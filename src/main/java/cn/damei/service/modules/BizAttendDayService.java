@@ -15,11 +15,7 @@ import cn.damei.common.service.CrudService2;
 import cn.damei.dao.modules.BizAttendDayDao;
 import cn.damei.entity.modules.BizAttendDay;
 
-/**
- * Service
- * 
- * @author cgh
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizAttendDayService extends CrudService2<BizAttendDayDao, BizAttendDay> {
@@ -27,25 +23,14 @@ public class BizAttendDayService extends CrudService2<BizAttendDayDao, BizAttend
 	@Autowired
 	private BizAttendDayDao bizAttendDayDao;
 
-	/**
-	 * 根据 项目经理id 和 考勤月份 获取list
-	 * 
-	 * @param attendEmployeeId
-	 * @param attendMonth
-	 * @return
-	 */
+
 	public List<BizAttendDay> findAttendDays(Integer attendEmployeeId, String attendMonth) {
 
 		return bizAttendDayDao.findAttendDays(attendEmployeeId, attendMonth);
 
 	}
 
-	/**
-	 * insert service
-	 * 
-	 * @param list
-	 * @return
-	 */
+
 	@Transactional(readOnly = false)
 	public int insertAttend(List<BizAttendDay> list) {
 		int i = bizAttendDayDao.insertAttend(list);
@@ -53,76 +38,72 @@ public class BizAttendDayService extends CrudService2<BizAttendDayDao, BizAttend
 		return i;
 	}
 
-	/**
-	 * 从2张签到表取得符和条件的list
-	 * 
-	 * @return
-	 */
+
 	public List<BizAttendDay> pageList() {
-		// 封装的list
+
 		List<BizAttendDay> signs = new ArrayList<BizAttendDay>();
-		// 时分秒
+
 		SimpleDateFormat f2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 		SimpleDateFormat f3 = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-		// 任务包验收签到
+
 		List<BizAttendDay> selectBusinessSigns = bizAttendDayDao.selectBusinessSigns();
-		// 现场签到
+
 		List<BizAttendDay> selectSigns = bizAttendDayDao.selectSigns();
-		// 循环
+
 		for (BizAttendDay b : selectBusinessSigns) {
 
 			for (BizAttendDay b2 : selectSigns) {
 				BizAttendDay c = new BizAttendDay();
 				if (b.getAttendEmployeeId().intValue() == b2.getAttendEmployeeId().intValue()
 						&& b.getAttendDate().getTime() == b2.getAttendDate().getTime()) {
-					// 任务包验收最早时间
+
 					long minDate1 = b.getEarlySignDate().getTime();
-					// 任务包验收最晚时间
+
 					long maxDate1 = b.getLateSignDate().getTime();
-					// 现场签到最早时间
+
 					long minDate2 = b2.getEarlySignDate().getTime();
-					// 现场签到最晚时间
+
 					long maxDate2 = b2.getLateSignDate().getTime();
 
 					if (minDate1 < minDate2) {
-						// 如果小于 则是最早时间
+
 						c.setEarlySignDate(b.getEarlySignDate());
-						// 最早签到误差
+
 						c.setEarlySignReeorDistance(b.getEarlySignReeorDistance());
 					} else {
 						c.setEarlySignDate(b2.getEarlySignDate());
-						// 最早签到误差
+
 						c.setEarlySignReeorDistance(b2.getEarlySignReeorDistance());
 					}
-					// 如果大于 则是最晚时间
+
 					if (maxDate1 > maxDate2) {
 						c.setLateSignDate(b.getLateSignDate());
-						// 最晚签到误差
+
 						c.setLateSignErrorDistance(b.getLateSignErrorDistance());
 					} else {
 						c.setLateSignDate(b2.getLateSignDate());
-						// 最晚签到误差
+
 						c.setLateSignErrorDistance(b2.getLateSignErrorDistance());
 					}
-					// 项目经理名称
-					// c.setManagerName(b2.getManagerName());
-					// 项目经理角色 1
+
+
+
 					c.setAttendEmployeeRole(AttendConstantUtil.ATTEND_EMPLOYEE_ROLE);
-					// 项目经理id
+
 					c.setAttendEmployeeId(b.getAttendEmployeeId());
-					// 考勤日期年月日
+
 					c.setAttendDate(b.getAttendDate());
-					// 考勤状态
-					// 签到误差
-					// 误差
+
+
+
 					int early = c.getEarlySignReeorDistance().compareTo(AttendConstantUtil.ATTEND_ERROR);
 
 					int late = c.getLateSignErrorDistance().compareTo(AttendConstantUtil.ATTEND_ERROR);
 
 					if (early <= 0 && late <= 0) {
 
-						// 签到最早时间 精确到分
+
 						long i1 = 0;
 						try {
 							i1 = f3.parse(AttendConstantUtil.getDate2(c.getEarlySignDate())).getTime();
@@ -130,7 +111,7 @@ public class BizAttendDayService extends CrudService2<BizAttendDayDao, BizAttend
 							e1.printStackTrace();
 						}
 
-						// 签到最晚时间 精确到分
+
 						long i2 = 0;
 						try {
 							i2 = f3.parse(AttendConstantUtil.getDate2(c.getLateSignDate())).getTime();
@@ -138,7 +119,7 @@ public class BizAttendDayService extends CrudService2<BizAttendDayDao, BizAttend
 							e1.printStackTrace();
 						}
 
-						// 上班标准时间"09:00:00"
+
 						long m1 = 0;
 						try {
 							m1 = f2.parse(AttendConstantUtil.getDate(c.getEarlySignDate())
@@ -146,7 +127,7 @@ public class BizAttendDayService extends CrudService2<BizAttendDayDao, BizAttend
 						} catch (ParseException e) {
 							e.printStackTrace();
 						}
-						// 下班标准时间 18 00 00
+
 						long m2 = 0;
 						try {
 							m2 = f2.parse(AttendConstantUtil.getDate(c.getLateSignDate())
@@ -154,22 +135,22 @@ public class BizAttendDayService extends CrudService2<BizAttendDayDao, BizAttend
 						} catch (ParseException e) {
 							e.printStackTrace();
 						}
-						// 最早时间
+
 						if (i1 <= m1 && i2 >= m2) {
-							// 全勤
+
 							c.setAttendType(AttendConstantUtil.ATTEND_ALL);
 						} else if ((i1 <= m1 && i2 < m2) || (i1 > m1 && i2 >= m2)) {
-							// 半勤
+
 							c.setAttendType(AttendConstantUtil.ATTEND_HALF);
 						} else {
-							// 缺勤
+
 							c.setAttendType(AttendConstantUtil.ATTEND_LACK);
 						}
 					} else {
-						// 缺勤
+
 						c.setAttendType(AttendConstantUtil.ATTEND_LACK);
 					}
-					// 添加进list
+
 					signs.add(c);
 				}
 			}
@@ -179,20 +160,20 @@ public class BizAttendDayService extends CrudService2<BizAttendDayDao, BizAttend
 
 	@Transactional
 	public int pageList2() {
-		// 封装的list
+
 		List<BizAttendDay> signs = new ArrayList<BizAttendDay>();
 
-		// 时分秒
+
 		SimpleDateFormat f2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		SimpleDateFormat f3 = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
-		// 任务包验收签到
+
 		List<BizAttendDay> selectBusinessSigns = bizAttendDayDao.selectBusinessSigns();
 
-		// 现场签到
+
 		List<BizAttendDay> selectSigns = bizAttendDayDao.selectSigns();
 
-		// 循环
+
 		for (BizAttendDay b : selectBusinessSigns) {
 
 			for (BizAttendDay b2 : selectSigns) {
@@ -201,58 +182,58 @@ public class BizAttendDayService extends CrudService2<BizAttendDayDao, BizAttend
 
 				if (b.getAttendEmployeeId().intValue() == b2.getAttendEmployeeId().intValue()
 						&& b.getAttendDate().getTime() == b2.getAttendDate().getTime()) {
-					// 任务包验收最早时间
+
 					long minDate1 = b.getEarlySignDate().getTime();
-					// 任务包验收最晚时间
+
 					long maxDate1 = b.getLateSignDate().getTime();
-					// 现场签到最早时间
+
 					long minDate2 = b2.getEarlySignDate().getTime();
-					// 现场签到最晚时间
+
 					long maxDate2 = b2.getLateSignDate().getTime();
 
 					if (minDate1 < minDate2) {
-						// 如果小于 则是最早时间
+
 						c.setEarlySignDate(b.getEarlySignDate());
 
-						// 最早签到误差
+
 						c.setEarlySignReeorDistance(b.getEarlySignReeorDistance());
 					} else {
 						c.setEarlySignDate(b2.getEarlySignDate());
-						// 最早签到误差
+
 						c.setEarlySignReeorDistance(b2.getEarlySignReeorDistance());
 					}
-					// 如果大于 则是最晚时间
+
 					if (maxDate1 > maxDate2) {
 						c.setLateSignDate(b.getLateSignDate());
 
-						// 最晚签到误差
+
 						c.setLateSignErrorDistance(b.getLateSignErrorDistance());
 					} else {
 						c.setLateSignDate(b2.getLateSignDate());
 
-						// 最晚签到误差
+
 						c.setLateSignErrorDistance(b2.getLateSignErrorDistance());
 					}
-					// 项目经理名称
-					// c.setManagerName(b2.getManagerName());
 
-					// 项目经理角色 1
+
+
+
 					c.setAttendEmployeeRole(AttendConstantUtil.ATTEND_EMPLOYEE_ROLE);
-					// 项目经理id
+
 					c.setAttendEmployeeId(b.getAttendEmployeeId());
 
-					// 考勤日期年月日
+
 					c.setAttendDate(b.getAttendDate());
 
-					// 考勤状态
-					// 签到误差
+
+
 					int early = c.getEarlySignReeorDistance().compareTo(AttendConstantUtil.ATTEND_ERROR);
 
 					int late = c.getLateSignErrorDistance().compareTo(AttendConstantUtil.ATTEND_ERROR);
 
 					if (early <= 0 && late <= 0) {
 
-						// 签到最早时间 精确到分
+
 						long i1 = 0;
 						try {
 							i1 = f3.parse(AttendConstantUtil.getDate2(c.getEarlySignDate())).getTime();
@@ -260,7 +241,7 @@ public class BizAttendDayService extends CrudService2<BizAttendDayDao, BizAttend
 							e1.printStackTrace();
 						}
 
-						// 签到最晚时间 精确到分
+
 						long i2 = 0;
 						try {
 							i2 = f3.parse(AttendConstantUtil.getDate2(c.getLateSignDate())).getTime();
@@ -268,7 +249,7 @@ public class BizAttendDayService extends CrudService2<BizAttendDayDao, BizAttend
 							e1.printStackTrace();
 						}
 
-						// 上班标准时间"09:00:00"
+
 						long m1 = 0;
 						try {
 							m1 = f2.parse(
@@ -277,7 +258,7 @@ public class BizAttendDayService extends CrudService2<BizAttendDayDao, BizAttend
 						} catch (ParseException e) {
 							e.printStackTrace();
 						}
-						// 下班标准时间 18 00 00
+
 						long m2 = 0;
 						try {
 							m2 = f2.parse(AttendConstantUtil.getDate(c.getLateSignDate()) + AttendConstantUtil.MAX_DATE)
@@ -285,29 +266,29 @@ public class BizAttendDayService extends CrudService2<BizAttendDayDao, BizAttend
 						} catch (ParseException e) {
 							e.printStackTrace();
 						}
-						// 最早时间
+
 						if (i1 <= m1 && i2 >= m2) {
-							// 全勤
+
 							c.setAttendType(AttendConstantUtil.ATTEND_ALL);
 						} else if ((i1 <= m1 && i2 < m2) || (i1 > m1 && i2 >= m2)) {
-							// 半勤
+
 							c.setAttendType(AttendConstantUtil.ATTEND_HALF);
 						} else {
-							// 缺勤
+
 							c.setAttendType(AttendConstantUtil.ATTEND_LACK);
 						}
 					} else {
-						// 缺勤
+
 						c.setAttendType(AttendConstantUtil.ATTEND_LACK);
 					}
-					// 添加进list
+
 					signs.add(c);
 				}
 			}
 		}
 
 		for (BizAttendDay sign : signs) {
-			// 任务包验收签到
+
 			Iterator<BizAttendDay> iterator = selectBusinessSigns.iterator();
 
 			while (iterator.hasNext()) {
@@ -340,17 +321,17 @@ public class BizAttendDayService extends CrudService2<BizAttendDayDao, BizAttend
 				b.setEarlySignReeorDistance(bizAttendDay.getEarlySignReeorDistance());
 
 				b.setLateSignErrorDistance(bizAttendDay.getLateSignErrorDistance());
-				// b.setManagerName(bizAttendDay.getManagerName());
+
 				b.setSignTimes(bizAttendDay.getSignTimes());
-				// 考勤状态
-				// 签到误差
+
+
 				int early = bizAttendDay.getEarlySignReeorDistance().compareTo(AttendConstantUtil.ATTEND_ERROR);
 
 				int late = bizAttendDay.getLateSignErrorDistance().compareTo(AttendConstantUtil.ATTEND_ERROR);
 
 				if (early <= 0 && late <= 0) {
 
-					// 签到最早时间 精确到分
+
 					long i1 = 0;
 					try {
 						i1 = f3.parse(AttendConstantUtil.getDate2(bizAttendDay.getEarlySignDate())).getTime();
@@ -358,7 +339,7 @@ public class BizAttendDayService extends CrudService2<BizAttendDayDao, BizAttend
 						e1.printStackTrace();
 					}
 
-					// 签到最晚时间 精确到分
+
 					long i2 = 0;
 					try {
 						i2 = f3.parse(AttendConstantUtil.getDate2(bizAttendDay.getLateSignDate())).getTime();
@@ -366,7 +347,7 @@ public class BizAttendDayService extends CrudService2<BizAttendDayDao, BizAttend
 						e1.printStackTrace();
 					}
 
-					// 上班标准时间"09:00:00"
+
 					long m1 = 0;
 					try {
 						m1 = f2.parse(AttendConstantUtil.getDate(bizAttendDay.getEarlySignDate())
@@ -374,7 +355,7 @@ public class BizAttendDayService extends CrudService2<BizAttendDayDao, BizAttend
 					} catch (ParseException e) {
 						e.printStackTrace();
 					}
-					// 下班标准时间 18 00 00
+
 					long m2 = 0;
 					try {
 						m2 = f2.parse(AttendConstantUtil.getDate(bizAttendDay.getLateSignDate())
@@ -382,22 +363,22 @@ public class BizAttendDayService extends CrudService2<BizAttendDayDao, BizAttend
 					} catch (ParseException e) {
 						e.printStackTrace();
 					}
-					// 最早时间
+
 					if (i1 <= m1 && i2 >= m2) {
-						// 全勤
+
 						b.setAttendType(AttendConstantUtil.ATTEND_ALL);
 					} else if ((i1 <= m1 && i2 < m2) || (i1 > m1 && i2 >= m2)) {
-						// 半勤
+
 						b.setAttendType(AttendConstantUtil.ATTEND_HALF);
 					} else {
-						// 缺勤
+
 						b.setAttendType(AttendConstantUtil.ATTEND_LACK);
 					}
 				} else {
-					// 缺勤
+
 					b.setAttendType(AttendConstantUtil.ATTEND_LACK);
 				}
-				// 添加进list
+
 				signList.add(b);
 			}
 		}
@@ -408,80 +389,80 @@ public class BizAttendDayService extends CrudService2<BizAttendDayDao, BizAttend
 
 	@Transactional
 	public int pageList3() {
-		// 封装的list
+
 		List<BizAttendDay> signs = new ArrayList<BizAttendDay>();
 
-		// 时分秒
+
 		SimpleDateFormat f2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		SimpleDateFormat f3 = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-		// 任务包验收签到
+
 		List<BizAttendDay> selectBusinessSigns = bizAttendDayDao.selectBusinessSigns();
 
-		// 现场签到
+
 		List<BizAttendDay> selectSigns = bizAttendDayDao.selectSigns();
 
-		// 循环
+
 		for (BizAttendDay b : selectBusinessSigns) {
 
 			for (BizAttendDay b2 : selectSigns) {
-				// 封装对象
+
 				BizAttendDay c = new BizAttendDay();
 
 				if (b.getAttendEmployeeId().intValue() == b2.getAttendEmployeeId().intValue()
 						&& b.getAttendDate().getTime() == b2.getAttendDate().getTime()) {
-					// 任务包验收最早时间
+
 					long minDate1 = b.getEarlySignDate().getTime();
-					// 任务包验收最晚时间
+
 					long maxDate1 = b.getLateSignDate().getTime();
-					// 现场签到最早时间
+
 					long minDate2 = b2.getEarlySignDate().getTime();
-					// 现场签到最晚时间
+
 					long maxDate2 = b2.getLateSignDate().getTime();
 
 					if (minDate1 < minDate2) {
-						// 如果小于 则是最早时间
+
 						c.setEarlySignDate(b.getEarlySignDate());
 
-						// 最早签到误差
+
 						c.setEarlySignReeorDistance(b.getEarlySignReeorDistance());
 					} else {
 						c.setEarlySignDate(b2.getEarlySignDate());
-						// 最早签到误差
+
 						c.setEarlySignReeorDistance(b2.getEarlySignReeorDistance());
 					}
-					// 如果大于 则是最晚时间
+
 					if (maxDate1 > maxDate2) {
 						c.setLateSignDate(b.getLateSignDate());
 
-						// 最晚签到误差
+
 						c.setLateSignErrorDistance(b.getLateSignErrorDistance());
 					} else {
 						c.setLateSignDate(b2.getLateSignDate());
 
-						// 最晚签到误差
+
 						c.setLateSignErrorDistance(b2.getLateSignErrorDistance());
 					}
-					// 项目经理名称
-					// c.setManagerName(b2.getManagerName());
 
-					// 项目经理角色 1
+
+
+
 					c.setAttendEmployeeRole(AttendConstantUtil.ATTEND_EMPLOYEE_ROLE);
-					// 项目经理id
+
 					c.setAttendEmployeeId(b.getAttendEmployeeId());
 
-					// 考勤日期年月日
+
 					c.setAttendDate(b.getAttendDate());
 
-					// 考勤状态
-					// 签到误差
-					// 误差
+
+
+
 					int early = c.getEarlySignReeorDistance().compareTo(AttendConstantUtil.ATTEND_ERROR);
 
 					int late = c.getLateSignErrorDistance().compareTo(AttendConstantUtil.ATTEND_ERROR);
 
 					if (early <= 0 && late <= 0) {
 
-						// 签到最早时间 精确到分
+
 						long i1 = 0;
 						try {
 							i1 = f3.parse(AttendConstantUtil.getDate2(c.getEarlySignDate())).getTime();
@@ -489,7 +470,7 @@ public class BizAttendDayService extends CrudService2<BizAttendDayDao, BizAttend
 							e1.printStackTrace();
 						}
 
-						// 签到最晚时间 精确到分
+
 						long i2 = 0;
 						try {
 							i2 = f3.parse(AttendConstantUtil.getDate2(c.getLateSignDate())).getTime();
@@ -497,7 +478,7 @@ public class BizAttendDayService extends CrudService2<BizAttendDayDao, BizAttend
 							e1.printStackTrace();
 						}
 
-						// 上班标准时间"09:00:00"
+
 						long m1 = 0;
 						try {
 							m1 = f2.parse(AttendConstantUtil.getDate(c.getEarlySignDate())
@@ -505,7 +486,7 @@ public class BizAttendDayService extends CrudService2<BizAttendDayDao, BizAttend
 						} catch (ParseException e) {
 							e.printStackTrace();
 						}
-						// 下班标准时间 18 00 00
+
 						long m2 = 0;
 						try {
 							m2 = f2.parse(AttendConstantUtil.getDate(c.getLateSignDate())
@@ -513,22 +494,22 @@ public class BizAttendDayService extends CrudService2<BizAttendDayDao, BizAttend
 						} catch (ParseException e) {
 							e.printStackTrace();
 						}
-						// 最早时间
+
 						if (i1 <= m1 && i2 >= m2) {
-							// 全勤
+
 							c.setAttendType(AttendConstantUtil.ATTEND_ALL);
 						} else if ((i1 <= m1 && i2 < m2) || (i1 > m1 && i2 >= m2)) {
-							// 半勤
+
 							c.setAttendType(AttendConstantUtil.ATTEND_HALF);
 						} else {
-							// 缺勤
+
 							c.setAttendType(AttendConstantUtil.ATTEND_LACK);
 						}
 					} else {
-						// 缺勤
+
 						c.setAttendType(AttendConstantUtil.ATTEND_LACK);
 					}
-					// 添加进list
+
 					signs.add(c);
 
 				}
@@ -570,18 +551,18 @@ public class BizAttendDayService extends CrudService2<BizAttendDayDao, BizAttend
 
 				b.setLateSignErrorDistance(bizAttendDay.getLateSignErrorDistance());
 
-				// b.setManagerName(bizAttendDay.getManagerName());
+
 
 				b.setSignTimes(bizAttendDay.getSignTimes());
-				// 考勤状态
-				// 签到误差
+
+
 				int early = bizAttendDay.getEarlySignReeorDistance().compareTo(AttendConstantUtil.ATTEND_ERROR);
 
 				int late = bizAttendDay.getLateSignErrorDistance().compareTo(AttendConstantUtil.ATTEND_ERROR);
 
 				if (early <= 0 && late <= 0) {
 
-					// 签到最早时间 精确到分
+
 					long i1 = 0;
 					try {
 						i1 = f3.parse(AttendConstantUtil.getDate2(bizAttendDay.getEarlySignDate())).getTime();
@@ -589,7 +570,7 @@ public class BizAttendDayService extends CrudService2<BizAttendDayDao, BizAttend
 						e1.printStackTrace();
 					}
 
-					// 签到最晚时间 精确到分
+
 					long i2 = 0;
 					try {
 						i2 = f3.parse(AttendConstantUtil.getDate2(bizAttendDay.getLateSignDate())).getTime();
@@ -597,7 +578,7 @@ public class BizAttendDayService extends CrudService2<BizAttendDayDao, BizAttend
 						e1.printStackTrace();
 					}
 
-					// 上班标准时间"09:00:00"
+
 					long m1 = 0;
 					try {
 						m1 = f2.parse(AttendConstantUtil.getDate(bizAttendDay.getEarlySignDate())
@@ -605,7 +586,7 @@ public class BizAttendDayService extends CrudService2<BizAttendDayDao, BizAttend
 					} catch (ParseException e) {
 						e.printStackTrace();
 					}
-					// 下班标准时间 18 00 00
+
 					long m2 = 0;
 					try {
 						m2 = f2.parse(AttendConstantUtil.getDate(bizAttendDay.getLateSignDate())
@@ -613,22 +594,22 @@ public class BizAttendDayService extends CrudService2<BizAttendDayDao, BizAttend
 					} catch (ParseException e) {
 						e.printStackTrace();
 					}
-					// 最早时间
+
 					if (i1 <= m1 && i2 >= m2) {
-						// 全勤
+
 						b.setAttendType(AttendConstantUtil.ATTEND_ALL);
 					} else if ((i1 <= m1 && i2 < m2) || (i1 > m1 && i2 >= m2)) {
-						// 半勤
+
 						b.setAttendType(AttendConstantUtil.ATTEND_HALF);
 					} else {
-						// 缺勤
+
 						b.setAttendType(AttendConstantUtil.ATTEND_LACK);
 					}
 				} else {
-					// 缺勤
+
 					b.setAttendType(AttendConstantUtil.ATTEND_LACK);
 				}
-				// 添加进list
+
 				signList.add(b);
 			}
 		}
@@ -637,20 +618,15 @@ public class BizAttendDayService extends CrudService2<BizAttendDayDao, BizAttend
 		return i;
 	}
 
-	/**
-	 * 获取managerID的list 以便于批量更新考勤单状态
-	 * 
-	 * @param attendEmployeeId
-	 * @return
-	 */
+
 	public List<BizAttendDay> findAttendDaysByEmployeeId(Integer attendEmployeeId) {
-		// 封装的list
+
 		List<BizAttendDay> list = new ArrayList<BizAttendDay>();
 
 		List<BizAttendDay> bizAttendDayList = bizAttendDayDao.findAttendDaysByEmployeeId(attendEmployeeId);
 
 		for (BizAttendDay bizAttendDay : bizAttendDayList) {
-			// 以生成考勤单
+
 			bizAttendDay.setIsGeneratedAttendBill(AttendConstantUtil.IS_CREATE_SHEET);
 			bizAttendDay.setAttendDate(bizAttendDay.getAttendDate());
 			bizAttendDay.setAttendEmployeeId(bizAttendDay.getAttendEmployeeId());
@@ -674,11 +650,7 @@ public class BizAttendDayService extends CrudService2<BizAttendDayDao, BizAttend
 		return list;
 	}
 
-	/**
-	 * 批量更新以生成考勤单状态
-	 * 
-	 * @param list
-	 */
+
 	@Transactional
 	public void upadteAttendDays(List<BizAttendDay> list) {
 		bizAttendDayDao.upadteAttendDays(list);

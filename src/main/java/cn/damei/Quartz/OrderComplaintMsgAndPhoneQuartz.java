@@ -17,10 +17,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by joseph on 2017/7/31.
- * 定时抓取未完成的投诉数据,根据超时时限判断 对处理人员(项目经理,质检员)发送app通知和短信提醒
- */
+
 
 @Service
 public class OrderComplaintMsgAndPhoneQuartz {
@@ -39,13 +36,13 @@ public class OrderComplaintMsgAndPhoneQuartz {
 
     private static final String appMsgTitle = "工程投诉超时提醒";
 
-    //短信
+
 
     @Autowired
     private PhoneMessageDao phoneMessageDao;
 
 
-    //消息
+
     @Autowired
     private AppMsgUtils appMsgUtils;
 
@@ -53,16 +50,14 @@ public class OrderComplaintMsgAndPhoneQuartz {
     @Autowired
     private OrderComplaintMsgAndPhoneQuartzDao dao;
 
-    /**
-     * 订单投诉超时 发送短信和站内消息
-     */
+
     public void execute() {
         Date currentDate = new Date();
         List<AppMsgEntity> allMsgEntityList = new ArrayList<>(48);
         List<PhoneMessageEntity> allPhoneMessageList = new ArrayList<>(48);
 
 
-//拿到所有(经理和质检)没有处理的投诉且投诉项有配置超时时间的数据集合
+
         List<Map<String, Object>> allDataInfo = dao.getAllDataForQuartz();
         int resultSize = allDataInfo.size();
         if (resultSize > 0) {
@@ -73,20 +68,20 @@ public class OrderComplaintMsgAndPhoneQuartz {
                 String responseTime = allDataInfo.get(i).get("responseTime").toString();
 
 
-                //校验数据类型
+
                 if (isNumeric(responseTime)) {
 
-                    //当前时间
+
                     Date problemCreateDate = (Date) dataMap.get("createDate");
-                    //问题的截止时间
+
                     Date problemDelayDate = DateUtils.addDate(problemCreateDate, (new Double(responseTime)).intValue());
-                    //如果超时
+
                     if (currentDate.getTime() > problemDelayDate.getTime()) {
 
-                        //判断是否插入
 
 
-                        //发送短信和消息
+
+
                         customerInfo = dataMap.get("customerInfo").toString();
                         customerName = dataMap.get("customerName").toString();
                         problemName = dataMap.get("itemName").toString();
@@ -141,7 +136,7 @@ public class OrderComplaintMsgAndPhoneQuartz {
 
             }
 
-            //for Each 完毕  批量插入
+
 
             if(allPhoneMessageList.size()>0){
                 phoneMessageDao.batchSavePhoneInfo(allPhoneMessageList);
@@ -213,9 +208,7 @@ public class OrderComplaintMsgAndPhoneQuartz {
 
 
 
-    /**
-     * 订单投诉超时 发送短信和站内消息
-     */
+
     public String execute2() {
         String result ="";
         Date currentDate = new Date();
@@ -223,7 +216,7 @@ public class OrderComplaintMsgAndPhoneQuartz {
         List<PhoneMessageEntity> allPhoneMessageList = new ArrayList<>(48);
 
 
-//拿到所有(经理和质检)没有处理的投诉且投诉项有配置超时时间的数据集合
+
         List<Map<String, Object>> allDataInfo = dao.getAllDataForQuartz();
         int resultSize = allDataInfo.size();
         if (resultSize > 0) {
@@ -236,20 +229,20 @@ public class OrderComplaintMsgAndPhoneQuartz {
                 String responseTime = dataMap.get("responseTime").toString();
 
 
-                //校验数据类型
+
                 if (isNumeric(responseTime)) {
 
-                    //当前时间
+
                     Date problemCreateDate = (Date) dataMap.get("createDate");
-                    //问题的截止时间
+
                     Date problemDelayDate = DateUtils.addDate(problemCreateDate, (new Double(responseTime)).intValue());
-                    //如果超时
+
                     if (currentDate.getTime() > problemDelayDate.getTime()) {
 
-                        //判断是否插入
 
 
-                        //发送短信和消息
+
+
                         customerInfo = dataMap.get("customerInfo").toString();
                         customerName = dataMap.get("customerName").toString();
                         problemName = dataMap.get("itemName").toString();
@@ -304,7 +297,7 @@ public class OrderComplaintMsgAndPhoneQuartz {
 
             }
 
-            //for Each 完毕  批量插入
+
 
 
             if(allPhoneMessageList.size()>0){

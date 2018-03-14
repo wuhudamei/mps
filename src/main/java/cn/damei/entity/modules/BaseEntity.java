@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 
@@ -8,9 +6,9 @@ package cn.damei.entity.modules;
 public class BaseEntity {
 	
 	private static final long serialVersionUID = 1L;
-	private String value;//标识
-	private String label;		// 门店说明
-	private String id;		//
+	private String value;
+	private String label;
+	private String id;
 	
 	public String getId() {
 		return id;

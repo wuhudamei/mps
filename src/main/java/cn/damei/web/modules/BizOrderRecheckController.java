@@ -40,12 +40,7 @@ import cn.damei.service.modules.BizEmployeeService2;
 import cn.damei.entity.modules.User;
 import cn.damei.common.utils.UserUtils;
 
-/**
- * 项目经理复尺Controller
- * 
- * @author llp
- * @version 2016-11-21
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/bizorderrecheck/bizOrderRecheck")
 public class BizOrderRecheckController extends BaseController {
@@ -84,7 +79,7 @@ public class BizOrderRecheckController extends BaseController {
 	@RequestMapping(value = { "preList", "" })
 	public String preList(BizOrderRecheck bizOrderRecheck, HttpServletRequest request, HttpServletResponse response, Model model) {
 		User user = UserUtils.getUser();
-		// 过滤门店
+
 		if (null == bizOrderRecheck.getStoreId()) {
 			if (null != user.getStoreId()) {
 				bizOrderRecheck.setStoreId(Integer.valueOf(user.getStoreId()));
@@ -93,7 +88,7 @@ public class BizOrderRecheckController extends BaseController {
 		if (StringUtils.isBlank(user.getStoreId())) {
 			model.addAttribute("storeDropEnable", true);
 		}
-		// 过滤工程模式
+
 		if (null != user.getEmpId()) {
 			BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
 			if (StringUtils.isBlank(be.getProjectMode())) {
@@ -116,7 +111,7 @@ public class BizOrderRecheckController extends BaseController {
 	@RequestMapping(value = { "list", "" })
 	public String list(BizOrderRecheck bizOrderRecheck, HttpServletRequest request, HttpServletResponse response, Model model) {
 		User user = UserUtils.getUser();
-		// 过滤门店
+
 		if (null == bizOrderRecheck.getStoreId()) {
 			if (null != user.getStoreId()) {
 				bizOrderRecheck.setStoreId(Integer.valueOf(user.getStoreId()));
@@ -125,7 +120,7 @@ public class BizOrderRecheckController extends BaseController {
 		if (StringUtils.isBlank(user.getStoreId())) {
 			model.addAttribute("storeDropEnable", true);
 		}
-		// 过滤工程模式
+
 		if (null != user.getEmpId()) {
 			BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
 			if (StringUtils.isBlank(be.getProjectMode())) {
@@ -146,9 +141,7 @@ public class BizOrderRecheckController extends BaseController {
 		return "modules/bizrecheck/recheckList";
 	}
 
-	/**
-	 * 接收
-	 */
+
 	@RequestMapping(value = { "updateByRecheckStatus", "" })
 	public String updateByRecheckStatus(BizOrderRecheck bizOrderRecheck, HttpServletRequest request, HttpServletResponse response, Model model, RedirectAttributes redirectAttributes, String recheckID) {
 		logger.info("复尺编号：" + recheckID);
@@ -159,9 +152,7 @@ public class BizOrderRecheckController extends BaseController {
 		return "redirect:" + Global.getAdminPath() + "/bizorderrecheck/bizOrderRecheck/list?repage";
 	}
 
-	/**
-	 * 详情
-	 */
+
 	@RequestMapping(value = { "recheckDetail", "" })
 	public String recheckDetail(BizOrderRecheck bizOrderRecheck, HttpServletRequest request, HttpServletResponse response, Model model, RedirectAttributes redirectAttributes, String recheckID, String type, String orderID) {
 		logger.info("复尺编号：" + recheckID + "\t复尺类型：" + type + "\t订单编号：" + orderID);
@@ -203,9 +194,7 @@ public class BizOrderRecheckController extends BaseController {
 		return result;
 	}
 
-	/**
-	 * 详情
-	 */
+
 	@RequestMapping(value = { "recheckMonitorDetail", "" })
 	public String recheckMonitorDetail(BizOrderRecheck bizOrderRecheck, HttpServletRequest request, HttpServletResponse response, Model model, RedirectAttributes redirectAttributes, String recheckID, String type, String orderID) {
 		logger.info("复尺编号：" + recheckID + "\t复尺类型：" + type + "\t订单编号：" + orderID);

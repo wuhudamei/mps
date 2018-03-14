@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import org.hibernate.validator.constraints.Length;
@@ -14,67 +12,61 @@ import javax.validation.constraints.NotNull;
 
 import cn.damei.common.persistence.DataEntity;
 
-/**
- * 订单管理Entity
- * @author llp
- * @version 2016-09-20
- */
+
 public class OrderTaskpack extends DataEntity<OrderTaskpack> {
 	
 	private static final long serialVersionUID = 1L;
-	private String orderNumber;		// 订单编号
-	private String contractNumber;		// 合同编号
-	private String customerType;		// 客户类型
-	private String customerDescription;		// 客户属性描述
-	private String customerName;		// 客户姓名
-	private String customerPhone;		// 客户电话
-	private String communityName;		// 小区名称
-	private String buildNumber;		// 几号楼
-	private String buildUnit;		// 几单元
-	private String buildRoom;		// 哪一室
-	private String mapCoordinate;		// 地图坐标
-	private String saleType;		// 套餐类型
-	private String area;		// 片区
-	private String buildType;		// 房屋类型
-	private String houseType;		// 户型
-	private String houseIsNew;		// 新房老房  1为新房  0为老房  默认老房
-	private String isElevator;		// 是否有电梯  1代表有   0代表没有   默认没有
-	private String designerName;		// 设计师姓名
-	private String designerPhone;		// 设计师电话
-	private String orderReporterName;		// 跟单员姓名
-	private String orderReporterPhone;		// 跟单员电话
-	private String serviceName;		// 客服姓名
-	private String servicePhone;		// 客服电话
-	private Date contractStartDate;		// 合同开工日期
-	private Date contractEndDate;		// 合同竣工日期
-	private String coveredArea;		// 建筑面积
-	private String contractArea;		// 合同面积
-	private String contractTime;		// 合同工期
-	private Date signContractDate;		// 签约日期
-	private String orderStatusNumber = null;		// 订单状态码  创建订单成功默认状态码 105
-	private String orderStatusDescription;		// 订单状态码详情   默认详情 确认订单   状态码105
-	private String orderInspector;		// 订单质检员
-	private String itemManager;		// 项目经理
-	private String storeId;		// 门店id
-	private String cusManager;		// 客户经理
-	/*private String cadPath;		// 图纸路径
-	private String materialPath;		// 订单清单excel
-	private String materialRemarks;		// excel 备注*/
-	private String ordertaskpackStatus = null;		// ordertaskpack_status
-	private String actualStartDate;	//实际开工日期
-	private String actualEndDate;	//实际竣工日期
-	private String itemManagerId;	//项目经理ID
-	private String projectMode;//工程模式 -- '1-产业模式；4-准产业
+	private String orderNumber;
+	private String contractNumber;
+	private String customerType;
+	private String customerDescription;
+	private String customerName;
+	private String customerPhone;
+	private String communityName;
+	private String buildNumber;
+	private String buildUnit;
+	private String buildRoom;
+	private String mapCoordinate;
+	private String saleType;
+	private String area;
+	private String buildType;
+	private String houseType;
+	private String houseIsNew;
+	private String isElevator;
+	private String designerName;
+	private String designerPhone;
+	private String orderReporterName;
+	private String orderReporterPhone;
+	private String serviceName;
+	private String servicePhone;
+	private Date contractStartDate;
+	private Date contractEndDate;
+	private String coveredArea;
+	private String contractArea;
+	private String contractTime;
+	private Date signContractDate;
+	private String orderStatusNumber = null;
+	private String orderStatusDescription;
+	private String orderInspector;
+	private String itemManager;
+	private String storeId;
+	private String cusManager;
+
+	private String ordertaskpackStatus = null;
+	private String actualStartDate;
+	private String actualEndDate;
+	private String itemManagerId;
+	private String projectMode;
 	private Integer enginDepartId;
 	private String departmentName;
-	private String customerAddress;// 客户地址
-	private String createName;// 生成任务包时间
-	private Date taskpackageTime;// 生成任务包操作人
-	private Date startTaskpackageTime;// 生成任务包开始时间
-	private Date endTaskpackageTime;// 生成任务包结束时间
+	private String customerAddress;
+	private String createName;
+	private Date taskpackageTime;
+	private Date startTaskpackageTime;
+	private Date endTaskpackageTime;
 	private List<Integer> enginDepartIds = new ArrayList<Integer>();
 	private List<String> orderStatusNumbers = null;
-	private String isScrap;//是否作废
+	private String isScrap;
 	
 	public String getIsScrap() {
 		return isScrap;

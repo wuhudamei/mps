@@ -4,9 +4,7 @@ import cn.damei.common.persistence.DataEntity2;
 
 public class ProjectManagerSettlement extends DataEntity2<ProjectManagerSettlement>{
 
-	/**
-	 * 中期结算明细
-	 */
+
 	private static final long serialVersionUID = 1L;
 	
 	
@@ -14,54 +12,54 @@ public class ProjectManagerSettlement extends DataEntity2<ProjectManagerSettleme
 	private String projectMode;
 	private String orderNumber;
 	private String engineDepartId;
-	private int itemManagerId;		// 项目经理id
-	private String customerName;		// 客户姓名
-	private String customerPhone;		// 客户电话
-	private String orderStatusNumber;		// 订单状态码  创建订单成功默认状态码 105
-	private String communityName;		// 小区名称
-	private String buildNumber;		// 几号楼
-	private String buildUnit;		// 几单元
-	private String buildRoom;		// 哪一室
-	private String contractArea;		// 合同面积
+	private int itemManagerId;
+	private String customerName;
+	private String customerPhone;
+	private String orderStatusNumber;
+	private String communityName;
+	private String buildNumber;
+	private String buildUnit;
+	private String buildRoom;
+	private String contractArea;
 	
-	private String orderInspectorName;//质检姓名
-	private String orderInspectorPhone;//质检手机号
-	private String itemManagerName;//项目经理姓名
-	private String itemManagerPhone;//项目经理姓名
+	private String orderInspectorName;
+	private String orderInspectorPhone;
+	private String itemManagerName;
+	private String itemManagerPhone;
 	
 	
-	private String contractStartSate;//合同开工日期
-	private String actualStartDate;//实际开工日期
-	private String contractTime;//合同工期
-	private String orderStatusDescription;//订单状态码详情
+	private String contractStartSate;
+	private String actualStartDate;
+	private String contractTime;
+	private String orderStatusDescription;
 	
 	
 	private String orderId;
-	private String contractAmount                                 ;//承包总金额
-	private String midwayQcCheckPunishAmount                   ;//质检罚款金额
-	private String rewardAmount                                   ;//奖励金额
-	private String punishAmount                                   ;//扣款金额
-	private String orderChangeAddAmount                         ;//变更增项金额
-	private String orderChangeReduceAmount                      ;//变更减项金额
-	private String midwayBasicworkAddAmount                     ;//中期基桩增项金额
-	private String midwayMaterialsStandardAmount                ;//中期标化材料扣款金额
-	private String midwayMaterialsAuxiliaryAmount               ;//中期辅料用量扣款金额
-	private String midwaySandCementAmount                       ;//中期沙子水泥扣款金额
-	private String midwaySwitchPanelAmount                      ;//中期开关面板扣款金额
-	private String midwayWorkerSalaryAmount                     ;//中期工人人工费扣款金额
-	private String midwayMaterialCarryCostAmount               ;//中期材料搬运及运输费金额
-	private String midwayContractSettleRate                     ;//中期承包结算比例
-	private String completeGuaranteeMoneyAmount                 ;//竣工质保金金额
-	private String completeLongwayCommissionAmount              ;//竣工远程费金额
-	private String contractSettleAmount                          ;//承包结算金额
-	private String realSettleAmount                              ;//实际结算金额
+	private String contractAmount                                 ;
+	private String midwayQcCheckPunishAmount                   ;
+	private String rewardAmount                                   ;
+	private String punishAmount                                   ;
+	private String orderChangeAddAmount                         ;
+	private String orderChangeReduceAmount                      ;
+	private String midwayBasicworkAddAmount                     ;
+	private String midwayMaterialsStandardAmount                ;
+	private String midwayMaterialsAuxiliaryAmount               ;
+	private String midwaySandCementAmount                       ;
+	private String midwaySwitchPanelAmount                      ;
+	private String midwayWorkerSalaryAmount                     ;
+	private String midwayMaterialCarryCostAmount               ;
+	private String midwayContractSettleRate                     ;
+	private String completeGuaranteeMoneyAmount                 ;
+	private String completeLongwayCommissionAmount              ;
+	private String contractSettleAmount                          ;
+	private String realSettleAmount                              ;
 	private String status;
-	private String statusDatetime;//状态生成时间
-	private String statusDescribe;//状态描述
-	private String settleBillType;//结算类型
-	private String pmPreIndustrySettleBillCode;//结算单编号
+	private String statusDatetime;
+	private String statusDescribe;
+	private String settleBillType;
+	private String pmPreIndustrySettleBillCode;
 	
-	private String countType;//判断订单有几种结算
+	private String countType;
 
     private String isNewSettleBill;
 

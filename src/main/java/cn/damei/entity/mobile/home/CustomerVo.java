@@ -5,9 +5,7 @@ import java.io.Serializable;
 public class CustomerVo implements Serializable {
 
 	
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	private Integer orderId;
 	private String phone;

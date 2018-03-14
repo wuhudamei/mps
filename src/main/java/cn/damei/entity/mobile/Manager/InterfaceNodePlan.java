@@ -1,9 +1,9 @@
 package cn.damei.entity.mobile.Manager;
 
 public class InterfaceNodePlan {
-	private String ScheduleNodeSequence	;//进度节点顺序	
-	private String ScheduleNodeName		;//进度节点名称	
-	private String PlanCompleteTime		;//计划完成时间	
+	private String ScheduleNodeSequence	;
+	private String ScheduleNodeName		;
+	private String PlanCompleteTime		;
 	public String getScheduleNodeSequence() {
 		return ScheduleNodeSequence;
 	}

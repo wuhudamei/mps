@@ -8,10 +8,10 @@ public class MaterialWarning extends DataEntity<MaterialWarning>{
 	private static final long serialVersionUID = 1L;
 	private String id;
 	private String storeId;
-	private String isNewHouse;//新老房 新 1 老 0
-	private String constructionScheduleName;//进度节点名称
-	private String projectMode;//工程模式  产业 1 传统 2
-	private String sort;//进度节点顺序
+	private String isNewHouse;
+	private String constructionScheduleName;
+	private String projectMode;
+	private String sort;
 	private String allOrderSum;
 	private List<String> orderIds;
 	

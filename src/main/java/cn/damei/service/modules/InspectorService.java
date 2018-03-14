@@ -15,12 +15,12 @@ import cn.damei.entity.modules.Inspector;
 public class InspectorService extends CrudService2<InspectorDao, Inspector>{
 
 	public List<Inspector> findListForOrder(Inspector inspector) {
-		// TODO Auto-generated method stub
+
 		return dao.findListForOrder(inspector);
 	}
 
 	public List<Inspector> findlistForOrderTradition(Inspector inspector) {
-		// TODO Auto-generated method stub
+
 		return dao.findListForOrderTradition(inspector);
 	}
 

@@ -8,11 +8,7 @@ import cn.damei.entity.mobile.Manager.GroupLeaderEvalReward;
 
 import java.util.List;
 
-/** 
-* @author 邱威威qww 
-* @version 创建时间：2016年10月5日 下午4:28:27 
-* 类说明 
-*/
+
 @MyBatisDao
 public interface BizEvalRewardTaskpackDao extends CrudDao2<BizEvalRewardTaskpack>{
 

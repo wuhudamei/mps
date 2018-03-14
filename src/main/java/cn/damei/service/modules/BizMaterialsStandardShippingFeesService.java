@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.util.List;
@@ -14,11 +12,7 @@ import cn.damei.common.persistence.Page;
 import cn.damei.entity.modules.BizMaterialsStandardShippingFees;
 import cn.damei.dao.modules.BizMaterialsStandardShippingFeesDao;
 
-/**
- * 筒灯灯带标化辅料配送费Service
- * @author Ryze
- * @version 2017-10-25
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizMaterialsStandardShippingFeesService extends CrudService2<BizMaterialsStandardShippingFeesDao, BizMaterialsStandardShippingFees> {
@@ -40,7 +34,7 @@ public class BizMaterialsStandardShippingFeesService extends CrudService2<BizMat
 	@Transactional(readOnly = false)
 	public void save(BizMaterialsStandardShippingFees bizMaterialsStandardShippingFees) {
 		Boolean flag=true;
-		//启用的话 先去查 看是否可启用 正常不会出现  这个是为了防止并发
+
 		Integer status = 1;
 		if (status.equals(bizMaterialsStandardShippingFees.getStatus())) {
 			List<BizMaterialsStandardShippingFees> list = super.findList(new BizMaterialsStandardShippingFees());

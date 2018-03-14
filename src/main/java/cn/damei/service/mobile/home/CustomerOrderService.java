@@ -25,7 +25,7 @@ public class CustomerOrderService extends CrudService2<CustomerOrderDao, Custome
 	}
 
 	public List<OrderTeam> findTeamByOrderId(Integer orderId) {
-		// TODO Auto-generated method stub
+
 		return dao.findTeamByOrderId(orderId);
 	}
 

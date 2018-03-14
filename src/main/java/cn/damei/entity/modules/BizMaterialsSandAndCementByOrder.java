@@ -5,51 +5,46 @@ import java.util.List;
 import cn.damei.common.persistence.DataEntity2;
 public class BizMaterialsSandAndCementByOrder extends DataEntity2<BizMaterialsSandAndCementByOrder> {
 
-	/**
-	 * 材料类按订单汇总查询（沙子水泥）
-	 * 
-	 * @author 王硕
-	 * @version 2017-10-24
-	 */
+
 	private static final long serialVersionUID = 1L;
 
-	private Integer storeId; // 门店ID
-	private Integer orderId; // 订单id
-	private String orderNumber; // 订单编号
-	private String customerName; // 客户姓名
-	private String itemManager; // 项目经理
-	private String applyTimes; // 申请次数
-	private Integer enginDepartId; // 区域ID
-	private Date finalReceiveTime; // 项目经理收货日期
-	private Date finalReceiveTimeBegin;//项目经理收货起始日期
-	private Date finalReceiveTimeEnd;//项目经理收货结束日期
-	private Integer purchaseId;//采购单ID
-	private String enginDepartName;//区域名称
-	private String customerAddress;//客户地址
-	private String orderStatus;//订单状态
-	private String projectMode;//工程模式
-	private String purchaseCode;//采购单编号
-	private Date applyReceiveTime;//期望到货日期
-	private Date applyTime;//提交申请日期
-	private Date applyTimeBegin;//提交申请开始日期
-	private Date applyTimeEnd;//提交申请结束日期
-	private String auxiMateCode;//商品编号
-	private Double price;//价格
-	private Double auxiMateCount;//申请数量
-	private Double receivedAuxiMateCount;//已收货数量
-	private Double owedAuxiMateCount;//欠货数量
-	private String brands;//品牌
-	private String 	auxiMaterialName;//商品名称
-	private String specifications;//规格
-	private Integer categoryId;//材料类别
-	private String measurementUnit;//单位
-	private String categoryName;//材料类别名称
-	private String status;//采购单状态
-	private Integer upstairsFloor;//楼层
-	private String isElevator;//是否有电梯
-	private String realName;//项目经理姓名
-	private String phone;//项目经理电话
-	private List<String> purchaseStatusList = null; //采购单状态集合
+	private Integer storeId;
+	private Integer orderId;
+	private String orderNumber;
+	private String customerName;
+	private String itemManager;
+	private String applyTimes;
+	private Integer enginDepartId;
+	private Date finalReceiveTime;
+	private Date finalReceiveTimeBegin;
+	private Date finalReceiveTimeEnd;
+	private Integer purchaseId;
+	private String enginDepartName;
+	private String customerAddress;
+	private String orderStatus;
+	private String projectMode;
+	private String purchaseCode;
+	private Date applyReceiveTime;
+	private Date applyTime;
+	private Date applyTimeBegin;
+	private Date applyTimeEnd;
+	private String auxiMateCode;
+	private Double price;
+	private Double auxiMateCount;
+	private Double receivedAuxiMateCount;
+	private Double owedAuxiMateCount;
+	private String brands;
+	private String 	auxiMaterialName;
+	private String specifications;
+	private Integer categoryId;
+	private String measurementUnit;
+	private String categoryName;
+	private String status;
+	private Integer upstairsFloor;
+	private String isElevator;
+	private String realName;
+	private String phone;
+	private List<String> purchaseStatusList = null;
 
 
 	public Date getApplyTimeBegin() {

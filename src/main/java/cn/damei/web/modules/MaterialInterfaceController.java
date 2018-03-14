@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import java.io.IOException;
@@ -24,11 +22,7 @@ import cn.damei.service.modules.MaterialInterfaceService;
 
 import net.sf.json.JSONArray;
 
-/**
- * 选材单表接口Controller
- * @author wyb
- * @version 2017-06-13
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/api/bizmaterialchoicebill/bizMaterialsChoiceBill")
 public class MaterialInterfaceController extends BaseController {
@@ -39,12 +33,7 @@ public class MaterialInterfaceController extends BaseController {
 	private Logger log = LoggerFactory.getLogger(MaterialInterfaceController.class);
 	
 
-	/**
-	 * 选材清单接口
-	 * @param request
-	 * @return
-	 * @throws IOException
-	 */
+
 	@RequestMapping(value = "receiveJsonDate")
 	@ResponseBody
 	public String receiveJsonData(HttpServletRequest request) throws IOException{
@@ -67,7 +56,7 @@ public class MaterialInterfaceController extends BaseController {
 			log.error("==========选材清单接收数据异常!!　时间为: "+date +"　  　选材清单接口接收数据为: " +jsonArray.toString()+"===========");
 			log.error("==========选材清单接口异常!! =====  异常时间:"+date+"=====异常为: "+ e);
 
-//			s="{'code':500,'message':'保存失败'}";
+
 			Map<String,String> resultMap = new HashMap<String,String>();
 			resultMap.put("code", "500");
 			resultMap.put("message", "保存失败");

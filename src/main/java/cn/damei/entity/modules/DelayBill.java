@@ -2,17 +2,9 @@ package cn.damei.entity.modules;
 
 import cn.damei.common.persistence.DataEntity;
 
-/** 
-* @ClassName: DelayBill 
-* @Description: 延期单实体类
-* @author zkj  
-* @date 2017年10月26日 下午2:49:47 
-* @version V1.0 
-*/
+
 public class DelayBill extends DataEntity<DelayBill>{
-	/** 
-	*  
-	*/ 
+
 	private static final long serialVersionUID = 1L;
 	private String customerName                      ;
 	private String customerPhone                      ;
@@ -20,28 +12,28 @@ public class DelayBill extends DataEntity<DelayBill>{
 	private String buildNumber                       ;
 	private String buildUnit                         ;
 	private String buildRoom                         ;
-	private String delayBillStageStatus            ;//延期阶段
+	private String delayBillStageStatus            ;
 	private String delayBillCategoryId             ;
-	private String delayBillCategoryIdReson             ;//延期原因
-	private String delayBeginDatetime               ;//延期开始时间
-	private String delayEndDatetime                 ;//延期结束时间
-	private String delayDays                         ;//延期天数
-	private String deferredInstruction               ;//延期说明
-	private String deferredApplicationDatetime      ;//延期申请时间
-	private String status                             ;//状态
-	private String statusDatetime                    ;//状态日期时间
+	private String delayBillCategoryIdReson             ;
+	private String delayBeginDatetime               ;
+	private String delayEndDatetime                 ;
+	private String delayDays                         ;
+	private String deferredInstruction               ;
+	private String deferredApplicationDatetime      ;
+	private String status                             ;
+	private String statusDatetime                    ;
 	
-	private String orderStatus; //订单状态
-	private Integer orderId;//订单ID
+	private String orderStatus;
+	private Integer orderId;
 	
-	private String remarks;//拒绝原因
+	private String remarks;
 	
-	private String itemManager;//项目经理
-	private String itemManagerPhone;//项目经理手机号
-	private String orderNumber;//
-	private String storeId;//门店
-	private String projectMode;//工程模式
-	private String customerAddress;//客户地址
+	private String itemManager;
+	private String itemManagerPhone;
+	private String orderNumber;
+	private String storeId;
+	private String projectMode;
+	private String customerAddress;
 	private String delayBillStageStatusName;
 	private String nodeIndex;
 

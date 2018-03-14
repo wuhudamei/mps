@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.util.List;
@@ -13,11 +11,7 @@ import cn.damei.common.service.CrudService2;
 import cn.damei.entity.modules.BizSynData;
 import cn.damei.dao.modules.BizSynDataDao;
 
-/**
- * 同步数据Service
- * @author 汪文
- * @version 2017-03-15
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizSynDataService extends CrudService2<BizSynDataDao, BizSynData> {
@@ -46,7 +40,7 @@ public class BizSynDataService extends CrudService2<BizSynDataDao, BizSynData> {
 
 	@Transactional(readOnly = false)
 	public void insert(BizSynData bizSynData) {
-		// TODO Auto-generated method stub
+
 		dao.insert(bizSynData);
 	}
 	

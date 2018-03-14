@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import java.io.UnsupportedEncodingException;
@@ -50,12 +48,7 @@ import cn.damei.entity.modules.BizEmployee;
 import cn.damei.entity.modules.User;
 import cn.damei.common.utils.UserUtils;
 
-/**
- * 预备订单表Controller
- * 
- * @author wyb
- * @version 2017-03-15
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/bizprepareorder/bizPrepareOrder")
 public class BizPrepareOrderController extends BaseController
@@ -105,19 +98,13 @@ public class BizPrepareOrderController extends BaseController
 		long count = bizPrepareOrderService.findPrepareOrderCount(temp);
 		Page<BizPrepareOrder> page = bizPrepareOrderService.findPage(new Page<BizPrepareOrder>(request, response), bizPrepareOrder);
 		
-		//待接收预备订单的数量
+
 		model.addAttribute("count", count);
 		model.addAttribute("page", page);
 		return "modules/bizprepareorder/bizPrepareOrderList";
 	}
 
-	/**
-	 * 预备订单详情
-	 * 
-	 * @param bizPrepareOrder
-	 * @param model
-	 * @return
-	 */
+
 	@RequiresPermissions("bizprepareorder:bizPrepareOrder:view")
 	@RequestMapping(value = "details")
 	public String details(BizPrepareOrder bizPrepareOrder, Model model)
@@ -126,20 +113,14 @@ public class BizPrepareOrderController extends BaseController
 		return "modules/bizprepareorder/bizPrepareOrderDetails";
 	}
 
-	/**
-	 * 预备订单接收失败--修改
-	 * 
-	 * @param bizPrepareOrder
-	 * @param model
-	 * @return
-	 */
+
 	@RequiresPermissions("bizprepareorder:bizPrepareOrder:view")
 	@RequestMapping(value = "form")
 	public String form(BizPrepareOrder bizPrepareOrder, Model model)
 	{
-		//设计师列表
+
 		List<BizEmployee> employeeListByType = bizPrepareOrderService.getEmployeeListByType(EmployeeContantUtil.EMPLOYEE_EMP_TYPE_5);
-		//审计员列表
+
 		List<BizEmployee> auditorList = bizPrepareOrderService.getEmployeeListByType(EmployeeContantUtil.EMPLOYEE_EMP_TYPE_8);
 		
 		model.addAttribute("empList",employeeListByType);
@@ -148,13 +129,7 @@ public class BizPrepareOrderController extends BaseController
 		return "modules/bizprepareorder/bizPrepareOrderForm";
 	}
 
-	/**
-	 * 预备订单接收失败--修改保存
-	 * 
-	 * @param bizPrepareOrder
-	 * @param model
-	 * @return
-	 */
+
 	@RequiresPermissions("bizprepareorder:bizPrepareOrder:edit")
 	@RequestMapping(value = "save")
 	public String save(BizPrepareOrder bizPrepareOrder, Model model, RedirectAttributes redirectAttributes)
@@ -169,14 +144,7 @@ public class BizPrepareOrderController extends BaseController
 		return "redirect:" + Global.getAdminPath() + "/bizprepareorder/bizPrepareOrder/list1?repage";
 	}
 
-	/**
-	 * 接收
-	 * 
-	 * @param bizPrepareOrder
-	 * @param model
-	 * @param redirectAttributes
-	 * @return
-	 */
+
 	@RequiresPermissions("bizprepareorder:bizPrepareOrder:edit")
 	@RequestMapping(value = "receive")
 	public String receive(BizPrepareOrder bizPrepareOrder, Model model, RedirectAttributes redirectAttributes)
@@ -184,14 +152,14 @@ public class BizPrepareOrderController extends BaseController
 
 		Date date = new Date();
 		User user = UserUtils.getUser();
-		// 1.校验数据是否正确
+
 		String messageVerification = bizPrepareOrderService.verificationPrepareOrder(bizPrepareOrder);
 
 		String message = "失败";
 
 		if (null != messageVerification && messageVerification.equals("预备订单校验"))
 		{
-			// 2.接收预备订单到订单表
+
 			message = bizPrepareOrderService.receiveOrder(bizPrepareOrder);
 		} else if (messageVerification.equals("预备订单接收失败，订单编号在订单列表中已包含！"))
 		{
@@ -204,18 +172,18 @@ public class BizPrepareOrderController extends BaseController
 		BizBusinessStatusLog bizBusinessStatusLog = new BizBusinessStatusLog();
 
 		if( StringUtils.isNotBlank(message) && ("预备订单,接收成功").equals(message) && StringUtils.isNotBlank(messageVerification) && ("预备订单校验").equals(messageVerification) ){
-			// 订单接收成功
+
 			bizBusinessStatusLog.setBusinessRemarks(message);
 			bizBusinessStatusLog.setBusinessStatus(ConstantUtils.PREPARE_ORDER_STATUS_30);
 			bizPrepareOrder.setStatus(ConstantUtils.PREPARE_ORDER_STATUS_30);
 		}else{
-			// 订单接收失败
+
 			bizBusinessStatusLog.setBusinessRemarks(message);
 			bizBusinessStatusLog.setBusinessStatus(ConstantUtils.PREPARE_ORDER_STATUS_15);
 			bizPrepareOrder.setStatus(ConstantUtils.PREPARE_ORDER_STATUS_15);
 		}
 
-		// 3.保存业务状态日志
+
 		bizBusinessStatusLog.setBusinessType(ConstantUtils.BUSINESS_TYPE_101);
 		bizBusinessStatusLog.setBusinessOnlyMarkInt(bizPrepareOrder.getId());
 		bizBusinessStatusLog.setStatusDatetime(date);
@@ -231,7 +199,7 @@ public class BizPrepareOrderController extends BaseController
 		bizBusinessStatusLog.setDelFlag("0");
 		bizBusinessStatusLogService.save(bizBusinessStatusLog);
 
-		// 4.更新预备订单状态
+
 		bizPrepareOrder.setUpdateBy(user);
 		bizPrepareOrder.setUpdateDate(date);
 		bizPrepareOrderService.save(bizPrepareOrder);
@@ -241,15 +209,7 @@ public class BizPrepareOrderController extends BaseController
 		return "redirect:" + Global.getAdminPath() + "/bizprepareorder/bizPrepareOrder/list1?repage";
 	}
 
-	/**
-	 * 拒绝
-	 * 
-	 * @param bizPrepareOrder
-	 * @param redirectAttributes
-	 * @return
-	 * @throws Exception
-	 * @throws UnsupportedEncodingException
-	 */
+
 	@RequiresPermissions("bizprepareorder:bizPrepareOrder:edit")
 	@RequestMapping(value = "refuse")
 	public String refuse(BizPrepareOrder bizPrepareOrder, String reason,String reasonType,String reasonTypeName, RedirectAttributes redirectAttributes) throws UnsupportedEncodingException, Exception
@@ -262,7 +222,7 @@ public class BizPrepareOrderController extends BaseController
 			return "redirect:" + Global.getAdminPath() + "/bizprepareorder/bizPrepareOrder/list1?repage";
 		}
 
-		// 1.更新预备订单状态
+
 		bizPrepareOrder.setRefuseReasonType(reasonType);
 		bizPrepareOrder.setRefuseReason(reason);
 		bizPrepareOrder.setStatus(ConstantUtils.PREPARE_ORDER_STATUS_20);
@@ -270,7 +230,7 @@ public class BizPrepareOrderController extends BaseController
 		bizPrepareOrder.setUpdateDate(date);
 		bizPrepareOrderService.save(bizPrepareOrder);
 
-		// 2.保存业务状态日志
+
 		BizBusinessStatusLog bizBusinessStatusLog = new BizBusinessStatusLog();
 		bizBusinessStatusLog.setBusinessType(ConstantUtils.BUSINESS_TYPE_101);
 		bizBusinessStatusLog.setBusinessOnlyMarkInt(bizPrepareOrder.getId());
@@ -289,8 +249,8 @@ public class BizPrepareOrderController extends BaseController
 		bizBusinessStatusLog.setDelFlag("0");
 		bizBusinessStatusLogService.save(bizBusinessStatusLog);
 
-		// 3.保存同步数据表
-		// 向biz_syn_data表中保存数据 --- 预备订单拒绝
+
+
 		Map<String, String> jsonMap = new HashMap<String, String>();
 		jsonMap.put("orderId", bizPrepareOrder.getOrderNumber());
 		jsonMap.put("time", DateFormatUtils.format(date, "yyyy-MM-dd HH:mm:ss"));
@@ -321,25 +281,14 @@ public class BizPrepareOrderController extends BaseController
 	private BizMaterialsChoiceBillItemService bizMaterialsChoiceBillItemService;
 	@Autowired
 	private BizMaterialsChoiceBillService bizMaterialsChoiceBillService;
-	/**
-	 * 订单的选材清单详情
-	 * @param id
-	 * @param model
-	 * @return
-	 */
+
 	@RequestMapping(value = "order_materials_choice_bill_detail")
 	public String orderMaterialsChoiceBillDetail(BizPrepareOrder bizPrepareOrder, Model model) {
 		
-		//1.订单详情
-		//2.选材清单
-		/*List<BizMaterialsChoiceBillItem> materialsChoiceList = null;
-		if(null!=bizPrepareOrder.getOrderNumber() && !bizPrepareOrder.getOrderNumber().equals("")){
-			BizMaterialsChoiceBill bizMaterialsChoiceBillItem = new BizMaterialsChoiceBill();
-			bizMaterialsChoiceBillItem.setOrderNumber(bizPrepareOrder.getOrderNumber());
-			List<BizMaterialsChoiceBill> findList = bizMaterialsChoiceBillService.findList(bizMaterialsChoiceBillItem);
-							
-		}*/
-		//根据订单编号查询选材单号
+
+
+
+
 		Integer id = bizPrepareOrderService.findMaterialsChoiceBillId(bizPrepareOrder.getOrderNumber());
 		
 		if(id !=null){
@@ -356,22 +305,11 @@ public class BizPrepareOrderController extends BaseController
 		
 		return "modules/bizmaterialschoicebill/orderMaterialsChoiceBillDetails";
 	}
-	/**
-	 * 接单统计
-	 * @param startDate
-	 * @param endDate
-	 * @return
-	 * @throws ParseException 
-	 */
+
 	@RequestMapping(value = "ordertaskingCount")
 	public String ordertaskingCount(OrdertaskingCount ordertaskingCount,BizPrepareOrder bizPrepareOrder,Model model) throws ParseException{
 		if(ordertaskingCount.getBeginCreateDate() !=null){
-			/*Date endCreateDate = ordertaskingCount.getEndCreateDate();
-			Calendar calendar  = new GregorianCalendar(); 
-			calendar.setTime(endCreateDate);
-			calendar.add(calendar.DATE,1);
-			Date dateadd=calendar.getTime();
-			ordertaskingCount.setEndCreateDate(dateadd);*/
+
 			List<OrdertaskingCount> list= bizPrepareOrderService.ordertaskingCount(ordertaskingCount);
           	model.addAttribute("list", list);
 		}
@@ -407,12 +345,7 @@ public class BizPrepareOrderController extends BaseController
 	
 	
 
-	/**
-	 * 获取所有设计师的姓名电话
-	 * @param bizPrepareOrder
-	 * @param model
-	 * @return
-	 */
+
 	@RequiresPermissions("bizprepareorder:bizPrepareOrder:view")
 	@RequestMapping(value = "checkForm")
 	public @ResponseBody List<BizEmployee> checkForm(String empName,String empPhone, Model model) {

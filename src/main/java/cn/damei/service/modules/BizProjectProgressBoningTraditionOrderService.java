@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import cn.damei.common.persistence.Page;
@@ -19,11 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-/**
- * 传统订单工程进度大看板Service
- * @author qww
- * @version 2016-10-26
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizProjectProgressBoningTraditionOrderService extends CrudService2<BizProjectProgressBoningTraditionOrderDao, BizTraditionOrder> {
@@ -40,25 +34,17 @@ public class BizProjectProgressBoningTraditionOrderService extends CrudService2<
 		return super.findPage(page, bizTraditionOrder);
 	}
 	
-	/**
-	 * 根据订单ID查询biz_node_plan表节点进度
-	 * @param orderId
-	 * @return
-	 */
+
 	public List<BizNodePlanProject> findPlanList(Integer orderId) {
 		return dao.findPlanList(orderId);
 	}
 	
-	/**
-	 * 中国银行导出数据
-	 * @param bizProjectProgressBoning
-	 * @return
-	 */
-	public HSSFWorkbook exportExcel(BizTraditionOrder bizTraditionOrder) {
-		HSSFWorkbook wb = new HSSFWorkbook();// 创建一个Excel文件
-		HSSFSheet sheet = wb.createSheet("传统订单工程进度大看板");// 创建一个Excel的Sheet
 
-		// 单元格宽度
+	public HSSFWorkbook exportExcel(BizTraditionOrder bizTraditionOrder) {
+		HSSFWorkbook wb = new HSSFWorkbook();
+		HSSFSheet sheet = wb.createSheet("传统订单工程进度大看板");
+
+
 		sheet.setColumnWidth(0, 3000);
 		sheet.setColumnWidth(1, 3000);
 		sheet.setColumnWidth(2, 3000);
@@ -148,40 +134,40 @@ public class BizProjectProgressBoningTraditionOrderService extends CrudService2<
 		sheet.setColumnWidth(86, 3000);
 		sheet.setColumnWidth(87, 3000);
 		
-		//单元格样式--标题
+
 		HSSFCellStyle columnHeadStyle = wb.createCellStyle();
-		columnHeadStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);// 左右居中
-		columnHeadStyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);// 上下居中
+		columnHeadStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+		columnHeadStyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
 		columnHeadStyle.setLocked(true);
 		columnHeadStyle.setWrapText(true);
-		columnHeadStyle.setLeftBorderColor(HSSFColor.BLACK.index);// 左边框的颜色
-		columnHeadStyle.setBorderLeft((short) 1);// 边框的大小
-		columnHeadStyle.setRightBorderColor(HSSFColor.BLACK.index);// 右边框的颜色
-		columnHeadStyle.setBorderRight((short) 1);// 边框的大小
-		columnHeadStyle.setTopBorderColor(HSSFColor.BLACK.index);// 上边框的颜色
-		columnHeadStyle.setBorderTop((short) 1);// 边框的大小
-		columnHeadStyle.setBottomBorderColor(HSSFColor.BLACK.index);// 下边框的颜色
-		columnHeadStyle.setBorderBottom((short) 1);// 边框的大小
-		columnHeadStyle.setBorderBottom(HSSFCellStyle.BORDER_THIN); // 设置单元格的边框为粗体
-		columnHeadStyle.setBottomBorderColor(HSSFColor.BLACK.index); // 设置单元格的边框颜色
-		columnHeadStyle.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);// 设置单元格的背景颜色（单元格的样式会覆盖列或行的样式）
+		columnHeadStyle.setLeftBorderColor(HSSFColor.BLACK.index);
+		columnHeadStyle.setBorderLeft((short) 1);
+		columnHeadStyle.setRightBorderColor(HSSFColor.BLACK.index);
+		columnHeadStyle.setBorderRight((short) 1);
+		columnHeadStyle.setTopBorderColor(HSSFColor.BLACK.index);
+		columnHeadStyle.setBorderTop((short) 1);
+		columnHeadStyle.setBottomBorderColor(HSSFColor.BLACK.index);
+		columnHeadStyle.setBorderBottom((short) 1);
+		columnHeadStyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+		columnHeadStyle.setBottomBorderColor(HSSFColor.BLACK.index);
+		columnHeadStyle.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
 		columnHeadStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);		
 		
 		
-		//单元格样式
+
 		HSSFCellStyle columnStyle = wb.createCellStyle();
-		columnStyle.setLeftBorderColor(HSSFColor.BLACK.index); // 左边框线的颜色
-		columnStyle.setBorderLeft((short) 1);// 左边框线的大小
-		columnStyle.setRightBorderColor(HSSFColor.BLACK.index); // 右边框线的颜色
-		columnStyle.setBorderRight((short) 1);// 右边框线的大小
-		columnStyle.setTopBorderColor(HSSFColor.BLACK.index); // 上边框线的颜色
-		columnStyle.setBorderTop((short) 1);// 上边框线的大小
-		columnStyle.setBottomBorderColor(HSSFColor.BLACK.index); // 下边框线的颜色
-		columnStyle.setBorderBottom((short) 1);// 下边框线的大小
+		columnStyle.setLeftBorderColor(HSSFColor.BLACK.index);
+		columnStyle.setBorderLeft((short) 1);
+		columnStyle.setRightBorderColor(HSSFColor.BLACK.index);
+		columnStyle.setBorderRight((short) 1);
+		columnStyle.setTopBorderColor(HSSFColor.BLACK.index);
+		columnStyle.setBorderTop((short) 1);
+		columnStyle.setBottomBorderColor(HSSFColor.BLACK.index);
+		columnStyle.setBorderBottom((short) 1);
 		columnStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
 				
 
-		// 标题
+
 		HSSFRow rowTitle1 = sheet.createRow(0);
 		rowTitle1.setHeightInPoints(30);
 		
@@ -831,7 +817,7 @@ public class BizProjectProgressBoningTraditionOrderService extends CrudService2<
 		headCellTwo87.setCellStyle(columnHeadStyle);
 		headCellTwo87.setCellValue("正常/延期/提前天数");
 		
-		//合并单元格   开始行，结束行，开始列，结束列
+
 		sheet.addMergedRegion(new CellRangeAddress(0, 1, 0, 0));
 		sheet.addMergedRegion(new CellRangeAddress(0, 1, 1, 1));
 		sheet.addMergedRegion(new CellRangeAddress(0, 1, 2, 2));
@@ -877,7 +863,7 @@ public class BizProjectProgressBoningTraditionOrderService extends CrudService2<
 		sheet.addMergedRegion(new CellRangeAddress(0, 0, 85, 87));
 
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-		// 数据
+
 		List<BizTraditionOrder> list = dao.findListExcel1(bizTraditionOrder);
 		if(CollectionUtils.isNotEmpty(list)){
 			for(int i=0;i<list.size();i++){

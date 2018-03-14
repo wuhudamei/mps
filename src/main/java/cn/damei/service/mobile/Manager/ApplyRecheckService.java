@@ -19,22 +19,14 @@ public class ApplyRecheckService {
 	private ApplyRecheckDao dao;
 	
 	
-	/**
-	 * 根据项目经理id查询订单下的质检单的复检单
-	 * @param managerId
-	 * @return
-	 */
+
 	public List<ApplyRecheckEntity> findRecheckList(Integer managerId){
 		
 		return dao.findRecheckList(managerId);
 	}
 	
 
-	/**
-	 * 根据复检单id 查询不合格的检查项
-	 * @param reCheckId
-	 * @return
-	 */
+
 	public List<ApplyRecheckEntity> selectCheckItemByRecheckId(Integer reCheckId){
 		
 		return dao.selectCheckItemByRecheckId(reCheckId);
@@ -42,21 +34,14 @@ public class ApplyRecheckService {
 	}
 	
 
-	/**
-	 * 保存经理申请复检时的照片
-	 * @param pic
-	 */
+
 	@Transactional(readOnly=false)
 	public void savePic(ReportCheckDetailsPic pic){
 		
 	dao.savePic(pic);	
 		
 	}
-	/**
-	 * 更新复检单  status  申请人,期望日期,等
-	 *
-	 * @param entity
-	 */
+
 	@Transactional(readOnly=false)
 	public void updateRecheckStatus(ApplyRecheckEntity  entity){
 		

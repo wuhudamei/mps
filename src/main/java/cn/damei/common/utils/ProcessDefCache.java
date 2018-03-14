@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.common.utils;
 
 import java.util.List;
@@ -14,26 +12,18 @@ import org.apache.commons.lang3.ObjectUtils;
 import cn.damei.common.utils.CacheUtils;
 import cn.damei.common.utils.SpringContextHolder;
 
-/**
- * 流程定义缓存
- * @author ThinkGem
- * @version 2013-12-05
- */
+
 public class ProcessDefCache {
 
 	private static final String ACT_CACHE = "actCache";
 	private static final String ACT_CACHE_PD_ID_ = "pd_id_";
 	
-	/**
-	 * 获得流程定义对象
-	 * @param procDefId
-	 * @return
-	 */
+
 	public static ProcessDefinition get(String procDefId) {
 		ProcessDefinition pd = (ProcessDefinition)CacheUtils.get(ACT_CACHE, ACT_CACHE_PD_ID_ + procDefId);
 		if (pd == null) {
 			RepositoryService repositoryService = SpringContextHolder.getBean(RepositoryService.class);
-//			pd = (ProcessDefinitionEntity) ((RepositoryServiceImpl) repositoryService).getDeployedProcessDefinition(pd);
+
 			pd = repositoryService.createProcessDefinitionQuery().processDefinitionId(procDefId).singleResult();
 			if (pd != null) {
 				CacheUtils.put(ACT_CACHE, ACT_CACHE_PD_ID_ + procDefId, pd);
@@ -42,11 +32,7 @@ public class ProcessDefCache {
 		return pd;
 	}
 
-	/**
-	 * 获得流程定义的所有活动节点
-	 * @param procDefId
-	 * @return
-	 */
+
 	public static List<ActivityImpl> getActivitys(String procDefId) {
 		ProcessDefinition pd = get(procDefId);
 		if (pd != null) {
@@ -55,12 +41,7 @@ public class ProcessDefCache {
 		return null;
 	}
 	
-	/**
-	 * 获得流程定义活动节点
-	 * @param procDefId
-	 * @param activityId
-	 * @return
-	 */
+
 	public static ActivityImpl getActivity(String procDefId, String activityId) {
 		ProcessDefinition pd = get(procDefId);
 		if (pd != null) {
@@ -76,12 +57,7 @@ public class ProcessDefCache {
 		return null;
 	}
 
-	/**
-	 * 获取流程定义活动节点名称
-	 * @param procDefId
-	 * @param activityId
-	 * @return
-	 */
+
 	@SuppressWarnings("deprecation")
 	public static String getActivityName(String procDefId, String activityId) {
 		ActivityImpl activity = getActivity(procDefId, activityId);

@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,11 +22,7 @@ import cn.damei.service.modules.BizMessagegroupService;
 import cn.damei.common.utils.DictUtils;
 import cn.damei.common.utils.UserUtils;
 
-/**
- * 短信组Controller
- * @author 汪文文
- * @version 2016-09-06
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/messagegroup/bizMessagegroup")
 public class BizMessagegroupController extends BaseController {
@@ -52,7 +46,7 @@ public class BizMessagegroupController extends BaseController {
 	@RequestMapping(value ="listPage")
 	public String listPage(BizMessagegroup bizMessagegroup, HttpServletRequest request, HttpServletResponse response, Model model) {
 		if(UserUtils.getUser().getStoreId()!=null){
-			//当前登录用户门店
+
 			bizMessagegroup.setStoreId(UserUtils.getUser().getStoreId());
 		}
 		return "modules/messagegroup/bizMessagegroupList";
@@ -62,7 +56,7 @@ public class BizMessagegroupController extends BaseController {
 	public String list(BizMessagegroup bizMessagegroup, HttpServletRequest request, HttpServletResponse response, Model model) {
 		if(UserUtils.getUser().getStoreId()!=null)
 		{
-			//当前登录用户门店
+
 			bizMessagegroup.setStoreId(UserUtils.getUser().getStoreId());
 		}
 		Page<BizMessagegroup> page = bizMessagegroupService.findPage(new Page<BizMessagegroup>(request, response), bizMessagegroup); 
@@ -75,16 +69,12 @@ public class BizMessagegroupController extends BaseController {
 	public String form(BizMessagegroup bizMessagegroup, Model model) {
 		if(StringUtils.isBlank(bizMessagegroup.getStoreId())){
 			if (UserUtils.getUser().getStoreId() != null) {
-				// 当前登录用户门店
+
 				bizMessagegroup.setStoreId(UserUtils.getUser().getStoreId());
 			} else {
-				// 门店是总部的查询所有部门信息
-				/*if (bizEmployeegroup.getStoreId() != null
-						&& bizEmployeegroup.getStoreId().equals("1")) {
-					// 总部
-					bizEmployeegroup.setStoreId(null);
-				}*/
-				//总部时默认为北京门店
+
+
+
 				if(bizMessagegroup.getStoreId() == null || bizMessagegroup.getStoreId().equals("1")){
 					bizMessagegroup.setStoreId("2");
 				}

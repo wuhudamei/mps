@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.util.List;
@@ -20,11 +18,7 @@ import cn.damei.dao.modules.BizTaskPackageWorkPlanTemplatDao;
 import cn.damei.entity.modules.BizTaskPackageWorkPlanTemplatRel;
 import cn.damei.dao.modules.BizTaskPackageWorkPlanTemplatRelDao;
 
-/**
- * 任务包派工计划模板Service
- * @author chy
- * @version 2016-09-03
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizTaskPackageWorkPlanTemplatService extends CrudService<BizTaskPackageWorkPlanTemplatDao, BizTaskPackageWorkPlanTemplat> {

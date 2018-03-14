@@ -3,19 +3,15 @@ package cn.damei.entity.modules;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 违规形式vo
- * @author Administrator
- *
- */
+
 public class ReportCheckBreakSettleBill extends DataEntity2<ReportCheckBreakSettleBill>{
 
 	private static final long serialVersionUID = 1L;
 	private Integer qcBillCheckItemId;
-	private Integer qcCheckItemBreakId;//违规项id
-	private String breakDescribe;//违规形式
-	private String isRequiredRemarks;//是否备注
-	private String breakRemarks;//违规备注
+	private Integer qcCheckItemBreakId;
+	private String breakDescribe;
+	private String isRequiredRemarks;
+	private String breakRemarks;
 	
 	private InspectorPunish reportCheck;
 	

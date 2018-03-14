@@ -1,32 +1,26 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import java.util.Date;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 结算类目明细Entity
- * @author wyb
- * @version 2016-10-31
- */
+
 public class PmSettleCategoryDetail extends DataEntity2<PmSettleCategoryDetail> {
 	
 	private static final long serialVersionUID = 1L;
 	
-	private Integer orderId;//订单id
-	private Integer pmEmployeeId;//项目经理id
-	private String settleCategory;//分类 '1.标化辅材;2.自主支配;3.中期提成;4.质检罚款;5.竣工提成;6.质保金;
-	private Double settleAmount;//结算金额
-	private String settleStatus;//结算状态
-	private String lastSettleStatus;//更新后的状态
-	private Date settleStatusTime;//结算状态日期时间
-	private String settleRemark;//结算备注
-	private Integer relatedBussinessId;//关联业务id
-	private String settleRole; //结算角色 1项目经理  2质检员
-	private String  relatedBusinessIdVarchar; //关联业务id 字符类型
+	private Integer orderId;
+	private Integer pmEmployeeId;
+	private String settleCategory;
+	private Double settleAmount;
+	private String settleStatus;
+	private String lastSettleStatus;
+	private Date settleStatusTime;
+	private String settleRemark;
+	private Integer relatedBussinessId;
+	private String settleRole;
+	private String  relatedBusinessIdVarchar;
 	
 	public String getRelatedBusinessIdVarchar() {
 		return relatedBusinessIdVarchar;

@@ -16,9 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by joseph on 2017/6/13.
- */
+
 @Controller
 @RequestMapping(value="${adminPath}/app/pqc/apply-check-plan")
 public class ApplyCheckPlanController {

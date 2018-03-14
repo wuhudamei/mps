@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import cn.damei.common.persistence.DataEntity;
@@ -9,11 +7,7 @@ import org.hibernate.validator.constraints.Length;
 import java.util.Date;
 import java.util.List;
 
-/**
- * 其他部门投诉Entity
- * @author mh
- * @version 2017-07-24
- */
+
 public class ComplaintForOtherDepartMentDeal extends DataEntity<ComplaintForOtherDepartMentDeal> {
 	
 	private static final long serialVersionUID = 1L;

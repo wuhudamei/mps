@@ -5,35 +5,32 @@ import cn.damei.common.persistence.DataEntity2;
 
 import java.util.List;
 
-/**
- * 大看板查询基础规则配置
- * Created by hyh on 2017/12/8.
- */
+
 public class BizProjectProgressQueryRuleConfig extends DataEntity2<BizProjectProgressQueryRuleConfig> {
 
     private static final long serialVersionUID = 1L;
 
     private Integer id;
 
-    //父id
+
     private Integer parentId;
 
-    //下标索引
+
     private Integer indexNo;
 
-    //主sql内容
+
     private String mainSqlContent;
 
-    //英文字段
+
     private String enColumnName;
 
-    //中文字段
+
     private String cnColumnName;
 
-    //是否特殊  0：否  1:是
+
     private Integer isSpecial;
 
-    //分组标识内容
+
     private  String groupFlagContent;
 
     private List<BizProjectProgressQueryRuleConfig> childList;
@@ -123,7 +120,7 @@ public class BizProjectProgressQueryRuleConfig extends DataEntity2<BizProjectPro
                 if (e.getParentId() == null) {
                     list.add(e);
                     if (cascade) {
-                        // 判断是否还有子节点, 有则继续获取子节点
+
                         for (int j = 0; j < sourcelist.size(); j++) {
                             BizProjectProgressQueryRuleConfig child = sourcelist.get(j);
                             if (child.getParentId() != null
@@ -138,7 +135,7 @@ public class BizProjectProgressQueryRuleConfig extends DataEntity2<BizProjectPro
                 if (e.getParentId() != null && e.getParentId().equals(parentId)) {
                     list.add(e);
                     if (cascade) {
-                        // 判断是否还有子节点, 有则继续获取子节点
+
                         for (int j = 0; j < sourcelist.size(); j++) {
                             BizProjectProgressQueryRuleConfig child = sourcelist.get(j);
                             if (child.getParentId() != null

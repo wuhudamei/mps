@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.util.*;
@@ -22,11 +20,7 @@ import cn.damei.common.service.CrudService2;
 import cn.damei.entity.modules.BizEvalRewardCfg;
 import cn.damei.dao.modules.BizEvalRewardCfgDao;
 
-/**
- * 评价奖励设置Service
- * @author qww
- * @version 2017-02-24
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizEvalRewardCfgService extends CrudService2<BizEvalRewardCfgDao, BizEvalRewardCfg> {
@@ -68,7 +62,7 @@ public class BizEvalRewardCfgService extends CrudService2<BizEvalRewardCfgDao, B
 	public void add(BizEvalRewardCfg bizEvalRewardCfg,Integer[] taskpackTempId) {
 		User user = UserUtils.getUser();
 		Date date = new Date();
-		// 1.新增评价奖励设置表
+
 		bizEvalRewardCfg.setIsEnabled(ConstantUtils.IS_ENABLED_1);
 		bizEvalRewardCfg.setCreateDate(date);
 		bizEvalRewardCfg.setCreateBy(user);
@@ -76,7 +70,7 @@ public class BizEvalRewardCfgService extends CrudService2<BizEvalRewardCfgDao, B
 		bizEvalRewardCfg.setUpdateBy(user);
 		dao.insert(bizEvalRewardCfg);
 
-		// 2.新增评价奖励任务包模板表
+
 		if(taskpackTempId != null){
 			for(Integer id:taskpackTempId){
 				BizEvalRewardTaskpackTemp temp = new BizEvalRewardTaskpackTemp();
@@ -90,7 +84,7 @@ public class BizEvalRewardCfgService extends CrudService2<BizEvalRewardCfgDao, B
 			}
 		}
 
-		// 3.新增评价奖励星级表
+
 		if(CollectionUtils.isNotEmpty(bizEvalRewardCfg.getList())){
 			for(BizEvalRewardStar star:bizEvalRewardCfg.getList()){
 				if(star != null && star.getStarLevel() != null) {

@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.util.ArrayList;
@@ -30,11 +28,7 @@ import cn.damei.common.utils.UserUtils;
 
 import net.sf.json.JSONObject;
 
-/**
- * 客户回访节点Service
- * @author LiwanCai
- * @version 2017-05-22
- */
+
 @Service
 public class BizCustomerReturnVisitService extends CrudService<BizCustomerReturnVisitDao, BizCustomerReturnVisit> {
 	@Autowired
@@ -47,13 +41,13 @@ public class BizCustomerReturnVisitService extends CrudService<BizCustomerReturn
 	CheckNodeDao checkNodeDao;
 	
 	public BizCustomerReturnVisit getById(String id) {
-		//查询节点信息
+
 		BizCustomerReturnVisit customerReturnVisit = super.get(id);
 		
-		//查询节点问题信息
+
 		List<BizCustomerReturnVisitContent> questions = customerReturnVisitContentDao.getByReturnVisitId( id ); 
 		
-		//遍历问题答案，为编辑显示做处理
+
 		for(BizCustomerReturnVisitContent customerReturnVisitContent :  questions ){
 			if( !StringUtils.isBlank( customerReturnVisitContent.getItemContent() ) ){
 				JSONObject jsonobject = JSONObject.fromObject( customerReturnVisitContent.getItemContent() );
@@ -80,15 +74,11 @@ public class BizCustomerReturnVisitService extends CrudService<BizCustomerReturn
 		return super.findPage(page, bizCustomerReturnVisit);
 	}
 	
-	/**
-	 * 根据回访节点获取回访问题
-	 * @param projectNode
-	 * @return
-	 */
+
 	public List<Map<String,Object>>  getByProjectNode(String projectNode,String storeId,String projectMode){
 		List<BizCustomerReturnVisitContent> list = customerReturnVisitContentDao.getByProjectNode(projectNode,storeId,projectMode);
 		
-		//遍历问题答案，为编辑显示做处理
+
 		if( list != null && list.size() > 0 ){
 			List<Map<String,Object>> resultList = new ArrayList<Map<String,Object>>();
 			for(BizCustomerReturnVisitContent customerReturnVisitContent :  list ){
@@ -109,12 +99,7 @@ public class BizCustomerReturnVisitService extends CrudService<BizCustomerReturn
 		}
 	}
 	
-	/**
-	 * 根据回访节点以及订单id查询对应的无效回访记录
-	 * @param returnVisitNode
-	 * @param orderId
-	 * @return
-	 */
+
 	public List<BizCustomerReturnVisitInvalidRecord> getInvalidRecordList(String returnVisitNode,Integer orderId){
 		List<BizCustomerReturnVisitInvalidRecord> list = invalidRecordDao.findByOrderIdAndVisitNode(orderId,returnVisitNode);
 		if( list != null && list.size() > 0 ){
@@ -124,11 +109,7 @@ public class BizCustomerReturnVisitService extends CrudService<BizCustomerReturn
 		}
 	}
 	
-	/**
-	 * 根据回访节点获取回访问题（excel导出）
-	 * @param projectNode
-	 * @return
-	 */
+
 	public List<BizCustomerReturnVisitContent>  getByProjectNodeForExport(String projectNode,String storeId,String projectMode){
 		return customerReturnVisitContentDao.getByProjectNode(projectNode,storeId,projectMode);
 	}
@@ -138,21 +119,14 @@ public class BizCustomerReturnVisitService extends CrudService<BizCustomerReturn
 		return customerReturnVisitDao.getReturnVisitName(projectNode,storeId,projectMode);
 	}
 	
-	/**
-	 * 
-	 * @param bizCustomerReturnVisit
-	 * @param questionContent	问题描述数组
-	 * @param statisticsDepartment	统计部门数组
-	 * @param replyMode	回复方式数组
-	 * @param itemContent	选项数组
-	 */
+
 	@Transactional
 	public void saveOrUpdate(BizCustomerReturnVisit bizCustomerReturnVisit,String[] questionContent,String[] statisticsDepartment,String[] replyMode,String[] itemContent) {
 		
 		User user = UserUtils.getUser();
 		Date date = new Date();
 		
-		//保存节点
+
 		if( StringUtils.isBlank(bizCustomerReturnVisit.getId()) ){
 			if (StringUtils.isNotBlank(user.getId())){
 				bizCustomerReturnVisit.setCreateBy( user );
@@ -167,9 +141,9 @@ public class BizCustomerReturnVisitService extends CrudService<BizCustomerReturn
 			customerReturnVisitDao.update(bizCustomerReturnVisit);
 		}
 		
-		//先删除原有的问题信息
+
 		customerReturnVisitContentDao.deleteByReturnVisitId(bizCustomerReturnVisit.getId());
-		//保存节点内容信息
+
 		if( questionContent != null && questionContent.length > 0 ){
 			List<BizCustomerReturnVisitContent> contentList = new ArrayList<BizCustomerReturnVisitContent>();
 			for(int i = 0 ; i < questionContent.length; i++){
@@ -196,11 +170,7 @@ public class BizCustomerReturnVisitService extends CrudService<BizCustomerReturn
 		super.delete(bizCustomerReturnVisit);
 	}
 	
-	/**
-	 * 根据门店ID获取对应的工程节点
-	 * @param storeId
-	 * @return
-	 */
+
 	public List<DropModel> queryProjectNodeListByStoreId(Integer storeId,String projectMode){
 		Map<String, Object> map = new HashMap<>();
 		map.put("storeid", storeId);
@@ -209,10 +179,7 @@ public class BizCustomerReturnVisitService extends CrudService<BizCustomerReturn
 		return checkNodeDao.queryNodeListByStoreId(map);
 	}
 	
-	/**
-	 * 获取回访不满意类型
-	 * @return
-	 */
+
 	public List<String> queryReturnVisitBadType(){
 		
 		List<Map<String,String>> list = customerReturnVisitDao.queryReturnVisitBadType();
@@ -226,11 +193,7 @@ public class BizCustomerReturnVisitService extends CrudService<BizCustomerReturn
 			return Collections.emptyList();
 		}
 	}
-	/**
-	 * 根据门店ID获取对应的回访节点信息
-	 * @param storeId
-	 * @return
-	 */
+
 	public List<Map<String,Object>> queryReturnVisitNodeByStoreId(String storeId,String projectMode){
 		List<Map<String,Object>> result = customerReturnVisitDao.queryReturnVisitNodeByStoreId(storeId,projectMode);
 		if( result != null && result.size() > 0 ){

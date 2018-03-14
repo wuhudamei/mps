@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,11 +20,7 @@ import cn.damei.entity.modules.User;
 import cn.damei.common.utils.UserUtils;
 import cn.damei.common.utils.StringUtils;
 
-/**
- * 复检单监控表Controller
- * @author wyb
- * @version 2016-10-31
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/pqc/recheckControl/recheckControl")
 public class RecheckControlController extends BaseController {
@@ -52,7 +46,7 @@ public class RecheckControlController extends BaseController {
 	public String list(RecheckControl recheckControl, HttpServletRequest request, HttpServletResponse response, Model model) {
 		
 		User user = UserUtils.getUser();
-		//过滤门店
+
 		if(null==recheckControl.getStoreId()){
 			if(null!=user.getStoreId()){
 				recheckControl.setStoreId(user.getStoreId());
@@ -61,7 +55,7 @@ public class RecheckControlController extends BaseController {
 		if(StringUtils.isBlank(user.getStoreId())){
 			model.addAttribute("storeDropEnable", true);
 		}
-		//过滤工程模式
+
 		if(StringUtils.isBlank(recheckControl.getProjectMode())){
 			if(StringUtils.isBlank(user.getProjectMode())||user.getProjectMode().equals("3")){
 				model.addAttribute("gongcheng", true);
@@ -83,7 +77,7 @@ public class RecheckControlController extends BaseController {
 	public String recheckControlList(RecheckControl recheckControl, HttpServletRequest request, HttpServletResponse response, Model model) {
 		
 		User user = UserUtils.getUser();
-		//过滤门店
+
 		if(null==recheckControl.getStoreId()){
 			if(null!=user.getStoreId()){
 				recheckControl.setStoreId(user.getStoreId());
@@ -92,7 +86,7 @@ public class RecheckControlController extends BaseController {
 		if(StringUtils.isBlank(user.getStoreId())){
 			model.addAttribute("storeDropEnable", true);
 		}
-		//过滤工程模式
+
 		if(StringUtils.isBlank(recheckControl.getProjectMode())){
 			if(StringUtils.isBlank(user.getProjectMode())||user.getProjectMode().equals("3")){
 				model.addAttribute("gongcheng", true);

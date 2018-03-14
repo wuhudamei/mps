@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import java.util.HashMap;
@@ -31,11 +29,7 @@ import cn.damei.service.modules.BizStarService;
 import cn.damei.entity.modules.User;
 import cn.damei.common.utils.UserUtils;
 
-/**
- * 星级承接量Controller
- * @author wyb
- * @version 2016-09-05
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/star/bizStar")
 public class BizStarController extends BaseController {
@@ -63,14 +57,14 @@ public class BizStarController extends BaseController {
 	public String list(BizStar bizStar, HttpServletRequest request, HttpServletResponse response, Model model) {
 			
 			User user = UserUtils.getUser();
-			//过滤门店
+
 			if(StringUtils.isBlank(bizStar.getStoreId())){
 				bizStar.setStoreId(user.getStoreId());
 			}
 			if(StringUtils.isBlank(user.getStoreId())){
 				model.addAttribute("storeDropEnable", true);
 			}
-			//过滤工程模式
+
 			if(StringUtils.isBlank(bizStar.getProjectMode())){
 				if(null != user.getEmpId()){
 					BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -109,14 +103,14 @@ public class BizStarController extends BaseController {
 	public String starList(BizStar bizStar, HttpServletRequest request, HttpServletResponse response, Model model) {
 		
 		User user = UserUtils.getUser();
-		//过滤门店
+
 		if(StringUtils.isBlank(bizStar.getStoreId())){
 			bizStar.setStoreId(user.getStoreId());
 		}
 		if(StringUtils.isBlank(user.getStoreId())){
 			model.addAttribute("storeDropEnable", true);
 		}
-		//过滤工程模式
+
 		if(StringUtils.isBlank(bizStar.getProjectMode())){
 			if(null != user.getEmpId()){
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -158,7 +152,7 @@ public class BizStarController extends BaseController {
 	@RequestMapping(value = "form")
 	public String form(BizStar bizStar, Model model) {
 		
-		//过滤工程模式
+
 		User user = UserUtils.getUser();
 		if(null != user.getEmpId()){
 			BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -185,7 +179,7 @@ public class BizStarController extends BaseController {
 	@RequiresPermissions("star:bizStar:view")
 	@RequestMapping(value = "fedit")
 	public String fedit(BizStar bizStar, Model model) {
-		//过滤工程模式
+
 		User user = UserUtils.getUser();
 		if(null != user.getEmpId()){
 			BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -201,7 +195,7 @@ public class BizStarController extends BaseController {
 		if (!beanValidator(model, bizStar)){
 			return form(bizStar, model);
 		}
-		//修改
+
 		if(null!=bizStar.getId() && bizStar.getId()!="" && bizStar.getId().length()>0){
 			List<BizStar> star = bizStarService.findList(bizStar);
 			if(null!=star && star.size()>0){
@@ -218,7 +212,7 @@ public class BizStarController extends BaseController {
 				addMessage(redirectAttributes, "保存星级承接量成功");
 			}
 		}else{
-			//添加
+
 			List<BizStar> star = bizStarService.findList(bizStar);
 			if(null!=star && star.size()>0){
 				addMessage(redirectAttributes, "星级承接量已经存在，保存失败");

@@ -4,58 +4,53 @@ import java.util.Date;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 墙地砖实测面积复核
- * 
- * @author Administrator
- *
- */
+
 public class WallFloorTileRecheck extends DataEntity2<WallFloorTileRecheck> {
 
 	private static final long serialVersionUID = 1L;
 
-	private Integer orderId; // 订单id
-	private String orderNumber; // 订单编号
-	private String itemManager; // 项目经理姓名
-	private String customerName; // 客户姓名
-	private String customerPhone; // 客户电话
+	private Integer orderId;
+	private String orderNumber;
+	private String itemManager;
+	private String customerName;
+	private String customerPhone;
 
-	private String communityName; // 小区名称
-	private String buildNumber; // 几号楼
-	private String buildUnit; // 几单元
-	private String buildRoom; // 哪一室
+	private String communityName;
+	private String buildNumber;
+	private String buildUnit;
+	private String buildRoom;
 
-	private String isScrap; // 订单是否作废 1为是 0为否
-	private String orderStatusNumber; // 订单状态码 创建订单成功默认状态码 105
-	private String orderStatusDescription; // 订单状态码详情
+	private String isScrap;
+	private String orderStatusNumber;
+	private String orderStatusDescription;
 
-	private Date actualStartDate; // 实际开工日期
-	private String actualStartDateString; // 实际开工日期 字符串类型
+	private Date actualStartDate;
+	private String actualStartDateString;
 
-	private String purchaseType; // 采购单类型
+	private String purchaseType;
 
-	private Integer wallFloorTileRecheckId; // 墙地砖复尺表id
-	private Double squareBudget; // 预算面积
-	private Double squareQuota; // 定额面积
-	private Double squarePurchase; // 实际下单面积
-	private Double squareMeasure; // 实测面积
-	private Date planMeasureDate; // 计划测量日期
-	private Date realMeasureDate; // 实际测量日期
-	private String realMeasureDateString; // 实际测量日期 字符串类型
-	private String measureRemarks; // 实测说明
-	private Double price; // 墙地砖单价
-	private Double assessSquareError1; // 考核面积误差1
-	private Double assessSquareError2; // 考核面积误差2
-	private Double assessAmount1; // 考核金额1
-	private Double assessAmount2; // 考核金额2
-	private String assessPersonName1; // 被考核人姓名1
-	private String assessPersonName2; // 被考核人姓名2
-	private String status; // 状态
-	private String statusDescribe; // 状态描述
-	private Date statusDatetime; // 状态日期
-	private Integer statusOperateEmployeeId; // 状态操作人员ID
-	private String recheckRemarks; // 复尺备注
-	private String flag; // 不同意复尺的标志 0为 不同意
+	private Integer wallFloorTileRecheckId;
+	private Double squareBudget;
+	private Double squareQuota;
+	private Double squarePurchase;
+	private Double squareMeasure;
+	private Date planMeasureDate;
+	private Date realMeasureDate;
+	private String realMeasureDateString;
+	private String measureRemarks;
+	private Double price;
+	private Double assessSquareError1;
+	private Double assessSquareError2;
+	private Double assessAmount1;
+	private Double assessAmount2;
+	private String assessPersonName1;
+	private String assessPersonName2;
+	private String status;
+	private String statusDescribe;
+	private Date statusDatetime;
+	private Integer statusOperateEmployeeId;
+	private String recheckRemarks;
+	private String flag;
 
 	public WallFloorTileRecheck() {
 		super();

@@ -10,16 +10,10 @@ import cn.damei.entity.modules.Order;
 public interface PrePareOrderMappingDao {
 
 	
-	/**
-	 * 直接查询所有的映射字段
-	 * @return value
-	 */
+
 	public List<OrderJsonMapping> getDateTypeByDateField();
 	
-	/**
-	 * id+json字符串
-	 * @return
-	 */
+
 	public List<OrderJsonMapping>  getPreapareOrderJsonAuto();
 	public void updateSynDataStatus(Integer id , String synStatus);
 	

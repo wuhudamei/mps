@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,11 +19,7 @@ import cn.damei.common.web.BaseController;
 import cn.damei.entity.modules.BizPmSettleCategorySummary;
 import cn.damei.service.modules.BizPmSettleCategorySummaryService;
 
-/**
- * 结算类目汇总Controller
- * @author qww
- * @version 2016-12-26
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/pmsettlecategorysummary/bizPmSettleCategorySummary")
 public class BizPmSettleCategorySummaryController extends BaseController {

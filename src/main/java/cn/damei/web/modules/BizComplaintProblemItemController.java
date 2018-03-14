@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import java.util.List;
@@ -26,12 +24,7 @@ import cn.damei.common.web.BaseController;
 import cn.damei.entity.modules.BizComplaintProblemItem;
 import cn.damei.service.modules.BizComplaintProblemItemService;
 
-/**
- * 工程投诉分类项Controller
- * 
- * @author mh
- * @version 2017-07-03
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/bizcomplaintproblemitem/bizComplaintProblemItem")
 public class BizComplaintProblemItemController extends BaseController {
@@ -60,15 +53,7 @@ public class BizComplaintProblemItemController extends BaseController {
 		return "modules/bizcomplaintproblemitem/bizComplaintProblemItemList";
 	}
 
-	/**
-	 * 工程投诉明细统计列表
-	 * 
-	 * @param bizComplaintProblemItem
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @return
-	 */
+
 	@RequiresPermissions("bizcomplaintproblemitem:bizComplaintProblemItem:view")
 	@RequestMapping(value = "/list1")
 	public String list1(BizComplaintProblemItem bizComplaintProblemItem, HttpServletRequest request, HttpServletResponse response, Model model) {

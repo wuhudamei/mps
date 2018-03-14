@@ -18,16 +18,16 @@ import cn.damei.entity.modules.ProgressKanban;
 public class ExportExcelKanban {
 
 	public static void main(String[] args) throws Exception {
-		HSSFWorkbook wb = new HSSFWorkbook();// 创建一个Excel文件
-		HSSFSheet sheet = wb.createSheet("银行存余额表");// 创建一个Excel的Sheet
-		// 定义样式
-		HSSFCellStyle cellStyleCenter = ExportFileNameUtils.initColumnHeadStyle(wb);// 表头样工
-		HSSFCellStyle cellStyleRight = ExportFileNameUtils.initColumnCenterstyle(wb);// 单元格样式
-		HSSFCellStyle cellStyleLeft = ExportFileNameUtils.initColumnCenterstyle(wb);
-		cellStyleRight.setAlignment(HSSFCellStyle.ALIGN_RIGHT);// 右对齐
-		cellStyleLeft.setAlignment(HSSFCellStyle.ALIGN_LEFT);// 左对齐
+		HSSFWorkbook wb = new HSSFWorkbook();
+		HSSFSheet sheet = wb.createSheet("银行存余额表");
 
-		// 设置列宽
+		HSSFCellStyle cellStyleCenter = ExportFileNameUtils.initColumnHeadStyle(wb);
+		HSSFCellStyle cellStyleRight = ExportFileNameUtils.initColumnCenterstyle(wb);
+		HSSFCellStyle cellStyleLeft = ExportFileNameUtils.initColumnCenterstyle(wb);
+		cellStyleRight.setAlignment(HSSFCellStyle.ALIGN_RIGHT);
+		cellStyleLeft.setAlignment(HSSFCellStyle.ALIGN_LEFT);
+
+
 		sheet.setColumnWidth(0, 4000);
 		sheet.setColumnWidth(1, 4000);
 		sheet.setColumnWidth(2, 4000);
@@ -43,7 +43,7 @@ public class ExportExcelKanban {
 		try {  
             HSSFRow row = null;
             HSSFCell cell = null; 
-            // ---------------------------1.初始化带边框的表头------------------------------  
+
             for (int i = 0; i < 17; i++) {
                 row = sheet.createRow(i);  
                 for (int j = 0; j <= 17; j++) {  
@@ -51,7 +51,7 @@ public class ExportExcelKanban {
                     cell.setCellStyle(cellStyleCenter);  
                 }  
             }  
-            // ---------------------------2.指定单元格填充数据------------------------------  
+
             cell = sheet.getRow(0).getCell(0);  
             cell.setCellValue(new HSSFRichTextString("大美装饰管理平台工地精细化管理可视看板"));
             cell = sheet.getRow(1).getCell(0);  
@@ -73,7 +73,7 @@ public class ExportExcelKanban {
             cell = sheet.getRow(1).getCell(8);  
             cell.setCellValue(new HSSFRichTextString("合同面积"));
             
-            // ---------------------------2.指定单元格填充数据------------------------------  
+
             cell = sheet.getRow(0).getCell(9);  
             cell.setCellValue(new HSSFRichTextString("大美装饰管理平台工地精细化管理可视看板"));
             cell = sheet.getRow(1).getCell(9);  
@@ -83,9 +83,9 @@ public class ExportExcelKanban {
             cell = sheet.getRow(2).getCell(9);  
             cell.setCellValue(new HSSFRichTextString("合同编号")); 
   
-            // ---------------------------3.合并单元格------------------------------  
-            sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 8));// 开始行，结束行，开始列，结束列  
-            //sheet.addMergedRegion(new CellRangeAddress(1, 1, 0, 5));  
+
+            sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 8));
+
             sheet.addMergedRegion(new CellRangeAddress(1, 2, 0, 0));  
             sheet.addMergedRegion(new CellRangeAddress(1, 2, 1, 1));  
             sheet.addMergedRegion(new CellRangeAddress(1, 2, 2, 2));  
@@ -108,16 +108,16 @@ public class ExportExcelKanban {
     }  
 
 	public static HSSFWorkbook exportKanban (List<ProgressKanban> list, List<BizConstructionSchedule> csList, List<BizNodePlan> npList){
-		HSSFWorkbook wb = new HSSFWorkbook();// 创建一个Excel文件
-		HSSFSheet sheet = wb.createSheet("工程进度看板");// 创建一个Excel的Sheet
-		// 定义样式
-		HSSFCellStyle cellStyleCenter = ExportFileNameUtils.initColumnHeadStyle(wb);// 表头样工
-		HSSFCellStyle cellStyleRight = ExportFileNameUtils.initColumnCenterstyle(wb);// 单元格样式
-		HSSFCellStyle cellStyleLeft = ExportFileNameUtils.initColumnCenterstyle(wb);
-		cellStyleRight.setAlignment(HSSFCellStyle.ALIGN_RIGHT);// 右对齐
-		cellStyleLeft.setAlignment(HSSFCellStyle.ALIGN_LEFT);// 左对齐
+		HSSFWorkbook wb = new HSSFWorkbook();
+		HSSFSheet sheet = wb.createSheet("工程进度看板");
 
-		// 设置列宽
+		HSSFCellStyle cellStyleCenter = ExportFileNameUtils.initColumnHeadStyle(wb);
+		HSSFCellStyle cellStyleRight = ExportFileNameUtils.initColumnCenterstyle(wb);
+		HSSFCellStyle cellStyleLeft = ExportFileNameUtils.initColumnCenterstyle(wb);
+		cellStyleRight.setAlignment(HSSFCellStyle.ALIGN_RIGHT);
+		cellStyleLeft.setAlignment(HSSFCellStyle.ALIGN_LEFT);
+
+
 		sheet.setColumnWidth(0, 4000);
 		sheet.setColumnWidth(1, 4000);
 		sheet.setColumnWidth(2, 4000);
@@ -131,7 +131,7 @@ public class ExportExcelKanban {
 		try {  
             HSSFRow row = null;
             HSSFCell cell = null; 
-            // ---------------------------1.初始化带边框的表头------------------------------  
+
             for (int i = 0; i < 8 + (int)csList.size()*3; i++) {
                 row = sheet.createRow(i);  
                 for (int j = 0; j <= 8 + (int)csList.size()*3; j++) {  
@@ -139,7 +139,7 @@ public class ExportExcelKanban {
                     cell.setCellStyle(cellStyleCenter);  
                 }  
             }  
-            // ---------------------------2.指定单元格填充数据1------------------------------  
+
             cell = sheet.getRow(0).getCell(0);  
             cell.setCellValue(new HSSFRichTextString("大美装饰管理平台工地精细化管理可视看板"));
             cell = sheet.getRow(1).getCell(0);  
@@ -161,10 +161,10 @@ public class ExportExcelKanban {
             cell = sheet.getRow(1).getCell(8);  
             cell.setCellValue(new HSSFRichTextString("合同面积"));
             
-            // ---------------------------2.指定单元格填充数据2------------------------------  
+
             cell = sheet.getRow(0).getCell(9);  
             cell.setCellValue(new HSSFRichTextString("大美装饰管理平台工地精细化管理可视看板"));
-            //计算得到工序表数据
+
             for (int i = 0; i < csList.size(); i++) {
             	BizConstructionSchedule Schedule = csList.get(i);
             	cell = sheet.getRow(1).getCell((int)i*3 + (int)3*csList.size());  
@@ -180,9 +180,9 @@ public class ExportExcelKanban {
                 cell.setCellValue(new HSSFRichTextString("延期天数"));
             }
   
-            // ---------------------------3.合并单元格1------------------------------  
-            sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 8));// 开始行，结束行，开始列，结束列  
-            //sheet.addMergedRegion(new CellRangeAddress(1, 1, 0, 5));  
+
+            sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 8));
+
             sheet.addMergedRegion(new CellRangeAddress(1, 2, 0, 0));  
             sheet.addMergedRegion(new CellRangeAddress(1, 2, 1, 1));  
             sheet.addMergedRegion(new CellRangeAddress(1, 2, 2, 2));  
@@ -193,13 +193,13 @@ public class ExportExcelKanban {
             sheet.addMergedRegion(new CellRangeAddress(1, 2, 7, 7));
             sheet.addMergedRegion(new CellRangeAddress(1, 2, 8, 8));
             
-            // ---------------------------3.合并单元格2------------------------------ 
+
             sheet.addMergedRegion(new CellRangeAddress(0, 0, 9, 8+(short)csList.size()*3));
             for (int i = 0; i < csList.size(); i++) {
-            	sheet.addMergedRegion(new CellRangeAddress(1, 1, 9 + (i*3),12 + (i*3) -1 ));//1 1 9 12
+            	sheet.addMergedRegion(new CellRangeAddress(1, 1, 9 + (i*3),12 + (i*3) -1 ));
 			}
             
-            //循环写数据excel
+
             for (int i = 0; i < list.size(); i++) {
             	row = sheet.createRow((int) i + 3);
             	ProgressKanban p= list.get(i);
@@ -229,7 +229,7 @@ public class ExportExcelKanban {
 							}
 						}
             		}
-            		// 创建单元格，设置值         
+
 	            	row.createCell(0).setCellValue(p.getContractNumber());
 	            	
 	            	if(p.getCustomerName() == null && p.getCustomerPhone() == null){

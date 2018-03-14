@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import cn.damei.common.persistence.DataEntity;
@@ -8,11 +6,7 @@ import cn.damei.common.persistence.DataEntity;
 import java.util.Date;
 
 
-/**
- * 经理约检问题统计Entity
- * @author mh
- * @version 2017-05-27
- */
+
 public class BizBusinessSynProblemQuery extends DataEntity<BizBusinessSynProblemQuery> {
 	
 private Integer  managerId;

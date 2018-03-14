@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.util.List;
@@ -15,11 +13,7 @@ import cn.damei.entity.modules.ProjectIntem;
 import cn.damei.entity.modules.ProjectItemType;
 import cn.damei.dao.modules.ProjectIntemDao;
 
-/**
-* @Description: 施工项
-* @Author zhangkangjian
-* @Date 2017/12/5 15:03
-*/
+
 @Service
 @Transactional(readOnly = true)
 public class ProjectIntemService extends CrudService<ProjectIntemDao, ProjectIntem> {
@@ -46,17 +40,13 @@ public class ProjectIntemService extends CrudService<ProjectIntemDao, ProjectInt
 		super.delete(projectIntem);
 	}
 
-	/**
-	 * 查询启用的施工项分类
-	 * 
-	 * @return
-	 */
+
 	public List<ProjectItemType> findProjectItemTypeList() {
 
 		return dao.findProjectItemTypeList();
 	}
 
-	// 编号 SG
+
 	@Transactional(readOnly = false)
 	public void saveCode() {
 

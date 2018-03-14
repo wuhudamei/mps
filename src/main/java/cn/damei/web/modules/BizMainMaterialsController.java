@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,11 +22,7 @@ import cn.damei.service.modules.BizMainMaterialsService;
 import cn.damei.service.modules.SysSequenceService;
 import cn.damei.common.utils.UserUtils;
 
-/**
- * 主材管理Controller
- * @author qww
- * @version 2016-10-10
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/mainmaterials/bizMainMaterials")
 public class BizMainMaterialsController extends BaseController {
@@ -54,7 +48,7 @@ public class BizMainMaterialsController extends BaseController {
 	@RequiresPermissions("mainmaterials:bizMainMaterials:view")
 	@RequestMapping(value = {"list", ""})
 	public String list(BizMainMaterials bizMainMaterials, Model model) {
-		//过滤门店
+
 		if(bizMainMaterials.getStoreId() == null){
 			String storeId = UserUtils.getUser().getStoreId();
 			if(StringUtils.isBlank(storeId)){
@@ -72,7 +66,7 @@ public class BizMainMaterialsController extends BaseController {
 	@RequiresPermissions("mainmaterials:bizMainMaterials:view")
 	@RequestMapping(value = {"mainMaterialsList", ""})
 	public String mainMaterialsList(BizMainMaterials bizMainMaterials, HttpServletRequest request, HttpServletResponse response, Model model) {
-		//过滤门店
+
 		if(bizMainMaterials.getStoreId() == null){
 			String storeId = UserUtils.getUser().getStoreId();
 			if(StringUtils.isBlank(storeId)){
@@ -139,7 +133,7 @@ public class BizMainMaterialsController extends BaseController {
 	public String enable(BizMainMaterials bizMainMaterials, RedirectAttributes redirectAttributes) {
 		int status = 1 ^ Integer.parseInt(bizMainMaterials.getStatus());
 		bizMainMaterials.setStatus(status+"");
-		// 修改启用/停用状态
+
 		bizMainMaterialsService.save(bizMainMaterials);
 		addMessage(redirectAttributes, "操作成功");
 		return "redirect:"+Global.getAdminPath()+"/mainmaterials/bizMainMaterials/mainMaterialsList?repage";

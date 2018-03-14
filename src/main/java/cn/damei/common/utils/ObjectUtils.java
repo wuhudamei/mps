@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.common.utils;
 
 import java.io.ByteArrayInputStream;
@@ -11,18 +9,10 @@ import java.lang.reflect.Method;
 
 import org.apache.commons.lang3.StringUtils;
 
-/**
- * 对象操作工具类, 继承org.apache.commons.lang3.ObjectUtils类
- * @author ThinkGem
- * @version 2014-6-29
- */
+
 public class ObjectUtils extends org.apache.commons.lang3.ObjectUtils {
 
-	/**
-	 * 注解到对象复制，只复制能匹配上的方法。
-	 * @param annotation
-	 * @param object
-	 */
+
 	public static void annotationToObject(Object annotation, Object object){
 		if (annotation != null){
 			Class<?> annotationClass = annotation.getClass();
@@ -39,18 +29,14 @@ public class ObjectUtils extends org.apache.commons.lang3.ObjectUtils {
 							m.invoke(object, obj);
 						}
 					} catch (Exception e) {
-						// 忽略所有设置失败方法
+
 					}
 				}
 			}
 		}
 	}
 	
-	/**
-	 * 序列化对象
-	 * @param object
-	 * @return
-	 */
+
 	public static byte[] serialize(Object object) {
 		ObjectOutputStream oos = null;
 		ByteArrayOutputStream baos = null;
@@ -67,11 +53,7 @@ public class ObjectUtils extends org.apache.commons.lang3.ObjectUtils {
 		return null;
 	}
 
-	/**
-	 * 反序列化对象
-	 * @param bytes
-	 * @return
-	 */
+
 	public static Object unserialize(byte[] bytes) {
 		ByteArrayInputStream bais = null;
 		try {

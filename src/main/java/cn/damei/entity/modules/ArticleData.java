@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import org.hibernate.validator.constraints.Length;
@@ -9,19 +7,15 @@ import org.hibernate.validator.constraints.NotBlank;
 import cn.damei.common.config.Global;
 import cn.damei.common.persistence.DataEntity;
 
-/**
- * 文章Entity
- * @author ThinkGem
- * @version 2013-01-15
- */
+
 public class ArticleData extends DataEntity<ArticleData> {
 
 	private static final long serialVersionUID = 1L;
-	private String id;		// 编号
-	private String content;	// 内容
-	private String copyfrom;// 来源
-	private String relation;// 相关文章
-	private String allowComment;// 是否允许评论
+	private String id;
+	private String content;
+	private String copyfrom;
+	private String relation;
+	private String allowComment;
 
 	private Article article;
 	

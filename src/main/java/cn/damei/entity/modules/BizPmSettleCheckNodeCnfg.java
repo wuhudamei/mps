@@ -1,27 +1,21 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import org.hibernate.validator.constraints.Length;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 项目经理结算关联约检节点设置Entity
- * @author wyb
- * @version 2016-12-26
- */
+
 public class BizPmSettleCheckNodeCnfg extends DataEntity2<BizPmSettleCheckNodeCnfg> {
 	
 	private static final long serialVersionUID = 1L;
-	private Integer storeId;		// 门店
-	private String projectMode;		// 工程模式
-	private String settleRole;		//所属结算人员
-	private String settleNode;		// 结算节点.中期结算；2.竣工结算
-	private Integer qcCheckNodeId;		// 约检节点
-	private String qcCheckNodeName;		//约检节点名称
-	private String isEnabled;		// 是否启用.启用；2.停用
+	private Integer storeId;
+	private String projectMode;
+	private String settleRole;
+	private String settleNode;
+	private Integer qcCheckNodeId;
+	private String qcCheckNodeName;
+	private String isEnabled;
 	
 	public BizPmSettleCheckNodeCnfg() {
 		super();

@@ -67,12 +67,7 @@ import cn.damei.common.utils.UserUtils;
 
 import net.sf.json.JSONObject;
 
-/**
- * 订单管理Controller
- * 
- * @author wyb
- * @version 2016-09-08
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/order2/order2")
 public class OrderController2 extends BaseController {
@@ -133,13 +128,13 @@ public class OrderController2 extends BaseController {
 			order.setEnginDepartIds(list);
 		}
 		if(UserUtils.getUser().getStoreId()!=null){
-			//当前登录用户门店
+
 			order.setStoreId(UserUtils.getUser().getStoreId());
 		}
 		else{
-			//门店是总部的查询所有部门信息
+
 			if(order.getStoreId()!=null && order.getStoreId().equals("1")){
-					//总部
+
 					order.setStoreId(null);
 			}
 		}
@@ -159,7 +154,7 @@ public class OrderController2 extends BaseController {
 		return "modules/order/orderListAllot";
 	}
 	
-		// 跳转到 “产业订单已分派项目经理”页面 
+
 		@RequiresPermissions("order:order:view")
 		@RequestMapping(value = { "listAllot", "" })
 		public String listAllot(Order2 order, HttpServletRequest request,String managerType, HttpServletResponse response, Model model) {
@@ -173,7 +168,7 @@ public class OrderController2 extends BaseController {
 			model.addAttribute("orderStatus", dictListByType);
 			return "modules/order/orderListAllot";
 		}
-		// 查询 “产业订单已分派项目经理”页面 
+
 		@RequiresPermissions("order:order:view")
 		@RequestMapping(value = "listAllot1")
 		public String listAllot1(Order2 order, HttpServletRequest request, HttpServletResponse response, Model model) {
@@ -202,13 +197,13 @@ public class OrderController2 extends BaseController {
 				order.setEnginDepartIds(list);
 			}
 			if(UserUtils.getUser().getStoreId()!=null){
-				//当前登录用户门店
+
 				order.setStoreId(UserUtils.getUser().getStoreId());
 			}
 			else{
-				//门店是总部的查询所有部门信息
+
 				if(order.getStoreId()!=null && order.getStoreId().equals("1")){
-						//总部
+
 						order.setStoreId(null);
 				}
 			}
@@ -235,7 +230,7 @@ public class OrderController2 extends BaseController {
 			return "modules/order/orderListAllot";
 		}
 		
-		// 跳转到 “产业订单待分派项目经理”页面 
+
 		@RequiresPermissions("order:order:view")
 		@RequestMapping(value = { "listUnAllot", "" })
 		public String listUnAllot(Order2 order, HttpServletRequest request,String managerType, HttpServletResponse response, Model model) {
@@ -244,7 +239,7 @@ public class OrderController2 extends BaseController {
 			return "modules/order/orderListUnAllot";
 		}
 		
-		// 查询 “产业订单待分派项目经理”页面 
+
 		@RequiresPermissions("order:order:view")
 		@RequestMapping(value = { "listUnAllot1", "" })
 		public String listUnAllot1(Order2 order, HttpServletRequest request,String managerType, HttpServletResponse response, Model model) {
@@ -268,13 +263,13 @@ public class OrderController2 extends BaseController {
 				order.setEnginDepartIds(list);
 			}
 			if(UserUtils.getUser().getStoreId()!=null){
-				//当前登录用户门店
+
 				order.setStoreId(UserUtils.getUser().getStoreId());
 			}
 			else{
-				//门店是总部的查询所有部门信息
+
 				if(order.getStoreId()!=null && order.getStoreId().equals("1")){
-						//总部
+
 						order.setStoreId(null);
 				}
 			}
@@ -300,19 +295,19 @@ public class OrderController2 extends BaseController {
 				model.addAttribute("managerType",managerType);
 			}
 			
-//							if(null!=managerType && managerType.equals("0")){
-//								model.addAttribute("message", "分配项目经理成功");
-//							}else if(managerType.equals("1")){
-//								model.addAttribute("message", "分配项目经理失败，请完善该订单数据，再操作此功能");
-//							}else if(managerType.equals("2")){
-//								model.addAttribute("message", "重新分配项目经理成功");
-//							}else if(managerType.equals("3")){
-//								model.addAttribute("message", "重新分配项目经理失败，请完善该订单数据，再操作此功能");
-//							}
+
+
+
+
+
+
+
+
+
 			return "modules/order/orderListUnAllot";
 		}
 		
-		//获取未分配项目经理订单总数 产业
+
 		@ResponseBody
 		@RequestMapping(value = "getUnAllotCount")
 		public int getUnAllotCount(HttpServletRequest request,
@@ -322,7 +317,7 @@ public class OrderController2 extends BaseController {
 			order.setIsScrap("0");
 			return orderService2.getUnAllotCount(order);
 		}
-		//获取未分配质检员订单总数 传统
+
 		@ResponseBody
 		@RequestMapping(value = "getUnAllotInspector")
 		public int getUnAllotInspector(HttpServletRequest request,
@@ -334,7 +329,7 @@ public class OrderController2 extends BaseController {
 		}
 		
 
-		// 跳转到分配项目经理的方法
+
 		@RequiresPermissions("order:order:view")
 		@RequestMapping(value = "allotManager")
 		public String allotManager(Order2 order, ItemManager itemManager, HttpServletRequest request,
@@ -347,20 +342,20 @@ public class OrderController2 extends BaseController {
 			}
 			itemManager.setOrderstop("0");
 			String mapCoordinate = order.getMapCoordinate();
-			String[] split = mapCoordinate.split(",");//经度split[0] 纬度split[1]
+			String[] split = mapCoordinate.split(",");
 			itemManager.setOrderPointx(split[0]);
 			itemManager.setOrderPointy(split[1]);
 			
 			List<ItemManager> list = itemManagerService.findListForOrder(itemManager);
 			
-			//		list = itemManagerService.findListForOrder1(itemManager);
+
 			
 			model.addAttribute("list", list);
 			model.addAttribute("order", order);
 			return "modules/order/orderAllotManager";
 		}
 
-		// 跳转到重派项目经理的方法
+
 		@RequiresPermissions("order:order:view")
 		@RequestMapping(value = "reAllotManager")
 		public String reAllotManager(Order2 order, ItemManager itemManager, HttpServletRequest request,
@@ -371,29 +366,29 @@ public class OrderController2 extends BaseController {
 				itemManager.setProjectMode(order.getProjectMode());
 				itemManager.setOrderstop("0");
 				String mapCoordinate = order.getMapCoordinate();
-				String[] split = mapCoordinate.split(",");//经度split[0] 纬度split[1]
+				String[] split = mapCoordinate.split(",");
 				itemManager.setOrderPointx(split[0]);
 				itemManager.setOrderPointy(split[1]);
 				List<ItemManager> list = itemManagerService.findListForOrder(itemManager);
-				//list = itemManagerService.findListForOrder1(itemManager);
+
 				model.addAttribute("order", order);
 				model.addAttribute("list", list);
-				//model.addAttribute("page", page);
+
 				return "modules/order/orderReAllotManager";
 		}
-		// 分配项目经理保存
+
 		@RequiresPermissions("order:order:edit")
 		@RequestMapping(value = "saveManager")
 		public String saveManager(Integer tradition,Order2 order,String managerName,Integer managerId, String managerPhone,Model model, RedirectAttributes redirectAttributes) throws UnsupportedEncodingException, NoSuchAlgorithmException {
 			
-			//String addmessage = "分配项目经理成功";
+
 			String managerType = "0";
-			//1.校验数据是否正确
+
 			String messageVerification = orderService2.verificationPrepareOrder(order);
-//			if(null!=messageVerification && messageVerification.equals("error")){
-//				addmessage = "分配项目经理失败，请完善该订单数据，再操作此功能";
-//			}
-//			addMessage(redirectAttributes, addmessage);
+
+
+
+
 			if(null!=messageVerification && messageVerification.equals("error")){
 				managerType = "1";
 				if(!StringUtils.isEmpty(order.getProjectMode())){
@@ -414,21 +409,21 @@ public class OrderController2 extends BaseController {
 			order.setItemManager(managerName);
 			order.setItemManagerId(managerId);
 			if(order.getOrderTaskPackStatus() != null && order.getOrderTaskPackStatus().equals("1")){
-				//修改该订单下的任务包和项目经理
+
 				orderTaskpackService.updateManager(order.getId(),managerName,managerId);
 			}
-			// 项目经理未竣工的订单数
+
 			Map<String,Integer> map = new HashMap<String,Integer>();
 			map.put("itemManagerId", order.getItemManagerId());
 			Integer unfinishedOrder = orderService2.findUnfinishedOrderByEmployeeId(map);
 			
 			orderService2.updateOrder(order);
 			
-			//日志表
+
 			BizOrderDistributeLog log = new BizOrderDistributeLog();
-			//订单
+
 			log.setOrderId(order.getId());
-			//分配类型
+
 			log.setDistributeType(ConstantUtils.DISTRIBUTE_TYPE_101);
 			log.setDistributedEmployeeId(order.getItemManagerId());
 			log.setUnfinishedOrderCountBefore(unfinishedOrder);
@@ -437,7 +432,7 @@ public class OrderController2 extends BaseController {
 			log.preInsert();
 			bizOrderDistributeLogService.insert(log);
 			
-			//向biz_syn_data表中保存数据  --- 项目经理时间改变
+
 			Map<String,String> jsonMap = new HashMap<String,String>();
 			jsonMap.put("type", "1");
 			jsonMap.put("orderId", order.getOrderNumber());
@@ -456,22 +451,17 @@ public class OrderController2 extends BaseController {
 			bizSynData.preInsert();
 			bizSynDataService.insert(bizSynData);
 			
-			//产业订单
+
 			if(order.getProjectMode().equals(OrderConstantUtil.ORDER_PROJECT_MODE_INDUSTRY_1)){
 				materialInterfaceService.saveWallFloorTileSquareBudget(order.getOrderNumber());
 			}
 			
-			//传统不发短信
+
 			if(null==tradition){
 			
-			//发短信给项目经理  订单（订单编号：XXXXXXX，小区名-楼号-单元号-门牌号-客户姓名-手机号，设计师：姓名-手机号），订单已分配给您，您可登录APP查看订单详情。
+
 			String content ="订单（订单编号："+order.getOrderNumber()+","+order.getCommunityName()+"-"+order.getBuildNumber()+"-"+order.getBuildUnit()+"-"+order.getBuildRoom()+"-"+order.getCustomerName()+"-"+order.getCustomerPhone()+"，设计师："+order.getDesignerName()+"-"+order.getDesignerPhone()+"），订单已分配给您，您可登录APP查看订单详情。";
-			/*Map<String, String> params = new HashMap<String, String>();
-			params.put("source", "1");
-			params.put("content",content);
-			params.put("sendtime", "");
-			params.put("mobile",managerPhone);
-			String post = HttpConnection.post(ConstantUtils.SEND_MESSAGE_INTERFACE, params);*/
+
 			BizPhoneMsg phoneMsg = new BizPhoneMsg();
 			phoneMsg.setReceiveEmployeeId(managerId);
 			phoneMsg.setReceivePhone(managerPhone);
@@ -492,16 +482,11 @@ public class OrderController2 extends BaseController {
 			message.setEmployeeId(managerId);
 			message.setBusiIdInt(order.getId());
 			messageService.insert(message);
-			//给设计师发短信  订单（订单编号：XXXXXXX，小区名-楼号-单元号-门牌号-客户姓名-手机号），已分派项目经理（姓名-手机号），如有问题或变更请及时联系项目经理。
+
 			String content1 ="订单（订单编号："+order.getOrderNumber()+","+order.getCommunityName()+"-"+order.getBuildNumber()+"-"+order.getBuildUnit()+"-"+order.getBuildRoom()+"-"+order.getCustomerName()+"-"+order.getCustomerPhone()+"），已分派项目经理（"+managerName+"-"+managerPhone+"），如有问题或变更请及时联系项目经理。";
-			/*Map<String, String> params1 = new HashMap<String, String>();
-			params1.put("source", "1"); 
-			params1.put("content",content1);
-			params1.put("sendtime", "");
-			params1.put("mobile",order.getDesignerPhone());
-			String post1 = HttpConnection.post(ConstantUtils.SEND_MESSAGE_INTERFACE, params1);*/
+
 			BizPhoneMsg phoneMsg1 = new BizPhoneMsg();
-			//phoneMsg1.setReceiveEmployeeId(managerId);
+
 			phoneMsg1.setReceivePhone(order.getDesignerPhone());
 			phoneMsg1.setMsgContent(content1);
 			phoneMsg1.setMsgGenerateDatetime(new Date());
@@ -513,7 +498,7 @@ public class OrderController2 extends BaseController {
 			}
 			
 			
-			/*addMessage(redirectAttributes, "分配项目经理成功");*/
+
 			if("1".equals(order.getProjectMode())){
 				return "redirect:" + Global.getAdminPath() + "/order2/order2/listUnAllot?managerType="+managerType;
 			}else if("2".equals(order.getProjectMode())){
@@ -523,21 +508,21 @@ public class OrderController2 extends BaseController {
 			}
 		}
 
-		// 重派项目经理保存
+
 		@RequiresPermissions("order:order:edit")
 		@RequestMapping(value = "resendManager")
 		public String resendManager(Integer tradition,Order2 order,String managerName,Integer managerId,String managerPhone,Model model, RedirectAttributes redirectAttributes,
 									String reasonRemarks,String reasonType) throws UnsupportedEncodingException, NoSuchAlgorithmException {
 			
-			//String addmessage = "重派项目经理成功";
+
 			String managerType = "2";
-			//1.校验数据是否正确
+
 			String messageVerification = orderService2.verificationPrepareOrder(order);
-//			if(null!=messageVerification && messageVerification.equals("error")){
-//				addmessage = "重新分配项目经理失败，请完善该订单数据，再操作此功能";
-//				
-//			}
-//			addMessage(redirectAttributes, addmessage);
+
+
+
+
+
 			if(null!=messageVerification && messageVerification.equals("error")){
 				managerType = "3";
 				if(!StringUtils.isEmpty(order.getProjectMode())){
@@ -555,40 +540,40 @@ public class OrderController2 extends BaseController {
 			order.setItemManager(managerName);
 			order.setItemManagerId(managerId);
 			if(order.getOrderTaskPackStatus() != null && order.getOrderTaskPackStatus().equals("1")){
-				//修改该订单下的任务包和项目经理
+
 				orderTaskpackService.updateManager(order.getId(),managerName,managerId);
 			}
 			
-			// 项目经理未竣工的订单数
+
 			Map<String,Integer> map = new HashMap<String,Integer>();
 			map.put("itemManagerId", order.getItemManagerId());
 			Integer unfinishedOrder = orderService2.findUnfinishedOrderByEmployeeId(map);
 			orderService2.updateOrder(order);
 			
-			//更新员工表换单次数
+
 			BizEmployee bizEmployee = bizEmployeeService.selectExchangeOrderTimesById(oldManagerId);
 			
-			//如果被换单次数为0 则为1
+
 			if(bizEmployee.getExchangeOrderTimes()==null || bizEmployee.getExchangeOrderTimes()==0){
 				bizEmployee.setExchangeOrderTimes(1);
 			}else{
 				Integer times = bizEmployee.getExchangeOrderTimes();
-				//换单次数+1
+
 				bizEmployee.setExchangeOrderTimes(times+=1);
 			}
 			bizEmployee.setUpdateBy(UserUtils.getUser());
 			bizEmployee.setUpdateDate(new Date());
-			//更新employee 表
+
 			bizEmployeeService.updateExchangeOrderTimes(bizEmployee);
 			
-			//日志
+
 			BizOrderDistributeLog log = new BizOrderDistributeLog();
 			log.setOrderId(order.getId());
-			//重新分配
+
 			log.setDistributeType(ConstantUtils.DISTRIBUTE_TYPE_102);
-			//新项目经理id
+
 			log.setDistributedEmployeeId(order.getItemManagerId());
-			//老的项目经理id
+
 			log.setOldEmployeeId(oldManagerId);
 			log.preInsert();
 			
@@ -603,7 +588,7 @@ public class OrderController2 extends BaseController {
 			bizOrderDistributeLogService.insert(log);
 			
 			
-			//向biz_syn_data表中保存数据  --- 项目经理时间改变
+
 			Map<String,String> jsonMap = new HashMap<String,String>();
 			jsonMap.put("type", "1");
 			jsonMap.put("orderId", order.getOrderNumber());
@@ -623,17 +608,12 @@ public class OrderController2 extends BaseController {
 			bizSynData.preInsert();
 			bizSynDataService.insert(bizSynData);
 			
-			//传统不发短信
+
 			if(null==tradition){
 			if(!oldManagerId.equals(managerId)){
-				//发短信给新的项目经理  订单（订单编号：XXXXXXX，小区名-楼号-单元号-门牌号-客户姓名-手机号，设计师：姓名-手机号），订单已分配给您，您可登录APP查看订单详情。
+
 				String content ="订单（订单编号："+order.getOrderNumber()+","+order.getCommunityName()+"-"+order.getBuildNumber()+"-"+order.getBuildUnit()+"-"+order.getBuildRoom()+"-"+order.getCustomerName()+"-"+order.getCustomerPhone()+",设计师："+order.getDesignerName()+"-"+order.getDesignerPhone()+"，订单已分配给您，您可登录APP查看订单详情。";
-				/*Map<String, String> params = new HashMap<String, String>();
-				params.put("source", "1");
-				params.put("content",content);
-				params.put("sendtime", "");
-				params.put("mobile",managerPhone);
-				String post = HttpConnection.post(ConstantUtils.SEND_MESSAGE_INTERFACE, params);*/
+
 				
 				BizPhoneMsg phoneMsg = new BizPhoneMsg();
 				phoneMsg.setReceiveEmployeeId(managerId);
@@ -646,15 +626,10 @@ public class OrderController2 extends BaseController {
 				phoneMsg.preInsert();
 				bizPhoneMsgService.insert(phoneMsg);
 				
-				//发短信给老的项目经理  “亲，非常抱歉，（首尔甜城-12-1-301）已经更换了其他的项目经理，客户（叶之峰-13611735757），请您知晓，如有疑问可与派单员联系。”
+
 				String content1 = "亲，非常抱歉，（"+order.getCommunityName()+"-"+order.getBuildNumber()+"-"+order.getBuildUnit()+"-"+order.getBuildRoom()+"）已经更换了其他的项目经理，客户（"+order.getCustomerName()+"-"+order.getCustomerPhone()+"），请您知晓，如有疑问可与派单员联系。";
 				BizEmployee2 bizEmployee2 = bizEmployeeService2.get(oldManagerId);
-				/*Map<String, String> params1 = new HashMap<String, String>();
-				params1.put("source", "1");
-				params1.put("content",content1);
-				params1.put("sendtime", "");
-				params1.put("mobile",bizEmployee2.getPhone());
-				String post1 = HttpConnection.post(ConstantUtils.SEND_MESSAGE_INTERFACE, params1);*/
+
 				
 				BizPhoneMsg phoneMsg1 = new BizPhoneMsg();
 				phoneMsg1.setReceiveEmployeeId(oldManagerId);
@@ -687,14 +662,9 @@ public class OrderController2 extends BaseController {
 				message1.setBusiIdInt(order.getId());
 				messageService.insert(message1);
 				
-				//给设计师发短信  （小区名-楼牌号-客户姓名）已经更换了新的项目经理（姓名-手机号），请您及时与新的项目经理交底。
+
 				String content2 = "（"+order.getCommunityName()+"-"+order.getBuildNumber()+"-"+order.getBuildUnit()+"-"+order.getBuildRoom()+"-"+order.getCustomerName()+"），已经更换了新的项目经理（"+managerName+"-"+managerPhone+"），请您及时与新的项目经理交底。";
-				/*Map<String, String> params2 = new HashMap<String, String>();
-				params2.put("source", "1");
-				params2.put("content",content2);
-				params2.put("sendtime", "");
-				params2.put("mobile",order.getDesignerPhone());
-				String post2 = HttpConnection.post(ConstantUtils.SEND_MESSAGE_INTERFACE, params2);*/
+
 				BizPhoneMsg phoneMsg2 = new BizPhoneMsg();
 				phoneMsg2.setReceivePhone(order.getDesignerPhone());
 				phoneMsg2.setMsgContent(content2);
@@ -706,7 +676,7 @@ public class OrderController2 extends BaseController {
 				bizPhoneMsgService.insert(phoneMsg2);
 			}
 			}
-			/*addMessage(redirectAttributes, "重派项目经理成功");*/
+
 			if("1".equals(order.getProjectMode())){
 				return "redirect:" + Global.getAdminPath() + "/order2/order2/listAllot?managerType="+managerType;
 			}else if("2".equals(order.getProjectMode())){
@@ -716,7 +686,7 @@ public class OrderController2 extends BaseController {
 			}
 		}
 
-		// 跳转到分配订单的方法 分配质检员
+
 		@RequiresPermissions("order:order:view")
 		@RequestMapping(value = "listAllotInspectorPage")
 		public String listAllotInspectorPage(Order2 order, HttpServletRequest request, HttpServletResponse response,
@@ -738,13 +708,13 @@ public class OrderController2 extends BaseController {
 				order.setEnginDepartIds(list);
 			}
 			if(UserUtils.getUser().getStoreId()!=null){
-				//当前登录用户门店
+
 				order.setStoreId(UserUtils.getUser().getStoreId());
 			}
 			else{
-				//门店是总部的查询所有部门信息
+
 				if(order.getStoreId()!=null && order.getStoreId().equals("1")){
-						//总部
+
 						order.setStoreId(null);
 				}
 			}
@@ -810,13 +780,13 @@ public class OrderController2 extends BaseController {
 				order.setEnginDepartIds(list);
 			}
 			if(UserUtils.getUser().getStoreId()!=null){
-				//当前登录用户门店
+
 				order.setStoreId(UserUtils.getUser().getStoreId());
 			}
 			else{
-				//门店是总部的查询所有部门信息
+
 				if(order.getStoreId()!=null && order.getStoreId().equals("1")){
-						//总部
+
 						order.setStoreId(null);
 				}
 			}
@@ -876,13 +846,13 @@ public class OrderController2 extends BaseController {
 				order.setEnginDepartIds(list);
 			}
 			if(UserUtils.getUser().getStoreId()!=null){
-				//当前登录用户门店
+
 				order.setStoreId(UserUtils.getUser().getStoreId());
 			}
 			else{
-				//门店是总部的查询所有部门信息
+
 				if(order.getStoreId()!=null && order.getStoreId().equals("1")){
-						//总部
+
 						order.setStoreId(null);
 				}
 			}
@@ -907,7 +877,7 @@ public class OrderController2 extends BaseController {
 			return "modules/order/orderListUnAllotInspector";
 		}
 
-		// 跳转到分配质检员的方法
+
 		@RequiresPermissions("order:order:view")
 		@RequestMapping(value = "allotInspector")
 		public String allotInspector(Order2 order, Inspector inspector, HttpServletRequest request,
@@ -921,17 +891,17 @@ public class OrderController2 extends BaseController {
 			}
 			inspector.setOrderstop("0");
 			String mapCoordinate = order.getMapCoordinate();
-			String[] split = mapCoordinate.split(",");//经度split[0] 纬度split[1]
+			String[] split = mapCoordinate.split(",");
 			inspector.setOrderPointx(split[0]);
 			inspector.setOrderPointy(split[1]);
-			//Page<Inspector> page = inspectorService.findPage(new Page<Inspector>(request, response), inspector);
+
 			List<Inspector> list = inspectorService.findListForOrder(inspector);
 			model.addAttribute("order", order);
 			model.addAttribute("list", list);
 			return "modules/order/orderAllotInspector";
 		}
 
-		// 跳转重派质检员的方法
+
 		@RequiresPermissions("order:order:view")
 		@RequestMapping(value = "reAllotInspector")
 		public String reAllotInspector(Order2 order, Inspector inspector, HttpServletRequest request,
@@ -942,29 +912,29 @@ public class OrderController2 extends BaseController {
 			inspector.setProjectMode(order.getProjectMode());
 			inspector.setOrderstop("0");
 			String mapCoordinate = order.getMapCoordinate();
-			String[] split = mapCoordinate.split(",");//经度split[0] 纬度split[1]
+			String[] split = mapCoordinate.split(",");
 			inspector.setOrderPointx(split[0]);
 			inspector.setOrderPointy(split[1]);
 			List<Inspector> list = inspectorService.findListForOrder(inspector);
-			//Page<BizEmployee> page = bizEmployeeService.findPage(new Page<BizEmployee>(request, response), bizEmployee);
+
 			model.addAttribute("order", order);
 			model.addAttribute("list", list);
 			return "modules/order/orderReAllotInspector";
 		}
 
-		// 分配质检员保存
+
 		@RequiresPermissions("order:order:edit")
 		@RequestMapping(value = "saveInspector")
 		public String saveInspector(Integer tradition,Order2 order,String isLongwayCommission, String inspectorName, Integer inspectorId,String inspectorPhone, Model model, RedirectAttributes redirectAttributes) throws UnsupportedEncodingException, NoSuchAlgorithmException {
 			
-			//String addmessage = "分配质检员成功";
+
 			String inspectorType = "0";
-			//1.校验数据是否正确
+
 			String messageVerification = orderService2.verificationPrepareOrder(order);
-//			if(null!=messageVerification && messageVerification.equals("error")){
-//				addmessage = "分配质检员失败，请完善该订单数据，再操作此功能";
-//			}
-//			addMessage(redirectAttributes, addmessage);
+
+
+
+
 			if(null!=messageVerification && messageVerification.equals("error")){
 				inspectorType = "1";
 				if(!StringUtils.isEmpty(order.getProjectMode())){
@@ -985,12 +955,12 @@ public class OrderController2 extends BaseController {
 			order.setIsLongwayCommission(isLongwayCommission);
 			order.setOrderInspector(inspectorName);
 			order.setOrderInspectorId(inspectorId);
-			//质检员为竣工订单数
+
 			Map<String,Integer> map = new HashMap<String,Integer>();
 			map.put("inspectorId", order.getOrderInspectorId());
 			Integer unfinishedOrder = orderService2.findUnfinishedOrderByEmployeeId(map);
 			orderService2.updateOrderInspector(order);
-			//日志
+
 			BizOrderDistributeLog log = new BizOrderDistributeLog();
 			log.setOrderId(order.getId());
 			log.setDistributeType(ConstantUtils.DISTRIBUTE_TYPE_201);
@@ -1000,7 +970,7 @@ public class OrderController2 extends BaseController {
 			log.setUnfinishedOrderCountAfter(orderService2.findUnfinishedOrderByEmployeeId(map));
 			log.preInsert();
 			bizOrderDistributeLogService.insert(log);
-			//向biz_syn_data表中保存数据  --- 质检员时间改变
+
 			Map<String,String> jsonMap = new HashMap<String,String>();
 			jsonMap.put("type", "2");
 			jsonMap.put("orderId", order.getOrderNumber());
@@ -1019,19 +989,14 @@ public class OrderController2 extends BaseController {
 			bizSynData.preInsert();
 			bizSynDataService.insert(bizSynData);
 			
-			//传统不发短信
+
 			if(null==tradition){
-			//发送短信给项目经理  订单（订单编号：XXXXXXX，小区名-楼号-单元号-门牌号-客户姓名-手机号），已分配质检员：（姓名-手机号），请知晓。
+
 			if(null != order.getItemManagerId()){
-				//拿到项目经理的手机号
+
 				BizEmployee2 manager = bizEmployeeService2.get(order.getItemManagerId());
 				String content ="订单（订单编号："+order.getOrderNumber()+","+order.getCommunityName()+"-"+order.getBuildNumber()+"-"+order.getBuildUnit()+"-"+order.getBuildRoom()+"-"+order.getCustomerName()+"-"+order.getCustomerPhone()+"）,已分配质检员：（"+inspectorName+"-"+inspectorPhone+"），请知晓。";
-				/*Map<String, String> params = new HashMap<String, String>();
-				params.put("source", "1");
-				params.put("content",content);
-				params.put("sendtime", "");
-				params.put("mobile",manager.getPhone());
-				String post = HttpConnection.post(ConstantUtils.SEND_MESSAGE_INTERFACE, params);*/
+
 				BizPhoneMsg phoneMsg = new BizPhoneMsg();
 				phoneMsg.setReceiveEmployeeId(manager.getId());
 				phoneMsg.setReceivePhone(manager.getPhone());
@@ -1054,7 +1019,7 @@ public class OrderController2 extends BaseController {
 				messageService.insert(message);
 				
 			}
-			//发短信给质检员 订单（订单编号：XXXXXXX，小区名-楼号-单元号-门牌号-客户姓名-手机号），订单已分配给您，您可登录APP查看订单详情。
+
 			String content1 ="订单（订单编号："+order.getOrderNumber()+","+order.getCommunityName()+"-"+order.getBuildNumber()+"-"+order.getBuildUnit()+"-"+order.getBuildRoom()+"-"+order.getCustomerName()+"-"+order.getCustomerPhone()+"）,订单已分配给您，您可登录APP查看订单详情。";
 			BizPhoneMsg phoneMsg1 = new BizPhoneMsg();
 			phoneMsg1.setReceiveEmployeeId(inspectorId);
@@ -1066,16 +1031,11 @@ public class OrderController2 extends BaseController {
 			phoneMsg1.setRelatedBusinessType(SendMsgBusinessType.RELATED_BUSINESS_TYPE_200303);
 			phoneMsg1.preInsert();
 			bizPhoneMsgService.insert(phoneMsg1);
-			/*Map<String, String> params1 = new HashMap<String, String>();
-			params1.put("source", "1");
-			params1.put("content",content1);
-			params1.put("sendtime", "");
-			params1.put("mobile",inspectorPhone);
-			String post1 = HttpConnection.post(ConstantUtils.SEND_MESSAGE_INTERFACE, params1);*/
-			/*addMessage(redirectAttributes, "分配质检员成功");*/
+
+
 			}
 			
-			//1跳转产业 
+
 			if("1".equals(order.getProjectMode())){
 				return "redirect:" + Global.getAdminPath() + "/order2/order2/listUnAllotInspector?inspectorType="+inspectorType;
 			}else if("2".equals(order.getProjectMode())){
@@ -1085,19 +1045,19 @@ public class OrderController2 extends BaseController {
 			}
 		}
 
-		// 重派质检员保存
+
 		@RequiresPermissions("order:order:edit")
 		@RequestMapping(value = "resendInspector")
 		public String resendInspector(Integer tradition,Order2 order,String inspectorName, String isLongwayCommission, Integer inspectorId,String inspectorPhone,String projectModel, Model model, RedirectAttributes redirectAttributes,String reasonRemarks,String reasonType) throws UnsupportedEncodingException, NoSuchAlgorithmException {
 			
-			//String addmessage = "重派质检员成功";
+
 			String inspectorType = "2";
-			//1.校验数据是否正确
+
 			String messageVerification = orderService2.verificationPrepareOrder(order);
-//			if(null!=messageVerification && messageVerification.equals("error")){
-//				addmessage = "重新分配质检员失败，请完善该订单数据，再操作此功能";
-//			}
-//			addMessage(redirectAttributes, addmessage);
+
+
+
+
 			order.setProjectMode(projectModel);
 			if(null!=messageVerification && messageVerification.equals("error")){
 				inspectorType = "3";
@@ -1117,33 +1077,33 @@ public class OrderController2 extends BaseController {
 			order.setIsLongwayCommission(isLongwayCommission);
 			order.setOrderInspector(inspectorName);
 			order.setOrderInspectorId(inspectorId);
-			//质检员为竣工订单数
+
 			Map<String,Integer> map = new HashMap<String,Integer>();
 			map.put("inspectorId", order.getOrderInspectorId());
 			Integer unfinishedOrder = orderService2.findUnfinishedOrderByEmployeeId(map);
 			orderService2.updateOrderInspector(order);
 			
-			//更新员工表换单次数
+
 			BizEmployee bizEmployee = bizEmployeeService.selectExchangeOrderTimesById(oldInspectorId);
 			
-			//如果被换单次数为0 则为1
+
 			if(bizEmployee.getExchangeOrderTimes()==null || bizEmployee.getExchangeOrderTimes()==0){
 				bizEmployee.setExchangeOrderTimes(1);
 			}else{
 				Integer times = bizEmployee.getExchangeOrderTimes();
-				//换单次数+1
+
 				bizEmployee.setExchangeOrderTimes(times+=1);
 			}
 			bizEmployee.setUpdateBy(UserUtils.getUser());
 			bizEmployee.setUpdateDate(new Date());
-			//更新employee 表
+
 			bizEmployeeService.updateExchangeOrderTimes(bizEmployee);
 			
-			//日志
+
 			BizOrderDistributeLog log = new BizOrderDistributeLog();
 			
 			log.setOrderId(order.getId());
-			//重新分配
+
 			log.setDistributeType(ConstantUtils.DISTRIBUTE_TYPE_202);
 			log.setDistributedEmployeeId(order.getOrderInspectorId());
 			log.setUnfinishedOrderCountBefore(unfinishedOrder);
@@ -1155,7 +1115,7 @@ public class OrderController2 extends BaseController {
 			log.setReasonRemarks(reasonRemarks);
 			bizOrderDistributeLogService.insert(log);
 			
-			//向biz_syn_data表中保存数据  --- 质检员时间改变
+
 			Map<String,String> jsonMap = new HashMap<String,String>();
 			jsonMap.put("type", "2");
 			jsonMap.put("orderId", order.getOrderNumber());
@@ -1175,17 +1135,12 @@ public class OrderController2 extends BaseController {
 			bizSynDataService.insert(bizSynData);
 			if(null==tradition){
 			if(!oldInspectorId.equals(inspectorId) ){
-				//发送短信给项目经理  (小区名-楼牌号-客户姓名)已经更换了新的质检员（姓名-手机号），请您知晓。
+
 				if(null != order.getItemManagerId()){
-					//拿到项目经理的手机号
+
 					BizEmployee2 manager = bizEmployeeService2.get(order.getItemManagerId());
 					String content ="（"+order.getCommunityName()+"-"+order.getBuildNumber()+"-"+order.getBuildUnit()+"-"+order.getBuildRoom()+"-"+order.getCustomerName()+"）,已经更换了新的质检员（"+inspectorName+"-"+inspectorPhone+"），请您知晓。";
-					/*Map<String, String> params = new HashMap<String, String>();
-					params.put("source", "1");
-					params.put("content",content);
-					params.put("sendtime", "");
-					params.put("mobile",manager.getPhone());
-					String post = HttpConnection.post(ConstantUtils.SEND_MESSAGE_INTERFACE, params);*/
+
 					BizPhoneMsg phoneMsg = new BizPhoneMsg();
 					phoneMsg.setReceiveEmployeeId(manager.getId());
 					phoneMsg.setReceivePhone(manager.getPhone());
@@ -1207,14 +1162,9 @@ public class OrderController2 extends BaseController {
 					message.setBusiIdInt(order.getId());
 					messageService.insert(message);
 				}
-				//发短信给新质检员 订单（订单编号：XXXXXXX，小区名-楼号-单元号-门牌号-客户姓名-手机号），订单已分配给您，您可登录APP查看订单详情。
+
 				String content1 ="订单（订单编号："+order.getOrderNumber()+","+order.getCommunityName()+"-"+order.getBuildNumber()+"-"+order.getBuildUnit()+"-"+order.getBuildRoom()+"-"+order.getCustomerName()+"-"+order.getCustomerPhone()+"）,订单已分配给您，您可登录APP查看订单详情。";
-				/*Map<String, String> params1 = new HashMap<String, String>();
-				params1.put("source", "1");
-				params1.put("content",content1);
-				params1.put("sendtime", "");
-				params1.put("mobile",inspectorPhone);
-				String post1 = HttpConnection.post(ConstantUtils.SEND_MESSAGE_INTERFACE, params1);*/
+
 				BizPhoneMsg phoneMsg1 = new BizPhoneMsg();
 				phoneMsg1.setReceiveEmployeeId(inspectorId);
 				phoneMsg1.setReceivePhone(inspectorPhone);
@@ -1225,15 +1175,10 @@ public class OrderController2 extends BaseController {
 				phoneMsg1.setRelatedBusinessType(SendMsgBusinessType.RELATED_BUSINESS_TYPE_200304);
 				phoneMsg1.preInsert();
 				bizPhoneMsgService.insert(phoneMsg1);
-				//发短信给老质检员 “亲，非常抱歉，（首尔甜城-12-1-301）已经更换了其他的质检员，客户（叶之峰-13611735757），请您知晓，如有疑问可与派单员联系。”
+
 				BizEmployee2 employee = bizEmployeeService2.get(oldInspectorId);				
 				String content2 = "亲，非常抱歉，（"+order.getCommunityName()+"-"+order.getBuildNumber()+"-"+order.getBuildUnit()+"-"+order.getBuildRoom()+"）已经更换了其他的质检员，客户（"+order.getCustomerName()+"-"+order.getCustomerPhone()+"），请您知晓，如有疑问可与派单员联系。";
-				/*Map<String, String> params2 = new HashMap<String, String>();
-				params2.put("source", "1");
-				params2.put("content",content2);
-				params2.put("sendtime", "");
-				params2.put("mobile",employee.getPhone());
-				String post2 = HttpConnection.post(ConstantUtils.SEND_MESSAGE_INTERFACE, params2);*/
+
 				BizPhoneMsg phoneMsg2 = new BizPhoneMsg();
 				phoneMsg2.setReceiveEmployeeId(oldInspectorId);
 				phoneMsg2.setReceivePhone(employee.getPhone());
@@ -1246,7 +1191,7 @@ public class OrderController2 extends BaseController {
 				bizPhoneMsgService.insert(phoneMsg2);
 			}
 			}
-			/*addMessage(redirectAttributes, "重派质检员成功");*/
+
 			if("1".equals(order.getProjectMode())){
 				return "redirect:" + Global.getAdminPath() + "/order2/order2/listAllotInspector?inspectorType="+inspectorType;
 			}else if("2".equals(order.getProjectMode())){
@@ -1256,7 +1201,7 @@ public class OrderController2 extends BaseController {
 			}
 		}
 
-		// ajax 订单编号重复 的处理
+
 		@RequiresPermissions("order:order:view")
 		@RequestMapping(value = "checkOrderNumber")
 		public @ResponseBody String orderNumberAjax(String orderNumber, Model model) {
@@ -1265,7 +1210,7 @@ public class OrderController2 extends BaseController {
 			return result;
 		}
 
-		// ajax 校验是否已经分配项目经理或质检员
+
 		@RequiresPermissions("order:order:view")
 		@RequestMapping(value = "findOrderById")
 		public @ResponseBody Order2 findOrderById(Integer id, Model model) {
@@ -1289,7 +1234,7 @@ public class OrderController2 extends BaseController {
 	@RequiresPermissions("order:order:view")
 	@RequestMapping(value = { "orderLoadList", "" })
 	public String orderLoadList(Order2 order, HttpServletRequest request, HttpServletResponse response, Model model) {
-		//过滤门店
+
 		if(StringUtils.isBlank(order.getStoreId())){
 			String storeId = UserUtils.getUser().getStoreId();
 			if(StringUtils.isBlank(storeId)){
@@ -1311,7 +1256,7 @@ public class OrderController2 extends BaseController {
 	@RequiresPermissions("order:order:view")
 	@RequestMapping(value = { "orderPaymentList", "" })
 	public String orderPaymentList(Order2 order, HttpServletRequest request, HttpServletResponse response, Model model) {
-		//过滤门店
+
 		if(StringUtils.isBlank(order.getStoreId())){
 			String storeId = UserUtils.getUser().getStoreId();
 			if(StringUtils.isBlank(storeId)){
@@ -1332,7 +1277,7 @@ public class OrderController2 extends BaseController {
 	
 	@Autowired
 	private OrderService orderService;
-	//地图分配项目经理
+
 	@RequiresPermissions("order:order:view")
 	@RequestMapping(value = "mapManager")
 	public String mapManager(String orderId,String distance,String star, HttpServletRequest request,
@@ -1340,17 +1285,17 @@ public class OrderController2 extends BaseController {
 		
 		
 		Order order = orderService.get(orderId);
-//		String[] split = order.getMapCoordinate().split(",");//经度split[0] 纬度split[1]
+
 		model.addAttribute("order",order);
-//		model.addAttribute("lng",split[0]);
-//		model.addAttribute("lat",split[1]);
-//		model.addAttribute("distance",distance);
-//		model.addAttribute("star",star);
-//		model.addAttribute("id",orderId);
+
+
+
+
+
 		
 		return "modules/order/mapManager";
 	}
-	//地图重新分配项目经理
+
 	@RequiresPermissions("order:order:view")
 	@RequestMapping(value = "mapReManager")
 	public String mapReManager(String orderId,String distance,String star, HttpServletRequest request,
@@ -1358,13 +1303,13 @@ public class OrderController2 extends BaseController {
 		
 	
 		Order order = orderService.get(orderId);
-		//String[] split = order.getMapCoordinate().split(",");//经度split[0] 纬度split[1]
+
 		model.addAttribute("order",order);
-//		model.addAttribute("lng",split[0]);
-//		model.addAttribute("lat",split[1]);
-//		model.addAttribute("distance",distance);
-//		model.addAttribute("star",star);
-//		model.addAttribute("id",orderId);
+
+
+
+
+
 		
 		return "modules/order/mapReManager";
 	}
@@ -1381,7 +1326,7 @@ public class OrderController2 extends BaseController {
 		if(star!=null && !star.equals("")){
 			itemManagerMap.setStar(Integer.valueOf(star));
 		}
-		//通过订单id查询项目经理
+
 		List<ItemManagerMap> list = orderService2.findMapList(itemManagerMap);
 		List<ItemManagerMap> list2 = orderService2.findManagerMoreCount( new SimpleDateFormat("yyyy-MM").format(new Date()));
 			List<ItemManagerMap> list3 = orderService2.findManagerMoreCount1(list2);
@@ -1459,7 +1404,7 @@ public class OrderController2 extends BaseController {
 		return list;
 	}
 	
-	//地图分配质检员
+
 	@RequiresPermissions("order:order:view")
 	@RequestMapping(value = "mapInspector")
 	public String mapInspector(String orderId,String distance,String star, HttpServletRequest request,
@@ -1467,17 +1412,17 @@ public class OrderController2 extends BaseController {
 		
 		
 		Order order = orderService.get(orderId);
-		//String[] split = order.getMapCoordinate().split(",");//经度split[0] 纬度split[1]
+
 		model.addAttribute("order",order);
-		//model.addAttribute("lng",split[0]);
-		//model.addAttribute("lat",split[1]);
-		//model.addAttribute("distance",distance);
-		//model.addAttribute("star",star);
-		//model.addAttribute("id",orderId);
+
+
+
+
+
 		
 		return "modules/order/mapInspector";
 	}
-	//地图重新分配质检员
+
 	@RequiresPermissions("order:order:view")
 	@RequestMapping(value = "mapReInspector")
 	public String mapReInspector(String orderId,String distance,String star, HttpServletRequest request,
@@ -1485,13 +1430,13 @@ public class OrderController2 extends BaseController {
 		
 		
 		Order order = orderService.get(orderId);
-		//String[] split = order.getMapCoordinate().split(",");//经度split[0] 纬度split[1]
+
 		model.addAttribute("order",order);
-//		model.addAttribute("lng",split[0]);
-//		model.addAttribute("lat",split[1]);
-//		model.addAttribute("distance",distance);
-//		model.addAttribute("star",star);
-//		model.addAttribute("id",orderId);
+
+
+
+
+
 		
 		return "modules/order/mapReInspector";
 	}
@@ -1509,7 +1454,7 @@ public class OrderController2 extends BaseController {
 		if(star!=null && !star.equals("")){
 			itemManagerMap.setStar(Integer.valueOf(star));
 		}
-		//通过订单id查询项目经理
+
 		List<ItemManagerMap> list = orderService2.findMapList(itemManagerMap);
 		return list;
 	}
@@ -1526,7 +1471,7 @@ public class OrderController2 extends BaseController {
 	@RequiresPermissions("order:order:view")
 	@RequestMapping(value = { "orderManagerGuranteeMoneyList", "" })
 	public String orderManagerGuranteeMoneyList(Order2 order, Model model) {
-		//过滤门店
+
 		if(StringUtils.isBlank(order.getStoreId())){
 			String storeId = UserUtils.getUser().getStoreId();
 			if(StringUtils.isBlank(storeId)){
@@ -1539,7 +1484,7 @@ public class OrderController2 extends BaseController {
 			model.addAttribute("storeDropEnable", true);
 		}
 
-		// 过滤工程模式
+
 		if(StringUtils.isBlank(order.getProjectMode())){
 			User user = UserUtils.getUser();
 			if(StringUtils.isNoneBlank(user.getEmpId())){
@@ -1561,7 +1506,7 @@ public class OrderController2 extends BaseController {
 	@RequiresPermissions("order:order:view")
 	@RequestMapping(value = { "orderManagerGuranteeMoneyLoadList", "" })
 	public String orderManagerGuranteeMoneyLoadList(Order2 order, HttpServletRequest request, HttpServletResponse response, Model model) {
-		//过滤门店
+
 		if(StringUtils.isBlank(order.getStoreId())){
 			String storeId = UserUtils.getUser().getStoreId();
 			if(StringUtils.isBlank(storeId)){
@@ -1574,7 +1519,7 @@ public class OrderController2 extends BaseController {
 			model.addAttribute("storeDropEnable", true);
 		}
 
-		// 过滤工程模式
+
 		User user = UserUtils.getUser();
 		if(StringUtils.isNoneBlank(user.getEmpId())){
 			BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -1589,16 +1534,7 @@ public class OrderController2 extends BaseController {
 		return "modules/order/orderManagerGuranteeMoneyList";
 	}
 	
-	/**
-	 * 传统已分配质检员跳转
-	 * @param
-	 * @param inspectorType
-	 * @param order
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @return
-	 */
+
 	@RequiresPermissions("order:order:view")
 	@RequestMapping(value = { "listAllotInspectorTradition", "" })
 	public String listAllotInspectorTradition(Integer firstRequest,String inspectorType,Order2 order, HttpServletRequest request, HttpServletResponse response,
@@ -1614,14 +1550,7 @@ public class OrderController2 extends BaseController {
 		return "modules/order/tradition-distribute/orderListAllotInspector";
 	}
 	
-	/**
-	 * 传统已分配质检员list
-	 * @param order
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @return
-	 */
+
 	@RequiresPermissions("order:order:view")
 	@RequestMapping(value = { "listAllotInspectorTradition1", "" })
 	public String listAllotInspectorTradition1(Integer firstRequest,String inspectorType,Order2 order, HttpServletRequest request, HttpServletResponse response,
@@ -1636,13 +1565,13 @@ public class OrderController2 extends BaseController {
 			order.setOrderStatusNumber(statusStr);
 		}
 		if(UserUtils.getUser().getStoreId()!=null){
-			//当前登录用户门店
+
 			order.setStoreId(UserUtils.getUser().getStoreId());
 		}
 		else{
-			//门店是总部的查询所有部门信息
+
 			if(order.getStoreId()!=null && order.getStoreId().equals("1")){
-					//总部
+
 					order.setStoreId(null);
 			}
 		}
@@ -1671,29 +1600,20 @@ public class OrderController2 extends BaseController {
 		if(null!=inspectorType && !inspectorType.equals("")){
 			model.addAttribute("inspectorType", inspectorType);
 		}
-//		if(null!=inspectorType && inspectorType.equals("0")){
-//			model.addAttribute("message", "分配质检员成功");
-//		}else if(inspectorType.equals("1")){
-//			model.addAttribute("message", "分配质检员失败，请完善该订单数据，再操作此功能");
-//		}else if(inspectorType.equals("2")){
-//			model.addAttribute("message", "重新质检员成功");
-//		}else if(inspectorType.equals("3")){
-//			model.addAttribute("message", "重新质检员失败，请完善该订单数据，再操作此功能");
-//		}
+
+
+
+
+
+
+
+
+
 		
 		return "modules/order/tradition-distribute/orderListAllotInspector";
 	}
 	
-	/**
-	 * 传统待分配质检员  跳转
-	 * @param
-	 * @param inspectorType
-	 * @param order
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @return
-	 */
+
 	@RequiresPermissions("order:order:view")
 	@RequestMapping(value = { "listUnAllotInspectorTradition", "" })
 	public String listUnAllotInspectorTradition(Integer firstRequest,String inspectorType,Order2 order, HttpServletRequest request, HttpServletResponse response,
@@ -1704,14 +1624,7 @@ public class OrderController2 extends BaseController {
 	}
 	
 	
-	/**
-	 * 传统待分配质检员list
-	 * @param order
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @return
-	 */
+
 	@RequiresPermissions("order:order:view")
 	@RequestMapping(value = { "listUnAllotInspectorTradition1", "" })
 	public String listUnAllotInspectorTradition1(Integer firstRequest,String inspectorType,Order2 order, HttpServletRequest request, HttpServletResponse response,
@@ -1721,13 +1634,13 @@ public class OrderController2 extends BaseController {
 		order.setProjectMode("2");
 		
 		if(UserUtils.getUser().getStoreId()!=null){
-			//当前登录用户门店
+
 			order.setStoreId(UserUtils.getUser().getStoreId());
 		}
 		else{
-			//门店是总部的查询所有部门信息
+
 			if(order.getStoreId()!=null && order.getStoreId().equals("1")){
-					//总部
+
 					order.setStoreId(null);
 			}
 		}
@@ -1754,28 +1667,21 @@ public class OrderController2 extends BaseController {
 		if(null!=inspectorType && !inspectorType.equals("")){
 			model.addAttribute("inspectorType", inspectorType);
 		}
-//		if(null!=inspectorType && inspectorType.equals("0")){
-//			model.addAttribute("message", "分配质检员成功");
-//		}else if(inspectorType.equals("1")){
-//			model.addAttribute("message", "分配质检员失败，请完善该订单数据，再操作此功能");
-//		}else if(inspectorType.equals("2")){
-//			model.addAttribute("message", "重新质检员成功");
-//		}else if(inspectorType.equals("3")){
-//			model.addAttribute("message", "重新质检员失败，请完善该订单数据，再操作此功能");
-//		}
+
+
+
+
+
+
+
+
+
 		
 		return "modules/order/tradition-distribute/orderListUnAllotInspector";
 	}
 	
 	
-	/**
-	 * 传统分配质检员第二页
-	 * @param order
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @return
-	 */
+
 	@RequiresPermissions("order:order:view")
 	@RequestMapping(value = "allotInspectorTradition")
 	public String allotInspectorTradition(Integer tradition,Order2 order, Inspector inspector, HttpServletRequest request,
@@ -1785,10 +1691,10 @@ public class OrderController2 extends BaseController {
 		inspector.setStoreid(order.getStoreId());
 		inspector.setOrderstop("0");
 		String mapCoordinate = order.getMapCoordinate();
-		String[] split = mapCoordinate.split(",");//经度split[0] 纬度split[1]
+		String[] split = mapCoordinate.split(",");
 		inspector.setOrderPointx(split[0]);
 		inspector.setOrderPointy(split[1]);
-		//Page<Inspector> page = inspectorService.findPage(new Page<Inspector>(request, response), inspector);
+
 		List<Inspector> list = inspectorService.findlistForOrderTradition(inspector);
 		model.addAttribute("order", order);
 		model.addAttribute("list", list);
@@ -1800,7 +1706,7 @@ public class OrderController2 extends BaseController {
 	
 	
 	
-	// 传统分配项目经理跳转
+
 	@RequiresPermissions("order:order:view")
 	@RequestMapping(value = { "listAllotManagerTradition", "" })
 	public String listAllotManagerTradition(Integer firstRequest,String managerType,Order2 order, HttpServletRequest request, HttpServletResponse response, Model model) {
@@ -1814,7 +1720,7 @@ public class OrderController2 extends BaseController {
 		model.addAttribute("orderStatus", dictListByType);
 		return "modules/order/tradition-distribute/orderListAllot";
 	}
-	// 传统分配项目经理list
+
 	@RequiresPermissions("order:order:view")
 	@RequestMapping(value = { "listAllotManagerTradition1", "" })
 	public String listAllotManagerTradition1(Integer firstRequest,String managerType,Order2 order, HttpServletRequest request, HttpServletResponse response, Model model) {
@@ -1827,13 +1733,13 @@ public class OrderController2 extends BaseController {
 			order.setOrderStatusNumber(statusStr);
 		}
 		if(UserUtils.getUser().getStoreId()!=null){
-			//当前登录用户门店
+
 			order.setStoreId(UserUtils.getUser().getStoreId());
 		}
 		else{
-			//门店是总部的查询所有部门信息
+
 			if(order.getStoreId()!=null && order.getStoreId().equals("1")){
-					//总部
+
 					order.setStoreId(null);
 			}
 		}
@@ -1862,20 +1768,20 @@ public class OrderController2 extends BaseController {
 		if(null!=managerType && !managerType.equals("")){
 			model.addAttribute("managerType", managerType);
 		}
-//				if(null!=managerType && managerType.equals("0")){
-//					model.addAttribute("message", "分配项目经理成功");
-//				}else if(managerType.equals("1")){
-//					model.addAttribute("message", "分配项目经理失败，请完善该订单数据，再操作此功能");
-//				}else if(managerType.equals("2")){
-//					model.addAttribute("message", "重新分配项目经理成功");
-//				}else if(managerType.equals("3")){
-//					model.addAttribute("message", "重新分配项目经理失败，请完善该订单数据，再操作此功能");
-//				}
+
+
+
+
+
+
+
+
+
 		
 		return "modules/order/tradition-distribute/orderListAllot";
 	}
 	
-	//传统订单待分派项目经理跳转
+
 	@RequiresPermissions("order:order:view")
 	@RequestMapping(value = { "listUnAllotManagerTradition", "" })
 	public String listUnAllotManagerTradition(Integer firstRequest,String managerType,Order2 order, HttpServletRequest request, HttpServletResponse response, Model model) {
@@ -1884,7 +1790,7 @@ public class OrderController2 extends BaseController {
 		return "modules/order/tradition-distribute/orderListUnAllot";
 	}
 	
-	// 传统分配项目经理list
+
 		@RequiresPermissions("order:order:view")
 		@RequestMapping(value = { "listUnAllotManagerTradition1", "" })
 		public String listUnAllotManagerTradition1(Integer firstRequest,String managerType,Order2 order, HttpServletRequest request, HttpServletResponse response, Model model) {
@@ -1892,13 +1798,13 @@ public class OrderController2 extends BaseController {
 			order.setIsAllotManager("1");
 			order.setIsScrap("0");
 			if(UserUtils.getUser().getStoreId()!=null){
-				//当前登录用户门店
+
 				order.setStoreId(UserUtils.getUser().getStoreId());
 			}
 			else{
-				//门店是总部的查询所有部门信息
+
 				if(order.getStoreId()!=null && order.getStoreId().equals("1")){
-						//总部
+
 						order.setStoreId(null);
 				}
 			}
@@ -1927,15 +1833,15 @@ public class OrderController2 extends BaseController {
 			if(null!=managerType && !managerType.equals("")){
 				model.addAttribute("managerType", managerType);
 			}
-//					if(null!=managerType && managerType.equals("0")){
-//						model.addAttribute("message", "分配项目经理成功");
-//					}else if(managerType.equals("1")){
-//						model.addAttribute("message", "分配项目经理失败，请完善该订单数据，再操作此功能");
-//					}else if(managerType.equals("2")){
-//						model.addAttribute("message", "重新分配项目经理成功");
-//					}else if(managerType.equals("3")){
-//						model.addAttribute("message", "重新分配项目经理失败，请完善该订单数据，再操作此功能");
-//					}
+
+
+
+
+
+
+
+
+
 			
 			return "modules/order/tradition-distribute/orderListUnAllot";
 		}
@@ -1943,7 +1849,7 @@ public class OrderController2 extends BaseController {
 	
 	
 	
-		// 传统分配项目经理第二页
+
 			@RequiresPermissions("order:order:view")
 			@RequestMapping(value = "allotManagerTradition")
 			public String allotManagerTradition(Order2 order,Integer tradition, ItemManager itemManager, HttpServletRequest request,
@@ -1955,7 +1861,7 @@ public class OrderController2 extends BaseController {
 					itemManager.setProjectMode(order.getProjectMode());
 				}
 				String mapCoordinate = order.getMapCoordinate();
-				String[] split = mapCoordinate.split(",");//经度split[0] 纬度split[1]
+				String[] split = mapCoordinate.split(",");
 				itemManager.setOrderPointx(split[0]);
 				itemManager.setOrderPointy(split[1]);
 				
@@ -1967,7 +1873,7 @@ public class OrderController2 extends BaseController {
 			}
 			
 		
-		//派项目经理日报表
+
 		@RequiresPermissions("order:order:view")
 		@RequestMapping(value = "proMangerDaily")
 		public String proMangerDaily(Integer firstRequest,String managerType,Order2 order, HttpServletRequest request, HttpServletResponse response, Model model) {
@@ -1992,7 +1898,7 @@ public class OrderController2 extends BaseController {
 			model.addAttribute("proMangerCount", count);
 			return "modules/order/proMangerDaily";
 		}
-		//派质检员日报表
+
 		@RequiresPermissions("order:order:view")
 		@RequestMapping(value = "inspectorDaily")
 		public String inspectorDaily(Integer firstRequest,String managerType,Order2 order, HttpServletRequest request, HttpServletResponse response, Model model) {
@@ -2021,9 +1927,9 @@ public class OrderController2 extends BaseController {
 		
 		
 		
-		//----------------------特殊角色跳转
+
 		
-		// 跳转到 “产业订单已分派项目经理”页面 
+
 		@RequiresPermissions("order:order:view")
 		@RequestMapping(value = { "listAllotCY", "" })
 		public String listAllotCY(Order2 order, HttpServletRequest request,String managerType, HttpServletResponse response, Model model) {
@@ -2037,7 +1943,7 @@ public class OrderController2 extends BaseController {
 			order.setOrderStatus(orderStatus);
 			return "modules/order/specialRoles/orderListAllotCY";
 		}
-		// 查询 “产业订单已分派项目经理”页面 
+
 		@RequiresPermissions("order:order:view")
 		@RequestMapping(value = "listAllotCY1")
 		public String listAllotCY1(Order2 order, HttpServletRequest request, HttpServletResponse response, Model model) {
@@ -2066,13 +1972,13 @@ public class OrderController2 extends BaseController {
 				order.setEnginDepartIds(list);
 			}
 			if(UserUtils.getUser().getStoreId()!=null){
-				//当前登录用户门店
+
 				order.setStoreId(UserUtils.getUser().getStoreId());
 			}
 			else{
-				//门店是总部的查询所有部门信息
+
 				if(order.getStoreId()!=null && order.getStoreId().equals("1")){
-						//总部
+
 						order.setStoreId(null);
 				}
 			}
@@ -2112,7 +2018,7 @@ public class OrderController2 extends BaseController {
 			order.setOrderStatus(orderStatus);
 			return "modules/order/specialRoles/orderListAllotZCY";
 		}
-		// 查询 “产业订单已分派项目经理”页面 
+
 		@RequiresPermissions("order:order:view")
 		@RequestMapping(value = "listAllotZCY1")
 		public String listAllotZCY1(Order2 order, HttpServletRequest request, HttpServletResponse response, Model model) {
@@ -2141,13 +2047,13 @@ public class OrderController2 extends BaseController {
 				order.setEnginDepartIds(list);
 			}
 			if(UserUtils.getUser().getStoreId()!=null){
-				//当前登录用户门店
+
 				order.setStoreId(UserUtils.getUser().getStoreId());
 			}
 			else{
-				//门店是总部的查询所有部门信息
+
 				if(order.getStoreId()!=null && order.getStoreId().equals("1")){
-						//总部
+
 						order.setStoreId(null);
 				}
 			}
@@ -2174,7 +2080,7 @@ public class OrderController2 extends BaseController {
 			return "modules/order/specialRoles/orderListAllotZCY";
 		}
 			
-		// 跳转到 “产业订单待分派项目经理”页面 
+
 		@RequiresPermissions("order:order:view")
 		@RequestMapping(value = { "listUnAllotCY", "" })
 		public String listUnAllotCY(Order2 order, HttpServletRequest request,String managerType, HttpServletResponse response, Model model) {
@@ -2183,7 +2089,7 @@ public class OrderController2 extends BaseController {
 			return "modules/order/specialRoles/orderListUnAllotCY";
 		}
 		
-		// 查询 “产业订单待分派项目经理”页面 
+
 		@RequiresPermissions("order:order:view")
 		@RequestMapping(value = { "listUnAllotCY1", "" })
 		public String listUnAllotCY1(Order2 order, HttpServletRequest request,String managerType, HttpServletResponse response, Model model) {
@@ -2206,13 +2112,13 @@ public class OrderController2 extends BaseController {
 				order.setEnginDepartIds(list);
 			}
 			if(UserUtils.getUser().getStoreId()!=null){
-				//当前登录用户门店
+
 				order.setStoreId(UserUtils.getUser().getStoreId());
 			}
 			else{
-				//门店是总部的查询所有部门信息
+
 				if(order.getStoreId()!=null && order.getStoreId().equals("1")){
-						//总部
+
 						order.setStoreId(null);
 				}
 			}
@@ -2238,21 +2144,21 @@ public class OrderController2 extends BaseController {
 				model.addAttribute("managerType",managerType);
 			}
 			
-//								if(null!=managerType && managerType.equals("0")){
-//									model.addAttribute("message", "分配项目经理成功");
-//								}else if(managerType.equals("1")){
-//									model.addAttribute("message", "分配项目经理失败，请完善该订单数据，再操作此功能");
-//								}else if(managerType.equals("2")){
-//									model.addAttribute("message", "重新分配项目经理成功");
-//								}else if(managerType.equals("3")){
-//									model.addAttribute("message", "重新分配项目经理失败，请完善该订单数据，再操作此功能");
-//								}
+
+
+
+
+
+
+
+
+
 			return "modules/order/specialRoles/orderListUnAllotCY";
 		}
 		
 		
 		
-		// 跳转到 “产业订单待分派项目经理”页面 
+
 		@RequiresPermissions("order:order:view")
 		@RequestMapping(value = { "listUnAllotZCY", "" })
 		public String listUnAllotZCY(Order2 order, HttpServletRequest request,String managerType, HttpServletResponse response, Model model) {
@@ -2261,7 +2167,7 @@ public class OrderController2 extends BaseController {
 			return "modules/order/specialRoles/orderListUnAllotZCY";
 		}
 		
-		// 查询 “产业订单待分派项目经理”页面 
+
 		@RequiresPermissions("order:order:view")
 		@RequestMapping(value = { "listUnAllotZCY1", "" })
 		public String listUnAllotZCY1(Order2 order, HttpServletRequest request,String managerType, HttpServletResponse response, Model model) {
@@ -2284,13 +2190,13 @@ public class OrderController2 extends BaseController {
 				order.setEnginDepartIds(list);
 			}
 			if(UserUtils.getUser().getStoreId()!=null){
-				//当前登录用户门店
+
 				order.setStoreId(UserUtils.getUser().getStoreId());
 			}
 			else{
-				//门店是总部的查询所有部门信息
+
 				if(order.getStoreId()!=null && order.getStoreId().equals("1")){
-						//总部
+
 						order.setStoreId(null);
 				}
 			}
@@ -2316,21 +2222,21 @@ public class OrderController2 extends BaseController {
 				model.addAttribute("managerType",managerType);
 			}
 			
-//										if(null!=managerType && managerType.equals("0")){
-//											model.addAttribute("message", "分配项目经理成功");
-//										}else if(managerType.equals("1")){
-//											model.addAttribute("message", "分配项目经理失败，请完善该订单数据，再操作此功能");
-//										}else if(managerType.equals("2")){
-//											model.addAttribute("message", "重新分配项目经理成功");
-//										}else if(managerType.equals("3")){
-//											model.addAttribute("message", "重新分配项目经理失败，请完善该订单数据，再操作此功能");
-//										}
+
+
+
+
+
+
+
+
+
 			return "modules/order/specialRoles/orderListUnAllotZCY";
 		}
 		
 		
 		
-		// 传统分配项目经理跳转
+
 		@RequiresPermissions("order:order:view")
 		@RequestMapping(value = { "listAllotManagerTraditionCT", "" })
 		public String listAllotManagerTraditionCT(Integer firstRequest,String managerType,Order2 order, HttpServletRequest request, HttpServletResponse response, Model model) {
@@ -2344,7 +2250,7 @@ public class OrderController2 extends BaseController {
 			order.setOrderStatus(orderStatus);
 			return "modules/order/specialRoles/orderListAllotCT";
 		}
-		// 传统分配项目经理list
+
 		@RequiresPermissions("order:order:view")
 		@RequestMapping(value = { "listAllotManagerTraditionCT1", "" })
 		public String listAllotManagerTraditionCT1(Integer firstRequest,String managerType,Order2 order, HttpServletRequest request, HttpServletResponse response, Model model) {
@@ -2357,13 +2263,13 @@ public class OrderController2 extends BaseController {
 				order.setOrderStatusNumber(statusStr);
 			}
 			if(UserUtils.getUser().getStoreId()!=null){
-				//当前登录用户门店
+
 				order.setStoreId(UserUtils.getUser().getStoreId());
 			}
 			else{
-				//门店是总部的查询所有部门信息
+
 				if(order.getStoreId()!=null && order.getStoreId().equals("1")){
-						//总部
+
 						order.setStoreId(null);
 				}
 			}
@@ -2392,20 +2298,20 @@ public class OrderController2 extends BaseController {
 			if(null!=managerType && !managerType.equals("")){
 				model.addAttribute("managerType", managerType);
 			}
-//					if(null!=managerType && managerType.equals("0")){
-//						model.addAttribute("message", "分配项目经理成功");
-//					}else if(managerType.equals("1")){
-//						model.addAttribute("message", "分配项目经理失败，请完善该订单数据，再操作此功能");
-//					}else if(managerType.equals("2")){
-//						model.addAttribute("message", "重新分配项目经理成功");
-//					}else if(managerType.equals("3")){
-//						model.addAttribute("message", "重新分配项目经理失败，请完善该订单数据，再操作此功能");
-//					}
+
+
+
+
+
+
+
+
+
 			
 			return "modules/order/specialRoles/orderListAllotCT";
 		}
 		
-		//传统订单待分派项目经理跳转
+
 		@RequiresPermissions("order:order:view")
 		@RequestMapping(value = { "listUnAllotManagerTraditionCT", "" })
 		public String listUnAllotManagerTraditionCT(Integer firstRequest,String managerType,Order2 order, HttpServletRequest request, HttpServletResponse response, Model model) {
@@ -2414,20 +2320,20 @@ public class OrderController2 extends BaseController {
 			return "modules/order/specialRoles/orderListUnAllotCT";
 		}
 		
-		// 传统分配项目经理list
+
 			@RequiresPermissions("order:order:view")
 			@RequestMapping(value = { "listUnAllotManagerTraditionCT1", "" })
 			public String listUnAllotManagerTraditionCT1(Integer firstRequest,String managerType,Order2 order, HttpServletRequest request, HttpServletResponse response, Model model) {
 				order.setProjectMode("2");
 				order.setIsAllotManager("1");
 				if(UserUtils.getUser().getStoreId()!=null){
-					//当前登录用户门店
+
 					order.setStoreId(UserUtils.getUser().getStoreId());
 				}
 				else{
-					//门店是总部的查询所有部门信息
+
 					if(order.getStoreId()!=null && order.getStoreId().equals("1")){
-							//总部
+
 							order.setStoreId(null);
 					}
 				}
@@ -2456,22 +2362,22 @@ public class OrderController2 extends BaseController {
 				if(null!=managerType && !managerType.equals("")){
 					model.addAttribute("managerType", managerType);
 				}
-//						if(null!=managerType && managerType.equals("0")){
-//							model.addAttribute("message", "分配项目经理成功");
-//						}else if(managerType.equals("1")){
-//							model.addAttribute("message", "分配项目经理失败，请完善该订单数据，再操作此功能");
-//						}else if(managerType.equals("2")){
-//							model.addAttribute("message", "重新分配项目经理成功");
-//						}else if(managerType.equals("3")){
-//							model.addAttribute("message", "重新分配项目经理失败，请完善该订单数据，再操作此功能");
-//						}
+
+
+
+
+
+
+
+
+
 				
 				return "modules/order/specialRoles/orderListUnAllotCT";
 			}
 			
 			
 			
-			// 跳转到分配项目经理的方法
+
 			@RequiresPermissions("order:order:view")
 			@RequestMapping(value = "allotManager1")
 			public String allotManager1(Order2 order, ItemManager itemManager, HttpServletRequest request,
@@ -2482,7 +2388,7 @@ public class OrderController2 extends BaseController {
 				itemManager.setProjectMode(order.getProjectMode());
 				itemManager.setOrderstop("0");
 				String mapCoordinate = order.getMapCoordinate();
-				String[] split = mapCoordinate.split(",");//经度split[0] 纬度split[1]
+				String[] split = mapCoordinate.split(",");
 				itemManager.setOrderPointx(split[0]);
 				itemManager.setOrderPointy(split[1]);
 				
@@ -2493,7 +2399,7 @@ public class OrderController2 extends BaseController {
 				return "modules/order/specialRoles/orderAllotManagerCT";
 			}
 
-			// 跳转到重派项目经理的方法
+
 			@RequiresPermissions("order:order:view")
 			@RequestMapping(value = "reAllotManager1")
 			public String reAllotManager1(Order2 order, ItemManager itemManager, HttpServletRequest request,
@@ -2504,17 +2410,17 @@ public class OrderController2 extends BaseController {
 				itemManager.setProjectMode(order.getProjectMode());
 				itemManager.setOrderstop("0");
 				String mapCoordinate = order.getMapCoordinate();
-				String[] split = mapCoordinate.split(",");//经度split[0] 纬度split[1]
+				String[] split = mapCoordinate.split(",");
 				itemManager.setOrderPointx(split[0]);
 				itemManager.setOrderPointy(split[1]);
 				List<ItemManager> list = itemManagerService.findListForOrder1(itemManager);
 				model.addAttribute("order", order);
 				model.addAttribute("list", list);
-				//model.addAttribute("page", page);
+
 				return "modules/order/specialRoles/orderReAllotManager";
 			}
 			
-			// 传统分配项目经理第二页
+
 			@RequiresPermissions("order:order:view")
 			@RequestMapping(value = "allotManagerTradition1")
 			public String allotManagerTradition1(Order2 order,Integer tradition, ItemManager itemManager, HttpServletRequest request,
@@ -2524,7 +2430,7 @@ public class OrderController2 extends BaseController {
 				itemManager.setProjectMode(order.getProjectMode());
 				itemManager.setOrderstop("0");
 				String mapCoordinate = order.getMapCoordinate();
-				String[] split = mapCoordinate.split(",");//经度split[0] 纬度split[1]
+				String[] split = mapCoordinate.split(",");
 				itemManager.setOrderPointx(split[0]);
 				itemManager.setOrderPointy(split[1]);
 				
@@ -2535,19 +2441,19 @@ public class OrderController2 extends BaseController {
 				return "modules/order/specialRoles/orderReAllotManager";
 			}
 			
-			// 分配项目经理保存
+
 			@RequiresPermissions("order:order:edit")
 			@RequestMapping(value = "saveManager1")
 			public String saveManager1(Integer tradition,Order2 order,String managerName,Integer managerId, String managerPhone,Model model, RedirectAttributes redirectAttributes) throws UnsupportedEncodingException, NoSuchAlgorithmException {
 				
-				//String addmessage = "分配项目经理成功";
+
 				String managerType = "0";
-				//1.校验数据是否正确
+
 				String messageVerification = orderService2.verificationPrepareOrder(order);
-//				if(null!=messageVerification && messageVerification.equals("error")){
-//					addmessage = "分配项目经理失败，请完善该订单数据，再操作此功能";
-//				}
-//				addMessage(redirectAttributes, addmessage);
+
+
+
+
 				if(null!=messageVerification && messageVerification.equals("error")){
 					managerType = "1";
 					if(!StringUtils.isEmpty(order.getProjectMode())){
@@ -2568,21 +2474,21 @@ public class OrderController2 extends BaseController {
 				order.setItemManager(managerName);
 				order.setItemManagerId(managerId);
 				if(order.getOrderTaskPackStatus() != null && order.getOrderTaskPackStatus().equals("1")){
-					//修改该订单下的任务包和项目经理
+
 					orderTaskpackService.updateManager(order.getId(),managerName,managerId);
 				}
-				// 项目经理未竣工的订单数
+
 				Map<String,Integer> map = new HashMap<String,Integer>();
 				map.put("itemManagerId", order.getItemManagerId());
 				Integer unfinishedOrder = orderService2.findUnfinishedOrderByEmployeeId(map);
 				
 				orderService2.updateOrder(order);
 				
-				//日志表
+
 				BizOrderDistributeLog log = new BizOrderDistributeLog();
-				//订单
+
 				log.setOrderId(order.getId());
-				//分配类型
+
 				log.setDistributeType(ConstantUtils.DISTRIBUTE_TYPE_101);
 				log.setDistributedEmployeeId(order.getItemManagerId());
 				log.setUnfinishedOrderCountBefore(unfinishedOrder);
@@ -2591,7 +2497,7 @@ public class OrderController2 extends BaseController {
 				log.preInsert();
 				bizOrderDistributeLogService.insert(log);
 				
-				//向biz_syn_data表中保存数据  --- 项目经理时间改变
+
 				Map<String,String> jsonMap = new HashMap<String,String>();
 				jsonMap.put("type", "1");
 				jsonMap.put("orderId", order.getOrderNumber());
@@ -2610,22 +2516,17 @@ public class OrderController2 extends BaseController {
 				bizSynData.preInsert();
 				bizSynDataService.insert(bizSynData);
 				
-				//产业订单
+
 				if(order.getProjectMode().equals(OrderConstantUtil.ORDER_PROJECT_MODE_INDUSTRY_1)){
 					materialInterfaceService.saveWallFloorTileSquareBudget(order.getOrderNumber());
 				}
 				
-				//传统不发短信
+
 				if(null==tradition){
 				
-				//发短信给项目经理  订单（订单编号：XXXXXXX，小区名-楼号-单元号-门牌号-客户姓名-手机号，设计师：姓名-手机号），订单已分配给您，您可登录APP查看订单详情。
+
 				String content ="订单（订单编号："+order.getOrderNumber()+","+order.getCommunityName()+"-"+order.getBuildNumber()+"-"+order.getBuildUnit()+"-"+order.getBuildRoom()+"-"+order.getCustomerName()+"-"+order.getCustomerPhone()+"，设计师："+order.getDesignerName()+"-"+order.getDesignerPhone()+"），订单已分配给您，您可登录APP查看订单详情。";
-				/*Map<String, String> params = new HashMap<String, String>();
-				params.put("source", "1");
-				params.put("content",content);
-				params.put("sendtime", "");
-				params.put("mobile",managerPhone);
-				String post = HttpConnection.post(ConstantUtils.SEND_MESSAGE_INTERFACE, params);*/
+
 				BizPhoneMsg phoneMsg = new BizPhoneMsg();
 				phoneMsg.setReceiveEmployeeId(managerId);
 				phoneMsg.setReceivePhone(managerPhone);
@@ -2646,16 +2547,11 @@ public class OrderController2 extends BaseController {
 				message.setEmployeeId(managerId);
 				message.setBusiIdInt(order.getId());
 				messageService.insert(message);
-				//给设计师发短信  订单（订单编号：XXXXXXX，小区名-楼号-单元号-门牌号-客户姓名-手机号），已分派项目经理（姓名-手机号），如有问题或变更请及时联系项目经理。
+
 				String content1 ="订单（订单编号："+order.getOrderNumber()+","+order.getCommunityName()+"-"+order.getBuildNumber()+"-"+order.getBuildUnit()+"-"+order.getBuildRoom()+"-"+order.getCustomerName()+"-"+order.getCustomerPhone()+"），已分派项目经理（"+managerName+"-"+managerPhone+"），如有问题或变更请及时联系项目经理。";
-				/*Map<String, String> params1 = new HashMap<String, String>();
-				params1.put("source", "1"); 
-				params1.put("content",content1);
-				params1.put("sendtime", "");
-				params1.put("mobile",order.getDesignerPhone());
-				String post1 = HttpConnection.post(ConstantUtils.SEND_MESSAGE_INTERFACE, params1);*/
+
 				BizPhoneMsg phoneMsg1 = new BizPhoneMsg();
-				//phoneMsg1.setReceiveEmployeeId(managerId);
+
 				phoneMsg1.setReceivePhone(order.getDesignerPhone());
 				phoneMsg1.setMsgContent(content1);
 				phoneMsg1.setMsgGenerateDatetime(new Date());
@@ -2665,7 +2561,7 @@ public class OrderController2 extends BaseController {
 				phoneMsg1.preInsert();
 				bizPhoneMsgService.insert(phoneMsg1);
 				}
-				/*addMessage(redirectAttributes, "分配项目经理成功");*/
+
 				if("1".equals(order.getProjectMode())){
 					return "redirect:" + Global.getAdminPath() + "/order2/order2/listUnAllotCY?managerType="+managerType;
 				}else if("2".equals(order.getProjectMode())){
@@ -2675,21 +2571,21 @@ public class OrderController2 extends BaseController {
 				}
 			}
 			
-			// 重派项目经理保存
+
 			@RequiresPermissions("order:order:edit")
 			@RequestMapping(value = "resendManager1")
 			public String resendManager1(Integer tradition,Order2 order,String managerName,Integer managerId,String managerPhone,Model model, RedirectAttributes redirectAttributes,
 										String reasonRemarks,String reasonType) throws UnsupportedEncodingException, NoSuchAlgorithmException {
 				
-				//String addmessage = "重派项目经理成功";
+
 				String managerType = "2";
-				//1.校验数据是否正确
+
 				String messageVerification = orderService2.verificationPrepareOrder(order);
-//				if(null!=messageVerification && messageVerification.equals("error")){
-//					addmessage = "重新分配项目经理失败，请完善该订单数据，再操作此功能";
-//					
-//				}
-//				addMessage(redirectAttributes, addmessage);
+
+
+
+
+
 				if(null!=messageVerification && messageVerification.equals("error")){
 					managerType = "3";
 					if(!StringUtils.isEmpty(order.getProjectMode())){
@@ -2705,40 +2601,40 @@ public class OrderController2 extends BaseController {
 				order.setItemManager(managerName);
 				order.setItemManagerId(managerId);
 				if(order.getOrderTaskPackStatus() != null && order.getOrderTaskPackStatus().equals("1")){
-					//修改该订单下的任务包和项目经理
+
 					orderTaskpackService.updateManager(order.getId(),managerName,managerId);
 				}
 				
-				// 项目经理未竣工的订单数
+
 				Map<String,Integer> map = new HashMap<String,Integer>();
 				map.put("itemManagerId", order.getItemManagerId());
 				Integer unfinishedOrder = orderService2.findUnfinishedOrderByEmployeeId(map);
 				orderService2.updateOrder(order);
 				
-				//更新员工表换单次数
+
 				BizEmployee bizEmployee = bizEmployeeService.selectExchangeOrderTimesById(oldManagerId);
 				
-				//如果被换单次数为0 则为1
+
 				if(bizEmployee.getExchangeOrderTimes()==null || bizEmployee.getExchangeOrderTimes()==0){
 					bizEmployee.setExchangeOrderTimes(1);
 				}else{
 					Integer times = bizEmployee.getExchangeOrderTimes();
-					//换单次数+1
+
 					bizEmployee.setExchangeOrderTimes(times+=1);
 				}
 				bizEmployee.setUpdateBy(UserUtils.getUser());
 				bizEmployee.setUpdateDate(new Date());
-				//更新employee 表
+
 				bizEmployeeService.updateExchangeOrderTimes(bizEmployee);
 				
-				//日志
+
 				BizOrderDistributeLog log = new BizOrderDistributeLog();
 				log.setOrderId(order.getId());
-				//重新分配
+
 				log.setDistributeType(ConstantUtils.DISTRIBUTE_TYPE_102);
-				//新项目经理id
+
 				log.setDistributedEmployeeId(order.getItemManagerId());
-				//老的项目经理id
+
 				log.setOldEmployeeId(oldManagerId);
 				log.preInsert();
 				
@@ -2753,7 +2649,7 @@ public class OrderController2 extends BaseController {
 				bizOrderDistributeLogService.insert(log);
 				
 				
-				//向biz_syn_data表中保存数据  --- 项目经理时间改变
+
 				Map<String,String> jsonMap = new HashMap<String,String>();
 				jsonMap.put("type", "1");
 				jsonMap.put("orderId", order.getOrderNumber());
@@ -2773,17 +2669,12 @@ public class OrderController2 extends BaseController {
 				bizSynData.preInsert();
 				bizSynDataService.insert(bizSynData);
 				
-				//传统不发短信
+
 				if(null==tradition){
 				if(!oldManagerId.equals(managerId)){
-					//发短信给新的项目经理  订单（订单编号：XXXXXXX，小区名-楼号-单元号-门牌号-客户姓名-手机号，设计师：姓名-手机号），订单已分配给您，您可登录APP查看订单详情。
+
 					String content ="订单（订单编号："+order.getOrderNumber()+","+order.getCommunityName()+"-"+order.getBuildNumber()+"-"+order.getBuildUnit()+"-"+order.getBuildRoom()+"-"+order.getCustomerName()+"-"+order.getCustomerPhone()+",设计师："+order.getDesignerName()+"-"+order.getDesignerPhone()+"，订单已分配给您，您可登录APP查看订单详情。";
-					/*Map<String, String> params = new HashMap<String, String>();
-					params.put("source", "1");
-					params.put("content",content);
-					params.put("sendtime", "");
-					params.put("mobile",managerPhone);
-					String post = HttpConnection.post(ConstantUtils.SEND_MESSAGE_INTERFACE, params);*/
+
 					
 					BizPhoneMsg phoneMsg = new BizPhoneMsg();
 					phoneMsg.setReceiveEmployeeId(managerId);
@@ -2796,15 +2687,10 @@ public class OrderController2 extends BaseController {
 					phoneMsg.preInsert();
 					bizPhoneMsgService.insert(phoneMsg);
 					
-					//发短信给老的项目经理  “亲，非常抱歉，（首尔甜城-12-1-301）已经更换了其他的项目经理，客户（叶之峰-13611735757），请您知晓，如有疑问可与派单员联系。”
+
 					String content1 = "亲，非常抱歉，（"+order.getCommunityName()+"-"+order.getBuildNumber()+"-"+order.getBuildUnit()+"-"+order.getBuildRoom()+"）已经更换了其他的项目经理，客户（"+order.getCustomerName()+"-"+order.getCustomerPhone()+"），请您知晓，如有疑问可与派单员联系。";
 					BizEmployee2 bizEmployee2 = bizEmployeeService2.get(oldManagerId);
-					/*Map<String, String> params1 = new HashMap<String, String>();
-					params1.put("source", "1");
-					params1.put("content",content1);
-					params1.put("sendtime", "");
-					params1.put("mobile",bizEmployee2.getPhone());
-					String post1 = HttpConnection.post(ConstantUtils.SEND_MESSAGE_INTERFACE, params1);*/
+
 					
 					BizPhoneMsg phoneMsg1 = new BizPhoneMsg();
 					phoneMsg1.setReceiveEmployeeId(oldManagerId);
@@ -2837,14 +2723,9 @@ public class OrderController2 extends BaseController {
 					message1.setBusiIdInt(order.getId());
 					messageService.insert(message1);
 					
-					//给设计师发短信  （小区名-楼牌号-客户姓名）已经更换了新的项目经理（姓名-手机号），请您及时与新的项目经理交底。
+
 					String content2 = "（"+order.getCommunityName()+"-"+order.getBuildNumber()+"-"+order.getBuildUnit()+"-"+order.getBuildRoom()+"-"+order.getCustomerName()+"），已经更换了新的项目经理（"+managerName+"-"+managerPhone+"），请您及时与新的项目经理交底。";
-					/*Map<String, String> params2 = new HashMap<String, String>();
-					params2.put("source", "1");
-					params2.put("content",content2);
-					params2.put("sendtime", "");
-					params2.put("mobile",order.getDesignerPhone());
-					String post2 = HttpConnection.post(ConstantUtils.SEND_MESSAGE_INTERFACE, params2);*/
+
 					BizPhoneMsg phoneMsg2 = new BizPhoneMsg();
 					phoneMsg2.setReceivePhone(order.getDesignerPhone());
 					phoneMsg2.setMsgContent(content2);
@@ -2856,7 +2737,7 @@ public class OrderController2 extends BaseController {
 					bizPhoneMsgService.insert(phoneMsg2);
 				}
 				}
-				/*addMessage(redirectAttributes, "重派项目经理成功");*/
+
 				if("1".equals(order.getProjectMode())){
 					return "redirect:" + Global.getAdminPath() + "/order2/order2/listAllotCY?managerType="+managerType;
 				}else{
@@ -2870,9 +2751,9 @@ public class OrderController2 extends BaseController {
 			
 			
 			
-//--------------------准产业------------------------------------------------------------------------
+
 			
-	// 跳转到 “准产业订单已分派项目经理”页面 
+
 	@RequiresPermissions("order:order:view")
 	@RequestMapping(value = { "quasiIndustryYfpxmjl", "" })
 	public String quasiIndustryYfpxmjl(Order2 order, HttpServletRequest request,String managerType, HttpServletResponse response, Model model) {
@@ -2887,7 +2768,7 @@ public class OrderController2 extends BaseController {
 		return "modules/order/quasiIndustryYfpxmjl";
 	}	
 	
-	// 查询 “产业订单已分派项目经理”页面 
+
 	@RequiresPermissions("order:order:view")
 	@RequestMapping(value = "quasiIndustryYfpxmjl1")
 	public String quasiIndustryYfpxmjl1(Order2 order, HttpServletRequest request, HttpServletResponse response, Model model) {
@@ -2916,13 +2797,13 @@ public class OrderController2 extends BaseController {
 			order.setEnginDepartIds(list);
 		}
 		if(UserUtils.getUser().getStoreId()!=null){
-			//当前登录用户门店
+
 			order.setStoreId(UserUtils.getUser().getStoreId());
 		}
 		else{
-			//门店是总部的查询所有部门信息
+
 			if(order.getStoreId()!=null && order.getStoreId().equals("1")){
-					//总部
+
 					order.setStoreId(null);
 			}
 		}
@@ -2949,7 +2830,7 @@ public class OrderController2 extends BaseController {
 		return "modules/order/quasiIndustryYfpxmjl";
 	}
 	
-	// 跳转到 “准产业订单待分派项目经理”页面 
+
 	@RequiresPermissions("order:order:view")
 	@RequestMapping(value = { "quasiIndustryDfpxmjl", "" })
 	public String quasiIndustryDfpxmjl(Order2 order, HttpServletRequest request,String managerType, HttpServletResponse response, Model model) {
@@ -2958,7 +2839,7 @@ public class OrderController2 extends BaseController {
 		return "modules/order/quasiIndustryDfpxmjl";
 	}	
 	
-	// 查询 “准产业订单待分派项目经理”页面 
+
 	@RequiresPermissions("order:order:view")
 	@RequestMapping(value = { "quasiIndustryDfpxmjl1", "" })
 	public String quasiIndustryDfpxmjl1(Order2 order, HttpServletRequest request,String managerType, HttpServletResponse response, Model model) {
@@ -2982,13 +2863,13 @@ public class OrderController2 extends BaseController {
 			order.setEnginDepartIds(list);
 		}
 		if(UserUtils.getUser().getStoreId()!=null){
-			//当前登录用户门店
+
 			order.setStoreId(UserUtils.getUser().getStoreId());
 		}
 		else{
-			//门店是总部的查询所有部门信息
+
 			if(order.getStoreId()!=null && order.getStoreId().equals("1")){
-					//总部
+
 					order.setStoreId(null);
 			}
 		}
@@ -3014,19 +2895,19 @@ public class OrderController2 extends BaseController {
 			model.addAttribute("managerType",managerType);
 		}
 		
-//								if(null!=managerType && managerType.equals("0")){
-//									model.addAttribute("message", "分配项目经理成功");
-//								}else if(managerType.equals("1")){
-//									model.addAttribute("message", "分配项目经理失败，请完善该订单数据，再操作此功能");
-//								}else if(managerType.equals("2")){
-//									model.addAttribute("message", "重新分配项目经理成功");
-//								}else if(managerType.equals("3")){
-//									model.addAttribute("message", "重新分配项目经理失败，请完善该订单数据，再操作此功能");
-//								}
+
+
+
+
+
+
+
+
+
 		return "modules/order/quasiIndustryDfpxmjl";
 	}
 			
-	//准产业已分派质检员
+
 	@RequiresPermissions("order:order:view")
 	@RequestMapping(value = { "quasiIndustryYfpzjy", "" })
 	public String quasiIndustryYfpzjy(Order2 order,String inspectorType, HttpServletRequest request, HttpServletResponse response,
@@ -3071,13 +2952,13 @@ public class OrderController2 extends BaseController {
 			order.setEnginDepartIds(list);
 		}
 		if(UserUtils.getUser().getStoreId()!=null){
-			//当前登录用户门店
+
 			order.setStoreId(UserUtils.getUser().getStoreId());
 		}
 		else{
-			//门店是总部的查询所有部门信息
+
 			if(order.getStoreId()!=null && order.getStoreId().equals("1")){
-					//总部
+
 					order.setStoreId(null);
 			}
 		}
@@ -3105,7 +2986,7 @@ public class OrderController2 extends BaseController {
 	}
 	
 			
-	//准产业待分派质检员		
+
 	@RequiresPermissions("order:order:view")
 	@RequestMapping(value = { "quasiIndustryDfpzjy", "" })
 	public String quasiIndustryDfpzjy(Order2 order,String inspectorType, HttpServletRequest request, HttpServletResponse response,
@@ -3115,7 +2996,7 @@ public class OrderController2 extends BaseController {
 		return "modules/order/quasiIndustryDfpzjy";
 	}	
 	
-	//验证是否存在还未结算完的结算单
+
 	@RequiresPermissions("order:order:view")
 	@RequestMapping(value = { "checkPmPreIndustry", "" })
 	@ResponseBody
@@ -3149,13 +3030,13 @@ public class OrderController2 extends BaseController {
 			order.setEnginDepartIds(list);
 		}
 		if(UserUtils.getUser().getStoreId()!=null){
-			//当前登录用户门店
+
 			order.setStoreId(UserUtils.getUser().getStoreId());
 		}
 		else{
-			//门店是总部的查询所有部门信息
+
 			if(order.getStoreId()!=null && order.getStoreId().equals("1")){
-					//总部
+
 					order.setStoreId(null);
 			}
 		}

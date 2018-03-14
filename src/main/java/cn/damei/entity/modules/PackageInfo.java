@@ -1,44 +1,40 @@
 package cn.damei.entity.modules;
 
-/**
- * 基装成本接口任务包信息实体类
- * @author hyh
- *
- */
+
 public class PackageInfo{
 
-	private String storeId; //门店id
+	private String storeId;
 	
-	private String orderNum;//订单编号
+	private String orderNum;
 	
-	private String packageName;//任务包名称
+	private String packageName;
 	
-	private String workerGroupName;//工人组长
+	private String workerGroupName;
 	
-	private Double laborSettleAmount;//人工费结算总金额
+	private Double laborSettleAmount;
 	
-	private Double auxiliaryMaterialsSettleAmount;//辅料费结算总金额
+	private Double auxiliaryMaterialsSettleAmount;
 	
-	private Double laborAuxiliaryMaterialsSettleAmount;//（人工+辅料）工料费结算总金额
+	private Double laborAuxiliaryMaterialsSettleAmount;
 	
-//	private Double materialsAmount;//领用材料费：辅料扣款 + 沙子水泥扣款 
+
 	
-	private Double guaranteeMoneyAmount; // 质保金金额
+	private Double guaranteeMoneyAmount;
 	
-	private Double rewardPunishAmount;//奖罚：工期扣款 + 管理处罚 + 质检罚款 + 公司罚款 + 奖励金额
+	private Double rewardPunishAmount;
 	
-	private Double workerGroupSettleAmount;//结算金额：工人组结算金额
+	private Double workerGroupSettleAmount;
 	
 	
-	private Integer settleStyle;  //任务包结算方式 1、包工包料；2、包工
+	private Integer settleStyle;
 	
-	private Double settlementAmount;//结算总金额
+	private Double settlementAmount;
 	
-	private Double auxiliaryAmountWangzhen;//任务包材料费用（网真）
+	private Double auxiliaryAmountWangzhen;
 	
-	private Double auxiliaryAmountworker;//任务包材料费用（工人结算价）
+	private Double auxiliaryAmountworker;
 	
-	private Double packageBudgetAmount; //任务包预算总金额
+	private Double packageBudgetAmount;
 	
 	public Double getLaborSettleAmount() {
 		return laborSettleAmount;
@@ -64,13 +60,13 @@ public class PackageInfo{
 		this.laborAuxiliaryMaterialsSettleAmount = laborAuxiliaryMaterialsSettleAmount;
 	}
 
-//	public Double getMaterialsAmount() {
-//		return materialsAmount;
-//	}
-//
-//	public void setMaterialsAmount(Double materialsAmount) {
-//		this.materialsAmount = materialsAmount;
-//	}
+
+
+
+
+
+
+
 
 	public Double getGuaranteeMoneyAmount() {
 		return guaranteeMoneyAmount;

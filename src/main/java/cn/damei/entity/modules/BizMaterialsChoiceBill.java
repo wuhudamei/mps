@@ -1,47 +1,40 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import org.hibernate.validator.constraints.Length;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 选材单表Entity
- * 
- * @author wyb
- * @version 2017-06-13
- */
+
 public class BizMaterialsChoiceBill extends DataEntity2<BizMaterialsChoiceBill> {
 
 	private static final long serialVersionUID = 1L;
-	private Integer orderId; // 订单id
-	private String orderNumber; // 订单编号
-	private Double materialsChoiceTotalAmount; // 选材总价
+	private Integer orderId;
+	private String orderNumber;
+	private Double materialsChoiceTotalAmount;
 
-	private Integer storeId; // 门店id
-	private String engineDepartId; // 区域
-	private String projectMode; // 区域
-	private String counts; // 统计这个区有多少个未处理的订单
-	private String isFalg; // 是否显示预算员标志
-	private String customerName; // 客户姓名
-	private String isdealedMain; // 是否已经处理主材
-	private String isdealedWallFloor; // 是否已处理墙地砖
-	private String customerPhone; // 客户手机号
-	private String communityName; // 小区
-	private String buildNumber; // 楼
-	private String buildUnit; // 单元
-	private String buildRoom; // 室
-	private String orderDesignerName; // 订单设计师
-	private String orderDesignerPhone; // 订单设计师电话
-	private String itemManager; // 项目经理姓名
-	private String storeName; // 门店名称
-	private String contractNumber; // 合同编号 /区域名称
-	private Integer changeBillCount; // 该订单的变更单数量
-	private Double wallFloorTileSquareBudget; // 墙地砖预算面积
+	private Integer storeId;
+	private String engineDepartId;
+	private String projectMode;
+	private String counts;
+	private String isFalg;
+	private String customerName;
+	private String isdealedMain;
+	private String isdealedWallFloor;
+	private String customerPhone;
+	private String communityName;
+	private String buildNumber;
+	private String buildUnit;
+	private String buildRoom;
+	private String orderDesignerName;
+	private String orderDesignerPhone;
+	private String itemManager;
+	private String storeName;
+	private String contractNumber;
+	private Integer changeBillCount;
+	private Double wallFloorTileSquareBudget;
 
-	private String status; // 页面前地砖是否导入状态标示
+	private String status;
 
 	public BizMaterialsChoiceBill() {
 		super();

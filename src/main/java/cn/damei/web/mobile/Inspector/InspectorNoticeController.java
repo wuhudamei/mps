@@ -22,11 +22,7 @@ import cn.damei.service.modules.BizNoticeService;
 import cn.damei.entity.modules.BizNoticeViewLog;
 import cn.damei.service.modules.BizNoticeViewLogService;
 
-/**
- * 进度通报
- * biz_node_plan
- * llp
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/app/pqc/notice")
 public class InspectorNoticeController {

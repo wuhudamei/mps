@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import java.util.Date;
@@ -10,26 +8,22 @@ import org.hibernate.validator.constraints.Length;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 进度节点Entity
- * @author llp
- * @version 2016-10-10
- */
+
 public class BizNodePlan extends DataEntity2<BizNodePlan> {
 	
 	private static final long serialVersionUID = 1L;
 	private Integer id;
-	private Integer orderId;		// 订单id -- '
-	private String nodeName;		// 节点名称 -- '
-	private String nodeIndex;		// 节点序号 -- '
-	private Date planDoneDate;		// 计划完成日期 -- '
-	private Date exeDoneDate;		// 执行完成日期 -- '
-	private Date realDoneDate;		// 实际完成日期 -- '
-	private String isDone;		// 是否完成 -- '
-	private String delayDays;		// 延期天数 -- '
-	private String delayType;		// 延期原因分类 -- '
-	private String delayReason;		// 延期原因描述 -- '
-	private Date planCheckTime;//计划考核日期
+	private Integer orderId;
+	private String nodeName;
+	private String nodeIndex;
+	private Date planDoneDate;
+	private Date exeDoneDate;
+	private Date realDoneDate;
+	private String isDone;
+	private String delayDays;
+	private String delayType;
+	private String delayReason;
+	private Date planCheckTime;
 
 	public Date getPlanCheckTime() {
 		return planCheckTime;

@@ -4,31 +4,28 @@ import cn.damei.common.persistence.DataEntity;
 
 import java.util.Date;
 
-/**
- * Created by joseph on 2017/5/15.
- * 返单状态log实体类,通用保存log日志
- */
+
 public class OrderReportLogEntity extends DataEntity<OrderReportLogEntity> {
 
 
     private static final long serialVersionUID = 1L;
 
 
-    private Integer orderReportId; //关联返单id
-    private String logType;//日志的type   从 BizOrderReportConstantUtil 中取
-    private String operateSource;//返单来源
-    private String operateEmployeeId;//操作人Id
-    private String operateEmployeeName;//操作人
-    private String operateEmployeePhone;//操作人手机(一般无用)
-    private Date operateDateTime;//操作时间
-    private Date logDateTime;//log的生成时间
-    private String logRemarks;//log保存备注
+    private Integer orderReportId;
+    private String logType;
+    private String operateSource;
+    private String operateEmployeeId;
+    private String operateEmployeeName;
+    private String operateEmployeePhone;
+    private Date operateDateTime;
+    private Date logDateTime;
+    private String logRemarks;
     private String logStatusRemarks;
-    private String serviceId;//客服id
-    private String serviceName;//客服名称
-    private String servicePhone;//客服手机
-    private String messageContent;//log查看短信内容
-    private String relatedOrderNumber;//该log保存时,关联的订单编号(已签单和已签合同)
+    private String serviceId;
+    private String serviceName;
+    private String servicePhone;
+    private String messageContent;
+    private String relatedOrderNumber;
     private Date inStoreDateTime;
 
     private Date  signBillDateTime;

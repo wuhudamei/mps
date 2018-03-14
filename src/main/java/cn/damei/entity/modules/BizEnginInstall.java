@@ -5,81 +5,79 @@ import java.util.List;
 
 @SuppressWarnings("serial")
 public class BizEnginInstall extends DataAuthorityEntity {
-	private Integer id;// 主键
-	private String orderNumber;// 订单编号
-	private String contractNumber;// 合同编号
-	private String customerType;// 客户类型
-	private String customerDescription;// 客户属性描述
-	private String customerName;// 客户姓名
-	private String customerPhone;// 客户电话
-	private String customerAddress;// 客户地址
-	private String communityName;// 小区名称
-	private String buildNumber;// 几号楼
-	private String buildUnit;// 几单元
-	private String buildRoom;// 哪一室
-	private String mapCoordinate;// 地图坐标
-	private String saleType;// 套餐类型
-	private String area;// 片区
-	private String buildType;// 房屋类型
-	private String houseType;// 户型
-	private String houseIsNew;// 新房老房 1为新房 0为老房 默认老房
-	private String isElevator;// 是否有电梯 1代表有 0代表没有 默认没有
-	private String designerName;// 设计师姓名
-	private String designerPhone;// 设计师电话
-	private String orderReporterName;// 跟单员姓名
-	private String orderReporterPhone;// 跟单员电话
-	private String serviceName;// 客服姓名
-	private String servicePhone;// 客服电话
-	private Date contractStartDate;// 合同开工日期
-	private Date contractEndDate;// 合同竣工日期
-	private String coveredArea;// 建筑面积
-	private String contractArea;// 合同面积 小数两位
-	private Integer contractTime;// 合同工期
-	private Date signContractDate;// 签约日期
-	private String orderStatusNumber;// 订单状态码 创建订单成功默认状态码 105
-	private String orderStatusDescription;// 订单状态码详情 默认详情 确认订单 状态码105
-	private String orderInspector;// 订单质检员
-	private Date createDate;// 创建时间
-	private Date updateDate;// 更新时间
-	private String remarks;// 备注
-	private String delFlag;// 删除状态 1:删除 0:不删除 默认不删除
-	private String itemManager;// 项目经理
-	private Integer storeId;// 门店ID
-	private String cusManager;// 客户经理
-	private String orderTaskPackStatus;// 任务包生成状态
-	private Date actualStartDate;// 实际开工日期
-	private Date actualEndDate;// 实际竣工日期
-	private Integer itemManagerId;// 项目经理id
-	private String signFlag;// 是否签到(根据签到表)
-	private String delayType;// 延期类型
-	private Integer orderInspectorId;// 质检id
-	private String  projectMode;//工程模式 
-	private Date supplierConfirmIntoDate;//供应商确认进场日期
+	private Integer id;
+	private String orderNumber;
+	private String contractNumber;
+	private String customerType;
+	private String customerDescription;
+	private String customerName;
+	private String customerPhone;
+	private String customerAddress;
+	private String communityName;
+	private String buildNumber;
+	private String buildUnit;
+	private String buildRoom;
+	private String mapCoordinate;
+	private String saleType;
+	private String area;
+	private String buildType;
+	private String houseType;
+	private String houseIsNew;
+	private String isElevator;
+	private String designerName;
+	private String designerPhone;
+	private String orderReporterName;
+	private String orderReporterPhone;
+	private String serviceName;
+	private String servicePhone;
+	private Date contractStartDate;
+	private Date contractEndDate;
+	private String coveredArea;
+	private String contractArea;
+	private Integer contractTime;
+	private Date signContractDate;
+	private String orderStatusNumber;
+	private String orderStatusDescription;
+	private String orderInspector;
+	private Date createDate;
+	private Date updateDate;
+	private String remarks;
+	private String delFlag;
+	private String itemManager;
+	private Integer storeId;
+	private String cusManager;
+	private String orderTaskPackStatus;
+	private Date actualStartDate;
+	private Date actualEndDate;
+	private Integer itemManagerId;
+	private String signFlag;
+	private String delayType;
+	private Integer orderInspectorId;
+	private String  projectMode;
+	private Date supplierConfirmIntoDate;
 	
 
-	//jsp页面取值需要字段
-	private String employeeRealName;//员工姓名
-	private String employeePhone;//员工电话
+
+	private String employeeRealName;
+	private String employeePhone;
 	
-	private String projectModeName;//工程模式  名称
-	private String installStatusName;//安装项状态  名称
-	private String storeName;//门店  名称
-	private String isUrgeReply;//未回复安装项
+	private String projectModeName;
+	private String installStatusName;
+	private String storeName;
+	private String isUrgeReply;
 	
-	/**
-	 * 日期区间段查询
-	 */
+
 	private Date applyIntoDateBegin;
 	private Date applyIntoDateEnd;
 	private Date installApplyInfoCreateDateBegin;
 	private Date installApplyInfoCreateDateEnd;
 	
-	private Date installApplyIntoDate;//期望进场日期
-	private String installStatus;//安装项状态
-	private String installItemName;//安装项名称
-	private Date installApplyInfoCreateDate;//申请日期
-	private Integer installID;//安装项主键
-	private List<String> phones;//安装项主键
+	private Date installApplyIntoDate;
+	private String installStatus;
+	private String installItemName;
+	private Date installApplyInfoCreateDate;
+	private Integer installID;
+	private List<String> phones;
 	
 	
 	public List<String> getPhones() {

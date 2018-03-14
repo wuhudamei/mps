@@ -12,15 +12,11 @@ import cn.damei.entity.mobile.Manager.SysToken;
 public class SysTokenService extends CrudService2<SysTokenDao, SysToken>{
 
 	public SysToken findByTokenId(String tokenid,String appType) {
-		// TODO Auto-generated method stub
+
 		return dao.findByTokenId(tokenid,appType);
 	}
 	
-	/**
-	 * 根据tokenid获取业主端登陆手机号
-	 * @param tokenid
-	 * @return
-	 */
+
 	public SysToken findByTokenIdForIndex(String tokenid) {
 		return dao.findByTokenIdForIndex(tokenid,ConstantUtils.EMP_TYPE_4);
 	}

@@ -47,11 +47,7 @@ public class PmSubsidyCnfgController {
 	public String form(PmSubsidyCnfg pmSubsidyCnfg,HttpServletRequest request,HttpServletResponse response,Model model){
 		return "/modules/pmsubsidycnfg/pmsubsidycnfgForm";
 	}
-	/**
-	 * 校验区间是否重复
-	 * @param pmSubsidyCnfg
-	 * @return
-	 */
+
 	@RequestMapping(value="checkedSquare")
 	@ResponseBody
 	public PmSubsidyCnfg checkedSquare(PmSubsidyCnfg pmSubsidyCnfg){
@@ -90,22 +86,14 @@ public class PmSubsidyCnfgController {
 		
 		return null;
 	}
-	/**
-	 * 保存
-	 * @param pmSubsidyCnfg
-	 * @return
-	 */
+
 	@RequestMapping(value="save")
 	public String save(PmSubsidyCnfg pmSubsidyCnfg){
 		pmSubsidyCnfg.preInsert();
 		pmSubsidyCnfgService.save(pmSubsidyCnfg);
 		return "forward:"+Global.getAdminPath()+"/pmsubsidycnfg/list";
 	}
-	/**
-	 * 停用
-	 * @param pmSubsidyCnfg
-	 * @return
-	 */
+
 	@RequestMapping(value="update")
 	public String update(PmSubsidyCnfg pmSubsidyCnfg){
 		pmSubsidyCnfgService.isEnabel(pmSubsidyCnfg);

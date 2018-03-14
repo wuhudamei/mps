@@ -14,7 +14,7 @@ import cn.damei.entity.mobile.Worker.TaskPackagePicture;
 public class TaskPackagePictureService extends CrudService2<TaskPackagePictureDao, TaskPackagePicture> {
 
 	public List<TaskPackagePicture> findPicturesByPackageId(Integer id) {
-		// TODO Auto-generated method stub
+
 		return dao.findPicturesByPackageId(id);
 	}
 

@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.common.security.shiro.session;
 
 import java.io.Serializable;
@@ -29,11 +27,7 @@ import cn.damei.common.utils.JedisUtils;
 import cn.damei.common.utils.StringUtils;
 import cn.damei.common.web.Servlets;
 
-/**
- * 自定义授权会话管理类
- * @author ThinkGem
- * @version 2014-7-20
- */
+
 public class JedisSessionDAO extends AbstractSessionDAO implements SessionDAO {
 
 	private Logger logger = LoggerFactory.getLogger(getClass());
@@ -49,16 +43,16 @@ public class JedisSessionDAO extends AbstractSessionDAO implements SessionDAO {
 		HttpServletRequest request = Servlets.getRequest();
 		if (request != null){
 			String uri = request.getServletPath();
-			// 如果是静态文件，则不更新SESSION
+
 			if (Servlets.isStaticFile(uri)){
 				return;
 			}
-			// 如果是视图文件，则不更新SESSION
+
 			if (StringUtils.startsWith(uri, Global.getConfig("web.view.prefix"))
 					&& StringUtils.endsWith(uri, Global.getConfig("web.view.suffix"))){
 				return;
 			}
-			// 手动控制不更新SESSION
+
 			if (Global.NO.equals(request.getParameter("updateSession"))){
 				return;
 			}
@@ -69,14 +63,14 @@ public class JedisSessionDAO extends AbstractSessionDAO implements SessionDAO {
 			
 			jedis = JedisUtils.getResource();
 			
-			// 获取登录者编号
+
 			PrincipalCollection pc = (PrincipalCollection)session.getAttribute(DefaultSubjectContext.PRINCIPALS_SESSION_KEY);
 			String principalId = pc != null ? pc.getPrimaryPrincipal().toString() : StringUtils.EMPTY;
 			
 			jedis.hset(sessionKeyPrefix, session.getId().toString(), principalId + "|" + session.getTimeout() + "|" + session.getLastAccessTime().getTime());
 			jedis.set(JedisUtils.getBytesKey(sessionKeyPrefix + session.getId()), JedisUtils.toBytes(session));
 			
-			// 设置超期时间
+
 			int timeoutSeconds = (int)(session.getTimeout() / 1000);
 			jedis.expire((sessionKeyPrefix + session.getId()), timeoutSeconds);
 
@@ -114,23 +108,13 @@ public class JedisSessionDAO extends AbstractSessionDAO implements SessionDAO {
 		return getActiveSessions(true);
 	}
 	
-	/**
-	 * 获取活动会话
-	 * @param includeLeave 是否包括离线（最后访问时间大于3分钟为离线会话）
-	 * @return
-	 */
+
 	@Override
 	public Collection<Session> getActiveSessions(boolean includeLeave) {
 		return getActiveSessions(includeLeave, null, null);
 	}
 	
-	/**
-	 * 获取活动会话
-	 * @param includeLeave 是否包括离线（最后访问时间大于3分钟为离线会话）
-	 * @param principal 根据登录者对象获取活动会话
-	 * @param filterSession 不为空，则过滤掉（不包含）这个会话。
-	 * @return
-	 */
+
 	@Override
 	public Collection<Session> getActiveSessions(boolean includeLeave, Object principal, Session filterSession){
 		Set<Session> sessions = Sets.newHashSet();
@@ -143,30 +127,30 @@ public class JedisSessionDAO extends AbstractSessionDAO implements SessionDAO {
 				if (StringUtils.isNotBlank(e.getKey()) && StringUtils.isNotBlank(e.getValue())){
 					
 					String[] ss = StringUtils.split(e.getValue(), "|");
-					if (ss != null && ss.length == 3){// jedis.exists(sessionKeyPrefix + e.getKey())){
-						// Session session = (Session)JedisUtils.toObject(jedis.get(JedisUtils.getBytesKey(sessionKeyPrefix + e.getKey())));
+					if (ss != null && ss.length == 3){
+
 						SimpleSession session = new SimpleSession();
 						session.setId(e.getKey());
 						session.setAttribute("principalId", ss[0]);
 						session.setTimeout(Long.valueOf(ss[1]));
 						session.setLastAccessTime(new Date(Long.valueOf(ss[2])));
 						try{
-							// 验证SESSION
+
 							session.validate();
 							
 							boolean isActiveSession = false;
-							// 不包括离线并符合最后访问时间小于等于3分钟条件。
+
 							if (includeLeave || DateUtils.pastMinutes(session.getLastAccessTime()) <= 3){
 								isActiveSession = true;
 							}
-							// 符合登陆者条件。
+
 							if (principal != null){
 								PrincipalCollection pc = (PrincipalCollection)session.getAttribute(DefaultSubjectContext.PRINCIPALS_SESSION_KEY);
 								if (principal.toString().equals(pc != null ? pc.getPrimaryPrincipal().toString() : StringUtils.EMPTY)){
 									isActiveSession = true;
 								}
 							}
-							// 过滤掉的SESSION
+
 							if (filterSession != null && filterSession.getId().equals(session.getId())){
 								isActiveSession = false;
 							}
@@ -175,17 +159,17 @@ public class JedisSessionDAO extends AbstractSessionDAO implements SessionDAO {
 							}
 							
 						}
-						// SESSION验证失败
+
 						catch (Exception e2) {
 							jedis.hdel(sessionKeyPrefix, e.getKey());
 						}
 					}
-					// 存储的SESSION不符合规则
+
 					else{
 						jedis.hdel(sessionKeyPrefix, e.getKey());
 					}
 				}
-				// 存储的SESSION无Value
+
 				else if (StringUtils.isNotBlank(e.getKey())){
 					jedis.hdel(sessionKeyPrefix, e.getKey());
 				}
@@ -204,7 +188,7 @@ public class JedisSessionDAO extends AbstractSessionDAO implements SessionDAO {
 		HttpServletRequest request = Servlets.getRequest();
 		if (request != null){
 			String uri = request.getServletPath();
-			// 如果是静态文件，则不创建SESSION
+
 			if (Servlets.isStaticFile(uri)){
 		        return null;
 			}
@@ -222,7 +206,7 @@ public class JedisSessionDAO extends AbstractSessionDAO implements SessionDAO {
 		HttpServletRequest request = Servlets.getRequest();
 		if (request != null){
 			String uri = request.getServletPath();
-			// 如果是静态文件，则不获取SESSION
+
 			if (Servlets.isStaticFile(uri)){
 				return null;
 			}
@@ -236,10 +220,10 @@ public class JedisSessionDAO extends AbstractSessionDAO implements SessionDAO {
 		Jedis jedis = null;
 		try {
 			jedis = JedisUtils.getResource();
-//			if (jedis.exists(sessionKeyPrefix + sessionId)){
+
 				session = (Session)JedisUtils.toObject(jedis.get(
 						JedisUtils.getBytesKey(sessionKeyPrefix + sessionId)));
-//			}
+
 			logger.debug("doReadSession {} {}", sessionId, request != null ? request.getRequestURI() : "");
 		} catch (Exception e) {
 			logger.error("doReadSession {} {}", sessionId, request != null ? request.getRequestURI() : "", e);

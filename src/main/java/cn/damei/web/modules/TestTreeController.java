@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import java.util.List;
@@ -27,11 +25,7 @@ import cn.damei.common.utils.StringUtils;
 import cn.damei.entity.modules.TestTree;
 import cn.damei.service.modules.TestTreeService;
 
-/**
- * 树结构生成Controller
- * @author ThinkGem
- * @version 2015-04-06
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/test/testTree")
 public class TestTreeController extends BaseController {
@@ -64,7 +58,7 @@ public class TestTreeController extends BaseController {
 	public String form(TestTree testTree, Model model) {
 		if (testTree.getParent()!=null && StringUtils.isNotBlank(testTree.getParent().getId())){
 			testTree.setParent(testTreeService.get(testTree.getParent().getId()));
-			// 获取排序号，最末节点排序号+30
+
 			if (StringUtils.isBlank(testTree.getId())){
 				TestTree testTreeChild = new TestTree();
 				testTreeChild.setParent(new TestTree(testTree.getParent().getId()));

@@ -4,57 +4,34 @@ import java.util.Date;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * biz_order_disclose
- * 订单交底
- * @author llp
- * 2016/10/17
- */
+
 @SuppressWarnings("serial")
 public class OrderDisclose extends DataEntity2<OrderDisclose> {
 	private Integer id;
-	/**
-	 * 订单ID
-	 */
+
 	private Integer orderId;
 
-	/**
-	 * 交底人_员工id
-	 */
+
 	private Integer discloseEmployeeId;
 
-	/**
-	 * 交底日期
-	 */
+
 	private Date discloseDate;
 	
-	/**
-	 * 备注
-	 */
+
 	private String remarks;
 	
-	/**
-	 * 创建人
-	 */
+
 	private String createByAuthor;
 	
-	/**
-	 * 创建时间
-	 */
+
 	private Date createDate;
 	
-	/**
-	 * 修改人
-	 */
+
 	private String updateByAuthor;
 	
-	/**
-	 * 修改日期
-	 */
+
 	private Date updateDate;
-	/**
-	 * 墙地砖实测面积
-	 */
+
 	private double measureSquare;
 
 	

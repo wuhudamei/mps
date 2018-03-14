@@ -38,11 +38,7 @@ import cn.damei.entity.modules.BizProjectInstallItemProblemType;
 import cn.damei.service.modules.BizProjectInstallItemProblemTypeService;
 import cn.damei.entity.modules.Order;
 
-/**
- * 问题上报Controller
- * @author Administrator
- *
- */
+
 
 @Controller
 @RequestMapping(value="${adminPath}/app/manager/problem")
@@ -61,12 +57,7 @@ public class ProblemController {
 	
 	private Logger  logger =  LoggerFactory.getLogger(AuxiliaryApplyController.class);
 
-	/**
-	 * 主材安装问题上报--返回
-	 * @param request
-	 * @param model
-	 * @return
-	 */
+
 	@RequestMapping(value={"install_problem_back",""})
 	public String installProblemBack(HttpServletRequest request, Model model){
 		
@@ -92,13 +83,7 @@ public class ProblemController {
 	}
 	
 	
-	/**
-	 * 问题上报--订单列表
-	 * @param text
-	 * @param request
-	 * @param model
-	 * @return
-	 */
+
 	@RequestMapping(value={"list",""})
 	public String applyMainIngredient(String installProblem,HttpServletRequest request, Model model){
 		
@@ -108,7 +93,7 @@ public class ProblemController {
 			logger.warn("主材问题上报访问参数有误 ,无法识别路径参数: installProblem :"+installProblem);
 		}
 		
-		//获得项目经理
+
 		Manager manager = (Manager)request.getSession().getAttribute("manager");
 		
 		if(null!=manager){
@@ -118,12 +103,7 @@ public class ProblemController {
 		return "mobile/modules/Manager/project-build/questionList";
 	}
 	
-	/**
-	 * 动态加载问题上报--订单列表
-	 * @param managerId
-	 * @param text
-	 * @return
-	 */
+
 	@RequestMapping(value="problem_order_ajax_list")
 	public @ResponseBody  List<Order> problemOrderAjaxList(String managerId,String text){
 		
@@ -137,18 +117,12 @@ public class ProblemController {
 	
 
 	
-	/**
-	 * 问题上报--安装项列表页面
-	 * @param orderId
-	 * @param request
-	 * @param model
-	 * @return
-	 */
+
 	@RequestMapping(value={"problem_report",""})
 	public String problemReport(Integer orderId, HttpServletRequest request, Model model){
-		//订单
+
 		AppOrder order = null; 
-		//显示状态为【已申请】的安装项
+
 		List<InstallProblem> list = null;
 		
 		if(null!=orderId){
@@ -161,22 +135,16 @@ public class ProblemController {
 	}
 	
 	
-	/**
-	 * 上报页面
-	 * @param orderId
-	 * @param request
-	 * @param model
-	 * @return
-	 */
+
 	@RequestMapping(value={"question-submit",""})
 	public String questionSubmit(String installItemName,Integer id,Integer orderId, HttpServletRequest request, Model model){
 		
-		//订单
+
 		AppOrder order = null; 
 		if(null!=orderId){
 			
 			order = appOrderService.getOrder(orderId);
-			//上报问题分类
+
 			BizProjectInstallItemProblemType problemType = new BizProjectInstallItemProblemType();
 			problemType.setStoreId(order.getStoreId());
 			problemType.setIsEnabled(BusinessProblemConstantUtil.BUSINESS_PROBLEM_IS_ENABLE_1);
@@ -194,39 +162,28 @@ public class ProblemController {
 		return "mobile/modules/Manager/project-build/quesDone";
 	}
 	
-	/**
-	 * 上报
-	 * @param orderInstallItemId
-	 * @param problemTypeId
-	 * @param isDelay
-	 * @param delayDays
-	 * @param problemDescribe
-	 * @param photo
-	 * @param request
-	 * @return
-	 * @throws UnsupportedEncodingException
-	 */
+
 	@RequestMapping(value="problem-submit" ,method=RequestMethod.POST)
 	public @ResponseBody String applyWallAndFloor(String orderInstallItemId,String problemTypeId,String quality,String delayDays,String problemDescribe,String[] photo, HttpServletRequest request) throws UnsupportedEncodingException{
 		
 		String result = "0";
 		
-		//1.安装项id为空
+
 		if(null==orderInstallItemId || orderInstallItemId.equals("")){
 			result = "1";
 			return result;
 		}
-		//2.问题分类为空
+
 		if(null==problemTypeId || problemTypeId.equals("")){
 			result = "2";
 			return result;
 		}
-		//3.是否影响工期为空
+
 		if(null==quality || quality.equals("")){
 			result = "3";
 			return result;
 		}
-		//4.延期天数为空
+
 		String isDelay = null;
 		if(quality.equals("yes1")){
 			isDelay = BusinessProblemConstantUtil.BUSINESS_PROBLEM_IS_DELAY_1;
@@ -237,31 +194,31 @@ public class ProblemController {
 		}else{
 			isDelay = BusinessProblemConstantUtil.BUSINESS_PROBLEM_IS_DELAY_0;
 		}
-		//5.上报问题描述为空
+
 		if(null==problemDescribe || problemDescribe.equals("")){
 			result = "5";
 			return result;
 		}
-		//6.获取项目经理
+
 		Manager manager = (Manager)request.getSession().getAttribute("manager");
 		if(null==manager || null==manager.getId()){
 			result = "6";
 			return result;
 		}
-		//7.查询问题分类内容
+
 		BizProjectInstallItemProblemType bizProjectInstallItemProblemType = bizProjectInstallItemProblemTypeService.get(Integer.valueOf(problemTypeId));
 		if(null==bizProjectInstallItemProblemType){
 			result = "7";
 			return result;
 		}
-		//8.保存上报问题
+
 		Integer problemId = wallAndFloorProblemService.saveProblem(Integer.valueOf(orderInstallItemId),Integer.valueOf(problemTypeId),isDelay,Double.valueOf(delayDays),problemDescribe,BusinessProblemConstantUtil.BUSINESS_PROBLEM_STATUS_30,BusinessProblemConstantUtil.BUSINESS_PROBLEM_BUSINESS_TYPE_1,null,null,bizProjectInstallItemProblemType);
 		if(null==problemId || problemId<1){
 			result = "8";
 			return result;
 		}
 		
-		//9.保存上报问题日志
+
 		Integer problemLogId = wallAndFloorProblemService.saveProblemLog(problemId,manager.getId(),BusinessProblemConstantUtil.BUSINESS_PROBLEM_SOLVE_ROLE_2,BusinessProblemConstantUtil.BUSINESS_PROBLEM_STATUS_30,problemDescribe);
 		if(null==problemLogId || problemLogId<1){
 			wallAndFloorProblemService.deleteProblem(problemId);
@@ -270,7 +227,7 @@ public class ProblemController {
 		}
 		
 		Date date = new Date();
-		//10.订单安装项问题图片
+
 		List<ReportCheckDetailsPic> pList = new ArrayList<ReportCheckDetailsPic>();
 		if (null!=photo && photo.length>0) {
 			
@@ -280,7 +237,7 @@ public class ProblemController {
 				
 				String rootPath = request.getSession().getServletContext().getRealPath("");
 				File filePath = new File(rootPath + ConstantUtils.UPLOAD_PROBLEM_MANAGER + DateUtils.getDate1());
-				//判断该文件是否存在
+
 				if(!filePath.exists() && !filePath.isDirectory()){
 					filePath.mkdirs();
 				}
@@ -289,7 +246,7 @@ public class ProblemController {
 				
 				String picpath = ConstantUtils.UPLOAD_PROBLEM_MANAGER + DateUtils.getDate1()+filePath.separator + uuid + ".jpeg";
 				
-				//保存图片到数据库
+
 				ReportCheckDetailsPic reportCheckDetailsPic = new ReportCheckDetailsPic();
 				reportCheckDetailsPic.setBusinessIdInt(problemId);
 				reportCheckDetailsPic.setBusinessType("207");
@@ -300,10 +257,10 @@ public class ProblemController {
 				reportCheckDetailsPic.setDelFlag("0");
 				pList.add(reportCheckDetailsPic);
 			}
-			//批量插入图片
+
 			checkConfirmService.savePicAll(pList);
 		}
-		//11.是否影响工期
+
 		if(quality.equals("yes1")){
 			result = "11";
 		}else{
@@ -312,19 +269,12 @@ public class ProblemController {
 		return result;
 	}
 		
-	/**
-	 * 问题上报记录--安装项列表页面
-	 * @param orderId
-	 * @param text
-	 * @param request
-	 * @param model
-	 * @return
-	 */
+
 	@RequestMapping(value={"reported_record",""})
 	public String reportedRecord(Integer orderId, HttpServletRequest request, Model model){
-		//订单
+
 		AppOrder order = null; 
-		//显示状态为【已申请】的安装项 并且只显示项目经理提交了问题的安装项
+
 		List<InstallProblem> list = null;
 		
 		if(null!=orderId){
@@ -336,26 +286,17 @@ public class ProblemController {
 		return "mobile/modules/Manager/project-build/quesDetailsList";
 	}
 	
-	/**
-	 * 问题上报记录--详情
-	 * @param text
-	 * @param installItemName
-	 * @param id
-	 * @param orderId
-	 * @param request
-	 * @param model
-	 * @return
-	 */
+
 	@RequestMapping(value={"reported_record_details",""})
 	public String reportedRecordDetails(String installItemName,Integer id,Integer orderId, HttpServletRequest request, Model model){
 		
-		//订单
+
 		AppOrder order = null; 
 		if(null!=orderId){
 			order = appOrderService.getOrder(orderId);
 		}
 		
-		//问题上报详情
+
 		List<BizOrderInstallItemProblem> list = problemService.findProblemDetails(id);
 		
 		model.addAttribute("order", order);
@@ -365,14 +306,7 @@ public class ProblemController {
 		
 		return "mobile/modules/Manager/project-build/quesDoneDetails";
 	}
-	/**
-	 * 问题上报记录--详情--图片
-	 * @param id
-	 * @param request
-	 * @param model
-	 * @return
-	 * @throws IOException 
-	 */
+
 	@RequestMapping(value={"reported_record_details_picture",""})
 	public String reportedRecordDetailsPicture(Integer id, HttpServletRequest request, Model model) throws IOException{
 		

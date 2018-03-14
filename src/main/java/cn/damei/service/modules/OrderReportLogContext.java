@@ -3,9 +3,7 @@ package cn.damei.service.modules;
 import cn.damei.dao.modules.OrderReportLogStatePolicyInterface;
 import cn.damei.entity.modules.BizOrderReport;
 
-/**
- * Created by joseph on 2017/5/15.
- */
+
 public class OrderReportLogContext {
 
 

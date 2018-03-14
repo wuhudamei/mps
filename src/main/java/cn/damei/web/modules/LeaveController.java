@@ -1,6 +1,4 @@
-/**
- * There are <a href="https://github.com/thinkgem/jeesite">JeeSite</a> code generation
- */
+
 package cn.damei.web.modules;
 
 import java.util.List;
@@ -32,11 +30,7 @@ import cn.damei.entity.modules.Leave;
 import cn.damei.service.modules.LeaveService;
 import cn.damei.common.utils.UserUtils;
 
-/**
- * 请假Controller
- * @author liuj
- * @version 2013-04-05
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/oa/leave")
 public class LeaveController extends BaseController {
@@ -59,10 +53,7 @@ public class LeaveController extends BaseController {
 		return "modules/oa/leaveForm";
 	}
 
-	/**
-	 * 启动请假流程
-	 * @param leave	
-	 */
+
 	@RequiresPermissions("oa:leave:edit")
 	@RequestMapping(value = "save", method = RequestMethod.POST)
 	public String save(Leave leave, RedirectAttributes redirectAttributes) {
@@ -77,23 +68,17 @@ public class LeaveController extends BaseController {
 		return "redirect:" + adminPath + "/oa/leave/form";
 	}
 
-	/**
-	 * 任务列表
-	 * @param leave	
-	 */
+
 	@RequiresPermissions("oa:leave:view")
 	@RequestMapping(value = {"list/task",""})
 	public String taskList(HttpSession session, Model model) {
-		String userId = UserUtils.getUser().getLoginName();//ObjectUtils.toString(UserUtils.getUser().getId());
+		String userId = UserUtils.getUser().getLoginName();
 		List<Leave> results = leaveService.findTodoTasks(userId);
 		model.addAttribute("leaves", results);
 		return "modules/oa/leaveTask";
 	}
 
-	/**
-	 * 读取所有流程
-	 * @return
-	 */
+
 	@RequiresPermissions("oa:leave:view")
 	@RequestMapping(value = {"list"})
 	public String list(Leave leave, HttpServletRequest request, HttpServletResponse response, Model model) {
@@ -102,11 +87,7 @@ public class LeaveController extends BaseController {
 		return "modules/oa/leaveList";
 	}
 	
-	/**
-	 * 读取详细数据
-	 * @param id
-	 * @return
-	 */
+
 	@RequestMapping(value = "detail/{id}")
 	@ResponseBody
 	public String getLeave(@PathVariable("id") String id) {
@@ -114,11 +95,7 @@ public class LeaveController extends BaseController {
 		return JsonMapper.getInstance().toJson(leave);
 	}
 
-	/**
-	 * 读取详细数据
-	 * @param id
-	 * @return
-	 */
+
 	@RequestMapping(value = "detail-with-vars/{id}/{taskId}")
 	@ResponseBody
 	public String getLeaveWithVars(@PathVariable("id") String id, @PathVariable("taskId") String taskId) {

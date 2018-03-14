@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import java.util.List;
@@ -28,11 +26,7 @@ import cn.damei.entity.modules.BizCustomerReturnVisit;
 import cn.damei.service.modules.BizCustomerReturnVisitService;
 import cn.damei.entity.modules.StatusDto;
 
-/**
- * 客户回访节点Controller
- * @author LiwanCai
- * @version 2017-05-22
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/customerreturnvisit/bizCustomerReturnVisit")
 public class BizCustomerReturnVisitController extends BaseController {
@@ -97,22 +91,14 @@ public class BizCustomerReturnVisitController extends BaseController {
 		return "redirect:"+Global.getAdminPath()+"/customerreturnvisit/bizCustomerReturnVisit/?repage";
 	}
 	
-	/**
-	 * 根据门店ID获取工程节点信息
-	 * @param storeId
-	 * @return
-	 */
+
 	@RequestMapping(value = "queryProjectNode")
 	@ResponseBody
 	public Object queryProjectNode(@RequestParam(value = "storeId", required = true) int storeId,@RequestParam(value = "projectMode", required = true) String projectMode) {
 		return StatusDto.buildDataSuccessStatusDto(bizCustomerReturnVisitService.queryProjectNodeListByStoreId(storeId,projectMode));
 	}
 	
-	/**
-	 * 根据节点值判断是是否已经设置过节点问题
-	 * @param projectNode
-	 * @return
-	 */
+
 	@RequestMapping(value = "returnVisitNodeValidate")
 	@ResponseBody
 	public Object returnVisitNodeValidate(
@@ -126,11 +112,7 @@ public class BizCustomerReturnVisitController extends BaseController {
 		}
 	}
 	
-	/**
-	 * 根据门店id获取对应的回访节点信息
-	 * @param projectNode
-	 * @return
-	 */
+
 	@RequestMapping(value = "queryReturnVisitNodeByStoreId",method=RequestMethod.GET)
 	@ResponseBody
 	public Object queryReturnVisitNodeByStoreId(@RequestParam(value = "storeId", required = true) String storeId,@RequestParam(value = "projectMode", required = true) String projectMode){

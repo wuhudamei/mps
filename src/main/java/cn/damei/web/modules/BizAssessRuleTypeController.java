@@ -24,12 +24,7 @@ import cn.damei.entity.modules.User;
 import cn.damei.common.utils.DictUtils;
 import cn.damei.common.utils.UserUtils;
 
-/**
- * 考核条例分类Controllers
- * 
- * @author hyh
- *
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/bizAssessRuleType/bizAssessRuleType")
 public class BizAssessRuleTypeController extends BaseController {
@@ -45,7 +40,7 @@ public class BizAssessRuleTypeController extends BaseController {
 			HttpServletResponse response, Model model) {
 		User user = UserUtils.getUser();
 
-		// 过滤门店
+
 		if (null == bizAssessRuleType.getStoreId()) {
 			if (null != user.getStoreId()) {
 				bizAssessRuleType.setStoreId(Integer.valueOf(user.getStoreId()));
@@ -55,7 +50,7 @@ public class BizAssessRuleTypeController extends BaseController {
 			model.addAttribute("storeDropEnable", true);
 		}
 
-		// 过滤工程模式
+
 		if (StringUtils.isBlank(bizAssessRuleType.getProjectMode())) {
 			if (null != user.getEmpId()) {
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -98,7 +93,7 @@ public class BizAssessRuleTypeController extends BaseController {
 	public String openBizAssessRuleTypeForm(BizAssessRuleType bizAssessRuleType, Model model) {
 		
 		User user = UserUtils.getUser();
-		// 过滤门店
+
 		if (null == bizAssessRuleType.getStoreId()) {
 			if (null != user.getStoreId()) {
 				bizAssessRuleType.setStoreId(Integer.valueOf(user.getStoreId()));
@@ -108,7 +103,7 @@ public class BizAssessRuleTypeController extends BaseController {
 			model.addAttribute("storeDropEnable", true);
 		}
 
-		// 过滤工程模式
+
 		if (StringUtils.isBlank(bizAssessRuleType.getProjectMode())) {
 			if (null != user.getEmpId()) {
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -172,10 +167,7 @@ public class BizAssessRuleTypeController extends BaseController {
 		return "redirect:" + Global.getAdminPath() + "/bizAssessRuleType/bizAssessRuleType/queryBizAssessRuleType?repage";
 	}
 	
-	/**
-	 * 根据门店和工程模式获取条例分类
-	 * @return
-	 */
+
 	@RequestMapping(value = "queryRuleTypeByParam")
 	public @ResponseBody List<BizAssessRuleType> queryRuleTypeByParam(BizAssessRuleType bizAssessRuleType){
 		return bizAssessRuleTypeService.queryRuleTypeByParam(bizAssessRuleType);

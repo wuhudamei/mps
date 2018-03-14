@@ -24,10 +24,7 @@ import org.springframework.ui.Model;
 import java.text.ParseException;
 import java.util.*;
 
-/**
- * 订单工程进度大看板
- * Created by hyh on 2017/12/13.
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizProjectProgressSummaryDataService {
@@ -42,10 +39,7 @@ public class BizProjectProgressSummaryDataService {
         return bizProjectProgressSummaryDataDao.queryOrderByCondition2();
     }
 
-    /**
-     * 更新大看板消息
-     * @param orderId
-     */
+
     @Transactional(readOnly = false)
     public void updateBizProjectProgressSummaryData(Integer orderId){
         Date date = new Date();
@@ -53,7 +47,7 @@ public class BizProjectProgressSummaryDataService {
         Order2 order = bizProjectProgressSummaryDataDao.queryOrderById(orderId);
         String sql = "";
         Map<String, Object> allMap = new HashMap<String, Object>();
-        //获取规则中大看板的所有字段
+
         List<BizProjectProgressQueryRuleConfig> firstList = bizProjectProgressQueryRuleConfigService.findFirstList();
         String dataSql = null;
         if (CollectionUtils.isNotEmpty(firstList)) {
@@ -75,7 +69,7 @@ public class BizProjectProgressSummaryDataService {
         }
         if (allMap.size() > 0) {
             int keyCount = 1;
-            if (count > 0) {//修改
+            if (count > 0) {
                 sql = "update biz_project_progress_summary_data set update_time=:update_time,update_status=:update_status,";
                 StringBuilder sb = new StringBuilder();
                 for (String key : allMap.keySet()) {
@@ -87,7 +81,7 @@ public class BizProjectProgressSummaryDataService {
                 }
                 sql = sql + sb.toString() + " where order_id = :orderId";
 
-            } else {//新增
+            } else {
                 sql = "insert into biz_project_progress_summary_data(order_id,create_time,update_time,del_flag,update_status,";
                 StringBuilder sb = new StringBuilder();
                 StringBuilder values = new StringBuilder();
@@ -113,7 +107,7 @@ public class BizProjectProgressSummaryDataService {
             allMap.put("update_status", 1);
             allMap.put("orderId", orderId);
             namedParameterJdbcTemplate.update(sql, allMap);
-            //订单已竣工或者订单作废
+
             if(order.getOrderStatusNumber().equals("400") || order.getIsScrap().equals("1")){
                 Map<String,Object> orderMap = new HashMap<String,Object>();
                 orderMap.put("orderId",orderId);
@@ -136,20 +130,16 @@ public class BizProjectProgressSummaryDataService {
         namedParameterJdbcTemplate.update(sql, param);
     }
 
-    /**
-     * 门店和工程模式权限控制
-     * @param bizProjectProgressSummaryData
-     * @param model
-     */
+
     public void queryStoreIdAndProjectMode(BizProjectProgressSummaryData bizProjectProgressSummaryData, Model model) {
         User user = UserUtils.getUser();
-        //门店
+
         if(null==bizProjectProgressSummaryData.getStoreId()){
             if(StringUtils.isNotBlank(user.getStoreId())){
                 bizProjectProgressSummaryData.setStoreId(Integer.valueOf(user.getStoreId()));
             }
         }
-        //工程模式
+
         if(StringUtils.isBlank(user.getProjectMode())||user.getProjectMode().equals("3")){
             model.addAttribute("gongcheng", true);
         }else{
@@ -157,10 +147,7 @@ public class BizProjectProgressSummaryDataService {
         }
     }
 
-    /**
-     * 获取表头配置
-     * @return
-     */
+
     public List<BizProjectProgressQueryRuleConfig> queryRuleConfig() {
         List<BizProjectProgressQueryRuleConfig> AllList = bizProjectProgressQueryRuleConfigService.findFirstList();
         if (CollectionUtils.isNotEmpty(AllList)){
@@ -171,11 +158,7 @@ public class BizProjectProgressSummaryDataService {
         return AllList;
     }
 
-    /**
-     * 获取table的表头和数据配置对象
-     * @param oneList
-     * @return
-     */
+
     public Map<String,Object> queryTableConfig(List<BizProjectProgressQueryRuleConfig> oneList) {
         Map<String,Object> resultMap = new HashMap<String,Object>();
         List<Map<String,Object>> listMapOne = new ArrayList<Map<String,Object>>();
@@ -196,23 +179,23 @@ public class BizProjectProgressSummaryDataService {
                             threeListSize = threeList.size();
                         }
                         Map<String,Object> oneMap = new HashMap<String,Object>();
-                        oneMap.put("ruleGrade","2");//等级（1级/2级/3级）标题
-                        oneMap.put("enColumnName",two.getEnColumnName());//英文字段
-                        oneMap.put("cnColumnName",two.getCnColumnName());//中文字段
+                        oneMap.put("ruleGrade","2");
+                        oneMap.put("enColumnName",two.getEnColumnName());
+                        oneMap.put("cnColumnName",two.getCnColumnName());
                         if(threeListSize > 0) {
-                            oneMap.put("cellMerge","2");//（1行/2列）合并单元格
-                            oneMap.put("cellMergeLengh",threeListSize); //合格单元格长度
+                            oneMap.put("cellMerge","2");
+                            oneMap.put("cellMergeLengh",threeListSize);
                             for (BizProjectProgressQueryRuleConfig three : threeList) {
                                 Map<String,Object> twoMap = new HashMap<String,Object>();
-                                twoMap.put("ruleGrade","3");//等级（1级/2级/3级）标题
-                                twoMap.put("enColumnName",three.getEnColumnName());//英文字段
-                                twoMap.put("cnColumnName",three.getCnColumnName());//中文字段
+                                twoMap.put("ruleGrade","3");
+                                twoMap.put("enColumnName",three.getEnColumnName());
+                                twoMap.put("cnColumnName",three.getCnColumnName());
                                 listMapTwo.add(twoMap);
                                 listMapThree.add(twoMap);
                             }
                         }else {
-                            oneMap.put("cellMerge","1");//（1行/2列）合并单元格
-                            oneMap.put("cellMergeLengh",2); //合格单元格长度
+                            oneMap.put("cellMerge","1");
+                            oneMap.put("cellMergeLengh",2);
                             listMapThree.add(oneMap);
                         }
                         listMapOne.add(oneMap);
@@ -220,23 +203,23 @@ public class BizProjectProgressSummaryDataService {
                 }
             }else{
                 Map<String,Object> oneMap = new HashMap<String,Object>();
-                oneMap.put("ruleGrade","1");//等级（1级/2级/3级）标题
-                oneMap.put("enColumnName",one.getEnColumnName());//英文字段
-                oneMap.put("cnColumnName",one.getCnColumnName());//中文字段
+                oneMap.put("ruleGrade","1");
+                oneMap.put("enColumnName",one.getEnColumnName());
+                oneMap.put("cnColumnName",one.getCnColumnName());
                 if(twoListSize > 0) {
-                    oneMap.put("cellMerge","2");//（1行/2列）合并单元格
-                    oneMap.put("cellMergeLengh",twoListSize); //合格单元格长度
+                    oneMap.put("cellMerge","2");
+                    oneMap.put("cellMergeLengh",twoListSize);
                     for (BizProjectProgressQueryRuleConfig two : twoList) {
                         Map<String,Object> twoMap = new HashMap<String,Object>();
-                        twoMap.put("ruleGrade","2");//等级（1级/2级/3级）标题
-                        twoMap.put("enColumnName",two.getEnColumnName());//英文字段
-                        twoMap.put("cnColumnName",two.getCnColumnName());//中文字段
+                        twoMap.put("ruleGrade","2");
+                        twoMap.put("enColumnName",two.getEnColumnName());
+                        twoMap.put("cnColumnName",two.getCnColumnName());
                         listMapTwo.add(twoMap);
                         listMapThree.add(twoMap);
                     }
                 }else{
-                    oneMap.put("cellMerge","1");//（1行/2列）合并单元格
-                    oneMap.put("cellMergeLengh",2); //合格单元格长度
+                    oneMap.put("cellMerge","1");
+                    oneMap.put("cellMergeLengh",2);
                     listMapThree.add(oneMap);
                 }
                 listMapOne.add(oneMap);
@@ -248,12 +231,7 @@ public class BizProjectProgressSummaryDataService {
         return resultMap;
     }
 
-    /**
-     * 订单工程进度大看板数据
-     * @param page
-     * @param bizProjectProgressSummaryData
-     * @return
-     */
+
     public Page<BizProjectProgressSummaryData> findPage(Page<BizProjectProgressSummaryData> page, BizProjectProgressSummaryData bizProjectProgressSummaryData) {
         bizProjectProgressSummaryData.setPage(page);
         List<BizProjectProgressSummaryData> list = bizProjectProgressSummaryDataDao.findList(bizProjectProgressSummaryData);
@@ -262,33 +240,30 @@ public class BizProjectProgressSummaryDataService {
         return page;
     }
 
-    /**
-     * 大看板数据【动态获取】
-     * @param list
-     */
+
     public void querySummaryData(List<BizProjectProgressSummaryData> list) {
 
         if(CollectionUtils.isNotEmpty(list)) {
-            //订单id集合
+
             List<Integer> orderIdList = new ArrayList<Integer>();
-            //大看板id集合
+
             List<Integer> idList = new ArrayList<Integer>();
             for (BizProjectProgressSummaryData bizProjectProgressSummaryData : list) {
                 idList.add(bizProjectProgressSummaryData.getId());
                 orderIdList.add(bizProjectProgressSummaryData.getOrderId());
             }
-            //从配置表中获取订单的查询SQL
+
             String orderRuleConfig = "SELECT main_sql_content FROM biz_project_progress_query_rule_config WHERE is_special = 1 AND parent_id IS NULL ORDER BY index_no ASC LIMIT 1";
             String orderSql = namedParameterJdbcTemplate.queryForObject(orderRuleConfig, EmptySqlParameterSource.INSTANCE, String.class);
             if (StringUtils.isNotBlank(orderSql)) {
 
-                //获取订单数据List
+
                 orderSql = orderSql + "  WHERE a.id IN (:orderIdList)";
                 Map<String, Object> paramTwo = new HashMap<String, Object>();
                 paramTwo.put("orderIdList", orderIdList);
                 List<Map<String, Object>> orderList = namedParameterJdbcTemplate.queryForList(orderSql, paramTwo);
 
-                //获取大看板的数据List
+
                 String idSql = "SELECT * FROM biz_project_progress_summary_data WHERE id IN (:idList)";
                 Map<String, Object> paramThree = new HashMap<String, Object>();
                 paramThree.put("idList", idList);
@@ -319,16 +294,11 @@ public class BizProjectProgressSummaryDataService {
     }
 
 
-    /**
-     * 订单工程进度大看板--导出
-     * @param bizProjectProgressSummaryData
-     * @param ex
-     * @throws ParseException
-     */
+
     public void exportProjectProgressSummaryData(BizProjectProgressSummaryData bizProjectProgressSummaryData, ExportSingleSheetHelper<Map<String, Object>> ex) throws ParseException {
 
-        //【1】数据准备
-        //【门店】【工程模式】
+
+
         User user = UserUtils.getUser();
         if(null==bizProjectProgressSummaryData.getStoreId() && StringUtils.isNotBlank(user.getStoreId())){
                 bizProjectProgressSummaryData.setStoreId(Integer.valueOf(user.getStoreId()));
@@ -336,11 +306,11 @@ public class BizProjectProgressSummaryDataService {
         if(StringUtils.isNotBlank(user.getProjectMode()) && !("3").equals(user.getProjectMode())){
             bizProjectProgressSummaryData.setProjectMode(user.getProjectMode());
         }
-        //获取表头配置
+
         List<BizProjectProgressQueryRuleConfig> list = queryRuleConfig();
-        //获取table的表头和数据配置对象
+
         Map<String,Object> map = queryTableConfig(list);
-        //订单工程进度大看板数据
+
         List<BizProjectProgressSummaryData> dataList = bizProjectProgressSummaryDataDao.findList(bizProjectProgressSummaryData);
         querySummaryData(dataList);
 
@@ -348,19 +318,14 @@ public class BizProjectProgressSummaryDataService {
         List<Map<String,Object>> listMapTwo = (List<Map<String, Object>>) map.get("listMapTwo");
         List<Map<String,Object>> listMapThree = (List<Map<String, Object>>) map.get("listMapThree");
 
-        //【2】excel表头
+
         excelHeader(ex, listMapOne, listMapTwo);
 
-        //【3】excel数据
+
         excelData(ex, dataList, listMapThree);
     }
 
-    /**
-     * 导出【表头】【excel】
-     * @param ex
-     * @param listMapOne
-     * @param listMapTwo
-     */
+
     private void excelHeader(ExportSingleSheetHelper<Map<String, Object>> ex, List<Map<String, Object>> listMapOne, List<Map<String, Object>> listMapTwo) {
         ex.setColSpanTarget("$");
         List<String> paramsOneList = new ArrayList<>();
@@ -374,7 +339,7 @@ public class BizProjectProgressSummaryDataService {
             if(StringUtils.isNotBlank(cellMergeLengh)){
                 length = Integer.valueOf(cellMergeLengh);
             }
-            //（1行/2列）合并单元格
+
             if("1".equals(cellMerge)){
                 paramsOneList.add(cnColumnName);
                 paramsTwoList.add("");
@@ -399,7 +364,7 @@ public class BizProjectProgressSummaryDataService {
         ex.darwRowColSpanNoBorder(0,paramsOne);
         ex.darwRowColSpanNoBorder(1,paramsTwo);
 
-        //给单元格赋样式
+
         HSSFSheet sheet = ex.getSheet();
         int paramsTwoListSize = paramsTwoList.size();
         List<CellRangeAddress> ranges = new ArrayList<>();
@@ -419,12 +384,7 @@ public class BizProjectProgressSummaryDataService {
         setBorders(ranges,sheet,sheet.getWorkbook());
     }
 
-    /**
-     * 导出【表头】【样式】【excel】
-     * @param ranges
-     * @param sheet
-     * @param workbook
-     */
+
     public void setBorders(List<CellRangeAddress> ranges, HSSFSheet sheet, HSSFWorkbook workbook) {
         for (CellRangeAddress range : ranges) {
             RegionUtil.setBorderLeft(1, range, sheet, workbook);
@@ -434,12 +394,7 @@ public class BizProjectProgressSummaryDataService {
         }
     }
 
-    /**
-     * 导出【数据】【excel】
-     * @param ex
-     * @param dataList
-     * @param listMapThree
-     */
+
     private void excelData(ExportSingleSheetHelper<Map<String, Object>> ex, List<BizProjectProgressSummaryData> dataList, List<Map<String, Object>> listMapThree) {
         int index = 2;
         if(CollectionUtils.isNotEmpty(dataList)){

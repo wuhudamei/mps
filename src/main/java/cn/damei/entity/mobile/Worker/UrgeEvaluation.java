@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.mobile.Worker;
 
 import java.util.Date;
@@ -12,39 +10,39 @@ public class UrgeEvaluation extends DataEntity2<UrgeEvaluation> {
 	private static final long serialVersionUID = 1L;
 	
 	
-	private String itemManager;		// 项目经理
-	private int itemManagerId;		// 项目经理id
-	private String contractNumber;		// 合同编号
-	private String customerName;		// 客户姓名
-	private String customerPhone;		// 客户电话
-	private String orderStatusNumber;		// 订单状态码  创建订单成功默认状态码 105
-	private String orderStatusDescription;		// 订单状态码详情   默认详情 确认订单   状态码105
+	private String itemManager;
+	private int itemManagerId;
+	private String contractNumber;
+	private String customerName;
+	private String customerPhone;
+	private String orderStatusNumber;
+	private String orderStatusDescription;
 	
 	
-	private String communityName;		// 小区名称
-	private String buildNumber;		// 几号楼
-	private String buildUnit;		// 几单元
-	private String buildRoom;		// 哪一室
-	private String buildType;		// 房屋类型
-	private String houseType;		//房屋户型
-	private String house;		//房屋
-	private String contractArea;		// 合同面积
+	private String communityName;
+	private String buildNumber;
+	private String buildUnit;
+	private String buildRoom;
+	private String buildType;
+	private String houseType;
+	private String house;
+	private String contractArea;
 	
-	private Date contractStartDate;		// 合同开工日期
-	private Date contractEndDate;		// 合同竣工日期
-	private String contractTime;		// 合同工期
-	private Date actualStartDate;		//实际开工日期
-	private Date actualEndDate; 		//实际竣工日期
-	private String orderBy;				//排序
+	private Date contractStartDate;
+	private Date contractEndDate;
+	private String contractTime;
+	private Date actualStartDate;
+	private Date actualEndDate;
+	private String orderBy;
 	
 	
-	private String projectMode; //工程模式
-	private Integer storeId; //门店
+	private String projectMode;
+	private Integer storeId;
 	
-	private String orderInspectorName;		// 质检员
-	private String orderInspectorPhone;		// 质检员电话
-	private Integer orderInspectorId;		// 质检员id
-	private String packageName; //任务包名称
+	private String orderInspectorName;
+	private String orderInspectorPhone;
+	private Integer orderInspectorId;
+	private String packageName;
 	private String orderId;
 	private String workerId;
 	

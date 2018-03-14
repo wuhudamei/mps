@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,10 +18,7 @@ import cn.damei.common.web.BaseController;
 import cn.damei.entity.modules.InspectorConfirmReject;
 import cn.damei.service.modules.InspectorConfirmRejectService;
 
-/**
- * 约检验收驳回原因查询Controller
- * @author wyb
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/modules/settlementPaymentManagement/checkAccept/confirmReject/web/InspectorConfirmReject")
 public class InspectorConfirmRejectController extends BaseController {
@@ -43,14 +38,7 @@ public class InspectorConfirmRejectController extends BaseController {
 		return entity;
 	}
 
-	/**
-	 * 约检验收驳回原因查询 页面【前】
-	 * @param inspectorConfirmReject
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @return
-	 */
+
 	@RequiresPermissions("confirmReject:confirmReject:view")
 	@RequestMapping(value = { "/preList", "" })
 	public String preList(InspectorConfirmReject inspectorConfirmReject, HttpServletRequest request, HttpServletResponse response,
@@ -61,14 +49,7 @@ public class InspectorConfirmRejectController extends BaseController {
 		return "modules/settlementPaymentManagement/checkAccept/confirmReject/confirmRejectList";
 	}
 
-	/**
-	 * 约检验收驳回原因查询 页面
-	 * @param inspectorConfirmReject
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @return
-	 */
+
 	@RequiresPermissions("confirmReject:confirmReject:view")
 	@RequestMapping(value = { "/list", "" })
 	public String list(InspectorConfirmReject inspectorConfirmReject, HttpServletRequest request, HttpServletResponse response,

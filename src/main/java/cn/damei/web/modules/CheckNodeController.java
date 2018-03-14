@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import java.util.HashMap;
@@ -32,12 +30,7 @@ import cn.damei.service.modules.BizEmployeeService2;
 import cn.damei.entity.modules.User;
 import cn.damei.common.utils.UserUtils;
 
-/**
- * 约检节点设置Controller
- *
- * @author 梅浩
- * @version 2016-10-26
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/checknode/checkNode")
 public class CheckNodeController extends BaseController {
@@ -64,7 +57,7 @@ public class CheckNodeController extends BaseController {
     public String list(CheckNode checkNode, HttpServletRequest request, HttpServletResponse response, Model model) {
 
         User user = UserUtils.getUser();
-        //过滤门店
+
         if (null == checkNode.getStoreId()) {
             if (null != user.getStoreId()) {
                 checkNode.setStoreId(Integer.valueOf(user.getStoreId()));
@@ -73,38 +66,8 @@ public class CheckNodeController extends BaseController {
         if (StringUtils.isBlank(user.getStoreId())) {
             model.addAttribute("storeDropEnable", true);
         }
-        //过滤工程模式
-        /*if (StringUtils.isBlank(checkNode.getProjectMode())) {
-            if (null != user.getEmpId()) {
-                BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
-                if (StringUtils.isBlank(be.getProjectMode())) {
-                    model.addAttribute("gongcheng", true);
-                } else {
-                    if (be.getProjectMode().equals("3")) {
-                        model.addAttribute("gongcheng", true);
-                    } else {
-                        checkNode.setProjectMode(be.getProjectMode());
-                    }
-                }
-            } else {
-                model.addAttribute("gongcheng", true);
-            }
-        } else {
-            if (null != user.getEmpId()) {
-                BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
-                if (StringUtils.isBlank(be.getProjectMode())) {
-                    model.addAttribute("gongcheng", true);
-                } else {
-                    if (be.getProjectMode().equals("3")) {
-                        model.addAttribute("gongcheng", true);
-                    } else {
-                        checkNode.setProjectMode(be.getProjectMode());
-                    }
-                }
-            } else {
-                model.addAttribute("gongcheng", true);
-            }
-        }*/
+
+
 
         if (null != user.getEmpId()) {
             BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -128,7 +91,7 @@ public class CheckNodeController extends BaseController {
     public String checknodeList(CheckNode checkNode, HttpServletRequest request, HttpServletResponse response, Model model) {
 
         User user = UserUtils.getUser();
-        //过滤门店
+
         if (null == checkNode.getStoreId()) {
             if (null != user.getStoreId()) {
                 checkNode.setStoreId(Integer.valueOf(user.getStoreId()));
@@ -137,38 +100,8 @@ public class CheckNodeController extends BaseController {
         if (StringUtils.isBlank(user.getStoreId())) {
             model.addAttribute("storeDropEnable", true);
         }
-        //过滤工程模式
-        /*if (StringUtils.isBlank(checkNode.getProjectMode())) {
-            if (null != user.getEmpId()) {
-                BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
-                if (StringUtils.isBlank(be.getProjectMode())) {
-                    model.addAttribute("gongcheng", true);
-                } else {
-                    if (be.getProjectMode().equals("3")) {
-                        model.addAttribute("gongcheng", true);
-                    } else {
-                        checkNode.setProjectMode(be.getProjectMode());
-                    }
-                }
-            } else {
-                model.addAttribute("gongcheng", true);
-            }
-        } else {
-            if (null != user.getEmpId()) {
-                BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
-                if (StringUtils.isBlank(be.getProjectMode())) {
-                    model.addAttribute("gongcheng", true);
-                } else {
-                    if (be.getProjectMode().equals("3")) {
-                        model.addAttribute("gongcheng", true);
-                    } else {
-                        checkNode.setProjectMode(be.getProjectMode());
-                    }
-                }
-            } else {
-                model.addAttribute("gongcheng", true);
-            }
-        }*/
+
+
 
         if (null != user.getEmpId()) {
             BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -193,15 +126,15 @@ public class CheckNodeController extends BaseController {
     @RequiresPermissions("checknode:checkNode:view")
     @RequestMapping(value = "form")
     public String form(CheckNode checkNode, Model model) {
-//		//默认查询北京门店
-//		if(null!=checkNode.getStoreId()){
-//			//修改  jsp ajax 动态加载节点
-//			
-//		}else{
-//			//默认北京门店
-//			List<CheckNode> consList = checkNodeService.findConsList(2);
-//			model.addAttribute("consList", consList);
-//		}
+
+
+
+
+
+
+
+
+
         model.addAttribute("readOnly", UserUtils.getUser().getProjectMode());
         model.addAttribute("checkNode", checkNode);
         return "modules/checknode/checkNodeForm";
@@ -252,9 +185,7 @@ public class CheckNodeController extends BaseController {
         return "redirect:" + Global.getAdminPath() + "/checknode/checkNode/checknodeList?repage&storeId="+checkNode.getStoreId()+"&projectMode="+checkNode.getProjectMode();
     }
 
-    /**
-     * 根据门店动态加载约检节点
-     */
+
     @RequestMapping(value = "findConsByStoreId")
     public @ResponseBody
     List<CheckNode> findConsByStoreId(String storeId, String projectMode) {
@@ -263,7 +194,7 @@ public class CheckNodeController extends BaseController {
             node.setStoreId(Integer.valueOf(storeId));
         }
         node.setProjectMode(projectMode);
-        //节点list
+
         List<CheckNode> consList = checkNodeService.findConsList(node);
 
         if (null != consList && consList.size() > 0) {
@@ -277,13 +208,7 @@ public class CheckNodeController extends BaseController {
 
     }
 
-    /**
-     * 根据门店和工程模式查询约检节点信息
-     *
-     * @param storeId
-     * @param projectMode
-     * @return hyh
-     */
+
     @RequestMapping(value = "findCheckNodeByStoreIdAndProjectMode")
     public @ResponseBody
     List<DropModel> findCheckNodeByStoreIdAndProjectMode(String storeId, String projectMode) {
@@ -294,13 +219,7 @@ public class CheckNodeController extends BaseController {
     }
 
 
-    /**
-     * 根据门店和工程模式查询是否可以选择基装节点
-     *
-     * @param storeId
-     * @param projectMode
-     * @return hyh
-     */
+
     @RequestMapping(value = "checkIsOkForBasicNode")
     public @ResponseBody
     String checkIsOkForBasicNode(String storeId, String projectMode) {

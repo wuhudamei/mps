@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import java.util.List;
@@ -24,11 +22,7 @@ import cn.damei.entity.modules.InstallPlanQuery;
 import cn.damei.service.modules.InstallPlanQueryService;
 import cn.damei.common.utils.UserUtils;
 
-/**
- * 安装项计划查询Controller
- * @author 梅浩
- * @version 2017-02-06
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/bizinstallplanquery/installPlanQuery")
 public class InstallPlanQueryController extends BaseController {
@@ -70,7 +64,7 @@ public class InstallPlanQueryController extends BaseController {
 		}
 
 
-        //过滤门店
+
         User user = UserUtils.getUser();
         if(null==installPlanQuery.getStoreId()){
             if(null!=user.getStoreId()){

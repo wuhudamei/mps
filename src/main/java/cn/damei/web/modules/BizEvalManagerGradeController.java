@@ -24,11 +24,7 @@ import cn.damei.service.modules.BizEvalActivityService;
 import cn.damei.entity.modules.User;
 import cn.damei.common.utils.UserUtils;
 
-/**
- * 项目经理评分查询
- * @author hyh
- *
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/evaluate/bizEvalManagerGrade")
 public class BizEvalManagerGradeController extends BaseController{
@@ -42,7 +38,7 @@ public class BizEvalManagerGradeController extends BaseController{
 	@RequestMapping(value = "openBizEvalManagerGradePage")
 	public String openBizEvalManagerGradePage(BizEvalWorkGrade bizEvalWorkGrade, HttpServletRequest request, HttpServletResponse response, Model model){
 		User user = UserUtils.getUser();
-		//过滤门店
+
 		if(null==bizEvalWorkGrade.getStoreId()){
 			if(null!=user.getStoreId()){
 				bizEvalWorkGrade.setStoreId(user.getStoreId());
@@ -51,7 +47,7 @@ public class BizEvalManagerGradeController extends BaseController{
 		if(StringUtils.isBlank(user.getStoreId())){
 			model.addAttribute("storeDropEnable", true);
 		}
-		//过滤工程模式
+
 		if(StringUtils.isBlank(bizEvalWorkGrade.getProjectMode())){
 			if(null != user.getEmpId()){
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -89,7 +85,7 @@ public class BizEvalManagerGradeController extends BaseController{
 	@RequestMapping(value = "queryBizEvalManagerGrade")
 	public String queryBizEvalManagerGrade(BizEvalWorkGrade bizEvalWorkGrade, HttpServletRequest request, HttpServletResponse response, Model model){
 		User user = UserUtils.getUser();
-		//过滤门店
+
 		if(null==bizEvalWorkGrade.getStoreId()){
 			if(null!=user.getStoreId()){
 				bizEvalWorkGrade.setStoreId(user.getStoreId());
@@ -98,7 +94,7 @@ public class BizEvalManagerGradeController extends BaseController{
 		if(StringUtils.isBlank(user.getStoreId())){
 			model.addAttribute("storeDropEnable", true);
 		}
-		//过滤工程模式
+
 		if(StringUtils.isBlank(bizEvalWorkGrade.getProjectMode())){
 			if(null != user.getEmpId()){
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -136,10 +132,10 @@ public class BizEvalManagerGradeController extends BaseController{
 			for(BizEvalWorkGrade grade :page.getList()){
 				List<Integer> list =new ArrayList<Integer>();
 				if(grade.getEvalRoleType() != null){
-					 if(grade.getEvalRoleType() == 2){//质检
+					 if(grade.getEvalRoleType() == 2){
 						list.add(201);
 						list.add(202);
-					}else if(grade.getEvalRoleType() == 3){//客户
+					}else if(grade.getEvalRoleType() == 3){
 						list.add(301);
 						list.add(302);
 					}
@@ -165,7 +161,7 @@ public class BizEvalManagerGradeController extends BaseController{
 		}
 		
 		model.addAttribute("page", page);
-		//model.addAttribute("evalIndexList",evalIndexList);
+
 		return "modules/evaluate/bizevalactivity/bizEvalManagerGradeList";
 	}
 }

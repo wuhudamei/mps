@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.util.List;
@@ -13,11 +11,7 @@ import cn.damei.common.service.CrudService2;
 import cn.damei.dao.modules.BizMaterialsStandardNumberSquareDao;
 import cn.damei.entity.modules.BizMaterialsStandardNumberSquare;
 
-/**
- * 筒灯面积计算类Service
- * @author lft
- * @version 2017-05-19
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizMaterialsStandardNumberSquareService extends CrudService2<BizMaterialsStandardNumberSquareDao, BizMaterialsStandardNumberSquare> {
@@ -43,7 +37,7 @@ public class BizMaterialsStandardNumberSquareService extends CrudService2<BizMat
 	public void delete(BizMaterialsStandardNumberSquare bizMaterialsStandardNumberSquare) {
 		super.delete(bizMaterialsStandardNumberSquare);
 	}
-	//通过 materrialsId 获取 id
+
 	public	List<String> getIdByMaterialsId(String materialsId){
 	return dao.getIdByMaterialsId(materialsId);		
 	}

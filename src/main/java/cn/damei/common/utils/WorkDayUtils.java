@@ -30,14 +30,9 @@ public class WorkDayUtils {
 		}
 	}
 
-	/**
-	 * 获取日期之间的天数
-	 * @param d1
-	 * @param d2
-	 * @return
-	 */
+
 	public int getDaysBetween(java.util.Calendar d1, java.util.Calendar d2) {
-		if (d1.after(d2)) { // swap dates so that d1 is start and d2 is end
+		if (d1.after(d2)) {
 			java.util.Calendar swap = d1;
 			d1 = d2;
 			d2 = swap;
@@ -55,60 +50,47 @@ public class WorkDayUtils {
 		return days;
 	}
 
-	/**
-	 * 获取工作日
-	 * @param d1
-	 * @param d2
-	 * @return
-	 */
+
 	public int getWorkingDay(java.util.Calendar d1, java.util.Calendar d2) {
 		int result = -1;
-		if (d1.after(d2)) { // swap dates so that d1 is start and d2 is end
+		if (d1.after(d2)) {
 			java.util.Calendar swap = d1;
 			d1 = d2;
 			d2 = swap;
 		}
-		// int betweendays = getDaysBetween(d1, d2);
-		// int charge_date = 0;
-		int charge_start_date = 0;// 开始日期的日期偏移量
-		int charge_end_date = 0;// 结束日期的日期偏移量
-		// 日期不在同一个日期内
+
+
+		int charge_start_date = 0;
+		int charge_end_date = 0;
+
 		int stmp;
 		int etmp;
 		stmp = 7 - d1.get(Calendar.DAY_OF_WEEK);
 		etmp = 7 - d2.get(Calendar.DAY_OF_WEEK);
-		if (stmp != 0 && stmp != 6) {// 开始日期为星期六和星期日时偏移量为0
+		if (stmp != 0 && stmp != 6) {
 			charge_start_date = stmp - 1;
 		}
-		if (etmp != 0 && etmp != 6) {// 结束日期为星期六和星期日时偏移量为0
+		if (etmp != 0 && etmp != 6) {
 			charge_end_date = etmp - 1;
 		}
-		// }
+
 		result = (getDaysBetween(this.getNextMonday(d1), this.getNextMonday(d2)) / 7)
 				* 5 + charge_start_date - charge_end_date;
-		// System.out.println("charge_start_date>" + charge_start_date);
-		// System.out.println("charge_end_date>" + charge_end_date);
-		// System.out.println("between day is-->" + betweendays);
+
+
+
 		return result;
 	}
 
-	/**
-	 * 获取中文日期
-	 * @param date
-	 * @return
-	 */
+
 	public String getChineseWeek(Calendar date) {
 		final String dayNames[] = { "星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六" };
 		int dayOfWeek = date.get(Calendar.DAY_OF_WEEK); 
-		// System.out.println(dayNames[dayOfWeek - 1]);
+
 		return dayNames[dayOfWeek - 1];
 	}
 
-	/**
-	 * 获得日期的下一个星期一的日期
-	 * @param date
-	 * @return
-	 */
+
 	public Calendar getNextMonday(Calendar date) {
 		Calendar result = null;
 		result = date;
@@ -119,12 +101,7 @@ public class WorkDayUtils {
 		return result;
 	}
 
-	/**
-	 * 获取休息日
-	 * @param d1
-	 * @param d2
-	 * @return
-	 */
+
 	public int getHolidays(Calendar d1, Calendar d2) {
 		return this.getDaysBetween(d1, d2) - this.getWorkingDay(d1, d2);
 	}

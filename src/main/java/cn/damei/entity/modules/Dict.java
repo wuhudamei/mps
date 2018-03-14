@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import javax.validation.constraints.NotNull;
@@ -10,20 +8,16 @@ import org.hibernate.validator.constraints.Length;
 
 import cn.damei.common.persistence.DataEntity;
 
-/**
- * 字典Entity
- * @author ThinkGem
- * @version 2013-05-15
- */
+
 public class Dict extends DataEntity<Dict> {
 
 	private static final long serialVersionUID = 1L;
-	private String value;	// 数据值
-	private String label;	// 标签名
-	private String type;	// 类型
-	private String description;// 描述
-	private Integer sort;	// 排序
-	private String parentId;//父Id
+	private String value;
+	private String label;
+	private String type;
+	private String description;
+	private Integer sort;
+	private String parentId;
 
 	public Dict() {
 		super();

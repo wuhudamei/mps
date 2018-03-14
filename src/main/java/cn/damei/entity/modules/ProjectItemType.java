@@ -1,24 +1,18 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import org.hibernate.validator.constraints.Length;
 
 import cn.damei.common.persistence.DataEntity;
 
-/**
- * 施工项类型Entity
- * @author 梅浩
- * @version 2016-11-15
- */
+
 public class ProjectItemType extends DataEntity<ProjectItemType> {
 	
 	private static final long serialVersionUID = 1L;
-	private Integer projectItemTypeId;		// id -- '
-	private String projectIntemTypeName;		// 分类名称 -- '
-	private String status;		// 状态 -- '0.停用；1.启用
-	private Integer updateMan;		// 更新人员工id -- '
+	private Integer projectItemTypeId;
+	private String projectIntemTypeName;
+	private String status;
+	private Integer updateMan;
 	
 	public ProjectItemType() {
 		super();

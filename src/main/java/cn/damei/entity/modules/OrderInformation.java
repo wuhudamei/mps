@@ -9,7 +9,7 @@ public class OrderInformation {
 	private String customerName;
 	private String customerPhone;
 	private String customerAddress;
-	private String contractArea;//合同面积
+	private String contractArea;
 	private String managerName;
 	private String orderNumber;
 	

@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.util.List;
@@ -13,11 +11,7 @@ import cn.damei.common.service.CrudService2;
 import cn.damei.dao.modules.BizMaterialsChoiceChangeBillItemDao;
 import cn.damei.entity.modules.BizMaterialsChoiceChangeBillItem;
 	
-/**
- * 选材变更单材料表Service
- * @author wyb
- * @version 2017-06-14
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizMaterialsChoiceChangeBillItemService extends CrudService2<BizMaterialsChoiceChangeBillItemDao, BizMaterialsChoiceChangeBillItem> {

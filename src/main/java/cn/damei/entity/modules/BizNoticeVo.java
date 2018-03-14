@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -10,23 +8,19 @@ import org.hibernate.validator.constraints.Length;
 import java.util.Date;
 import java.util.List;
 
-/**
- * 公告Entity
- * @author qww
- * @version 2017-01-14
- */
+
 public class BizNoticeVo extends DataEntity2<BizNoticeVo> {
 
 	private static final long serialVersionUID = 1L;
-	private Integer storeId;		// &eacute;&mdash;&uml;&aring;&ordm;&mdash;id -- '
-	private String projectMode;		// &aring;&middot;&yen;&ccedil;&uml;&lsaquo;&aelig;&uml;&iexcl;&aring;&frac14; -- '
-	private String noticeType;		// &aring;&hellip;&not;&aring;&lsquo;&Scaron;&ccedil;&plusmn;&raquo;&aring;ž&lsaquo; -- '
-	private String noticeTitle;		// &aring;&hellip;&not;&aring;&lsquo;&Scaron;&aelig;&nbsp;&Dagger;&eacute;&cent;&tilde; -- '
-	private String noticeStatus;		// &aring;&hellip;&not;&aring;&lsquo;&Scaron;&ccedil;&Scaron;&para;&aelig;&euro; -- '
-	private Date publishDatetime;		// &aring;&lsquo;&aring;&cedil;&fnof;&aelig;&mdash;&yen;&aelig;&oelig;&Yuml;&aelig;&mdash;&para;&eacute;&mdash;&acute; -- '
-	private String receiverRoleName; // 接收对象
-	private Integer totalReceiverNum; // 总数量
-	private Integer alreadyReceiverNum; // 已读数量
+	private Integer storeId;
+	private String projectMode;
+	private String noticeType;
+	private String noticeTitle;
+	private String noticeStatus;
+	private Date publishDatetime;
+	private String receiverRoleName;
+	private Integer totalReceiverNum;
+	private Integer alreadyReceiverNum;
 	private List<String> projectModeList;
 	private Integer dateDiff;
 	private Date nowDate;

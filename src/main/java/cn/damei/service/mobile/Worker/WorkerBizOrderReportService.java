@@ -15,16 +15,12 @@ import cn.damei.common.service.CrudService2;
 import cn.damei.dao.mobile.Worker.WorkerBizOrderReportDao;
 import cn.damei.entity.modules.BizOrderReport;
 
-/**
- * 工人返单上报Service
- * @author hyh
- *
- */
+
 @Service
 @Transactional(readOnly = true)
 public class WorkerBizOrderReportService extends CrudService2<WorkerBizOrderReportDao, BizOrderReport>{
 
-	//log及校验返单的service
+
 	@Autowired
 	private ReturnOrderLogBusinessService reportLogService;
 
@@ -57,9 +53,9 @@ public class WorkerBizOrderReportService extends CrudService2<WorkerBizOrderRepo
 		bizOrderReport.setStoreId(Integer.valueOf(worker.getStoreid()));
 
 		bizOrderReport.setReportDatetime(new Date());
-		bizOrderReport.setReportStatus(BizOrderReportConstantUtil.REPORT_STATUS_10);// 返单上报
-		bizOrderReport.setReporterType(BizOrderReportConstantUtil.REPORT_TYPE_3);// 工人
-		bizOrderReport.setReportSourceType(BizOrderReportConstantUtil.REPORT_SOURCE_TYPE_3);// 工人APP
+		bizOrderReport.setReportStatus(BizOrderReportConstantUtil.REPORT_STATUS_10);
+		bizOrderReport.setReporterType(BizOrderReportConstantUtil.REPORT_TYPE_3);
+		bizOrderReport.setReportSourceType(BizOrderReportConstantUtil.REPORT_SOURCE_TYPE_3);
 		super.save(bizOrderReport);
 		BizOrderReport checkedReport=reportLogService.checkOrderReportIsExist(bizOrderReport);
 		super.save(checkedReport);

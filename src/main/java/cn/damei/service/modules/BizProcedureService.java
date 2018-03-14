@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.util.Date;
@@ -18,11 +16,7 @@ import cn.damei.entity.modules.OrderTaskpackGenVo;
 import cn.damei.entity.modules.OrderTaskpackVo;
 import cn.damei.dao.modules.BizProcedureDao;
 
-/**
- * 工序管理Service
- * @author 魏建勇
- * @version 2016-09-03
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizProcedureService extends CrudService<BizProcedureDao, BizProcedure> {
@@ -53,7 +47,7 @@ public class BizProcedureService extends CrudService<BizProcedureDao, BizProcedu
 	}
 
 	public List<BizProcedure> getByBatchProcedureNo(List<String> list) {
-		// TODO Auto-generated method stub
+
 		return bizProcedureDao.getByBatchProcedureNo(list);
 	}
 

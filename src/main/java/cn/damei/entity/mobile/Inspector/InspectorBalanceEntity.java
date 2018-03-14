@@ -5,10 +5,8 @@ import java.util.Date;
 
 public class InspectorBalanceEntity  implements Serializable{
 
-	/**
-	 * 
-	 */
-	private String  balanceRole; //1 经理 2:质检
+
+	private String  balanceRole;
 	
 	public String getBalanceRole() {
 		return balanceRole;

@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,13 +22,7 @@ import cn.damei.entity.modules.ProjectItemType;
 import cn.damei.service.modules.ProjectItemTypeService;
 import cn.damei.common.utils.UserUtils;
 
-/**
-* @Description: 施工项类型
-* @Author zhangkangjian
-* @param
-* @return
-* @Date 2017/11/17 17:51
-*/
+
 @Controller
 @RequestMapping(value = "${adminPath}/projectitemtype/projectItemType")
 public class ProjectItemTypeController extends BaseController {

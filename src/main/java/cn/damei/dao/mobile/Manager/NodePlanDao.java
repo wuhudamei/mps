@@ -28,11 +28,7 @@ public interface NodePlanDao extends CrudDao2<NodePlan>{
 
 	public boolean updateByDateNextNodeIndexs(NodePlan n);
 
-	/**
-	 * 批量保存订单进度节点
-	 * @param list
-	 * @return
-	 */
+
 	public boolean saveNodePlanList(List<NodePlan> list);
 
 }

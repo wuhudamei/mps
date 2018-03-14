@@ -30,18 +30,18 @@ public class BusinessPictureService extends CrudService2<BusinessPictureDao, Bus
 	}
 
 	public List<BusinessPicture> queryByReceiveBillId(Integer id) {
-		// TODO Auto-generated method stub
+
 		return dao.queryByReceiveBillId(id);
 	}
 
 	public List<BusinessPicture> queryOverPicture(Integer id, String pictureBusinessType104) {
-		// TODO Auto-generated method stub
+
 		return dao.queryOverPicture(id,pictureBusinessType104);
 	}
 
-  	/** 根据bussinessid和类型查询图片*/
+
 	public List<BusinessPicture> queryPictureByBussinessIdAndType(Integer id, String type) {
-		// TODO Auto-generated method stub
+
 		return dao.queryPictureByBussinessIdAndType(id,type);
 	}
 

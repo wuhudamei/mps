@@ -21,11 +21,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * @author zhangkangjian
- * @Description: 主材安装验收不合格明细查询
- * @date 2017/12/4 17:59
- */
+
 @RequestMapping(value = "${adminPath}/bizorderinstallplan/orderinstallacceptquery")
 @Controller
 public class OrderInstallAcceptQueryController {
@@ -43,13 +39,7 @@ public class OrderInstallAcceptQueryController {
         }
         return entity;
     }
-    /**
-    * @Description: 主材安装验收不合格明细查询列表
-    * @Author zhangkangjian
-    * @param
-    * @return 
-    * @Date 2017/12/4 18:14
-    */
+
     @RequestMapping(value="list")
     public String list(BizOrderInstallPlan bizOrderInstallPlan, HttpServletResponse response, HttpServletRequest request, Model model){
         Page<BizOrderInstallPlan> page = bizOrderInstallPlanService.findUnqualifiedLogPage(new Page<BizOrderInstallPlan>(request,response),bizOrderInstallPlan,model);
@@ -57,13 +47,7 @@ public class OrderInstallAcceptQueryController {
         return "/modules/enginInstallNew/orderinstallacceptquery/OrderInstallAcceptQueryList";
     }
 
-    /**
-    * @Description: 查看照片
-    * @Author zhangkangjian
-    * @param
-    * @return
-    * @Date 2017/12/5 16:30
-    */
+
     @RequestMapping(value = "photo")
     @ResponseBody
     public List<String> phone(String acceptType,String id){
@@ -75,58 +59,34 @@ public class OrderInstallAcceptQueryController {
         }
         return list;
     }
-    /**
-    * @Description: 主材安装订单不合格查询
-    * @Author zhangkangjian
-    * @param
-    * @return 
-    * @Date 2017/12/6 10:20
-    */
+
     @RequestMapping(value = "findOrderInstallAccept")
     public String findOrderInstallAccept(BizOrderInstallPlan bizOrderInstallPlan, HttpServletResponse response, HttpServletRequest request, Model model){
         Page<BizOrderInstallPlan> page = bizOrderInstallPlanService.findOrderInstallAccept(new Page<BizOrderInstallPlan>(request,response),bizOrderInstallPlan,model);
         model.addAttribute("page",page);
         return "/modules/enginInstallNew/orderinstallacceptquery/OrderInstallUnAcceptQueryList";
     }
-    /**
-    * @Description: 查看详情
-    * @Author zhangkangjian
-    * @param
-    * @return
-    * @Date 2017/12/7 15:48
-    */
+
     @RequestMapping(value = "detail")
     public String detail(BizOrderInstallPlan bizOrderInstallPlan, HttpServletResponse response, HttpServletRequest request, Model model){
 
-//        查询订单的基本信息
+
         BizOrderInstallPlan orderDetail = bizOrderInstallPlanService.getOrderDetail(bizOrderInstallPlan);
 
-//        查询安装项的验收不合格的信息
+
         List<BizOrderInstallPlan> listPlanLog = bizOrderInstallPlanService.findItemPlanLog(bizOrderInstallPlan);
         model.addAttribute("orderDetail",orderDetail);
         model.addAttribute("listPlanLog",listPlanLog);
         return "/modules/enginInstallNew/orderinstallacceptquery/OrderInstallAcceptDetail";
     }
-    /**
-    * @Description: 不合格安装项统计
-    * @Author zhangkangjian
-    * @param
-    * @return
-    * @Date 2017/12/7 18:18
-    */
+
     @RequestMapping(value="unqualifiedInstallItemCount")
     public String UnqualifiedInstallItemCount(BizOrderInstallPlan bizOrderInstallPlan, HttpServletResponse response, HttpServletRequest request, Model model){
         Page<BizOrderInstallPlan> page = bizOrderInstallPlanService.findUnqualifiedInstallItemCountPage(new Page<BizOrderInstallPlan>(request,response),bizOrderInstallPlan,model);
         model.addAttribute("page",page);
         return "/modules/enginInstallNew/orderinstallacceptquery/UnqualifiedInstallItemCount";
     }
-    /**
-     * @Description: 不合格安装项原因统计
-     * @Author zhangkangjian
-     * @param
-     * @return
-     * @Date 2017/12/8 10:23
-     */
+
     @RequestMapping(value="unqualifiedResonCount")
     public String unqualifiedResonCount(BizOrderInstallPlan bizOrderInstallPlan, HttpServletResponse response, HttpServletRequest request, Model model){
         Page<BizOrderInstallPlan> page = bizOrderInstallPlanService.findUnqualifiedResonCount(new Page<BizOrderInstallPlan>(request,response),bizOrderInstallPlan,model);
@@ -134,26 +94,14 @@ public class OrderInstallAcceptQueryController {
         return "/modules/enginInstallNew/orderinstallacceptquery/UnqualifiedResonCount";
     }
 
-    /**
-    * @Description: 导出主材安装验收不合格明细查询
-    * @Author zhangkangjian
-    * @param
-    * @return
-    * @Date 2017/12/8 11:12
-    */
+
     @RequestMapping(value="exportList")
     public ModelAndView exportList(BizOrderInstallPlan bizOrderInstallPlan, HttpServletResponse response, HttpServletRequest request, Model model) throws IOException {
         return  bizOrderInstallPlanService.exportList(bizOrderInstallPlan,request);
     }
     
     
-    /**
-    * @Description: 导出主材安装项不合格查询
-    * @Author zhangkangjian
-    * @param
-    * @return 
-    * @Date 2017/12/8 14:34
-    */
+
     @RequestMapping(value="exportOrderInstallAccept")
     public ModelAndView exportOrderInstallAccept(BizOrderInstallPlan bizOrderInstallPlan, HttpServletResponse response, HttpServletRequest request, Model model) throws IOException {
         return  bizOrderInstallPlanService.exportOrderInstallAccept(bizOrderInstallPlan,request);

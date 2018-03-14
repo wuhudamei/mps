@@ -5,26 +5,21 @@ import java.util.List;
 
 import cn.damei.common.persistence.DataEntity;
 
-/**
- * @ClassName: BudgetDailyTable 
- * @Description: 预算日报表实体类
- * @author huhanwei 
- * @date 2017年7月18日 下午6:10:10
- */
+
 public class BudgetDailyTable extends DataEntity<BudgetDailyTable> {
 	
-	private String storeId;// 门店
-	private String storeName;// 门店名称
-	private String enginDepartId;//区域编号
-	private String enginDepartName;// 区域
-	private String storeStayCreatePkgOrdCount;//门店当前待生成任务包订单数
-	private String storeStayAuditPkgCount;// 门店当前待审核任务包
-	private String currNotCreatePkgOrdCount;// 当前未生成任务包订单数量
-	private String currNotAuditPkgCount;// 当前未审核任务包数量
-	private String optDateCreatePkgOrdCount;// 选择日期已生成任务包订单数量
-	private String optDateAuditPkgCount;// 选择日期已审核任务包数量
-	private Date startDate;// 开始日期
-	private Date endDate;// 结束日期
+	private String storeId;
+	private String storeName;
+	private String enginDepartId;
+	private String enginDepartName;
+	private String storeStayCreatePkgOrdCount;
+	private String storeStayAuditPkgCount;
+	private String currNotCreatePkgOrdCount;
+	private String currNotAuditPkgCount;
+	private String optDateCreatePkgOrdCount;
+	private String optDateAuditPkgCount;
+	private Date startDate;
+	private Date endDate;
 	private List<Integer> ids;
 	
 	public String getStoreId() {

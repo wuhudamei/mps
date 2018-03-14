@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.util.List;
@@ -13,11 +11,7 @@ import cn.damei.entity.modules.BizOrderTaskpackagePaymentDetail;
 import cn.damei.entity.modules.PaymentDetailForBook;
 import cn.damei.dao.modules.BizOrderTaskpackagePaymentDetailDao;
 
-/**
- * 付款单明细Service
- * @author qww
- * @version 2016-10-26
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizOrderTaskpackagePaymentDetailService extends CrudService2<BizOrderTaskpackagePaymentDetailDao, BizOrderTaskpackagePaymentDetail> {
@@ -45,7 +39,7 @@ public class BizOrderTaskpackagePaymentDetailService extends CrudService2<BizOrd
 	}
 
 	public List<BizOrderTaskpackagePaymentDetail> findByPaymentId(Integer paymentId) {
-		// TODO Auto-generated method stub
+
 		return dao.findByPaymentId(paymentId);
 	}
 

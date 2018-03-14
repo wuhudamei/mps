@@ -23,12 +23,7 @@ import cn.damei.entity.modules.BizSupplier;
 import cn.damei.service.modules.BizSupplierService;
 import cn.damei.common.utils.UserUtils;
 
-/**
- * 对账单controller
- * 
- * @author hyh
- *
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/verify/bizAuxiliaryMaterialsVerify")
 public class BizAuxiliaryMaterialsVerifyController extends BaseController {
@@ -41,11 +36,7 @@ public class BizAuxiliaryMaterialsVerifyController extends BaseController {
 	@Autowired
 	private BizAuxiliaryMaterialsVerifyIncludeService bizAuxiliaryMaterialsVerifyIncludeService;
 
-	/**
-	 * 打开对账单申请页面
-	 * 
-	 * @return
-	 */
+
 	@RequestMapping(value = "openApplyVerifyPage")
 	public String openApplyVerifyPage(BizAuxiliaryMaterialsVerify bizAuxiliaryMaterialsVerify,
 			HttpServletRequest request, HttpServletResponse response, Model model) {
@@ -55,10 +46,7 @@ public class BizAuxiliaryMaterialsVerifyController extends BaseController {
 		return "modules/bizverify/applyVerify";
 	}
 	
-	/**
-	 * 打开工程部对账单审核页面
-	 * @return
-	 */
+
 	@RequestMapping(value = "openEngineeringVerifyPage")
 	public String openEngineeringVerifyPage(BizAuxiliaryMaterialsVerify bizAuxiliaryMaterialsVerify,
 			HttpServletRequest request, HttpServletResponse response, Model model){
@@ -68,10 +56,7 @@ public class BizAuxiliaryMaterialsVerifyController extends BaseController {
 		return "modules/bizverify/engineeringVerify";
 	}
 	
-	/**
-	 * 打开网真对账单审核页面
-	 * @return
-	 */
+
 	@RequestMapping(value = "openWangzhenVerifyPage")
 	public String openWangzhenVerifyPage(BizAuxiliaryMaterialsVerify bizAuxiliaryMaterialsVerify,
 			HttpServletRequest request, HttpServletResponse response, Model model){
@@ -81,9 +66,7 @@ public class BizAuxiliaryMaterialsVerifyController extends BaseController {
 		return "modules/bizverify/wangzhenVerify";
 	}
 
-	/**
-	 * 生成对账单
-	 */
+
 	@RequestMapping(value = "createVerify")
 	public @ResponseBody String createVerify(Integer storeId, String startDate, String endDate, HttpServletRequest request,
 			HttpServletResponse response, Model model) {
@@ -91,10 +74,7 @@ public class BizAuxiliaryMaterialsVerifyController extends BaseController {
 		return result;
 	}
 	
-	/**
-	 * 供应商查询对账单
-	 * @return
-	 */
+
 	@RequestMapping(value = "list")
 	public String list(BizAuxiliaryMaterialsVerify bizAuxiliaryMaterialsVerify, HttpServletRequest request,
 			HttpServletResponse response, Model model){
@@ -109,10 +89,7 @@ public class BizAuxiliaryMaterialsVerifyController extends BaseController {
 		}
 		return "modules/bizverify/applyVerify";
 	}
-	/**
-	 * 工程部查询对账单
-	 * @return
-	 */
+
 	@RequestMapping(value = "engineeringVerifyList")
 	public String engineeringVerifyList(BizAuxiliaryMaterialsVerify bizAuxiliaryMaterialsVerify, HttpServletRequest request,
 			HttpServletResponse response, Model model){
@@ -124,10 +101,7 @@ public class BizAuxiliaryMaterialsVerifyController extends BaseController {
 		return "modules/bizverify/engineeringVerify";
 	}
 	
-	/**
-	 * 网真查询对账单
-	 * @return
-	 */
+
 	@RequestMapping(value = "wangzhenVerifyList")
 	public String wangzhenVerifyList(BizAuxiliaryMaterialsVerify bizAuxiliaryMaterialsVerify, HttpServletRequest request,
 			HttpServletResponse response, Model model){
@@ -138,14 +112,7 @@ public class BizAuxiliaryMaterialsVerifyController extends BaseController {
 		model.addAttribute("page", page);
 		return "modules/bizverify/wangzhenVerify";
 	}
-	/**
-	 * 对账单详情
-	 * @param verifyId
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @return
-	 */
+
 	@RequestMapping(value = "verifyAuxiliaryDetail")
 	public String verifyAuxiliaryDetail(BizAuxiliaryMaterialsVerifyInclude bizAuxiliaryMaterialsVerifyInclude,HttpServletRequest request,
 			HttpServletResponse response, Model model){

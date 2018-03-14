@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.common.persistence.proxy;
 
 import org.apache.ibatis.binding.BindingException;
@@ -16,15 +14,7 @@ import java.lang.reflect.Proxy;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * <p>
- * .
- * </p>
- *
- * @author poplar.yfyang
- * @version 1.0 2012-05-13 上午10:07
- * @since JDK 1.5
- */
+
 public class PaginationMapperProxy implements InvocationHandler {
 
 
@@ -59,10 +49,10 @@ public class PaginationMapperProxy implements InvocationHandler {
         }
         final Class<?> declaringInterface = findDeclaringInterface(proxy, method);
         if (Page.class.isAssignableFrom(method.getReturnType())) {
-            // 分页处理
+
             return new PaginationMapperMethod(declaringInterface, method, sqlSession).execute(args);
         }
-        // 原处理方式
+
         final MapperMethod mapperMethod = new MapperMethod(declaringInterface, method, sqlSession.getConfiguration());
         final Object result = mapperMethod.execute(sqlSession, args);
         if (result == null && method.getReturnType().isPrimitive()) {

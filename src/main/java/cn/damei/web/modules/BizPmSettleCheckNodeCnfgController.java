@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import java.util.Iterator;
@@ -32,11 +30,7 @@ import cn.damei.entity.modules.User;
 import cn.damei.common.utils.UserUtils;
 import cn.damei.common.utils.StringUtils;
 
-/**
- * 项目经理结算关联约检节点设置Controller
- * @author wyb
- * @version 2016-12-26
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/managerSettlement/bizpmsettlechecknodecnfg/bizPmSettleCheckNodeCnfg")
 public class BizPmSettleCheckNodeCnfgController extends BaseController {
@@ -65,7 +59,7 @@ public class BizPmSettleCheckNodeCnfgController extends BaseController {
 	public String list(BizPmSettleCheckNodeCnfg bizPmSettleCheckNodeCnfg, HttpServletRequest request, HttpServletResponse response, Model model) {
 		
 		User user = UserUtils.getUser();
-		//过滤门店
+
 		if(null==bizPmSettleCheckNodeCnfg.getStoreId()){
 			if(null!=user.getStoreId()){
 				bizPmSettleCheckNodeCnfg.setStoreId(Integer.valueOf(user.getStoreId()));
@@ -74,7 +68,7 @@ public class BizPmSettleCheckNodeCnfgController extends BaseController {
 		if(StringUtils.isBlank(user.getStoreId())){
 			model.addAttribute("storeDropEnable", true);
 		}
-		//过滤工程模式
+
 		if(StringUtils.isBlank(bizPmSettleCheckNodeCnfg.getProjectMode())){
 			if(null != user.getEmpId()){
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -114,7 +108,7 @@ public class BizPmSettleCheckNodeCnfgController extends BaseController {
 	public String list2(BizPmSettleCheckNodeCnfg bizPmSettleCheckNodeCnfg, HttpServletRequest request, HttpServletResponse response, Model model) {
 		
 		User user = UserUtils.getUser();
-		//过滤门店
+
 		if(null==bizPmSettleCheckNodeCnfg.getStoreId()){
 			if(null!=user.getStoreId()){
 				bizPmSettleCheckNodeCnfg.setStoreId(Integer.valueOf(user.getStoreId()));
@@ -123,7 +117,7 @@ public class BizPmSettleCheckNodeCnfgController extends BaseController {
 		if(StringUtils.isBlank(user.getStoreId())){
 			model.addAttribute("storeDropEnable", true);
 		}
-		//过滤工程模式
+
 		if(StringUtils.isBlank(bizPmSettleCheckNodeCnfg.getProjectMode())){
 			if(null != user.getEmpId()){
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -162,15 +156,7 @@ public class BizPmSettleCheckNodeCnfgController extends BaseController {
 	}
 
 	
-	/**
-	 * 加载约检节点
-	 * @param storeId
-	 * @param projectMode
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @return
-	 */
+
 	@RequestMapping(value = "checkNode")
 	public @ResponseBody List<CheckNode> checkNode(String storeId,String projectMode,HttpServletRequest request, HttpServletResponse response, Model model) {
 		CheckNode node = new CheckNode();
@@ -178,20 +164,12 @@ public class BizPmSettleCheckNodeCnfgController extends BaseController {
 			node.setStoreId(Integer.valueOf(storeId));
 		}
 		node.setProjectMode(projectMode);
-		//根据门店和工程模式查找约检节点
+
 		List<CheckNode> checkNodeList = checkNodeService.findList(node);
 		return checkNodeList;
 	}
 	
-	/**
-	 * 加载约检节点Two
-	 * @param storeId
-	 * @param projectMode
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @return
-	 */
+
 	@RequestMapping(value = "checkNodeTwo")
 	public @ResponseBody List<CheckNode> checkNodeTwo(String storeId,String projectMode,String qcCheckNodeId,HttpServletRequest request, HttpServletResponse response, Model model) {
 		CheckNode node = new CheckNode();
@@ -199,7 +177,7 @@ public class BizPmSettleCheckNodeCnfgController extends BaseController {
 			node.setStoreId(Integer.valueOf(storeId));
 		}
 		node.setProjectMode(projectMode);
-		//根据门店和工程模式查找约检节点
+
 		List<CheckNode> checkNodeList = checkNodeService.findList(node);
 		
 		if(StringUtils.isNotBlank(qcCheckNodeId)){
@@ -232,7 +210,7 @@ public class BizPmSettleCheckNodeCnfgController extends BaseController {
 			return form(bizPmSettleCheckNodeCnfg, model);
 		}
 		
-		//修改
+
 		if(null!=bizPmSettleCheckNodeCnfg.getId()){
 			List<BizPmSettleCheckNodeCnfg> list = bizPmSettleCheckNodeCnfgService.findList(bizPmSettleCheckNodeCnfg);
 			if(null!=list && list.size()>0){
@@ -249,7 +227,7 @@ public class BizPmSettleCheckNodeCnfgController extends BaseController {
 				addMessage(redirectAttributes, "保存项目经理结算关联约检节点设置成功");
 			}
 		}else{
-			//新增
+
 			List<BizPmSettleCheckNodeCnfg> list = bizPmSettleCheckNodeCnfgService.findList(bizPmSettleCheckNodeCnfg);
 			if(null!=list && list.size()>0){
 				addMessage(redirectAttributes, "项目经理结算关联约检节点设置已经存在,保存失败");

@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import java.util.List;
@@ -34,11 +32,7 @@ import cn.damei.common.utils.CmsUtils;
 import cn.damei.common.utils.TplUtils;
 import cn.damei.common.utils.UserUtils;
 
-/**
- * 文章Controller
- * @author ThinkGem
- * @version 2013-3-23
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/cms/article")
 public class ArticleController extends BaseController {
@@ -66,14 +60,14 @@ public class ArticleController extends BaseController {
 	@RequiresPermissions("cms:article:view")
 	@RequestMapping(value = {"list", ""})
 	public String list(Article article, HttpServletRequest request, HttpServletResponse response, Model model) {
-//		for (int i=0; i<10000000; i++){
-//			Article a = new Article();
-//			a.setCategory(new Category(article.getCategory().getId()));
-//			a.setTitle("测试测试测试测试测试测试测试测试"+a.getCategory().getId());
-//			a.setArticleData(new ArticleData());
-//			a.getArticleData().setContent(a.getTitle());
-//			articleService.save(a);
-//		}
+
+
+
+
+
+
+
+
         Page<Article> page = articleService.findPage(new Page<Article>(request, response), article, true); 
         model.addAttribute("page", page);
 		return "modules/cms/articleList";
@@ -82,7 +76,7 @@ public class ArticleController extends BaseController {
 	@RequiresPermissions("cms:article:view")
 	@RequestMapping(value = "form")
 	public String form(Article article, Model model) {
-		// 如果当前传参有子节点，则选择取消传参选择
+
 		if (article.getCategory()!=null && StringUtils.isNotBlank(article.getCategory().getId())){
 			List<Category> list = categoryService.findByParentId(article.getCategory().getId(), Site.getCurrentSiteId());
 			if (list.size() > 0){
@@ -92,9 +86,9 @@ public class ArticleController extends BaseController {
 			}
 		}
 		article.setArticleData(articleDataService.get(article.getId()));
-//		if (article.getCategory()=null && StringUtils.isNotBlank(article.getCategory().getId())){
-//			Category category = categoryService.get(article.getCategory().getId());
-//		}
+
+
+
         model.addAttribute("contentViewList",getTplContent());
         model.addAttribute("article_DEFAULT_TEMPLATE",Article.DEFAULT_TEMPLATE);
 		model.addAttribute("article", article);
@@ -117,7 +111,7 @@ public class ArticleController extends BaseController {
 	@RequiresPermissions("cms:article:edit")
 	@RequestMapping(value = "delete")
 	public String delete(Article article, String categoryId, @RequestParam(required=false) Boolean isRe, RedirectAttributes redirectAttributes) {
-		// 如果没有审核权限，则不允许删除或发布。
+
 		if (!UserUtils.getSubject().isPermitted("cms:article:audit")){
 			addMessage(redirectAttributes, "你没有删除或发布权限");
 		}
@@ -126,9 +120,7 @@ public class ArticleController extends BaseController {
 		return "redirect:" + adminPath + "/cms/article/?repage&category.id="+(categoryId!=null?categoryId:"");
 	}
 
-	/**
-	 * 文章选择列表
-	 */
+
 	@RequiresPermissions("cms:article:view")
 	@RequestMapping(value = "selectList")
 	public String selectList(Article article, HttpServletRequest request, HttpServletResponse response, Model model) {
@@ -136,9 +128,7 @@ public class ArticleController extends BaseController {
 		return "modules/cms/articleSelectList";
 	}
 	
-	/**
-	 * 通过编号获取文章标题
-	 */
+
 	@RequiresPermissions("cms:article:view")
 	@ResponseBody
 	@RequestMapping(value = "findByIds")

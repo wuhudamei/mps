@@ -24,12 +24,7 @@ import cn.damei.service.modules.BizEngineeringDepartmentService;
 import cn.damei.entity.modules.User;
 import cn.damei.common.utils.UserUtils;
 
-/**
- * @ClassName: BudgetDailyTableController
- * @Description: 预算日报表Controller
- * @author huhanwei 
- * @date 2017年7月18日 下午6:15:14
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/budgetdailytable/budgetDailyTable")
 public class BudgetDailyTableController extends BaseController {
@@ -48,7 +43,7 @@ public class BudgetDailyTableController extends BaseController {
 	public String preList(BudgetDailyTable budgetDailyTable, HttpServletRequest request, HttpServletResponse response, Model model){
 		User user = UserUtils.getUser();
 		
-		//过滤门店
+
 		if(null == budgetDailyTable.getStoreId()){
 			if(null != user.getStoreId()){
 				budgetDailyTable.setStoreId(user.getStoreId());
@@ -82,7 +77,7 @@ public class BudgetDailyTableController extends BaseController {
 	public String list(BudgetDailyTable budgetDailyTable,String employeeId, HttpServletRequest request, HttpServletResponse response, Model model){
 		User user = UserUtils.getUser();
 		
-		//过滤门店
+
 		if(null == budgetDailyTable.getStoreId()){
 			if(null != user.getStoreId()){
 				budgetDailyTable.setStoreId(user.getStoreId());
@@ -114,8 +109,8 @@ public class BudgetDailyTableController extends BaseController {
 			e.printStackTrace();
 		}
 		
-		Integer storeStayCreatePkgOrdCount = budgetDailyTableService.findStayCreatePkgOrdCount(budgetDailyTable);// 门店当前待生成任务包订单
-		Integer storeStayAuditPkgCount = budgetDailyTableService.findStayAuditPkgCount(budgetDailyTable);//门店当前待审核任务包
+		Integer storeStayCreatePkgOrdCount = budgetDailyTableService.findStayCreatePkgOrdCount(budgetDailyTable);
+		Integer storeStayAuditPkgCount = budgetDailyTableService.findStayAuditPkgCount(budgetDailyTable);
 		
 		List<BudgetDailyTable> list = budgetDailyTableService.findBudgetDailyTBList(budgetDailyTable);
 		

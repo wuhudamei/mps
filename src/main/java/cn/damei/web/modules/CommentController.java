@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import java.util.Date;
@@ -25,11 +23,7 @@ import cn.damei.service.modules.CommentService;
 import cn.damei.common.utils.DictUtils;
 import cn.damei.common.utils.UserUtils;
 
-/**
- * 评论Controller
- * @author ThinkGem
- * @version 2013-3-23
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/cms/comment")
 public class CommentController extends BaseController {

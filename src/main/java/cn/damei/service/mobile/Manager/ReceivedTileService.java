@@ -19,7 +19,7 @@ public class ReceivedTileService extends CrudService2<ReceivedTileDao, ReceivedT
 	}
 
 	public List<ReceivedTile> queryTileByReceiveBillId(Integer id) {
-		// TODO Auto-generated method stub
+
 		return dao.queryTileByReceiveBillId(id);
 	}
 

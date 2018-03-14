@@ -26,11 +26,7 @@ import cn.damei.service.modules.BizStarBasicSalaryService;
 import cn.damei.entity.modules.User;
 import cn.damei.common.utils.UserUtils;
 
-/**
- * 项目经理星级和底薪设置
- * @author cgh
- *
- */
+
 @RequestMapping(value="${adminPath}/bizstar/bizManagerStar/")
 @Controller
 public class BizManagerStarController extends BaseController{
@@ -53,19 +49,12 @@ public class BizManagerStarController extends BaseController{
 		return entity;
 	}
 	
-	/**
-	 * BizManagerStar list
-	 * @param bizManagerStar
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @return
-	 */
+
 	@RequiresPermissions("bizmanagerstar:bizmanagerstar:view")
 	@RequestMapping(value = "list")
 	public String list(BizManagerStar bizManagerStar,HttpServletRequest request, HttpServletResponse response, Model model) {
 		User user = UserUtils.getUser();
-		//过滤门店
+
 		if(null==bizManagerStar.getStoreId()){
 			if(null!=user.getStoreId()){
 				bizManagerStar.setStoreId(Integer.valueOf(user.getStoreId()));
@@ -92,7 +81,7 @@ public class BizManagerStarController extends BaseController{
 		if (!beanValidator(model, bizManagerStar)){
 			return form(model,bizManagerStar);
 		}
-		//人员类型
+
 		bizManagerStar.setStarType(BizStarConstantUtil.BIZ_STAR_TYPE);
 		bizManagerStarService.save(bizManagerStar);
 		addMessage(redirectAttributes, "保存设置成功");
@@ -101,11 +90,7 @@ public class BizManagerStarController extends BaseController{
 		return "redirect:"+Global.getAdminPath()+"/bizstar/bizManagerStar/list?repage";
 	}
 	
-	/**
-	 * 修改启用状态
-	 * @param id
-	 * @return
-	 */
+
 	@RequiresPermissions("bizmanagerstar:bizmanagerstar:edit")
 	@RequestMapping(value="updateStatus")
 	public String updateStatus(Integer id,String status){
@@ -120,7 +105,7 @@ public class BizManagerStarController extends BaseController{
 			
 			bizManagerStar2.setStarType(bizManagerStar.getStarType());
 			bizManagerStar2.setProjectMode(bizManagerStar.getProjectMode());
-			//启用状态
+
 			bizManagerStar2.setStatus(status);
 			bizManagerStar2.setUpdateBy(UserUtils.getUser());
 			bizManagerStar2.setUpdateDate(new Date());
@@ -132,10 +117,7 @@ public class BizManagerStarController extends BaseController{
 		return "redirect:"+Global.getAdminPath()+"/bizstar/bizManagerStar/list?repage";
 	}
 	
-	/**
-	 * 设置底薪
-	 * @return
-	 */
+
 	@RequiresPermissions("bizmanagerstar:bizmanagerstar:edit")
 	@RequestMapping(value="setBasicSalary")
 	public String setBasicSalary(Integer id,Model model){
@@ -147,12 +129,7 @@ public class BizManagerStarController extends BaseController{
 	}
 	
 	
-	/**
-	 * 保存底薪设置
-	 * @param id
-	 * @param bizStarBasicSalary
-	 * @return
-	 */
+
 	@RequiresPermissions("bizmanagerstar:bizmanagerstar:edit")
 	@RequestMapping(value="bizStarBasicSalary/save")
 	public String basicSalary(Integer id,String status,Double basicSalary,Date effectDate){
@@ -162,13 +139,13 @@ public class BizManagerStarController extends BaseController{
 			BizStarBasicSalary bizStarBasicSalary = new BizStarBasicSalary();
 			
 			bizStarBasicSalary.setBizManagerStar(bizManagerStar);
-			//版本
+
 			bizStarBasicSalary.setVersion(bizStarBasicSalaryService.getMaxVersion());
-			//状态
+
 			bizStarBasicSalary.setStatus(status);
-			//薪资
+
 			bizStarBasicSalary.setBasicSalary(basicSalary);
-			//生效时间
+
 			bizStarBasicSalary.setEffectDate(effectDate);
 			
 			bizStarBasicSalaryService.save(bizStarBasicSalary);

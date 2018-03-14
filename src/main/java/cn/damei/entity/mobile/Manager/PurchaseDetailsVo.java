@@ -3,39 +3,33 @@ package cn.damei.entity.mobile.Manager;
 import java.io.Serializable;
 import java.util.Date;
 
-/** 
-* @author 梅浩   meihao@zzhyun.cn: 
-* @version 创建时间：2016年10月9日 下午6:16:02 
-* 开关面板 
-*/
+
 
 public class PurchaseDetailsVo  implements Serializable{
 
 	
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	
-	private String purchaseCode; //采购单编号
-	private Date hopeForTime;//期望送货时间
-	private String status;//采购单状态 名称
-	private String statusId;//采购单状态
-	private Integer count;//数量
-	private String name;//辅料名称
-	private String specification;//规格
-	private String url;//辅料图片路径
-	private Double price;//辅料价格
-	private Double auxiliaryMoney;//辅料每个的总价    count*price
-	private Double totalMoney; //总价
-	private String brand;//品牌
-	private  Integer totalCount;//该订单下申请的开关面板的总数量//开关面板申请超定额时使用
-	private  Double  contractAreaForApplySwitchPane;//合同面积*0.48  ===>开关面板申请超定额时使用
+	private String purchaseCode;
+	private Date hopeForTime;
+	private String status;
+	private String statusId;
+	private Integer count;
+	private String name;
+	private String specification;
+	private String url;
+	private Double price;
+	private Double auxiliaryMoney;
+	private Double totalMoney;
+	private String brand;
+	private  Integer totalCount;
+	private  Double  contractAreaForApplySwitchPane;
 	private String projectMode;
-	private String statusDescribe;//废弃原因
+	private String statusDescribe;
 	private String unit;
-	private String empWorkType; //工种
-	private String empWorkTypeName;	//工种名称
+	private String empWorkType;
+	private String empWorkTypeName;
 	
 	
 	public String getStatusId() {

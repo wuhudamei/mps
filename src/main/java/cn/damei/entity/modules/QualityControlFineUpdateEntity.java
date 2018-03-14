@@ -3,19 +3,10 @@ package cn.damei.entity.modules;
 import java.util.Date;
 
 import cn.damei.common.persistence.DataEntity;
-/**
- * 
- * @author lzm
- * @2017年7月7日
- * @mdn大美装饰管理平台
- * @author_phone : 
- * @ClassInfo:质检罚款修改
- */
+
 public class QualityControlFineUpdateEntity  extends DataEntity<QualityControlFineUpdateEntity>{
 
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	private Integer checkItemId;
 	
@@ -42,7 +33,7 @@ public class QualityControlFineUpdateEntity  extends DataEntity<QualityControlFi
 	private Integer managerId;
 	private String managerName;
 	private Integer  billId;
-	//17-2-16  加入多的查询条件
+
 	private  String workerGroupLeaderName;
 	private Integer engineDepartId;
 	private String engineDepartName;
@@ -69,8 +60,8 @@ public class QualityControlFineUpdateEntity  extends DataEntity<QualityControlFi
 	private Date modifyDatetime;
 	private Date beginModifyDatetime;
 	private Date endModifyDatetime;
-	private Integer picCount; //上传照片的数量
-	private String operatorName;//操作人
+	private Integer picCount;
+	private String operatorName;
 	
 	
 	public String getOperatorName() {

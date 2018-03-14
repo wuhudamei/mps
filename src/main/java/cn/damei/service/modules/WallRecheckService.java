@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.util.List;
@@ -21,12 +19,7 @@ import cn.damei.dao.modules.OrderDao;
 import cn.damei.common.utils.SavelogUtils;
 import cn.damei.common.utils.UserUtils;
 
-/**
- * 墙地砖复尺Service
- * 
- * @author ztw
- * @version 2017-08-01
- */
+
 @Service
 @Transactional(readOnly = true)
 public class WallRecheckService extends CrudService2<WallRecheckDao, WallRecheck> {
@@ -54,14 +47,14 @@ public class WallRecheckService extends CrudService2<WallRecheckDao, WallRecheck
 			for (int i = 0; i < findAllList.size(); i++) {
 				findAllList.get(i).setIncrease((i + 1) + "");
 				findAllList.get(i).setOrderinspector(UserUtils.getUser().getLoginName());
-				// 8.根据订单id查询获取实测面积
+
 				if (null != findAllList.get(i).getStatus()) {
 					squareActual = dao.querySquate(findAllList.get(i).getOrderId());
 					if ((findAllList.get(i).getStatus().equals("10")) || (findAllList.get(i).getStatus().equals("40")) || (findAllList.get(i).getStatus().equals("20"))) {
 						if (null == squareActual) {
 							WallRecheck squareActua = dao.findSquareActualtow(findAllList.get(i).getOrderId());
-							findAllList.get(i).setSquareMeasure(squareActua.getSquareMeasure());// 预算面积
-							findAllList.get(i).setRealMeasureDate(squareActua.getPlanMeasureDate());// 日期
+							findAllList.get(i).setSquareMeasure(squareActua.getSquareMeasure());
+							findAllList.get(i).setRealMeasureDate(squareActua.getPlanMeasureDate());
 						}
 					}
 				}
@@ -72,7 +65,7 @@ public class WallRecheckService extends CrudService2<WallRecheckDao, WallRecheck
 
 		if (null != findAllList2 && findAllList2.size() > 0) {
 			for (WallRecheck wallRecheck2 : findAllList) {
-				// wallRecheck2 = findAllList.get(0);
+
 				wallRecheck2.setPrice(Double.parseDouble(findAllList2.get(0).getPrice()));
 
 				wallRecheck2.setAssessSquareError1(Double.parseDouble(String.format("%.2f", (wallRecheck2.getSquareMeasure() == null ? 0 : wallRecheck2.getSquareMeasure()) - (wallRecheck2.getSquareBudget() == null ? 0 : wallRecheck2.getSquareBudget()))));
@@ -100,7 +93,7 @@ public class WallRecheckService extends CrudService2<WallRecheckDao, WallRecheck
 		List<WallRecheck> findAllList = dao.findListall(wallRecheck);
 		if (null != findAllList2 && findAllList2.size() > 0) {
 			for (WallRecheck wallRecheck2 : findAllList) {
-				// wallRecheck2 = findAllList.get(0);
+
 				wallRecheck2.setPrice(Double.parseDouble(findAllList2.get(0).getPrice()));
 
 				wallRecheck2.setAssessSquareError1(Double.parseDouble(String.format("%.2f", (wallRecheck2.getSquareMeasure() == null ? 0 : wallRecheck2.getSquareMeasure()) - (wallRecheck2.getSquareBudget() == null ? 0 : wallRecheck2.getSquareBudget()))));
@@ -122,7 +115,7 @@ public class WallRecheckService extends CrudService2<WallRecheckDao, WallRecheck
 			for (int i = 0; i < findAllList.size(); i++) {
 				findAllList.get(i).setIncrease((i + 1) + "");
 				findAllList.get(i).setOrderinspector(UserUtils.getUser().getLoginName());
-				// 8.根据订单id查询获取实测面积
+
 				if (null != findAllList.get(i).getStatus()) {
 					if ((findAllList.get(i).getStatus().equals("10")) || (findAllList.get(i).getStatus().equals("40")) || (findAllList.get(i).getStatus().equals("20"))) {
 						WallRecheck wallRechecksw = dao.findWallRecheck(findAllList.get(i).getOrderId());

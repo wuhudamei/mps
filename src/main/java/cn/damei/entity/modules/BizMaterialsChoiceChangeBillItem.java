@@ -1,34 +1,28 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import org.hibernate.validator.constraints.Length;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 选材变更单材料表Entity
- * @author wyb
- * @version 2017-06-14
- */
+
 public class BizMaterialsChoiceChangeBillItem extends DataEntity2<BizMaterialsChoiceChangeBillItem> {
 	
 	private static final long serialVersionUID = 1L;
-	private Integer materialsChoiceChangeBillId;		// 变更单id
-	private String changeType;		// 变更类型
-	private String materialsChoiceType;		// 选材类型
-	private String materialsChoiceCategoryCode;		// 材料类目编码
-	private String brand;		// 品牌
-	private String model;		// 型号
-	private String attribute;		// 属性
-	private String unit;		// 单位
-	private String spec;		// 规格
-	private String changeNumber;		// 变更用量
-	private Double unitPrice;		// 单价
-	private Double totalAmount;		// 变更合计金额
+	private Integer materialsChoiceChangeBillId;
+	private String changeType;
+	private String materialsChoiceType;
+	private String materialsChoiceCategoryCode;
+	private String brand;
+	private String model;
+	private String attribute;
+	private String unit;
+	private String spec;
+	private String changeNumber;
+	private Double unitPrice;
+	private Double totalAmount;
 	
-	private String categoryName;		// 材料类目编码--名称
+	private String categoryName;
 	
 	
 	public BizMaterialsChoiceChangeBillItem() {

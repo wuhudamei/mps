@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import java.util.ArrayList;
@@ -37,12 +35,7 @@ import cn.damei.service.modules.BizTaskPackageTemplatService;
 import cn.damei.entity.modules.BizTaskPackageTemplatCheckNodeRel;
 import cn.damei.service.modules.BizTaskPackageTemplatCheckNodeRelService;
 
-/**
- * 付款单付款尾款节点设置Controller
- *
- * @author www
- * @version 2016-11-15
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/taskpackagetemplatchecknoderel/bizTaskPackageTemplatCheckNodeRel")
 public class BizTaskPackageTemplatCheckNodeRelController extends BaseController {
@@ -72,12 +65,12 @@ public class BizTaskPackageTemplatCheckNodeRelController extends BaseController 
     @RequestMapping(value = "listPage")
     public String listPage(BizTaskPackageTemplatCheckNodeRel bizTaskPackageTemplatCheckNodeRel, HttpServletRequest request, HttpServletResponse response, Model model) {
         if (UserUtils.getUser().getStoreId() != null) {
-            //当前登录用户门店
+
             bizTaskPackageTemplatCheckNodeRel.setStoreId(Integer.parseInt(UserUtils.getUser().getStoreId()));
         } else if (bizTaskPackageTemplatCheckNodeRel.getStoreId() != null) {
-            //门店是总部的查询所有部门信息
+
             if (bizTaskPackageTemplatCheckNodeRel.getStoreId().equals(1)) {
-                //总部
+
                 bizTaskPackageTemplatCheckNodeRel.setStoreId(null);
             }
         }
@@ -88,7 +81,7 @@ public class BizTaskPackageTemplatCheckNodeRelController extends BaseController 
     @RequestMapping(value = {"list", ""})
     public String list(BizTaskPackageTemplatCheckNodeRel bizTaskPackageTemplatCheckNodeRel, HttpServletRequest request, HttpServletResponse response, Model model) {
         User user = UserUtils.getUser();
-        //过滤门店
+
         if (null == bizTaskPackageTemplatCheckNodeRel.getStoreId()) {
             if (null != user.getStoreId()) {
                 bizTaskPackageTemplatCheckNodeRel.setStoreId(Integer.valueOf(user.getStoreId()));
@@ -97,7 +90,7 @@ public class BizTaskPackageTemplatCheckNodeRelController extends BaseController 
         if (StringUtils.isBlank(user.getStoreId())) {
             model.addAttribute("storeDropEnable", true);
         }
-        //过滤工程模式
+
         if (null == bizTaskPackageTemplatCheckNodeRel.getProjectMode()) {
             if (null != user.getEmpId()) {
                 BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -138,7 +131,7 @@ public class BizTaskPackageTemplatCheckNodeRelController extends BaseController 
     @RequestMapping(value = "form")
     public String form(BizTaskPackageTemplatCheckNodeRel bizTaskPackageTemplatCheckNodeRel, Model model) {
         User user = UserUtils.getUser();
-        //过滤门店
+
         if (null == bizTaskPackageTemplatCheckNodeRel.getStoreId()) {
             if (null != user.getStoreId()) {
                 bizTaskPackageTemplatCheckNodeRel.setStoreId(Integer.valueOf(user.getStoreId()));
@@ -147,7 +140,7 @@ public class BizTaskPackageTemplatCheckNodeRelController extends BaseController 
         if (StringUtils.isBlank(user.getStoreId())) {
             model.addAttribute("storeDropEnable", true);
         }
-        //过滤工程模式
+
         if (null == bizTaskPackageTemplatCheckNodeRel.getProjectMode()) {
             if (null != user.getEmpId()) {
                 BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -183,15 +176,7 @@ public class BizTaskPackageTemplatCheckNodeRelController extends BaseController 
         return "modules/taskpackagetemplatchecknoderel/bizTaskPackageTemplatCheckNodeRelForm";
     }
 
-    /**
-     * 根据门店id查询约检节点
-     *
-     * @param storeid
-     * @param request
-     * @param response
-     * @param model
-     * @return
-     */
+
     @RequestMapping(value = "nodeListByStoreId")
     public @ResponseBody
     String nodeListByStoreId(String storeid, String projectMode, HttpServletRequest request, HttpServletResponse response,
@@ -217,7 +202,7 @@ public class BizTaskPackageTemplatCheckNodeRelController extends BaseController 
     @RequestMapping(value = "addTaskpackageNodeRel")
     public String addTaskpackageNodeRel(BizTaskPackageTemplatCheckNodeRel bizTaskPackageTemplatCheckNodeRel, HttpServletRequest request, HttpServletResponse response, Model model) {
         User user = UserUtils.getUser();
-        //过滤门店
+
         if (null == bizTaskPackageTemplatCheckNodeRel.getStoreId()) {
             if (null != user.getStoreId()) {
                 bizTaskPackageTemplatCheckNodeRel.setStoreId(Integer.valueOf(user.getStoreId()));
@@ -226,7 +211,7 @@ public class BizTaskPackageTemplatCheckNodeRelController extends BaseController 
         if (StringUtils.isBlank(user.getStoreId())) {
             model.addAttribute("storeDropEnable", true);
         }
-        //过滤工程模式
+
         if (null == bizTaskPackageTemplatCheckNodeRel.getProjectMode()) {
             if (null != user.getEmpId()) {
                 BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));

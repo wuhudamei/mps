@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,12 +24,7 @@ import cn.damei.common.utils.UserUtils;
 import cn.damei.entity.modules.BizTaskPackageAuxiliaryMaterials;
 import cn.damei.service.modules.BizTaskPackageAuxiliaryMaterialsService;
 
-/**
- * 任务包辅料对照表管理Controller
- * 
- * @author wangchao
- * @version 2016-09-09
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/taskpackage/bizTaskPackageAuxiliaryMaterials")
 public class BizTaskPackageAuxiliaryMaterialsController extends BaseController {
@@ -59,14 +52,14 @@ public class BizTaskPackageAuxiliaryMaterialsController extends BaseController {
 	public String list(BizTaskPackageAuxiliaryMaterials bizTaskPackageAuxiliaryMaterials, HttpServletRequest request,
 			HttpServletResponse response, Model model) {
 		User user = UserUtils.getUser();
-		// 过滤门店
+
 		if (StringUtils.isBlank(bizTaskPackageAuxiliaryMaterials.getStoreId())) {
 			bizTaskPackageAuxiliaryMaterials.setStoreId(user.getStoreId());
 		}
 		if (StringUtils.isBlank(user.getStoreId())) {
 			model.addAttribute("storeDropEnable", true);
 		}
-		// 过滤工程模式
+
 		if (StringUtils.isBlank(bizTaskPackageAuxiliaryMaterials.getProjectMode())) {
 			if (null != user.getEmpId()) {
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -109,14 +102,14 @@ public class BizTaskPackageAuxiliaryMaterialsController extends BaseController {
 	@RequestMapping(value = "form")
 	public String form(BizTaskPackageAuxiliaryMaterials bizTaskPackageAuxiliaryMaterials, Model model) {
 		User user = UserUtils.getUser();
-		// 过滤门店
+
 		if (StringUtils.isBlank(bizTaskPackageAuxiliaryMaterials.getStoreId())) {
 			bizTaskPackageAuxiliaryMaterials.setStoreId(user.getStoreId());
 		}
 		if (StringUtils.isBlank(user.getStoreId())) {
 			model.addAttribute("storeDropEnable", true);
 		}
-		// 过滤工程模式
+
 		if (StringUtils.isBlank(bizTaskPackageAuxiliaryMaterials.getProjectMode())) {
 			if (null != user.getEmpId()) {
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));

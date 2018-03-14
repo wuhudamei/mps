@@ -23,9 +23,7 @@ import cn.damei.common.web.BaseController;
 import cn.damei.entity.modules.BizOrderDisclosePic;
 import cn.damei.service.modules.BizOrderDisclosePicService;
 
-/*
- *	订单交底图片查询
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/bizorderdisclosepic/bizOrderDisclosePic")
 public class BizOrderDisclosePicController extends BaseController {

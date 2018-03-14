@@ -5,18 +5,10 @@ import java.util.Arrays;
 
 import cn.damei.common.MD5Utils;
 
-/**
- * 
- *  @author lft
- * @dete 2017-5-9 
- *	用于远程调用的key的验证与生成
- */
+
 
 public class KeyAuthenticateUtils {
-	/**
-	 * key 生成
-	 * 参数格式：{"storeId:"+storeId,"timeStamp:"+timeStamp}
-	 */
+
 	
 	public static String getKey(String[] paramArr,String appoIntKey){
 		Arrays.sort(paramArr);
@@ -35,12 +27,7 @@ public class KeyAuthenticateUtils {
 		return key2;
 	}  
 	
-	/**
-	 * key生成（有&连接）
-	 * @param paramArr
-	 * @param appoIntKey
-	 * @return
-	 */
+
 	public static String getAndKey(String[] paramArr,String appoIntKey){
 		Arrays.sort(paramArr);
 		String s="";

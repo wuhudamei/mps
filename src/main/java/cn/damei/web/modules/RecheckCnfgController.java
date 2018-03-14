@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import java.util.List;
@@ -24,12 +22,7 @@ import cn.damei.common.web.BaseController;
 import cn.damei.entity.modules.RecheckCnfg;
 import cn.damei.service.modules.RecheckCnfgService;
 
-/**
- * 复尺配置表Controller
- * 
- * @author ztw
- * @version 2017-08-02
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/materialwallfloor/recheckCnfg")
 public class RecheckCnfgController extends BaseController {
@@ -49,20 +42,7 @@ public class RecheckCnfgController extends BaseController {
 		return entity;
 	}
 
-	/**
-	 * 复尺加审计
-	 * 
-	 * @Title: list
-	 * @Description: TODO
-	 * @param @param recheckCnfg
-	 * @param @param request
-	 * @param @param response
-	 * @param @param model
-	 * @param @return
-	 * @return String
-	 * @author ZhangTongWei
-	 * @throws
-	 */
+
 	@RequiresPermissions("materialwallfloor:recheckCnfg:view")
 	@RequestMapping(value = { "list", "" })
 	public String list(RecheckCnfg recheckCnfg, HttpServletRequest request, HttpServletResponse response, Model model) {

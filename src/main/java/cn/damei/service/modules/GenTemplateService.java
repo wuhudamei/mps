@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import org.apache.commons.lang3.StringEscapeUtils;
@@ -14,11 +12,7 @@ import cn.damei.common.utils.StringUtils;
 import cn.damei.entity.modules.GenTemplate;
 import cn.damei.dao.modules.GenTemplateDao;
 
-/**
- * 代码模板Service
- * @author ThinkGem
- * @version 2013-10-15
- */
+
 @Service
 @Transactional(readOnly = true)
 public class GenTemplateService extends BaseService {

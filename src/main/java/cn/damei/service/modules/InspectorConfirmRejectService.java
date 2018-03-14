@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.util.ArrayList;
@@ -20,10 +18,7 @@ import cn.damei.entity.modules.InspectorConfirmReject;
 import cn.damei.entity.modules.User;
 import cn.damei.common.utils.UserUtils;
 
-/**
- * 约检验收驳回原因查询Service
- * @author wyb
- */
+
 @Service
 @Transactional(readOnly = true)
 public class InspectorConfirmRejectService extends CrudService2<InspectorConfirmRejectDao, InspectorConfirmReject> {
@@ -39,36 +34,30 @@ public class InspectorConfirmRejectService extends CrudService2<InspectorConfirm
 		return super.findList(inspectorConfirmReject);
 	}
 
-	/**
-	 * 约检验收驳回原因查询
-	 */
+
 	public Page<InspectorConfirmReject> findPage(Page<InspectorConfirmReject> page, InspectorConfirmReject inspectorConfirmReject) {
 		return super.findPage(page, inspectorConfirmReject);
 	}
 
-	/**
-	 * 过滤门店、工程模式、区域
-	 * @param inspectorConfirmReject
-	 * @param model
-	 */
+
 	public void queryStoreIdAndprojectModeAndEnginDepart(InspectorConfirmReject inspectorConfirmReject, Model model) {
 		User user = UserUtils.getUser();
 		
-		// 过滤门店
+
 		if (null == inspectorConfirmReject.getStoreId()) {
 			if (StringUtils.isNotBlank(user.getStoreId())) {
 				inspectorConfirmReject.setStoreId(user.getStoreId());
 			}
 		}
 
-		// 过滤工程模式
+
 		if(StringUtils.isBlank(user.getProjectMode())||user.getProjectMode().equals("3")){
 			model.addAttribute("gongcheng", true);
 		}else{
 			inspectorConfirmReject.setProjectMode(user.getProjectMode());
 		}
 		
-		//过滤区域
+
 		List<Integer> list = new ArrayList<Integer>();
 		if (null == inspectorConfirmReject.getEnginDepartId()) {
 			if (StringUtils.isNotBlank(user.getEmpId())) {

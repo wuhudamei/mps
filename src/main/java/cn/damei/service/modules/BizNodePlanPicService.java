@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.util.List;
@@ -14,11 +12,7 @@ import cn.damei.common.persistence.Page;
 import cn.damei.common.service.CrudService2;
 import cn.damei.dao.modules.BizNodePlanPicDao;
 
-/**
- * llpService
- * @author llp
- * @version 2016-10-11
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizNodePlanPicService extends CrudService2<BizNodePlanPicDao, BizNodePlanPic> {

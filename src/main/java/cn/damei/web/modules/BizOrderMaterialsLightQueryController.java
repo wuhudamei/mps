@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import java.util.List;
@@ -26,11 +24,7 @@ import cn.damei.entity.modules.BizOrderMaterialsStandardQuery;
 import cn.damei.service.modules.BizOrderMaterialsStandardQueryService;
 import cn.damei.service.modules.BizOrderMaterialsStandardService;
 
-/**
- * 标化辅料（筒灯灯带）订单Controller
- * @author lft
- * @version 2017-05-12
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/orderMaterialsStandard/bizOrderMaterialsLight")
 public class BizOrderMaterialsLightQueryController extends BaseController {
@@ -54,14 +48,14 @@ public class BizOrderMaterialsLightQueryController extends BaseController {
 	@RequestMapping(value = {"list", ""})
 	public String list(BizOrderMaterialsStandardQuery bizOrderMaterialsStandard, HttpServletRequest request, HttpServletResponse response, Model model) {
 
-        //过滤门店
+
         User user = UserUtils.getUser();
         if(null==bizOrderMaterialsStandard.getStoreId()){
             if(null!=user.getStoreId()){
                 bizOrderMaterialsStandard.setStoreId(user.getStoreId());
             }
         }
-	    //设置为筒灯
+
 		bizOrderMaterialsStandard.setMaterialsLargeType("2");
 		Page<BizOrderMaterialsStandardQuery> page = bizOrderMaterialsStandardQueryService.findPage(new Page<BizOrderMaterialsStandardQuery>(request, response), bizOrderMaterialsStandard); 
 		model.addAttribute("page", page);
@@ -70,7 +64,7 @@ public class BizOrderMaterialsLightQueryController extends BaseController {
 	@RequiresPermissions("managersettlement:bizOrderMaterialsLight:view")
 	@RequestMapping(value = "form")
 	public String form(String orderId, Model model) {
-		//设置为筒灯
+
 		BizOrderMaterialsStandardQuery queryListByOrderId = bizOrderMaterialsStandardQueryService.getBizOrderMaterialsStandardQueryListByOrderId(orderId,"2");
 		model.addAttribute("bizOrderMaterialsStandardQuery", queryListByOrderId);
 		List<BizMaterialsStandardReceiveBillApply> billList = bizMaterialsStandardReceiveBillApplyService.findMaterialsApplyBillByOrderId(orderId, "2");

@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.mobile.Manager;
 
 import java.util.List;
@@ -44,22 +42,22 @@ public class BizEvalTaskpackScoreService extends CrudService2<BizEvalTaskpackSco
     }
 
 	public List<EvalScore> queryEvalRoleOvertimeByMap(Map<String, Object> map) {
-		// TODO Auto-generated method stub
+
 		return dao.queryEvalRoleOvertimeByMap(map);
 	}
 	@Transactional(readOnly=false)
 	public void updateEvalRole(EvalScore bizEvalTaskpackScore) {
-		// TODO Auto-generated method stub
+
 		dao.updateEvalRole(bizEvalTaskpackScore);
 	}
 
 	public List<EvalScore> findEvalScoreByEvalStatus() {
-		// TODO Auto-generated method stub
+
 		return dao.findEvalScoreByEvalStatus();
 	}
 
 	public List<EvalScore> findEvalRoleByEvalScoreId(Integer id) {
-		// TODO Auto-generated method stub
+
 		return dao.findEvalRoleByEvalScoreId(id);
 	}
 }

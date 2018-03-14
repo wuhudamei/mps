@@ -6,9 +6,7 @@ import java.io.Serializable;
 
 public class BroadCastPicTwoEntity implements Serializable{
 
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 
 	

@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import org.hibernate.validator.constraints.Length;
@@ -8,24 +6,20 @@ import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 短信Entity
- * @author qww
- * @version 2016-12-01
- */
+
 public class BizPhoneMsg extends DataEntity2<BizPhoneMsg> {
 	
 	private static final long serialVersionUID = 1L;
-	private Integer receiveEmployeeId;		// 短信接收员工id -- '
-	private String receivePhone;		// 短信接收手机号 --
-	private String msgContent;		// 短信内容 -- '
-	private Date msgGenerateDatetime;		// 短信生成日期时间 -- '
-	private Date msgTosendDatetime;		// 期望发送日期时间 -- '
-	private Date msgSendedDatetime;		// 实际发送日期时间 -- '
-	private String msgStatus;		// 短信状态 -- '0-待发送；1-发送成功；2-发送失败
-	private String relatedBusinessType;		// 关联业务类型 -- '
-	private Integer relatedBusinessIdInt;		// 关联业务id整型 -- '
-	private String relatedBusinessIdVarchar;		// 关联业务id字符型 -- '
+	private Integer receiveEmployeeId;
+	private String receivePhone;
+	private String msgContent;
+	private Date msgGenerateDatetime;
+	private Date msgTosendDatetime;
+	private Date msgSendedDatetime;
+	private String msgStatus;
+	private String relatedBusinessType;
+	private Integer relatedBusinessIdInt;
+	private String relatedBusinessIdVarchar;
 	
 	public BizPhoneMsg() {
 		super();

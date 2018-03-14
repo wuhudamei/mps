@@ -25,11 +25,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 import java.util.List;
 
-/**
- * 进度通报
- * biz_node_plan
- * llp
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/app/manager")
 public class NoticeController {
@@ -110,22 +106,22 @@ public class NoticeController {
 	@RequestMapping(value="message")
 	public String message(Model model,Integer page,Integer rows,HttpServletRequest request){
 		Manager manager = SessionUtils.getManagerSession(request);
-		Integer intPage = ((page == null || page == 0)?1:page); //页号
-		Integer number = ((rows==null || rows == 0)?10:rows); //每页数 
-		Integer start = (intPage - 1)*number;   //开始值
-		/*List<Message> unreadMessage = messageService.findUnreadMessage(manager.getId());*///查询未读的消息
-		List<Message> messages = messageService.findMessagePage(start,number,manager.getId());//优化1--查询所有的消息
-		/*model.addAttribute("unreadMessage",unreadMessage);*/
+		Integer intPage = ((page == null || page == 0)?1:page);
+		Integer number = ((rows==null || rows == 0)?10:rows);
+		Integer start = (intPage - 1)*number;
+
+		List<Message> messages = messageService.findMessagePage(start,number,manager.getId());
+
 		model.addAttribute("messages",messages);
 		return "mobile/modules/Manager/notice/msg_index_list";
 	}
 	@RequestMapping(value="loadMore")
 	public @ResponseBody List<Message> loadMore(Model model,Integer page,Integer rows,HttpServletRequest request){
 		Manager manager = SessionUtils.getManagerSession(request);
-		int intPage = ((page == null || page == 0)?1:page); //页号
-		int number = ((rows==null || rows == 0)?10:rows); //每页数 
-		int start = (intPage - 1)*number;   //开始值
-		List<Message> messagePage = messageService.findMessagePage(start,number,manager.getId());//优化1
+		int intPage = ((page == null || page == 0)?1:page);
+		int number = ((rows==null || rows == 0)?10:rows);
+		int start = (intPage - 1)*number;
+		List<Message> messagePage = messageService.findMessagePage(start,number,manager.getId());
 		return messagePage;
 	}
 	

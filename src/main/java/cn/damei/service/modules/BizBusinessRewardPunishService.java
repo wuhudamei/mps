@@ -9,11 +9,7 @@ import cn.damei.common.service.CrudService2;
 import cn.damei.dao.modules.BizBusinessRewardPunishDao;
 import cn.damei.entity.modules.BizBusinessRewardPunish;
 
-/**
- * 奖励惩罚Service
- * @author hyh
- *
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizBusinessRewardPunishService extends CrudService2<BizBusinessRewardPunishDao, BizBusinessRewardPunish>{

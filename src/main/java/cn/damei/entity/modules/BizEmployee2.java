@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import org.hibernate.validator.constraints.Length;
@@ -11,63 +9,58 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 员工信息Entity
- * 
- * @author qhy
- * @version 2016-08-24
- */
+
 public class BizEmployee2 extends DataEntity2<BizEmployee2> {
 
 
 	private static final long serialVersionUID = 1L;
-	private Integer id;// 标识
-	private String no; // 员工编号
-	private String loginname; // 登录名
-	private String realname; // 真实姓名
-	private String phone; // 手机号
-	private Integer empType; // 员工类型
-	private String idcardno; // 员工身份证
-	private Date entrytime; // 入职时间
-	private Date birthday; // 生日
-	private Integer sex; // 性别
-	private String household; // 户口所在地
-	private String roots; // 籍贯
-	private String family; // 民族
-	private Integer age; // 年龄
-	private String education; // 学历
-	private String postno; // 邮编
-	private String address; // 地址
-	private String headpic; // 头像
-	private Integer star; // 星级
-	private Integer sort; // 排名
-	private String nps; // NPS值
-	private Integer iswebchat; // 是否会微信
-	private String orderarea; // 订单区域
-	private Integer housetype; // 房屋类型
-	private String orderstop; // 是否停单
-	private Integer smartphone; // 是否智能手机
-	private Integer worktype; // 工种
-	private Integer electricancard; // 是否有电工证
-	private Integer ncms; // 是否加入新农合
-	private Double salarypoint; // 工资比例
-	private Integer grouplead; // 是否组长
-	private String storeid; // 门店Id
-	private String sysuserid; // 系统用户Id
-	private String managerid; // 推荐项目经理Id
-	private String noValid;// 验证需要no
-	private String loginNameValid;// 验证需要登录名
-	private String phoneValid;// 验证需要手机号
-	private List<BizEmpArea> areas;// 区域列表
-	private String projectMode;//工程模式 -- '1-产业模式；2-传统模式；3-全部
-	private String value;//员工id用于下拉列表框
+	private Integer id;
+	private String no;
+	private String loginname;
+	private String realname;
+	private String phone;
+	private Integer empType;
+	private String idcardno;
+	private Date entrytime;
+	private Date birthday;
+	private Integer sex;
+	private String household;
+	private String roots;
+	private String family;
+	private Integer age;
+	private String education;
+	private String postno;
+	private String address;
+	private String headpic;
+	private Integer star;
+	private Integer sort;
+	private String nps;
+	private Integer iswebchat;
+	private String orderarea;
+	private Integer housetype;
+	private String orderstop;
+	private Integer smartphone;
+	private Integer worktype;
+	private Integer electricancard;
+	private Integer ncms;
+	private Double salarypoint;
+	private Integer grouplead;
+	private String storeid;
+	private String sysuserid;
+	private String managerid;
+	private String noValid;
+	private String loginNameValid;
+	private String phoneValid;
+	private List<BizEmpArea> areas;
+	private String projectMode;
+	private String value;
 
 	private Double totalAmount;
 	private String name;
 
-	private String label;// 员工姓名用于下拉列表框
+	private String label;
 
-	private String pointXy;//地图经纬坐标
+	private String pointXy;
 
 	public String getName() {
 		return name;
@@ -93,7 +86,7 @@ public class BizEmployee2 extends DataEntity2<BizEmployee2> {
 		this.pointXy = pointXy;
 	}
 
-	private String noInGroup;//没有加入工人组的员工
+	private String noInGroup;
 	public String getNoInGroup() {
 		return noInGroup;
 	}
@@ -241,9 +234,9 @@ public class BizEmployee2 extends DataEntity2<BizEmployee2> {
 		return phoneValid;
 	}
 
-//	public string getpoint_xy() {
-//		return point_xy;
-//	}
+
+
+
 
 	@Length(min = 0, max = 50, message = "邮编长度必须介于 0 和 50 之间")
 	public String getPostno() {
@@ -408,9 +401,9 @@ public class BizEmployee2 extends DataEntity2<BizEmployee2> {
 		this.phoneValid = phoneValid;
 	}
 
-//	public void setPoint_xy(String point_xy) {
-//		this.point_xy = point_xy;
-//	}
+
+
+
 
 	public void setPostno(String postno) {
 		this.postno = postno;

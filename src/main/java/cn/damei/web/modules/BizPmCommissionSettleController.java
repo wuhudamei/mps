@@ -45,12 +45,7 @@ import cn.damei.entity.modules.QcBillCheckItemInfo;
 import cn.damei.service.modules.InspectorConfirmService;
 import cn.damei.common.utils.UserUtils;
 
-/**
- * 订单项目经理提成结算查询
- * 
- * @author hyh
- *
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/pmsettlebill/bizPmCommissionSettleController")
 public class BizPmCommissionSettleController extends BaseController {
@@ -78,7 +73,7 @@ public class BizPmCommissionSettleController extends BaseController {
 	@RequestMapping(value = "queryPmComkissionSettle")
 	public String queryPmComkissionSettle(BizPmSettleBill bizPmSettleBill, HttpServletRequest request, HttpServletResponse response,
 			Model model) {
-		// 过滤门店
+
 		if (bizPmSettleBill.getStoreId() == null) {
 			String storeId = UserUtils.getUser().getStoreId();
 			if (StringUtils.isBlank(storeId)) {
@@ -91,7 +86,7 @@ public class BizPmCommissionSettleController extends BaseController {
 			model.addAttribute("storeDropEnable", true);
 		}
 
-		// 区域
+
 		if (bizPmSettleBill.getEnginDepartId() == null) {
 			if (StringUtils.isNoneBlank(UserUtils.getUser().getEmpId())) {
 				List<Integer> list = bizEmployeeService2
@@ -123,10 +118,10 @@ public class BizPmCommissionSettleController extends BaseController {
 	public String queryMidwayCommission(Integer orderId,HttpServletRequest request, HttpServletResponse response,
 			Model model){
 		BizPmStarCommissionCnfgSnap bizPmStarCommissionCnfgSnap = inspectorConfirmService.queryManagerCommissionByOrderId(orderId);
-		//中期提成
+
 		Double commissionAmount = bizPmStarCommissionCnfgSnap.getCommissionAmount()
 				* bizPmStarCommissionCnfgSnap.getCommissionRateMidway();
-		//标化材料扣款金额
+
 		List<BizMaterialsStandardReceiveBill> list = inspectorConfirmService.findThree(orderId);
 		BizMaterialsStandardReceiveBill details3 = new BizMaterialsStandardReceiveBill();
 		details3.setReceiveBillAmount(0.0);
@@ -140,10 +135,10 @@ public class BizPmCommissionSettleController extends BaseController {
         	details3.setReceiveBillAmount((0-details3.getReceiveBillAmount()));
         }
         List<BizOrderMaterialsStandard>  materialsStandardList=inspectorConfirmService.queryMaterialsStandardByOrderId(orderId);
-		//自主支配金额
+
 		Double managerOwnpay = inspectorConfirmService.queryManagerOwnpay(orderId);
 		List<BizPmOwnpayCnfgSnap> pmOwnpayCnfgSnapList=inspectorConfirmService.queryPmOwnpayCnfgSnapByOrderId(orderId);
-		//中期罚款
+
 		Map<String,Object> map =new HashMap<String,Object>();
 		map.put("orderId", orderId);
 		map.put("settleCategory", ConstantUtils.PM_SETTLE_CATEGORY_4);
@@ -185,10 +180,10 @@ public class BizPmCommissionSettleController extends BaseController {
 	public String queryCompleteCommission(Integer orderId,HttpServletRequest request, HttpServletResponse response,
 			Model model){
 		BizPmStarCommissionCnfgSnap bizPmStarCommissionCnfgSnap = inspectorConfirmService.queryManagerCommissionByOrderId(orderId);
-		//竣工提成
+
 		Double commissionAmount = bizPmStarCommissionCnfgSnap.getCommissionAmount()
 				* bizPmStarCommissionCnfgSnap.getCommissionRateComplete();
-		//质保金
+
 		Double pmGuaranteeMoney=0.0;
 		BizPmGuaranteeMoneyCnfgSnap gmcs = bizPmGuaranteeMoneyCnfgSnapService.findGmc(orderId);
 		if(gmcs != null){
@@ -206,7 +201,7 @@ public class BizPmCommissionSettleController extends BaseController {
 		if(pmGuaranteeMoney<0){
 			pmGuaranteeMoney = 0-pmGuaranteeMoney;
 		}
-		//竣工罚款
+
 		Map<String,Object> map =new HashMap<String,Object>();
 		map.put("orderId", orderId);
 		map.put("settleCategory", ConstantUtils.PM_SETTLE_CATEGORY_4);
@@ -217,7 +212,7 @@ public class BizPmCommissionSettleController extends BaseController {
 			managerPenalty = 0-managerPenalty;
 		}
 		List<QcBillCheckItemInfo> pmPunishList = inspectorConfirmService.queryPmPunishByParam(map);
-		//自采材料报销金额
+
 		Map<String,Object> map1 =new HashMap<String,Object>();
 		map1.put("orderId", orderId);
 		map1.put("settleCategory", ConstantUtils.PM_SETTLE_CATEGORY_11);
@@ -230,7 +225,7 @@ public class BizPmCommissionSettleController extends BaseController {
 		param.put("pmEmployeeId",bizPmStarCommissionCnfgSnap.getPmEmployeeId());
 		List<BizMaterialSelfbuyVo> materialSelfbuyList = bizPmSettleBillService.querySelfbuyMaterial(param);
 		
-		//竣工任务包材料结算总金额
+
 		double pmMaterialsSettleAmount = 0.00;
 		List<PmMaterialsSettleInfo> pmMaterials = pmMaterialsSettleInfoService.queryPmMaterialsByOrderId(orderId);
 		if(pmMaterials != null && pmMaterials.size()>0){
@@ -239,7 +234,7 @@ public class BizPmCommissionSettleController extends BaseController {
 			}
 		}
 		
-		//竣工提成合计金额
+
 		Double settleAmount = commissionAmount+sinceMaterials-pmGuaranteeMoney-managerPenalty+pmMaterialsSettleAmount;
 		model.addAttribute("pmMaterialsSettleAmount",pmMaterialsSettleAmount);
 		model.addAttribute("pmMaterials",pmMaterials);
@@ -267,14 +262,14 @@ public class BizPmCommissionSettleController extends BaseController {
 		
 		Order2 order2 = orderService2.get(orderId);
 		
-		//结算员通过约检节点
+
 		BizBusinessStatusLog log1 = bizBusinessStatusLogService.queryOrderPmSettleLog(orderId, BusinessLogConstantUtil.BUSINESS_TYPE_302, "30");
 		model.addAttribute("log1",log1);
-		//确认二期款
+
 		BizBusinessStatusLog log2= bizBusinessStatusLogService.queryOrderPmSettleLog(orderId, BusinessLogConstantUtil.BUSINESS_TYPE_304, "30");
 		model.addAttribute("log2",log2);
 		
-		//生成月度结算单
+
 		Map<String,Object> pmSettleBillParam = new HashMap<String,Object>();
 		pmSettleBillParam.put("orderId",orderId);
 		pmSettleBillParam.put("settleBillType","1");
@@ -297,14 +292,14 @@ public class BizPmCommissionSettleController extends BaseController {
 		BizOrderFinishProjectBill bizOrderFinishProjectBill = bizOrderFinishProjectBillService.getByOrderID(orderId);
         Order2 order2 = orderService2.get(orderId);
 		
-		//结算员通过约检节点
+
         BizBusinessStatusLog log1 = bizBusinessStatusLogService.queryOrderPmSettleLog(orderId, BusinessLogConstantUtil.BUSINESS_TYPE_303, ConstantUtils.ORDERSTATUS_340_VALUE);
         model.addAttribute("log1",log1);
-        //确认尾款
+
         BizBusinessStatusLog log2 = bizBusinessStatusLogService.queryOrderPmSettleLog(orderId, BusinessLogConstantUtil.BUSINESS_TYPE_305, "30");
         model.addAttribute("log2",log2);
 		
-		//生成月度结算单
+
 		Map<String,Object> pmSettleBillParam = new HashMap<String,Object>();
 		pmSettleBillParam.put("orderId",orderId);
 		pmSettleBillParam.put("settleBillType","1");

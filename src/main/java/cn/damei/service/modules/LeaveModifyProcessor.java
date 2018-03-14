@@ -13,10 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import cn.damei.dao.modules.LeaveDao;
 import cn.damei.entity.modules.Leave;
 
-/**
- * 调整请假内容处理器
- * @author liuj
- */
+
 @Service
 @Transactional
 public class LeaveModifyProcessor implements TaskListener {

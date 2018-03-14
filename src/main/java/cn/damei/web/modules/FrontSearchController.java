@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 
@@ -24,11 +22,7 @@ import cn.damei.service.modules.GuestbookService;
 import cn.damei.common.utils.CmsUtils;
 import cn.damei.common.utils.UserUtils;
 
-/**
- * 网站搜索Controller
- * @author ThinkGem
- * @version 2013-5-29
- */
+
 @Controller
 @RequestMapping(value = "${frontPath}/search")
 public class FrontSearchController extends BaseController{
@@ -38,9 +32,7 @@ public class FrontSearchController extends BaseController{
 	@Autowired
 	private GuestbookService guestbookService;
 	
-	/**
-	 * 全站搜索
-	 */
+
 	@RequestMapping(value = "")
 	public String search(String t, @RequestParam(required=false) String q, @RequestParam(required=false) String qand, @RequestParam(required=false) String qnot, 
 			@RequestParam(required=false) String a, @RequestParam(required=false) String cid, @RequestParam(required=false) String bd,
@@ -49,14 +41,14 @@ public class FrontSearchController extends BaseController{
 		Site site = CmsUtils.getSite(Site.defaultSiteId());
 		model.addAttribute("site", site);
 		
-		// 重建索引（需要超级管理员权限）
+
 		if ("cmd:reindex".equals(q)){
 			if (UserUtils.getUser().isAdmin()){
-				// 文章模型
+
 				if (StringUtils.isBlank(t) || "article".equals(t)){
 					articleService.createIndex();
 				}
-				// 留言模型
+
 				else if ("guestbook".equals(t)){
 					guestbookService.createIndex();
 				}
@@ -65,10 +57,10 @@ public class FrontSearchController extends BaseController{
 				model.addAttribute("message", "你没有执行权限。");
 			}
 		}
-		// 执行检索
+
 		else{
 			String qStr = StringUtils.replace(StringUtils.replace(q, "，", " "), ", ", " ");
-			// 如果是高级搜索
+
 			if ("1".equals(a)){
 				if (StringUtils.isNotBlank(qand)){
 					qStr += " +" + StringUtils.replace(StringUtils.replace(StringUtils.replace(qand, "，", " "), ", ", " "), " ", " +"); 
@@ -77,13 +69,13 @@ public class FrontSearchController extends BaseController{
 					qStr += " -" + StringUtils.replace(StringUtils.replace(StringUtils.replace(qnot, "，", " "), ", ", " "), " ", " -"); 
 				}
 			}
-			// 文章检索
+
 			if (StringUtils.isBlank(t) || "article".equals(t)){
 				Page<Article> page = articleService.search(new Page<Article>(request, response), qStr, cid, bd, ed);
 				page.setMessage("匹配结果，共耗时 " + (System.currentTimeMillis() - start) + "毫秒。");
 				model.addAttribute("page", page);
 			}
-			// 留言检索
+
 			else if ("guestbook".equals(t)){
 				Page<Guestbook> page = guestbookService.search(new Page<Guestbook>(request, response), qStr, bd, ed);
 				page.setMessage("匹配结果，共耗时 " + (System.currentTimeMillis() - start) + "毫秒。");
@@ -91,11 +83,11 @@ public class FrontSearchController extends BaseController{
 			}
 			
 		}
-		model.addAttribute("t", t);// 搜索类型
-		model.addAttribute("q", q);// 搜索关键字
-		model.addAttribute("qand", qand);// 包含以下全部的关键词
-		model.addAttribute("qnot", qnot);// 不包含以下关键词
-		model.addAttribute("cid", cid);// 搜索类型
+		model.addAttribute("t", t);
+		model.addAttribute("q", q);
+		model.addAttribute("qand", qand);
+		model.addAttribute("qnot", qnot);
+		model.addAttribute("cid", cid);
 		return "modules/cms/front/themes/"+site.getTheme()+"/frontSearch";
 	}
 	

@@ -1,46 +1,41 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import java.util.Date;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 主材可申请安装/复尺日期查询Entity
- * @author wyb
- */
+
 public class OrderInstallPlanAdjustment extends DataEntity2<OrderInstallPlanAdjustment> {
 	
 	private static final long serialVersionUID = 1L;
 	
-	private Integer orderId;		// 订单id
-	private Integer orderInstallItemId;		// 安装项计划id
-	private String installItemName;		// 安装项计划名称
-	private Date planIntoDate;		// 确认开工后可申请安装日期
-	private Date allowApplyChecksizeDate;		// 确认开工后可申请复尺日期
-	private String status;		// 状态 
-	private Date newPlanApplyDate; //修改后的 计划申请日期
+	private Integer orderId;
+	private Integer orderInstallItemId;
+	private String installItemName;
+	private Date planIntoDate;
+	private Date allowApplyChecksizeDate;
+	private String status;
+	private Date newPlanApplyDate;
 	
-	private Integer storeId;	//门店
-	private String storeName;  //门店名称
-	private String projectMode;		//工程模式
-	private String projectModeName;		//工程模式名称
-	private Integer engineDepartId;  //区域id
-	private String engineDepartName;  //区域名称
-	private String orderNumber;  //订单编号
-	private String customerName; //客户姓名
-	private String customerPhone; //客户电话
-	private Integer itemManagerId;	 //项目经理id
-	private String itemManager;	 //项目经理名称
-	private String itemManagerPhone;	 //项目经理名称电话
-	private Date actualStartDate;  //实际开工日期
+	private Integer storeId;
+	private String storeName;
+	private String projectMode;
+	private String projectModeName;
+	private Integer engineDepartId;
+	private String engineDepartName;
+	private String orderNumber;
+	private String customerName;
+	private String customerPhone;
+	private Integer itemManagerId;
+	private String itemManager;
+	private String itemManagerPhone;
+	private Date actualStartDate;
 	
-	private String communityName;	 //小区
-	private String buildNumber;	 //楼
-	private String buildUnit;	 //单元
-	private String buildRoom;	 //室
+	private String communityName;
+	private String buildNumber;
+	private String buildUnit;
+	private String buildRoom;
 	
 	public OrderInstallPlanAdjustment() {
 		super();

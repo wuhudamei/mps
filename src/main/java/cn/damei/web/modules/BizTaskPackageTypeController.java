@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,11 +21,7 @@ import cn.damei.common.utils.DictUtils;
 import cn.damei.entity.modules.BizTaskPackageType;
 import cn.damei.service.modules.BizTaskPackageTypeService;
 
-/**
- * 单表生成Controller
- * @author ThinkGem
- * @version 2016-09-03
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/taskpackage/bizTaskPackageType")
 public class BizTaskPackageTypeController extends BaseController {
@@ -84,12 +78,7 @@ public class BizTaskPackageTypeController extends BaseController {
 		return "redirect:"+Global.getAdminPath()+"/taskpackage/bizTaskPackageType/?repage";
 	}
 	
-	/**
-	 * 停用/启用
-	 * @param bizTaskPackageType
-	 * @param redirectAttributes
-	 * @return
-	 */
+
 	@RequiresPermissions("taskpackage:bizTaskPackageType:edit")
 	@RequestMapping(value = "enable")
 	public String enable(BizTaskPackageType bizTaskPackageType, RedirectAttributes redirectAttributes) {

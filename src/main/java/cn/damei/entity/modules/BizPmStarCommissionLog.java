@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import org.hibernate.validator.constraints.Length;
@@ -9,21 +7,17 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * biz_pm_star_commission_logEntity
- * @author 汪文文
- * @version 2017-02-14
- */
+
 public class BizPmStarCommissionLog extends DataEntity2<BizPmStarCommissionLog> {
 	
 	private static final long serialVersionUID = 1L;
-	private Integer orderId;		// order_id
-	private Integer pmEmployeeId;		// pm_employee_id
-	private Integer starLevel;		// star_level
-	private String commissionNode;		// commission_node
-	private Double commissionAmount;		// commission_amount
-	private Double commissionRate;		// commission_rate
-	private Date commissionDatetime;		// commission_datetime
+	private Integer orderId;
+	private Integer pmEmployeeId;
+	private Integer starLevel;
+	private String commissionNode;
+	private Double commissionAmount;
+	private Double commissionRate;
+	private Date commissionDatetime;
 	
 	public BizPmStarCommissionLog() {
 		super();

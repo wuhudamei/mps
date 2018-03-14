@@ -26,11 +26,7 @@ import cn.damei.service.modules.BizEvalIndexService;
 import cn.damei.entity.modules.User;
 import cn.damei.common.utils.UserUtils;
 
-/**
- * 工人评分查询Controller
- * @author hyh
- *
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/evaluate/bizEvalWorkGrade")
 public class BizEvalWorkGradeController extends BaseController{
@@ -47,7 +43,7 @@ public class BizEvalWorkGradeController extends BaseController{
 	@RequestMapping(value = "openBizEvalWorkGradePage")
 	public String openBizEvalWorkGradePage(BizEvalWorkGrade bizEvalWorkGrade, HttpServletRequest request, HttpServletResponse response, Model model){
 		User user = UserUtils.getUser();
-		//过滤门店
+
 		if(null==bizEvalWorkGrade.getStoreId()){
 			if(null!=user.getStoreId()){
 				bizEvalWorkGrade.setStoreId(user.getStoreId());
@@ -56,7 +52,7 @@ public class BizEvalWorkGradeController extends BaseController{
 		if(StringUtils.isBlank(user.getStoreId())){
 			model.addAttribute("storeDropEnable", true);
 		}
-		//过滤工程模式
+
 		if(StringUtils.isBlank(bizEvalWorkGrade.getProjectMode())){
 			if(null != user.getEmpId()){
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -94,7 +90,7 @@ public class BizEvalWorkGradeController extends BaseController{
 	@RequestMapping(value = "queryBizEvalWorkGrade")
 	public String queryBizEvalWorkGrade(BizEvalWorkGrade bizEvalWorkGrade, HttpServletRequest request, HttpServletResponse response, Model model){
 		User user = UserUtils.getUser();
-		//过滤门店
+
 		if(null==bizEvalWorkGrade.getStoreId()){
 			if(null!=user.getStoreId()){
 				bizEvalWorkGrade.setStoreId(user.getStoreId());
@@ -103,7 +99,7 @@ public class BizEvalWorkGradeController extends BaseController{
 		if(StringUtils.isBlank(user.getStoreId())){
 			model.addAttribute("storeDropEnable", true);
 		}
-		//过滤工程模式
+
 		if(StringUtils.isBlank(bizEvalWorkGrade.getProjectMode())){
 			if(null != user.getEmpId()){
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -139,22 +135,20 @@ public class BizEvalWorkGradeController extends BaseController{
 		bizEvalIndex.setStoreId(Integer.parseInt(bizEvalWorkGrade.getStoreId()));
 		bizEvalIndex.setProjectMode(bizEvalIndex.getProjectMode());
 		bizEvalIndex.setIsEnabled("1");
-		//List<BizEvalIndex> evalIndexList = bizEvalIndexService.findList(bizEvalIndex);
-		/*for(){
-			
-		}*/
+
+
 		Page<BizEvalWorkGrade> page = bizEvalActivityService.queryBizEvalWorkGradePage(new Page<BizEvalWorkGrade>(request, response), bizEvalWorkGrade);
 		if(page!=null && page.getList()!=null && page.getList().size()>0){
 			for(BizEvalWorkGrade grade :page.getList()){
 				List<Integer> list =new ArrayList<Integer>();
 				if(grade.getEvalRoleType() != null){
-					if(grade.getEvalRoleType()  == 1){//项目经理
+					if(grade.getEvalRoleType()  == 1){
 						list.add(101);
 						list.add(102);
-					}else if(grade.getEvalRoleType() == 2){//质检
+					}else if(grade.getEvalRoleType() == 2){
 						list.add(201);
 						list.add(202);
-					}else if(grade.getEvalRoleType() == 3){//客户
+					}else if(grade.getEvalRoleType() == 3){
 						list.add(301);
 						list.add(302);
 					}
@@ -180,7 +174,7 @@ public class BizEvalWorkGradeController extends BaseController{
 		}
 		
 		model.addAttribute("page", page);
-		//model.addAttribute("evalIndexList",evalIndexList);
+
 		return "modules/evaluate/bizevalactivity/bizEvalWorkGradeList";
 	}
 

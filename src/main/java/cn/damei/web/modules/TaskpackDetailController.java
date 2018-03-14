@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import java.util.List;
@@ -15,27 +13,13 @@ import cn.damei.entity.modules.TaskPackDetails;
 import cn.damei.entity.modules.WorkerInfo;
 import cn.damei.service.modules.TaskpackDetailService;
 
-/**
- * 任务包详情
- * @author 张康健
- * @version 2017-3-25
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/TaskpackDetail/TaskpackageDtailsLook")
 public class TaskpackDetailController extends BaseController {
 	@Autowired
 	private TaskpackDetailService taskpackDetailService;
-/*	@ModelAttribute
-	public TaskPackDetails get(@RequestParam(required = false) Integer id) {
-		TaskPackDetails entity = null;
-		if (id != null){
-			entity = taskpackDetailService.get(id);
-		}
-		if (entity == null){
-			entity = new TaskPackDetails();
-		}
-		return entity;
-	}*/
+
 
 
 

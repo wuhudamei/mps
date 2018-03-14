@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import org.hibernate.validator.constraints.Length;
@@ -10,38 +8,34 @@ import cn.damei.common.persistence.DataEntity2;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * 结算汇总单Entity
- * @author qww
- * @version 2016-12-26
- */
+
 public class BizPmSettleSummaryBill extends DataEntity2<BizPmSettleSummaryBill> {
 	
 	private static final long serialVersionUID = 1L;
-	private String pmSettleSummaryBillCode;		// 项目经理结算月度汇总单编号 -- '
-	private Integer storeId;		// 门店id -- '
-	private String settleMonth;		// 月度 -- '
-	private Integer pmEmployeeId;		// 项目经理员工id -- '
-	private Double midwayCommissionAmount;		// 中期提成金额 -- '
-	private Double completeCommissionAmount;		// 竣工提成金额 -- '
-	private Double ownpayAmount;		// 自主支配项金额 -- '
-	private Double materialsStandardAmount;		// 标化辅材金额 -- '
-	private Double midwayQcCheckPunishAmount;		// 中期质检罚款金额 -- '
-	private Double completQcCheckPunishAmount;		// 竣工质检罚款金额 -- '
-	private Double materialSelfbuyReimburseAmount;//自采材料报销金额
-	private Double midwayAuxiliaryMaterialsSettleAmount; //中期辅料结算金额
-	private Double completeAuxiliaryMaterialsSettleAmount;//竣工辅料结算金额
-	private Double midwayRewardAmount;//中期奖励金额
-	private Double midwayPunishAmount;//中期罚款金额
-	private Double completeRewardAmount;//竣工奖励金额
-	private Double completePunishAmount;//竣工罚款金额
-	private Double midwayInspectionRewardAmount;//中期奖励金额
-	private Double midwayInspectionPunishAmount;//中期罚款金额
-	private Double completeInspectionRewardAmount;//竣工奖励金额
-	private Double completeInspectionPunishAmount;//竣工罚款金额
-	private Double guaranteeMoneyAmount;		// 质保金金额 -- '
-	private Double totalAmount;		// 合计金额 -- '
-	private String status; // 状态 -- '
+	private String pmSettleSummaryBillCode;
+	private Integer storeId;
+	private String settleMonth;
+	private Integer pmEmployeeId;
+	private Double midwayCommissionAmount;
+	private Double completeCommissionAmount;
+	private Double ownpayAmount;
+	private Double materialsStandardAmount;
+	private Double midwayQcCheckPunishAmount;
+	private Double completQcCheckPunishAmount;
+	private Double materialSelfbuyReimburseAmount;
+	private Double midwayAuxiliaryMaterialsSettleAmount;
+	private Double completeAuxiliaryMaterialsSettleAmount;
+	private Double midwayRewardAmount;
+	private Double midwayPunishAmount;
+	private Double completeRewardAmount;
+	private Double completePunishAmount;
+	private Double midwayInspectionRewardAmount;
+	private Double midwayInspectionPunishAmount;
+	private Double completeInspectionRewardAmount;
+	private Double completeInspectionPunishAmount;
+	private Double guaranteeMoneyAmount;
+	private Double totalAmount;
+	private String status;
 	private String settleRole;
 	private Double qcMidwayCommissionAmount;
 	private Double qcCompleteCommissionAmount;
@@ -49,10 +43,10 @@ public class BizPmSettleSummaryBill extends DataEntity2<BizPmSettleSummaryBill> 
 	private Double qcCompleteLongwayAmount;
 
 	private String settleBillIds;
-	private String itemManager; // 项目经理
-	private String itemManagerPhone; // 项目经理电话
-	private String orderInspector; // 质检员
-	private String orderInspectorPhone; // 质检员电话
+	private String itemManager;
+	private String itemManagerPhone;
+	private String orderInspector;
+	private String orderInspectorPhone;
 	private Integer enginDepartId;
 	private String enginDepartName;
 	private List<Integer> enginDepartIds = new ArrayList<Integer>();

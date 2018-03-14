@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,11 +19,7 @@ import cn.damei.common.web.BaseController;
 import cn.damei.entity.modules.BizPmGuaranteeMoneyCnfgSnap;
 import cn.damei.service.modules.BizPmGuaranteeMoneyCnfgSnapService;
 
-/**
- * 项目经理保证金快照Controller
- * @author 汪文文
- * @version 2016-12-28
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/guaranteemoneysnap/bizPmGuaranteeMoneyCnfgSnap")
 public class BizPmGuaranteeMoneyCnfgSnapController extends BaseController {

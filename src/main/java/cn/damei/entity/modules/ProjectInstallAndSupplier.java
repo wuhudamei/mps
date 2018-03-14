@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import java.util.ArrayList;
@@ -10,25 +8,20 @@ import org.hibernate.validator.constraints.Length;
 
 import cn.damei.common.persistence.DataEntity;
 
-/**
- * 主材安装供应商设置Entity
- * 
- * @author ztw
- * @version 2017-07-14
- */
+
 public class ProjectInstallAndSupplier extends DataEntity<ProjectInstallAndSupplier> {
 
 	private static final long serialVersionUID = 1L;
-	private String projectInstallItemId; // 安装项ID
-	private String projectInstallItemName; // 供应商业务分类
-	private String InstallItemName; // 安装项名称
-	private String installItemName1; // 安装项名称1
-	private String supplierId; // 供应商ID
-	private String supplierName; // 供应商名称
-	private String storeid; // 门店
-	private String projectMode;// 工程模式
-	private String isOn;// 是否啟用
-	private List<BizSupplier> bizSupplierList = new ArrayList<BizSupplier>();// 供應商集合
+	private String projectInstallItemId;
+	private String projectInstallItemName;
+	private String InstallItemName;
+	private String installItemName1;
+	private String supplierId;
+	private String supplierName;
+	private String storeid;
+	private String projectMode;
+	private String isOn;
+	private List<BizSupplier> bizSupplierList = new ArrayList<BizSupplier>();
 
 	public ProjectInstallAndSupplier() {
 		super();

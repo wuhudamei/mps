@@ -3,9 +3,7 @@ package cn.damei.entity.modules;
 import java.io.Serializable;
 import java.util.List;
 
-/**
- * Created by joseph on 2017/8/17.
- */
+
 public class EngineDepartEntity  implements Serializable{
 
     private static final long serialVersionUID = 1L;

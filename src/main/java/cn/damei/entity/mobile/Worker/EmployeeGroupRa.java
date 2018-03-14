@@ -4,15 +4,12 @@ import cn.damei.common.persistence.DataEntity2;
 
 public class EmployeeGroupRa extends DataEntity2<EmployeeGroupRa>{
 
-	/**
-	 * @author wang
-	 * 2016-10-17
-	 */
+
 	private static final long serialVersionUID = 1L;
 	
 	private Integer id;
 	private Integer empId;
-	private Integer groupId;//工人组id
+	private Integer groupId;
 	private Integer isLead;
 	private Integer salaryRatio;
 	

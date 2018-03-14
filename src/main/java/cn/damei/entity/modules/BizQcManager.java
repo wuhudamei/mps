@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import java.util.Date;
@@ -8,22 +6,18 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 质检管理人员Entity
- * @author wyb
- * @version 2016-11-02
- */
+
 public class BizQcManager extends DataEntity2<BizQcManager> {
 	
 	private static final long serialVersionUID = 1L;
-	private Integer storeId;		// 门店id -- '
-	private Integer managerEmployeeId;		// 管理人员员工id -- '
-	private Date generatedDatetime;		// 生成日期时间 -- '
-	private String isEnabled;		// 是否启用 -- '0.停用；1.启用
-	private String no;	//人员编号
-	private String realName;	//人员姓名
-	private String phone;	//人员电话
-	private String projectMode; //工程模式
+	private Integer storeId;
+	private Integer managerEmployeeId;
+	private Date generatedDatetime;
+	private String isEnabled;
+	private String no;
+	private String realName;
+	private String phone;
+	private String projectMode;
 	public BizQcManager() {
 		super();
 	}

@@ -10,11 +10,7 @@ import cn.damei.common.service.CrudService2;
 import cn.damei.entity.modules.BizEvalIndex;
 import cn.damei.dao.modules.BizEvalIndexDao;
 
-/**
- * 评价指标设置Service
- * @author wyb
- * @version 2017-02-24
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizEvalIndexService extends CrudService2<BizEvalIndexDao, BizEvalIndex> {

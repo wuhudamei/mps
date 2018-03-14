@@ -3,18 +3,14 @@ package cn.damei.entity.modules;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 评价活动设置Entity
- * @author wyb
- * @version 2017-02-25
- */
+
 public class BizEvalActivityTaskpackTemp extends DataEntity2<BizEvalActivityTaskpackTemp> {
 	
 	private static final long serialVersionUID = 1L;
-	private Integer evalActivityId;		// 评价活动id
-	private Integer taskpackTempId;		// 任务包模板id
+	private Integer evalActivityId;
+	private Integer taskpackTempId;
 	
-	private BizEvalActivity evalActivity; //评价活动
+	private BizEvalActivity evalActivity;
 	
 	public BizEvalActivityTaskpackTemp() {
 		super();

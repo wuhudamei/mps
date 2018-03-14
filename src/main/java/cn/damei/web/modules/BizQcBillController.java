@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import cn.damei.common.persistence.Page;
@@ -21,11 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- * 质检报告Controller
- * @author wyb
- * @version 2016-10-31
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/bizqcbill/bizQcBill")
 public class BizQcBillController extends BaseController {
@@ -50,7 +44,7 @@ public class BizQcBillController extends BaseController {
 	public String list(BizQcBill bizQcBill, HttpServletRequest request, HttpServletResponse response, Model model) {
 		
 		User user = UserUtils.getUser();
-		//过滤门店
+
 		if(null==bizQcBill.getStoreId()){
 			if(null!=user.getStoreId()){
 				bizQcBill.setStoreId(user.getStoreId());
@@ -59,7 +53,7 @@ public class BizQcBillController extends BaseController {
 		if(StringUtils.isBlank(user.getStoreId())){
 			model.addAttribute("storeDropEnable", true);
 		}
-		//过滤工程模式
+
 		if(StringUtils.isBlank(user.getProjectMode())||user.getProjectMode().equals("3")){
 			model.addAttribute("gongcheng", true);
 		}else{
@@ -78,7 +72,7 @@ public class BizQcBillController extends BaseController {
 		}
 		
 		User user = UserUtils.getUser();
-		//过滤门店
+
 		if( null!= bizQcBill && null==bizQcBill.getStoreId()){
 			if( user != null && null!=user.getStoreId()){
 				bizQcBill.setStoreId(user.getStoreId());
@@ -87,7 +81,7 @@ public class BizQcBillController extends BaseController {
 		if( null != user && StringUtils.isBlank(user.getStoreId())){
 			model.addAttribute("storeDropEnable", true);
 		}
-		//过滤工程模式
+
 		if( null != user ){
 			if(  StringUtils.isBlank(user.getProjectMode())||user.getProjectMode().equals("3") ){
 				model.addAttribute("gongcheng", true);

@@ -12,10 +12,7 @@ import cn.damei.common.utils.DateUtils;
 import cn.damei.dao.mobile.Manager.BusinessPicDao;
 import cn.damei.entity.mobile.Manager.BusinessPic;
 
-/**
- * 公共上传图片
- * @author llp
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BusinessPicService extends CrudService2<BusinessPicDao, BusinessPic>{
@@ -44,15 +41,9 @@ public class BusinessPicService extends CrudService2<BusinessPicDao, BusinessPic
 		businessPicDao.insertPic(pic);
 	}
 
-	/**
-	 * 根据biz_order_finish_project_bill的主键查找
-	 * biz_business_pic下的所有数据
-	 * 关联条件biz_business_pic.business_id_int=biz_order_finish_project_bill.id
-	 * @param id
-	 * @return List
-	 */
+
 	public List<BusinessPic> queryByBusinessID(Integer businessID) {
-		// TODO Auto-generated method stub
+
 		return businessPicDao.queryByBusinessID(businessID);
 	}
 
@@ -77,13 +68,9 @@ public class BusinessPicService extends CrudService2<BusinessPicDao, BusinessPic
 		return businessPicDao.insertPhotos(pic) ? "0" : "3";
 	}
 
-	/**
-	 * 获取所有图片
-	 * @param taokouKey、recheckID
-	 * @return List
-	 */
+
 	public List<BusinessPic> getByBusType(String businessType, Integer businessID) {
-		// TODO Auto-generated method stub
+
 		return businessPicDao.getByBusType(businessType, businessID);
 	}
 

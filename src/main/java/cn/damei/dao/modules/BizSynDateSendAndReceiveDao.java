@@ -31,25 +31,12 @@ public interface BizSynDateSendAndReceiveDao {
 			String businessOnlyMarkInt);
 
 	public void updateCustomerServiceDataByMap(Map m);
-	/**
-	 * 查询同步表里是否已经有数据
-	 * @param businessType
-	 * @param businessOnlyMarkInt
-	 * @return
-	 */
+
 	public int selectCountSynByTypeAndMarkInt(String businessType,
 			String businessOnlyMarkInt);
-	/**
-	 * 查询problem表里是否已经有数据
-	 * @param workOrderCode
-	 * @return
-	 */
+
 	public int selectCountProblemByTypeAndMarkInt(String workOrderCode);
-	/**
-	 * 查询biz_cus_service_liable_type表里是否已经有数据
-	 * @param maplLiableType
-	 * @return
-	 */
+
 	public int selectliableTypeCountByMap(String liableTypeCode);
 
 	public void insertLiableTypeByMap(Map<String, Object> maplLiableType);

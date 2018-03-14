@@ -40,11 +40,7 @@ import cn.damei.common.utils.UserUtils;
 import cn.damei.entity.modules.BizTaskPackageTemplat;
 import cn.damei.service.modules.BizTaskPackageTemplatService;
 
-/**
- * 评价活动设置Controller
- * @author wyb
- * @version 2017-02-25
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/evaluate/bizevalactivity/bizEvalActivity")
 public class BizEvalActivityController extends BaseController {
@@ -72,19 +68,12 @@ public class BizEvalActivityController extends BaseController {
 		return entity;
 	}
 	
-	/**
-	 * 列表页--空
-	 * @param bizEvalActivity
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @return
-	 */
+
 	@RequiresPermissions("bizevalactivity:bizEvalActivity:view")
 	@RequestMapping(value = {"list", ""})
 	public String list(BizEvalActivity bizEvalActivity, HttpServletRequest request, HttpServletResponse response, Model model) {
 		User user = UserUtils.getUser();
-		//过滤门店
+
 		if(null==bizEvalActivity.getStoreId()){
 			if(null!=user.getStoreId()){
 				bizEvalActivity.setStoreId(Integer.valueOf(user.getStoreId()));
@@ -93,7 +82,7 @@ public class BizEvalActivityController extends BaseController {
 		if(StringUtils.isBlank(user.getStoreId())){
 			model.addAttribute("storeDropEnable", true);
 		}
-		//过滤工程模式
+
 		if(StringUtils.isBlank(bizEvalActivity.getProjectMode())){
 			if(null != user.getEmpId()){
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -128,20 +117,13 @@ public class BizEvalActivityController extends BaseController {
 		return "modules/evaluate/bizevalactivity/bizEvalActivityList";
 	}
 	
-	/**
-	 * 列表页--查询
-	 * @param bizEvalActivity
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @return
-	 */
+
 	@RequiresPermissions("bizevalactivity:bizEvalActivity:view")
 	@RequestMapping(value = {"list1", ""})
 	public String list1(BizEvalActivity bizEvalActivity, HttpServletRequest request, HttpServletResponse response, Model model) {
 		
 		User user = UserUtils.getUser();
-		//过滤门店
+
 		if(null==bizEvalActivity.getStoreId()){
 			if(null!=user.getStoreId()){
 				bizEvalActivity.setStoreId(Integer.valueOf(user.getStoreId()));
@@ -150,7 +132,7 @@ public class BizEvalActivityController extends BaseController {
 		if(StringUtils.isBlank(user.getStoreId())){
 			model.addAttribute("storeDropEnable", true);
 		}
-		//过滤工程模式
+
 		if(StringUtils.isBlank(bizEvalActivity.getProjectMode())){
 			if(null != user.getEmpId()){
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -188,51 +170,46 @@ public class BizEvalActivityController extends BaseController {
 		return "modules/evaluate/bizevalactivity/bizEvalActivityList";
 	}
 
-	/**
-	 * 新增/修改   页
-	 * @param bizEvalActivity
-	 * @param model
-	 * @return
-	 */
+
 	@RequiresPermissions("bizevalactivity:bizEvalActivity:view")
 	@RequestMapping(value = "form")
 	public String form(BizEvalActivity bizEvalActivity, Model model) {
 		
-		//修改操作
-//		List<BizTaskPackageTemplat> taskPackageList = null;
-//		List<BizEvalActivityTaskpackTemp> nowTaskPackageList = null;
-//		List<BizEvalActivityIndex> nowIndexList = null;
-//		List<BizEvalIndex> bizEvalIndexList = null;
-//		if(null!=bizEvalActivity.getId()&&!"".equals(bizEvalActivity.getId())){
-			//所有的任务包模板
-//			BizTaskPackageTemplat bizTaskPackageTemplat = new BizTaskPackageTemplat();
-//			bizTaskPackageTemplat.setStoreId(bizEvalActivity.getStoreId().toString());
-//			bizTaskPackageTemplat.setStatus("1");
-//			taskPackageList = bizTaskPackageTemplatService.findList(bizTaskPackageTemplat);
-			//已选择的任务包
-//			nowTaskPackageList = bizEvalActivityService.findEvalActivityTaskpackTemp(bizEvalActivity.getId());
+
+
+
+
+
+
+
+
+
+
+
+
+
 			
-			//已添加的评价设置
-//			nowIndexList = bizEvalActivityService.findEvalActivityIndex(bizEvalActivity.getId());
+
+
 			
-			//评价指标列表
-//			BizEvalIndex bizEvalIndex = new BizEvalIndex();
-//			bizEvalIndex.setStoreId(bizEvalActivity.getStoreId());
-//			bizEvalIndex.setProjectMode(bizEvalActivity.getProjectMode());
-//			bizEvalIndex.setIsEnabled(ConstantUtils.IS_ENABLE_1);
-//			bizEvalIndexList = bizEvalIndexService.findList(bizEvalIndex);
-//		}
-		//评价类型
+
+
+
+
+
+
+
+
 		String type = "eval_role_type";
 		List<Dict> dictList = bizEvalActivityService.findDict(type);
 		
-		//项目经理评价阶段
+
 		String evalStageType="manager_eval_stage";
 		List<Dict> managerEvalStageList = bizEvalActivityService.findDict(evalStageType);
-//		model.addAttribute("taskPackageList", taskPackageList);
-//		model.addAttribute("nowTaskPackageList", nowTaskPackageList);
-//		model.addAttribute("nowIndexList", nowIndexList);
-//		model.addAttribute("bizEvalIndexList", bizEvalIndexList);
+
+
+
+
 		model.addAttribute("dictList", dictList);
 		model.addAttribute("managerEvalStageList",managerEvalStageList);
 		model.addAttribute("readOnly", UserUtils.getUser().getProjectMode());
@@ -240,37 +217,32 @@ public class BizEvalActivityController extends BaseController {
 		return "modules/evaluate/bizevalactivity/bizEvalActivityForm";
 	}
 	
-	/**
-	 * 详情页
-	 * @param bizEvalActivity
-	 * @param model
-	 * @return
-	 */
+
 	@RequiresPermissions("bizevalactivity:bizEvalActivity:view")
 	@RequestMapping(value = "details")
 	public String details(BizEvalActivity bizEvalActivity, Model model) {
 				
-		//修改操作
+
 		
 		List<BizEvalActivityIndex> nowIndexList = null;
 		List<BizEvalIndex> bizEvalIndexList = null;
 		
 		if(null!=bizEvalActivity.getId()){
 			bizEvalActivity = bizEvalActivityService.get(bizEvalActivity.getId());
-			if(bizEvalActivity.getEvalTargetType().equals("1")){//评价工人
+			if(bizEvalActivity.getEvalTargetType().equals("1")){
 				List<BizTaskPackageTemplat> taskPackageList = null;
 				List<BizEvalActivityTaskpackTemp> nowTaskPackageList = null;
-				//所有的任务包模板
+
 				BizTaskPackageTemplat bizTaskPackageTemplat = new BizTaskPackageTemplat();
 				bizTaskPackageTemplat.setStoreId(bizEvalActivity.getStoreId().toString());
 				bizTaskPackageTemplat.setProjectMode(bizEvalActivity.getProjectMode());
 				bizTaskPackageTemplat.setStatus("1");
 				taskPackageList = bizTaskPackageTemplatService.findList(bizTaskPackageTemplat);
-				//已选择的任务包
+
 				nowTaskPackageList = bizEvalActivityService.findEvalActivityTaskpackTemp(bizEvalActivity.getId());
 				model.addAttribute("taskPackageList", taskPackageList);
 				model.addAttribute("nowTaskPackageList", nowTaskPackageList);
-			}else if(bizEvalActivity.getEvalTargetType().equals("2")){//评价项目经理
+			}else if(bizEvalActivity.getEvalTargetType().equals("2")){
 				List<BizEvalActivityStage> stageList = bizEvalActivityService.queryEvalStage(bizEvalActivity.getId());
 				
 				Map<String,Object> map =new HashMap<String,Object>();
@@ -281,17 +253,17 @@ public class BizEvalActivityController extends BaseController {
 				model.addAttribute("checkNodeList", checkNodeList);
 			}
 		
-			//已添加的评价设置
+
 			nowIndexList = bizEvalActivityService.findEvalActivityIndex(bizEvalActivity.getId());
 		
-			//评价指标列表
+
 			BizEvalIndex bizEvalIndex = new BizEvalIndex();
 			bizEvalIndex.setStoreId(bizEvalActivity.getStoreId());
 			bizEvalIndex.setProjectMode(bizEvalActivity.getProjectMode());
 			bizEvalIndex.setIsEnabled(ConstantUtils.IS_ENABLE_1);
 			bizEvalIndexList = bizEvalIndexService.findList(bizEvalIndex);
 		}
-		//评价类型
+
 		String type = "eval_role_type";
 		List<Dict> dictList = bizEvalActivityService.findDict(type);
 		
@@ -303,13 +275,7 @@ public class BizEvalActivityController extends BaseController {
 		return "modules/evaluate/bizevalactivity/bizEvalActivityDetails";
 	}
 
-	/**
-	 * 新增修改  保存
-	 * @param bizEvalActivity
-	 * @param model
-	 * @param redirectAttributes
-	 * @return
-	 */
+
 	@RequiresPermissions("bizevalactivity:bizEvalActivity:edit")
 	@RequestMapping(value = "save")
 	public String save(BizEvalActivity bizEvalActivity,String[] managerEvalStage,String[] evalStageCheckNode,String[] evalRoleType,String[] evalIndexId,String[] evalTotalScore,HttpServletRequest request, Model model, RedirectAttributes redirectAttributes) {
@@ -322,12 +288,7 @@ public class BizEvalActivityController extends BaseController {
 	}
 	
 	
-	/**
-	 * 删除
-	 * @param bizEvalActivity
-	 * @param redirectAttributes
-	 * @return
-	 */
+
 	@RequiresPermissions("bizevalactivity:bizEvalActivity:edit")
 	@RequestMapping(value = "delete")
 	public String delete(BizEvalActivity bizEvalActivity, RedirectAttributes redirectAttributes) {
@@ -336,24 +297,19 @@ public class BizEvalActivityController extends BaseController {
 		return "redirect:"+Global.getAdminPath()+"/evaluate/bizevalactivity/bizEvalActivity/list1?repage";
 	}
 	
-	/**
-	 * 停启用
-	 * @param bizEvalActivity
-	 * @param redirectAttributes
-	 * @return
-	 */
+
 	@RequiresPermissions("bizevalactivity:bizEvalActivity:edit")
 	@RequestMapping(value = "isEnabled")
 	public String isEnabled(BizEvalActivity bizEvalActivity, RedirectAttributes redirectAttributes) {
 		
 		if(bizEvalActivity.getIsEnabled().equals(ConstantUtils.IS_ENABLE_1)){
-			//停用
+
 			bizEvalActivity.setIsEnabled(ConstantUtils.IS_ENABLE_0);
 			bizEvalActivity.preUpdate();
 			bizEvalActivityService.isEnabled(bizEvalActivity);
 			addMessage(redirectAttributes, "评价活动停用成功");
 		}else{
-			//启用
+
 			bizEvalActivity.setIsEnabled(ConstantUtils.IS_ENABLE_1);
 			bizEvalActivity.preUpdate();
 			bizEvalActivityService.isEnabled(bizEvalActivity);
@@ -365,11 +321,7 @@ public class BizEvalActivityController extends BaseController {
 		return "redirect:"+Global.getAdminPath()+"/evaluate/bizevalactivity/bizEvalActivity/list1?repage";
 	}
 	
-	/**
-	 * 根据门店查询任务包模板
-	 * @param storeId
-	 * @return
-	 */
+
 	@RequestMapping(value = "findTaskpackage")
 	public @ResponseBody List<BizTaskPackageTemplat> findTaskpackage(String storeId,String projectMode){
 		
@@ -381,11 +333,7 @@ public class BizEvalActivityController extends BaseController {
 		return list;
 	}
 	
-	/**
-	 * 判断评价活动中的任务包是否已经存在
-	 * @param storeId
-	 * @return
-	 */
+
 	@RequestMapping(value = "isTaskpackage")
 	public @ResponseBody boolean isTaskpackage(BizEvalActivity bizEvalActivity){
 		
@@ -404,11 +352,7 @@ public class BizEvalActivityController extends BaseController {
 		}
 		return flag;
 	}
-	/**
-	 * 判断评价项目经理活动关联的约检节点是否存在
-	 * @param bizEvalActivity
-	 * @return
-	 */
+
 	@RequestMapping(value = "isCheckStage")
 	public  @ResponseBody boolean isCheckStage(BizEvalActivity bizEvalActivity){
 		List<Integer> list = new ArrayList<Integer>();
@@ -427,12 +371,7 @@ public class BizEvalActivityController extends BaseController {
 		return flag;
 	}
 	
-	/**
-	 * 添加按钮  根据门店和工程模式查询评价指标
-	 * @param storeId
-	 * @param projectMode
-	 * @return
-	 */
+
 	@RequestMapping(value = "addEvalIndex")
 	public @ResponseBody List<BizEvalIndex> addEvalIndex(String storeId,String projectMode){
 		
@@ -445,11 +384,7 @@ public class BizEvalActivityController extends BaseController {
 		return bizEvalIndexList;
 	}
 	
-	/**
-	 * 是否可以启用
-	 * @param id
-	 * @return
-	 */
+
 	@RequestMapping(value = "isEnabledEval")
 	public @ResponseBody String isEnabledEval(Integer id) {
 		BizEvalActivity bizEvalActivity = bizEvalActivityService.get(id);

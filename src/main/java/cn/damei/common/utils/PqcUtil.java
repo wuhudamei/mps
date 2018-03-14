@@ -16,17 +16,15 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-/**
- * Created by joseph on 2017/6/29.
- */
+
 
 
 public class PqcUtil {
 
 
-    private static final String MESSAGE_TYPE = "600201"; //质检产生复检单 发短信类型
+    private static final String MESSAGE_TYPE = "600201";
 
-    private static final String MESSAGE_STATUS = "0";//短信状态
+    private static final String MESSAGE_STATUS = "0";
 
     private static final String APP_MSG_TITLE = "质检员产生复检单";
 
@@ -42,15 +40,7 @@ public class PqcUtil {
     @Autowired
     private  BizProjectChangeBillService msgService;
 
-    /**
-     * 质检端复检短信保存(待修改)
-     *
-     * @param messageContent
-     * @param receiveEmployeeId
-     * @param receivePhone
-     * @param relatedBusinessId
-     * @return
-     */
+
     public  boolean saveMessage(String messageContent, Integer receiveEmployeeId, String receivePhone, Integer relatedBusinessId) {
 
             PhoneMessageEntity entity = new PhoneMessageEntity();
@@ -75,14 +65,7 @@ public class PqcUtil {
     }
 
 
-    /**
-     * 质检端抽约检站内消息推送(待修改)
-     *
-     * @param msgContent
-     * @param businessId
-     * @param employeeId
-     * @return
-     */
+
     public  boolean saveAppMsg(String msgContent, Integer businessId, Integer employeeId, boolean checkDiff) {
 
 
@@ -93,7 +76,7 @@ public class PqcUtil {
         bizMsg.setMsgTime(new Date());
         bizMsg.setMsgContent(msgContent);
         bizMsg.setMsgType(MSG_TYPE);
-        //约检为true  抽检为false
+
         bizMsg.setBusiType(checkDiff ? APPLY_CHECK_BILL_MSG_BUSINESS_TYPE : SELECT_CHECK_BILL_MSG_BUSINESS_TYPE);
         bizMsg.setBusiIdInt(businessId);
         bizMsg.setEmployeeId(employeeId);
@@ -130,10 +113,10 @@ public class PqcUtil {
 
             String uuid = UUID.randomUUID().toString().replaceAll("-", "");
 
-//					String rootPath = RootName.SystemEnvironment(request);
+
             String rootPath = request.getSession().getServletContext().getRealPath("");
             File filePath = new File(rootPath + uploadDir+ DateUtils.getDate1());
-            //判断该文件是否存在
+
             if(!filePath.exists() && !filePath.isDirectory()){
                 filePath.mkdirs();
             }
@@ -141,7 +124,7 @@ public class PqcUtil {
             Base64Util.generateImage(p, filepath);
 
             String picpath = uploadDir+ DateUtils.getDate1()+filePath.separator + uuid + ".jpeg";
-            //保存图片到数据库
+
             ReportCheckDetailsPic reportCheckDetailsPic = new ReportCheckDetailsPic();
             reportCheckDetailsPic.setBusinessIdInt(inspectBillId);
             reportCheckDetailsPic.setBusinessType(type);
@@ -151,7 +134,7 @@ public class PqcUtil {
             reportCheckDetailsPic.setUpdateDate(date);
             reportCheckDetailsPic.setDelFlag("0");
             pList.add(reportCheckDetailsPic);
-//					selectCheckService.savePic(reportCheckDetailsPic);
+
         }
         return pList;
 

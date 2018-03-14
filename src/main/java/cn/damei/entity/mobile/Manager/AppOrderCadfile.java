@@ -2,19 +2,15 @@ package cn.damei.entity.mobile.Manager;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 订单图纸
- * @author Administrator
- *
- */
+
 public class AppOrderCadfile extends DataEntity2<AppOrderCadfile>{
 
 	private static final long serialVersionUID = 1L;
 	
-	private int orderId;		//订单id
-	private String displayFileName;	//订单图纸名称
-	private String fileName;		//文件名
-	private String filePath;		//订单图纸路径
+	private int orderId;
+	private String displayFileName;
+	private String fileName;
+	private String filePath;
 	
 	
 	public int getOrderId() {

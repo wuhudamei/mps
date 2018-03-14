@@ -10,11 +10,7 @@ import cn.damei.common.service.CrudService2;
 import cn.damei.dao.modules.BizOrderConstructionReportDao;
 import cn.damei.entity.modules.BizOrderConstructionReport;
 
-/**
- * 确认开工功能
- * @author llp
- *
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizOrderConstructionReportService extends CrudService2<BizOrderConstructionReportDao, BizOrderConstructionReport>{
@@ -28,7 +24,7 @@ public class BizOrderConstructionReportService extends CrudService2<BizOrderCons
 	}
 
 	public List<BizOrderConstructionReport> getByStoreList(String storeID) {
-		// TODO Auto-generated method stub
+
 		return dao.getByStoreList(storeID);
 	}
 }

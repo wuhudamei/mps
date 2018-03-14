@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import javax.validation.constraints.NotNull;
@@ -10,44 +8,41 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 主材安装项提前申请记录Entity
- * @author wyb
- */
+
 public class BizOrderInstallPlanAdvanceApply extends DataEntity2<BizOrderInstallPlanAdvanceApply> {
 	
 	private static final long serialVersionUID = 1L;
-	private Integer orderId;		// 订单id
-	private String applyType;		// 申请类型（安装/复尺）
-	private Integer orderInstallPlanId;		// 安装项计划id
-	private String installItemName;		// 安装项计划名称
-	private Date oldPlanApplyDate;		// 原计划可申请日期
-	private String dealStatus;		// 处理状态
-	private Integer dealEmployeeId;		// 处理人id
-	private Date delaTime;		// 处理时间
+	private Integer orderId;
+	private String applyType;
+	private Integer orderInstallPlanId;
+	private String installItemName;
+	private Date oldPlanApplyDate;
+	private String dealStatus;
+	private Integer dealEmployeeId;
+	private Date delaTime;
 	
 	
-	private String dealStatusName;		// 处理状态 名称
-	private String dealEmployeeName;		// 处理人 名称
+	private String dealStatusName;
+	private String dealEmployeeName;
 	
-	private Integer storeId;	//门店
-	private String storeName;  //门店名称
-	private String projectMode;		//工程模式
-	private String projectModeName;		//工程模式名称
-	private Integer engineDepartId;  //区域id
-	private String engineDepartName;  //区域名称
-	private String orderNumber;  //订单编号
-	private String customerName; //客户姓名
-	private String customerPhone; //客户电话
-	private Integer itemManagerId;	 //项目经理id
-	private String itemManager;	 //项目经理名称
-	private String itemManagerPhone;	 //项目经理名称电话
-	private Date actualStartDate;  //实际开工日期
+	private Integer storeId;
+	private String storeName;
+	private String projectMode;
+	private String projectModeName;
+	private Integer engineDepartId;
+	private String engineDepartName;
+	private String orderNumber;
+	private String customerName;
+	private String customerPhone;
+	private Integer itemManagerId;
+	private String itemManager;
+	private String itemManagerPhone;
+	private Date actualStartDate;
 	
-	private String communityName;	 //小区
-	private String buildNumber;	 //楼
-	private String buildUnit;	 //单元
-	private String buildRoom;	 //室
+	private String communityName;
+	private String buildNumber;
+	private String buildUnit;
+	private String buildRoom;
 	
 	public BizOrderInstallPlanAdvanceApply() {
 		super();

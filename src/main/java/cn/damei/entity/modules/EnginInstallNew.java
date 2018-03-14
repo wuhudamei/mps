@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import java.util.Date;
@@ -8,83 +6,78 @@ import java.util.List;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 主材安装申请Entity
- * 
- * @author haven
- * @version 2016-09-05
- */
+
 public class EnginInstallNew extends DataEntity2<EnginInstallNew> {
 
     private static final long serialVersionUID = 1L;
     
-    private String isOn; //是否启用（安装项名称）
-    private String installMode; // 安装模式
-    private String installModeName; // 安装模式 名称
-    private String installItemName; // 安装项名称
-    private Integer projectInstallItemId; // 安装项模板id
-    private Integer projectInstallItemIdStop; // 安装项模板id(停用的)
-    private String installStatus; // 安装项状态
-    private String installStatusName; // 安装项状态名称
-    private String installItemSequence; // 安装项顺序
-    private String isUrgeReply; // 是否回复
-    private String supplierConfirmRemarks; // 下达供应商 说明
-    private Integer sendSupplierId; //供应商id
+    private String isOn;
+    private String installMode;
+    private String installModeName;
+    private String installItemName;
+    private Integer projectInstallItemId;
+    private Integer projectInstallItemIdStop;
+    private String installStatus;
+    private String installStatusName;
+    private String installItemSequence;
+    private String isUrgeReply;
+    private String supplierConfirmRemarks;
+    private Integer sendSupplierId;
     
-    private String rejectedRemarks; // 驳回 备注
-    private String rejectedId; // 驳回 类型
-    private String rejectedIdName; // 驳回 类型 名称
+    private String rejectedRemarks;
+    private String rejectedId;
+    private String rejectedIdName;
      
-    private Date realIntoDate; // 实际进场日期
-    private Date realCompleteDate; // 实际完工日期
+    private Date realIntoDate;
+    private Date realCompleteDate;
     
-    private Date applyIntoCreateDatetime; // 申请时间
-    private Date beginApplyIntoCreateDatetime; // 申请时间 开始
-    private Date endApplyIntoCreateDatetime; // 申请时间 结束
+    private Date applyIntoCreateDatetime;
+    private Date beginApplyIntoCreateDatetime;
+    private Date endApplyIntoCreateDatetime;
     
-    private Date applyIntoDate; // 期望进场日期
-    private Date beginApplyIntoDate; // 期望进场日期 开始
-    private Date endApplyIntoDate; // 期望进场日期 结束
+    private Date applyIntoDate;
+    private Date beginApplyIntoDate;
+    private Date endApplyIntoDate;
     
-    private Date supplierConfirmIntoDate; // 供应商确认日期
-    private Date beginSupplierConfirmIntoDate; // 供应商确认日期 开始
-    private Date endSupplierConfirmIntoDate; // 供应商确认日期 结束
+    private Date supplierConfirmIntoDate;
+    private Date beginSupplierConfirmIntoDate;
+    private Date endSupplierConfirmIntoDate;
     
-    private Date supplierConfirmCompleteDate; // 供应商确认完工日期
+    private Date supplierConfirmCompleteDate;
     
-    private Date supplierOperaterDate; // 转供应商时间
-    private Date beginSupplierOperaterDate; // 转供应商时间  开始
-    private Date endSupplierOperaterDate; // 转供应商时间 结束
+    private Date supplierOperaterDate;
+    private Date beginSupplierOperaterDate;
+    private Date endSupplierOperaterDate;
     
-    private Date rejectedOperaterDate; // 驳回时间
-    private Date beginRejectedOperaterDate; // 驳回时间  开始
-    private Date endRejectedOperaterDate; // 驳回时间 结束
+    private Date rejectedOperaterDate;
+    private Date beginRejectedOperaterDate;
+    private Date endRejectedOperaterDate;
     
-    private String operator; //操作人
-    private	List<String> installStatusList = null; //安装项状态集合
-    private	List<Integer> projectInstallItemIdList = null; //安装项id集合
+    private String operator;
+    private	List<String> installStatusList = null;
+    private	List<Integer> projectInstallItemIdList = null;
     
-    private Integer orderId; // 订单id
-    private String orderNumber; // 订单编号
-    private Integer storeId; // 门店
-    private String storeName; // 门店名称
-    private String projectMode; // 工程模式 -- '1-产业模式；2-传统模式；3-全部
-    private String projectModeName; //工程模式名称
+    private Integer orderId;
+    private String orderNumber;
+    private Integer storeId;
+    private String storeName;
+    private String projectMode;
+    private String projectModeName;
     
-    private String communityName; //小区
-    private String buildNumber; //楼
-    private String buildUnit; //单元
-    private String buildRoom; //室
+    private String communityName;
+    private String buildNumber;
+    private String buildUnit;
+    private String buildRoom;
     
-    private String customerName; // 客户
-    private String customerPhone; // 客户手机号
-    private Integer managerId; // 项目经理id
-    private String managerName; // 项目经理
-    private String managerPhone; // 项目经理手机号
-    private String designerName;  //设计师
-    private String designerPhone; //设计师电话
+    private String customerName;
+    private String customerPhone;
+    private Integer managerId;
+    private String managerName;
+    private String managerPhone;
+    private String designerName;
+    private String designerPhone;
    
-    private String urgeCount;         //接单员
+    private String urgeCount;
     
     public EnginInstallNew() {
         super();

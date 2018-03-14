@@ -20,41 +20,41 @@ import cn.damei.entity.modules.BizPurchaseVo;
 public class ExportProjectExcel {
 
 	public static void main(String[] args) throws Exception {
-		HSSFWorkbook wb = new HSSFWorkbook();// 创建一个Excel文件
-		HSSFSheet sheet = wb.createSheet("结算明细表");// 创建一个Excel的Sheet
-		// 定义样式
-		HSSFCellStyle cellStyleCenter = ExportFileNameUtils.initColumnHeadStyle(wb);// 表头样工
-		HSSFCellStyle cellStyleRight = ExportFileNameUtils.initColumnCenterstyle(wb);// 单元格样式
-		HSSFCellStyle cellStyleLeft = ExportFileNameUtils.initColumnCenterstyle(wb);
-		cellStyleRight.setAlignment(HSSFCellStyle.ALIGN_RIGHT);// 右对齐
-		cellStyleLeft.setAlignment(HSSFCellStyle.ALIGN_LEFT);// 左对齐
+		HSSFWorkbook wb = new HSSFWorkbook();
+		HSSFSheet sheet = wb.createSheet("结算明细表");
 
-		// 设置列宽
-		sheet.setColumnWidth(0, 2000);//序号
-		sheet.setColumnWidth(1, 4000);//结算单编号
-		sheet.setColumnWidth(2, 4000);//对应批次号
-		sheet.setColumnWidth(3, 4000);//客户名称
-		sheet.setColumnWidth(4, 4000);//电话
-		sheet.setColumnWidth(5, 8000);//地址
-		sheet.setColumnWidth(6, 2000);//合同面积（M²）
-		sheet.setColumnWidth(7, 4000);//项目经理
-		sheet.setColumnWidth(8, 4000);//工人
-		sheet.setColumnWidth(9, 4000);//身份证号
-		sheet.setColumnWidth(10, 4000);//任务包
-		sheet.setColumnWidth(11, 4000);//结算单申请日期
-		sheet.setColumnWidth(12, 4000);//结算单审核日期
-		sheet.setColumnWidth(13, 3000);//结算总金额
-		sheet.setColumnWidth(14, 3000);//首款
-		sheet.setColumnWidth(15, 3000);//尾款
-		sheet.setColumnWidth(16, 3000);//结算比例
-		sheet.setColumnWidth(17, 3000);//首次结算金额（元）
-		sheet.setColumnWidth(18, 3000);//余款结算比例
-		sheet.setColumnWidth(19, 3000);//实发金额（元）
+		HSSFCellStyle cellStyleCenter = ExportFileNameUtils.initColumnHeadStyle(wb);
+		HSSFCellStyle cellStyleRight = ExportFileNameUtils.initColumnCenterstyle(wb);
+		HSSFCellStyle cellStyleLeft = ExportFileNameUtils.initColumnCenterstyle(wb);
+		cellStyleRight.setAlignment(HSSFCellStyle.ALIGN_RIGHT);
+		cellStyleLeft.setAlignment(HSSFCellStyle.ALIGN_LEFT);
+
+
+		sheet.setColumnWidth(0, 2000);
+		sheet.setColumnWidth(1, 4000);
+		sheet.setColumnWidth(2, 4000);
+		sheet.setColumnWidth(3, 4000);
+		sheet.setColumnWidth(4, 4000);
+		sheet.setColumnWidth(5, 8000);
+		sheet.setColumnWidth(6, 2000);
+		sheet.setColumnWidth(7, 4000);
+		sheet.setColumnWidth(8, 4000);
+		sheet.setColumnWidth(9, 4000);
+		sheet.setColumnWidth(10, 4000);
+		sheet.setColumnWidth(11, 4000);
+		sheet.setColumnWidth(12, 4000);
+		sheet.setColumnWidth(13, 3000);
+		sheet.setColumnWidth(14, 3000);
+		sheet.setColumnWidth(15, 3000);
+		sheet.setColumnWidth(16, 3000);
+		sheet.setColumnWidth(17, 3000);
+		sheet.setColumnWidth(18, 3000);
+		sheet.setColumnWidth(19, 3000);
 		
 		try {  
             HSSFRow row = null;
             HSSFCell cell = null; 
-            // ---------------------------1.初始化带边框的表头------------------------------  
+
             for (int i = 0; i < 17; i++) {
                 row = sheet.createRow(i);  
                 for (int j = 0; j <= 17; j++) {  
@@ -62,7 +62,7 @@ public class ExportProjectExcel {
                     cell.setCellStyle(cellStyleCenter);  
                 }  
             }  
-            // ---------------------------2.指定单元格填充数据------------------------------
+
             sheet.getRow(0).setHeight((short) 600);
             cell = sheet.getRow(0).getCell(0);  
             cell.setCellValue(new HSSFRichTextString("产业工人结算明细表")); 
@@ -106,8 +106,8 @@ public class ExportProjectExcel {
             cell.setCellValue(new HSSFRichTextString("余款结算比例"));
             cell = sheet.getRow(2).getCell(17);  
             cell.setCellValue(new HSSFRichTextString("实发金额（元）"));
-            // ---------------------------3.合并单元格------------------------------  
-            sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 17));// 开始行，结束行，开始列，结束列  
+
+            sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 17));
             sheet.addMergedRegion(new CellRangeAddress(1, 2, 0, 0));  
             sheet.addMergedRegion(new CellRangeAddress(1, 2, 1, 1));  
             sheet.addMergedRegion(new CellRangeAddress(1, 2, 2, 2));  
@@ -135,43 +135,43 @@ public class ExportProjectExcel {
 	
 	
 	public static HSSFWorkbook exportProject(List<PaymentDetailForExcel> list){
-		HSSFWorkbook wb = new HSSFWorkbook();// 创建一个Excel文件
-		HSSFSheet sheet = wb.createSheet("结算明细表");// 创建一个Excel的Sheet
-		// 定义样式
-		HSSFCellStyle cellStyleCenter = ExportFileNameUtils.initColumnHeadStyle(wb);// 表头样工
-		HSSFCellStyle cellStyleRight = ExportFileNameUtils.initColumnCenterstyle(wb);// 单元格样式
-		HSSFCellStyle cellStyleLeft = ExportFileNameUtils.initColumnCenterstyle(wb);
-		cellStyleRight.setAlignment(HSSFCellStyle.ALIGN_RIGHT);// 右对齐
-		cellStyleLeft.setAlignment(HSSFCellStyle.ALIGN_LEFT);// 左对齐
+		HSSFWorkbook wb = new HSSFWorkbook();
+		HSSFSheet sheet = wb.createSheet("结算明细表");
 
-		// 设置列宽
-		sheet.setColumnWidth(0, 2000);//序号
-		sheet.setColumnWidth(1, 4000);//订单编号
-		sheet.setColumnWidth(2, 4000);//结算单编号
-		sheet.setColumnWidth(3, 4000);//对应批次号
-		sheet.setColumnWidth(4, 4000);//客户名称
-		sheet.setColumnWidth(5, 4000);//电话
-		sheet.setColumnWidth(6, 8000);//地址
-		sheet.setColumnWidth(7, 2000);//合同面积（M²）
-		sheet.setColumnWidth(8, 4000);//项目经理
-		sheet.setColumnWidth(9, 4000);//工人
-		sheet.setColumnWidth(10, 4000);//身份证号
-		sheet.setColumnWidth(11, 4000);//任务包
-		sheet.setColumnWidth(12, 4000);//结算单申请日期
-		sheet.setColumnWidth(13, 4000);//结算单审核日期
-		sheet.setColumnWidth(14, 3000);//结算总金额
-		sheet.setColumnWidth(15, 3000);//工人组结算金额
-		sheet.setColumnWidth(16, 3000);//首款
-		sheet.setColumnWidth(17, 3000);//尾款
-		sheet.setColumnWidth(18, 3000);//结算比例
-		sheet.setColumnWidth(19, 3000);//首次结算金额（元）
-		sheet.setColumnWidth(20, 3000);//余款结算比例
-		sheet.setColumnWidth(21, 3000);//实发金额（元）
+		HSSFCellStyle cellStyleCenter = ExportFileNameUtils.initColumnHeadStyle(wb);
+		HSSFCellStyle cellStyleRight = ExportFileNameUtils.initColumnCenterstyle(wb);
+		HSSFCellStyle cellStyleLeft = ExportFileNameUtils.initColumnCenterstyle(wb);
+		cellStyleRight.setAlignment(HSSFCellStyle.ALIGN_RIGHT);
+		cellStyleLeft.setAlignment(HSSFCellStyle.ALIGN_LEFT);
+
+
+		sheet.setColumnWidth(0, 2000);
+		sheet.setColumnWidth(1, 4000);
+		sheet.setColumnWidth(2, 4000);
+		sheet.setColumnWidth(3, 4000);
+		sheet.setColumnWidth(4, 4000);
+		sheet.setColumnWidth(5, 4000);
+		sheet.setColumnWidth(6, 8000);
+		sheet.setColumnWidth(7, 2000);
+		sheet.setColumnWidth(8, 4000);
+		sheet.setColumnWidth(9, 4000);
+		sheet.setColumnWidth(10, 4000);
+		sheet.setColumnWidth(11, 4000);
+		sheet.setColumnWidth(12, 4000);
+		sheet.setColumnWidth(13, 4000);
+		sheet.setColumnWidth(14, 3000);
+		sheet.setColumnWidth(15, 3000);
+		sheet.setColumnWidth(16, 3000);
+		sheet.setColumnWidth(17, 3000);
+		sheet.setColumnWidth(18, 3000);
+		sheet.setColumnWidth(19, 3000);
+		sheet.setColumnWidth(20, 3000);
+		sheet.setColumnWidth(21, 3000);
 		
 		try {  
             HSSFRow row = null;
             HSSFCell cell = null; 
-            // ---------------------------1.初始化带边框的表头------------------------------  
+
             for (int i = 0; i < 3; i++) {
                 row = sheet.createRow(i);  
                 for (int j = 0; j <= 19; j++) {  
@@ -179,7 +179,7 @@ public class ExportProjectExcel {
                     cell.setCellStyle(cellStyleCenter);  
                 }  
             }  
-            // ---------------------------2.指定单元格填充数据------------------------------  
+
             cell = sheet.getRow(0).getCell(0);  
             cell.setCellValue(new HSSFRichTextString("产业工人结算明细表"));  
             cell = sheet.getRow(1).getCell(0);  
@@ -228,8 +228,8 @@ public class ExportProjectExcel {
             cell.setCellValue(new HSSFRichTextString("余款结算比例"));
             cell = sheet.getRow(2).getCell(18+1);  
             cell.setCellValue(new HSSFRichTextString("实发金额（元）"));
-            // ---------------------------3.合并单元格------------------------------  
-            sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 19));// 开始行，结束行，开始列，结束列  
+
+            sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 19));
             sheet.addMergedRegion(new CellRangeAddress(1, 2, 0, 0));  
             sheet.addMergedRegion(new CellRangeAddress(1, 2, 1, 1));  
             sheet.addMergedRegion(new CellRangeAddress(1, 2, 2, 2));  
@@ -300,52 +300,52 @@ public class ExportProjectExcel {
 	}
 	
 	public static HSSFWorkbook exportPurchaseOrders(BizPurchaseVo bizPurchaseVo,BizEmployee2 employee,List<Auxiliary> list){
-		HSSFWorkbook wb = new HSSFWorkbook();// 创建一个Excel文件
-		HSSFSheet sheet = wb.createSheet(bizPurchaseVo.getCustomerName()+"--"+bizPurchaseVo.getItemManager());// 创建一个Excel的Sheet
-		// 定义样式
-		HSSFCellStyle cellStyleCenter = ExportFileNameUtils.initColumnHeadStyle(wb);// 表头样工
-		HSSFCellStyle cellStyleRight = ExportFileNameUtils.initColumnCenterstyle(wb);// 单元格样式
-		HSSFCellStyle cellStyleLeft = ExportFileNameUtils.initColumnCenterstyle(wb);
-		cellStyleRight.setAlignment(HSSFCellStyle.ALIGN_RIGHT);// 右对齐
-		cellStyleLeft.setAlignment(HSSFCellStyle.ALIGN_LEFT);// 左对齐
+		HSSFWorkbook wb = new HSSFWorkbook();
+		HSSFSheet sheet = wb.createSheet(bizPurchaseVo.getCustomerName()+"--"+bizPurchaseVo.getItemManager());
 
-		// 设置列宽
-		sheet.setColumnWidth(0, 6000);//序号
-		sheet.setColumnWidth(1, 4000);//结算单编号
-		sheet.setColumnWidth(2, 4000);//对应批次号
-		sheet.setColumnWidth(3, 4000);//客户名称
-		sheet.setColumnWidth(4, 4000);//电话
-		sheet.setColumnWidth(5, 4000);//地址
-		sheet.setColumnWidth(6, 4000);//合同面积（M²）
-		sheet.setColumnWidth(7, 4000);//项目经理
-		sheet.setColumnWidth(8, 4000);//工人
-		sheet.setColumnWidth(9, 4000);//身份证号
-		sheet.setColumnWidth(10, 4000);//任务包
-		sheet.setColumnWidth(11, 4000);//结算单申请日期
-		sheet.setColumnWidth(12, 4000);//结算单审核日期
-		sheet.setColumnWidth(13, 3000);//结算总金额
-		sheet.setColumnWidth(14, 3000);//首款
-		sheet.setColumnWidth(15, 3000);//尾款
-		sheet.setColumnWidth(16, 3000);//结算比例
-		sheet.setColumnWidth(17, 3000);//首次结算金额（元）
-		sheet.setColumnWidth(18, 3000);//余款结算比例
-		sheet.setColumnWidth(19, 8000);//实发金额（元）
-		sheet.setColumnWidth(20, 3000);//实发金额（元）
-		sheet.setColumnWidth(21, 3000);//实发金额（元）
-		sheet.setColumnWidth(22, 3000);//实发金额（元）
-		sheet.setColumnWidth(23, 3000);//实发金额（元）
-		sheet.setColumnWidth(24, 3000);//实发金额（元）
-		sheet.setColumnWidth(25, 3000);//实发金额（元）
-		sheet.setColumnWidth(26, 3000);//实发金额（元）
-		sheet.setColumnWidth(27, 3000);//实发金额（元）
-		sheet.setColumnWidth(28, 3000);//实发金额（元）
-		sheet.setColumnWidth(29, 3000);//实发金额（元）
-		sheet.setColumnWidth(30, 3000);//实发金额（元）
+		HSSFCellStyle cellStyleCenter = ExportFileNameUtils.initColumnHeadStyle(wb);
+		HSSFCellStyle cellStyleRight = ExportFileNameUtils.initColumnCenterstyle(wb);
+		HSSFCellStyle cellStyleLeft = ExportFileNameUtils.initColumnCenterstyle(wb);
+		cellStyleRight.setAlignment(HSSFCellStyle.ALIGN_RIGHT);
+		cellStyleLeft.setAlignment(HSSFCellStyle.ALIGN_LEFT);
+
+
+		sheet.setColumnWidth(0, 6000);
+		sheet.setColumnWidth(1, 4000);
+		sheet.setColumnWidth(2, 4000);
+		sheet.setColumnWidth(3, 4000);
+		sheet.setColumnWidth(4, 4000);
+		sheet.setColumnWidth(5, 4000);
+		sheet.setColumnWidth(6, 4000);
+		sheet.setColumnWidth(7, 4000);
+		sheet.setColumnWidth(8, 4000);
+		sheet.setColumnWidth(9, 4000);
+		sheet.setColumnWidth(10, 4000);
+		sheet.setColumnWidth(11, 4000);
+		sheet.setColumnWidth(12, 4000);
+		sheet.setColumnWidth(13, 3000);
+		sheet.setColumnWidth(14, 3000);
+		sheet.setColumnWidth(15, 3000);
+		sheet.setColumnWidth(16, 3000);
+		sheet.setColumnWidth(17, 3000);
+		sheet.setColumnWidth(18, 3000);
+		sheet.setColumnWidth(19, 8000);
+		sheet.setColumnWidth(20, 3000);
+		sheet.setColumnWidth(21, 3000);
+		sheet.setColumnWidth(22, 3000);
+		sheet.setColumnWidth(23, 3000);
+		sheet.setColumnWidth(24, 3000);
+		sheet.setColumnWidth(25, 3000);
+		sheet.setColumnWidth(26, 3000);
+		sheet.setColumnWidth(27, 3000);
+		sheet.setColumnWidth(28, 3000);
+		sheet.setColumnWidth(29, 3000);
+		sheet.setColumnWidth(30, 3000);
 		sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 30));
 		try {  
             HSSFRow row = null;
             HSSFCell cell = null; 
-            // ---------------------------1.初始化带边框的表头------------------------------  
+
             for (int i = 0; i < 2; i++) {
                 row = sheet.createRow(i);  
                 for (int j = 0; j <= 30; j++) {  
@@ -353,7 +353,7 @@ public class ExportProjectExcel {
                     cell.setCellStyle(cellStyleCenter);  
                 }  
             }  
-            // ---------------------------2.指定单元格填充数据------------------------------  
+
             cell = sheet.getRow(0).getCell(0);  
             cell.setCellValue(new HSSFRichTextString("采购单明细表"));  
             cell = sheet.getRow(1).getCell(0);
@@ -420,7 +420,7 @@ public class ExportProjectExcel {
             cell.setCellValue(new HSSFRichTextString("备注"));
            
             
-            // ---------------------------3.合并单元格------------------------------  
+
             
             for (int i= 0; i<list.size();i++) {
             	row = sheet.createRow(i+2);

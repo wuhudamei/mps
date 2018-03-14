@@ -14,11 +14,7 @@ import cn.damei.entity.mobile.Inspector.Inspector;
 import cn.damei.service.mobile.Inspector.InspectorBizOrderReportService;
 import cn.damei.entity.modules.BizOrderReport;
 
-/**
- * 质检返单上报controller
- * @author hyh
- *
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/app/pqc/orderReport")
 public class InspectorOrderReportController {
@@ -39,7 +35,7 @@ public class InspectorOrderReportController {
 		BizOrderReport bizOrderReport = new BizOrderReport();
 		Inspector inspector = (Inspector) request.getSession().getAttribute("inspector");
 		bizOrderReport.setReporterEmployeeId(inspector.getId());
-		bizOrderReport.setReporterType("2");// 质检
+		bizOrderReport.setReporterType("2");
 		List<BizOrderReport> list = inspectorBizOrderReportService.findList(bizOrderReport);
 		if (null != list && list.size() > 0) {
 			model.addAttribute("list", list);
@@ -67,19 +63,14 @@ public class InspectorOrderReportController {
 
 	}
 
-	/**
-	 * 检查返单客户手机号是否存在
-	 * 
-	 * @param customerPhone
-	 * @return
-	 */
+
 	@RequestMapping(value = "checkCustomerPhone")
 	public @ResponseBody String checkCustomerPhone(String customerPhone) {
 		String result = null;
 		Integer count = inspectorBizOrderReportService.getBizOrderReportByCustomerPhone(customerPhone);
-		if (null==count || count == 0) {// 客户手机号不存在
+		if (null==count || count == 0) {
 			result = "0";
-		} else {// 已存在
+		} else {
 			result = "1";
 		}
 		return result;

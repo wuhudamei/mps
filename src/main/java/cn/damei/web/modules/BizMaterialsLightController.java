@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import java.util.ArrayList;
@@ -34,11 +32,7 @@ import cn.damei.service.modules.BizMaterialsStandardService;
 import cn.damei.common.utils.DictUtils;
 import cn.damei.common.utils.UserUtils;
 
-/**
- * 筒灯灯带Controller
- * @author lft
- * @version 2017-5-17
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/standradmaterials/bizMaterialsLight")
 public class BizMaterialsLightController extends BaseController {
@@ -62,12 +56,12 @@ public class BizMaterialsLightController extends BaseController {
 	@RequestMapping(value = "listPage")
 	public String listPage(BizMaterialsStandard bizMaterialsStandard, HttpServletRequest request, HttpServletResponse response, Model model){
 		if(UserUtils.getUser().getStoreId()!=null){
-			//当前登录用户门店
+
 			bizMaterialsStandard.setStoreId(Integer.parseInt(UserUtils.getUser().getStoreId()));
 		}else{
-			//门店是总部的查询所有部门信息
+
 			if(bizMaterialsStandard.getStoreId()!=null && bizMaterialsStandard.getStoreId().equals(1)){
-				//总部
+
 				bizMaterialsStandard.setStoreId(null);
 			}
 		}
@@ -77,16 +71,16 @@ public class BizMaterialsLightController extends BaseController {
 	@RequestMapping(value = {"list", ""})
 	public String list(BizMaterialsStandard bizMaterialsStandard, HttpServletRequest request, HttpServletResponse response, Model model) {
 		if(UserUtils.getUser().getStoreId()!=null){
-			//当前登录用户门店
+
 			bizMaterialsStandard.setStoreId(Integer.parseInt(UserUtils.getUser().getStoreId()));
 		}else{
-			//门店是总部的查询所有部门信息
+
 			if(bizMaterialsStandard.getStoreId()!=null && bizMaterialsStandard.getStoreId().equals(1)){
-				//总部
+
 				bizMaterialsStandard.setStoreId(null);
 			}
 		}
-		//設置筒灯灯带
+
 		bizMaterialsStandard.setMaterialsLargeType("2");
 		Page<BizMaterialsStandard> page = bizMaterialsStandardService.findPage(new Page<BizMaterialsStandard>(request, response), bizMaterialsStandard); 
 		model.addAttribute("page", page);
@@ -111,13 +105,13 @@ public class BizMaterialsLightController extends BaseController {
 		}
 		bizMaterialsStandard.setMaterialsLargeType("2");
 		bizMaterialsStandardService.save(bizMaterialsStandard);
-		//拿出限制 有限制为1  不限制0
+
 		String isLimitMaxNumber = bizMaterialsStandard.getIsLimitMaxNumber();
-		//有限制 有id / 没id
+
 		if("1".equals(isLimitMaxNumber)){
 			 setAreaObject(bizMaterialsStandard);
 		}else{
-			//无限制 传过来 id
+
 			String[] getsId = bizMaterialsStandard.getsId();
 				if(getsId!=null){
 				for (String str : getsId) {
@@ -156,29 +150,29 @@ public class BizMaterialsLightController extends BaseController {
 		String a =  JsonMapper.getInstance().toJson(bizMaterialsStandard);
 		return a;
 	}
-	//組裝 保存
+
 	private void setAreaObject(BizMaterialsStandard bizMaterialsStandard){
 		List<BizMaterialsStandardNumberSquare> list=new ArrayList<BizMaterialsStandardNumberSquare>();
 		String[] numberRuleCode = bizMaterialsStandard.getNumberRuleCode();
 		String[] getsId = bizMaterialsStandard.getsId();
-		//筒燈id
+
 		String id = String.valueOf(bizMaterialsStandard.getId());
-		//id 数组长度
+
 		int length =0;
 		if(getsId==null){
 			
 		}else{
 			length = getsId.length;
 		}
-		//获取 该筒灯灯带 的面积的记录的 id
+
 		List<String> idByMaterialsId = bizMaterialsStandardNumberSquareService.getIdByMaterialsId(id);
 		List<String> deleteId=new ArrayList<String>();
 		if(length==0){
 			deleteId=idByMaterialsId;
 		}
-		//如果 id 的个数不对则涉及到 删除未穿过来id
+
 		if(idByMaterialsId!=null && idByMaterialsId.size()>length &&length!=0){
-			//拿出未传过来的 id
+
 			ArrayList<String> arrayList = new ArrayList<String>(Arrays.asList(getsId));
 			Collection exists=new ArrayList<String>(idByMaterialsId);
 			exists.removeAll(arrayList);
@@ -196,7 +190,7 @@ public class BizMaterialsLightController extends BaseController {
 		hashMap.put("3", "71*16/100余数进1(灯带)");
 		hashMap.put("4", "合同面积*16/100余数进1(灯带)");
 		String[] limtArea = bizMaterialsStandard.getLimtArea();
-		//有id 修改 無 id 添加	
+
 		for(int i=0;numberRuleCode.length>i;i++){
 				BizMaterialsStandardNumberSquare bizMaterialsStandardNumberSquare=new BizMaterialsStandardNumberSquare();
 				if(length!=0 && length>i){

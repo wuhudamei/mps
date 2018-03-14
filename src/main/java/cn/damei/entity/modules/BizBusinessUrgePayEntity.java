@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import org.hibernate.validator.constraints.Length;
@@ -9,26 +7,22 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import cn.damei.common.persistence.DataEntity;
 
-/**
- * 业务催缴Entity
- * @author lzm
- * @version 2017-07-20
- */
+
 public class BizBusinessUrgePayEntity extends DataEntity<BizBusinessUrgePayEntity> {
 	
 	private static final long serialVersionUID = 1L;
-	private String relatedBusinessType;		// related_business_type
-	private String relatedBusinessIdInt;		// related_business_id_int
-	private String urgePayType;		// urge_pay_type
-	private String urgePayContent;		// urge_pay_content
-	private String urgePayChannel;		// urge_pay_channel
-	private String status;		// ״̬ -- '10.
-	private Date statusDatetime;		// ״̬
-	private String statusOperatorEmployeeId;		// ״̬
-	private String urgeTargetName;		// urge_target_name
-	private String urgeTargetPhone;		// urge_target_phone
-	private String urgeTargetName2;		// urge_target_name
-	private String urgeTargetPhone2;		// urge_target_phone
+	private String relatedBusinessType;
+	private String relatedBusinessIdInt;
+	private String urgePayType;
+	private String urgePayContent;
+	private String urgePayChannel;
+	private String status;
+	private Date statusDatetime;
+	private String statusOperatorEmployeeId;
+	private String urgeTargetName;
+	private String urgeTargetPhone;
+	private String urgeTargetName2;
+	private String urgeTargetPhone2;
 	
 	
 	public String getUrgeTargetName2() {
@@ -100,7 +94,7 @@ public class BizBusinessUrgePayEntity extends DataEntity<BizBusinessUrgePayEntit
 		this.urgePayChannel = urgePayChannel;
 	}
 	
-	//@(长度必须介于 0 和 10 之间")
+
 	public String getStatus() {
 		return status;
 	}

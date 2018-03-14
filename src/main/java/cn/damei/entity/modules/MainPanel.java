@@ -6,14 +6,11 @@ public class MainPanel extends DataEntity2<MainPanel>{
 
 	
 	
-	/**
-	 * @author wang
-	 * @version 2016-10-11
-	 */
+
 	private static final long serialVersionUID = 1L;
 	
-	private Integer id;//采购单主材id
-	private Integer purchaseId;//采购单id
+	private Integer id;
+	private Integer purchaseId;
 	private Integer orderId;
 	private String mainMaterialsCode;
 	private Integer mainMateCount;
@@ -22,7 +19,7 @@ public class MainPanel extends DataEntity2<MainPanel>{
 	private String mainMaterialsName;
 	private String empWorkType;
 	private String categoryId;
-	//private String categoryName;
+
 	private String specifications;
 	private String measurementUnit;
 	private String brands;
@@ -107,12 +104,7 @@ public class MainPanel extends DataEntity2<MainPanel>{
 	public void setCategoryId(String categoryId) {
 		this.categoryId = categoryId;
 	}
-	/*public String getCategoryName() {
-		return categoryName;
-	}
-	public void setCategoryName(String categoryName) {
-		this.categoryName = categoryName;
-	}*/
+
 	public String getSpecifications() {
 		return specifications;
 	}

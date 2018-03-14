@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,12 +25,7 @@ import cn.damei.common.utils.UserUtils;
 import cn.damei.entity.modules.BizTaskPackageWorkPlanTemplat;
 import cn.damei.service.modules.BizTaskPackageWorkPlanTemplatService;
 
-/**
- * 任务包派工计划模板Controller
- * 
- * @author chy
- * @version 2016-09-03
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/taskpackage/bizTaskPackageWorkPlanTemplat")
 public class BizTaskPackageWorkPlanTemplatController extends BaseController {
@@ -59,7 +52,7 @@ public class BizTaskPackageWorkPlanTemplatController extends BaseController {
 	@RequestMapping(value = { "list", "" })
 	public String list(BizTaskPackageWorkPlanTemplat bizTaskPackageWorkPlanTemplat, HttpServletRequest request,
 			HttpServletResponse response, Model model) {
-		// 过滤门店
+
 		if (StringUtils.isBlank(bizTaskPackageWorkPlanTemplat.getStoreId())) {
 			bizTaskPackageWorkPlanTemplat.setStoreId(UserUtils.getUser().getStoreId());
 		}
@@ -68,7 +61,7 @@ public class BizTaskPackageWorkPlanTemplatController extends BaseController {
 		}
 		User user = UserUtils.getUser();
 
-		// 过滤工程模式
+
 		if (StringUtils.isBlank(bizTaskPackageWorkPlanTemplat.getProjectMode())) {
 			if (null != user.getEmpId()) {
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -121,7 +114,7 @@ public class BizTaskPackageWorkPlanTemplatController extends BaseController {
 
 		User user = UserUtils.getUser();
 
-		// 过滤工程模式
+
 		if (StringUtils.isBlank(bizTaskPackageWorkPlanTemplat.getProjectMode())) {
 			if (null != user.getEmpId()) {
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));

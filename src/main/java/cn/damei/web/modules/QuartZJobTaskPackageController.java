@@ -37,7 +37,7 @@ public class QuartZJobTaskPackageController {
 	@SuppressWarnings("static-access")
 	public void execute() throws UnsupportedEncodingException {
 		logger.info("---------------------QuartZ开始-------------");
-		// 根据当前日期获取前一天的日期
+
 		SimpleDateFormat sd = new SimpleDateFormat("yyyy-MM-dd");
 		Date beforeDate = DateUtils.addDate(new Date(), -1);
 		
@@ -53,10 +53,10 @@ public class QuartZJobTaskPackageController {
 					orderTaskPackageId = Integer.valueOf(tp.getOrderTaskPackageId());
 				}
 
-				// 工人组长
+
 				if (tp.getEmpType().equals(ConstantUtils.EMP_TYPE_GROUPLEAD)) {
 					mapGroup.clear();
-					// 查询工人组的的上级(项目经理)
+
 					if (StringUtils.isNotBlank(tp.getItemManagerId().toString())) {
 						BizEmployee2 managerPhone = bizEmployeeService2.get(tp.getItemManagerId());
 						logger.info("(2：工人组长，3：项目经理)员工类型：" + tp.getEmpType() + "\t 姓名：" + tp.getRealName() + "\t 手机号："+ tp.getPhone());
@@ -75,7 +75,7 @@ public class QuartZJobTaskPackageController {
 					}
 				}
 
-				// 项目经理
+
 				if (tp.getEmpType().equals(ConstantUtils.EMP_TYPE_MANAGER)) {
 					manager.clear();
 					if (StringUtils.isNotBlank(tp.getGroupId().toString())) {

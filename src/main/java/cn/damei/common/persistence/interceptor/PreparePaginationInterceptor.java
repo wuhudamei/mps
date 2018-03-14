@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.common.persistence.interceptor;
 
 import org.apache.ibatis.executor.statement.BaseStatementHandler;
@@ -19,11 +17,7 @@ import cn.damei.common.utils.Reflections;
 import java.sql.Connection;
 import java.util.Properties;
 
-/**
- * Mybatis数据库分页插件，拦截StatementHandler的prepare方法
- * @author poplar.yfyang / thinkgem
- * @version 2013-8-28
- */
+
 @Intercepts({
 	@Signature(type = StatementHandler.class, method = "prepare", args = {Connection.class})
 })
@@ -42,11 +36,11 @@ public class PreparePaginationInterceptor extends BaseInterceptor {
             final BaseStatementHandler delegate = (BaseStatementHandler) Reflections.getFieldValue(statementHandler, DELEGATE);
             final MappedStatement mappedStatement = (MappedStatement) Reflections.getFieldValue(delegate, MAPPED_STATEMENT);
 
-//            //拦截需要分页的SQL
-////            if (mappedStatement.getId().matches(_SQL_PATTERN)) { 
-//            if (StringUtils.indexOfIgnoreCase(mappedStatement.getId(), _SQL_PATTERN) != -1) {
+
+
+
                 BoundSql boundSql = delegate.getBoundSql();
-                //分页SQL<select>中parameterType属性对应的实体参数，即Mapper接口中执行分页方法的参数,该参数不得为空
+
                 Object parameterObject = boundSql.getParameterObject();
                 if (parameterObject == null) {
                     log.error("参数未实例化");
@@ -54,7 +48,7 @@ public class PreparePaginationInterceptor extends BaseInterceptor {
                 } else {
                     final Connection connection = (Connection) ivk.getArgs()[0];
                     final String sql = boundSql.getSql();
-                    //记录统计
+
                     final int count = SQLHelper.getCount(sql, connection, mappedStatement, parameterObject, boundSql, log);
                     Page<Object> page = null;
                     page = convertParameter(parameterObject, page);
@@ -63,7 +57,7 @@ public class PreparePaginationInterceptor extends BaseInterceptor {
                     if (log.isDebugEnabled()) {
                         log.debug("PAGE SQL:" + pagingSql);
                     }
-                    //将分页sql语句反射回BoundSql.
+
                     Reflections.setFieldValue(boundSql, "sql", pagingSql);
                 }
                 
@@ -72,7 +66,7 @@ public class PreparePaginationInterceptor extends BaseInterceptor {
                 }
                 
             }
-//        }
+
         return ivk.proceed();
     }
 

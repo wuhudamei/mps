@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,11 +21,7 @@ import cn.damei.entity.modules.BizProcedure;
 import cn.damei.service.modules.BizProcedureService;
 import cn.damei.service.modules.SysSequenceService;
 
-/**
- * 工序管理Controller
- * @author 魏建勇
- * @version 2016-09-03
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/procedure/bizProcedure")
 public class BizProcedureController extends BaseController {

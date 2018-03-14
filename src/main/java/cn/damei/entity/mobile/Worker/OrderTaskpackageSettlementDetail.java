@@ -6,9 +6,7 @@ import cn.damei.common.persistence.DataEntity2;
 
 public class OrderTaskpackageSettlementDetail extends DataEntity2<OrderTaskpackageSettlementDetail>{
 
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	
 	private Integer id;
@@ -19,7 +17,7 @@ public class OrderTaskpackageSettlementDetail extends DataEntity2<OrderTaskpacka
 	private Double paymentAmount;
 	private String paymentRemarks;
 	private String status;
-	private Date paymentTime;//核算时间
+	private Date paymentTime;
 	private String employeeName;
 	public Integer getId() {
 		return id;

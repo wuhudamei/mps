@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import java.io.IOException;
@@ -54,12 +52,7 @@ import cn.damei.entity.modules.PaymentDetailSplitForExcel;
 import cn.damei.service.modules.BizOrderTaskpackagePaymentDetailSplitService;
 import cn.damei.service.modules.BizTaskPackageTypeService;
 
-/**
- * 付款单批次Controller
- * 
- * @author 汪文文
- * @version 2016-10-26
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/ordertaskpackagepaymentsummary/bizOrderTaskpackagePaymentSummary")
 public class BizOrderTaskpackagePaymentSummaryController extends BaseController {
@@ -120,13 +113,13 @@ public class BizOrderTaskpackagePaymentSummaryController extends BaseController 
 			bizOrderTaskpackagePaymentSummary.setEnginDepartIds(list);
 		}
 		if (UserUtils.getUser().getStoreId() != null) {
-			// 当前登录用户门店
+
 			bizOrderTaskpackagePaymentSummary.setStoreId(Integer.parseInt(UserUtils.getUser().getStoreId()));
 		} else {
-			// 门店是总部的查询所有部门信息
+
 			if (bizOrderTaskpackagePaymentSummary.getStoreId() != null
 					&& bizOrderTaskpackagePaymentSummary.getStoreId() == 1) {
-				// 总部
+
 				bizOrderTaskpackagePaymentSummary.setStoreId(null);
 			}
 		}
@@ -158,18 +151,18 @@ public class BizOrderTaskpackagePaymentSummaryController extends BaseController 
 			bizOrderTaskpackagePaymentSummary.setEnginDepartIds(list);
 		}
 		if (UserUtils.getUser().getStoreId() != null) {
-			// 当前登录用户门店
+
 			bizOrderTaskpackagePaymentSummary.setStoreId(Integer.parseInt(UserUtils.getUser().getStoreId()));
 		} else {
-			// 门店是总部的查询所有部门信息
+
 			if (bizOrderTaskpackagePaymentSummary.getStoreId() != null
 					&& bizOrderTaskpackagePaymentSummary.getStoreId() == 1) {
-				// 总部
+
 				bizOrderTaskpackagePaymentSummary.setStoreId(null);
 			}
 		}
 
-		// 过滤工程模式
+
 		if (StringUtils.isBlank(bizOrderTaskpackagePaymentSummary.getProjectMode())) {
 			if (null != user.getEmpId()) {
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -240,11 +233,7 @@ public class BizOrderTaskpackagePaymentSummaryController extends BaseController 
 				+ "/ordertaskpackagepaymentsummary/bizOrderTaskpackagePaymentSummary/?repage";
 	}
 
-	/**
-	 * 校验付款单是否可以生成批次
-	 * 
-	 * @return
-	 */
+
 	@RequestMapping(value = "checkPaymentByIds")
 	public @ResponseBody String checkPaymentByIds(String ids) {
 		String result = "0";
@@ -263,19 +252,19 @@ public class BizOrderTaskpackagePaymentSummaryController extends BaseController 
 		return "redirect:" + Global.getAdminPath() + "/ordertaskpackagepayment/bizOrderTaskpackagePayment/list";
 	}
 
-	// 导出工程excel
+
 	@RequestMapping(value = "exportProjectExcel")
 	public void exportProjectExcel(Integer id, HttpServletRequest request, HttpServletResponse response,
 			RedirectAttributes redirectAttributes) {
 		SimpleDateFormat sf = new SimpleDateFormat("yyyyMMddHHmmss");
-		ServletOutputStream ouputStream = null;// 创建一个输出流对象
+		ServletOutputStream ouputStream = null;
 		List<PaymentDetailForExcel> list = bizOrderTaskpackagePaymentDetailVoService.findPaymentDatailsBySummaryId(id);
 
 		HSSFWorkbook projectExcel = ExportProjectExcel.exportProject(list);
 		try {
 			response.setContentType("application/binary;charset=utf-8");
-			String headerStr = new String(("产业工人结算汇总表-大美装饰管理平台-工程" + sf.format(new Date())).getBytes("utf-8"), "ISO8859-1");// headerString为中文时转码
-			response.setHeader("Content-disposition", "attachment; filename=" + headerStr + ".xls");// filename是下载的xls的名
+			String headerStr = new String(("产业工人结算汇总表-大美装饰管理平台-工程" + sf.format(new Date())).getBytes("utf-8"), "ISO8859-1");
+			response.setHeader("Content-disposition", "attachment; filename=" + headerStr + ".xls");
 			ouputStream = response.getOutputStream();
 			projectExcel.write(ouputStream);
 			ouputStream.flush();
@@ -285,24 +274,17 @@ public class BizOrderTaskpackagePaymentSummaryController extends BaseController 
 		}
 	}
 
-	/**
-	 * 拆分导出财务excel
-	 * 
-	 * @param id
-	 *            批次id
-	 * @param model
-	 * @return
-	 */
+
 	@RequestMapping(value = "splitAndFinance")
 	public String splitAndFinance(Integer id, Model model) {
 		DecimalFormat df = new DecimalFormat("#.00");
 		double totalMoney = 0;
 		BizOrderTaskpackagePaymentSummary summary = bizOrderTaskpackagePaymentSummaryService.get(id);
-		// 根据批次id查询付款明细拆分
+
 		List<BizOrderTaskpackagePaymentDetailSplitVo> splits = bizOrderTaskpackagePaymentDetailSplitService
 				.findPaymentDetailSplitBySummaryId(id);
 		List<Integer> employeeIds = new ArrayList<Integer>();
-		// 根据批次id查询对应的付款明细
+
 		List<BizOrderTaskpackagePaymentDetail> details = bizOrderTaskpackagePaymentDetailService
 				.queryPaymentDetailBySummaryId(id);
 		for (BizOrderTaskpackagePaymentDetail detail : details) {
@@ -314,7 +296,7 @@ public class BizOrderTaskpackagePaymentSummaryController extends BaseController 
 		totalMoney = Double.parseDouble(df.format(totalMoney));
 		model.addAttribute("summary", summary);
 		model.addAttribute("totalMoney", totalMoney);
-		// model.addAttribute("list",list);
+
 		model.addAttribute("size", set.size());
 		model.addAttribute("splits", splits);
 		return "modules/ordertaskpackagepaymentsummary/splitAndFinance";
@@ -376,29 +358,29 @@ public class BizOrderTaskpackagePaymentSummaryController extends BaseController 
 		return bizOrderTaskpackagePaymentDetailSplitService.insertPaymentDetailSplit(id);
 	}
 
-	// 导出财务excel
+
 	@RequestMapping(value = "exportFinanceExcel")
 	public void exportFinanceExcel(Integer id, HttpServletRequest request, HttpServletResponse response,
 			RedirectAttributes redirectAttributes) {
 		SimpleDateFormat sf = new SimpleDateFormat("yyyyMMddHHmmss");
-		ServletOutputStream ouputStream = null;// 创建一个输出流对象
-		// List<PaymentDetailForExcel> list =
-		// bizOrderTaskpackagePaymentDetailVoService.findPaymentDatailsBySummaryId(id);
+		ServletOutputStream ouputStream = null;
+
+
 
 		List<PaymentDetailSplitForExcel> list = new ArrayList<PaymentDetailSplitForExcel>();
 
-		// 根据批次id查询付款明细拆分
+
 		List<BizOrderTaskpackagePaymentDetailSplitVo> splits = bizOrderTaskpackagePaymentDetailSplitService
 				.findPaymentDetailSplitBySummaryId(id);
 
 		for (BizOrderTaskpackagePaymentDetailSplitVo split : splits) {
 			PaymentDetailSplitForExcel splitForExcel = new PaymentDetailSplitForExcel();
-			// 根据付款编号查询任务包的信息和订单信息
+
 			String paymentCode = split.getPaymentCode();
 			OrderInformation orderInformation = bizOrderTaskpackagePaymentSummaryService
 					.queryOrderByPaymentCode(paymentCode);
 			Integer taskpackageId = orderInformation.getTaskpackageId();
-			// 根据任务包id查询任务包的类型
+
 			String packageType = bizTaskPackageTypeService.findTypeByTaskpackageId(taskpackageId);
 			splitForExcel.setCustomerName(orderInformation.getCustomerName());
 			splitForExcel.setCustomerPhone(orderInformation.getCustomerPhone());
@@ -420,8 +402,8 @@ public class BizOrderTaskpackagePaymentSummaryController extends BaseController 
 		try {
 			response.setContentType("application/binary;charset=utf-8");
 			String headerStr = new String(("产业工人结算汇总表-大美装饰管理平台-财务" + sf.format(new Date())).getBytes("utf-8"),
-					"ISO8859-1");// headerString为中文时转码
-			response.setHeader("Content-disposition", "attachment; filename=" + headerStr + ".xls");// filename是下载的xls的名
+					"ISO8859-1");
+			response.setHeader("Content-disposition", "attachment; filename=" + headerStr + ".xls");
 			ouputStream = response.getOutputStream();
 			financeExcel.write(ouputStream);
 			ouputStream.flush();
@@ -430,15 +412,7 @@ public class BizOrderTaskpackagePaymentSummaryController extends BaseController 
 			ex.printStackTrace();
 		}
 
-		/*
-		 * List<BizOrderTaskpackagePayment> payments =
-		 * bizOrderTaskpackagePaymentService.queryPaymentBySummaryId(id);
-		 * 
-		 * for (BizOrderTaskpackagePayment bizOrderTaskpackagePayment :
-		 * payments) {
-		 * 
-		 * }
-		 */
+
 	}
 
 	@RequiresPermissions("ordertaskpackagepaymentsummary:bizOrderTaskpackagePaymentSummary:edit")
@@ -457,19 +431,7 @@ public class BizOrderTaskpackagePaymentSummaryController extends BaseController 
 				+ "/ordertaskpackagepaymentsummary/bizOrderTaskpackagePaymentSummary/list";
 	}
 
-	/*
-	 * @RequiresPermissions(
-	 * "ordertaskpackagepaymentsummary:bizOrderTaskpackagePaymentSummary:edit")
-	 * 
-	 * @RequestMapping(value = "summaryAbolish") public String
-	 * summaryAbolish(Integer id,String cancleReason, RedirectAttributes
-	 * redirectAttributes) {
-	 * bizOrderTaskpackagePaymentSummaryService.summaryAbolish(id,cancleReason);
-	 * addMessage(redirectAttributes, "批次作废成功"); return
-	 * "redirect:"+Global.getAdminPath()+
-	 * "/ordertaskpackagepaymentsummary/bizOrderTaskpackagePaymentSummary/list";
-	 * }
-	 */
+
 
 	@RequiresPermissions("ordertaskpackagepaymentsummary:bizOrderTaskpackagePaymentSummary:edit")
 	@RequestMapping(value = "summaryAbolish")
@@ -483,15 +445,15 @@ public class BizOrderTaskpackagePaymentSummaryController extends BaseController 
 			throw new RuntimeException();
 		}
 		return result;
-		// return
-		// "redirect:"+Global.getAdminPath()+"/ordertaskpackagepaymentsummary/bizOrderTaskpackagePaymentSummary/list";
+
+
 	}
 
 	@RequiresPermissions("ordertaskpackagepaymentsummary:bizOrderTaskpackagePaymentSummary:view")
 	@RequestMapping(value = "summaryList")
 	public String summaryList(BizOrderTaskpackagePaymentSummary bizOrderTaskpackagePaymentSummary, Model model) {
 		User user = UserUtils.getUser();
-		// 过滤门店
+
 		if (bizOrderTaskpackagePaymentSummary.getStoreId() == null) {
 			String storeId = UserUtils.getUser().getStoreId();
 			if (StringUtils.isBlank(storeId)) {
@@ -504,7 +466,7 @@ public class BizOrderTaskpackagePaymentSummaryController extends BaseController 
 			model.addAttribute("storeDropEnable", true);
 		}
 
-		// 过滤工程模式
+
 		if (StringUtils.isBlank(bizOrderTaskpackagePaymentSummary.getProjectMode())) {
 			if (null != user.getEmpId()) {
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -537,7 +499,7 @@ public class BizOrderTaskpackagePaymentSummaryController extends BaseController 
 			}
 		}
 
-		// 区域
+
 		if (bizOrderTaskpackagePaymentSummary.getEnginDepartId() == null) {
 			if (StringUtils.isNoneBlank(UserUtils.getUser().getEmpId())) {
 				List<Integer> list = bizEmployeeService2
@@ -565,7 +527,7 @@ public class BizOrderTaskpackagePaymentSummaryController extends BaseController 
 	public String summaryLoadList(BizOrderTaskpackagePaymentSummary bizOrderTaskpackagePaymentSummary,
 			HttpServletRequest request, HttpServletResponse response, Model model) {
 		User user = UserUtils.getUser();
-		// 过滤门店
+
 		if (bizOrderTaskpackagePaymentSummary.getStoreId() == null) {
 			String storeId = UserUtils.getUser().getStoreId();
 			if (StringUtils.isBlank(storeId)) {
@@ -578,7 +540,7 @@ public class BizOrderTaskpackagePaymentSummaryController extends BaseController 
 			model.addAttribute("storeDropEnable", true);
 		}
 
-		// 过滤工程模式
+
 		if (StringUtils.isBlank(bizOrderTaskpackagePaymentSummary.getProjectMode())) {
 			if (null != user.getEmpId()) {
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -611,7 +573,7 @@ public class BizOrderTaskpackagePaymentSummaryController extends BaseController 
 			}
 		}
 
-		// 区域
+
 		if (bizOrderTaskpackagePaymentSummary.getEnginDepartId() == null) {
 			if (StringUtils.isNoneBlank(UserUtils.getUser().getEmpId())) {
 				List<Integer> list = bizEmployeeService2
@@ -641,7 +603,7 @@ public class BizOrderTaskpackagePaymentSummaryController extends BaseController 
 	@RequiresPermissions("ordertaskpackagepaymentsummary:bizOrderTaskpackagePaymentSummary:view")
 	@RequestMapping(value = { "paymentSummaryList", "" })
 	public String paymentSummaryList(BizOrderTaskpackagePaymentSummary bizOrderTaskpackagePaymentSummary, Model model) {
-		// 过滤门店
+
 		if (StringUtils.isBlank(UserUtils.getUser().getStoreId())) {
 			model.addAttribute("storeDropEnable", true);
 		}
@@ -654,7 +616,7 @@ public class BizOrderTaskpackagePaymentSummaryController extends BaseController 
 	@RequestMapping(value = { "paymentSummaryLoadList", "" })
 	public String paymentSummaryLoadList(BizOrderTaskpackagePaymentSummary bizOrderTaskpackagePaymentSummary,
 			HttpServletRequest request, HttpServletResponse response, Model model) {
-		// 过滤门店
+
 		if (bizOrderTaskpackagePaymentSummary.getStoreId() == null) {
 			String storeId = UserUtils.getUser().getStoreId();
 			if (StringUtils.isBlank(storeId)) {
@@ -677,7 +639,7 @@ public class BizOrderTaskpackagePaymentSummaryController extends BaseController 
 	@RequiresPermissions("ordertaskpackagepaymentsummary:bizOrderTaskpackagePaymentSummary:view")
 	@RequestMapping(value = { "summaryAllList", "" })
 	public String summaryAllList(BizOrderTaskpackagePaymentSummary bizOrderTaskpackagePaymentSummary, Model model) {
-		// 过滤门店
+
 		if (StringUtils.isBlank(UserUtils.getUser().getStoreId())) {
 			model.addAttribute("storeDropEnable", true);
 		}
@@ -690,7 +652,7 @@ public class BizOrderTaskpackagePaymentSummaryController extends BaseController 
 	@RequestMapping(value = { "summaryAllLoadList", "" })
 	public String summaryAllLoadList(BizOrderTaskpackagePaymentSummary bizOrderTaskpackagePaymentSummary,
 			HttpServletRequest request, HttpServletResponse response, Model model) {
-		// 过滤门店
+
 		if (bizOrderTaskpackagePaymentSummary.getStoreId() == null) {
 			String storeId = UserUtils.getUser().getStoreId();
 			if (StringUtils.isBlank(storeId)) {

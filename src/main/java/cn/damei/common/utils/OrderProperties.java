@@ -13,23 +13,15 @@ import java.util.Properties;
 import com.google.common.base.Objects;
 import com.google.common.collect.Lists;
 
-/**
- * <p>
- * 有序的properties的工具类，由于JDK自身的写会乱序，所以采用这个工具类来保证读写次序正常.
- * </p>
- *
- * @author poplar.yfyang
- * @version 1.0 2013-01-02 12:57 PM
- * @since JDK 1.5
- */
+
 public class OrderProperties extends Properties {
-	/** 序列化ID */
+
 	private static final long serialVersionUID = -762117852594617585L;
 	private static final String keyValueSeparators = "=: \t\r\n\f";
 	private static final String strictKeyValueSeparators = "=:";
 	private static final String specialSaveChars = "=: \t\r\n\f#!";
 	private static final String whiteSpaceChars = " \t\r\n\f";
-	/** A table of hex digits */
+
 	private static final char[] hexDigit = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
 	private PropertiesContext context = new PropertiesContext();
 
@@ -38,11 +30,7 @@ public class OrderProperties extends Properties {
 		bw.newLine();
 	}
 
-	/**
-	 * Convert a nibble to a hex character
-	 *
-	 * @param nibble the nibble to convert.
-	 */
+
 	private static char toHex(int nibble) {
 		return hexDigit[(nibble & 0xF)];
 	}
@@ -57,27 +45,27 @@ public class OrderProperties extends Properties {
 
 		in = new BufferedReader(new InputStreamReader(inStream, "8859_1"));
 		while (true) {
-			// Get next line
+
 			String line = in.readLine();
-			// intract property/comment string
+
 			String intactLine = line;
 			if (line == null)
 				return;
 
 			if (line.length() > 0) {
 
-				// Find start of key
+
 				int len = line.length();
 				int keyStart;
 				for (keyStart = 0; keyStart < len; keyStart++)
 					if (whiteSpaceChars.indexOf(line.charAt(keyStart)) == -1)
 						break;
 
-				// Blank lines are ignored
+
 				if (keyStart == len)
 					continue;
 
-				// Continue lines that end in slashes if they are not comments
+
 				char firstChar = line.charAt(keyStart);
 
 				if ((firstChar != '#') && (firstChar != '!')) {
@@ -87,7 +75,7 @@ public class OrderProperties extends Properties {
 						if (nextLine == null)
 							nextLine = "";
 						String loppedLine = line.substring(0, len - 1);
-						// Advance beyond whitespace on new line
+
 						int startIndex;
 						for (startIndex = 0; startIndex < nextLine.length(); startIndex++)
 							if (whiteSpaceChars.indexOf(nextLine.charAt(startIndex)) == -1)
@@ -97,7 +85,7 @@ public class OrderProperties extends Properties {
 						len = line.length();
 					}
 
-					// Find separation between key and value
+
 					int separatorIndex;
 					for (separatorIndex = keyStart; separatorIndex < len; separatorIndex++) {
 						char currentChar = line.charAt(separatorIndex);
@@ -107,18 +95,18 @@ public class OrderProperties extends Properties {
 							break;
 					}
 
-					// Skip over whitespace after key if any
+
 					int valueIndex;
 					for (valueIndex = separatorIndex; valueIndex < len; valueIndex++)
 						if (whiteSpaceChars.indexOf(line.charAt(valueIndex)) == -1)
 							break;
 
-					// Skip over one non whitespace key value separators if any
+
 					if (valueIndex < len)
 						if (strictKeyValueSeparators.indexOf(line.charAt(valueIndex)) != -1)
 							valueIndex++;
 
-					// Skip over white space after other separators if any
+
 					while (valueIndex < len) {
 						if (whiteSpaceChars.indexOf(line.charAt(valueIndex)) == -1)
 							break;
@@ -127,26 +115,23 @@ public class OrderProperties extends Properties {
 					String key = line.substring(keyStart, separatorIndex);
 					String value = (separatorIndex < len) ? line.substring(valueIndex, len) : "";
 
-					// Convert then store key and value
+
 					key = loadConvert(key);
 					value = loadConvert(value);
-					//memorize the property also with the whold string
+
 					put(key, value, intactLine);
 				} else {
-					//memorize the comment string
+
 					context.addCommentLine(intactLine);
 				}
 			} else {
-				//memorize the string even the string is empty
+
 				context.addCommentLine(intactLine);
 			}
 		}
 	}
 
-	/*
-	 * Converts encoded &#92;uxxxx to unicode chars and changes special saved
-	 * chars to their original forms
-	 */
+
 	private String loadConvert(String theString) {
 		char aChar;
 		int len = theString.length();
@@ -157,7 +142,7 @@ public class OrderProperties extends Properties {
 			if (aChar == '\\') {
 				aChar = theString.charAt(x++);
 				if (aChar == 'u') {
-					// Read the xxxx
+
 					int value = 0;
 					for (int i = 0; i < 4; i++) {
 						aChar = theString.charAt(x++);
@@ -197,26 +182,18 @@ public class OrderProperties extends Properties {
 					outBuffer.append((char) value);
 				} else {
 					if (aChar == 't')
-						outBuffer.append('\t'); /* ibm@7211 */
+						outBuffer.append('\t');
 
 					else if (aChar == 'r')
-						outBuffer.append('\r'); /* ibm@7211 */
+						outBuffer.append('\r');
 					else if (aChar == 'n') {
-						/*
-						 * ibm@8897 do not convert a \n to a line.separator
-						 * because on some platforms line.separator is a String
-						 * of "\r\n". When a Properties class is saved as a file
-						 * (store()) and then restored (load()) the restored
-						 * input MUST be the same as the output (so that
-						 * Properties.equals() works).
-						 *
-						 */
-						outBuffer.append('\n'); /* ibm@8897 ibm@7211 */
+
+						outBuffer.append('\n');
 					} else if (aChar == 'f')
-						outBuffer.append('\f'); /* ibm@7211 */
+						outBuffer.append('\f');
 					else
-						/* ibm@7211 */
-						outBuffer.append(aChar); /* ibm@7211 */
+
+						outBuffer.append(aChar);
 				}
 			} else
 				outBuffer.append(aChar);
@@ -247,10 +224,7 @@ public class OrderProperties extends Properties {
 		return (slashCount % 2 == 1);
 	}
 
-	/*
-	 * Converts unicodes to encoded &#92;uxxxx and writes out any of the
-	 * characters in specialSaveChars with a preceding slash
-	 */
+
 	private String saveConvert(String theString, boolean escapeSpace) {
 		int len = theString.length();
 		StringBuilder outBuffer = new StringBuilder(len * 2);
@@ -317,7 +291,7 @@ public class OrderProperties extends Properties {
 		return super.remove(key);
 	}
 
-	/** @param comment  */
+
 	public void addComment(String comment) {
 		if (comment != null) {
 			context.addCommentLine("#" + comment);
@@ -325,7 +299,7 @@ public class OrderProperties extends Properties {
 	}
 
 	class PropertiesContext {
-		/** 描述信息 */
+
 		private List<Object> commentOrEntrys = Lists.newArrayList();
 
 		@SuppressWarnings("rawtypes")
@@ -369,13 +343,13 @@ public class OrderProperties extends Properties {
 			return commentOrEntrys.size();
 		}
 
-		/** 属性描述 */
+
 		class PropertyEntry {
-			/** 属性KEY */
+
 			private String key;
-			/** 属性值 */
+
 			private String value;
-			/** 属性行 */
+
 			private String line;
 
 			public PropertyEntry(String key, String value) {
@@ -383,13 +357,7 @@ public class OrderProperties extends Properties {
 				this.value = value;
 			}
 
-			/**
-			 * 构建属性描述
-			 *
-			 * @param key   key
-			 * @param value value
-			 * @param line  line
-			 */
+
 			public PropertyEntry(String key, String value, String line) {
 				this(key, value);
 				this.line = line;

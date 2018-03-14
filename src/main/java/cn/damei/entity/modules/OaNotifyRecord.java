@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import org.hibernate.validator.constraints.Length;
@@ -9,18 +7,14 @@ import java.util.Date;
 
 import cn.damei.common.persistence.DataEntity;
 
-/**
- * 通知通告记录Entity
- * @author ThinkGem
- * @version 2014-05-16
- */
+
 public class OaNotifyRecord extends DataEntity<OaNotifyRecord> {
 	
 	private static final long serialVersionUID = 1L;
-	private OaNotify oaNotify;		// 通知通告ID
-	private User user;		// 接受人
-	private String readFlag;		// 阅读标记（0：未读；1：已读）
-	private Date readDate;		// 阅读时间
+	private OaNotify oaNotify;
+	private User user;
+	private String readFlag;
+	private Date readDate;
 	
 	
 	public OaNotifyRecord() {

@@ -3,39 +3,30 @@ package cn.damei.entity.mobile.Inspector;
 import java.io.Serializable;
 import java.util.Date;
 
-/**
- * 
- * @author 梅浩
- * @2016年11月9日
- * @mdn大美装饰管理平台
- * @author_phone : 18610507472
- * @ClassInfo:复检单实体类
- */
+
 public class RecheckEntity  implements Serializable{
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
-	private Integer recheckId;//复检单id
-	private String customerName;//客户名称
-	private String customerAddress;//客户地址
-	private String customerPhone;//客户电话
-	private String  managerName;//经理名称
-	private String   recheckType;//复检类型 (1:约检 2:抽检)
-	private String checkNodeName;//检查节点名称
-	private Date hopeCheckTime;//期望验收时间
-	private Integer orderId;//订单id	
+	private Integer recheckId;
+	private String customerName;
+	private String customerAddress;
+	private String customerPhone;
+	private String  managerName;
+	private String   recheckType;
+	private String checkNodeName;
+	private Date hopeCheckTime;
+	private Integer orderId;
 	private Integer picId;
-	private Date updateTime;//合格的更新时间
-	private String recheckStatus;//复检单状态
-	private String picUrl;//图片路径
-	private String checkItemName;//检查项名称
-	private Integer checkItemId;//检查项id
-	private String isPassed;//是否合格
-	private String changeWay;//整改方式
-	private Integer recheckTimes;//复检次数
-	private Date  recheckDate;//检查日期
-	private Integer  recheckManId;//检查人id
+	private Date updateTime;
+	private String recheckStatus;
+	private String picUrl;
+	private String checkItemName;
+	private Integer checkItemId;
+	private String isPassed;
+	private String changeWay;
+	private Integer recheckTimes;
+	private Date  recheckDate;
+	private Integer  recheckManId;
 	private String lat;
 	private String lon;
 	private String managerPhone;

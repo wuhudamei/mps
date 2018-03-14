@@ -21,11 +21,7 @@ import cn.damei.entity.mobile.Manager.RecheckScaleBillToilet;
 import cn.damei.service.mobile.Manager.RecheckScaleBillService;
 import cn.damei.service.mobile.Manager.RecheckScaleBillToiletService;
 
-/**
- * 复尺主页面(20161107-20161113)
- * @author llp 
- * 2016-11-16
- */
+
 @Controller
 @RequestMapping(value="${adminPath}/app/manager")
 public class RecheckScaleBillToiletController {
@@ -38,23 +34,21 @@ public class RecheckScaleBillToiletController {
 	@Autowired
 	private RecheckScaleBillService recheckScaleBillService;
 	
-	/****
-	 * 马桶复尺记录
-	 ****/
+
 	@RequestMapping(value={"toiletDetail",""})
 	public String toiletDetail(RecheckScaleBillToilet recheckScaleBillToilet,HttpServletRequest request,Model model,
 			String recheckID, String orderID) throws IOException{
 		logger.info("复尺编号："+recheckID+"\t\t订单编号："+orderID);
 		
 		Integer recheckIDs = Integer.valueOf(recheckID);
-		//获取复尺信息
+
 		RecheckScaleBill scale = recheckScaleBillService.getByID(recheckIDs);
 		
-		//根据订单编号查询该订单复尺的所有内容
+
 		List<RecheckScaleBillToilet> toiletList = recheckScaleBillToiletService.getByRecheckID(
 				recheckIDs);
 		
-		/**获取图片路径*/
+
 		List<BusinessPic> picList = businessPicService.getByBusType(ConstantUtils.CLOSE_TOOL_KEY, 
 				recheckIDs);
 		

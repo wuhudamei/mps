@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.util.List;
@@ -13,12 +11,7 @@ import cn.damei.common.service.CrudService;
 import cn.damei.dao.modules.RecheckCnfgDao;
 import cn.damei.entity.modules.RecheckCnfg;
 
-/**
- * 复尺配置表Service
- * 
- * @author ztw
- * @version 2017-08-02
- */
+
 @Service
 @Transactional(readOnly = true)
 public class RecheckCnfgService extends CrudService<RecheckCnfgDao, RecheckCnfg> {
@@ -54,11 +47,7 @@ public class RecheckCnfgService extends CrudService<RecheckCnfgDao, RecheckCnfg>
 		super.delete(recheckCnfg);
 	}
 
-	/**
-	 * 查询墙地砖复尺配置表（材料单价和面积超出上限比例）
-	 * 
-	 * @return
-	 */
+
 	public RecheckCnfg findRecheckCnfgMessage() {
 		return dao.findRecheckCnfgMessage();
 	}

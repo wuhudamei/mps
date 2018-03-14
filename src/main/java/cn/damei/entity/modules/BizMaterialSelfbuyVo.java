@@ -2,26 +2,22 @@ package cn.damei.entity.modules;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 订单的自采材料
- * @author hyh
- *
- */
+
 public class BizMaterialSelfbuyVo extends DataEntity2<BizMaterialSelfbuyVo>{
 	private static final long serialVersionUID = 1L;
 
-	private String itemManager; //项目经理
-	private String itemPhone;  //项目经理手机号
-	private String customerName;		// 客户姓名
-	private String customerPhone;		// 客户电话
-	private String communityName;		// 小区名称
-	private String buildNumber;		// 几号楼
-	private String buildUnit;		// 几单元
-	private String buildRoom;		// 哪一室 
-	private String materialName;  //自采材料名称 
-	private Double customerPayAmount;//客户交费金额
-	private Double settleRate;               //结算比例
-	private Double settleAmount;  //实际结算金额
+	private String itemManager;
+	private String itemPhone;
+	private String customerName;
+	private String customerPhone;
+	private String communityName;
+	private String buildNumber;
+	private String buildUnit;
+	private String buildRoom;
+	private String materialName;
+	private Double customerPayAmount;
+	private Double settleRate;
+	private Double settleAmount;
 	public String getItemManager() {
 		return itemManager;
 	}

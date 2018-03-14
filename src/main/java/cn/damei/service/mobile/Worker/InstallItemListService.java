@@ -19,11 +19,7 @@ public class InstallItemListService{
 	@Autowired
 	private InstallItemListDao dao;
 
-	/**
-	 * 查询施工单列表
-	 * @param installItem
-	 * @return
-	 */
+
 	public List<InstallItem> findInstallConstructBillList(InstallItem installItem) {
 		return dao.findInstallConstructBillList(installItem);
 	}

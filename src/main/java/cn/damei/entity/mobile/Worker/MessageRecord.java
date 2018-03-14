@@ -7,9 +7,7 @@ import cn.damei.common.persistence.DataEntity2;
 public class MessageRecord extends DataEntity2<MessageRecord>{
 	
 	
-	/**
-	 * @author wangwenwen 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	
 	private Integer msgRecordId;

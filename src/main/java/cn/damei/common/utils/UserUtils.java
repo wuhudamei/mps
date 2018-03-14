@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.common.utils;
 
 import java.util.List;
@@ -24,11 +22,7 @@ import cn.damei.entity.modules.Role;
 import cn.damei.entity.modules.User;
 import cn.damei.common.SystemAuthorizingRealm.Principal;
 
-/**
- * 用户工具类
- * @author ThinkGem
- * @version 2013-12-05
- */
+
 public class UserUtils {
 
 	private static UserDao userDao = SpringContextHolder.getBean(UserDao.class);
@@ -48,11 +42,7 @@ public class UserUtils {
 	public static final String CACHE_OFFICE_LIST = "officeList";
 	public static final String CACHE_OFFICE_ALL_LIST = "officeAllList";
 	
-	/**
-	 * 根据ID获取用户
-	 * @param id
-	 * @return 取不到返回null
-	 */
+
 	public static User get(String id){
 		User user = (User)CacheUtils.get(USER_CACHE, USER_CACHE_ID_ + id);
 		if (user ==  null){
@@ -67,11 +57,7 @@ public class UserUtils {
 		return user;
 	}
 	
-	/**
-	 * 根据登录名获取用户
-	 * @param loginName
-	 * @return 取不到返回null
-	 */
+
 	public static User getByLoginName(String loginName){
 		User user = (User)CacheUtils.get(USER_CACHE, USER_CACHE_LOGIN_NAME_ + loginName);
 		if (user == null){
@@ -86,9 +72,7 @@ public class UserUtils {
 		return user;
 	}
 	
-	/**
-	 * 清除当前用户缓存
-	 */
+
 	public static void clearCache(){
 		removeCache(CACHE_ROLE_LIST);
 		removeCache(CACHE_MENU_LIST);
@@ -98,10 +82,7 @@ public class UserUtils {
 		UserUtils.clearCache(getUser());
 	}
 	
-	/**
-	 * 清除指定用户缓存
-	 * @param user
-	 */
+
 	public static void clearCache(User user){
 		CacheUtils.remove(USER_CACHE, USER_CACHE_ID_ + user.getId());
 		CacheUtils.remove(USER_CACHE, USER_CACHE_LOGIN_NAME_ + user.getLoginName());
@@ -111,10 +92,7 @@ public class UserUtils {
 		}
 	}
 	
-	/**
-	 * 获取当前用户
-	 * @return 取不到返回 new User()
-	 */
+
 	public static User getUser1(){
 		Principal principal = getPrincipal();
 		if (principal!=null){
@@ -124,12 +102,12 @@ public class UserUtils {
 			}
 			return new User();
 		}
-		// 如果没有登录，则返回实例化空的User对象。
+
 		return new User();
 	}
 	
 	public static User getUser(){
-	    // 如果没有登录，则返回实例化空的User对象。
+
         User user = new User();
         Principal principal = getPrincipal();
         if (principal!=null){
@@ -138,10 +116,7 @@ public class UserUtils {
         return user;
     }
 
-	/**
-	 * 获取当前用户角色列表
-	 * @return
-	 */
+
 	public static List<Role> getRoleList(){
 		@SuppressWarnings("unchecked")
 		List<Role> roleList = (List<Role>)getCache(CACHE_ROLE_LIST);
@@ -159,10 +134,7 @@ public class UserUtils {
 		return roleList;
 	}
 	
-	/**
-	 * 获取当前用户授权菜单
-	 * @return
-	 */
+
 	public static List<Menu> getMenuList(){
 		@SuppressWarnings("unchecked")
 		List<Menu> menuList = (List<Menu>)getCache(CACHE_MENU_LIST);
@@ -180,10 +152,7 @@ public class UserUtils {
 		return menuList;
 	}
 	
-	/**
-	 * 获取当前用户授权的区域
-	 * @return
-	 */
+
 	public static List<Area> getAreaList(){
 		@SuppressWarnings("unchecked")
 		List<Area> areaList = (List<Area>)getCache(CACHE_AREA_LIST);
@@ -194,10 +163,7 @@ public class UserUtils {
 		return areaList;
 	}
 	
-	/**
-	 * 获取当前用户有权限访问的部门
-	 * @return
-	 */
+
 	public static List<Office> getOfficeList(){
 		@SuppressWarnings("unchecked")
 		List<Office> officeList = (List<Office>)getCache(CACHE_OFFICE_LIST);
@@ -215,10 +181,7 @@ public class UserUtils {
 		return officeList;
 	}
 
-	/**
-	 * 获取当前用户有权限访问的部门
-	 * @return
-	 */
+
 	public static List<Office> getOfficeAllList(){
 		@SuppressWarnings("unchecked")
 		List<Office> officeList = (List<Office>)getCache(CACHE_OFFICE_ALL_LIST);
@@ -228,16 +191,12 @@ public class UserUtils {
 		return officeList;
 	}
 	
-	/**
-	 * 获取授权主要对象
-	 */
+
 	public static Subject getSubject(){
 		return SecurityUtils.getSubject();
 	}
 	
-	/**
-	 * 获取当前登录者对象
-	 */
+
 	public static Principal getPrincipal(){
 		try{
 			Subject subject = SecurityUtils.getSubject();
@@ -245,7 +204,7 @@ public class UserUtils {
 			if (principal != null){
 				return principal;
 			}
-//			subject.logout();
+
 		}catch (UnavailableSecurityManagerException e) {
 			
 		}catch (InvalidSessionException e){
@@ -264,41 +223,41 @@ public class UserUtils {
 			if (session != null){
 				return session;
 			}
-//			subject.logout();
+
 		}catch (InvalidSessionException e){
 			
 		}
 		return null;
 	}
 	
-	// ============== User Cache ==============
+
 	
 	public static Object getCache(String key) {
 		return getCache(key, null);
 	}
 	
 	public static Object getCache(String key, Object defaultValue) {
-//		Object obj = getCacheMap().get(key);
+
 		Object obj = getSession().getAttribute(key);
 		return obj==null?defaultValue:obj;
 	}
 
 	public static void putCache(String key, Object value) {
-//		getCacheMap().put(key, value);
+
 		getSession().setAttribute(key, value);
 	}
 
 	public static void removeCache(String key) {
-//		getCacheMap().remove(key);
+
 		getSession().removeAttribute(key);
 	}
 	
-//	public static Map<String, Object> getCacheMap(){
-//		Principal principal = getPrincipal();
-//		if(principal!=null){
-//			return principal.getCacheMap();
-//		}
-//		return new HashMap<String, Object>();
-//	}
+
+
+
+
+
+
+
 	
 }

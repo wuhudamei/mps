@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.mobile.Manager;
 
 import java.util.Date;
@@ -11,68 +9,63 @@ import cn.damei.common.persistence.DataEntity2;
 import cn.damei.common.utils.excel.annotation.ExcelField;
 import cn.damei.entity.modules.Order;
 
-/**
- * 墙地砖复尺Entity
- * 
- * @author ztw
- * @version 2017-08-01
- */
+
 public class WallRecheckManage extends DataEntity2<WallRecheckManage> {
 
 	private static final long serialVersionUID = 1L;
-	private String storeId; // 门店
-	private String storeName; // 门店1
-	private String orderacceptarea; // 区域
-	private String orderaccepName; // 区域
-	private String projectMode; // 工程模式
-	private String itemManager; // 项目经理名称
-	private String orderNmber; // 点单编号
-	private String designerName; // 设计师名称
-	private String coveredAdd; // 客户地址
-	private String coveredAdd1; // 审计时客户地址
-	private Integer orderId; // 订单ID
-	private Double squareBudget; // 预算面积
-	private Double squareQuota; // 定额面积
-	private Double squarePurchase; // 实际下单面积
-	private Double squareMeasure; // 实测面积
-	private String auditorName; // 审计员姓名
+	private String storeId;
+	private String storeName;
+	private String orderacceptarea;
+	private String orderaccepName;
+	private String projectMode;
+	private String itemManager;
+	private String orderNmber;
+	private String designerName;
+	private String coveredAdd;
+	private String coveredAdd1;
+	private Integer orderId;
+	private Double squareBudget;
+	private Double squareQuota;
+	private Double squarePurchase;
+	private Double squareMeasure;
+	private String auditorName;
 
-	private String squareBudgetString; // 预算面积String类型 导出使用
-	private String squareQuotaString; // 定额面积String类型 导出使用
-	private String squarePurchaseString; // 实际下单面积String类型 导出使用
-	private String squareMeasureString; // 实测面积String类型 导出使用
+	private String squareBudgetString;
+	private String squareQuotaString;
+	private String squarePurchaseString;
+	private String squareMeasureString;
 
-	private Date planMeasureDate; // 计划测量日期
-	private Date realMeasureDate; // 实际测量面积
-	private String measureRemarks; // 实测说明
-	private Double price; // 墙地砖单价
-	private Double assessSquareError1; // 考核面积误差1
-	private Double assessSquareError2; // 考核面积误差2
-	private Double assessAmount1; // 考核金额1
-	private Double assessAmount2; // 考核金额2
+	private Date planMeasureDate;
+	private Date realMeasureDate;
+	private String measureRemarks;
+	private Double price;
+	private Double assessSquareError1;
+	private Double assessSquareError2;
+	private Double assessAmount1;
+	private Double assessAmount2;
 
-	private String priceString; // 墙地砖单价String 导出使用
-	private String assessSquareError1String; // 考核面积误差1String 导出使用
-	private String assessSquareError2String; // 考核面积误差2String 导出使用
-	private String assessAmount1String; // 考核金额1String 导出使用
-	private String assessAmount2String; // 考核金额2String 导出使用
-	private String assessAmountString1; // 考核金额1 优化金额显示保留两位小数/导出也使用到了
-	private String assessAmountString2; // 考核金额2优化金额显示保留两位小数 /导出也使用到了
-	private String assessPersonName1; // 被考核人姓名1
-	private String assessPersonName2; // 被考核人姓名2
-	private String status; // 状态
-	private String statusDescribe; // 状态描述
-	private Date statusDatetime; // 状态日期
+	private String priceString;
+	private String assessSquareError1String;
+	private String assessSquareError2String;
+	private String assessAmount1String;
+	private String assessAmount2String;
+	private String assessAmountString1;
+	private String assessAmountString2;
+	private String assessPersonName1;
+	private String assessPersonName2;
+	private String status;
+	private String statusDescribe;
+	private Date statusDatetime;
 
-	private Integer statusOperateEmployeeId; // 状态操作人员ID
-	private String recheckRemarks; // 复尺备注
-	private Order order = new Order(); // 复尺备注
-	private Date contractenddate; // 完工日期
-	private String customername; // 客户姓名
-	private String orderinspector; // 质检姓名/审计
-	private String increase; // 序号
-	private String picUrl; // 图片地址
-	private String isScrap; // 是否为作废
+	private Integer statusOperateEmployeeId;
+	private String recheckRemarks;
+	private Order order = new Order();
+	private Date contractenddate;
+	private String customername;
+	private String orderinspector;
+	private String increase;
+	private String picUrl;
+	private String isScrap;
 
 	public WallRecheckManage() {
 		super();

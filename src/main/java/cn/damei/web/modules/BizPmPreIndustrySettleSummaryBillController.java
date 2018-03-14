@@ -27,11 +27,7 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-/**
- * 准产业项目经理月度结算Controller
- *
- * @author hyh
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/bizPmPreIndustrySettleSummaryBill/bizPmPreIndustrySettleSummaryBill")
 public class BizPmPreIndustrySettleSummaryBillController extends BaseController {
@@ -45,7 +41,7 @@ public class BizPmPreIndustrySettleSummaryBillController extends BaseController 
     @RequestMapping(value = "queryPmMonthSettle")
     public String queryPmMonthSettle(BizPmPreIndustrySettleSummaryBill bizPmPreIndustrySettleSummaryBill,
                                      HttpServletRequest request, HttpServletResponse response, Model model) {
-        // 过滤门店
+
         if (bizPmPreIndustrySettleSummaryBill.getStoreId() == null) {
             String storeId = UserUtils.getUser().getStoreId();
             if (StringUtils.isBlank(storeId)) {
@@ -66,7 +62,7 @@ public class BizPmPreIndustrySettleSummaryBillController extends BaseController 
     @RequestMapping(value = "queryPmMonthSettleList")
     public String queryPmMonthSettleList(BizPmPreIndustrySettleSummaryBill bizPmPreIndustrySettleSummaryBill,
                                          HttpServletRequest request, HttpServletResponse response, Model model) {
-        // 过滤门店
+
         if (bizPmPreIndustrySettleSummaryBill.getStoreId() == null) {
             String storeId = UserUtils.getUser().getStoreId();
             if (StringUtils.isBlank(storeId)) {
@@ -84,7 +80,7 @@ public class BizPmPreIndustrySettleSummaryBillController extends BaseController 
         if (bizPmPreIndustrySettleSummaryBill.getProjectMode() == null) {
             bizPmPreIndustrySettleSummaryBill.setProjectMode(4);
         }
-        // 区域
+
         if (bizPmPreIndustrySettleSummaryBill.getEnginDepartId() == null) {
             if (StringUtils.isNoneBlank(UserUtils.getUser().getEmpId())) {
                 List<Integer> list = bizEmployeeService2
@@ -110,7 +106,7 @@ public class BizPmPreIndustrySettleSummaryBillController extends BaseController 
     @RequestMapping(value = "queryOrderMonthSettleList")
     public String queryOrderMonthSettleList(BizPmPreIndustrySettleSummaryBill bizPmPreIndustrySettleSummaryBill,
                                             HttpServletRequest request, HttpServletResponse response, Model model) {
-        // 过滤门店
+
         if (bizPmPreIndustrySettleSummaryBill.getStoreId() == null) {
             String storeId = UserUtils.getUser().getStoreId();
             if (StringUtils.isBlank(storeId)) {

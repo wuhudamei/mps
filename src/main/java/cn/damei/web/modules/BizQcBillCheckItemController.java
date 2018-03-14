@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,11 +20,7 @@ import cn.damei.common.utils.StringUtils;
 import cn.damei.entity.modules.BizQcBillCheckItem;
 import cn.damei.service.modules.BizQcBillCheckItemService;
 
-/**
- * 质检检查项查询Controller
- * @author ztw
- * @version 2017-12-21
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/quality/bizQcBillCheckItem")
 public class BizQcBillCheckItemController extends BaseController {

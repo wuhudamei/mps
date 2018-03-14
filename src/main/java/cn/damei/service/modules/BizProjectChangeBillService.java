@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.text.DecimalFormat;
@@ -27,11 +25,7 @@ import cn.damei.entity.modules.BizProjectChangeBillItem;
 import cn.damei.entity.modules.User;
 import cn.damei.dao.modules.BizProjectChangeBillDao;
 
-/**
- * 设计师审核Service
- * @author wyb
- * @version 2016-11-16
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizProjectChangeBillService extends CrudService<BizProjectChangeBillDao, BizProjectChangeBill> {
@@ -43,98 +37,77 @@ public class BizProjectChangeBillService extends CrudService<BizProjectChangeBil
 	public List<BizProjectChangeBill> findList(BizProjectChangeBill bizProjectChangeBill) {
 		return super.findList(bizProjectChangeBill);
 	}
-	/**
-	 * 设计师审核
-	 */
+
 	public Page<BizProjectChangeBill> findPage(Page<BizProjectChangeBill> page, BizProjectChangeBill bizProjectChangeBill) {
 		return super.findPage(page, bizProjectChangeBill);
 	}
 	public Page<BizProjectChangeBill> findPage1(Page<BizProjectChangeBill> page, BizProjectChangeBill bizProjectChangeBill) {
 		return super.findPage1(page, bizProjectChangeBill);
 	}
-	/**
-	 * 变更单审核
-	 * @param bizProjectChangeBill
-	 */
+
 	@Transactional(readOnly = false)
 	public void updateStatus(BizProjectChangeBill bizProjectChangeBill) {
 		dao.updateStatus(bizProjectChangeBill);
 	}
 
-	/**
-	 * 查询变更单详情
-	 * @param projectChangeId
-	 * @return
-	 */
+
 	public BizProjectChangeBill findDetails(Integer projectChangeId) {
 		return dao.findDetails(projectChangeId);
 	}
 
-	/**
-	 * 增项清单
-	 * @param projectChangeId
-	 * @return
-	 */
+
 	public List<BizProjectChangeBillItem> findAddItem(Integer projectChangeId) {
 		return dao.findAddItem(projectChangeId);
 	}
 
-	/**
-	 * 减项清单
-	 * @param projectChangeId
-	 * @return
-	 */
+
 	public List<BizProjectChangeBillItem> findSubItem(Integer projectChangeId) {
 		return dao.findSubItem(projectChangeId);
 	}
 
-	/**
-	 * 导出变更单excel格式文件
-	 * @param projectChangeId
-	 * @return
-	 */
+
 	public HSSFWorkbook projectChangeBillForExcel(Integer projectChangeId) {
 	
 		DecimalFormat df = new DecimalFormat("#.00");
-		//查询变更单详情
+
 		BizProjectChangeBill bizProjectChangeBill = dao.findDetails(projectChangeId);
-		//申请详情
+
 		BizProjectChangeBill applyDetails = dao.findApplyDetails(projectChangeId);
-		//增项清单
+
 		List<BizProjectChangeBillItem> addItem = dao.findAddItem(projectChangeId);
 		if(null!=addItem && addItem.size()>0){
 			for(BizProjectChangeBillItem add:addItem){
-				//总价
+
 				Double allPrice = add.getEveryPrice() * add.getProjectIntemAmount();
 				allPrice = Double.parseDouble(df.format(allPrice));
 				add.setAllPrice(allPrice);
 			}
 		}
-		//减项清单
+
 		List<BizProjectChangeBillItem> subItem = dao.findSubItem(projectChangeId);
 		if(null!=subItem && subItem.size()>0){
 			for(BizProjectChangeBillItem sub:subItem){
-				//总价
+
 				Double allPrice = sub.getEveryPrice() * sub.getProjectIntemAmount();
 				allPrice = Double.parseDouble(df.format(allPrice));
 				sub.setAllPrice(allPrice);
 			}
 		}
-		//增项合计
+
 		double addMoney = bizProjectChangeBill.getAddItemTotalPrice();
-		//减项合计
+
 		double reducePrice = bizProjectChangeBill.getSubItemTotalPrice();
-		//基装变更合计
+
 		double totalMoney = addMoney-reducePrice;
 		totalMoney = Double.parseDouble(df.format(totalMoney));
 				
 				
-		// 创建一个Excel文件		
+
 		HSSFWorkbook wb = new HSSFWorkbook();
-		// 创建一个Excel的Sheet
+
 		HSSFSheet sheet = wb.createSheet("变更单");
 
-		// 宽度
+
 		sheet.setColumnWidth(0, 4000);
 		sheet.setColumnWidth(1, 4000);
 		sheet.setColumnWidth(2, 4000);
@@ -148,79 +121,79 @@ public class BizProjectChangeBillService extends CrudService<BizProjectChangeBil
 		sheet.setColumnWidth(10, 4000);
 		
 		
-		//设置字体
+
 		HSSFFont font = wb.createFont();
-		font.setColor(HSSFFont.COLOR_NORMAL);//字体颜色
-		font.setFontName("黑体");//字体
-		font.setFontHeightInPoints((short)10);//字体高度
-		font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);//宽度
-		//单元格样式
+		font.setColor(HSSFFont.COLOR_NORMAL);
+		font.setFontName("黑体");
+		font.setFontHeightInPoints((short)10);
+		font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
+
 		HSSFCellStyle columnHeadStyle = wb.createCellStyle();
 		columnHeadStyle.setFont(font);
-		columnHeadStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);// 左右居中
-		columnHeadStyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);// 上下居中
+		columnHeadStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+		columnHeadStyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
 		columnHeadStyle.setLocked(true);
 		columnHeadStyle.setWrapText(true);
-		columnHeadStyle.setLeftBorderColor(HSSFColor.BLACK.index);// 左边框的颜色
-		columnHeadStyle.setBorderLeft((short) 1);// 边框的大小
-		columnHeadStyle.setRightBorderColor(HSSFColor.BLACK.index);// 右边框的颜色
-		columnHeadStyle.setBorderRight((short) 1);// 边框的大小
-		columnHeadStyle.setTopBorderColor(HSSFColor.BLACK.index);// 上边框的颜色
-		columnHeadStyle.setBorderTop((short) 1);// 边框的大小
-		columnHeadStyle.setBottomBorderColor(HSSFColor.BLACK.index);// 下边框的颜色
-		columnHeadStyle.setBorderBottom((short) 1);// 边框的大小
-		columnHeadStyle.setBorderBottom(HSSFCellStyle.BORDER_THIN); // 设置单元格的边框为粗体
-		columnHeadStyle.setBottomBorderColor(HSSFColor.BLACK.index); // 设置单元格的边框颜色
-		//columnHeadStyle.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);// 设置单元格的背景颜色（单元格的样式会覆盖列或行的样式）
+		columnHeadStyle.setLeftBorderColor(HSSFColor.BLACK.index);
+		columnHeadStyle.setBorderLeft((short) 1);
+		columnHeadStyle.setRightBorderColor(HSSFColor.BLACK.index);
+		columnHeadStyle.setBorderRight((short) 1);
+		columnHeadStyle.setTopBorderColor(HSSFColor.BLACK.index);
+		columnHeadStyle.setBorderTop((short) 1);
+		columnHeadStyle.setBottomBorderColor(HSSFColor.BLACK.index);
+		columnHeadStyle.setBorderBottom((short) 1);
+		columnHeadStyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+		columnHeadStyle.setBottomBorderColor(HSSFColor.BLACK.index);
+
 		columnHeadStyle.setFillForegroundColor(HSSFColor.WHITE.index);
-		//columnHeadStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);		
+
 		
 		
 		
-		//标题设置字体
+
 		HSSFFont font2 = wb.createFont();
-		font2.setColor(HSSFFont.COLOR_NORMAL);//字体颜色
-		font2.setFontName("黑体");//字体
-		font2.setFontHeightInPoints((short)18);//字体高度
-		font2.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);//宽度
-		//单元格样式
+		font2.setColor(HSSFFont.COLOR_NORMAL);
+		font2.setFontName("黑体");
+		font2.setFontHeightInPoints((short)18);
+		font2.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
+
 		HSSFCellStyle columnHeadStyle2 = wb.createCellStyle();
 		columnHeadStyle2.setFont(font2);
-		columnHeadStyle2.setAlignment(HSSFCellStyle.ALIGN_CENTER);// 左右居中
-		columnHeadStyle2.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);// 上下居中
+		columnHeadStyle2.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+		columnHeadStyle2.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
 		columnHeadStyle2.setLocked(true);
 		columnHeadStyle2.setWrapText(true);
-		columnHeadStyle2.setLeftBorderColor(HSSFColor.BLACK.index);// 左边框的颜色
-		columnHeadStyle2.setBorderLeft((short) 1);// 边框的大小
-		columnHeadStyle2.setRightBorderColor(HSSFColor.BLACK.index);// 右边框的颜色
-		columnHeadStyle2.setBorderRight((short) 1);// 边框的大小
-		columnHeadStyle2.setTopBorderColor(HSSFColor.BLACK.index);// 上边框的颜色
-		columnHeadStyle2.setBorderTop((short) 1);// 边框的大小
-		columnHeadStyle2.setBottomBorderColor(HSSFColor.BLACK.index);// 下边框的颜色
-		columnHeadStyle2.setBorderBottom((short) 1);// 边框的大小
-		columnHeadStyle2.setBorderBottom(HSSFCellStyle.BORDER_THIN); // 设置单元格的边框为粗体
-		columnHeadStyle2.setBottomBorderColor(HSSFColor.BLACK.index); // 设置单元格的边框颜色
-		//columnHeadStyle2.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);// 设置单元格的背景颜色（单元格的样式会覆盖列或行的样式）
-		//columnHeadStyle2.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);		
+		columnHeadStyle2.setLeftBorderColor(HSSFColor.BLACK.index);
+		columnHeadStyle2.setBorderLeft((short) 1);
+		columnHeadStyle2.setRightBorderColor(HSSFColor.BLACK.index);
+		columnHeadStyle2.setBorderRight((short) 1);
+		columnHeadStyle2.setTopBorderColor(HSSFColor.BLACK.index);
+		columnHeadStyle2.setBorderTop((short) 1);
+		columnHeadStyle2.setBottomBorderColor(HSSFColor.BLACK.index);
+		columnHeadStyle2.setBorderBottom((short) 1);
+		columnHeadStyle2.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+		columnHeadStyle2.setBottomBorderColor(HSSFColor.BLACK.index);
+
+
 		columnHeadStyle.setFillForegroundColor(HSSFColor.WHITE.index);
 		
 		
-		//单元格样式
+
 		HSSFCellStyle columnStyle = wb.createCellStyle();
-		columnStyle.setLeftBorderColor(HSSFColor.BLACK.index); // 左边框线的颜色
-		columnStyle.setBorderLeft((short) 1);// 左边框线的大小
-		columnStyle.setRightBorderColor(HSSFColor.BLACK.index); // 右边框线的颜色
-		columnStyle.setBorderRight((short) 1);// 右边框线的大小
-		columnStyle.setTopBorderColor(HSSFColor.BLACK.index); // 上边框线的颜色
-		columnStyle.setBorderTop((short) 1);// 上边框线的大小
-		columnStyle.setBottomBorderColor(HSSFColor.BLACK.index); // 下边框线的颜色
-		columnStyle.setBorderBottom((short) 1);// 下边框线的大小
+		columnStyle.setLeftBorderColor(HSSFColor.BLACK.index);
+		columnStyle.setBorderLeft((short) 1);
+		columnStyle.setRightBorderColor(HSSFColor.BLACK.index);
+		columnStyle.setBorderRight((short) 1);
+		columnStyle.setTopBorderColor(HSSFColor.BLACK.index);
+		columnStyle.setBorderTop((short) 1);
+		columnStyle.setBottomBorderColor(HSSFColor.BLACK.index);
+		columnStyle.setBorderBottom((short) 1);
 		columnStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
 				
 				
 				
 		
-		// 标题--施工变更单详情
+
 		HSSFRow rowTitle = sheet.createRow(0);
 		HSSFCell cell = rowTitle.createCell(0);
 		cell.setCellStyle(columnHeadStyle2);
@@ -229,8 +202,8 @@ public class BizProjectChangeBillService extends CrudService<BizProjectChangeBil
 			HSSFCell cella = rowTitle.createCell(i+1);
 			cella.setCellStyle(columnHeadStyle2);
 		}
-		//合并单元格--开始行，结束行，开始列，结束列  
-		sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 9));// 
+
+		sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 9));
 		
 		
 		HSSFRow row2 = sheet.createRow(1);
@@ -264,7 +237,7 @@ public class BizProjectChangeBillService extends CrudService<BizProjectChangeBil
 		
 		HSSFCell cellCustName8 = row2.createCell(8);
 		cellCustName8.setCellStyle(columnHeadStyle);
-		//填充
+
 		HSSFCell cellCustName9 = row2.createCell(9);
 		cellCustName9.setCellStyle(columnHeadStyle);
 		
@@ -486,7 +459,7 @@ public class BizProjectChangeBillService extends CrudService<BizProjectChangeBil
 		sheet.addMergedRegion(new CellRangeAddress(6, 6, 7, 9));
 		
 		
-		// 增项清单
+
 		HSSFRow rowTitle2 = sheet.createRow(7);
 		HSSFCell cell2 = rowTitle2.createCell(0);
 		cell2.setCellStyle(columnHeadStyle2);
@@ -495,8 +468,8 @@ public class BizProjectChangeBillService extends CrudService<BizProjectChangeBil
 			HSSFCell cella = rowTitle2.createCell(i+1);
 			cella.setCellStyle(columnHeadStyle2);
 		}
-		//合并单元格--开始行，结束行，开始列，结束列  
-		sheet.addMergedRegion(new CellRangeAddress(7, 7, 0, 9));// 
+
+		sheet.addMergedRegion(new CellRangeAddress(7, 7, 0, 9));
 				
 		HSSFRow row9 = sheet.createRow(8);
 		row9.createCell(7).setCellValue("合计：");
@@ -585,7 +558,7 @@ public class BizProjectChangeBillService extends CrudService<BizProjectChangeBil
 			}
 		}
 		
-		// 减项清单
+
 		HSSFRow rowTitle3 = sheet.createRow(addItemSize+10);
 		HSSFCell cell3 = rowTitle3.createCell(0);
 		cell3.setCellStyle(columnHeadStyle2);
@@ -594,8 +567,8 @@ public class BizProjectChangeBillService extends CrudService<BizProjectChangeBil
 			HSSFCell cella = rowTitle3.createCell(i+1);
 			cella.setCellStyle(columnHeadStyle2);
 		}
-		//合并单元格--开始行，结束行，开始列，结束列  
-		sheet.addMergedRegion(new CellRangeAddress(addItemSize+10, addItemSize+10, 0, 9));// 
+
+		sheet.addMergedRegion(new CellRangeAddress(addItemSize+10, addItemSize+10, 0, 9));
 		
 		HSSFRow subrow = sheet.createRow(addItemSize+11);
 		subrow.createCell(7).setCellValue("合计：");
@@ -687,7 +660,7 @@ public class BizProjectChangeBillService extends CrudService<BizProjectChangeBil
 		last.createCell(7).setCellValue("合计：");
 		last.createCell(8).setCellValue(totalMoney);
 		
-		// 审批轨迹
+
 		HSSFRow rowTitle4 = sheet.createRow(addItemSize+subItemSize+15);
 		HSSFCell cell4 = rowTitle4.createCell(0);
 		cell4.setCellStyle(columnHeadStyle2);
@@ -696,8 +669,8 @@ public class BizProjectChangeBillService extends CrudService<BizProjectChangeBil
 			HSSFCell cella = rowTitle4.createCell(i+1);
 				cella.setCellStyle(columnHeadStyle2);
 		}
-		//合并单元格--开始行，结束行，开始列，结束列  
-		sheet.addMergedRegion(new CellRangeAddress(addItemSize+subItemSize+15, addItemSize+subItemSize+15, 0, 9));// 
+
+		sheet.addMergedRegion(new CellRangeAddress(addItemSize+subItemSize+15, addItemSize+subItemSize+15, 0, 9));
 				
 		HSSFRow subrow3 = sheet.createRow(addItemSize+subItemSize+16);
 		HSSFCell auditSub = subrow3.createCell(0);
@@ -812,10 +785,7 @@ public class BizProjectChangeBillService extends CrudService<BizProjectChangeBil
 		return wb;
 	}
 
-	/**
-	 * 消息推送
-	 * @param bizMsg
-	 */
+
 	@Transactional(readOnly=false)
 	public void saveBizMsg(BizMsg bizMsg) {
 		dao.saveBizMsg(bizMsg);
@@ -827,12 +797,12 @@ public class BizProjectChangeBillService extends CrudService<BizProjectChangeBil
 	}
 
 	public List<BizProjectChangeBill> findAllStore(String string) {
-		// TODO Auto-generated method stub
+
 		return dao.findAllStore(string);
 	}
 
 	public User getCountByPhone(String phone) {
-		// TODO Auto-generated method stub
+
 		return dao.getCountByPhone(phone);
 	}
 
@@ -844,12 +814,12 @@ public class BizProjectChangeBillService extends CrudService<BizProjectChangeBil
 	}
 
 	public List<BizProjectChangeBill> findDetail(BizProjectChangeBill bizProjectChangeBill) {
-		// TODO Auto-generated method stub
+
 		return dao.findDetail(bizProjectChangeBill);
 	}
 @Transactional(readOnly=false)
 	public void updataIsDealed(BizProjectChangeBill bizProjectChangeBill) {
-		// TODO Auto-generated method stub
+
 		dao.updataIsDealed(bizProjectChangeBill);
 	}
 

@@ -34,7 +34,7 @@ public class OrderDetailsController extends BaseController{
 	}
 	
 	
-	//orderFormDetails
+
 	@RequestMapping(value="orderDtailsLook")
 	public String dtails(String orderId,Model model){
 		OrderDetails od = orderDetailsService.findOrderDtailsById(orderId);

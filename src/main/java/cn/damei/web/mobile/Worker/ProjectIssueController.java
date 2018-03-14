@@ -21,9 +21,7 @@ import cn.damei.entity.mobile.Worker.EmployeeGroup;
 import cn.damei.service.mobile.Worker.EmployeeGroupService;
 import cn.damei.entity.mobile.Worker.Worker;
 
-/**
- * Created by joseph on 2017/7/3.
- */
+
 @Controller
 @RequestMapping(value = "{adminPath}/app/worker/project-issue")
 public class ProjectIssueController {
@@ -45,7 +43,7 @@ public class ProjectIssueController {
 
 		EmployeeGroup employeeGroup = employeeGroupService.selectEmployeeGroupByGroupId(worker.getId());
 		String isLeader = "0";
-		if (employeeGroup != null) { // 组长
+		if (employeeGroup != null) {
 			isLeader = "0";
 		} else {
 			isLeader = "1";
@@ -86,9 +84,9 @@ public class ProjectIssueController {
 	@RequestMapping(value = "checkPic")
 	public String checkPic(Model model, HttpServletRequest request, Integer relatedId) {
 
-		// 根据问题id 和 type查询图片
+
 		Map<String, String> map = new HashMap<>();
-		// 查询关联图片列表
+
 		map.put("businessIdInt", String.valueOf(relatedId));
 		map.put("businessType", PictureTypeContantUtil.PICTURE_TYPE_200);
 

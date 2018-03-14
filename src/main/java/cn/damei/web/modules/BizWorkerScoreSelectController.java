@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import java.util.ArrayList;
@@ -42,12 +40,7 @@ import cn.damei.dao.modules.BizWorkerScoreDao;
 import cn.damei.entity.modules.BizWorkerScore;
 import cn.damei.service.modules.BizWorkerScoreService;
 
-/**
- * 工人组分数查询Controller
- * 
- * @author ws
- * @version 2017-09-14
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/workerScore/workerScoreSelect")
 public class BizWorkerScoreSelectController extends BaseController {
@@ -81,7 +74,7 @@ public class BizWorkerScoreSelectController extends BaseController {
 		BizWorkerScore entity = null;
 		if (StringUtils.isNotBlank(id)) {
 			entity = bizWorkerScoreService.get(id);
-			// 关联数据
+
 			BizEmgrouprelation relation = new BizEmgrouprelation();
 			relation.setGroupId(id);
 			List<BizEmgrouprelation> empGropRelation = bizEmGroupRelationService.findList(relation);
@@ -102,28 +95,26 @@ public class BizWorkerScoreSelectController extends BaseController {
 	@RequestMapping(value = { "list", "" })
 	public String list(BizWorkerScore bizWorkerScore, HttpServletRequest request, HttpServletResponse response, Model model) {
 		if (UserUtils.getUser().getStoreId() != null) {
-			// 当前登录用户门店
+
 			bizWorkerScore.setStoreId(UserUtils.getUser().getStoreId());
 		} else {
-			// 门店是总部的查询所有部门信息
+
 			if (bizWorkerScore.getStoreId() == null || bizWorkerScore.getStoreId().equals("1")) {
 				bizWorkerScore.setStoreId("2");
 			}
 		}
-		/**
-		 * 工程模式控制
-		 */
+
 		User user = UserUtils.getUser();
 		String projectMode = user.getProjectMode();
 		if(projectMode.equals("3") || projectMode.equals("2")){
-			/*bizEmployeegroup.setProjectMode(null);*/
+
 		}else{
 			bizWorkerScore.setProjectMode(projectMode);
 			model.addAttribute("projectModeEnable", true);
 		}
 		
 
-		// 区域
+
 		if (StringUtils.isBlank(bizWorkerScore.getElactricationId())) {
 			if (StringUtils.isNoneBlank(UserUtils.getUser().getEmpId())) {
 				List<Integer> list = bizEmployeeService2.findEngineIdsByEmpId(Integer.parseInt(UserUtils.getUser().getEmpId()));
@@ -141,10 +132,10 @@ public class BizWorkerScoreSelectController extends BaseController {
 			bizWorkerScore.setEnginDepartIds(list);
 		}
 
-		//Collections.sort(page.getList());
+
 		List<BizWorkerScore>llist=bizWorkerScoreDao.findSort(bizWorkerScore);
 		List ll=new ArrayList<>(); 
-		//System.out.println(llist.size());
+
 		if(llist.size()>0){
 		int index=1;
 		llist.get(0).setSort(index);
@@ -187,7 +178,7 @@ public class BizWorkerScoreSelectController extends BaseController {
 		session.setAttribute("empId", empId);
 		System.out.println();								
 		User user = UserUtils.getUser();
-		//过滤门店
+
 		if(null==bizWorkerScore.getStoreId()){
 			if(null!=user.getStoreId()){
 				bizWorkerScore.setStoreId(user.getStoreId());
@@ -196,7 +187,7 @@ public class BizWorkerScoreSelectController extends BaseController {
 		if(StringUtils.isBlank(user.getStoreId())){
 			model.addAttribute("storeDropEnable", true);
 		}
-		//过滤工程模式
+
 		if(StringUtils.isBlank(bizWorkerScore.getProjectMode())){
 			if(null != user.getEmpId()){
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -238,13 +229,13 @@ public class BizWorkerScoreSelectController extends BaseController {
 			for(BizWorkerScore grade :page.getList()){
 				List<Integer> list =new ArrayList<Integer>();
 				if(grade.getEvalRoleType() != null){
-					if(grade.getEvalRoleType()  == 1){//项目经理
+					if(grade.getEvalRoleType()  == 1){
 						list.add(101);
 						list.add(102);
-					}else if(grade.getEvalRoleType() == 2){//质检
+					}else if(grade.getEvalRoleType() == 2){
 						list.add(201);
 						list.add(202);
-					}else if(grade.getEvalRoleType() == 3){//客户
+					}else if(grade.getEvalRoleType() == 3){
 						list.add(301);
 						list.add(302);
 					}
@@ -276,8 +267,8 @@ public class BizWorkerScoreSelectController extends BaseController {
 	@ResponseBody
 	@RequestMapping(value = "ajaxemployeegroup")
 	public Map<String, Object> ajaxemployeegroup(BizEmployeegroupVO bizEmployeegroupVO, Model model, HttpServletRequest request) {
-		// List<BizEmgrouprelation> bizEmgrouprelationlist =
-		// bizEmGroupRelationService.queryemployeegroup(bizEmployeegroup);
+
+
 		List<BizEmployeegroupVO> bizEmployeegroupVOList = bizEmployeegroupVoService.queryemployeegroup(bizEmployeegroupVO);
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		resultMap.put("resultMap", bizEmployeegroupVOList);

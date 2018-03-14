@@ -2,9 +2,7 @@ package cn.damei.service.modules;
 
 import cn.damei.common.constantUtils.BizOrderReportConstantUtil;
 
-/**
- * Created by joseph on 2017/5/15.
- */
+
 public enum OrderReportLogStateEnum {
 
     ORDER_REPORT_LOG_STATE_20(Integer.parseInt(BizOrderReportConstantUtil.REPORT_STATUS_20),BizOrderReportConstantUtil.REPORT_STATUS_20_WORD ),

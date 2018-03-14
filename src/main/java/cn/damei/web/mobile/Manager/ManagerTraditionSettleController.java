@@ -18,14 +18,11 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Created by joseph on 2017/4/14.
- * 传统经理结算申请
- */
+
 @Controller
 @RequestMapping(value="${adminPath}/app/manager/tradition-manager-settle")
 public class ManagerTraditionSettleController {
-    private Logger log = LoggerFactory.getLogger(ManagerTraditionSettleController.class);//日志
+    private Logger log = LoggerFactory.getLogger(ManagerTraditionSettleController.class);
 
     @Autowired
     private ManagerTraditionSettleSerivce service;
@@ -45,21 +42,14 @@ public class ManagerTraditionSettleController {
         return "mobile/modules/Manager/traditionManagerSettle/Settlement";
     }
 
-    /**
-     * list搜索
-     *
-     * @param request
-     * @param model
-     * @param text
-     * @return
-     */
+
     @RequestMapping(value = "query_ajax_list")
     public @ResponseBody
     List<ManagerTraditionSettleEntity> queryAjaxList(HttpServletRequest request, Model model, String text) {
 
         ManagerTraditionSettleEntity entity = new ManagerTraditionSettleEntity();
         entity.setText(text);
-        //根据登录的项目经理 查询名下订单并关联播报表查询相关信息 (模糊搜索)
+
         List<ManagerTraditionSettleEntity> list = service.findSettleOrderList(request, entity);
 
         if (null != list && list.size() > 0) {
@@ -90,24 +80,16 @@ public class ManagerTraditionSettleController {
         return "mobile/modules/Manager/traditionManagerSettle/setApply";
     }
 
-    /**
-     *
-     * @param request
-     * @param model
-     * @param settleId
-     * @param orderId
-     * @param settleIndex
-     * @return
-     */
+
     @RequestMapping(value = "toUploadSettleInfo.php")
     public  String toUploadSettleInfo(HttpServletRequest request, Model model, String settleId, String orderId,String settleIndex) {
 
-        //如果settleId为空 ,那么表明第一次申请
-        //如果settleID不为空, 表明是查看明细
+
+
 
         if ("".equals(settleId.trim())) {
-            //不是数字
-            //根据订单查询信息
+
+
             ManagerTraditionSettleEntity entity = service.findSettleInfoDetailByIndexAndOrderId(orderId,settleIndex);
 
             model.addAttribute("entity", entity);
@@ -124,7 +106,7 @@ public class ManagerTraditionSettleController {
                 model.addAttribute("picList", settleList);
                 model.addAttribute("picPrefix",request.getContextPath());
 
-                //已经提交过的结算单,直接查询 并回显详情
+
                 return "mobile/modules/Manager/traditionManagerSettle/state";
 
             }else{
@@ -140,21 +122,11 @@ public class ManagerTraditionSettleController {
 
     }
 
-    /**
-     * orderId
-     * checkNodeId
-     * settleApplyRemarks
-     * photos
-     *保存settle单
-     * @param request
-     * @param model
-     * @param entity
-     * @return
-     */
+
     @RequestMapping(value = "saveSettleInfo")
     public @ResponseBody String saveSettleInfo(HttpServletRequest request, Model model, ManagerTraditionSettleEntity entity,String [] photos) {
 
-    //1:失败 2:成功
+
                String result= service.saveSettleInfo(request,entity,photos);
 
             return result;

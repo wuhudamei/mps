@@ -4,14 +4,11 @@ import cn.damei.common.persistence.DataEntity2;
 
 public class OrderDtailsEmployee extends DataEntity2<OrderDtailsEmployee>{
 
-	/**
-	 * @author wang
-	 * @version 2016-10-10
-	 */
+
 	private static final long serialVersionUID = 1L;
-	private String realName; // 真实姓名
-	private String phone; // 手机号
-	private String name; // 员工类型
+	private String realName;
+	private String phone;
+	private String name;
 	
 	public String getRealName() {
 		return realName;

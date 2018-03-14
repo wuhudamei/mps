@@ -8,11 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import cn.damei.service.mobile.Manager.OrderDisclosePicService;
 
-/**
- * 现场交底controller
- * @author llp 
- * 2016/10/17
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/app/manager")
 public class OrderDisclosePicController {
@@ -21,59 +17,8 @@ public class OrderDisclosePicController {
 	@Autowired
 	private OrderDisclosePicService orderDisclosePicService;
 	
-	/**
-	 * 交底
-	 * @param orderDisclose
-	 * @param request
-	 * @param model
-	 * @return OrderDisclose
-	 */
-	/*@SuppressWarnings("static-access")
-	@RequestMapping(value={"orderDisclosePicUploadPhoto1",""})
-	public @ResponseBody List<String> uploadPhoto1(String id, HttpServletRequest request,
-			@RequestParam(value = "photos1", required = false) MultipartFile[] photos)
-			throws IllegalStateException, IOException {
-		logger.info("调用的类型：" +id.trim());
-		MultipartHttpServletRequest req = (MultipartHttpServletRequest) request;
-		// 获得物理路径webapp所在路径
-		String pathRoot = req.getSession().getServletContext().getRealPath("");
-		String path = "";
-		logger.info("传入图片的值："+photos);
-		File file = new File(ConstantUtils.UPLOAD_DISCLOSE);//现场交底上传图片路径
-		List<String> picPath = new ArrayList<String>();
-		for (MultipartFile mf : photos) {
-			if (!mf.isEmpty()) {
-				// 生成uuid作为文件名称
-				String uuid = UUID.randomUUID().toString().replaceAll("-", "").trim();
-				// 获得文件类型（可以判断如果不是图片，禁止上传）
-				String contentType = mf.getContentType();
-				String picName = contentType.substring(contentType.indexOf("/") + 1);
-				if(!file.exists()){
-					logger.info("文件夹不存在!");
-					file.mkdirs();
-					logger.info("新建文件后的路径："+file);
-					path = (file + file.separator + uuid + "." + picName).trim();
-				}else{
-					path = (file + file.separator + uuid + "." + picName).trim();
-				}
 
-				logger.info("返回图片的途径photos1："+path);
-				mf.transferTo(new File(pathRoot + path));
-				picPath.add(path);
-			}
-
-		}
-
-		return picPath;
-	}
-	
-	*//**
-	 * 交底
-	 * @param orderDisclose
-	 * @param request
-	 * @param model
-	 * @return OrderDisclose
-	 *//*
+	  /*
 	@SuppressWarnings("static-access")
 	@RequestMapping(value={"orderDisclosePicUploadPhoto2",""})
 	public @ResponseBody List<String> uploadPhoto2(String id, HttpServletRequest request,

@@ -2,18 +2,14 @@ package cn.damei.entity.mobile.Manager;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 收货单商品entity
- * @author wang
- *
- */
+
 public class BizPurchaseReceiveBillProduct extends DataEntity2<BizPurchaseReceiveBillProduct>{
 
 	
 	private static final long serialVersionUID = 1L;
-	private Integer purchaseProductId; //材料采购单id
-	private Integer purchaseReceiveBillId; //收货单id
-	private Double receiveCount; //收货数量
+	private Integer purchaseProductId;
+	private Integer purchaseReceiveBillId;
+	private Double receiveCount;
 	public Integer getPurchaseProductId() {
 		return purchaseProductId;
 	}

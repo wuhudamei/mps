@@ -5,9 +5,7 @@ import cn.damei.common.persistence.annotation.MyBatisDao;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by joseph on 2017/6/23.
- */
+
 
 @MyBatisDao
 public interface CustomerServiceForQuartzDao {

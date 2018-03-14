@@ -1,59 +1,53 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import java.util.Date;
 
 import cn.damei.common.persistence.DataEntity;
 
-/**
- * 质检报告Entity
- * @author wyb
- * @version 2016-10-31
- */
+
 public class BizQcBill extends DataEntity<BizQcBill> {
 	
 	private static final long serialVersionUID = 1L;
-	private Integer qcBillId;	//质检报告id
-	private String qcBillCode;		// 质检单编号 -- '
-	private String qcBillType;		// 质检单类型 -- '1：约检单；2.抽检单
-	private String isRecheck;		// 是否复检 -- '0.否；1.是；默认0
-	private Integer relatedQcBillId;		// 关联质检单id -- '
-	private Integer orderId;		// 订单id -- '
-	private Integer qcCheckNodeId;		// 检查节点id -- '
-	private String applyRemarks;		// 申请备注 -- '
-	private String status;		// 状态 -- '复检单状态：1.创建；2.项目经理已申请；3.复检不合格；4.复检合格；约检单抽检单状态：0.暂存；2.项目经理已申请；5.已检查完成；6.已确认验收；
-	private Integer applyEmployeeId;		// 质检申请人员工id -- '
+	private Integer qcBillId;
+	private String qcBillCode;
+	private String qcBillType;
+	private String isRecheck;
+	private Integer relatedQcBillId;
+	private Integer orderId;
+	private Integer qcCheckNodeId;
+	private String applyRemarks;
+	private String status;
+	private Integer applyEmployeeId;
 	private String  applyEmployeeName;
-	private Integer checkEmployeeId;		// 实际质检人员工id -- '
-	private Date checkDatetime;		// 质检日期时间 -- '
-	private Date expectCheckDatetime;		// 期望质检日期时间 -- '
-	private Date acceptCheckDatetime;		// 验收日期时间 -- '
-	private Double totalScore;		// 总分 -- '
-	private Double gotScore;		// 实际得分 -- '
-	private Date beginCheckDatetime;		// 开始 质检日期时间 -- '
-	private Date endCheckDatetime;		// 结束 质检日期时间 -- '
-	private Integer recheckTimes;	//复检次数
+	private Integer checkEmployeeId;
+	private Date checkDatetime;
+	private Date expectCheckDatetime;
+	private Date acceptCheckDatetime;
+	private Double totalScore;
+	private Double gotScore;
+	private Date beginCheckDatetime;
+	private Date endCheckDatetime;
+	private Integer recheckTimes;
 	
-	private String orderNumber;	//订单编号
-	private String customerAddress; //地址
-	private String communityName; //小区
-	private String buildNumber; //几号楼
-	private String buildUnit; //几单元
-	private String buildRoom; //几室
-	private String customerName; //顾客
-	private String storeId; //门店
-	private String managerRealName; //项目经理
-	private String inspectorRealName; //质检员
-	private Integer orderInspectorId; //质检员id
-	private String checkRealName; //检查人
-	private String qcCheckNodeName; //节点名称
-	private Date signCheckDatetime;	//签到时间
-	private String signAddress; //签到地址
-	private Date actualStartDate;//实际开工日期
-	private String projectMode;		//工程模式   1-产业模式；2-传统模式
-	private String isEqual; //总分与实际得分不相等
+	private String orderNumber;
+	private String customerAddress;
+	private String communityName;
+	private String buildNumber;
+	private String buildUnit;
+	private String buildRoom;
+	private String customerName;
+	private String storeId;
+	private String managerRealName;
+	private String inspectorRealName;
+	private Integer orderInspectorId;
+	private String checkRealName;
+	private String qcCheckNodeName;
+	private Date signCheckDatetime;
+	private String signAddress;
+	private Date actualStartDate;
+	private String projectMode;
+	private String isEqual;
 	
 	
 	

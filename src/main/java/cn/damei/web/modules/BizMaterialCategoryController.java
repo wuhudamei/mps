@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,14 +20,10 @@ import cn.damei.common.utils.StringUtils;
 import cn.damei.entity.modules.BizMaterialCategory;
 import cn.damei.service.modules.BizMaterialCategoryService;
 import cn.damei.service.modules.SysSequenceService;
-/*import cn.damei.entity.modules.BizSupplier;*/
+
 import cn.damei.common.utils.DictUtils;
 
-/**
- * 材料类别管理Controller
- * @author lc
- * @version 2016-09-08
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/materialcategory/bizMaterialCategory")
 public class BizMaterialCategoryController extends BaseController {
@@ -90,12 +84,7 @@ public class BizMaterialCategoryController extends BaseController {
 	}
 	
 
-	/**
-	 * 停用/启用
-	 * @param bizTaskPackageType
-	 * @param redirectAttributes
-	 * @return
-	 */
+
 	@RequiresPermissions("materialcategory:bizMaterialCategory:edit")
 	@RequestMapping(value = "enable")
 	public String enable(BizMaterialCategory bizMaterialCategory, RedirectAttributes redirectAttributes) {

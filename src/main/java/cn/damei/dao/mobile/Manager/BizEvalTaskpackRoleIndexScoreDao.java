@@ -8,11 +8,7 @@ import cn.damei.common.persistence.annotation.MyBatisDao;
 import cn.damei.entity.mobile.Manager.EvalScoreRoleIndex;
 import cn.damei.entity.mobile.Manager.SettlementEvalStore;
 
-/** 
-* @author 邱威威qww 
-* @version 创建时间：2016年10月5日 下午4:28:27 
-* 类说明 
-*/
+
 @MyBatisDao
 public interface BizEvalTaskpackRoleIndexScoreDao extends CrudDao2<EvalScoreRoleIndex>{
 

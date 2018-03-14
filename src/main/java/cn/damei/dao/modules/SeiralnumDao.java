@@ -4,9 +4,7 @@ import cn.damei.common.persistence.CrudDao;
 import cn.damei.common.persistence.annotation.MyBatisDao;
 import cn.damei.entity.modules.Seiralnum;
 
-/**
- * @author llp
- */
+
 @MyBatisDao
 public interface SeiralnumDao extends CrudDao<Seiralnum> {
 

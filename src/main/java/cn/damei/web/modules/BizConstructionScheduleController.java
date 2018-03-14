@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import java.util.List;
@@ -26,11 +24,7 @@ import cn.damei.entity.modules.BizConstructionSchedule;
 import cn.damei.service.modules.BizConstructionScheduleService;
 import cn.damei.common.utils.UserUtils;
 
-/**
- * 工程进度节点Controller
- * @author 魏建勇
- * @version 2016-09-05
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/constructionschedule/bizConstructionSchedule")
 public class BizConstructionScheduleController extends BaseController {
@@ -58,10 +52,10 @@ public class BizConstructionScheduleController extends BaseController {
 	@RequiresPermissions("constructionschedule:bizConstructionSchedule:view")
 	@RequestMapping(value = {"list1"})
 	public String list1(BizConstructionSchedule bizConstructionSchedule, HttpServletRequest request, HttpServletResponse response, Model model) {
-		//不是管理员就不能查全部门店
+
 		int x =0;
 				if(!UserUtils.getUser().getOffice().getId().equals("1")){
-					//安心查自己门店吧
+
 					bizConstructionSchedule.setStoreId(UserUtils.getUser().getStoreId());
 					x++;
 				}

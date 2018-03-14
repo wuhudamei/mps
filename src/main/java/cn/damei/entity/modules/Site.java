@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import org.apache.commons.lang3.StringUtils;
@@ -9,22 +7,18 @@ import org.hibernate.validator.constraints.Length;
 import cn.damei.common.persistence.DataEntity;
 import cn.damei.common.utils.UserUtils;
 
-/**
- * 站点Entity
- * @author ThinkGem
- * @version 2013-05-15
- */
+
 public class Site extends DataEntity<Site> {
 	
 	private static final long serialVersionUID = 1L;
-	private String name;	// 站点名称
-	private String title;	// 站点标题
-	private String logo;	// 站点logo
-	private String description;// 描述，填写有助于搜索引擎优化
-	private String keywords;// 关键字，填写有助于搜索引擎优化
-	private String theme;	// 主题
-	private String copyright;// 版权信息
-	private String customIndexView;// 自定义首页视图文件
+	private String name;
+	private String title;
+	private String logo;
+	private String description;
+	private String keywords;
+	private String theme;
+	private String copyright;
+	private String customIndexView;
 	private String domain;
 
 	public Site() {
@@ -105,38 +99,26 @@ public class Site extends DataEntity<Site> {
 		this.customIndexView = customIndexView;
 	}
 
-	/**
-	 * 获取默认站点ID
-	 */
+
 	public static String defaultSiteId(){
 		return "1";
 	}
 	
-	/**
-	 * 判断是否为默认（主站）站点
-	 */
+
 	public static boolean isDefault(String id){
 		return id != null && id.equals(defaultSiteId());
 	}
 	
-	/**
-	 * 获取当前编辑的站点编号
-	 */
+
 	public static String getCurrentSiteId(){
 		String siteId = (String)UserUtils.getCache("siteId");
 		return StringUtils.isNotBlank(siteId)?siteId:defaultSiteId();
 	}
 
-    /**
-   	 * 模板路径
-   	 */
+
    	public static final String TPL_BASE = "/WEB-INF/views/modules/cms/front/themes";
 
-    /**
-   	 * 获得模板方案路径。如：/WEB-INF/views/modules/cms/front/themes/jeesite
-   	 *
-   	 * @return
-   	 */
+
    	public String getSolutionPath() {
    		return TPL_BASE + "/" + getTheme();
    	}

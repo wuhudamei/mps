@@ -6,22 +6,18 @@ import java.io.Serializable;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 
-/**
- * 质检报告 检查项  违规形式 Entity
- * @author Administrator
- *
- */
+
 @JsonIgnoreProperties(value={"checkItem"})
 public class CheckBreak implements Serializable {
 	
 	
 	private static final long serialVersionUID = 1L;
 	
-	private String breakDescribe;//违规形式
-	private String isRequiredRemarks;//是否备注
-	private String breakRemarks;//违规备注
+	private String breakDescribe;
+	private String isRequiredRemarks;
+	private String breakRemarks;
 	
-	private CheckItem checkItem; //质检报告 检查项
+	private CheckItem checkItem;
 
 	public String getBreakDescribe() {
 		return breakDescribe;

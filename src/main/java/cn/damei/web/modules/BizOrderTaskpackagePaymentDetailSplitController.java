@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,11 +17,7 @@ import cn.damei.common.web.BaseController;
 import cn.damei.entity.modules.BizOrderTaskpackagePaymentDetailSplit;
 import cn.damei.service.modules.BizOrderTaskpackagePaymentDetailSplitService;
 
-/**
- * 付款单明细拆分Controller
- * @author www
- * @version 2016-10-31
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/ordertaskpaymentdetailsplit/bizOrderTaskpackagePaymentDetailSplit")
 public class BizOrderTaskpackagePaymentDetailSplitController extends BaseController {

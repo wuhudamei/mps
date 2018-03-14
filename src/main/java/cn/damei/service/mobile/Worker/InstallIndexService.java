@@ -17,20 +17,12 @@ public class InstallIndexService{
 	private InstallIndexDao dao;
 
 
-	/**
-	 * 查询工人组的施工单--未完工的数量
-	 * @param groupId
-	 * @return
-	 */
+
 	public Integer findUnfinishedCount(Integer groupId) {
 		return dao.findUnfinishedCount(groupId);
 	}
 
-	/**
-	 * 查询工人组的施工单--已完工的数量
-	 * @param groupId
-	 * @return
-	 */
+
 	public Integer findFinishedCount(Integer groupId) {
 		return dao.findFinishedCount(groupId);
 	}

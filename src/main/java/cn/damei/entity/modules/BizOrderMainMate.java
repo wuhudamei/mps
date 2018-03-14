@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import java.util.Date;
@@ -10,34 +8,29 @@ import org.hibernate.validator.constraints.Length;
 import cn.damei.common.persistence.DataEntity2;
 import cn.damei.common.utils.excel.annotation.ExcelField;
 
-/**
- * 主材订单Entity
- * 
- * @author qww
- * @version 2016-10-09
- */
+
 public class BizOrderMainMate extends DataEntity2<BizOrderMainMate> {
 
 	private static final long serialVersionUID = 1L;
-	private Integer orderId; // 订单id -- '
-	private String mainMateType; // 主材类型 -- '4墙砖；3地砖；开关面板
-	private String orderNumber; // 订单编号
-	private String position; // 位置 -- '
-	private String brandCombo; // 品牌套餐 -- '
-	private String model; // 型号 -- '
-	private String attribute; // 属性 -- '
-	private String supplier; // 供应商 -- '
-	private String specification; // 规格 -- '
-	private String unit; // 单位 -- '
-	private String count; // 数量 -- '
-	private Double lossxs; // 损耗系数 -- '
-	private String includLossCount; // 含损耗数量 -- '
-	private String applyCounta; // 实发数量 -- '
-	private String purchaseCount; // 已申请数量'
-	private String iscountsquare; // 是否计算面积 1为是 0 为否
-	private String unitsquare; // 面积
-	private String remarks; // 备注
-	private Date createDatez; // 创建时间
+	private Integer orderId;
+	private String mainMateType;
+	private String orderNumber;
+	private String position;
+	private String brandCombo;
+	private String model;
+	private String attribute;
+	private String supplier;
+	private String specification;
+	private String unit;
+	private String count;
+	private Double lossxs;
+	private String includLossCount;
+	private String applyCounta;
+	private String purchaseCount;
+	private String iscountsquare;
+	private String unitsquare;
+	private String remarks;
+	private Date createDatez;
 
 	public BizOrderMainMate() {
 		super();
@@ -213,7 +206,7 @@ public class BizOrderMainMate extends DataEntity2<BizOrderMainMate> {
 		return remarks;
 	}
 
-	// @ExcelField(title = "备注", align = 2, sort = 90)
+
 	public void setRemarks(String remarks) {
 		this.remarks = remarks;
 	}

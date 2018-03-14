@@ -4,25 +4,21 @@ import java.util.Date;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 质检 检查项
- * @author梅浩
- *
- */
+
 public class InspectItem extends DataEntity2<InspectItem> {
 
 	
 	
-	private Integer inspectBillId;//质检单id
+	private Integer inspectBillId;
 	private Integer itemId;
-	private Integer orderId;//结算用
-	private Integer  managerId;//经理id
-	private Integer  responsibilityPersonM;//责任项目经理id
-	private Integer  responsibilityPersonW;//责任工人组id
-	private Integer  taskPackageTemplatId;//任务包模板ID
-	private String  managerName;//经理名称
-	private String  projectMode;//工程模式
-	private Integer  pqcId;//经理id
+	private Integer orderId;
+	private Integer  managerId;
+	private Integer  responsibilityPersonM;
+	private Integer  responsibilityPersonW;
+	private Integer  taskPackageTemplatId;
+	private String  managerName;
+	private String  projectMode;
+	private Integer  pqcId;
 
 	public Integer getManagerId() {
 		return managerId;
@@ -36,28 +32,28 @@ public class InspectItem extends DataEntity2<InspectItem> {
 	public void setOrderId(Integer orderId) {
 		this.orderId = orderId;
 	}
-	private Integer  relatedBillCheckItemId;//关联质检单检查项id
+	private Integer  relatedBillCheckItemId;
 	
-	private String isRequired;//是否必检   0否 1 是
-	private Integer checkItemId;//检查项id
-	private String checkItemName;//检查项名字
-	private String isChoosed;//是否选过   1 是 0 否
-	//页面VO数据属性 ,处理方式等
-	private String isOk; //是否合格
-	private Double preScores;//原有分数
-	private Double actualScores;//实际得分
-	private String  isWarn;//是否警告
+	private String isRequired;
+	private Integer checkItemId;
+	private String checkItemName;
+	private String isChoosed;
+
+	private String isOk;
+	private Double preScores;
+	private Double actualScores;
+	private String  isWarn;
 	
-	private String  isLocatedChange;//是否现场整改
-	private String  isLimitDateChange;//是否限期整改
-	private Date limitDate;//限期整改日期
-	private String limitChangeWay;//限期整改方式   0线上   1线下
-	private String  isPunishMoney;//是否罚款
-	private Double  prePunishMoney;//检查项默认罚款金额
-	private Double  actualPunishMoney;//实际罚款金额
-	private InspectKind   checkKind;//检查分类对象
+	private String  isLocatedChange;
+	private String  isLimitDateChange;
+	private Date limitDate;
+	private String limitChangeWay;
+	private String  isPunishMoney;
+	private Double  prePunishMoney;
+	private Double  actualPunishMoney;
+	private InspectKind   checkKind;
 	
-	//17-2-16  不合格项弹出框更改 
+
 	private  Integer packId;
 	private  Integer  workerGroupId;
 	private  String workerGroupLeaderName;
@@ -304,9 +300,7 @@ public class InspectItem extends DataEntity2<InspectItem> {
 		this.responsibilityPersonW = responsibilityPersonW;
 	}
 
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 
 

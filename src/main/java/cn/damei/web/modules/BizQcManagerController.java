@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import cn.damei.common.config.Global;
@@ -26,11 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 
-/**
- * 质检管理人员Controller
- * @author wyb
- * @version 2016-11-02
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/bizqcmanager/bizQcManager")
 public class BizQcManagerController extends BaseController {
@@ -56,13 +50,13 @@ public class BizQcManagerController extends BaseController {
 	@RequestMapping(value = {"list", ""})
 	public String list(BizQcManager bizQcManager, HttpServletRequest request, HttpServletResponse response, Model model) {
 		User user = UserUtils.getUser();
-		//过滤门店
+
 		if(null==bizQcManager.getStoreId()){
 			if(null!=user.getStoreId()){
 				bizQcManager.setStoreId(Integer.valueOf(user.getStoreId()));
 			}
 		}
-		//过滤工程模式
+
 		if(null != user.getEmpId()){
 			BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
 			if(StringUtils.isBlank(be.getProjectMode())){
@@ -85,13 +79,13 @@ public class BizQcManagerController extends BaseController {
 	public String managerList(BizQcManager bizQcManager, HttpServletRequest request, HttpServletResponse response, Model model) {
 		
 		User user = UserUtils.getUser();
-		//过滤门店
+
 		if(null==bizQcManager.getStoreId()){
 			if(null!=user.getStoreId()){
 				bizQcManager.setStoreId(Integer.valueOf(user.getStoreId()));
 			}
 		}
-		//过滤工程模式
+
 		if(null != user.getEmpId()){
 			BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
 			if(StringUtils.isBlank(be.getProjectMode())){
@@ -125,7 +119,7 @@ public class BizQcManagerController extends BaseController {
 		if (!beanValidator(model, bizQcManager)){
 			return form(bizQcManager, model);
 		}
-		//通过人员id查询门店
+
 		Integer storeId = bizQcManagerService.findStore(bizQcManager.getManagerEmployeeId());
 		bizQcManager.setStoreId(storeId);
 		bizQcManager.setIsEnabled("1");

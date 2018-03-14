@@ -7,9 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
-/**
- * Created by joseph on 2017/4/7.
- */
+
 @Service
 @Transactional(readOnly = false)
 public class ApplyCheckEarlyWarningQueryDetailService extends CrudService<ApplyCheckEarlyWarningDetailDao,ApplyCheckEarlyWarningQueryDetailEntity >{

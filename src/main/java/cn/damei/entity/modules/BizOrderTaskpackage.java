@@ -9,9 +9,7 @@ import cn.damei.entity.mobile.Worker.TaskPackagePicture;
 
 public class BizOrderTaskpackage extends DataEntity2<BizOrderTaskpackage>{
 
-	/**
-	 * www 任务包明细所用的entity
-	 */
+
 	private static final long serialVersionUID = 1L;
 	private Integer engineDepartId;
 	public Integer getEngineDepartId() {
@@ -22,7 +20,7 @@ public class BizOrderTaskpackage extends DataEntity2<BizOrderTaskpackage>{
 	}
 	private Integer storeId;
 	private Integer orderId;
-	private String orderTaskpackageCode;//任务包标号 
+	private String orderTaskpackageCode;
 	private String packageName;
 	private Date planStartdate;
 	private Date planEnddate;
@@ -36,27 +34,27 @@ public class BizOrderTaskpackage extends DataEntity2<BizOrderTaskpackage>{
 	private Integer itemManagerId;
 	private String customerName; 
 	private String customerMessage;
-	private String orderNumber; //订单编号 订单表
-	private String communityName;//小区名称 订单表
-	private Date approveSalaryTime;//工人同意薪酬时间 结算明细表
-	private Date acceptanceTime; //任务包验收时间 --结算单checkdate
-	//private Date approveCheckTime; //结算员通过时间 暂缺
-//	private Double total; //任务包的总价
+	private String orderNumber;
+	private String communityName;
+	private Date approveSalaryTime;
+	private Date acceptanceTime;
+
+
 	private Double laborAuxiliaryMaterialsBudgetAmount;
 	private String managerPhone;
 	private String groupPhone;
-	private Integer days; //延迟的天数  已完工的天数
-	private Integer count; //催促验收的次数
-	private Date dispatchTime; //任务包派工时间
-	private String inspectorPhone; //质检员手机号 订单中取
-	private String inspectorName; //质检员  订单中取 
-	private Date recheckTime;  //复检时间  暂缺 recheck_datetime
+	private Integer days;
+	private Integer count;
+	private Date dispatchTime;
+	private String inspectorPhone;
+	private String inspectorName;
+	private Date recheckTime;
 	private Date beginRecheckTime;
 	private Date endRecheckTime;
 	private Integer settlementId;
-	private String projectMode;//工程模式
-	//查询的时间条件字段
-	private Date beginCreatedate; //任务包创建时间
+	private String projectMode;
+
+	private Date beginCreatedate;
 	private Date endCreatedate;
 	private Date beginPlanStartdate;
 	private Date endPlanStartdate;
@@ -73,11 +71,11 @@ public class BizOrderTaskpackage extends DataEntity2<BizOrderTaskpackage>{
 	private List<String> statusList = new ArrayList<String>();
 	private String departmentName;
 	private List<Integer> enginDepartIds = new ArrayList<Integer>(); 
-	private String leaflet;//派单人
-	private Date leafletDate;//派单日期
-	private Date beginleafletdate;//开始派工时间
-	private Date endleafletdate;//结束派工时间
-	private String isScrap; // 是否作废
+	private String leaflet;
+	private Date leafletDate;
+	private Date beginleafletdate;
+	private Date endleafletdate;
+	private String isScrap;
 	
 	
 	
@@ -123,7 +121,7 @@ public class BizOrderTaskpackage extends DataEntity2<BizOrderTaskpackage>{
 	public void setEnginDepartIds(List<Integer> enginDepartIds) {
 		this.enginDepartIds = enginDepartIds;
 	}
-	private String isZero; //任务包总金额是否为零 1不是0
+	private String isZero;
 	private List<TaskPackagePicture> pictures = null;
 	
 	public List<TaskPackagePicture> getPictures() {

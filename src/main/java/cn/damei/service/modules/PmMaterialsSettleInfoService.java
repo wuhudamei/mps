@@ -11,11 +11,7 @@ import cn.damei.common.service.CrudService2;
 import cn.damei.dao.modules.PmMaterialsSettleInfoDao;
 import cn.damei.entity.modules.PmMaterialsSettleInfo;
 
-/**
- * 项目经理材料结算信息Service
- * @author hyh
- *
- */
+
 @Service
 @Transactional(readOnly = true)
 public class PmMaterialsSettleInfoService extends CrudService2<PmMaterialsSettleInfoDao, PmMaterialsSettleInfo>{

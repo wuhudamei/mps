@@ -38,24 +38,18 @@ public class LaborCapitalService extends CrudService2<LaborCapitalDao, LaborCapi
             model.addAttribute("storeDropEnable", true);
         }
     }
-    /**
-    * @Description: 导出
-    * @Author zhangkangjian
-    * @param
-    * @return
-    * @Date 2017/11/23 16:43
-    */
+
     public void exportDetailExcel(LaborCapital laborCapital,HttpServletResponse response) {
         SimpleDateFormat sf = new SimpleDateFormat("yyyyMMdd");
         String fileName = "工人接单和罚款情况";
         HSSFWorkbook excel = export(laborCapital);
-        //创建一个输出流对象
+
         ServletOutputStream out= null;
         try {
             response.setContentType("application/binary;charset=utf-8");
-            //headerString为中文时转码
+
             String headerStr =new String(fileName.getBytes("utf-8"), "ISO8859-1");
-            //filename是下载的xls的名称
+
             response.setHeader("Content-disposition","attachment; filename="+headerStr+".xls");
             out = response.getOutputStream();
             excel.write(out);
@@ -76,63 +70,57 @@ public class LaborCapitalService extends CrudService2<LaborCapitalDao, LaborCapi
 
 
 
-    /**
-     * @Description: 导出数据处理
-     * @param @param delayBill
-     * @param @return
-     * @author zkj
-     * @date 2017年10月26日 下午3:31:17
-     */
+
     public HSSFWorkbook export(LaborCapital laborCapital) {
 
         SimpleDateFormat sfdatatime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         String sheetName = "工人接单和罚款情况";
 
-        HSSFWorkbook wb = new HSSFWorkbook();// 创建一个Excel文件
-        HSSFSheet sheet = wb.createSheet(sheetName);// 创建一个Excel的Sheet
+        HSSFWorkbook wb = new HSSFWorkbook();
+        HSSFSheet sheet = wb.createSheet(sheetName);
 
-        //设置字体
+
         HSSFFont font = wb.createFont();
-        font.setColor(HSSFFont.COLOR_NORMAL);//字体颜色
-        font.setFontName("黑体");//字体
-        font.setFontHeightInPoints((short)10);//字体高度
-        font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);//宽度
+        font.setColor(HSSFFont.COLOR_NORMAL);
+        font.setFontName("黑体");
+        font.setFontHeightInPoints((short)10);
+        font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
 
-        //单元格样式--标题
+
         HSSFCellStyle columnHeadStyle = wb.createCellStyle();
         columnHeadStyle.setFont(font);
-        columnHeadStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);// 左右居中
-        columnHeadStyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);// 上下居中
+        columnHeadStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+        columnHeadStyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
         columnHeadStyle.setLocked(true);
         columnHeadStyle.setWrapText(true);
-        columnHeadStyle.setLeftBorderColor(HSSFColor.BLACK.index);// 左边框的颜色
-        columnHeadStyle.setBorderLeft((short) 1);// 边框的大小
-        columnHeadStyle.setRightBorderColor(HSSFColor.BLACK.index);// 右边框的颜色
-        columnHeadStyle.setBorderRight((short) 1);// 边框的大小
+        columnHeadStyle.setLeftBorderColor(HSSFColor.BLACK.index);
+        columnHeadStyle.setBorderLeft((short) 1);
+        columnHeadStyle.setRightBorderColor(HSSFColor.BLACK.index);
+        columnHeadStyle.setBorderRight((short) 1);
 
-        columnHeadStyle.setTopBorderColor(HSSFColor.BLACK.index);// 上边框的颜色
-        columnHeadStyle.setBorderTop((short) 1);// 边框的大小
-        columnHeadStyle.setBottomBorderColor(HSSFColor.BLACK.index);// 下边框的颜色
-        columnHeadStyle.setBorderBottom((short) 1);// 边框的大小
-        columnHeadStyle.setBorderBottom(HSSFCellStyle.BORDER_THIN); // 设置单元格的边框为粗体
-        columnHeadStyle.setBottomBorderColor(HSSFColor.BLACK.index); // 设置单元格的边框颜色
-        columnHeadStyle.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);// 设置单元格的背景颜色（单元格的样式会覆盖列或行的样式）
+        columnHeadStyle.setTopBorderColor(HSSFColor.BLACK.index);
+        columnHeadStyle.setBorderTop((short) 1);
+        columnHeadStyle.setBottomBorderColor(HSSFColor.BLACK.index);
+        columnHeadStyle.setBorderBottom((short) 1);
+        columnHeadStyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+        columnHeadStyle.setBottomBorderColor(HSSFColor.BLACK.index);
+        columnHeadStyle.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
         columnHeadStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
 
-        //单元格样式
+
         HSSFCellStyle columnStyle = wb.createCellStyle();
-        columnStyle.setLeftBorderColor(HSSFColor.BLACK.index); // 左边框线的颜色
-        columnStyle.setBorderLeft((short) 1);// 左边框线的大小
-        columnStyle.setRightBorderColor(HSSFColor.BLACK.index); // 右边框线的颜色
-        columnStyle.setBorderRight((short) 1);// 右边框线的大小
-        columnStyle.setTopBorderColor(HSSFColor.BLACK.index); // 上边框线的颜色
-        columnStyle.setBorderTop((short) 1);// 上边框线的大小
-        columnStyle.setBottomBorderColor(HSSFColor.BLACK.index); // 下边框线的颜色
-        columnStyle.setBorderBottom((short) 1);// 下边框线的大小
+        columnStyle.setLeftBorderColor(HSSFColor.BLACK.index);
+        columnStyle.setBorderLeft((short) 1);
+        columnStyle.setRightBorderColor(HSSFColor.BLACK.index);
+        columnStyle.setBorderRight((short) 1);
+        columnStyle.setTopBorderColor(HSSFColor.BLACK.index);
+        columnStyle.setBorderTop((short) 1);
+        columnStyle.setBottomBorderColor(HSSFColor.BLACK.index);
+        columnStyle.setBorderBottom((short) 1);
         columnStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
 
-        // 单元格宽度
+
         sheet.setColumnWidth(0, 2000);
         sheet.setColumnWidth(1, 3000);
         sheet.setColumnWidth(2, 3000);
@@ -153,37 +141,29 @@ public class LaborCapitalService extends CrudService2<LaborCapitalDao, LaborCapi
         sheet.setColumnWidth(17, 3000);
 
 
-        //标题---订单信息
-       /* HSSFRow rowTitle21 = sheet.createRow(0);
-        rowTitle21.setHeightInPoints(20);
-        HSSFCell headCell01 = rowTitle21.createCell(0);
-        headCell01.setCellStyle(columnHeadStyle);
-        headCell01.setCellValue(sheetName);*/
-      /*  int j = 16;
-        for(int i=0;i<j;i++){
-            HSSFCell cella = rowTitle21.createCell(i+1);
-            cella.setCellStyle(columnHeadStyle);
-        }*/
-        //合并单元格--开始行，结束行，开始列，结束列
-      /*  sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 16));*/
 
-        sheet.addMergedRegion(new CellRangeAddress(1, 1, 0, 0));// 门店
-        sheet.addMergedRegion(new CellRangeAddress(1, 1, 1, 1));//区域
-        sheet.addMergedRegion(new CellRangeAddress(1, 1, 2, 2));//客户姓名
-        sheet.addMergedRegion(new CellRangeAddress(1, 1, 3, 3));//客户地址
-        sheet.addMergedRegion(new CellRangeAddress(1, 1, 4, 4));//项目经理
-        sheet.addMergedRegion(new CellRangeAddress(1, 1, 5, 5));//质检员
-        sheet.addMergedRegion(new CellRangeAddress(1, 1, 6, 6));//订单状态
-        sheet.addMergedRegion(new CellRangeAddress(1, 1, 7, 7));//订单接单时间
-        sheet.addMergedRegion(new CellRangeAddress(1, 1, 8, 8));//任务包类型
-        sheet.addMergedRegion(new CellRangeAddress(1, 1, 9, 9));//任务包状态
-        sheet.addMergedRegion(new CellRangeAddress(1, 1, 10,10));//工人组长
-        sheet.addMergedRegion(new CellRangeAddress(1, 1, 11,11));//工人组组长手机号
-        sheet.addMergedRegion(new CellRangeAddress(1, 1, 12,12));//任务包开始时间
-        sheet.addMergedRegion(new CellRangeAddress(1, 1, 13,13));//任务包结束时间
-        sheet.addMergedRegion(new CellRangeAddress(1, 1, 14,14));//管理扣款
-        sheet.addMergedRegion(new CellRangeAddress(1, 1, 15,15));//延期扣款
-        sheet.addMergedRegion(new CellRangeAddress(1, 1, 16,16));//公司扣款
+
+
+
+
+
+        sheet.addMergedRegion(new CellRangeAddress(1, 1, 0, 0));
+        sheet.addMergedRegion(new CellRangeAddress(1, 1, 1, 1));
+        sheet.addMergedRegion(new CellRangeAddress(1, 1, 2, 2));
+        sheet.addMergedRegion(new CellRangeAddress(1, 1, 3, 3));
+        sheet.addMergedRegion(new CellRangeAddress(1, 1, 4, 4));
+        sheet.addMergedRegion(new CellRangeAddress(1, 1, 5, 5));
+        sheet.addMergedRegion(new CellRangeAddress(1, 1, 6, 6));
+        sheet.addMergedRegion(new CellRangeAddress(1, 1, 7, 7));
+        sheet.addMergedRegion(new CellRangeAddress(1, 1, 8, 8));
+        sheet.addMergedRegion(new CellRangeAddress(1, 1, 9, 9));
+        sheet.addMergedRegion(new CellRangeAddress(1, 1, 10,10));
+        sheet.addMergedRegion(new CellRangeAddress(1, 1, 11,11));
+        sheet.addMergedRegion(new CellRangeAddress(1, 1, 12,12));
+        sheet.addMergedRegion(new CellRangeAddress(1, 1, 13,13));
+        sheet.addMergedRegion(new CellRangeAddress(1, 1, 14,14));
+        sheet.addMergedRegion(new CellRangeAddress(1, 1, 15,15));
+        sheet.addMergedRegion(new CellRangeAddress(1, 1, 16,16));
 
 
 
@@ -259,7 +239,7 @@ public class LaborCapitalService extends CrudService2<LaborCapitalDao, LaborCapi
         headCell16.setCellValue("公司扣款");
 
 
-        /*List<DelayBill> list = new ArrayList<>();*/
+
 
         List<LaborCapital> list = dao.exportQuery(laborCapital);
         if(CollectionUtils.isNotEmpty(list)){
@@ -317,7 +297,7 @@ public class LaborCapitalService extends CrudService2<LaborCapitalDao, LaborCapi
                 cell9.setCellStyle(columnStyle);
                 if (StringUtils.isNotBlank(sd.getTaskPackageType())) {
                     cell9.setCellValue(BizDictUtils.getTaskPackageTypeLabel(sd.getTaskPackageType(),""));
-                    /*BizDictUtils.getStoreLabel(sd.getStoreId(), "")*/
+
                 }
 
                 HSSFCell cell10 = row.createCell(9);

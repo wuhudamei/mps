@@ -5,37 +5,33 @@ import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import cn.damei.common.persistence.DataEntity;
 
-/**
- * 订单评分详情Entity
- * @author lft
- * @version 2017-04-15
- */
+
 public class ScoreOrderQuery extends DataEntity<ScoreOrderQuery> {
-	private String name; //门店
+	private String name;
 	
-	private String typeName; //评分类型
-	private String typeCode; //评分编号
+	private String typeName;
+	private String typeCode;
 	public String getTypeName() {
 		return typeName;
 	}
 	public void setTypeName(String typeName) {
 		this.typeName = typeName;
 	}
-	private String orderNumber;// 订单编号
-	private String customerName;//客户名字
-	private String customerPhone;// 客户电话
-	private String province; //订单的地址
+	private String orderNumber;
+	private String customerName;
+	private String customerPhone;
+	private String province;
 	private String city;
 	private String county;
 	private String detailAddress;
-	private String stakeholder; //干系
-	private Integer scoreValue;//评分值
-	private Integer scoreBegin; //评分区间
+	private String stakeholder;
+	private Integer scoreValue;
+	private Integer scoreBegin;
 	private Integer scoreEnd;
-	private Date scoreTime; //评分时间
-	private Date scoreDateBegin; //评分时间区间
+	private Date scoreTime;
+	private Date scoreDateBegin;
 	private Date scoreDateEnd;
-	private String scoreContent; //评价内容
+	private String scoreContent;
 	private String scoreQuery;
 	public String getName() {
 		return name;

@@ -18,9 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.util.*;
 
-/**
- * Created by joseph on 2017/7/4.
- */
+
 
 @Service
 @Transactional(readOnly = true)
@@ -55,14 +53,14 @@ public class PqcComplaintService {
 
     @Transactional(readOnly = false)
     public String savePqcDeal(HttpServletRequest request, String dealDescribe, Integer handleId, String[] photos) {
-        //去重复数据校验, 查询是否已经处理过该问题
+
         Integer isExist = dao.findIssueIsDoneByHandleId(handleId);
         if (null != isExist && isExist == 0) {
             Date date = new Date();
             Map<String, String> map = new HashMap<>();
-            //保存答复内容
-            //更新处理表状态-->20
-            //更新投诉问题状态->30 (已处理)
+
+
+
             map.put("handleId", String.valueOf(handleId));
             map.put("dealDescribe", dealDescribe);
             dao.saveHandleDescribeByHandleIdAndDealDescribe(map);
@@ -72,7 +70,7 @@ public class PqcComplaintService {
 
 
             if (null != photos && photos.length > 0) {
-                //保存图片
+
 
 
                 List<Map<String, Object>> picMapList = new ArrayList<>();
@@ -93,7 +91,7 @@ public class PqcComplaintService {
             }
 
 
-            //保存对应log
+
 
             Map<String,Object> logMap = new HashMap<>();
 
@@ -108,7 +106,7 @@ public class PqcComplaintService {
             return "1";
         } else {
 
-            //已经处理过的
+
             return "2";
         }
 
@@ -124,9 +122,9 @@ public class PqcComplaintService {
 
         String uuid = UUID.randomUUID().toString().replaceAll("-", "");
 
-        // String rootPath = RootName.SystemEnvironment(request);
 
-        // 判断该文件是否存在
+
+
         if (!filePath.exists() && !filePath.isDirectory()) {
             filePath.mkdirs();
         }
@@ -141,12 +139,7 @@ public class PqcComplaintService {
 
     }
 
-    /**
-     * 查看图片
-     *
-     *
-     * @return
-     */
+
     public List<String> findPic( Map<String,String> map ){
 
        List<String>list = util.findPicByIdAndType(map);

@@ -3,32 +3,29 @@ package cn.damei.entity.modules;
 import java.io.Serializable;
 import java.util.Date;
 
-/**
- * 质检台账
- * Created by 巢帅 on 2017/9/13.
- */
+
 public class QualityCheck implements Serializable{
-    /**质检报告编号**/
+
     private String qcBillCode;
-    /**约检节点**/
+
     private String qcCheckNodeName;
-    /**项目经理**/
+
     private String itemManager;
-    /**约检时间**/
+
     private Date createDate;
-    /**质检员**/
+
     private String realName;
-    /**质检时间**/
+
     private Date checkDatetime;
-    /**验收通过时间**/
+
     private Date acceptCheckDatetime;
-    /**实际开工时间**/
+
     private Date actualStartDate;
-    /**工程模式**/
+
     private String projectMode;
-    /**工程区域**/
+
     private String name;
-    /**工程模式**/
+
     private String label;
 
     public String getQcBillCode() {

@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import org.hibernate.validator.constraints.Length;
@@ -9,22 +7,18 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import cn.damei.common.persistence.DataEntity;
 
-/**
- * 单表生成Entity
- * @author ThinkGem
- * @version 2015-04-06
- */
+
 public class TestData extends DataEntity<TestData> {
 	
 	private static final long serialVersionUID = 1L;
-	private User user;		// 归属用户
-	private Office office;		// 归属部门
-	private Area area;		// 归属区域
-	private String name;		// 名称
-	private String sex;		// 性别
-	private Date inDate;		// 加入日期
-	private Date beginInDate;		// 开始 加入日期
-	private Date endInDate;		// 结束 加入日期
+	private User user;
+	private Office office;
+	private Area area;
+	private String name;
+	private String sex;
+	private Date inDate;
+	private Date beginInDate;
+	private Date endInDate;
 	
 	public TestData() {
 		super();

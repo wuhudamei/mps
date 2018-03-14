@@ -5,13 +5,11 @@ import cn.damei.entity.modules.WorkgroupVo;
 
 public class ManagerOrderVo extends DataEntity<WorkgroupVo>{
 	
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	
-	private int buildingCount; //在施工数
-	private int totalCount; //总订单数
+	private int buildingCount;
+	private int totalCount;
 	
 	public int getBuildingCount() {
 		return buildingCount;

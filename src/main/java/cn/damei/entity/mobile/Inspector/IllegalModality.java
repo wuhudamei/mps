@@ -5,19 +5,17 @@ import java.util.Date;
 
 public class IllegalModality implements Serializable {
 
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 
-	private Integer id; // 主键
-	private Integer storeId;// 门店id
-	private Integer checkItemId;// 检查项id
-	private Double checkItemPunishAmount;// 该检查项处罚金额
-	private Integer inspectId;// 质检单id
-	private String IllegalModalityName;// 违规形式名称
-	private Integer responsibilityPersonW;// 订单模板ID
-	private Integer illegalModalityId;// 违规形式id
+	private Integer id;
+	private Integer storeId;
+	private Integer checkItemId;
+	private Double checkItemPunishAmount;
+	private Integer inspectId;
+	private String IllegalModalityName;
+	private Integer responsibilityPersonW;
+	private Integer illegalModalityId;
 	private Double managerFineMoney;
 	private Double managerFineScore;
 	private Double workerFineMoney;
@@ -96,9 +94,9 @@ public class IllegalModality implements Serializable {
 	}
 
 
-	private String isRemarks;// 是否备注
-	private String status;// 状态
-	private String remarks;// 备注
+	private String isRemarks;
+	private String status;
+	private String remarks;
 
 	@Override
 	public String toString() {

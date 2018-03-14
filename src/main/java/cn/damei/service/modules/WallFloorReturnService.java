@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.util.List;
@@ -14,12 +12,7 @@ import cn.damei.common.utils.DateUtils;
 import cn.damei.dao.modules.WallFloorReturnDao;
 import cn.damei.entity.modules.WallFloorReturn;
 
-/**
- * 墙地砖退货Service
- * 
- * @author 张同维
- * @version 2017-09-26
- */
+
 @Service
 @Transactional(readOnly = true)
 public class WallFloorReturnService extends CrudService<WallFloorReturnDao, WallFloorReturn> {

@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.mobile.Manager;
 
 import java.util.Date;
@@ -10,66 +8,61 @@ import org.hibernate.validator.constraints.Length;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import cn.damei.common.persistence.DataEntity;
 
-/**
- * 售后问题反馈详情Entity
- *
- * @author joseph
- * @version 2017-06-23
- */
+
 public class ManagerProjectIssueBean extends DataEntity<ManagerProjectIssueBean> {
 
 	private static final long serialVersionUID = 1L;
-	private String storeId; // store_id
-	private String storeCode; // store_code
-	private String orderId; // order_id
-	private String orderCode; // order_code
-	private String workOrderCode; // work_order_code
-	private String customerAddress; // customer_address
-	private String customerName; // customer_name
-	private String customerMobile; // customer_mobile
-	private String contractorName; // contractor_name
-	private String contractorMobile; // contractor_mobile
-	private String complaintSource; // 售後投訴來源
-	private String supervisorName; // supervisor_name
-	private String supervisorMobile; // supervisor_mobile
-	private Date problemCreateDatetime; // problem_create_datetime
-	private String problemDescribe; // problem_describe
-	private String liableDepartmentCode; // liable_department_code
-	private String liableTypeCode1; // liable_type_code_1
-	private String liableTypeCode2; // liable_type_code_2
-	private String importantDegreeCode1; // important_degree_code_1
-	private String importantDegreeCode2; // important_degree_code_2
-	private String photoUrl; // photo_url
-	private String status; // 状态 10已接收;20已处理 ;30已驳回
-	private Date statusdatetime; // 状态日期(添加)
-	private String statusdescribe; // 状态描述(处理/驳回)
-	private Integer statusoperatoremployeeid; // 状态 操作人员ID(添加)
+	private String storeId;
+	private String storeCode;
+	private String orderId;
+	private String orderCode;
+	private String workOrderCode;
+	private String customerAddress;
+	private String customerName;
+	private String customerMobile;
+	private String contractorName;
+	private String contractorMobile;
+	private String complaintSource;
+	private String supervisorName;
+	private String supervisorMobile;
+	private Date problemCreateDatetime;
+	private String problemDescribe;
+	private String liableDepartmentCode;
+	private String liableTypeCode1;
+	private String liableTypeCode2;
+	private String importantDegreeCode1;
+	private String importantDegreeCode2;
+	private String photoUrl;
+	private String status;
+	private Date statusdatetime;
+	private String statusdescribe;
+	private Integer statusoperatoremployeeid;
 	private String complaintTypeName;
-	private String cusServiceId; // 售后ID
+	private String cusServiceId;
 	private String pqcName;
 	private String managerName;
 	private Date start;
 	private Date end;
-	private String xuhao;// 页面上传图片使用的ID
-	private String xuhaourl; // 页面上传图片使用的url
-	private String cusServicefla; // 是否为售后字段 1为是 0 为否
+	private String xuhao;
+	private String xuhaourl;
+	private String cusServicefla;
 	private String complaintProblemNr;
 
-	// 2017-07-26 接口调整 新增字段
+
 	private String questionType1;
 	private String questionType2;
 	private String workSource;
 
-	// 接口对接使用的字段
 
-	private String beforehandDatehou; // 执行时限
-	private String disposefaHou; // 执行方案
-	private String key; // 密钥
-	private String operationUser; // 操作人
-	private String workorderId; // 工单id/售后id
-	private String operationTime; // 操作时间
-	private String treamentTime; // 预计完成时间
-	private String remarks; // 备注（驳回为驳回意见 处理为处理方案）
+
+	private String beforehandDatehou;
+	private String disposefaHou;
+	private String key;
+	private String operationUser;
+	private String workorderId;
+	private String operationTime;
+	private String treamentTime;
+	private String remarks;
 
 	public String getComplaintTypeName() {
 		return complaintTypeName;

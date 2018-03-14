@@ -1,29 +1,23 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import java.util.Date;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 付款单Entity
- * @author qww
- * @version 2016-10-26
- */
+
 public class BizOrderTaskpackagePaymentDetails extends DataEntity2<BizOrderTaskpackagePaymentDetails> {
 	
 	private static final long serialVersionUID = 1L;
-	private Integer qcBillId;		// 质检单id
-	private String communityName;		// 小区
-	private String buildNumber;		// 几号楼
-	private String buildUnit;		// 几单元
-	private String buildRoom;		// 几室
-	private String customerName; // 客户姓名
-	private String qcCheckNodeName; // 节点内容'
-	private Date acceptCheckDatetime; // 验收日期
-	private String checkPeople; 	//验收人
+	private Integer qcBillId;
+	private String communityName;
+	private String buildNumber;
+	private String buildUnit;
+	private String buildRoom;
+	private String customerName;
+	private String qcCheckNodeName;
+	private Date acceptCheckDatetime;
+	private String checkPeople;
 	public Integer getQcBillId() {
 		return qcBillId;
 	}

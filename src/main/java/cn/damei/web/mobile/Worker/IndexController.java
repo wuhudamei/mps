@@ -52,12 +52,12 @@ public class IndexController {
 
 	@RequestMapping(value = "toindex")
 	public String toindex(Model model, HttpServletRequest request) {
-		// 已登录的组长
+
 		Worker worker = (Worker) request.getSession().getAttribute("worker");
 		WorkerTaskpackageVo workTaskpackageVo = new WorkerTaskpackageVo();
-		// 组长id
+
 		Integer groupId = worker.getId();
-		// 根据组长id查工人组
+
 		EmployeeGroup employeeGroup = employeeGroupService.selectEmployeeGroupByGroupId(groupId);
 
 		int countCompleted = workTaskPackageService.findCountCompleted(groupId);
@@ -65,7 +65,7 @@ public class IndexController {
 		int countDiscompleted = workTaskPackageService.findCountDiscompleted(groupId);
 		workTaskpackageVo.setCountDiscompleted(countDiscompleted);
 
-		// 查询未结算的任务包数量
+
 		Integer settled = workTaskPackageService.querySettled(groupId);
 		Integer settling = workTaskPackageService.querySettling(groupId);
 		model.addAttribute("workTaskpackageVo", workTaskpackageVo);
@@ -85,27 +85,27 @@ public class IndexController {
 		map.put("list", list);
 		Integer confirmCount = workTaskPackageService.findTaskPackageForSettlementCount(map);
 		model.addAttribute("confirmCount", confirmCount);
-		// 查询可签到, 可催促,可接单的数量
+
 		WorkerTaskpackageVo vo = new WorkerTaskpackageVo();
 		vo.setWorkerId(groupId);
-		// 可接单数量
+
 		vo.setStatus("50");
 		Integer orderCount = employeeGroupService.findCount(vo);
-		// 可签到数量
+
 		vo.setStatus("60");
 		Integer signCount = employeeGroupService.findSignCount(vo);
-		// 可申请完工数量
+
 		vo.setStatus("70");
 		Integer applyCount = employeeGroupService.findCount(vo);
-		// 可催促数量
+
 		vo.setStatus("80");
 		Integer urgeCount = employeeGroupService.findCount(vo);
-		// 查询可以催促评价数量
+
 		Integer emgrouprelationId = worker.getEmgrouprelationId();
 		UrgeEvaluation urgeEvaluation = new UrgeEvaluation();
 		urgeEvaluation.setWorkerId(emgrouprelationId + "");
 		List<UrgeEvaluation> evaluationList = urgeEvaluationService.findEvaluationTaskpageByGroupId(urgeEvaluation);
-		// 查询是否需要签订协议
+
 		Integer id = worker.getId();
 		EmployeeAgreementPC employeeAgreementPC = new EmployeeAgreementPC();
 		employeeAgreementPC.setEmployeeId(id + "");
@@ -121,15 +121,15 @@ public class IndexController {
 
 	@RequestMapping(value = "myindex")
 	public String myindex(Model model, HttpServletRequest request) {
-		// 已登录的工人
+
 		Worker worker = (Worker) request.getSession().getAttribute("worker");
-		// 根据员工id去查询工人组id
+
 		EmployeeGroupRa employeeGroupRa = employeeGroupRaService.findByEmployeeId(worker.getId());
-		// 根据工人组id查询组长的id
+
 		EmployeeGroupVo employeeGroupVo = employeeGroupVoService.findById(employeeGroupRa.getGroupId());
-		// 根据组长id查工人组
+
 		EmployeeGroup employeeGroup = employeeGroupService.selectEmployeeGroupByGroupId(employeeGroupRa.getGroupId());
-		// 查询已结算完/未结算完的任务包数量
+
 		Integer settled = workTaskPackageService.querySettled(employeeGroupVo.getGroupid());
 		Integer settling = workTaskPackageService.querySettling(employeeGroupVo.getGroupid());
 		model.addAttribute("settled", settled);
@@ -141,16 +141,16 @@ public class IndexController {
 
 	@RequestMapping(value = "toindex1")
 	public String toindex1(Model model, HttpServletRequest request) {
-		// 已登录的工人
+
 		Worker worker = (Worker) request.getSession().getAttribute("worker");
-		// 根据员工id去查询工人组id
+
 		EmployeeGroupRa employeeGroupRa = employeeGroupRaService.findByEmployeeId(worker.getId());
-		// 根据工人组id查询组长的id
+
 		EmployeeGroupVo employeeGroupVo = employeeGroupVoService.findById(employeeGroupRa.getGroupId());
-		// 查询已完工/未完工的任务包数量
+
 		int countCompleted = workTaskPackageService.findCountCompleted(employeeGroupVo.getGroupid());
 		int countDiscompleted = workTaskPackageService.findCountDiscompleted(employeeGroupVo.getGroupid());
-		// 查询已结算完/未结算完的任务包数量
+
 		Integer settled = workTaskPackageService.querySettled(employeeGroupVo.getGroupid());
 		Integer settling = workTaskPackageService.querySettling(employeeGroupVo.getGroupid());
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -164,13 +164,13 @@ public class IndexController {
 		map.put("list", list);
 		Integer confirmCount = workTaskPackageService.findTaskPackageForSettlementCount(map);
 
-		// 查询可以催促评价数量
+
 		Integer emgrouprelationId = worker.getEmgrouprelationId();
 		UrgeEvaluation urgeEvaluation = new UrgeEvaluation();
 		urgeEvaluation.setWorkerId(emgrouprelationId + "");
 		List<UrgeEvaluation> evaluationList = urgeEvaluationService.findEvaluationTaskpageByGroupId(urgeEvaluation);
 		model.addAttribute("evaluationList", evaluationList.size());
-		// 查询是否需要签订协议
+
 		Integer id = worker.getId();
 		EmployeeAgreementPC employeeAgreementPC = new EmployeeAgreementPC();
 		employeeAgreementPC.setEmployeeId(id + "");
@@ -188,13 +188,13 @@ public class IndexController {
 
 	@RequestMapping(value = "myindex1")
 	public String myindex1(Model model, HttpServletRequest request) {
-		// 已登录的工人
+
 		Worker worker = (Worker) request.getSession().getAttribute("worker");
-		// 根据员工id去查询工人组id
+
 		EmployeeGroupRa employeeGroupRa = employeeGroupRaService.findByEmployeeId(worker.getId());
-		// 根据工人组id查询组长的id
+
 		EmployeeGroupVo employeeGroupVo = employeeGroupVoService.findById(employeeGroupRa.getGroupId());
-		// 查询已结算完/未结算完的任务包数量
+
 		Integer settled = workTaskPackageService.querySettled(employeeGroupVo.getGroupid());
 		Integer settling = workTaskPackageService.querySettling(employeeGroupVo.getGroupid());
 		model.addAttribute("settled", settled);
@@ -205,7 +205,7 @@ public class IndexController {
 
 	@RequestMapping(value = "showRewardAmount")
 	public String showRewardAmount(Model model, HttpServletRequest request) {
-		// 已登录的工人
+
 		Worker worker = (Worker) request.getSession().getAttribute("worker");
 		List<GroupLeaderEvalReward> rewardList = bizEvalRewardTaskpackService.queryRewardAmountByGroupLeaderEmployeeId(worker.getId());
 		model.addAttribute("rewardList", rewardList);

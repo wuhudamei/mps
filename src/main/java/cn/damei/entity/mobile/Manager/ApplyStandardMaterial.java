@@ -8,18 +8,18 @@ import cn.damei.common.persistence.DataEntity2;
 public class ApplyStandardMaterial extends DataEntity2<ApplyStandardMaterial> {
 	private static final long serialVersionUID = 1L;
 
-	private String communityName;// 小区的名字
-	private String customerName;// 客户的名字
-	private String buildNumber;// 几号楼
-	private String buildUnit;// 几单元
-	private String buildRoom;// 那一室
-	private Date contractStartDate;// 合同开工日期
-	private Date actualStartDate;// 实际开工日期
-	private Integer contractTime;// 合同工期
-	private String orderStatusNumber;// 订单状态码
-	private String orderStatusDescription;// 订单状态码描述
-	private String isBasicworkCompleted;// 是否基礎建設完成
-	private String isScrap; // 订单是否作废 1为是 0为否
+	private String communityName;
+	private String customerName;
+	private String buildNumber;
+	private String buildUnit;
+	private String buildRoom;
+	private Date contractStartDate;
+	private Date actualStartDate;
+	private Integer contractTime;
+	private String orderStatusNumber;
+	private String orderStatusDescription;
+	private String isBasicworkCompleted;
+	private String isScrap;
 
 	public String getIsBasicworkCompleted() {
 		return isBasicworkCompleted;
@@ -31,7 +31,7 @@ public class ApplyStandardMaterial extends DataEntity2<ApplyStandardMaterial> {
 
 	public ApplyStandardMaterial() {
 		super();
-		// TODO Auto-generated constructor stub
+
 	}
 
 	public String getIsScrap() {
@@ -44,7 +44,7 @@ public class ApplyStandardMaterial extends DataEntity2<ApplyStandardMaterial> {
 
 	public ApplyStandardMaterial(Integer id) {
 		super(id);
-		// TODO Auto-generated constructor stub
+
 	}
 
 	public String getCommunityName() {

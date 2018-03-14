@@ -3,38 +3,29 @@ package cn.damei.entity.mobile.Inspector;
 import java.io.Serializable;
 import java.util.Date;
 
-/**
- * 
- * @author 梅浩
- * @2016年12月26日
- * @mdn大美装饰管理平台
- * @author_phone : 18610507472
- * @ClassInfo:结算罚款类目明细
- */
+
 public class BalanceFine  implements Serializable{
 
 	
 	
 	
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
-	private Integer   id;//主键
-	private Integer orderId;//订单id
-	private Integer managerId;//经理id
-	private String settleCategory;//分类 4: 罚款
-	private Double settleAmount;//结算金额  罚款金额
-	private String settleStatus;//状态  : 创建 10
-	private Date settleStatusTime;//new date()
-	private Integer relatedBussinessId;//关联业务id
+	private Integer   id;
+	private Integer orderId;
+	private Integer managerId;
+	private String settleCategory;
+	private Double settleAmount;
+	private String settleStatus;
+	private Date settleStatusTime;
+	private Integer relatedBussinessId;
 	private String remarks;
 	private Integer createBy;
 	private Integer updateBy;
 	private Date createDate;
 	private Date updateDate;
 	private String  delFlag;
-	private String settleRole; //1项目经理 2质检员
+	private String settleRole;
 	public String getRemarks() {
 		return remarks;
 	}

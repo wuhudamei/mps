@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import java.util.Date;
@@ -8,57 +6,53 @@ import java.util.List;
 
 import cn.damei.common.persistence.DataEntity;
 
-/**
- * 返单关联合同信息Entity
- * @author mh
- * @version 2017-05-08
- */
+
 public class OrderReportRelatedContract extends DataEntity<OrderReportRelatedContract> {
 
 	private static final long serialVersionUID = 1L;
 
-	private Integer storeId;//门店ID
+	private Integer storeId;
 
-	private String customerName;//客户姓名
+	private String customerName;
 
-	private String customerPhone;//客户手机号
+	private String customerPhone;
 
-	private String communityName;//小区名称
+	private String communityName;
 
-	private String address;//详细地址
+	private String address;
 
-	private String buildNumber;//楼号
+	private String buildNumber;
 
-	private String buildUnit;//单元门
+	private String buildUnit;
 
-	private String buildRoom;//门牌号
+	private String buildRoom;
 
-	private String reportRemarks;//上报备注
-	private String isAsked; //是否在大美装饰管理平台咨询过
+	private String reportRemarks;
+	private String isAsked;
 
-	private Integer reporterEmployeeId;//返单上报人员工Id
+	private Integer reporterEmployeeId;
 
-	private String reporterName;//返单上报人姓名
+	private String reporterName;
 
-	private String reporterPhone;//返单上报人手机号
+	private String reporterPhone;
 
-	private Date reportDatetime;//返单上报日期
+	private Date reportDatetime;
 
-	private String reporterType;//返单上报人类型  1:项目经理 2：质检 3：工人 4：工程部 5：审计部 6：财务部 7：人力部
+	private String reporterType;
 
-	private String reportSourceType;//返单上报源类型 1:项目app 2：质检app 3：工人app 4：后台
+	private String reportSourceType;
 
-	private String reportStatus;//返单上报状态
+	private String reportStatus;
 
-	private List<String> reportStatusList=null;//返单上报状态集合
+	private List<String> reportStatusList=null;
 
-	private Date instoreDatetime;//进店日期
+	private Date instoreDatetime;
 
-	private String instoreRemarks;//进店备注
+	private String instoreRemarks;
 
-	private Date signBillDatetime;//签单日期
+	private Date signBillDatetime;
 
-	private String signBillRemarks;//签单备注
+	private String signBillRemarks;
 
 	private Date start;
 
@@ -67,8 +61,8 @@ public class OrderReportRelatedContract extends DataEntity<OrderReportRelatedCon
 	private String searchText;
 
 
-	private String serviceName;//客服姓名
-	private String servicePhone;//客服电话
+	private String serviceName;
+	private String servicePhone;
 
 
 	private String orderNumber;

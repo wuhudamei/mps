@@ -26,7 +26,7 @@ public class Progress {
 	@Override
 	  public boolean equals(Object obj) {
 		Progress d1 = null;
-	    if (obj instanceof Progress) {//如果传进来的对象是D1的子类那么就对属性做比较
+	    if (obj instanceof Progress) {
 	    	d1 = (Progress) obj;
 	      if (d1.orderId.equals(orderId) && d1.purchaseType.equals(purchaseType) ) 
 	        return true;

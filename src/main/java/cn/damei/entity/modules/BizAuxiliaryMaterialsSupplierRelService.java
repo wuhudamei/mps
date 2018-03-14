@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import java.util.List;
@@ -13,11 +11,7 @@ import cn.damei.common.service.CrudService;
 import cn.damei.entity.modules.BizAuxiliaryMaterialsSupplierRel;
 import cn.damei.dao.modules.BizAuxiliaryMaterialsSupplierRelDao;
 
-/**
- * 辅料对应供应商Service
- * @author chy
- * @version 2016-09-09
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizAuxiliaryMaterialsSupplierRelService extends CrudService<BizAuxiliaryMaterialsSupplierRelDao, BizAuxiliaryMaterialsSupplierRel> {
@@ -70,7 +64,7 @@ public class BizAuxiliaryMaterialsSupplierRelService extends CrudService<BizAuxi
 		super.delete(bizAuxiliaryMaterialsSupplierRel);
 	}
 	public List<Integer> findSupplierName(BizAuxiliaryMaterialsSupplierRel bizAuxiliaryMaterialsSupplierRel) {
-		// TODO Auto-generated method stub
+
 		return this.dao.findSupplierName(bizAuxiliaryMaterialsSupplierRel);
 	}
 	

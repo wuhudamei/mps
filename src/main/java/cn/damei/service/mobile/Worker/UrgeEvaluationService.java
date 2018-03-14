@@ -26,35 +26,27 @@ public class UrgeEvaluationService {
 	private BizBusinessUrgeDao bizBusinessUrgeDao;
 	@Autowired
 	private BizPhoneMsgService bizPhoneMsgService;
-	/**
-	 * 查询催促评价的任务包
-	 * @param emgrouprelationId
-	 * @return
-	 */
+
 	public List<UrgeEvaluation> findEvaluationTaskpageByGroupId(UrgeEvaluation urgeEvaluation) {
 		
 		return urgeEvaluationDao.findEvaluationTaskpageByGroupId(urgeEvaluation);
 	}
-	/**
-	 * 校验是否可以催促验收
-	 * @param urgeEvaluation
-	 * @return
-	 */
+
 	public Integer findCount(UrgeEvaluation urgeEvaluation) {
-		//根据工人ID 查询 biz_business_urge
+
 		BizBusinessUrge bizBusinessUrge = new BizBusinessUrge();
-		bizBusinessUrge.setBusinessOnlyMarkInt(urgeEvaluation.getId());//业务唯一标识
-		bizBusinessUrge.setBusinesType(BusinessUrgeConstantUtil.BUSINESS_URGE_BUSINESS_TYPE_3);//业务类型
-		bizBusinessUrge.setOperateType(1+"");//操作类型 催促
-		bizBusinessUrge.setOperatorEmployeeId(Integer.parseInt(urgeEvaluation.getWorkerId()));//操作人ID
-		bizBusinessUrge.setOperatorType("3");//操作人类型  工人
+		bizBusinessUrge.setBusinessOnlyMarkInt(urgeEvaluation.getId());
+		bizBusinessUrge.setBusinesType(BusinessUrgeConstantUtil.BUSINESS_URGE_BUSINESS_TYPE_3);
+		bizBusinessUrge.setOperateType(1+"");
+		bizBusinessUrge.setOperatorEmployeeId(Integer.parseInt(urgeEvaluation.getWorkerId()));
+		bizBusinessUrge.setOperatorType("3");
 		Integer findCount = bizBusinessUrgeDao.findCount(bizBusinessUrge);
 		if(findCount == 0){
-			//今天第一催促 插入数据库
+
 			bizBusinessUrge.preInsert();
 			bizBusinessUrge.setOperateDatetime(new Date());
 			bizBusinessUrgeDao.insert(bizBusinessUrge);
-			//发短信给质检员
+
 			String content = "您好，订单（"+urgeEvaluation.getCommunityName()+"-"+urgeEvaluation.getBuildNumber()+"-"+urgeEvaluation.getBuildUnit()+"-"+urgeEvaluation.getBuildRoom()+"-"+urgeEvaluation.getCustomerName()+"）家的任务包（"+urgeEvaluation.getPackageName()+"）已经完工了，请您在百忙之中抽空帮忙评价一下吧，非常感谢您对我工作的支持！";
 			BizPhoneMsg phone = new BizPhoneMsg();
 			phone.setReceiveEmployeeId(urgeEvaluation.getOrderInspectorId());

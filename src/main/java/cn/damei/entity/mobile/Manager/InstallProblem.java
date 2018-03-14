@@ -9,12 +9,12 @@ public class InstallProblem extends DataEntity2<InstallProblem> {
 	private static final long serialVersionUID = 1L;
 	
 	private Integer id;
-	private Integer orderId;	//订单id
-	private Integer orderInstallItemId;//订单安装项id
-	private String installItemName;	//安装项名称
-	private Integer installItemSequence;	//安装项顺序
-	private Date applyIntoDate;//申请进场日期
-	private String status;//状态 1.已生成计划；2.已申请计划；3.已验收
+	private Integer orderId;
+	private Integer orderInstallItemId;
+	private String installItemName;
+	private Integer installItemSequence;
+	private Date applyIntoDate;
+	private String status;
 
 	public Integer getId() {
 		return id;

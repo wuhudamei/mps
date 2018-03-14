@@ -4,44 +4,39 @@ import java.util.Date;
 
 import cn.damei.common.persistence.DataEntity;
 
-/**
- * @author 梅浩 meihao@zzhyun.cn:
- * @version 创建时间：2016年9月19日 下午4:05:22 项目经理下的订单中的所有任务包 实例
- */
+
 
 public class TaskPackage extends DataEntity<TaskPackage>{
 
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	private Integer storeId;
 	private Integer picId;
-	private Integer packageId; //任务包id
-	private Integer orderId;//所属订单id
+	private Integer packageId;
+	private Integer orderId;
 	private String packageCode;
-	private String packageName;//任务包名称
-	private String stateId;//状态id
-	private String stateName;// 任务包状态名称
-	private Date startTime;// 开工日期
-	private Date endTime; // 完工日期
-	private String customerName; // 顾客信息,  姓名
-	private String customerMessage;//顾客信息, 地址
-	private String orderBy;//排序
-	private String leaderName; //相关的工长姓名
-	private String leaderId; //组长id
-	private String leaderPhone; //组长手机
-	private Double laborAuxiliaryMaterialsBudgetAmount;//工料费预算总金额
-	private Integer itemManagerId;//项目经理id
-	private String orderTaskPackageCode;//订单任务包编号
-	private Date actualStartdate;// 实际开工日期
-	private Date actualEnddate; // 实际完工日期
-	private String packageStateId; // 任务包状态Id
-	private String packageStatename; // 任务包状态名称
-	private Integer taskPackageTemplatId; // 任务包模板id
-	private Date planStartDate;//计划开始时间
-	private Date planEndDate;//计划结束时间
-	private String empGroupid; // 工人组ID
+	private String packageName;
+	private String stateId;
+	private String stateName;
+	private Date startTime;
+	private Date endTime;
+	private String customerName;
+	private String customerMessage;
+	private String orderBy;
+	private String leaderName;
+	private String leaderId;
+	private String leaderPhone;
+	private Double laborAuxiliaryMaterialsBudgetAmount;
+	private Integer itemManagerId;
+	private String orderTaskPackageCode;
+	private Date actualStartdate;
+	private Date actualEnddate;
+	private String packageStateId;
+	private String packageStatename;
+	private Integer taskPackageTemplatId;
+	private Date planStartDate;
+	private Date planEndDate;
+	private String empGroupid;
 	private Integer groupId;
 	private String groupRealname;
 	private String itemCustomer;
@@ -59,21 +54,21 @@ public void setText(String text) {
 	this.text = text;
 }
 
-	private Double settlementAmount; // 结算金额
-	private Date checkDate; // 验收日期
-	private Integer settlementId; // 结算单id
-	private Integer inspectorId; // 质检员id
-	private String inspectorPhone; // 质检员手机号
-	private String managerName; // 项目经理名称
-	private String managerPhone; // 项目经理手机号
-	private String customerPhone; // 客户手机号
-	private String groupPhone; // 工人组长手机号
+	private Double settlementAmount;
+	private Date checkDate;
+	private Integer settlementId;
+	private Integer inspectorId;
+	private String inspectorPhone;
+	private String managerName;
+	private String managerPhone;
+	private String customerPhone;
+	private String groupPhone;
 	private String lon;
 	private String lat;
 	
-	private Double laborBudgetAmount = 0.0;// 人工费预算总金额
-	private Double auxiliaryMaterialsBudgetAmount = 0.0;//辅料费预算总金额
-	private String settleStyle;// 结算方式
+	private Double laborBudgetAmount = 0.0;
+	private Double auxiliaryMaterialsBudgetAmount = 0.0;
+	private String settleStyle;
 
 	public String getGroupPhone() {
 		return groupPhone;

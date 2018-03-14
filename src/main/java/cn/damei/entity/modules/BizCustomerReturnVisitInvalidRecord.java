@@ -1,27 +1,21 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import java.util.Date;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 客户回访记录Entity
- * @author 李万财
- * @version 2017-06-27
- */
+
 public class BizCustomerReturnVisitInvalidRecord extends DataEntity2<BizCustomerReturnVisitInvalidRecord> {
 	
 	private static final long serialVersionUID = 1L;
-	private Integer orderId;			// 订单ID
-	private String customServiceId;		// 回访人员ID
-	private String customServiceName;	// 回访人员姓名
-	private Date returnVisitTime;		// 回访时间
-	private String returnVisitNode;		// 回访节点id
-	private String returnVisitNodeName;	// 回访节点名称
-	private String invalidReason; 		// 无效原因
+	private Integer orderId;
+	private String customServiceId;
+	private String customServiceName;
+	private Date returnVisitTime;
+	private String returnVisitNode;
+	private String returnVisitNodeName;
+	private String invalidReason;
 	public Integer getOrderId() {
 		return orderId;
 	}

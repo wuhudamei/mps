@@ -1,13 +1,9 @@
 package cn.damei.common.constantUtils;
 
-/**
- * Created by joseph on 2017/4/22. biz_business_pic 各种业务类型的type
- */
+
 public class EmployeeContantUtil {
 
-	/**
-	 * 员工类型 
-	 */
+
 	public static final String EMPLOYEE_EMP_TYPE_1 = "1";
 	public static final String EMPLOYEE_EMP_TYPE_NAME_1 = "质检员";
 	public static final String EMPLOYEE_EMP_TYPE_2 = "2";

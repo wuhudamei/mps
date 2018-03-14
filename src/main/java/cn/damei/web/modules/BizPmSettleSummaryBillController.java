@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import javax.servlet.ServletOutputStream;
@@ -33,11 +31,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-/**
- * 结算汇总单Controller
- * @author qww
- * @version 2016-12-26
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/pmsettlesummarybill/bizPmSettleSummaryBill")
 public class BizPmSettleSummaryBillController extends BaseController {
@@ -60,18 +54,11 @@ public class BizPmSettleSummaryBillController extends BaseController {
 		return entity;
 	}
 
-	/**
-	 * 项目经理-月度结算单查询表
-	 * @param bizPmSettleSummaryBill
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @return
-	 */
+
 	@RequiresPermissions("pmsettlesummarybill:bizPmSettleSummaryBill:view")
 	@RequestMapping(value = {"list", ""})
 	public String list(BizPmSettleSummaryBill bizPmSettleSummaryBill, HttpServletRequest request, HttpServletResponse response, Model model) {
-		//过滤门店
+
 		if(bizPmSettleSummaryBill.getStoreId() == null){
 			String storeId = UserUtils.getUser().getStoreId();
 			if(org.apache.commons.lang3.StringUtils.isBlank(storeId)){
@@ -88,18 +75,11 @@ public class BizPmSettleSummaryBillController extends BaseController {
 		return "modules/pmsettlesummarybill/bizPmSettleSummaryBillList";
 	}
 
-	/**
-	 * 项目经理-月度结算单查询表
-	 * @param bizPmSettleSummaryBill
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @return
-	 */
+
 	@RequiresPermissions("pmsettlesummarybill:bizPmSettleSummaryBill:view")
 	@RequestMapping(value = {"loadList", ""})
 	public String loadList(BizPmSettleSummaryBill bizPmSettleSummaryBill, HttpServletRequest request, HttpServletResponse response, Model model) {
-		//过滤门店
+
 		if(bizPmSettleSummaryBill.getStoreId() == null){
 			String storeId = UserUtils.getUser().getStoreId();
 			if(org.apache.commons.lang3.StringUtils.isBlank(storeId)){
@@ -112,7 +92,7 @@ public class BizPmSettleSummaryBillController extends BaseController {
 			model.addAttribute("storeDropEnable", true);
 		}
 
-		// 区域
+
 		if(bizPmSettleSummaryBill.getEnginDepartId() == null){
 			if(StringUtils.isNoneBlank(UserUtils.getUser().getEmpId())){
 				List<Integer> list = bizEmployeeService2.findEngineIdsByEmpId(Integer.parseInt(UserUtils.getUser().getEmpId()));
@@ -137,18 +117,11 @@ public class BizPmSettleSummaryBillController extends BaseController {
 		return "modules/pmsettlesummarybill/bizPmSettleSummaryBillList";
 	}
 
-	/**
-	 * 质检员-月度结算单查询表
-	 * @param bizPmSettleSummaryBill
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @return
-	 */
+
 	@RequiresPermissions("pmsettlesummarybill:bizPmSettleSummaryBill:view")
 	@RequestMapping(value = {"listPbc", ""})
 	public String listPbc(BizPmSettleSummaryBill bizPmSettleSummaryBill, HttpServletRequest request, HttpServletResponse response, Model model) {
-		//过滤门店
+
 		if(bizPmSettleSummaryBill.getStoreId() == null){
 			String storeId = UserUtils.getUser().getStoreId();
 			if(org.apache.commons.lang3.StringUtils.isBlank(storeId)){
@@ -165,18 +138,11 @@ public class BizPmSettleSummaryBillController extends BaseController {
 		return "modules/pmsettlesummarybill/bizPmSettleSummaryBillListPbc";
 	}
 
-	/**
-	 * 质检员-月度结算单查询表
-	 * @param bizPmSettleSummaryBill
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @return
-	 */
+
 	@RequiresPermissions("pmsettlesummarybill:bizPmSettleSummaryBill:view")
 	@RequestMapping(value = {"loadListPbc", ""})
 	public String loadListPbc(BizPmSettleSummaryBill bizPmSettleSummaryBill, HttpServletRequest request, HttpServletResponse response, Model model) {
-		//过滤门店
+
 		if(bizPmSettleSummaryBill.getStoreId() == null){
 			String storeId = UserUtils.getUser().getStoreId();
 			if(org.apache.commons.lang3.StringUtils.isBlank(storeId)){
@@ -189,7 +155,7 @@ public class BizPmSettleSummaryBillController extends BaseController {
 			model.addAttribute("storeDropEnable", true);
 		}
 
-		// 区域
+
 		if(bizPmSettleSummaryBill.getEnginDepartId() == null){
 			if(StringUtils.isNoneBlank(UserUtils.getUser().getEmpId())){
 				List<Integer> list = bizEmployeeService2.findEngineIdsByEmpId(Integer.parseInt(UserUtils.getUser().getEmpId()));
@@ -242,7 +208,7 @@ public class BizPmSettleSummaryBillController extends BaseController {
 
 	@RequestMapping(value="exportExcel")
 	public void exportExcel(BizPmSettleSummaryBill bizPmSettleSummaryBill, HttpServletResponse response) throws Exception{
-		// 区域
+
 		if(bizPmSettleSummaryBill.getEnginDepartId() == null){
 			if(StringUtils.isNoneBlank(UserUtils.getUser().getEmpId())){
 				List<Integer> list = bizEmployeeService2.findEngineIdsByEmpId(Integer.parseInt(UserUtils.getUser().getEmpId()));
@@ -262,11 +228,11 @@ public class BizPmSettleSummaryBillController extends BaseController {
 
 		SimpleDateFormat sf = new SimpleDateFormat("yyyyMMddHHmmss");
 		HSSFWorkbook excel = bizPmSettleSummaryBillService.exportExcel(bizPmSettleSummaryBill);
-		ServletOutputStream out= null;//创建一个输出流对象
+		ServletOutputStream out= null;
 		try {
 			response.setContentType("application/binary;charset=utf-8");
-			String headerStr =new String(("项目经理月度工程结算单"+sf.format(new Date())).getBytes("utf-8"), "ISO8859-1");//headerString为中文时转码
-			response.setHeader("Content-disposition","attachment; filename="+headerStr+".xls");//filename是下载的xls的名
+			String headerStr =new String(("项目经理月度工程结算单"+sf.format(new Date())).getBytes("utf-8"), "ISO8859-1");
+			response.setHeader("Content-disposition","attachment; filename="+headerStr+".xls");
 			out = response.getOutputStream();
 			excel.write(out);
 		} catch (IOException ex) {
@@ -285,7 +251,7 @@ public class BizPmSettleSummaryBillController extends BaseController {
 
 	@RequestMapping(value="exportExcelPbc")
 	public void exportExcelPbc(BizPmSettleSummaryBill bizPmSettleSummaryBill, HttpServletResponse response) throws Exception{
-		// 区域
+
 		if(bizPmSettleSummaryBill.getEnginDepartId() == null){
 			if(StringUtils.isNoneBlank(UserUtils.getUser().getEmpId())){
 				List<Integer> list = bizEmployeeService2.findEngineIdsByEmpId(Integer.parseInt(UserUtils.getUser().getEmpId()));
@@ -305,11 +271,11 @@ public class BizPmSettleSummaryBillController extends BaseController {
 
 		SimpleDateFormat sf = new SimpleDateFormat("yyyyMMddHHmmss");
 		HSSFWorkbook excel = bizPmSettleSummaryBillService.exportExcelPbc(bizPmSettleSummaryBill);
-		ServletOutputStream out= null;//创建一个输出流对象
+		ServletOutputStream out= null;
 		try {
 			response.setContentType("application/binary;charset=utf-8");
-			String headerStr =new String(("质检员月度工程结算单"+sf.format(new Date())).getBytes("utf-8"), "ISO8859-1");//headerString为中文时转码
-			response.setHeader("Content-disposition","attachment; filename="+headerStr+".xls");//filename是下载的xls的名
+			String headerStr =new String(("质检员月度工程结算单"+sf.format(new Date())).getBytes("utf-8"), "ISO8859-1");
+			response.setHeader("Content-disposition","attachment; filename="+headerStr+".xls");
 			out = response.getOutputStream();
 			excel.write(out);
 		} catch (IOException ex) {

@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.common.utils;
 
 import java.util.ArrayList;
@@ -12,12 +10,7 @@ import cn.damei.entity.modules.DropModel;
 import cn.damei.dao.modules.BizTaskPackageTemplatDao;
 import cn.damei.entity.modules.BizTaskPackageTemplat;
 
-/**
- * 门店工具类
- * 
- * @author ThinkGem
- * @version 2013-5-29
- */
+
 public class TaskPackageUtils {
 
     private static BizTaskPackageTemplatDao bizTaskPackageTemplatDao = SpringContextHolder.getBean(BizTaskPackageTemplatDao.class);
@@ -42,24 +35,24 @@ public class TaskPackageUtils {
         }
         return taskList;
     }
-    //
-    // public static String getStoreValue(String label, String type, String
-    // defaultLabel){
-    // if (StringUtils.isNotBlank(type) && StringUtils.isNotBlank(label)){
-    // for (BizEmpStore dict : getStoreList()){
-    // if (type.equals(dict.getId()) && label.equals(dict.getDescription())){
-    // return dict.getDescription();
-    // }
-    // }
-    // }
-    // return defaultLabel;
-    // }
+
+
+
+
+
+
+
+
+
+
+
+
 
     public static List<DropModel> getTaskList() {
     	BizTaskPackageTemplat param = new BizTaskPackageTemplat();
     	param.setStatus("1");
         List<BizTaskPackageTemplat> list = bizTaskPackageTemplatDao.findList(param);
-        List<DropModel> taskList = new ArrayList<DropModel>();// StoreDao.findTaskList();
+        List<DropModel> taskList = new ArrayList<DropModel>();
         for (BizTaskPackageTemplat task : list) {
             taskList.add(new DropModel(task.getTemplatName(), task.getId()));
         }
@@ -68,23 +61,23 @@ public class TaskPackageUtils {
 
     public static List<DropModel> getTaskListByNowStoreId() {
     	BizTaskPackageTemplat param = new BizTaskPackageTemplat();
-//    	param.setStoreId(UserUtils.getUser().getStoreId());
+
     	param.setStatus("1");
         List<BizTaskPackageTemplat> list = bizTaskPackageTemplatDao.findList(param);
-        List<DropModel> taskList = new ArrayList<DropModel>();// StoreDao.findTaskList();
+        List<DropModel> taskList = new ArrayList<DropModel>();
         for (BizTaskPackageTemplat task : list) {
             taskList.add(new DropModel(task.getTemplatName(), task.getId()));
         }
         return taskList;
     }
 
-    // /**
-    // * 返回字典列表（JSON）
-    // * @param type
-    // * @return
-    // */
-    // public static String getStoreListJson(String type){
-    // return JsonMapper.toJsonString(getStoreList(type));
-    // }
+
+
+
+
+
+
+
+
 
 }

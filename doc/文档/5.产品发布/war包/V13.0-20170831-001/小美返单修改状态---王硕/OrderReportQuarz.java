@@ -14,11 +14,7 @@ import cn.damei.modules.orderreport.service.BizOrderReportService;
 import cn.damei.modules.sys.utils.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
-/**
- * 返单定时器
- * @author hyh
- *
- */
+
 public class OrderReportQuarz {
 	@Autowired
 	 private BizOrderReportService bizOrderReportService;
@@ -35,14 +31,14 @@ public class OrderReportQuarz {
             		 Calendar calendar = Calendar.getInstance();
             		 calendar.setTime(reportDatetime);
             		 calendar.add(Calendar.MONTH, 2);
-            		 if(calendar.getTime().getTime()<date.getTime()){//过期
+            		 if(calendar.getTime().getTime()<date.getTime()){
             			 if(orderReport.getReportStatus().equals("10")||orderReport.getReportStatus().equals("25")||orderReport.getReportStatus().equals("26")||orderReport.getReportStatus().equals("30")||orderReport.getReportStatus().equals("90")){
             				 orderReport.setReportStatus("90");
 	            			 bizOrderReportService.save(orderReport);
 							 bizOrderReport.setUpdateDate(new Date());
 	            			
-							 //
-							 //过期
+
+
 							 BizBusinessStatusLog bizBusinessStatusLog = new BizBusinessStatusLog();
 							 bizBusinessStatusLog.setBusinessRemarks(BizOrderReportConstantUtil.REPORT_STATUS_90_WORD);
 							 bizBusinessStatusLog.setBusinessType(BusinessLogConstantUtil.BUSINESS_TYPE_501);
@@ -62,7 +58,7 @@ public class OrderReportQuarz {
              }
             
 		} catch (Exception e) {
-			// TODO: handle exception
+
 		}
 	 }
 }

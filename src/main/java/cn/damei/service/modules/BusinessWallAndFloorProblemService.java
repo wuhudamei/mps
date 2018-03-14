@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.util.List;
@@ -16,9 +14,7 @@ import cn.damei.common.service.CrudService2;
 import cn.damei.dao.modules.BizOrderInstallItemProblemDao;
 import cn.damei.dao.modules.BusinessWallAndFloorProblemDao;
 
-/**
- * 墙地砖问题上报
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BusinessWallAndFloorProblemService extends CrudService2<BusinessWallAndFloorProblemDao, BizOrderInstallItemProblemVo> {
@@ -40,23 +36,13 @@ public class BusinessWallAndFloorProblemService extends CrudService2<BusinessWal
 		return super.findPage(page, bizOrderInstallItemProblemVo);
 	}
 
-	/**
-	 * 墙地砖问题上报详情页
-	 * @param valueOf
-	 * @return
-	 */
+
 	public BizOrderInstallItemProblemVo findDetails(Integer problemId) {
 		
 		return dao.findDetails(problemId);
 	}
 
-	/**
-	 * 更新问题上报状态
-	 * @param bizOrderInstallItemProblem
-	 * @param problemId
-	 * @param businessProblemStatus50
-	 * @return
-	 */
+
 	@Transactional(readOnly = false)
 	public boolean updateProblem(BizOrderInstallItemProblem bizOrderInstallItemProblem, Integer problemId,
 								 String businessProblemStatus50) {

@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.text.ParseException;
@@ -41,11 +39,7 @@ import cn.damei.entity.modules.BizTaskPackageWorkPlanTemplatRel;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
-/**
- * 派工管理Service
- * @author wyb
- * @version 2016-09-12
- */
+
 @Service
 @Transactional(readOnly = true)
 public class OrderTaskpackageService extends CrudService<OrderTaskpackageDao, OrderTaskpackage> {
@@ -57,7 +51,7 @@ public class OrderTaskpackageService extends CrudService<OrderTaskpackageDao, Or
 	@Autowired
 	private BizTaskPackageTemplatDao bizTaskPackageTemplatDao;
 	@Autowired
-	private BizTaskPackageTypeDao bizTaskPackageTypeDao;//任务包类型
+	private BizTaskPackageTypeDao bizTaskPackageTypeDao;
 	@Autowired
 	private BizTaskPackageWorkPlanTemplatRelDao bizTaskPackageWorkPlanTemplatRelDao;
 	@Autowired
@@ -104,12 +98,7 @@ public class OrderTaskpackageService extends CrudService<OrderTaskpackageDao, Or
 	}
 	
 
-	/**
-	 * 分页查询已派单的任务包
-	 * @param page
-	 * @param orderTaskpackage
-	 * @return
-	 */
+
 	public Page<OrderTaskpackage> findPageMy(Page<OrderTaskpackage> page, OrderTaskpackage orderTaskpackage){
 		orderTaskpackage.setPage(page);
 		page.setList(dao.findListMy(orderTaskpackage));
@@ -117,53 +106,32 @@ public class OrderTaskpackageService extends CrudService<OrderTaskpackageDao, Or
 	}
 	
 
-	/**
-	 * 根据工人组id 得到组长id  返回 组长的姓名,手机,及照片  
-	 * @param employeeGroupId
-	 * @return
-	 */
+
 	public TeamLeaderInfo  findTeamLeaderInfoByEmployeeGroupId(String employeeGroupId){
 		
 		return  dao.findTeamLeaderInfoByEmployeeGroupId(employeeGroupId);
 		
 	}
 
-	/**
-	 * 根据工人组id 查询可接任务包id
-	 * @param employeeGroupId
-	 * @return
-	 */
+
 	public  String findTaskPackageByemployeeGroupId(String employeeGroupId){
 		return dao.findTaskPackageByemployeeGroupId(employeeGroupId);
 	}
 	
-	/**
-	 * 根据任务包id查询任务包名称
-	 * @param packAgeId
-	 * @return
-	 */
+
 	public String findPackageNameById(String packAgeId){
 		return dao.findPackageNameById(packAgeId);
 	}
 	
 
-	/**
-	 * 根据工人组id查询组内有多少工人
-	 * @param packAgeId
-	 * @return
-	 */
+
 	public Integer findCountByWorkerId(String packAgeId){
 		
 		return dao.findCountByWorkerId(packAgeId);
 	}
 
-	//生成订单任务包
-	/**
-	 * @param orderId
-	 * @param storeId
-	 * @param templatNumber
-	 * @param mapOrder 
-	 */
+
+
 	@Transactional(readOnly = false)
 	public boolean insertTaskpackageByOrder(String orderId,String storeId,String projectMode,String templatNumber,Double total, Double laborTotal,Double auxiliaryTotal) throws ParseException {
 		BizTaskPackageTemplat taskPackageTem = bizTaskPackageTemplatDao.getByprocedureNo(templatNumber);
@@ -173,13 +141,13 @@ public class OrderTaskpackageService extends CrudService<OrderTaskpackageDao, Or
 		
 		BizTaskPackageWorkPlanTemplatRel workPlanTemRel = bizTaskPackageWorkPlanTemplatRelDao.
 				getByStroeIdAndDelflag(storeId,order.getHouseIsNew(),templatNumber,order.getProjectMode());
-		boolean flag = false;//添加标识
+		boolean flag = false;
 		OrderTaskpackage ot = new OrderTaskpackage();
 		ot.setId(null);
-		ot.setOrderId(orderId);//订单ID
-		ot.setStoreId(storeId);//门店ID
+		ot.setOrderId(orderId);
+		ot.setStoreId(storeId);
 		ot.setProjectMode(projectMode);
-		ot.setPackageCode(templatNumber);//任务包编号
+		ot.setPackageCode(templatNumber);
 		ot.setPackageName(taskPackageTem.getTemplatName());
 		
 		if(null != order && 
@@ -216,7 +184,7 @@ public class OrderTaskpackageService extends CrudService<OrderTaskpackageDao, Or
 		ot.setLaborBudgetAmount(laborTotal);
 		ot.setAuxiliaryMaterialsBudgetAmount(auxiliaryTotal);
 		ot.setItemManagerId(order.getItemManagerId());
-		ot.setTaskTackageTempId(Integer.valueOf(taskPackageTem.getId()));//
+		ot.setTaskTackageTempId(Integer.valueOf(taskPackageTem.getId()));
 		ot.setOrderTaskPackageCode(bizSeiralnumService.getDateSequence("RW"));
 		ot.setSettleStyle(taskPackageTem.getSettleStyle());
 		
@@ -224,16 +192,13 @@ public class OrderTaskpackageService extends CrudService<OrderTaskpackageDao, Or
 		return flag;
 	}
 
-	/**
-	 * 查询是否存在任务包
-	 * @return
-	 */
+
 	public int queryListByOrderTaskpackage(String orderId,String storeId,String projectMode) {
 		List<OrderTaskpackage> list = orderTaskpackageDao.queryListByOrderTaskpackage(orderId,storeId,projectMode);
 		return list.size();
 	}
 
-	//
+
 	public List<OrderTaskpackage> getByOrderId(String orderId) {
 		List<OrderTaskpackage> taskPackage = orderTaskpackageDao.getByOrderId(orderId);
 		return taskPackage;
@@ -243,7 +208,7 @@ public static void main(String[] args) throws ParseException {
 	System.out.println(sdf.format(new Date()));
 	System.out.println(DateUtils.formatDate(new Date(), "yyyyMMdd"));
 }
-	//通过订单id查询订单编号
+
 	public String findOrderNumber(Integer id) {
 		return dao.findOrderNumber(id);
 	}
@@ -279,22 +244,22 @@ public static void main(String[] args) throws ParseException {
 	
 	@Transactional(readOnly = false)
 	public String createTaskpackage(OrderTaskpackGenVo orderTaskpack,String orderId,String storeId,String projectMode,String json1) throws Exception{
-		String resultCode = "0";//返回状态码
+		String resultCode = "0";
 		boolean flag = false;
-		boolean flagOrderTaskpackage = false;//订单任务包数据标识
-		boolean flagOrderTaskpackageProceude = false;//订单任务包工序数据标识
+		boolean flagOrderTaskpackage = false;
+		boolean flagOrderTaskpackageProceude = false;
 		Map<String,String> map = new HashMap<String,String>();
-		JSONObject json = JSONObject.fromObject(json1.toString());//转换为json
+		JSONObject json = JSONObject.fromObject(json1.toString());
 		
-		//遍历
+
 		Iterator iter = json.keySet().iterator();  
 		while (iter.hasNext()) {    
             String key = (String) iter.next();    
             String value = json.getString(key);    
-            map.put(key, value);//循环放入Map    
+            map.put(key, value);
         }
-		String value=map.get("objson"); //获取根节点
-		JSONArray jsonArray =JSONArray.fromObject(value); //JSON数组 
+		String value=map.get("objson");
+		JSONArray jsonArray =JSONArray.fromObject(value);
         List<String> tmpList=new ArrayList<String>();
         List<OrderTaskpackageProcedure> otpList = new ArrayList<OrderTaskpackageProcedure>();
         List<OrderTaskpackage> orderTp = new ArrayList();
@@ -303,18 +268,18 @@ public static void main(String[] args) throws ParseException {
         	OrderTaskpackage taskpack = new OrderTaskpackage();
             String templatNumber = (String) jsonArray.getJSONObject(i).get("templatNumber");
             taskpack.setPackageCode(templatNumber);
-        	orderTaskpackageProcedure.setTaskpackageNumber(templatNumber);//任务包模板编号
+        	orderTaskpackageProcedure.setTaskpackageNumber(templatNumber);
         	orderTaskpackageProcedure.setOrderId(orderId);
         	orderTaskpackageProcedure.setProjectMode(projectMode);
         	taskpack.setOrderId(orderId);
         	taskpack.setProjectMode(projectMode);
-        	orderTaskpackageProcedure.setProcedureNo((String) jsonArray.getJSONObject(i).get("procedureNo"));  //工序编号
+        	orderTaskpackageProcedure.setProcedureNo((String) jsonArray.getJSONObject(i).get("procedureNo"));
         	if(((String) jsonArray.getJSONObject(i).get("budgetNumber")).equals("")){
         		orderTaskpackageProcedure.setBudgetNumber(0.00);
         	}else{
         		orderTaskpackageProcedure.setBudgetNumber((
             			(Double.valueOf((String) jsonArray.getJSONObject(i).get("budgetNumber")))
-            	));  //预算员确认数量
+            	));
         	}
 
         	if(((String) jsonArray.getJSONObject(i).get("remarks")).equals("")){
@@ -322,47 +287,47 @@ public static void main(String[] args) throws ParseException {
         	}else{
         		orderTaskpackageProcedure.setRemarks(((String)jsonArray.getJSONObject(i).get("remarks")));
         	}
-        	//工料费预算金额
+
         	if(((String) jsonArray.getJSONObject(i).get("total")).equals("")){
-//        		orderTaskpackageProcedure.setLaborAuxiliaryMaterialsBudgetAmount(0.00);
+
         		taskpack.setLaborAuxiliaryMaterialsBudgetAmount(null);
         	}else{
-//        		orderTaskpackageProcedure.setLaborAuxiliaryMaterialsBudgetAmount((
-//            			(Double.valueOf((String) jsonArray.getJSONObject(i).get("total")))
-//            	).doubleValue());
+
+
+
         		taskpack.setLaborAuxiliaryMaterialsBudgetAmount(Double.valueOf((String) jsonArray.getJSONObject(i).get("total")));
         	}
         	
-        	// 人工费预算金额
+
         	if (((String) jsonArray.getJSONObject(i).get("laborBudgetAmount")).equals("")) {
-//				orderTaskpackageProcedure.setLaborBudgetAmount(0.00);
+
 				taskpack.setLaborBudgetAmount(0.00);
 			} else {
-//				orderTaskpackageProcedure.setLaborBudgetAmount((Double.valueOf((String) jsonArray.getJSONObject(i).get("laborBudgetAmount"))).doubleValue());
+
 				taskpack.setLaborBudgetAmount((Double.valueOf((String) jsonArray.getJSONObject(i).get("laborBudgetAmount"))).doubleValue());
 			}
         	
-        	// 辅料费预算金额
+
         	if (((String)jsonArray.getJSONObject(i).getString("auxiliaryMaterialsBudgetAmount")).equals("")) {
-//        		orderTaskpackageProcedure.setAuxiliaryMaterialsBudgetAmount(0.00);
+
         		taskpack.setAuxiliaryMaterialsBudgetAmount(0.00);
 			} else {
-//				orderTaskpackageProcedure.setAuxiliaryMaterialsBudgetAmount((Double.valueOf((String) jsonArray.getJSONObject(i).get("auxiliaryMaterialsBudgetAmount"))).doubleValue());
+
 				taskpack.setAuxiliaryMaterialsBudgetAmount((Double.valueOf((String) jsonArray.getJSONObject(i).get("auxiliaryMaterialsBudgetAmount"))).doubleValue());
 			}
         	
         	orderTp.add(taskpack);
         	otpList.add(orderTaskpackageProcedure);
-        	tmpList.add(templatNumber);//将任务包编号放入list
+        	tmpList.add(templatNumber);
 	    }  
         
-        //订单任务包包新增数据
-        List<String> checkList= new ArrayList<String>(new HashSet<String>(tmpList));//去除重复数据
+
+        List<String> checkList= new ArrayList<String>(new HashSet<String>(tmpList));
         int orderTaskpackageListSize =  dao.queryListByOrderTaskpackage(orderId,storeId,projectMode).size();
         
         Map<String,Double> mapTotal = new HashMap<String,Double>();
         
-        //map去重求和
+
         for(OrderTaskpackage pa : orderTp){
         	String packageCode = pa.getPackageCode();
     		if(mapTotal.get(pa.getPackageCode()) == null){
@@ -373,7 +338,7 @@ public static void main(String[] args) throws ParseException {
     		mapTotal.put(packageCode,Double.valueOf(pa.getLaborAuxiliaryMaterialsBudgetAmount()) + mapTotal.get(packageCode));
         }
         
-        // 计算人工费预算总金额
+
         Map<String,Double> mapLaborTotal = new HashMap<String,Double>();
         for(OrderTaskpackage pa : orderTp){
         	String packageCode = pa.getPackageCode();
@@ -384,7 +349,7 @@ public static void main(String[] args) throws ParseException {
     		mapLaborTotal.put(packageCode,Double.valueOf(pa.getLaborBudgetAmount()) + mapLaborTotal.get(packageCode));
         }
         
-        // 计算辅料费预算总金额
+
         Map<String,Double> mapAuxiliaryTotal = new HashMap<String,Double>();
         for(OrderTaskpackage pa : orderTp){
         	String packageCode = pa.getPackageCode();
@@ -396,7 +361,7 @@ public static void main(String[] args) throws ParseException {
         }
         
         if(orderTaskpackageListSize <= 0){
-        	//循环写入订单任务包数据
+
             if(checkList.size()>0){
             	for(Entry<String, Double> entry:mapTotal.entrySet()){
 	            	for(String templatNumber: checkList){
@@ -424,7 +389,7 @@ public static void main(String[] args) throws ParseException {
 	            	
 	            }
 	            
-	            //往订单任务包工序表写数据
+
 	            for(OrderTaskpackageProcedure tp:otpList){
 	            	flagOrderTaskpackageProceude = orderTaskpackageProcedureService.insertByOrder1(tp);
 	            	if(flagOrderTaskpackageProceude == false){
@@ -435,7 +400,7 @@ public static void main(String[] args) throws ParseException {
         }else{
         	resultCode = "3";
         }
-        //更新数据库状态order
+
         if(resultCode.equals("0")){
         	flag = orderTaskpackService.updateByOrderStatusAndTaskpackageStatus(ConstantUtils.ORDERTASKPACKAGE_STATUS_NUMBER_110,
         			ConstantUtils.ORDERTASKPACKAGE_STATUS_NUMBER_110_REMARKS,ConstantUtils.ORDERTASKPACKAGE_STATUS_YES,orderId);
@@ -460,16 +425,7 @@ public static void main(String[] args) throws ParseException {
 		return page;
 	}
 	
-	/**
-	 * 生成特殊任务包
-	 * @param packageName
-	 * @param parmeters
-	 * @param startDate
-	 * @param endDate
-	 * @param orderId
-	 * @return
-	 * @throws Exception
-	 */
+
 	@Transactional(readOnly = false)
 	public String createSpecialTaskPackage(String packageName,String parmeters,String startDate,String endDate,Integer orderId) throws Exception{
 		String flag = "error";
@@ -477,7 +433,7 @@ public static void main(String[] args) throws ParseException {
 		Date startDate1 = sdf.parse(startDate);
 		Date endDate1 = sdf.parse(endDate);
 		Order2 order = orderDao2.get(orderId);
-		//根据特殊任务包查询特殊的任务包  门店
+
 		TaskpackageTemplat taskpackageTemplat = taskpackageTemplatDao.findByStoreId(Integer.parseInt(order.getStoreId()),Integer.parseInt(order.getProjectMode()));
 		if(taskpackageTemplat == null || taskpackageTemplat.getId() == null){
 			return "1";
@@ -487,7 +443,7 @@ public static void main(String[] args) throws ParseException {
 		taskpackage.setStoreId(order.getStoreId());
 		taskpackage.setProjectMode(order.getProjectMode());
 		taskpackage.setPackageCode(taskpackageTemplat.getNo());
-		taskpackage.setPackageName(packageName);//--页面传过来
+		taskpackage.setPackageName(packageName);
 		taskpackage.setPlanStartdate(startDate1);
 		taskpackage.setPlanEnddate(endDate1);
 		taskpackage.setPackageStateId(ConstantUtils.ORDERTASKPACKAGE_ID_CREATE);
@@ -514,22 +470,22 @@ public static void main(String[] args) throws ParseException {
 		List<OrderTaskpackGenVo> list = new ArrayList<OrderTaskpackGenVo>();
 		String[] parmeter = parmeters.split("####");
 		for (String parme : parmeter) {
-			String[] split = parme.split("-");  //split[0]-id split[1]-number split[2]-total
+			String[] split = parme.split("-");
 			OrderTaskpackGenVo taskpackageProcedure = bizProcedureDao.findTaskpackageProcedureById(split[0],order.getStoreId(),order.getContractStartDate());
 			taskpackageProcedure.setBudgetNumber(split[1]);
 			taskpackageProcedure.setLaborAuxiliaryMaterialsBudgetAmount(split[2]);
 			taskpackageProcedure.setRemarks(split[3]);
 			taskpackageProcedure.setProjectMode(order.getProjectMode());
-			taskpackageProcedure.setLaborBudgetAmount(String.valueOf(split[4]));//人工费预算金额
-			taskpackageProcedure.setAuxiliaryMaterialsBudgetAmount(String.valueOf(split[5]));//辅料费预算金额
+			taskpackageProcedure.setLaborBudgetAmount(String.valueOf(split[4]));
+			taskpackageProcedure.setAuxiliaryMaterialsBudgetAmount(String.valueOf(split[5]));
 			total = total+ Double.parseDouble(split[2]);
 			laborBudgetAmount = laborBudgetAmount + Double.parseDouble(split[4]);
 			auxiliaryMaterialsBudgetAmount = auxiliaryMaterialsBudgetAmount + Double.parseDouble(split[5]);
 			list.add(taskpackageProcedure);
 		}
-		taskpackage.setLaborAuxiliaryMaterialsBudgetAmount(total);// 任务包工料费预算总金额
-		taskpackage.setLaborBudgetAmount(laborBudgetAmount);// 任务包人工费预算总金额
-		taskpackage.setAuxiliaryMaterialsBudgetAmount(auxiliaryMaterialsBudgetAmount);// 任务包辅料费预算总金额
+		taskpackage.setLaborAuxiliaryMaterialsBudgetAmount(total);
+		taskpackage.setLaborBudgetAmount(laborBudgetAmount);
+		taskpackage.setAuxiliaryMaterialsBudgetAmount(auxiliaryMaterialsBudgetAmount);
 		taskpackage.setSettleStyle(taskpackageTemplat.getSettleStyle());
 		taskpackage.preInsert();
 		orderTaskpackageDao.insertTaskpackage(taskpackage);
@@ -538,7 +494,7 @@ public static void main(String[] args) throws ParseException {
 			vo.setTaskpackageId(tp.getId());
 			vo.setPackageName(tp.getPackageName());
 			vo.preInsert();
-			//orderTaskpackageService.insertProcedure(vo);
+
 		}
 		orderTaskpackageDao.insertProcedureList(list);
 		flag = "success";

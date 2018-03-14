@@ -1,61 +1,55 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import cn.damei.common.persistence.DataEntity2;
 
 import java.util.Date;
 
-/**
- * 传统订单待回访
- * @author 王硕
- * @version 2017-12-7
- */
+
 public class BizCustomerReturnVisitTraditionOrderData extends DataEntity2<BizCustomerReturnVisitTraditionOrderData> {
 	private static final long serialVersionUID = 1L;
 
-	private String orderId;//订单Id
+	private String orderId;
 
-	private String returnVisitNode;//回访节点
+	private String returnVisitNode;
 
-	private Integer returnVisitStatus;//回访状态（0过期，1待回访，2已回访）
+	private Integer returnVisitStatus;
 
-	private Date returnVisitTime;//回访时间
+	private Date returnVisitTime;
 
-	private Integer returnVisitTimes;//回访次数
+	private Integer returnVisitTimes;
 
-	private Date actualStartDate;//开工时间
+	private Date actualStartDate;
 
-	private String orderInspector;//质检员姓名
+	private String orderInspector;
 
-	private String itemManager;//项目经理
+	private String itemManager;
 
-	private String designerName;//设计师姓名
+	private String designerName;
 
-	private String customerAddress;//客户地址
+	private String customerAddress;
 
-	private String customerName;//客户姓名
+	private String customerName;
 
-	private String customerPhone;//客户电话
+	private String customerPhone;
 
-	private String orderNumber;//订单编号
+	private String orderNumber;
 
-	private String returnVisitNodeName;//回访节点名称
+	private String returnVisitNodeName;
 
-	private Date nodeCheckDate;//节点验收时间
+	private Date nodeCheckDate;
 
-	private Date nodeCheckDateBegin;//节点验收时间开始
+	private Date nodeCheckDateBegin;
 
-	private Date nodeCheckDateEnd;//节点验收时间结束
+	private Date nodeCheckDateEnd;
 
-	private Integer invalidNum;//回访次数
+	private Integer invalidNum;
 
-	private String storeId;//门店ID
+	private String storeId;
 
-	private String projectMode;//工程模式
+	private String projectMode;
 
-	private String area;//区域
+	private String area;
 
 	public String getArea() {
 		return area;

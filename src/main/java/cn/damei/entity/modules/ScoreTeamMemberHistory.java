@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import java.util.Date;
@@ -8,22 +6,18 @@ import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import cn.damei.common.persistence.DataEntity;
 
-/**
- * 团队成员评分历史记录Entity
- * @author lwc
- * @version 2017-04-12
- */
+
 public class ScoreTeamMemberHistory extends DataEntity<ScoreTeamMemberHistory> {
 	
 	private static final long serialVersionUID = 1L;
 
-	private Integer orderId;		// 订单id
-	private Integer employeeId;		// 员工id
-	private String employeeName;	// 员工姓名
-	private String employeePhone;	// 员工电话
-	private String scoreType;		// 评价类型
-	private Integer scoreValue;		// 评分值
-	private Date scoreTime;			// 评分时间
+	private Integer orderId;
+	private Integer employeeId;
+	private String employeeName;
+	private String employeePhone;
+	private String scoreType;
+	private Integer scoreValue;
+	private Date scoreTime;
 
 	public ScoreTeamMemberHistory() {
 		super();

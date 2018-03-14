@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import cn.damei.common.config.Global;
@@ -32,11 +30,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-/**
- * 项目经理考勤基础设置Controller
- * @author lzm
- * @version 2017-08-02
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/bizpmattendcnfg/bizPmAttendCnfg")
 public class BizPmAttendCnfgController extends BaseController {
@@ -73,7 +67,7 @@ public class BizPmAttendCnfgController extends BaseController {
 		model.addAttribute("bizPmAttendCnfg", bizPmAttendCnfg);
 		model.addAttribute("bizPmAttendCnfgStarList", bizPmAttendCnfgStarList);
 		model.addAttribute("managerStarList", managerStarList);
-		//获取前一个月
+
 		SimpleDateFormat format=new SimpleDateFormat("yyyy-MM");
 		Calendar c=Calendar.getInstance();
 		c.setTime(new Date());
@@ -92,7 +86,7 @@ public class BizPmAttendCnfgController extends BaseController {
 		}
 		bizPmAttendCnfg.setCreateBy(UserUtils.getUser());
 		bizPmAttendCnfgService.saveOrInsert(bizPmAttendCnfg);
-		//这三个数组代表新增的星级
+
 		String[] star = request.getParameterValues("star");
 		String[] starSalaryAllAttend =request.getParameterValues("starSalaryAllAttend");
 		String[] starSalaryMin =request.getParameterValues("starSalaryMin");
@@ -108,7 +102,7 @@ public class BizPmAttendCnfgController extends BaseController {
 			}
 			bizPmAttendCnfgService.saveBizPmAttendCnfgStarList(bizPmAttendCnfgStarList);
 		}
-		//这四个个数组代表需要更新的
+
 		String[] idU = request.getParameterValues("id_u");
 		String[] starU = request.getParameterValues("star_u");
 		String[] starSalaryAllAttendU =request.getParameterValues("starSalaryAllAttend_u");
@@ -130,7 +124,7 @@ public class BizPmAttendCnfgController extends BaseController {
 	public void deleteStarById(String id,HttpServletResponse response) throws IOException {
 		bizPmAttendCnfgService.deleteStarById(id);
 		
-		//return "redirect:"+Global.getAdminPath()+"/bizpmattendcnfg/bizPmAttendCnfg/form";
+
 	}
 	@RequiresPermissions("bizpmattendcnfg:bizPmAttendCnfg:edit")
 	@RequestMapping(value = "delete")
@@ -139,7 +133,7 @@ public class BizPmAttendCnfgController extends BaseController {
 		addMessage(redirectAttributes, "删除项目经理考勤基础设置成功");
 		return "redirect:"+Global.getAdminPath()+"/bizpmattendcnfg/bizPmAttendCnfg/?repage";
 	}
-	//新增或编辑时按门店和生效月份查询是否已存在,id==null时表示为新增，否则为编辑
+
 	@RequestMapping(value = "checkRepeateByStorIdAndMonth")
 	public void checkRepeateByStorIdAndMonth(String storeId,String effectMonth,String id,String projectMode,HttpServletRequest request,HttpServletResponse response) throws IOException {
 		int total = bizPmAttendCnfgService.checkRepeateByStorIdAndMonth(storeId,effectMonth, id,projectMode);

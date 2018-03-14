@@ -1,33 +1,27 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import org.hibernate.validator.constraints.Length;
 
 import cn.damei.common.persistence.DataEntity;
 
-/**
- * 生成方案Entity
- * @author ThinkGem
- * @version 2013-10-15
- */
+
 public class GenScheme extends DataEntity<GenScheme> {
 	
 	private static final long serialVersionUID = 1L;
-	private String name; 	// 名称
-	private String category;		// 分类
-	private String packageName;		// 生成包路径
-	private String moduleName;		// 生成模块名
-	private String subModuleName;		// 生成子模块名
-	private String functionName;		// 生成功能名
-	private String functionNameSimple;		// 生成功能名（简写）
-	private String functionAuthor;		// 生成功能作者
-	private GenTable genTable;		// 业务表名
+	private String name;
+	private String category;
+	private String packageName;
+	private String moduleName;
+	private String subModuleName;
+	private String functionName;
+	private String functionNameSimple;
+	private String functionAuthor;
+	private GenTable genTable;
 	
-	private String flag; 	// 0：保存方案； 1：保存方案并生成代码
+	private String flag;
 	
-	private Boolean replaceFile;	// 是否替换现有文件    0：不替换；1：替换文件
+	private Boolean replaceFile;
 
 	public GenScheme() {
 		super();

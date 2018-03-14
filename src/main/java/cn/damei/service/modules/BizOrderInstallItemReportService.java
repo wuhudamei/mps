@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.util.List;
@@ -13,9 +11,7 @@ import cn.damei.common.service.CrudService2;
 import cn.damei.dao.modules.BizOrderInstallItemReportDao;
 import cn.damei.entity.modules.BizOrderInstallItemReport;
 
-/**
- * 工程部主材工期统计表
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizOrderInstallItemReportService extends CrudService2<BizOrderInstallItemReportDao, BizOrderInstallItemReport> {

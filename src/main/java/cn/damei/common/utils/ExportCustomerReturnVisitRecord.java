@@ -13,29 +13,25 @@ import org.apache.poi.hssf.util.CellRangeAddress;
 import cn.damei.entity.modules.BizCustomerReturnVisitContent;
 import cn.damei.entity.modules.BizCustomerReturnVisitRecordAnswer;
 import cn.damei.entity.modules.BizCustomerReturnVisitRecord;
-/**
- * 
- * @author lft
- * 导出客户回访记录
- */
+
 public class ExportCustomerReturnVisitRecord {
 	
 	public static HSSFWorkbook exportCustomerReturnVisitRecord(List<BizCustomerReturnVisitContent> questionList,List<BizCustomerReturnVisitRecord> list){
-        //问题个数
+
         int size = 0;
         if(questionList !=null && questionList.size() > 0 ){
             size=questionList.size();
         }
-		HSSFWorkbook wb = new HSSFWorkbook();// 创建一个Excel文件
-		HSSFSheet sheet = wb.createSheet("客户回访记录统计表");// 创建一个Excel的Sheet
-		// 定义样式
-		HSSFCellStyle cellStyleCenter = ExportFileNameUtils.initColumnHeadStyle(wb);// 表头样工
-		HSSFCellStyle cellStyleRight = ExportFileNameUtils.initColumnCenterstyle(wb);// 单元格样式
-		HSSFCellStyle cellStyleLeft = ExportFileNameUtils.initColumnCenterstyle(wb);
-		cellStyleRight.setAlignment(HSSFCellStyle.ALIGN_RIGHT);// 右对齐
-		cellStyleLeft.setAlignment(HSSFCellStyle.ALIGN_LEFT);// 左对齐
+		HSSFWorkbook wb = new HSSFWorkbook();
+		HSSFSheet sheet = wb.createSheet("客户回访记录统计表");
 
-		// 设置列宽
+		HSSFCellStyle cellStyleCenter = ExportFileNameUtils.initColumnHeadStyle(wb);
+		HSSFCellStyle cellStyleRight = ExportFileNameUtils.initColumnCenterstyle(wb);
+		HSSFCellStyle cellStyleLeft = ExportFileNameUtils.initColumnCenterstyle(wb);
+		cellStyleRight.setAlignment(HSSFCellStyle.ALIGN_RIGHT);
+		cellStyleLeft.setAlignment(HSSFCellStyle.ALIGN_LEFT);
+
+
 		sheet.setColumnWidth(0, 3000);
 		sheet.setColumnWidth(1, 3000);
 		sheet.setColumnWidth(2, 3000);
@@ -59,7 +55,7 @@ public class ExportCustomerReturnVisitRecord {
 		try {  
             HSSFRow row = null;
             HSSFCell cell = null; 
-            // ---------------------------1.初始化带边框的表头------------------------------  
+
             for (int i = 0; i < 3; i++) {
                 row = sheet.createRow(i);  
                 for (int j = 0; j < 17+size; j++) {  
@@ -67,7 +63,7 @@ public class ExportCustomerReturnVisitRecord {
                     cell.setCellStyle(cellStyleCenter);  
                 }  
             }  
-            // ---------------------------2.指定单元格填充数据------------------------------
+
             sheet.getRow(0).setHeight((short) 600);
             cell = sheet.getRow(0).getCell(0);  
             cell.setCellValue(new HSSFRichTextString("客户回访记录统计表")); 
@@ -109,8 +105,8 @@ public class ExportCustomerReturnVisitRecord {
             	 cell = sheet.getRow(1).getCell(17+i);  
                  cell.setCellValue(new HSSFRichTextString(questionList.get(i).getQuestionContent()));
     		}
-// ---------------------------3.合并单元格------------------------------  
-            sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 16+size));// 开始行，结束行，开始列，结束列  
+
+            sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 16+size));
             sheet.addMergedRegion(new CellRangeAddress(1, 2, 0, 0));  
             sheet.addMergedRegion(new CellRangeAddress(1, 2, 1, 1));  
             sheet.addMergedRegion(new CellRangeAddress(1, 2, 2, 2));  
@@ -153,7 +149,7 @@ public class ExportCustomerReturnVisitRecord {
 				row.createCell(16).setCellValue(DateUtils.formatDateTime(list.get(i).getReturnVisitTime()));
 				List<BizCustomerReturnVisitRecordAnswer> answerList2 = list.get(i).getAnswerList();
 				
-				//判断回访记录的问题数是否小于当前回访问题数，如果小于，按照回访记录输出，避免出现数组越界异常
+
 				if( answerList2.size() < size ){
 					for (int j = 0; j < answerList2.size(); j++) {
 						row.createCell(17+j).setCellValue(answerList2.get(j).getQuestionAnswer());

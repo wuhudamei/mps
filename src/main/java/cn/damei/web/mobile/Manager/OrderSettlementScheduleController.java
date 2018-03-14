@@ -13,11 +13,7 @@ import cn.damei.entity.mobile.Manager.Manager;
 import cn.damei.entity.mobile.Manager.OrderSettlementSchedule;
 import cn.damei.service.mobile.Manager.OrderSettlementScheduleService;
 
-/**
- * 订单结算进度
- * @author hyh
- *
- */
+
 @Controller
 @RequestMapping(value = "mobile/modules/manager/projectmanagersettlement/web/orderSettlementSchedule")
 public class OrderSettlementScheduleController {
@@ -25,10 +21,7 @@ public class OrderSettlementScheduleController {
 	@Autowired
 	private OrderSettlementScheduleService orderSettlementScheduleService;
 
-	/**
-	 * 订单结算进度信息
-	 * @return
-	 */
+
 	@RequestMapping(value = "orderSettlementScheduleList")
 	public String orderSettlementScheduleList(OrderSettlementSchedule orderSettlementSchedule,Model model, HttpServletRequest request){
 		Manager manager = (Manager) request.getSession().getAttribute("manager");
@@ -41,12 +34,7 @@ public class OrderSettlementScheduleController {
 		return "/mobile/modules/Manager/projectmanagersettlement/ordersettlementschedule/orderSettlementScheduleList";
 	}
 	
-	/**
-	 * 订单中期结算进度
-	 * @param orderId
-	 * @param model
-	 * @return
-	 */
+
 	@RequestMapping(value = "orderMidwaySettlementSchedule")
 	public String orderMidwaySettlementSchedule(int orderId, Model model){
 		OrderSettlementSchedule orderSettlementSchedule = orderSettlementScheduleService.queryMidwaySettlementScheduleByOrderId(orderId);
@@ -54,12 +42,7 @@ public class OrderSettlementScheduleController {
 		return "/mobile/modules/Manager/projectmanagersettlement/ordersettlementschedule/midwayOrderSettlementScheduleList";
 	}
 	
-	/**
-	 * 订单竣工结算进度
-	 * @param orderId
-	 * @param model
-	 * @return
-	 */
+
 	@RequestMapping(value = "orderCompleteSettlementSchedule")
 	public String orderCompleteSettlementSchedule(int orderId, Model model){
 		OrderSettlementSchedule orderSettlementSchedule = orderSettlementScheduleService.queryCompleteSettlementScheduleByOrderId(orderId);

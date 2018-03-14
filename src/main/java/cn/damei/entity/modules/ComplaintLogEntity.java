@@ -7,9 +7,7 @@ import java.util.List;
 
 import cn.damei.common.constantUtils.PictureTypeContantUtil;
 
-/**
- * Created by joseph on 2017/7/11.
- */
+
 public class ComplaintLogEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private String typeName;
@@ -17,15 +15,13 @@ public class ComplaintLogEntity implements Serializable {
 	private String complaintTo;
 	private List<BizOrderComplaintProblemItem> itemList = new ArrayList<>();
 	private String problemContent;
-	private Date infoDate;// 发送日期时间
-	private String msgsndPeriod;// 执行时限
-	private Integer datamiao;// 相差的时间数 秒为单位
-	private Date dataxiaoshi;// 相差的时间数如果为正说说明没有超时 如果为负数说明超时了
-	private String isdatefla;// 相差的时间数如果为正说说明没有超时 如果为负数说明超时了
+	private Date infoDate;
+	private String msgsndPeriod;
+	private Integer datamiao;
+	private Date dataxiaoshi;
+	private String isdatefla;
 
-	/**
-	 * replyName,replyDate,replyContent
-	 */
+
 	private List<BizOrderComplaintProblemDeal> dealList = new ArrayList<>();
 
 	public List<BizOrderComplaintProblemDeal> getDealList() {

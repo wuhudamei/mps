@@ -4,36 +4,30 @@ import java.util.Date;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/** 
-* @author 梅浩   meihao@zzhyun.cn: 
-* @version 创建时间：2016年9月24日 上午10:12:44 
-* 经理和工人组长的共用签到详情实例 
-*/
+
 
 public class SignDetail extends DataEntity2<SignDetail>{
 
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
-	private Integer id;//id
-	private Integer orderId;//签到相关订单表id
-	private Integer packId;//任务包id
+	private Integer id;
+	private Integer orderId;
+	private Integer packId;
 	public Integer getPackId() {
 		return packId;
 	}
 	public void setPackId(Integer packId) {
 		this.packId = packId;
 	}
-	private String signPic;//签到照片
-	private Date signDate;//签到时间
-	private String signAddress;//签到地址
-	private String signXy;//签到经纬度
-	private String signDistance;//误差距离 (米)
-	private String signType;//签到人类型  项目经理还是工人组长
-	private String  signName;//签到人名称
-	private Integer managerId;//经理id
-	private String managerName;//经理名称
+	private String signPic;
+	private Date signDate;
+	private String signAddress;
+	private String signXy;
+	private String signDistance;
+	private String signType;
+	private String  signName;
+	private Integer managerId;
+	private String managerName;
 	private String managerPhone;
 	
 	private String lat;
@@ -58,9 +52,9 @@ public class SignDetail extends DataEntity2<SignDetail>{
 	public void setManagerPhone(String managerPhone) {
 		this.managerPhone = managerPhone;
 	}
-	private Integer workerLeaderId;//工人组长id
-	private String workerLeaderName;//工人组长名称
-	private String customerInfo;//客户信息 (住址加姓名)
+	private Integer workerLeaderId;
+	private String workerLeaderName;
+	private String customerInfo;
 	public Integer getId() {
 		return id;
 	}

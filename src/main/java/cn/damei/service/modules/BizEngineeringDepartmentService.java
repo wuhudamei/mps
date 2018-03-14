@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.util.ArrayList;
@@ -22,11 +20,7 @@ import cn.damei.entity.modules.EngineeringDepartmentEmployeePosition;
 import cn.damei.dao.modules.BizEngineeringDepartmentDao;
 import cn.damei.dao.modules.EngineeringDepartmentEmployeePositionDao;
 
-/**
- * 工程部管理Service
- * @author haven
- * @version 2016-09-05
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizEngineeringDepartmentService extends CrudService<BizEngineeringDepartmentDao, BizEngineeringDepartment> {
@@ -65,28 +59,17 @@ public class BizEngineeringDepartmentService extends CrudService<BizEngineeringD
 	}
 
 	public List<DropModel> findEngDepListByStoreId(String storeId) {
-		// TODO Auto-generated method stub
+
 		return bizEngineeringDepartmentDao.findEngDepListByStoreId(storeId);
 	}
 
 	public List<DropModel> findEngDepListByStoreId1() {
-		// TODO Auto-generated method stub
+
 		return bizEngineeringDepartmentDao.findEngDepListByStoreId1();
 	}
 	
 	
-	/*public List<EngineeringDepartmentEmployeePosition> getPositonList(String departmentId, String ids,String type){
-		List<EngineeringDepartmentEmployeePosition> list = new ArrayList<EngineeringDepartmentEmployeePosition>();
-		String[] split = ids.split(",");
-		for(int i = 0; i<split.length; i++){
-			EngineeringDepartmentEmployeePosition position = new EngineeringDepartmentEmployeePosition();
-			position.setEnginDepartId(Integer.parseInt(departmentId));
-			position.setEmployeeId(Integer.parseInt(split[i]));
-			position.setPositionType(type);
-			list.add(position);
-		}
-		return list;
-	}*/
+
 	
 	
 	public List<EngineeringDepartmentEmployeePosition> getPositonList(BizEngineeringDepartment bizEngineeringDepartment){
@@ -212,7 +195,7 @@ public class BizEngineeringDepartmentService extends CrudService<BizEngineeringD
 	}
 
 	public List<DropModel> findEngDepListByMap(Map<String, Object> map) {
-		// TODO Auto-generated method stub
+
 		return dao.findEngDepListByMap(map);
 	}
 
@@ -222,7 +205,7 @@ public class BizEngineeringDepartmentService extends CrudService<BizEngineeringD
 	}
 
 	public List<Integer> findAll() {
-		// TODO Auto-generated method stub
+
 		return dao.findAll();
 	}
 }

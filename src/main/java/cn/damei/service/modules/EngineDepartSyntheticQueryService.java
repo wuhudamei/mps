@@ -20,9 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.text.DecimalFormat;
 import java.util.*;
 
-/**
- * Created by joseph on 2017/4/7.
- */
+
 @Service
 @Transactional(readOnly = false)
 public class EngineDepartSyntheticQueryService extends CrudService<EngineDepartSyntheticQueryDao, EngineDepartSyntheticQueryEntity> {
@@ -31,7 +29,7 @@ public class EngineDepartSyntheticQueryService extends CrudService<EngineDepartS
     private EngineDepartSyntheticQueryDao dao;
 
 
-    //工程日报 (门店+开始日期和结束日期  查询 订单 +派单+交底+开工数量)
+
     public List<Map<String, Object>> selectEngineDepartSyntheticList(EngineDepartSyntheticQueryEntity entity) {
 
 
@@ -138,62 +136,62 @@ public class EngineDepartSyntheticQueryService extends CrudService<EngineDepartS
         HSSFSheet sheet = wb.createSheet("工程部总表");
 
 
-        //单元格样式--标题
+
         HSSFCellStyle columnHeadStyle = wb.createCellStyle();
-        columnHeadStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);// 左右居中
-        columnHeadStyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);// 上下居中
+        columnHeadStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+        columnHeadStyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
         columnHeadStyle.setLocked(true);
         columnHeadStyle.setWrapText(true);
-        columnHeadStyle.setLeftBorderColor(HSSFColor.BLACK.index);// 左边框的颜色
-        columnHeadStyle.setBorderLeft((short) 1);// 边框的大小
-        columnHeadStyle.setRightBorderColor(HSSFColor.BLACK.index);// 右边框的颜色
-        columnHeadStyle.setBorderRight((short) 1);// 边框的大小
-        columnHeadStyle.setTopBorderColor(HSSFColor.BLACK.index);// 上边框的颜色
-        columnHeadStyle.setBorderTop((short) 1);// 边框的大小
-        columnHeadStyle.setBottomBorderColor(HSSFColor.BLACK.index);// 下边框的颜色
-        columnHeadStyle.setBorderBottom((short) 1);// 边框的大小
-        columnHeadStyle.setBorderBottom(HSSFCellStyle.BORDER_THIN); // 设置单元格的边框为粗体
-        columnHeadStyle.setBottomBorderColor(HSSFColor.BLACK.index); // 设置单元格的边框颜色
-        columnHeadStyle.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);// 设置单元格的背景颜色（单元格的样式会覆盖列或行的样式）
+        columnHeadStyle.setLeftBorderColor(HSSFColor.BLACK.index);
+        columnHeadStyle.setBorderLeft((short) 1);
+        columnHeadStyle.setRightBorderColor(HSSFColor.BLACK.index);
+        columnHeadStyle.setBorderRight((short) 1);
+        columnHeadStyle.setTopBorderColor(HSSFColor.BLACK.index);
+        columnHeadStyle.setBorderTop((short) 1);
+        columnHeadStyle.setBottomBorderColor(HSSFColor.BLACK.index);
+        columnHeadStyle.setBorderBottom((short) 1);
+        columnHeadStyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+        columnHeadStyle.setBottomBorderColor(HSSFColor.BLACK.index);
+        columnHeadStyle.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
         columnHeadStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
 
 
-        //单元格样式
+
         HSSFCellStyle columnStyle = wb.createCellStyle();
-        columnStyle.setLeftBorderColor(HSSFColor.BLACK.index); // 左边框线的颜色
-        columnStyle.setBorderLeft((short) 1);// 左边框线的大小
-        columnStyle.setRightBorderColor(HSSFColor.BLACK.index); // 右边框线的颜色
-        columnStyle.setBorderRight((short) 1);// 右边框线的大小
-        columnStyle.setTopBorderColor(HSSFColor.BLACK.index); // 上边框线的颜色
-        columnStyle.setBorderTop((short) 1);// 上边框线的大小
-        columnStyle.setBottomBorderColor(HSSFColor.BLACK.index); // 下边框线的颜色
-        columnStyle.setBorderBottom((short) 1);// 下边框线的大小
+        columnStyle.setLeftBorderColor(HSSFColor.BLACK.index);
+        columnStyle.setBorderLeft((short) 1);
+        columnStyle.setRightBorderColor(HSSFColor.BLACK.index);
+        columnStyle.setBorderRight((short) 1);
+        columnStyle.setTopBorderColor(HSSFColor.BLACK.index);
+        columnStyle.setBorderTop((short) 1);
+        columnStyle.setBottomBorderColor(HSSFColor.BLACK.index);
+        columnStyle.setBorderBottom((short) 1);
         columnStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
 
-        //单元格样式
-        //设置字体
+
+
         HSSFFont font = wb.createFont();
-        font.setColor(HSSFFont.COLOR_NORMAL);//字体颜色
-        font.setFontName("宋体");//字体
-        font.setFontHeightInPoints((short) 11);//字体高度
-        font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);//宽度
+        font.setColor(HSSFFont.COLOR_NORMAL);
+        font.setFontName("宋体");
+        font.setFontHeightInPoints((short) 11);
+        font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
 
         HSSFCellStyle title = wb.createCellStyle();
         title.setFont(font);
-        title.setAlignment(HSSFCellStyle.ALIGN_CENTER);// 左右居中
-        title.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);// 上下居中
-        title.setLeftBorderColor(HSSFColor.BLACK.index); // 左边框线的颜色
-        title.setBorderLeft((short) 1);// 左边框线的大小
-        title.setRightBorderColor(HSSFColor.BLACK.index); // 右边框线的颜色
-        title.setBorderRight((short) 1);// 右边框线的大小
-        title.setTopBorderColor(HSSFColor.BLACK.index); // 上边框线的颜色
-        title.setBorderTop((short) 1);// 上边框线的大小
-        title.setBottomBorderColor(HSSFColor.BLACK.index); // 下边框线的颜色
-        title.setBorderBottom((short) 1);// 下边框线的大小
+        title.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+        title.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
+        title.setLeftBorderColor(HSSFColor.BLACK.index);
+        title.setBorderLeft((short) 1);
+        title.setRightBorderColor(HSSFColor.BLACK.index);
+        title.setBorderRight((short) 1);
+        title.setTopBorderColor(HSSFColor.BLACK.index);
+        title.setBorderTop((short) 1);
+        title.setBottomBorderColor(HSSFColor.BLACK.index);
+        title.setBorderBottom((short) 1);
         title.setAlignment(HSSFCellStyle.ALIGN_CENTER);
 
 
-        // 单元格宽度
+
         sheet.setColumnWidth(0, 1233);
         sheet.setColumnWidth(1, 3000);
         sheet.setColumnWidth(2, 4000);
@@ -217,7 +215,7 @@ public class EngineDepartSyntheticQueryService extends CrudService<EngineDepartS
         sheet.setColumnWidth(20, 3000);
 
 
-        //标题---工程部统计数据
+
         HSSFRow rowTitle = sheet.createRow(0);
         rowTitle.setHeightInPoints(40);
         HSSFCell cell = rowTitle.createCell(1);
@@ -229,7 +227,7 @@ public class EngineDepartSyntheticQueryService extends CrudService<EngineDepartS
         }
 
 
-        //标题
+
         HSSFRow rowTitle2 = sheet.createRow(1);
 
         HSSFCell headCell1 = rowTitle2.createCell(1);
@@ -306,7 +304,7 @@ public class EngineDepartSyntheticQueryService extends CrudService<EngineDepartS
         headCell20.setCellStyle(columnHeadStyle);
 
 
-        //标题
+
         HSSFRow rowTitleTwo2 = sheet.createRow(2);
 
         HSSFCell headCellTwo1 = rowTitleTwo2.createCell(1);
@@ -389,7 +387,7 @@ public class EngineDepartSyntheticQueryService extends CrudService<EngineDepartS
         headCellTwo20.setCellValue("延期占比");
 
 
-        //合并单元格
+
         sheet.addMergedRegion(new CellRangeAddress(0, 0, 1, 22));
         sheet.addMergedRegion(new CellRangeAddress(1, 2, 1, 1));
         sheet.addMergedRegion(new CellRangeAddress(1, 2, 2, 2));
@@ -404,7 +402,7 @@ public class EngineDepartSyntheticQueryService extends CrudService<EngineDepartS
         sheet.addMergedRegion(new CellRangeAddress(1, 1, 18, 20));
 
 
-        //数据
+
         List<EngineDepartSyntheticQueryEntity> list = dao.findList(engineDepartSyntheticQueryEntity);
         int j = 0;
         Integer totalAccept = 0;
@@ -698,14 +696,7 @@ public class EngineDepartSyntheticQueryService extends CrudService<EngineDepartS
             cell20.setCellValue(contractStartPercent);
         }
 
-		/*
-        HSSFCell cell21 = row.createCell(21);
-		cell21.setCellStyle(columnStyle);
-		cell21.setCellValue("");
-		
-		HSSFCell cell22 = row.createCell(22);
-		cell22.setCellStyle(columnStyle);
-		cell22.setCellValue("");*/
+
 
         return wb;
 
@@ -719,62 +710,62 @@ public class EngineDepartSyntheticQueryService extends CrudService<EngineDepartS
         HSSFSheet sheet = wb.createSheet("工程部总表");
 
 
-        //单元格样式--标题
+
         HSSFCellStyle columnHeadStyle = wb.createCellStyle();
-        columnHeadStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);// 左右居中
-        columnHeadStyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);// 上下居中
+        columnHeadStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+        columnHeadStyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
         columnHeadStyle.setLocked(true);
         columnHeadStyle.setWrapText(true);
-        columnHeadStyle.setLeftBorderColor(HSSFColor.BLACK.index);// 左边框的颜色
-        columnHeadStyle.setBorderLeft((short) 1);// 边框的大小
-        columnHeadStyle.setRightBorderColor(HSSFColor.BLACK.index);// 右边框的颜色
-        columnHeadStyle.setBorderRight((short) 1);// 边框的大小
-        columnHeadStyle.setTopBorderColor(HSSFColor.BLACK.index);// 上边框的颜色
-        columnHeadStyle.setBorderTop((short) 1);// 边框的大小
-        columnHeadStyle.setBottomBorderColor(HSSFColor.BLACK.index);// 下边框的颜色
-        columnHeadStyle.setBorderBottom((short) 1);// 边框的大小
-        columnHeadStyle.setBorderBottom(HSSFCellStyle.BORDER_THIN); // 设置单元格的边框为粗体
-        columnHeadStyle.setBottomBorderColor(HSSFColor.BLACK.index); // 设置单元格的边框颜色
-        columnHeadStyle.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);// 设置单元格的背景颜色（单元格的样式会覆盖列或行的样式）
+        columnHeadStyle.setLeftBorderColor(HSSFColor.BLACK.index);
+        columnHeadStyle.setBorderLeft((short) 1);
+        columnHeadStyle.setRightBorderColor(HSSFColor.BLACK.index);
+        columnHeadStyle.setBorderRight((short) 1);
+        columnHeadStyle.setTopBorderColor(HSSFColor.BLACK.index);
+        columnHeadStyle.setBorderTop((short) 1);
+        columnHeadStyle.setBottomBorderColor(HSSFColor.BLACK.index);
+        columnHeadStyle.setBorderBottom((short) 1);
+        columnHeadStyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+        columnHeadStyle.setBottomBorderColor(HSSFColor.BLACK.index);
+        columnHeadStyle.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
         columnHeadStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
 
 
-        //单元格样式
+
         HSSFCellStyle columnStyle = wb.createCellStyle();
-        columnStyle.setLeftBorderColor(HSSFColor.BLACK.index); // 左边框线的颜色
-        columnStyle.setBorderLeft((short) 1);// 左边框线的大小
-        columnStyle.setRightBorderColor(HSSFColor.BLACK.index); // 右边框线的颜色
-        columnStyle.setBorderRight((short) 1);// 右边框线的大小
-        columnStyle.setTopBorderColor(HSSFColor.BLACK.index); // 上边框线的颜色
-        columnStyle.setBorderTop((short) 1);// 上边框线的大小
-        columnStyle.setBottomBorderColor(HSSFColor.BLACK.index); // 下边框线的颜色
-        columnStyle.setBorderBottom((short) 1);// 下边框线的大小
+        columnStyle.setLeftBorderColor(HSSFColor.BLACK.index);
+        columnStyle.setBorderLeft((short) 1);
+        columnStyle.setRightBorderColor(HSSFColor.BLACK.index);
+        columnStyle.setBorderRight((short) 1);
+        columnStyle.setTopBorderColor(HSSFColor.BLACK.index);
+        columnStyle.setBorderTop((short) 1);
+        columnStyle.setBottomBorderColor(HSSFColor.BLACK.index);
+        columnStyle.setBorderBottom((short) 1);
         columnStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
 
-        //单元格样式
-        //设置字体
+
+
         HSSFFont font = wb.createFont();
-        font.setColor(HSSFFont.COLOR_NORMAL);//字体颜色
-        font.setFontName("宋体");//字体
-        font.setFontHeightInPoints((short) 11);//字体高度
-        font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);//宽度
+        font.setColor(HSSFFont.COLOR_NORMAL);
+        font.setFontName("宋体");
+        font.setFontHeightInPoints((short) 11);
+        font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
 
         HSSFCellStyle title = wb.createCellStyle();
         title.setFont(font);
-        title.setAlignment(HSSFCellStyle.ALIGN_CENTER);// 左右居中
-        title.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);// 上下居中
-        title.setLeftBorderColor(HSSFColor.BLACK.index); // 左边框线的颜色
-        title.setBorderLeft((short) 1);// 左边框线的大小
-        title.setRightBorderColor(HSSFColor.BLACK.index); // 右边框线的颜色
-        title.setBorderRight((short) 1);// 右边框线的大小
-        title.setTopBorderColor(HSSFColor.BLACK.index); // 上边框线的颜色
-        title.setBorderTop((short) 1);// 上边框线的大小
-        title.setBottomBorderColor(HSSFColor.BLACK.index); // 下边框线的颜色
-        title.setBorderBottom((short) 1);// 下边框线的大小
+        title.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+        title.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
+        title.setLeftBorderColor(HSSFColor.BLACK.index);
+        title.setBorderLeft((short) 1);
+        title.setRightBorderColor(HSSFColor.BLACK.index);
+        title.setBorderRight((short) 1);
+        title.setTopBorderColor(HSSFColor.BLACK.index);
+        title.setBorderTop((short) 1);
+        title.setBottomBorderColor(HSSFColor.BLACK.index);
+        title.setBorderBottom((short) 1);
         title.setAlignment(HSSFCellStyle.ALIGN_CENTER);
 
 
-        // 单元格宽度
+
         sheet.setColumnWidth(0, 1233);
         sheet.setColumnWidth(1, 3000);
         sheet.setColumnWidth(2, 4000);
@@ -784,7 +775,7 @@ public class EngineDepartSyntheticQueryService extends CrudService<EngineDepartS
         sheet.setColumnWidth(6, 3000);
 
 
-        //标题---工程部统计数据
+
         HSSFRow rowTitle = sheet.createRow(0);
         rowTitle.setHeightInPoints(40);
         HSSFCell cell = rowTitle.createCell(1);
@@ -796,7 +787,7 @@ public class EngineDepartSyntheticQueryService extends CrudService<EngineDepartS
         }
 
 
-        //标题
+
         HSSFRow rowTitle2 = sheet.createRow(1);
 
         HSSFCell headCell1 = rowTitle2.createCell(1);
@@ -826,7 +817,7 @@ public class EngineDepartSyntheticQueryService extends CrudService<EngineDepartS
         headCell9.setCellValue("实际开工数");
 
 
-//合并单元格
+
         sheet.addMergedRegion(new CellRangeAddress(0, 0, 1, 6));
         sheet.addMergedRegion(new CellRangeAddress(1, 2, 1, 1));
         sheet.addMergedRegion(new CellRangeAddress(1, 2, 2, 2));
@@ -836,7 +827,7 @@ public class EngineDepartSyntheticQueryService extends CrudService<EngineDepartS
         sheet.addMergedRegion(new CellRangeAddress(1, 2, 6, 6));
 
 
-        //数据
+
         List<Map<String, Object>> list = this.selectEngineDepartSyntheticList(engineDepartSyntheticQueryEntity);
         int j = 0;
         Integer totalAccept = 0;
@@ -924,14 +915,7 @@ public class EngineDepartSyntheticQueryService extends CrudService<EngineDepartS
 
 
 
-		/*
-        HSSFCell cell21 = row.createCell(21);
-		cell21.setCellStyle(columnStyle);
-		cell21.setCellValue("");
 
-		HSSFCell cell22 = row.createCell(22);
-		cell22.setCellStyle(columnStyle);
-		cell22.setCellValue("");*/
 
         return wb;
 
@@ -956,20 +940,12 @@ public class EngineDepartSyntheticQueryService extends CrudService<EngineDepartS
     }
 
 
-    /**
-     * 2017-08-17  统计报表 需求
-     */
+
 
 
     private final String dictType = "manager_star";
 
-    /**
-     * 根据门店和模式查询大区下的经理星级
-     *
-     * @param storeId
-     * @param projectMode
-     * @return
-     */
+
     public List<EngineDepartEntity> findManagerStarGroupByEngineDepartByStoreIdAndProjectMode(String storeId, String projectMode) {
 
         List<EngineDepartEntity> list = dao.findManagerStarGroupByEngineDepartByStoreIdAndProjectMode(storeId, projectMode);
@@ -987,7 +963,7 @@ public class EngineDepartSyntheticQueryService extends CrudService<EngineDepartS
 
                 List<ManagerSyntheticStarEntity> entities = list.get(i).getList();
 
-                //兼容那些星级不满的大区
+
                 if (entities.size() > 0 && entities.size() != valueListSize) {
 
                     int distanceSize = entities.size();
@@ -1046,22 +1022,14 @@ public class EngineDepartSyntheticQueryService extends CrudService<EngineDepartS
     }
 
 
-    /**
-     * 2017-08-17  统计报表 需求
-     */
+
 
 
 
 
 
     private final String workerType="emp_work_type";
-    /**
-     * 根据门店和模式查询大区下的工人工种和数量
-     *
-     * @param storeId
-     * @param projectMode
-     * @return
-     */
+
     public List<EngineDepartEntity> findWorkerTypeGroupByEngineDepartByStoreIdAndProjectMode(String storeId, String projectMode) {
         List<EngineDepartEntity> list =  dao.findWorkerTypeGroupByEngineDepartByStoreIdAndProjectMode(storeId, projectMode);
 
@@ -1078,7 +1046,7 @@ public class EngineDepartSyntheticQueryService extends CrudService<EngineDepartS
 
                 List<ManagerSyntheticStarEntity> entities = list.get(i).getList();
 
-                //兼容那些工种不满的大区
+
                 if (entities.size() > 0 && entities.size() != valueListSize) {
 
                     int distanceSize = entities.size();
@@ -1146,11 +1114,7 @@ public class EngineDepartSyntheticQueryService extends CrudService<EngineDepartS
     }
 
 
-    /**
-     * 根据门店+模式+时间段  查询 质检单的所有统计数据
-     *
-     * @return
-     */
+
 
     private static Map<String, Object> map = null;
 
@@ -1178,7 +1142,7 @@ public class EngineDepartSyntheticQueryService extends CrudService<EngineDepartS
         Integer issueReportCount = dao.qcIssueReportCount(map);
         Integer qcRecheckCount = dao.qcRecheckCount(map);
 
-        //fineOrderCount  fineMoneyTotal
+
         Map<String, Object> orderCountAndTotalMoney = dao.fineOrderCountAndTotalMoney(map);
 
 

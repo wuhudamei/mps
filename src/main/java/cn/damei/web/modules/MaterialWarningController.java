@@ -46,7 +46,7 @@ public class MaterialWarningController extends BaseController{
 		List<String> list2 = materialWarningSerivce.findCompleteOrderId();
 		list.removeAll(list2);
 		materialWarning.setOrderIds(list);
-		//List<MaterialWarning> list3 = materialWarningSerivce.findCountOrder(list);
+
 		Page<MaterialWarning> findPage = materialWarningSerivce.findPage(new Page<MaterialWarning>(request,response), materialWarning);
 		modle.addAttribute("page", findPage);
 		return "/modules/materialwarning/materialWarningList";

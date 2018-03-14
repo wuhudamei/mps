@@ -4,24 +4,20 @@ import java.util.Date;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 评价任务包得分表
- * @author Administrator
- *EvalTaskpackScore
- */
+
 public class BizEvalScore extends DataEntity2<BizEvalScore>{
 
 	
 	private static final long serialVersionUID = 1L;
 	
-	private Integer relatedBusinessId;	//业务关联Id  评价工人：任务包ID  评价项目经理：约检单Id
-	private String evalType;  //评价类型   1：评价工人  2：评价项目经理
-    private Integer groupLeaderEmployeeId; //被评价人Id
-    private Double gotScore; //得分
-    private String evalStatus; //评价状态
-    private Date statusDatetime; //状态日期时间
-    private Date evalStartDatetime; //评价开始日期时间
-    private String range; //范围
+	private Integer relatedBusinessId;
+	private String evalType;
+    private Integer groupLeaderEmployeeId;
+    private Double gotScore;
+    private String evalStatus;
+    private Date statusDatetime;
+    private Date evalStartDatetime;
+    private String range;
     
     
     

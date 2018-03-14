@@ -23,7 +23,7 @@ import cn.damei.service.mobile.Manager.BusinessPicService;
 @Controller
 @RequestMapping(value = "${adminPath}/app/manager/changeManagement")
 public class ApplyProjectChangeController {
-	private static Logger logger = LoggerFactory.getLogger(ApplyProjectChangeController.class);// 日志
+	private static Logger logger = LoggerFactory.getLogger(ApplyProjectChangeController.class);
 	@Autowired
 	private ApplyProjectChangeService service;
 	@Autowired
@@ -35,16 +35,11 @@ public class ApplyProjectChangeController {
 		return "mobile/modules/Manager/projectChangeManagment/change_manage";
 	}
 
-	/**
-	 * 施工变更首页List
-	 * 
-	 * @return
-	 *            session
-	 */
+
 	@RequestMapping(value = "projectChangeList")
 	public String projectChangeList(HttpServletRequest request, Model model) {
 		Integer managerId = SessionUtils.getManagerSession(request).getId();
-		// 根据经理id,查询订单状态大于等于300的订单
+
 		if (null != managerId) {
 			List<ApplyProjectChangeEntity> orderList = service.findOrderList(managerId);
 			
@@ -55,12 +50,7 @@ public class ApplyProjectChangeController {
 		return "mobile/modules/Manager/projectChangeManagment/change_apply";
 	}
 
-	/**
-	 * 施工变更申请
-	 * 
-	 * @return
-	 *            session
-	 */
+
 	@RequestMapping(value = "applyToChange")
 	public String applyToChange(HttpServletRequest request, Model model, String orderId,String storeId) {
 		getItemList(model, request);
@@ -69,10 +59,7 @@ public class ApplyProjectChangeController {
 		return "mobile/modules/Manager/projectChangeManagment/change_details";
 	}
 
-	/**
-	 * 施工变更记录
-	 * 
-	 */
+
 	@RequestMapping(value = "changeRecord")
 	public String changeRecord(HttpServletRequest request, Model model, String orderId) {
 
@@ -82,13 +69,7 @@ public class ApplyProjectChangeController {
 	
 	
 	
-	/**
-	 * 根据变更单 查询变更项
-	 * @param typeId
-	 * @param model
-	 * @param request
-	 * @return
-	 */
+
 	@RequestMapping(value = "findItemByTypeId")
 	public @ResponseBody List<ProjectItem> findItemByTypeId(String typeId,String storeId,String addOrMinus ,Model model,HttpServletRequest request) {
 		ProjectItem item = new ProjectItem();
@@ -99,7 +80,7 @@ public class ApplyProjectChangeController {
 			item.setGroupType("2");
 			List<ProjectItem> list = service.findMinusInnerItemList(item);
 			if(null!=list&&list.size()>0){
-				// 去掉没有价格的
+
 				
 					Iterator<ProjectItem> iterator = list.iterator();
 
@@ -115,7 +96,7 @@ public class ApplyProjectChangeController {
 					}
 
 				
-				//套餐外增项
+
 				return list;
 				
 			}else{
@@ -124,13 +105,13 @@ public class ApplyProjectChangeController {
 			}
 			
 		}else if("outer".equals(addOrMinus)){
-			//套餐外减
+
 			item.setGroupType("2");
 			item.setProjectIntemMold("2");
 			item.setStoreId(storeId);
             item.setItemTypeId(Integer.parseInt(typeId));
 			List<ProjectItem> list = service.findMinusInnerItemList(item);
-			// 去掉没有价格的
+
 			
 			Iterator<ProjectItem> iterator = list.iterator();
 
@@ -149,13 +130,13 @@ public class ApplyProjectChangeController {
 			
 			
 		}else if("inner".equals(addOrMinus)){
-			//套餐内  减
+
 			item.setProjectIntemMold("2");
 			item.setStoreId(storeId);
 			item.setGroupType("1");
             item.setItemTypeId(Integer.parseInt(typeId));
 			List<ProjectItem> list = service.findMinusInnerItemList(item);
-			// 去掉没有价格的
+
 			
 			Iterator<ProjectItem> iterator = list.iterator();
 
@@ -189,13 +170,7 @@ public class ApplyProjectChangeController {
 	
 	
 	
-	/**
-	 * 根据传入参数不同, 查询不同条件的施工项
-	 *
-	 * @param model
-	 * @param request
-	 * @return List
-	 */
+
 
 	public void getItemList(Model model, HttpServletRequest request) {
 
@@ -205,20 +180,15 @@ public class ApplyProjectChangeController {
 
 	}
 
-	/**
-	 * 根据施工项查询详情
-	 * 
-	 * @param itemId
-	 * @return
-	 */
+
 	@RequestMapping(value = "saveItem")
 	public @ResponseBody List<ProjectItem> saveItem(String[] itemId,String arr,String storeId,Model model,HttpServletRequest request) {
-        // 根据选择的施工项, 查询详情, 返回页面
+
         LinkedList<ProjectItem> list = new LinkedList<ProjectItem>();
 
         if (null != itemId && itemId.length > 0) {
             for (int v = 0; v < itemId.length; v++) {
-                // 根据施工项id,查询施工项详情
+
                 ProjectItem itemDetail = service.findProjectItemDetailById(itemId[v],storeId);
             	list.add(itemDetail);
             }
@@ -241,16 +211,11 @@ public class ApplyProjectChangeController {
 	}
 
 
-	/**
-	 * 提交变更单, 保存变更项详情 biz_project_change_bill biz_project_changebill_item
-	 * 
-	 *            每一项的说明,变更项id , 以及数量
-	 * @return
-	 */
+
 	@RequestMapping(value = "saveChangeForm")
 	public @ResponseBody String saveChangeForm(String changeReason,String[] addOrMinusNum,String[] itemDetail, String[] itemId,
 			String[] itemCount,String price[], String orderId,String[] photo,HttpServletRequest request) {
-		// 1:判断数量是否为空
+
 
 		if (null != itemId && itemId.length > 0) {
 
@@ -267,12 +232,7 @@ public class ApplyProjectChangeController {
 
 	}
 
-	/**
-	 * 根据orderId 查询 记录
-	 * 
-	 * @param orderId
-	 * @return
-	 */
+
 	@RequestMapping(value = "applyRecord")
 	public String changeRecord(String storeId,String orderId, Model model) {
 
@@ -284,18 +244,18 @@ public class ApplyProjectChangeController {
 				while (iterator.hasNext()) {
 					ApplyProjectChangeEntity next = iterator.next();
 
-					// 查看 不可修改 都已经审核通过了
+
 					if (next.getStatus().equals("20") || next.getStatus().equals("30")
 							|| next.getStatus().equals("40") ||next.getStatus().equals("100")){
 
 						next.setStatusShiro("0");
 						
-						// 修改 刚提交
+
 					} else if (next.getStatus().equals("10")) {
 
 						next.setStatusShiro("1");
 
-						// 审核不通过, 重复提交
+
 					} else if (next.getStatus().equals("15") || next.getStatus().equals("25")
 							|| next.getStatus().equals("35")) {
 
@@ -322,13 +282,7 @@ public class ApplyProjectChangeController {
 
 	}
 
-	/**
-	 * 根据变更单id,查询详情
-	 * 
-	 * @param model
-	 * @param projectChangeId
-	 * @return
-	 */
+
 	@RequestMapping(value = "look")
 	public String look(Model model, String projectChangeId) {
 		if (null != projectChangeId) {
@@ -351,12 +305,7 @@ public class ApplyProjectChangeController {
 
 		}
 	}
-	/**
-	 * 修改
-	 * @param model
-	 * @param projectChangeId
-	 * @return
-	 */
+
 	@RequestMapping(value = "modify")
 	public String modify(String storeId,Model model, String projectChangeId,HttpServletRequest request) {
 		if (null != projectChangeId) {
@@ -382,19 +331,11 @@ public class ApplyProjectChangeController {
 
 	}
 	
-	/**
-	 * 更新变更单
-	 * @param changeReason
-	 * @param itemDetail
-	 * @param itemId
-	 * @param itemCount
-	 * @param projectChangeId
-	 * @return
-	 */
+
 	@RequestMapping(value="updateChangeForm")
 	public @ResponseBody String  updateChangeForm(String changeReason, String[] addOrMinusNum,String[] itemDetail, String[] itemId,
 			String[] itemCount, String[]price,String projectChangeId,String orderId,String[] photo,HttpServletRequest request){
-		// 1:判断数量是否为空
+
 
 		if (null != itemId && itemId.length > 0) {
 
@@ -413,12 +354,7 @@ public class ApplyProjectChangeController {
 	}
 	
 
-	/**
-	 * 重新提报
-	 * @param model
-	 * @param projectChangeId
-	 * @return
-	 */
+
 	@RequestMapping(value = "reSubmit")
 	public String reSubmit(String storeId,Model model, String projectChangeId,HttpServletRequest request) {
 		if (null != projectChangeId ) {
@@ -447,19 +383,11 @@ public class ApplyProjectChangeController {
 	
 	
 
-	/**
-	 * 重新提报
-	 * @param changeReason
-	 * @param itemDetail
-	 * @param itemId
-	 * @param itemCount
-	 * @param projectChangeId
-	 * @return
-	 */
+
 	@RequestMapping(value="reSubmitBill")
 	public @ResponseBody String  reSubmitBill(String changeReason, String[] addOrMinusNum,String[] itemDetail, String[] itemId,
 			String[] itemCount,String[]price, String projectChangeId,String orderId,String[] photo,HttpServletRequest request){
-		// 1:判断数量是否为空
+
 
 		if (null != itemId && itemId.length > 0) {
 
@@ -477,11 +405,7 @@ public class ApplyProjectChangeController {
 	
 	}
 	
-	/**
-	 * 查看图片
-	 * @param model
-	 * @return
-	 */
+
 	@RequestMapping(value="querySignaturePic")
 	public String querySignaturePic(String businessType, Integer businessID,Model model){
 		List<BusinessPic> list = businessPicService.getByBusType(businessType,businessID);

@@ -25,11 +25,7 @@ import cn.damei.service.modules.BizStarSettingService;
 import cn.damei.entity.modules.User;
 import cn.damei.common.utils.UserUtils;
 
-/**
- * 工人星级设置Controller
- * @author ws
- * @version 2017-09-05
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/starSetting/starRatingSetting")
 public class BizStarSettingController extends BaseController {
@@ -58,7 +54,7 @@ public class BizStarSettingController extends BaseController {
 	public String list(BizStarSetting bizStarSetting, HttpServletRequest request, HttpServletResponse response, Model model) {
 		
 		User user = UserUtils.getUser();
-		//过滤门店
+
 		if(null==bizStarSetting.getStoreId()){
 			if(null!=user.getStoreId()){
 				bizStarSetting.setStoreId(Integer.valueOf(user.getStoreId()));
@@ -74,7 +70,7 @@ public class BizStarSettingController extends BaseController {
 		public String list1(BizStarSetting bizStarSetting, HttpServletRequest request, HttpServletResponse response, Model model) {
 			
 			User user = UserUtils.getUser();
-			//过滤门店
+
 			if(null==bizStarSetting.getStoreId()){
 				if(null!=user.getStoreId()){
 					bizStarSetting.setStoreId(Integer.valueOf(user.getStoreId()));
@@ -190,7 +186,7 @@ public class BizStarSettingController extends BaseController {
 			return form(bizStarSetting, model);
 		}
 		bizStarSettingService.update(bizStarSetting);
-		//addMessage(redirectAttributes, "更新星级分数区间成功");
+
 		return "redirect:"+Global.getAdminPath()+"/starSetting/starRatingSetting/list";
 	}
 	

@@ -10,11 +10,7 @@ import cn.damei.common.service.CrudService2;
 import cn.damei.dao.modules.BizAuxiliaryMaterialsVerifyIncludeDao;
 import cn.damei.entity.modules.BizAuxiliaryMaterialsVerifyInclude;
 
-/**
- * 对账单包含辅料Service
- * @author hyh
- *
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizAuxiliaryMaterialsVerifyIncludeService extends CrudService2<BizAuxiliaryMaterialsVerifyIncludeDao, BizAuxiliaryMaterialsVerifyInclude>{

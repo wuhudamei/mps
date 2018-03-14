@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.util.List;
@@ -13,12 +11,7 @@ import cn.damei.common.service.CrudService;
 import cn.damei.dao.modules.BizSupplierDao;
 import cn.damei.entity.modules.BizSupplier;
 
-/**
- * 供应商管理Service
- * 
- * @author lc
- * @version 2016-09-08
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizSupplierService extends CrudService<BizSupplierDao, BizSupplier> {

@@ -3,19 +3,10 @@ package cn.damei.entity.modules;
 import java.util.Date;
 
 import cn.damei.common.persistence.DataEntity;
-/**
- * 
- * @author 梅浩
- * @2016年11月27日
- * @mdn大美装饰管理平台
- * @author_phone : 18610507472
- * @ClassInfo:质检罚款明细查询
- */
+
 public class InspectPunishMoneyQueryEntity  extends DataEntity<InspectPunishMoneyQueryEntity>{
 
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	private Integer checkItemId;
 	public Integer getCheckItemId() {
@@ -227,7 +218,7 @@ public class InspectPunishMoneyQueryEntity  extends DataEntity<InspectPunishMone
 	public void setOrderNumber(String orderNumber) {
 		this.orderNumber = orderNumber;
 	}
-	//17-2-16  加入多的查询条件
+
 	private  String workerGroupLeaderName;
 	
 	private Integer engineDepartId;

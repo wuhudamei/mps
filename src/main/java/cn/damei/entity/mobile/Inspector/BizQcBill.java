@@ -6,34 +6,32 @@ import cn.damei.common.persistence.DataEntity2;
 
 public class BizQcBill  extends DataEntity2<BizQcBill>{
 
-	/**
-	 * 质检端,抽检单
-	 */
+
 	private static final long serialVersionUID = 1L;
 
-	private Integer qcBillId;	//抽检单id
-	private String qcBillCode; // 抽检单编号
-	private String qcBillType; // 抽检单类型 1约检单  2抽检单
+	private Integer qcBillId;
+	private String qcBillCode;
+	private String qcBillType;
 	
-	private String isRecheck; // 是否复检
-	private Integer relatedQcBillId; // 关联抽检单id
+	private String isRecheck;
+	private Integer relatedQcBillId;
 	
-	private Integer orderId; // 订单id
-	private Integer qcCheckNodeId; // 检查节点id
-	private String applyRemarks; // 申请备注
+	private Integer orderId;
+	private Integer qcCheckNodeId;
+	private String applyRemarks;
 	
-	private String status; // 状态 -- '抽检单状态：-1.未选择检查项；0.暂存；5.提交报告；
+	private String status;
 	
 	
-	private Integer applyEmployeeId; // 质检申请人员工id
-	private Integer checkEmployeeId; // 实际质检人员工id
+	private Integer applyEmployeeId;
+	private Integer checkEmployeeId;
 	
-	private Date checkDatetime; // 质检日期时间
-	private Date expectCheckDatetime; // 期望质检日期时间
-	private Date acceptCheckDatetime; // 验收日期时间
+	private Date checkDatetime;
+	private Date expectCheckDatetime;
+	private Date acceptCheckDatetime;
 	
-	private Double totalScore; // 总分
-	private Double gotScore; // 实际得分
+	private Double totalScore;
+	private Double gotScore;
 	public Integer getQcBillId() {
 		return qcBillId;
 	}

@@ -3,8 +3,8 @@ package cn.damei.entity.modules;
 public class BizOrderComArae
 {
 
-	private String value;// 标识
-	private String label; // 区域说明
+	private String value;
+	private String label;
 
 	public String getValue()
 	{

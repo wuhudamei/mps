@@ -5,22 +5,20 @@ import java.util.Date;
 
 public class PhoneMessageEntity  implements Serializable{
 
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 
 	
-	private  Integer  messageId;//主键
-	private Integer  receiveEmployeeId;//接收人id
-	private String receivePhone;//接受人手机
-	private String messageContent;//短信内容
-	private Date messageGenerateTime;//短信生成时间
-	private Date messageToSendTime;//短信期望发送时间
-	private Date messageSendedTime;//短信实际发送时间
-	private String status;//短信状态
-	private Integer relatedBusinessId;//关键业务id
-	private String  relatedBusinessType;//关联业务类型
+	private  Integer  messageId;
+	private Integer  receiveEmployeeId;
+	private String receivePhone;
+	private String messageContent;
+	private Date messageGenerateTime;
+	private Date messageToSendTime;
+	private Date messageSendedTime;
+	private String status;
+	private Integer relatedBusinessId;
+	private String  relatedBusinessType;
 	private String relatedBusinessVarchar;
 
 	public String getRelatedBusinessVarchar() {

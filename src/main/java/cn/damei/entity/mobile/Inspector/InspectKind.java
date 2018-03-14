@@ -5,32 +5,26 @@ import java.util.List;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 检查分类  
- * @author 梅浩
- *
- */
+
 public class InspectKind  extends DataEntity2<InspectKind>{
 
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 
-	private Integer inspectBillId;//质检单id
-	private Integer checkKindId;//检查分类id
-	private String checkKindName;//检查分类名称
-	private List<InspectItem> checkItemList;//检查分类下的检查项集合
-	private String isChoosed;//是否选过   1是选过 0是没选过
-	private String status;//状态			0.暂存；2.项目经理已申请；5.已检查完成；6.已确认验收；
+	private Integer inspectBillId;
+	private Integer checkKindId;
+	private String checkKindName;
+	private List<InspectItem> checkItemList;
+	private String isChoosed;
+	private String status;
 	
-	private Integer actualCheckPersonId;// 实际质检人id
-	private  Date checkDate;//质检时间
-	private Double  totalScores;//总分
-	private Double actualScores;//实际得分
+	private Integer actualCheckPersonId;
+	private  Date checkDate;
+	private Double  totalScores;
+	private Double actualScores;
 	private Integer orderId;
 	private Integer checkNodeId;
-	private String   projectMode;//VO 工程模式
+	private String   projectMode;
 	
 	
 	

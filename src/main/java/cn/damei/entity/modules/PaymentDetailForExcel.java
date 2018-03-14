@@ -4,8 +4,8 @@ import java.util.Date;
 
 public class PaymentDetailForExcel {
 	
-	private String settlementCode;//结算单编号
-	private String summaryCode;//批次编号
+	private String settlementCode;
+	private String summaryCode;
 	private String customerName;
 	private String customerPhone;
 	private String customerAddress;

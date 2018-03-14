@@ -8,7 +8,7 @@ public class NodePlan extends DataEntity2<NodePlan>{
 	private static final long serialVersionUID = 1L;
 	
 	private Integer id;
-	private Integer orderId; // 订单编号
+	private Integer orderId;
 	private String nodeName;
 	private Integer nodeIndex;
 	private Date planDoneDate;
@@ -24,7 +24,7 @@ public class NodePlan extends DataEntity2<NodePlan>{
 	private String updateByAuthor;
 	private Integer projectMode;
 	private Integer constructionScheduleId;
-	/*计划审核日期*/
+
 	private Date planCheckTime;
 
 
@@ -42,7 +42,7 @@ public class NodePlan extends DataEntity2<NodePlan>{
 	public void setProjectMode(Integer projectMode) {
 		this.projectMode = projectMode;
 	}
-	//
+
 	private String communityName;
 	private String buildNumber;
 	private String buildUnit;

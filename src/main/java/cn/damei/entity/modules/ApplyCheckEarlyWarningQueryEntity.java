@@ -5,10 +5,7 @@ import cn.damei.common.persistence.DataEntity;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Created by joseph on 2017/5-22
- * 约检验收预警查询
- */
+
 public class ApplyCheckEarlyWarningQueryEntity  extends DataEntity<ApplyCheckEarlyWarningQueryEntity>{
 
 

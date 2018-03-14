@@ -14,15 +14,15 @@ public class MaterialWarningSerivce extends CrudService<MaterialWarningDao,Mater
 	@Autowired
 	private MaterialWarningDao materialWarningDao;
 	public List<String> findAllDelayOrderId(int i) {
-		// TODO Auto-generated method stub
+
 		return materialWarningDao.findAllDelayOrderId(i);
 	}
 	public List<String> findCompleteOrderId() {
-		// TODO Auto-generated method stub
+
 		return materialWarningDao.findCompleteOrderId();
 	}
 	public List<MaterialWarning> findCountOrder(List<String> list) {
-		// TODO Auto-generated method stub
+
 		return materialWarningDao.findCountOrder(list);
 	}
 

@@ -30,15 +30,11 @@ import cn.damei.entity.modules.BizMessagegroup;
 import cn.damei.service.modules.BizMessagegroupService;
 import cn.damei.entity.modules.BizPhoneMsg;
 import cn.damei.service.modules.BizPhoneMsgService;
-/**
- * 客户审核变更单
- * @author Administrator
- *
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/app/home/applyProjectChange")
 public class ProjectChangeController {
-	private  Logger logger = LoggerFactory.getLogger(ProjectChangeController.class);// 日志
+	private  Logger logger = LoggerFactory.getLogger(ProjectChangeController.class);
 	@Autowired
 	private ProjectChangeService applyProjectChangeService;
 	@Autowired
@@ -52,17 +48,12 @@ public class ProjectChangeController {
 
 	
 
-	/**
-	 * 客户审核列表页
-	 * @param request
-	 * @param model
-	 * @return
-	 */
+
 	@RequestMapping(value = "list")
 	public String list(HttpServletRequest request, Model model) {
 		CustomerVo customerVo =SessionUtils.getCustomerSession(request);
 		String phone = customerVo.getPhone();
-		// 根据客户手机号,查询变更单
+
 		if (null != phone) {
 			List<ApplyProjectChangeEntity> list = applyProjectChangeService.findChangeList(phone);
 
@@ -72,25 +63,20 @@ public class ProjectChangeController {
 		return "mobile/modules/home/change_list";
 	}
 	
-	/**
-	 * 客户审核通过
-	 * @return
-	 */
+
 	@RequestMapping(value = "agree",method=RequestMethod.GET)
 	public @ResponseBody String agree(String projectChangeId,String reason,HttpServletRequest request, Model model) {
-		//客户审核
+
 		String status = "40";
 		applyProjectChangeService.updateChangeBill(projectChangeId,reason,status);
 		
-		//通过变更单id查询客户信息
+
 		BizProjectChangeBill change = bizProjectChangeBillService.findDetails(Integer.valueOf(projectChangeId));
 		
 		
-		//=====================================短信start========================================================
-		/**
-		 * 客户审核==通过==项目经理
-		 */
-		//【大美装饰管理平台】订单（小区名-楼号-单元号-门牌号-客户姓名-手机号），施工变更单客户已审核通过，请登录APP查看详情。
+
+
+
 		String content = "订单（"+change.getCommunityName()+"-"+change.getBuildNumber()+"-"+change.getBuildUnit()+"-"+change.getBuildRoom()+"-"+change.getCustomerName()+"-"+change.getCustomerPhone()+"），施工变更单客户已审核通过，请登录APP查看详情。";
 		BizPhoneMsg phone = new BizPhoneMsg();
 		phone.setReceiveEmployeeId(change.getItemManagerId());
@@ -102,10 +88,8 @@ public class ProjectChangeController {
 		phone.setRelatedBusinessIdInt(Integer.valueOf(projectChangeId));
 		bizPhoneMsgService.insert(phone);
 
-		/**
-		 * 客户审核==通过==财务
-		 */
-		//【大美装饰管理平台】订单（小区名-楼号-单元号-门牌号-客户姓名-手机号），施工变更单客户已审核通过，请及时登录系统存档。
+
+
 		String content2 = "订单（"+change.getCommunityName()+"-"+change.getBuildNumber()+"-"+change.getBuildUnit()+"-"+change.getBuildRoom()+"-"+change.getCustomerName()+"-"+change.getCustomerPhone()+"），施工变更单客户已审核通过，请及时登录系统存档。";
 		BizMessagegroup bizMessagegroup = bizMessagegroupService.getByStoreId(change.getStoreId(),"10");
 		List<Integer> list = new ArrayList<Integer>();
@@ -131,10 +115,8 @@ public class ProjectChangeController {
 				}
 			}
 		}
-		/**
-		 * 客户审核==通过==设计师
-		 */
-		//【大美装饰管理平台】订单（小区名-楼号-单元号-门牌号-客户姓名-手机号），施工变更单客户已审核通过，请登录系统查看详情。
+
+
 		String content3 = "订单（"+change.getCommunityName()+"-"+change.getBuildNumber()+"-"+change.getBuildUnit()+"-"+change.getBuildRoom()+"-"+change.getCustomerName()+"-"+change.getCustomerPhone()+"），施工变更单客户已审核通过，请登录系统查看详情。";
 		BizPhoneMsg phone3 = new BizPhoneMsg();
 		phone3.setReceivePhone(change.getDesignerPhone());
@@ -145,10 +127,8 @@ public class ProjectChangeController {
 		phone3.setRelatedBusinessIdInt(Integer.valueOf(projectChangeId));
 		bizPhoneMsgService.insert(phone3);
 		
-		/**
-		 * 客户审核==通过==审计员
-		 */
-		//【大美装饰管理平台】订单（小区名-楼号-单元号-门牌号-客户姓名-手机号），施工变更单客户已审核通过，请登录系统查看详情。
+
+
 		String content4 = "订单（"+change.getCommunityName()+"-"+change.getBuildNumber()+"-"+change.getBuildUnit()+"-"+change.getBuildRoom()+"-"+change.getCustomerName()+"-"+change.getCustomerPhone()+"），施工变更单客户已审核通过，请登录系统查看详情。";
 		BizMessagegroup bizMessagegroup2 = bizMessagegroupService.getByStoreId(change.getStoreId(),"11");
 		List<Integer> list2 = new ArrayList<Integer>();
@@ -175,28 +155,23 @@ public class ProjectChangeController {
 			}
 		}
 		
-		//=====================================短信end========================================================
+
 		return "0";
 	}
-	/**
-	 * 客户审核不通过
-	 * @return
-	 */
+
 	@RequestMapping(value = "refuse",method=RequestMethod.GET)
 	public @ResponseBody String refuse(String projectChangeId,String reason,HttpServletRequest request, Model model) {
-		//客户审核
+
 		String status = "35";
 		applyProjectChangeService.updateChangeBill(projectChangeId,reason,status);
 		
-		//通过变更单id查询客户信息
+
 		BizProjectChangeBill change = bizProjectChangeBillService.findDetails(Integer.valueOf(projectChangeId));
 		
 		
-		//=====================================短信start========================================================
-		/**
-		 * 客户审核==驳回==项目经理
-		 */
-		//【大美装饰管理平台】订单（小区名-楼号-单元号-门牌号-客户姓名-手机号），施工变更单客户审核不通过，驳回原因（原因），请登录APP重新提交。
+
+
+
 		String content = "订单（"+change.getCommunityName()+"-"+change.getBuildNumber()+"-"+change.getBuildUnit()+"-"+change.getBuildRoom()+"-"+change.getCustomerName()+"-"+change.getCustomerPhone()+"），施工变更单客户审核不通过，驳回原因（"+reason+"），请登录APP重新提交。";
 		BizPhoneMsg phone = new BizPhoneMsg();
 		phone.setReceiveEmployeeId(change.getItemManagerId());
@@ -207,7 +182,7 @@ public class ProjectChangeController {
 		phone.setRelatedBusinessType(SendMsgBusinessType.RELATED_BUSINESS_TYPE_400405);
 		phone.setRelatedBusinessIdInt(Integer.valueOf(projectChangeId));
 		bizPhoneMsgService.insert(phone);
-		//=====================================短信end========================================================
+
 		
 		return "0";
 	}
@@ -217,13 +192,7 @@ public class ProjectChangeController {
 	
 
 
-	/**
-	 * 根据变更单id,查询详情
-	 * 
-	 * @param model
-	 * @param projectChangeId
-	 * @return
-	 */
+
 	@RequestMapping(value = "details")
 	public String details(Model model, Integer projectChangeId) {
 

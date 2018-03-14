@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.util.List;
@@ -13,11 +11,7 @@ import cn.damei.common.service.CrudService2;
 import cn.damei.entity.modules.BizEvalRewardTaskpackTemp;
 import cn.damei.dao.modules.BizEvalRewardTaskpackTempDao;
 
-/**
- * 评价奖励任务包模板Service
- * @author qww
- * @version 2017-02-24
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizEvalRewardTaskpackTempService extends CrudService2<BizEvalRewardTaskpackTempDao, BizEvalRewardTaskpackTemp> {

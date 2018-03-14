@@ -23,11 +23,7 @@ import cn.damei.common.SessionUtils;
 import cn.damei.service.mobile.Manager.PackTimeChangeService;
 import cn.damei.entity.mobile.Manager.TaskPackage;
 
-/** 
-* @author 梅浩   meihao@zzhyun.cn: 
-* @version 创建时间：2016年10月19日 下午5:45:26 
-* 任务包计划调整 
-*/
+
 @Controller
 @RequestMapping(value="${adminPath}/app/manager/packTimeList")
 public class PackTimeChangeController {
@@ -37,7 +33,7 @@ public class PackTimeChangeController {
 	@Autowired
 	private BizPhoneMsgService bizPhoneMsgService;
 	
-	private static Logger logger = LoggerFactory.getLogger(PackTimeChangeController.class);//日志
+	private static Logger logger = LoggerFactory.getLogger(PackTimeChangeController.class);
 	
 	
 	@RequestMapping(value = { "list", "" })
@@ -101,8 +97,8 @@ taskPackage.setItemManagerId(SessionUtils.getManagerSession(request).getId());
 			taskPackage.setRemarks(remarks);
 			service.changePackTime(taskPackage);
 			
-			//===================短信发送=====================================
-			//项目经理调整了项目（小区名-楼号-单元号-门牌号-客户姓名）的任务包（任务包名称）用工计划，请关注”；
+
+
 			List<MessageEmployeePhoneAndId> list= pDao.getEmployeePhoneAndId(Integer.parseInt(SessionUtils.getManagerSession(request).getStoreid()),"6");
 			if(list.size()>0){
 				for (MessageEmployeePhoneAndId entity : list) {

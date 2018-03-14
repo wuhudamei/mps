@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import javax.servlet.http.HttpServletRequest;
@@ -37,11 +35,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * 违规问题统计Controller
- * @author wyb
- * @version 2016-10-31
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/pqc/breakProblem/breakProblem")
 public class BreakProblemController extends BaseController {
@@ -66,7 +60,7 @@ public class BreakProblemController extends BaseController {
 	public String list(BreakProblem breakProblem, HttpServletRequest request, HttpServletResponse response, Model model) {
 		
 		User user = UserUtils.getUser();
-		//过滤门店
+
 		if(null==breakProblem.getStoreId()){
 			if(null!=user.getStoreId()){
 				breakProblem.setStoreId(user.getStoreId());
@@ -75,7 +69,7 @@ public class BreakProblemController extends BaseController {
 		if(StringUtils.isBlank(user.getStoreId())){
 			model.addAttribute("storeDropEnable", true);
 		}
-		//过滤工程模式
+
 		if(StringUtils.isBlank(breakProblem.getProjectMode())){
 			if(StringUtils.isBlank(user.getProjectMode())||user.getProjectMode().equals("3")){
 				model.addAttribute("gongcheng", true);
@@ -97,7 +91,7 @@ public class BreakProblemController extends BaseController {
 	public String breakProblemList(BreakProblem breakProblem, HttpServletRequest request, HttpServletResponse response, Model model) {
 		
 		User user = UserUtils.getUser();
-		//过滤门店
+
 		if(null==breakProblem.getStoreId()){
 			if(null!=user.getStoreId()){
 				breakProblem.setStoreId(user.getStoreId());
@@ -106,7 +100,7 @@ public class BreakProblemController extends BaseController {
 		if(StringUtils.isBlank(user.getStoreId())){
 			model.addAttribute("storeDropEnable", true);
 		}
-		//过滤工程模式
+
 		if(StringUtils.isBlank(breakProblem.getProjectMode())){
 			if(StringUtils.isBlank(user.getProjectMode())||user.getProjectMode().equals("3")){
 				model.addAttribute("gongcheng", true);
@@ -131,7 +125,7 @@ public class BreakProblemController extends BaseController {
 	public String breakProblemDetails(BreakProblem breakProblem, HttpServletRequest request, HttpServletResponse response, Model model) {
 
 		User user = UserUtils.getUser();
-		//过滤门店
+
 		if(null==breakProblem.getStoreId()){
 			if(null!=user.getStoreId()){
 				breakProblem.setStoreId(user.getStoreId());
@@ -140,7 +134,7 @@ public class BreakProblemController extends BaseController {
 		if(StringUtils.isBlank(user.getStoreId())){
 			model.addAttribute("storeDropEnable", true);
 		}
-		//过滤工程模式
+
 		if(StringUtils.isBlank(breakProblem.getProjectMode())){
 			if(StringUtils.isBlank(user.getProjectMode())||user.getProjectMode().equals("3")){
 				model.addAttribute("gongcheng", true);
@@ -167,21 +161,13 @@ public class BreakProblemController extends BaseController {
 		return "modules/PQC/breakProblem/breakProblemDetails";
 	}
 
-    /**
-     * 导出违规问题统计
-     * @param breakProblem
-     * @param request
-     * @param response
-     * @param model
-     * @return
-     * @throws IOException
-     */
+
 	@RequiresPermissions("breakProblem:breakProblem:view")
 	@RequestMapping(value = "searchFormEx")
 	public ModelAndView searchFormEx(BreakProblem breakProblem, HttpServletRequest request, HttpServletResponse response, Model model) throws IOException {
 
 		User user = UserUtils.getUser();
-		//过滤门店
+
 		if(null==breakProblem.getStoreId()){
 			if(null!=user.getStoreId()){
 				breakProblem.setStoreId(user.getStoreId());
@@ -190,7 +176,7 @@ public class BreakProblemController extends BaseController {
 		if(StringUtils.isBlank(user.getStoreId())){
 			model.addAttribute("storeDropEnable", true);
 		}
-		//过滤工程模式
+
 		if(StringUtils.isBlank(breakProblem.getProjectMode())){
 			if(StringUtils.isBlank(user.getProjectMode())||user.getProjectMode().equals("3")){
 				model.addAttribute("gongcheng", true);
@@ -213,7 +199,7 @@ public class BreakProblemController extends BaseController {
 		String filePath = cn.mdni.commons.file.FileUtils.saveFilePath(uploadCategory, uploadUrl, fileName);
 
 
-		//表头
+
 		LinkedHashMap<String, String> headerMapper = Maps.newLinkedHashMap();
 		headerMapper.put("storeName", "门店");
 		headerMapper.put("projectModeName", "工程模式");
@@ -236,13 +222,13 @@ public class BreakProblemController extends BaseController {
 	public ModelAndView exportDetailed(BreakProblem breakProblem, HttpServletRequest request, HttpServletResponse response, Model model) throws IOException {
 
 		User user = UserUtils.getUser();
-		//过滤门店
+
 		if(null==breakProblem.getStoreId()){
 			if(null!=user.getStoreId()){
 				breakProblem.setStoreId(user.getStoreId());
 			}
 		}
-		//过滤工程模式
+
         if(StringUtils.isNotBlank(user.getProjectMode()) && !user.getProjectMode().equals("3")){
             breakProblem.setProjectMode(user.getProjectMode());
         }
@@ -276,27 +262,27 @@ public class BreakProblemController extends BaseController {
         int num = 1;
         for(BreakProblem info : list){
             if(info != null&&null!=info.getCustomerName()){
-                //序号
+
                 String numIndex = String.valueOf(num);
-                //质检员提交报告时间
+
                 String quCreateDateString = info.getQuCreateDateString();
-                //门店
-               // String storeName = info.getStoreName();
-                //工程模式
+
+
+
                 String projectModeName = info.getProjectModeName();
-                //区域
+
                 String enginDepartName = info.getEnginDepartName();
-                //小区
+
                 String customerAddr = info.getCustomerAddr();
-                //客户
+
                 String customerName = info.getCustomerName();
-                //项目经理
+
                 String itemManager = info.getItemManager();
-                //质检员
+
                 String orderInspector = info.getOrderInspector();
-                //责任-项目经理
+
                 String mnagerPerson = (null==info.getMnagerPerson())?"":info.getMnagerPerson();
-                //责任-工人组长
+
                 String workerGroupName = (null==info.getWorkerGroupName())?"":info.getWorkerGroupName();
 
                 ex.darwRowColSpan(index,new String[]{numIndex,quCreateDateString,projectModeName,enginDepartName,customerAddr,customerName,itemManager,orderInspector,mnagerPerson,workerGroupName});

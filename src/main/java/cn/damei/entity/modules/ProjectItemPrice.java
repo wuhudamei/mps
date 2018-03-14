@@ -8,27 +8,21 @@ import org.hibernate.validator.constraints.Length;
 import cn.damei.common.persistence.DataEntity;
 
 
-/** 
-* @ClassName: ProjectItemPrice 
-* @Description: 施工项价格实体类 
-* @author zkj  
-* @date 2017年11月2日 下午4:38:13 
-* @version V1.0 
-*/
+
 public class ProjectItemPrice extends DataEntity<ProjectItemPrice> {
 	
 	private static final long serialVersionUID = 1L;
-	private Integer itemPriceId;		// id -- '
-	private Integer storeId;		// 门店id -- '
-	private Integer projectIntemId;		// 施工项id -- '
-	private String projectIntemPrice;		// 价格 -- '
-	private Integer projectIntemVersion;		// 版本号 -- '
-	private Date effectDate;		// 生效日期 -- '
-	private String projectIntemPriceRemarks;		// 价格备注 -- '
-	private String projectIntemCode;		// 施工项编码
-	private String projectIntemName;		// 施工项名称
-	private String valuationMethod;			//计价方式
-	private String projectIntemCostPrice; //成本单价/成本占比
+	private Integer itemPriceId;
+	private Integer storeId;
+	private Integer projectIntemId;
+	private String projectIntemPrice;
+	private Integer projectIntemVersion;
+	private Date effectDate;
+	private String projectIntemPriceRemarks;
+	private String projectIntemCode;
+	private String projectIntemName;
+	private String valuationMethod;
+	private String projectIntemCostPrice;
 	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
 	public String getEffectDateString() {

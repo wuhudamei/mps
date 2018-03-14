@@ -21,12 +21,7 @@ import cn.damei.common.web.BaseController;
 
 import net.sf.json.JSONObject;
 
-/**
- * 综管系统和产业工人打通接口-基装成本
- * 
- * @author hyh
- *
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/api/baseLoadingCost")
 public class BaseLoadingCostController extends BaseController {
@@ -47,7 +42,7 @@ public class BaseLoadingCostController extends BaseController {
 		}
 		String[] paramArr = new String[] { "orderId=" + orderId };
 		String myKey = KeyAuthenticateUtils2.getKey(paramArr, BizOrderReportConstantUtil.REMOTE_INTERFACE_PARAM_KEY);
-		if (!myKey.equals(key)) {// 签名认证失败
+		if (!myKey.equals(key)) {
 			map.put("code", "0");
 			map.put("message", "签名认证失败");
 			return JSONObject.fromObject(map).toString();
@@ -74,7 +69,7 @@ public class BaseLoadingCostController extends BaseController {
 		}
 		String[] paramArr = new String[] { "orderId=" + orderId };
 		String myKey = KeyAuthenticateUtils2.getKey(paramArr, BizOrderReportConstantUtil.REMOTE_INTERFACE_PARAM_KEY);
-		if (!myKey.equals(key)) {// 签名认证失败
+		if (!myKey.equals(key)) {
 			map.put("code", "0");
 			map.put("message", "签名认证失败");
 			return JSONObject.fromObject(map).toString();

@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import java.util.Date;
@@ -29,11 +27,7 @@ import cn.damei.service.modules.BizPmAttendSalaryBillService;
 import cn.damei.service.modules.BizPmAttendSalarySummaryBillService;
 import cn.damei.service.modules.SysSequenceService;
 
-/**
- * 月度工资单批次Controller
- * @author wl
- * @version 2017-08-10
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/attend/bizPmAttendSalarySummaryBill")
 public class BizPmAttendSalarySummaryBillController extends BaseController {
@@ -85,13 +79,13 @@ public class BizPmAttendSalarySummaryBillController extends BaseController {
 		bizPmAttendSalarySummaryBill.setGeneratedDatetime(date);
 		bizPmAttendSalarySummaryBill.setStatus("10");
 		String sequence = sysSequenceService.getSequence(BizAttendBillConstantUtil.GZPC_NO);
-		//工资批次号
+
 		String gzpcNo = sequence.substring(0,4);
-		//顺序码
+
 		String No = sequence.substring(2);
-		//时间
+
 		String date1 = BizAttendBillConstantUtil.getDate(new Date());
-		//工资批次编号
+
 		String[] split = salaryBillIds.split(",");
 		Boolean flag = true;
 		for(int i=0; i<split.length;i++){

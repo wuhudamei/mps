@@ -8,32 +8,30 @@ import cn.damei.common.persistence.DataEntity2;
 
 public class SettlementForDetail extends DataEntity2<SettlementForDetail>{
 
-	/**
-	 * 结算单的明细查询entity
-	 */
+
 	private static final long serialVersionUID = 1L;
 	
-	private Integer storeId; //门店
+	private Integer storeId;
 	private String projectMode;
 	private String settlementNo; 
 	private String status;
-	private String orderTaskpackageCode; //任务包编号
+	private String orderTaskpackageCode;
 	private Integer orderTaskpackageId; 
 	private String packageName;
 	private Integer groupId;
 	private String groupRealname;
-	private String orderNumber; //订单 表
+	private String orderNumber;
 	private String customerName; 
 	private String customerMessage;
 	private String itemCustomer;
 	private Integer itemManagerId;
-	private String communityName; //订单表
-	private Double settlementAmount;//结算金额
-	private Double budgetAmount; //预算金额
-	private Date checkDate; //验收时间
-	private Date approveSalaryTime; //工人同意薪酬时间
+	private String communityName;
+	private Double settlementAmount;
+	private Double budgetAmount;
+	private Date checkDate;
+	private Date approveSalaryTime;
 	
-	private List<String> statusList = null; //状态
+	private List<String> statusList = null;
 	private Date beginCheckDate;
 	private Date endCheckDate;
 	private Date beginApproveSalaryTime;

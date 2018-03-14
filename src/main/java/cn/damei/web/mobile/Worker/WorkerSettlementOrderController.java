@@ -81,12 +81,7 @@ public class WorkerSettlementOrderController extends BaseController{
 	private BizEvalRewardTaskpackService bizEvalRewardTaskpackService;
 	@Autowired
 	private BizPhoneMsgService bizPhoneMsgService;
-	/**
-	 * 查询结算任务包 所有工人
-	 * @param model
-	 * @param request
-	 * @return
-	 */
+
 	
 	@RequestMapping(value="salaryList")
 	public String salaryList(Model model, HttpServletRequest request){
@@ -94,44 +89,38 @@ public class WorkerSettlementOrderController extends BaseController{
 		Worker worker = SessionUtils.getWorkerSession(request);
 		
 		Integer employeeId = worker.getId(); 
-		//根据员工id去查询工人组id
+
 		EmployeeGroupRa employeeGroupRa = employeeGroupRaService.findByEmployeeId(employeeId);
 		
-		//根据工人组id查询组长的id
+
 		EmployeeGroupVo employeeGroupVo = employeeGroupVoService.findById(employeeGroupRa.getGroupId());
 		
-		//根据组长id查询任务包
+
 		List<WorkTaskPackage> list = workTaskPackageService.findTaskPackageForSettlement(employeeGroupVo.getGroupid());
 		
 		model.addAttribute("list", list);
 		
 		if(employeeGroupRa.getIsLead()==1){
-			//组长
+
 			return "mobile/modules/Worker/chief_salary";
 		}else{
-			//工人
+
 			return "mobile/modules/Worker/worker_salary";
 		}
 	}
 	
-	/**
-	 * 确认薪酬  工人
-	 * @param id 任务包id
-	 * @param model
-	 * @param request
-	 * @return
-	 */
+
 	@RequestMapping(value="confirmWorker")
 	public String confirmWorker(Integer id,Model model, HttpServletRequest request){
-		//查询工人信息
+
 		Worker worker = SessionUtils.getWorkerSession(request);
-		//查询任务包信息
+
 		WorkTaskPackage workTaskPackage = workTaskPackageService.findTaskPackageById(id);
 		BizEmployee2 employee = bizEmployeeService2.get(workTaskPackage.getManagerId());
 		workTaskPackage.setManagerPhone(employee.getPhone());
-		//结算单
+
 		BizOrderTaskpackageSettlement bizOrderTaskpackageSettlement = bizOrderTaskpackageSettlementService.findByOrderTaskpackageId(id);
-		//酬薪分配
+
 		OrderTaskpackageSettlementDetail payment = orderTaskpackageSettlementDetailService.findByGroupIdAndTaskPackageId(worker.getId(),id);
 		payment.setEmployeeName(worker.getRealname());
 		model.addAttribute("workTaskPackage",workTaskPackage);
@@ -142,11 +131,7 @@ public class WorkerSettlementOrderController extends BaseController{
 	}
 	
 	
-	/**
-	 * 确认薪酬  组长
-	 * @param id 任务包id
-	 * @return
-	 */
+
 	@RequestMapping(value="confirmChief")
 	public String confirmChief(Integer id,Integer settleStyle, Model model, HttpServletRequest request){
 		
@@ -173,21 +158,21 @@ public class WorkerSettlementOrderController extends BaseController{
 		for (BizOrderTaskpackageProcedure procedure : procedures) {
 			double a = 0;
 			double b = 0;
-			if (settleStyle == 0 || settleStyle == 1) {// 包工包料
-				a = procedure.getSettlementNumber()*procedure.getSynthesizePrice();//实际每道工序的价格
-				b = procedure.getBudgetNumber()*procedure.getSynthesizePrice();//预计每道工序的价格
-			} else {// 包工
+			if (settleStyle == 0 || settleStyle == 1) {
+				a = procedure.getSettlementNumber()*procedure.getSynthesizePrice();
+				b = procedure.getBudgetNumber()*procedure.getSynthesizePrice();
+			} else {
 				a = procedure.getSettlementNumber() * procedure.getLaborPrice();
 				b = procedure.getBudgetNumber() * procedure.getLaborPrice();
 			}
 			procedure.setBudgetTotal(b);
-			settleTotalMoney = settleTotalMoney + a;//实际总价
-			budgetTotalMoney = budgetTotalMoney + b;//预计总价
+			settleTotalMoney = settleTotalMoney + a;
+			budgetTotalMoney = budgetTotalMoney + b;
 		}
 		settleTotalMoney = Double.parseDouble(df.format(settleTotalMoney));
 		budgetTotalMoney = Double.parseDouble(df.format(budgetTotalMoney));
 
-		// 评价奖励金额
+
 		Double rewardAmount = bizEvalRewardTaskpackService.queryRewardAmount(id);
 
 		model.addAttribute("rewardAmount", rewardAmount);
@@ -197,7 +182,7 @@ public class WorkerSettlementOrderController extends BaseController{
 		model.addAttribute("payments",payments);
 		model.addAttribute("paymentGroup", paymentGroup);
 		
-		if (settleStyle == 0 || settleStyle == 1) {// 包工包料
+		if (settleStyle == 0 || settleStyle == 1) {
 			return "mobile/modules/Worker/chief_salary_details";
 		} else {
 			return "mobile/modules/Worker/chief_salary_pkgwork_details";
@@ -206,31 +191,26 @@ public class WorkerSettlementOrderController extends BaseController{
 		
 	}
 	
-	/**
-	 * ajax接受时修改状态
-	 * @param groupId
-	 * @return
-	 * @throws UnsupportedEncodingException 
-	 */
+
 	@RequestMapping(value="acceptSalary",method=RequestMethod.POST)
 	public @ResponseBody String acceptSalary(Integer groupId,Integer taskPackageId,HttpServletRequest request,HttpServletResponse response) throws UnsupportedEncodingException{
 		
 		WorkTaskPackage workTaskPackage = workTaskPackageService.findTaskPackageById(taskPackageId);
 		if(workTaskPackage.getPackageStateid().equals("110") || workTaskPackage.getPackageStateid().equals("120")){
-			return "3";//工人已确认或者拒绝分配薪酬
+			return "3";
 		}
 		Worker worker = SessionUtils.getWorkerSession(request);
-		//根据任务id和员工id查询薪酬分配
+
 		OrderTaskpackageSettlementDetail payment =orderTaskpackageSettlementDetailService.findByGroupIdAndTaskPackageId(worker.getId(),taskPackageId);
-		//更新状态结算单明细 '1'表示接受
+
 		orderTaskpackageSettlementDetailService.updateStatus(payment.getId(),"1",new Date());
 		
-		//根据任务包id查询结算单明细
+
 		List<OrderTaskpackageSettlementDetail> payments = orderTaskpackageSettlementDetailService.findByOrderTaskpackageId(taskPackageId);
 		
 		boolean flag = true;
 		for (OrderTaskpackageSettlementDetail paymentVo : payments) {
-			if(paymentVo.getStatus().equals("2")){//未处理
+			if(paymentVo.getStatus().equals("2")){
 				flag = false;
 				break;
 			}
@@ -239,13 +219,13 @@ public class WorkerSettlementOrderController extends BaseController{
 		
 		BizEmployee2 employee = bizEmployeeService2.findEmployeeById(workTaskPackage.getGroupId());
 		BizEmployee2 manager = bizEmployeeService2.get(workTaskPackage.getManagerId());
-		//（任务包名称）工人已同意分配薪金（地点+业主名称+工期+工人组长+手机号） DateUtils.formatDate
+
 		if(flag){
 			
-			//表示所有的人都已经同意薪酬分配
-			//修改结算单状态
+
+
 			workTaskPackageService.updateOrderTaskPackage(taskPackageId,"120","工人已确认分配金额");
-			//给项目经理发短信--  订单（小区名-楼号-单元号-门牌号-客户姓名-手机号）的任务包（任务包名称），工人（工人组长-手机号）工人已确认薪酬，请登录APP查看详情。
+
 			String content1 = "订单（"+workTaskPackage.getCustomerMessage()+"-"+workTaskPackage.getCustomerName()+"-"+workTaskPackage.getCustomerPhone()+"）的任务包（"+workTaskPackage.getPackageName()+"），工人（"+employee.getRealname()+"-"+employee.getPhone()+"）已确认薪酬，请登录APP查看详情。";
 			bizPhoneMsgService.sendMessage(workTaskPackage.getManagerId(), manager.getPhone(),
 					content1, SendMsgBusinessType.RELATED_BUSINESS_TYPE_200902, taskPackageId);
@@ -261,7 +241,7 @@ public class WorkerSettlementOrderController extends BaseController{
 			messageService.insert(message);
 			
 			
-			//给结算员发短信-- 订单（小区名-楼号-单元号-门牌号-客户姓名-手机号）的任务包（任务包名称），项目经理（姓名-电话），工人（工人组长-手机号）工人已确认薪酬，请及时登录系统进行审核。
+
 			BizMessagegroup bizMessagegroup = bizMessagegroupService.getByStoreId(workTaskPackage.getStoreId()+"","7");
 			if(bizMessagegroup != null){
 				List<Integer> list = new ArrayList<Integer>();
@@ -281,19 +261,11 @@ public class WorkerSettlementOrderController extends BaseController{
 			}
 			return "1";
 		}else{
-			//表示有人未处理
+
 			return "2";
 		}
 	}
-	/**
-	 * 修改任务包的状态
-	 * @param taskPackageId
-	 * @param packageStateid
-	 * @param packageStatename
-	 * @param request
-	 * @param response
-	 * @return
-	 */
+
 	@RequestMapping(value="updateOrderTaskPackageStatus")
 	public String updateOrderTaskPackageStatus(Integer taskPackageId,String packageStateid,String packageStatename, HttpServletRequest request,HttpServletResponse response){
 		
@@ -302,17 +274,7 @@ public class WorkerSettlementOrderController extends BaseController{
 		return "redirect:" + Global.getAdminPath() + "/app/worker/salaryList";
 	}
 	
-	/**
-	 * 拒绝薪酬分配
-	 * @param groupId
-	 * @param taskPackageId
-	 * @param packageStateid
-	 * @param packageStatename
-	 * @param request
-	 * @param response
-	 * @return
-	 * @throws UnsupportedEncodingException 
-	 */
+
 	@RequestMapping(value= "refuseSalary")
 	public String refuseSalary(Integer groupId,Integer taskPackageId,String packageStateid,String packageStatename, HttpServletRequest request,HttpServletResponse response) throws UnsupportedEncodingException{
 		
@@ -321,7 +283,7 @@ public class WorkerSettlementOrderController extends BaseController{
 		WorkTaskPackage workTaskPackage = workTaskPackageService.findTaskPackageById(taskPackageId);
 		
 		if(workTaskPackage.getPackageStateid().equals("110") || workTaskPackage.getPackageStateid().equals("120")){
-			return "redirect:" + Global.getAdminPath() + "/app/worker/salaryList";//工人已确认或者拒绝分配薪酬
+			return "redirect:" + Global.getAdminPath() + "/app/worker/salaryList";
 		}
 		
 		OrderTaskpackageSettlementDetail payment = orderTaskpackageSettlementDetailService.findByGroupIdAndTaskPackageId(groupId,taskPackageId);
@@ -332,9 +294,9 @@ public class WorkerSettlementOrderController extends BaseController{
 		
 		BizEmployee2 employee = bizEmployeeService2.findEmployeeById(workTaskPackage.getGroupId());
 		BizEmployee2 manager = bizEmployeeService2.get(workTaskPackage.getManagerId());
-	//	BizEmployee2 worker = bizEmployeeService2.get(workTaskPackage.getManagerId());
+
 		
-		//订单（小区名-楼号-单元号-门牌号-客户姓名-手机号）的任务包（任务包名称），工人（工人组长-手机号）工人已拒绝薪酬，请及时登录APP重新分配薪酬。
+
 		String content1 = "订单（"+workTaskPackage.getCustomerMessage()+"-"+workTaskPackage.getCustomerName()+"-"+workTaskPackage.getCustomerPhone()+"）的任务包（"+workTaskPackage.getPackageName()+"），工人（"+employee.getRealname()+"-"+employee.getPhone()+"）已拒绝薪酬，请及时登录APP重新分配薪酬。";
 		bizPhoneMsgService.sendMessage(workTaskPackage.getManagerId(), manager.getPhone(),
 				content1, SendMsgBusinessType.RELATED_BUSINESS_TYPE_200903, taskPackageId);
@@ -368,20 +330,20 @@ public class WorkerSettlementOrderController extends BaseController{
 		for (BizOrderTaskpackageProcedure procedure : procedures) {
 			double a = 0;
 			double b = 0;
-			if (settleStyle == 0 || settleStyle == 1) {//包工包料
-				a = procedure.getSettlementNumber()*procedure.getSynthesizePrice();//实际每道工序的价格
-				b = procedure.getBudgetNumber()*procedure.getSynthesizePrice();//预计每道工序的价格
-			} else {// 包工
+			if (settleStyle == 0 || settleStyle == 1) {
+				a = procedure.getSettlementNumber()*procedure.getSynthesizePrice();
+				b = procedure.getBudgetNumber()*procedure.getSynthesizePrice();
+			} else {
 				a = procedure.getSettlementNumber() * procedure.getLaborPrice();
 				b = procedure.getBudgetNumber() * procedure.getLaborPrice();
 			}
 			
 			procedure.setBudgetTotal(b);
-			settleTotalMoney = settleTotalMoney + a;//结算总价
-			budgetTotalMoney = budgetTotalMoney + b;//预计总价
+			settleTotalMoney = settleTotalMoney + a;
+			budgetTotalMoney = budgetTotalMoney + b;
 		}
 
-		// 评价奖励金额
+
 		Double rewardAmount = bizEvalRewardTaskpackService.queryRewardAmount(id);
 
 		model.addAttribute("rewardAmount",rewardAmount);
@@ -392,9 +354,9 @@ public class WorkerSettlementOrderController extends BaseController{
 		model.addAttribute("bizOrderTaskpackageSettlement", bizOrderTaskpackageSettlement);
 		model.addAttribute("settleStyle", settleStyle);
 		
-		if (settleStyle == 0 || settleStyle == 1) { // 包工包料
+		if (settleStyle == 0 || settleStyle == 1) {
 			return "mobile/modules/Worker/account";
-		} else { // 包工
+		} else {
 			return "mobile/modules/Worker/account_pkgwork";
 		}
 	}
@@ -412,16 +374,16 @@ public class WorkerSettlementOrderController extends BaseController{
 			for (BizOrderTaskpackageProcedure procedure : procedures) {
 				double a = 0d;
 				double b = 0d;
-				if (settleStyle == 0 || settleStyle == 1) { // 包工包料
-					a = procedure.getRealNumber()*procedure.getSynthesizePrice();//实际每道工序的价格
-					b = procedure.getBudgetNumber()*procedure.getSynthesizePrice();//预计每道工序的价格
-				} else {// 包工
+				if (settleStyle == 0 || settleStyle == 1) {
+					a = procedure.getRealNumber()*procedure.getSynthesizePrice();
+					b = procedure.getBudgetNumber()*procedure.getSynthesizePrice();
+				} else {
 					a = procedure.getRealNumber() * procedure.getLaborPrice();
 					b = procedure.getBudgetNumber() * procedure.getLaborPrice();
 				}
 				procedure.setBudgetTotal(b);
-				realTotalMoney = realTotalMoney + a;//实际总价
-				budgetTotalMoney = budgetTotalMoney + b;//预计总价
+				realTotalMoney = realTotalMoney + a;
+				budgetTotalMoney = budgetTotalMoney + b;
 			}
 		}
 		model.addAttribute("id", id);
@@ -429,9 +391,9 @@ public class WorkerSettlementOrderController extends BaseController{
 		model.addAttribute("realTotalMoney",realTotalMoney);
 		model.addAttribute("budgetTotalMoney",budgetTotalMoney);
 		
-		if (settleStyle == 0 || settleStyle == 1) { // 包工包料
+		if (settleStyle == 0 || settleStyle == 1) {
 			return "mobile/modules/Worker/account_details";
-		} else {// 包工
+		} else {
 			return "mobile/modules/Worker/account_pkgwork_details";
 		}
 		
@@ -439,12 +401,12 @@ public class WorkerSettlementOrderController extends BaseController{
 	
 	@Autowired
 	private SettlementAuxiliaryService settlementAuxiliaryService;
-	//辅料详情
+
 	@RequestMapping(value="auxiliaryDetails")
 	public String auxiliaryDetails(Integer id ,Model model, HttpServletRequest request){
 		double tatolPrice = 0;
 		DecimalFormat df = new DecimalFormat("#.00");
-		//根据任务包id查询辅材
+
 		List<SettlementAuxiliary> auxiliarys = settlementAuxiliaryService.findAuxiliaryListForSettlement(id);
 		for (SettlementAuxiliary settlementAuxiliary : auxiliarys) {
 			tatolPrice = settlementAuxiliary.getPrice() + tatolPrice;
@@ -456,12 +418,12 @@ public class WorkerSettlementOrderController extends BaseController{
 		return "mobile/modules/Worker/auxiliary_details";
 	}
 	
-	   //沙子水泥详情
+
 		@RequestMapping(value="sandDetails")
 		public String sandDetails(Integer id ,Model model, HttpServletRequest request){
 			double tatolPrice = 0;
 			DecimalFormat df = new DecimalFormat("#.00");
-			//根据任务包id查询沙子水泥
+
 			List<SettlementAuxiliary> sands = settlementAuxiliaryService.findSandListForSettlement(id);
 			for (SettlementAuxiliary settlementAuxiliary : sands) {
 				tatolPrice = settlementAuxiliary.getPrice() + tatolPrice;
@@ -476,7 +438,7 @@ public class WorkerSettlementOrderController extends BaseController{
 	@RequestMapping(value="punishDetails")
 	public String punishDetails(Integer id, Model model,HttpServletRequest request){
 		List<Report> reports = reportService.queryQcBillList(id);
-		//List<List<CheckItem>> items = new ArrayList<List<CheckItem>>(); ;
+
 		for (Report report : reports) {
 			for (CheckItem checkItem : report.getCheckItemList()) {
 				List<CheckBreak> checkBreakList = reportService.queryCheckBreaks(checkItem.getQcBillItemId());
@@ -489,10 +451,10 @@ public class WorkerSettlementOrderController extends BaseController{
 	
 	@Autowired
 	private TaskPackagePictureService taskPackagePictureService;
-	//图片
+
 	@RequestMapping(value="seePhoto")
 	public String seePhoto(Integer id,Integer settleStyle, Model model, HttpServletRequest request) throws IOException{
-		//根据任务包查询图片
+
 		List<TaskPackagePicture> pictures =	taskPackagePictureService.findPicturesByPackageId(id);
 		String baseUrl = PicRootName.picPrefixName();
 		model.addAttribute("baseUrl", baseUrl);

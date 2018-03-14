@@ -1,29 +1,23 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 项目经理星级和提成设置Entity
- * @author wyb
- * @version 2016-12-24
- */
+
 public class BizPmStarCommissionCnfg extends DataEntity2<BizPmStarCommissionCnfg> {
 	
 	private static final long serialVersionUID = 1L;
-	private Integer storeId;		// 门店id -- '
-	private String isOldNew;		// 新老房 -- '0.老房；1.新房
-	private Integer starLevel;		// 星级 -- '
-	private Double commissionAmount;		// 提成金额 -- '
-	private Integer commissionRateMidway;		// 中期提成比例 -- '页面展示
-	private Integer commissionRateComplete;		// 竣工提成比例 -- '页面展示
-	private String isEnabled;		// 是否启用 -- '1.启用；0.停用
+	private Integer storeId;
+	private String isOldNew;
+	private Integer starLevel;
+	private Double commissionAmount;
+	private Integer commissionRateMidway;
+	private Integer commissionRateComplete;
+	private String isEnabled;
 	
-	private Double commissionRateMidwayTwo;		// 中期提成比例 -- '数据库存储
-	private Double commissionRateCompleteTwo;		// 竣工提成比例 -- '数据库存储
+	private Double commissionRateMidwayTwo;
+	private Double commissionRateCompleteTwo;
 	
 	public Double getCommissionRateMidwayTwo() {
 		return commissionRateMidwayTwo;

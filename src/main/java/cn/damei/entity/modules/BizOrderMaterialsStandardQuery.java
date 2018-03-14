@@ -1,28 +1,22 @@
 package cn.damei.entity.modules;
 
 import cn.damei.common.persistence.DataEntity;
-/**
- * 
- * @author lft
- * 輔料的申請 查詢實體
- * 2017-5-16
- *
- */
+
 public class BizOrderMaterialsStandardQuery extends DataEntity<BizOrderMaterialsStandardQuery> {
 	private static final long serialVersionUID = 1L;
 	
-	private String orderId; //訂單id
-	private String storeId; //门店id
-	private String storeName; //门店
-	private String orderNumber;//订单号
-	private String isScrap;//订单状态
-	private String orderArea;//订单区域
-	private Integer orderAreaId;//订单区域
-	private String customerName;//客户姓名
-	private String itemManager;//項目經理
-	private double sum;//金額
-	private double shippingFee;//配送费
-	private String materialsLargeType; //1 标化 2 筒灯
+	private String orderId;
+	private String storeId;
+	private String storeName;
+	private String orderNumber;
+	private String isScrap;
+	private String orderArea;
+	private Integer orderAreaId;
+	private String customerName;
+	private String itemManager;
+	private double sum;
+	private double shippingFee;
+	private String materialsLargeType;
 
 	public double getShippingFee() {
 		return shippingFee;

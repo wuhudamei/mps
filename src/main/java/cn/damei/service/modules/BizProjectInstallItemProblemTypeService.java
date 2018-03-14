@@ -10,11 +10,7 @@ import cn.damei.common.service.CrudService2;
 import cn.damei.dao.modules.BizProjectInstallItemProblemTypeDao;
 import cn.damei.entity.modules.BizProjectInstallItemProblemType;
 
-/**
- * 工程安装问题分类设置Service
- * @author wyb
- * @version 2016-10-27
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizProjectInstallItemProblemTypeService extends CrudService2<BizProjectInstallItemProblemTypeDao, BizProjectInstallItemProblemType> {

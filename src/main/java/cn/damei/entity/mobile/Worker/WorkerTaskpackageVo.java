@@ -4,15 +4,13 @@ import cn.damei.common.persistence.DataEntity;
 
 public class WorkerTaskpackageVo extends DataEntity<WorkerTaskpackageVo>{
 	
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	
-	private Integer countCompleted;//已完工
-	private Integer countDiscompleted;//未完工
-	private String status;//状态字段
-	private Integer workerId;//工人id
+	private Integer countCompleted;
+	private Integer countDiscompleted;
+	private String status;
+	private Integer workerId;
 	
 	public Integer getWorkerId() {
 		return workerId;

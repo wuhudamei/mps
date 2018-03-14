@@ -1,25 +1,19 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import java.util.Date;
 
 import cn.damei.common.persistence.DataEntity;
 
-/**
- * 经理申请结算单Entity
- * @author 梅浩
- * @version 2017-04-17
- */
+
 public class BizNormalPmSettle extends DataEntity<BizNormalPmSettle> {
 	
 	private static final long serialVersionUID = 1L;
-	private Integer storeId;		// 门店id
+	private Integer storeId;
 	private String storeName;
 
-	private Integer orderId;		// 订单id
-	private String settleRemarks;		// 经理提交的备注
+	private Integer orderId;
+	private String settleRemarks;
 
 	public String getStoreName() {
 		return storeName;
@@ -37,14 +31,14 @@ public class BizNormalPmSettle extends DataEntity<BizNormalPmSettle> {
 		this.projectModeName = projectModeName;
 	}
 
-	private Integer applyEmployeeId;		// 申请人id
-	private Date applyDatetime;		// 申请时间
-	private Integer checkEmployeeId;		// 检查人id
-	private String settleStatus;		// 结算单状态(id)
+	private Integer applyEmployeeId;
+	private Date applyDatetime;
+	private Integer checkEmployeeId;
+	private String settleStatus;
 private String settleStatusName;
-	private Date statusDatetime;		// 状态生成时间
-	private String checkReply;		// 结算员处理回复
-	private Double settleAmount;		// 结算金额
+	private Date statusDatetime;
+	private String checkReply;
+	private Double settleAmount;
 	private Integer projectMode;
 	private String projectModeName;
 

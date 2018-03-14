@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import java.util.List;
@@ -28,11 +26,7 @@ import cn.damei.service.modules.BizPmGuaranteeMoneyCnfgService;
 import cn.damei.entity.modules.User;
 import cn.damei.common.utils.UserUtils;
 
-/**
- * 项目经理质保金设置Controller
- * @author wyb
- * @version 2016-12-26
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/managerSettlement/bizpmguaranteemoneycnfg/bizPmGuaranteeMoneyCnfg")
 public class BizPmGuaranteeMoneyCnfgController extends BaseController {
@@ -59,7 +53,7 @@ public class BizPmGuaranteeMoneyCnfgController extends BaseController {
 	public String list(BizPmGuaranteeMoneyCnfg bizPmGuaranteeMoneyCnfg, HttpServletRequest request, HttpServletResponse response, Model model) {
 
 		User user = UserUtils.getUser();
-		//过滤门店
+
 		if(null==bizPmGuaranteeMoneyCnfg.getStoreId()){
 			if(null!=user.getStoreId()){
 				bizPmGuaranteeMoneyCnfg.setStoreId(Integer.valueOf(user.getStoreId()));
@@ -68,7 +62,7 @@ public class BizPmGuaranteeMoneyCnfgController extends BaseController {
 		if(StringUtils.isBlank(user.getStoreId())){
 			model.addAttribute("storeDropEnable", true);
 		}
-		//过滤工程模式
+
 		if(StringUtils.isBlank(bizPmGuaranteeMoneyCnfg.getProjectMode())){
 			if(null != user.getEmpId()){
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -108,7 +102,7 @@ public class BizPmGuaranteeMoneyCnfgController extends BaseController {
 	public String list2(BizPmGuaranteeMoneyCnfg bizPmGuaranteeMoneyCnfg, HttpServletRequest request, HttpServletResponse response, Model model) {
 		
 		User user = UserUtils.getUser();
-		//过滤门店
+
 		if(null==bizPmGuaranteeMoneyCnfg.getStoreId()){
 			if(null!=user.getStoreId()){
 				bizPmGuaranteeMoneyCnfg.setStoreId(Integer.valueOf(user.getStoreId()));
@@ -117,7 +111,7 @@ public class BizPmGuaranteeMoneyCnfgController extends BaseController {
 		if(StringUtils.isBlank(user.getStoreId())){
 			model.addAttribute("storeDropEnable", true);
 		}
-		//过滤工程模式
+
 		if(StringUtils.isBlank(bizPmGuaranteeMoneyCnfg.getProjectMode())){
 			if(null != user.getEmpId()){
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -169,7 +163,7 @@ public class BizPmGuaranteeMoneyCnfgController extends BaseController {
 		if (!beanValidator(model, bizPmGuaranteeMoneyCnfg)){
 			return form(bizPmGuaranteeMoneyCnfg, model);
 		}
-		//修改
+
 		if(null!=bizPmGuaranteeMoneyCnfg.getId()){
 			List<BizPmGuaranteeMoneyCnfg> list = bizPmGuaranteeMoneyCnfgService.findList(bizPmGuaranteeMoneyCnfg);
 			if(null!=list && list.size()>0){
@@ -186,7 +180,7 @@ public class BizPmGuaranteeMoneyCnfgController extends BaseController {
 				addMessage(redirectAttributes, "保存项目经理质保金设置成功");
 			}
 		}else{
-			//新增
+
 			List<BizPmGuaranteeMoneyCnfg> list = bizPmGuaranteeMoneyCnfgService.findList(bizPmGuaranteeMoneyCnfg);
 			if(null!=list && list.size()>0){
 				addMessage(redirectAttributes, "项目经理质保金设置已经存在,保存失败");

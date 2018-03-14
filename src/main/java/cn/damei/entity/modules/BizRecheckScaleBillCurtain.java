@@ -4,58 +4,36 @@ import java.util.Date;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 上报复尺新版(20161107-20161113)
- * @author llp 
- * 2016-11-17
- */
+
 @SuppressWarnings("serial")
 public class BizRecheckScaleBillCurtain extends DataEntity2<BizRecheckScaleBillCurtain> {
 	private Integer id;
 
-	/**
-	 * 复尺单id
-	 */
+
 	private Integer recheckScaleBillId;
 
-	/**
-	 * 位置
-	 */
+
 	private String position;
 
-	/**
-	 * 窗帘杆类型
-	 */
+
 	private String poleType;
 
-	/**
-	 * 杆长
-	 */
+
 	private String poleLength;
 
-	/**
-	 * 帘布高度
-	 */
+
 	private String clothHeight;
 
-	/**
-	 * 备注
-	 */
+
 	private String remarks;
 
-	/**
-	 * 创建日期时间
-	 */
+
 	private Date createDate;
 
-	/**
-	 * 更新日期时间
-	 */
+
 	private Date updateDate;
 
-	/**
-	 * 是否删除
-	 */
+
 	private String delFlag;
 
 	public Integer getId() {

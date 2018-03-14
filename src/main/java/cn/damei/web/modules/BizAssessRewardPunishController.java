@@ -24,12 +24,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-/**
- * 产业项目经理奖惩Controller
- * 
- * @author hyh
- *
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/bizAssessRewardPunish/bizAssessRewardPunish")
 public class BizAssessRewardPunishController extends BaseController {
@@ -40,20 +35,12 @@ public class BizAssessRewardPunishController extends BaseController {
 	@Autowired
 	private BizEmployeeService2 bizEmployeeService2;
 
-	/**
-	 * 项目经理奖励
-	 * 
-	 * @param bizAssessRewardPunish
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @return
-	 */
+
 	@RequestMapping(value = "openBizAssessReward")
 	public String openBizAssessReward(BizAssessRewardPunish bizAssessRewardPunish, HttpServletRequest request,
 			HttpServletResponse response, Model model) {
 		User user = UserUtils.getUser();
-		// 过滤门店
+
 		if (null == bizAssessRewardPunish.getStoreId()) {
 			if (null != user.getStoreId()) {
 				bizAssessRewardPunish.setStoreId(Integer.valueOf(user.getStoreId()));
@@ -63,7 +50,7 @@ public class BizAssessRewardPunishController extends BaseController {
 			model.addAttribute("storeDropEnable", true);
 		}
 
-		// 过滤工程模式
+
 		if (StringUtils.isBlank(bizAssessRewardPunish.getProjectMode())) {
 			if (null != user.getEmpId()) {
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -96,7 +83,7 @@ public class BizAssessRewardPunishController extends BaseController {
 			}
 		}
 
-		// 区域
+
 		if (bizAssessRewardPunish.getEnginDepartId() == null) {
 			if (StringUtils.isNoneBlank(UserUtils.getUser().getEmpId())) {
 				List<Integer> list = bizEmployeeService2
@@ -115,29 +102,21 @@ public class BizAssessRewardPunishController extends BaseController {
 			bizAssessRewardPunish.setEnginDepartIds(list);
 		}
 		String result = "";
-		if (bizAssessRewardPunish.getIsMonthInspection() == null || bizAssessRewardPunish.getIsMonthInspection().equals("0")) {//不是月度巡检
+		if (bizAssessRewardPunish.getIsMonthInspection() == null || bizAssessRewardPunish.getIsMonthInspection().equals("0")) {
 			result = "modules/bizAssessRewardPunish/bizAssessRewardList";
-		} else if (bizAssessRewardPunish.getIsMonthInspection().equals("1")) {//月度巡检
+		} else if (bizAssessRewardPunish.getIsMonthInspection().equals("1")) {
 			result = "modules/bizAssessRewardPunish/bizInspectionRewardList";
 		}
 		return result;
 	}
 	
 
-	/**
-	 * 查询项目经理奖励信息
-	 * 
-	 * @param bizAssessRewardPunish
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @return
-	 */
+
 	@RequestMapping(value = "queryBizAssessReward")
 	public String queryBizAssessReward(BizAssessRewardPunish bizAssessRewardPunish, HttpServletRequest request,
 			HttpServletResponse response, Model model) {
 		User user = UserUtils.getUser();
-		// 过滤门店
+
 		if (null == bizAssessRewardPunish.getStoreId()) {
 			if (null != user.getStoreId()) {
 				bizAssessRewardPunish.setStoreId(Integer.valueOf(user.getStoreId()));
@@ -147,7 +126,7 @@ public class BizAssessRewardPunishController extends BaseController {
 			model.addAttribute("storeDropEnable", true);
 		}
 
-		// 过滤工程模式
+
 		if (StringUtils.isBlank(bizAssessRewardPunish.getProjectMode())) {
 			if (null != user.getEmpId()) {
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -180,7 +159,7 @@ public class BizAssessRewardPunishController extends BaseController {
 			}
 		}
 
-		// 区域
+
 		if (bizAssessRewardPunish.getEnginDepartId() == null) {
 			if (StringUtils.isNoneBlank(UserUtils.getUser().getEmpId())) {
 				List<Integer> list = bizEmployeeService2
@@ -203,11 +182,11 @@ public class BizAssessRewardPunishController extends BaseController {
 		}
 		Page<BizAssessRewardPunish> page = null;
         		String result = "";
-		if (bizAssessRewardPunish.getIsMonthInspection() == null || bizAssessRewardPunish.getIsMonthInspection().equals("0")) {//不是月度巡检
+		if (bizAssessRewardPunish.getIsMonthInspection() == null || bizAssessRewardPunish.getIsMonthInspection().equals("0")) {
 			page = bizAssessRewardPunishService.findPage(new Page<BizAssessRewardPunish>(request, response),
 					bizAssessRewardPunish);
 			result = "modules/bizAssessRewardPunish/bizAssessRewardList";
-		} else if (bizAssessRewardPunish.getIsMonthInspection().equals("1")) {//月度巡检
+		} else if (bizAssessRewardPunish.getIsMonthInspection().equals("1")) {
 			page = bizAssessRewardPunishService.findInspectionPage(new Page<BizAssessRewardPunish>(request, response),
 					bizAssessRewardPunish);
 			result = "modules/bizAssessRewardPunish/bizInspectionRewardList";
@@ -216,19 +195,12 @@ public class BizAssessRewardPunishController extends BaseController {
 		return result;
 	}
 	
-	/**
-	 * 项目经理扣款
-	 * @param bizAssessRewardPunish
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @return
-	 */
+
 	@RequestMapping(value = "openBizAssessPunish")
 	public String openBizAssessPunish(BizAssessRewardPunish bizAssessRewardPunish, HttpServletRequest request,
 			HttpServletResponse response, Model model){
 		User user = UserUtils.getUser();
-		// 过滤门店
+
 		if (null == bizAssessRewardPunish.getStoreId()) {
 			if (null != user.getStoreId()) {
 				bizAssessRewardPunish.setStoreId(Integer.valueOf(user.getStoreId()));
@@ -238,7 +210,7 @@ public class BizAssessRewardPunishController extends BaseController {
 			model.addAttribute("storeDropEnable", true);
 		}
 
-		// 过滤工程模式
+
 		if (StringUtils.isBlank(bizAssessRewardPunish.getProjectMode())) {
 			if (null != user.getEmpId()) {
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -271,7 +243,7 @@ public class BizAssessRewardPunishController extends BaseController {
 			}
 		}
 
-		// 区域
+
 		if (bizAssessRewardPunish.getEnginDepartId() == null) {
 			if (StringUtils.isNoneBlank(UserUtils.getUser().getEmpId())) {
 				List<Integer> list = bizEmployeeService2
@@ -291,29 +263,21 @@ public class BizAssessRewardPunishController extends BaseController {
 		}
 
 		String result = "";
-		if (bizAssessRewardPunish.getIsMonthInspection() == null || bizAssessRewardPunish.getIsMonthInspection().equals("0")) {//不是月度巡检
+		if (bizAssessRewardPunish.getIsMonthInspection() == null || bizAssessRewardPunish.getIsMonthInspection().equals("0")) {
 			result = "modules/bizAssessRewardPunish/bizAssessPunishList";
-		} else if (bizAssessRewardPunish.getIsMonthInspection().equals("1")) {//月度巡检
+		} else if (bizAssessRewardPunish.getIsMonthInspection().equals("1")) {
 			result = "modules/bizAssessRewardPunish/bizInspectionPunishList";
 		}
 		return result;
 	}
 	
 	
-	/**
-	 * 查询项目经理扣款信息
-	 * 
-	 * @param bizAssessRewardPunish
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @return
-	 */
+
 	@RequestMapping(value = "queryBizAssessPunish")
 	public String queryBizAssessPunish(BizAssessRewardPunish bizAssessRewardPunish, HttpServletRequest request,
 			HttpServletResponse response, Model model) {
 		User user = UserUtils.getUser();
-		// 过滤门店
+
 		if (null == bizAssessRewardPunish.getStoreId()) {
 			if (null != user.getStoreId()) {
 				bizAssessRewardPunish.setStoreId(Integer.valueOf(user.getStoreId()));
@@ -323,7 +287,7 @@ public class BizAssessRewardPunishController extends BaseController {
 			model.addAttribute("storeDropEnable", true);
 		}
 
-		// 过滤工程模式
+
 		if (StringUtils.isBlank(bizAssessRewardPunish.getProjectMode())) {
 			if (null != user.getEmpId()) {
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -356,7 +320,7 @@ public class BizAssessRewardPunishController extends BaseController {
 			}
 		}
 
-		// 区域
+
 		if (bizAssessRewardPunish.getEnginDepartId() == null) {
 			if (StringUtils.isNoneBlank(UserUtils.getUser().getEmpId())) {
 				List<Integer> list = bizEmployeeService2
@@ -381,11 +345,11 @@ public class BizAssessRewardPunishController extends BaseController {
 
 		Page<BizAssessRewardPunish> page = null;
 		String result = "";
-		if (bizAssessRewardPunish.getIsMonthInspection() == null || bizAssessRewardPunish.getIsMonthInspection().equals("0")) {//不是月度巡检
+		if (bizAssessRewardPunish.getIsMonthInspection() == null || bizAssessRewardPunish.getIsMonthInspection().equals("0")) {
 			page = bizAssessRewardPunishService.findPage(new Page<BizAssessRewardPunish>(request, response),
 					bizAssessRewardPunish);
 			result = "modules/bizAssessRewardPunish/bizAssessPunishList";
-		} else if (bizAssessRewardPunish.getIsMonthInspection().equals("1")) {//月度巡检
+		} else if (bizAssessRewardPunish.getIsMonthInspection().equals("1")) {
 			page = bizAssessRewardPunishService.findInspectionPage(new Page<BizAssessRewardPunish>(request, response),
 					bizAssessRewardPunish);
 			result = "modules/bizAssessRewardPunish/bizInspectionPunishList";
@@ -394,11 +358,7 @@ public class BizAssessRewardPunishController extends BaseController {
 		return result;
 	}
 
-	/**
-	 * 添加项目经理奖励
-	 * 
-	 * @return
-	 */
+
 	@RequestMapping(value = "openBizAssessRewardForm")
 	public String openBizAssessRewardForm(BizAssessRewardPunish bizAssessRewardPunish, HttpServletRequest request,
 			HttpServletResponse response, Model model) {
@@ -420,7 +380,7 @@ public class BizAssessRewardPunishController extends BaseController {
 			model.addAttribute("rewardPunishs",rewardPunishs);
 		}
 
-		// 过滤门店
+
 		if (null == bizAssessRewardPunish.getStoreId()) {
 			if (null != user.getStoreId()) {
 				bizAssessRewardPunish.setStoreId(Integer.valueOf(user.getStoreId()));
@@ -430,7 +390,7 @@ public class BizAssessRewardPunishController extends BaseController {
 			model.addAttribute("storeDropEnable", true);
 		}
 
-		// 过滤工程模式
+
 		if (StringUtils.isBlank(bizAssessRewardPunish.getProjectMode())) {
 			if (null != user.getEmpId()) {
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -468,9 +428,9 @@ public class BizAssessRewardPunishController extends BaseController {
 			bizAssessRewardPunish.setRewardPunishDatetime(new Date());
 		}
 		String result = "";
-		if (bizAssessRewardPunish.getIsMonthInspection() == null || bizAssessRewardPunish.getIsMonthInspection().equals("0")) {//不是月度巡检 修改
+		if (bizAssessRewardPunish.getIsMonthInspection() == null || bizAssessRewardPunish.getIsMonthInspection().equals("0")) {
 			result = "modules/bizAssessRewardPunish/bizAssessRewardForm";
-		} else if (bizAssessRewardPunish.getIsMonthInspection().equals("1")) {//月度巡检   添加
+		} else if (bizAssessRewardPunish.getIsMonthInspection().equals("1")) {
 			result = "modules/bizAssessRewardPunish/bizInspectionRewardForm";
 		}
 		model.addAttribute("bizAssessRewardPunish",bizAssessRewardPunish);
@@ -478,11 +438,7 @@ public class BizAssessRewardPunishController extends BaseController {
 	}
 	
 	
-	/**
-	 * 添加项目经理扣款
-	 * 
-	 * @return
-	 */
+
 	@RequestMapping(value = "openBizAssessPunishForm")
 	public String openBizAssessPunishForm(BizAssessRewardPunish bizAssessRewardPunish, HttpServletRequest request,
 			HttpServletResponse response, Model model) {
@@ -503,7 +459,7 @@ public class BizAssessRewardPunishController extends BaseController {
 			bizAssessRewardPunish.setIds(ids);
 			model.addAttribute("rewardPunishs",rewardPunishs);
 		}
-		// 过滤门店
+
 		if (null == bizAssessRewardPunish.getStoreId()) {
 			if (null != user.getStoreId()) {
 				bizAssessRewardPunish.setStoreId(Integer.valueOf(user.getStoreId()));
@@ -513,7 +469,7 @@ public class BizAssessRewardPunishController extends BaseController {
 			model.addAttribute("storeDropEnable", true);
 		}
 
-		// 过滤工程模式
+
 		if (StringUtils.isBlank(bizAssessRewardPunish.getProjectMode())) {
 			if (null != user.getEmpId()) {
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -552,9 +508,9 @@ public class BizAssessRewardPunishController extends BaseController {
 		}
 
 		String result = "";
-		if (bizAssessRewardPunish.getIsMonthInspection() == null || bizAssessRewardPunish.getIsMonthInspection().equals("0")) {//不是月度巡检
+		if (bizAssessRewardPunish.getIsMonthInspection() == null || bizAssessRewardPunish.getIsMonthInspection().equals("0")) {
 			result = "modules/bizAssessRewardPunish/bizAssessPunishForm";
-		} else if (bizAssessRewardPunish.getIsMonthInspection().equals("1")) {//月度巡检
+		} else if (bizAssessRewardPunish.getIsMonthInspection().equals("1")) {
 			result = "modules/bizAssessRewardPunish/bizInspectionPunishForm";
 		}
 		model.addAttribute("bizAssessRewardPunish",bizAssessRewardPunish);
@@ -605,13 +561,7 @@ public class BizAssessRewardPunishController extends BaseController {
 		return result;
 	}
 
-	/**
-	 * 保存项目经理奖励
-	 * 
-	 * @param bizAssessRewardPunish
-	 * @param model
-	 * @return
-	 */
+
 	@RequestMapping(value = "saveBizAssessReward")
 	public String saveBizAssessReward(BizAssessRewardPunish bizAssessRewardPunish,
 			RedirectAttributes redirectAttributes, Model model) {
@@ -652,17 +602,7 @@ public class BizAssessRewardPunishController extends BaseController {
 	}
 
 
-	/**
-	 * 保存项目经理巡检奖励
-	 *
-	 * @param bizAssessRewardPunish
-	 * @param assessRuleTypeIds
-	 * @param assessRuleIds
-	 * @param rewardPunishAmounts
-	 * @param rewardPunishScores
-	 * @param model
-	 * @return
-	 */
+
 	@RequestMapping(value = "saveBizInspectionReward")
 	public String saveBizInspectionReward(BizAssessRewardPunish bizAssessRewardPunish, String[] assessRuleTypeIds,
 										  String[] assessRuleIds, String[] rewardPunishAmounts,

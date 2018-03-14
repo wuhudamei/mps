@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.common.supcan.treelist;
 
 import java.util.List;
@@ -13,17 +11,11 @@ import cn.damei.common.supcan.common.fonts.Font;
 import cn.damei.common.supcan.common.properties.Properties;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
-/**
- * 硕正TreeList
- * @author WangZhen
- * @version 2013-11-04
- */
+
 @XStreamAlias("TreeList")
 public class TreeList extends Common {
 
-	/**
-	 * 列集合
-	 */
+
 	@XStreamAlias("Cols")
 	private List<Object> cols;
 

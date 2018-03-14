@@ -16,12 +16,7 @@ import cn.damei.service.mobile.Worker.EmployeeGroupService;
 import cn.damei.entity.mobile.Worker.Worker;
 import cn.damei.entity.modules.BizOrderReport;
 
-/**
- * 工人上报Controller
- * 
- * @author hyh
- *
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/app/worker/orderReport")
 public class WorkerOrderReportController {
@@ -38,7 +33,7 @@ public class WorkerOrderReportController {
 		Worker worker = (Worker)request.getSession().getAttribute("worker");
 		EmployeeGroup employeeGroup = employeeGroupService.selectEmployeeGroupByGroupId(worker.getId());
 		String sta="0";
-		if(employeeGroup != null){ // 组长
+		if(employeeGroup != null){
 			sta="0";
 		}else{
 			sta="1";
@@ -53,14 +48,14 @@ public class WorkerOrderReportController {
 		Worker worker = (Worker)request.getSession().getAttribute("worker");
 		EmployeeGroup employeeGroup = employeeGroupService.selectEmployeeGroupByGroupId(worker.getId());
 		String sta="0";
-		if(employeeGroup != null){ // 组长
+		if(employeeGroup != null){
 			sta="0";
 		}else{
 			sta="1";
 		}
 		
 		bizOrderReport.setReporterEmployeeId(worker.getId());
-		bizOrderReport.setReporterType("3");// 工人
+		bizOrderReport.setReporterType("3");
 		List<BizOrderReport> list = workerBizOrderReportService.findList(bizOrderReport);
 		model.addAttribute("sta",sta);
 		if (null != list && list.size() > 0) {
@@ -89,19 +84,14 @@ public class WorkerOrderReportController {
 
 	}
 
-	/**
-	 * 检查返单客户手机号是否存在
-	 * 
-	 * @param customerPhone
-	 * @return
-	 */
+
 	@RequestMapping(value = "checkCustomerPhone")
 	public @ResponseBody String checkCustomerPhone(String customerPhone) {
 		String result = null;
 	Integer count = workerBizOrderReportService.getBizOrderReportByCustomerPhone(customerPhone);
-		if (null==count ||count==0) {// 客户手机号不存在
+		if (null==count ||count==0) {
 			result = "0";
-		} else {// 已存在
+		} else {
 			result = "1";
 		}
 		return result;

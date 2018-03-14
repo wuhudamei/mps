@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 
@@ -30,11 +28,7 @@ import cn.damei.service.modules.CheckSelectService;
 import cn.damei.entity.modules.User;
 import cn.damei.common.utils.UserUtils;
 
-/**
- * 约检明细查询Controller
- * @author wyb
- * @version 2016-10-31
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/pqc/checkSelect/checkSelect")
 public class CheckSelectController extends BaseController {
@@ -59,7 +53,7 @@ public class CheckSelectController extends BaseController {
 	public String list(CheckSelect checkSelect, HttpServletRequest request, HttpServletResponse response, Model model) {
 		
 		User user = UserUtils.getUser();
-		//过滤门店
+
 		if(null==checkSelect.getStoreId()){
 			if(null!=user.getStoreId()){
 				checkSelect.setStoreId(Integer.valueOf(user.getStoreId()));
@@ -68,7 +62,7 @@ public class CheckSelectController extends BaseController {
 		if(StringUtils.isBlank(user.getStoreId())){
 			model.addAttribute("storeDropEnable", true);
 		}
-		//过滤工程模式
+
 		if(StringUtils.isBlank(checkSelect.getProjectMode())){
 			if(StringUtils.isBlank(user.getProjectMode())||user.getProjectMode().equals("3")){
 				model.addAttribute("gongcheng", true);
@@ -90,7 +84,7 @@ public class CheckSelectController extends BaseController {
 	public String checkSelectList(CheckSelect checkSelect, HttpServletRequest request, HttpServletResponse response, Model model) {
 		
 		User user = UserUtils.getUser();
-		//过滤门店
+
 		if(null==checkSelect.getStoreId()){
 			if(null!=user.getStoreId()){
 				checkSelect.setStoreId(Integer.valueOf(user.getStoreId()));
@@ -99,7 +93,7 @@ public class CheckSelectController extends BaseController {
 		if(StringUtils.isBlank(user.getStoreId())){
 			model.addAttribute("storeDropEnable", true);
 		}
-		//过滤工程模式
+
 		if(StringUtils.isBlank(checkSelect.getProjectMode())){
 			if(StringUtils.isBlank(user.getProjectMode())||user.getProjectMode().equals("3")){
 				model.addAttribute("gongcheng", true);
@@ -121,21 +115,16 @@ public class CheckSelectController extends BaseController {
 		return "modules/PQC/checkSelect/checkSelectList";
 	}
 	
-	/**
-	 * 导出excel--项目约检信息
-	 * @param checkSelect
-	 * @param response
-	 * @throws Exception
-	 */
+
 	@RequestMapping(value="exportExcel")
 	public void exportExcel(CheckSelect checkSelect, HttpServletResponse response) throws Exception{
 		SimpleDateFormat sf = new SimpleDateFormat("yyyyMMddHHmmss");
 		HSSFWorkbook excel = checkSelectService.exportExcel(checkSelect);
-		ServletOutputStream out= null;//创建一个输出流对象
+		ServletOutputStream out= null;
 		try {
 			response.setContentType("application/binary;charset=utf-8");
-			String headerStr =new String(("项目约检信息-"+sf.format(new Date())).getBytes("utf-8"), "ISO8859-1");//headerString为中文时转码
-			response.setHeader("Content-disposition","attachment; filename="+headerStr+".xls");//filename是下载的xls的名
+			String headerStr =new String(("项目约检信息-"+sf.format(new Date())).getBytes("utf-8"), "ISO8859-1");
+			response.setHeader("Content-disposition","attachment; filename="+headerStr+".xls");
 			out = response.getOutputStream();
 			excel.write(out);
 		} catch (IOException ex) {

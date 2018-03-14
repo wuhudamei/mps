@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import javax.validation.constraints.NotNull;
@@ -9,11 +7,7 @@ import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 采购单
- * @author wang
- * @version 2016-09-28
- */
+
 public class BizPurchase extends DataEntity2<BizPurchase> {
 	
 	public Integer getId() {
@@ -26,23 +20,23 @@ public class BizPurchase extends DataEntity2<BizPurchase> {
 
 	private static final long serialVersionUID = 1L;
 	private Integer id;
-	private Integer orderId;		// 订单id -- '
-	private String purchaseCode;		// 采购单编码 -- '
-	private String purchaseType;		// 采购单类型 -- '辅材，主材
-	private String receiverName;		// 收货人 -- '
-	private String receiverPhone;		// 收货电话 -- '
-	private Date applyReceiveTime;		// 期望送货日期 -- '
-	private Integer applyEmployee;		// 申请人 -- '
-	private Date applyTime;		// 申请时间 -- '
-	private String status;		// 状态 -- '
-	private Double totalPrice;		// 总价格 -- '
-	private Date beginApplyReceiveTime;		// 开始 期望送货日期 -- '
-	private Date endApplyReceiveTime;		// 结束 期望送货日期 -- '
-	private Date beginApplyTime;		// 开始 申请时间 -- '
-	private Date endApplyTime;		// 结束 申请时间 -- '
-	private Date transferSupplierDatetime; //转给供应商时间
-	private Date receiveAllGoodsDatetime;//收货完成日期
-	private String statusDescribe; //废弃原因
+	private Integer orderId;
+	private String purchaseCode;
+	private String purchaseType;
+	private String receiverName;
+	private String receiverPhone;
+	private Date applyReceiveTime;
+	private Integer applyEmployee;
+	private Date applyTime;
+	private String status;
+	private Double totalPrice;
+	private Date beginApplyReceiveTime;
+	private Date endApplyReceiveTime;
+	private Date beginApplyTime;
+	private Date endApplyTime;
+	private Date transferSupplierDatetime;
+	private Date receiveAllGoodsDatetime;
+	private String statusDescribe;
 	
 	
 	public String getStatusDescribe() {

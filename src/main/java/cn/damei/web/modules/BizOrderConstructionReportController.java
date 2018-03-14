@@ -23,16 +23,12 @@ import cn.damei.service.modules.BizEmployeeService2;
 import cn.damei.entity.modules.User;
 import cn.damei.common.utils.UserUtils;
 
-/**
- * 大统计表-施工中
- * @author llp
- * @version 2016-11-28
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/bizorderconstructionreport/bizOrderConstructionReport")
 public class BizOrderConstructionReportController extends BaseController {
 
-	/*private static Logger logger = LoggerFactory.getLogger(BizOrderConstructionReportController.class);*/
+
 
 	@Autowired
 	private BizOrderConstructionReportService bizOrderConstructionReportService;
@@ -41,20 +37,18 @@ public class BizOrderConstructionReportController extends BaseController {
 	@Autowired
 	private BizEmployeeService2 bizEmployeeService2;
 	
-	/**
-	 * 大统计表-施工中
-	 */
+
 	@RequiresPermissions("bizorderconstructionreport:bizOrderConstructionReport:view")
 	@RequestMapping(value = { "preList", "" })
 	public String packageList(BizOrderConstructionReport bizOrderConstructionReport, Model model, 
 			HttpServletRequest request) {
-		//获取新房的节点
-		//List<BizConstructionSchedule> list = bizConstructionScheduleService.getByEnableOrNewHouse();
+
+
 		
-		//model.addAttribute("ScheduleList", list);
+
 		
 		User user = UserUtils.getUser();
-		//过滤门店
+
 		if(null == bizOrderConstructionReport.getStoreId()){
 			if(null != user.getStoreId()){
 				bizOrderConstructionReport.setStoreId(user.getStoreId());
@@ -63,7 +57,7 @@ public class BizOrderConstructionReportController extends BaseController {
 		if(StringUtils.isBlank(user.getStoreId())){
 			model.addAttribute("storeDropEnable", true);
 		}
-		//过滤工程模式
+
 		if(StringUtils.isBlank(bizOrderConstructionReport.getProjectMode())){
 			if(null != user.getEmpId()){
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -99,15 +93,13 @@ public class BizOrderConstructionReportController extends BaseController {
 		return "modules/bizconfirmstart/bizConstructionReportList";
 	}
 
-	/**
-	 * 列出大统计表-施工中列表
-	 */
+
 	@RequiresPermissions("bizorderconstructionreport:bizOrderConstructionReport:view")
 	@RequestMapping(value = { "list", "" })
 	public String list(BizOrderConstructionReport bizOrderConstructionReport, Model model, HttpServletResponse response, 
 			HttpServletRequest request) {
 		User user = UserUtils.getUser();
-		//过滤门店
+
 		if(null == bizOrderConstructionReport.getStoreId()){
 			if(null != user.getStoreId()){
 				bizOrderConstructionReport.setStoreId(user.getStoreId());
@@ -116,7 +108,7 @@ public class BizOrderConstructionReportController extends BaseController {
 		if(StringUtils.isBlank(user.getStoreId())){
 			model.addAttribute("storeDropEnable", true);
 		}
-		//过滤工程模式
+
 		if(StringUtils.isBlank(bizOrderConstructionReport.getProjectMode())){
 			if(null != user.getEmpId()){
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -149,7 +141,7 @@ public class BizOrderConstructionReportController extends BaseController {
 			}
 		}
 		
-		//获取新房的节点
+
 		List<BizConstructionSchedule> list = bizConstructionScheduleService.getByEnableOrNewHouse(
 				bizOrderConstructionReport.getStoreId(),bizOrderConstructionReport.getHouseIsNew());
 		

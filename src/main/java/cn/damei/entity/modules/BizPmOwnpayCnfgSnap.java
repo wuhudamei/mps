@@ -1,27 +1,21 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 自主支配快照Entity
- * @author 汪文文
- * @version 2016-12-28
- */
+
 public class BizPmOwnpayCnfgSnap extends DataEntity2<BizPmOwnpayCnfgSnap> {
 	
 	private static final long serialVersionUID = 1L;
-	private Integer storeId;		// 门店id -- '
-	private Integer orderId;		// 订单id -- '
-	private String isOldNew;		// 新老房 -- '0.老房；1.新房
-	private String projectMode;		// 工程模式 -- '
-	private String ownpayName;		// 支配项名称 -- '
-	private String unit;		// 单位 -- '
-	private Double amount;		// 金额 -- '
-	private Integer itemManagerId;	//项目经理id
+	private Integer storeId;
+	private Integer orderId;
+	private String isOldNew;
+	private String projectMode;
+	private String ownpayName;
+	private String unit;
+	private Double amount;
+	private Integer itemManagerId;
 	
 	public BizPmOwnpayCnfgSnap() {
 		super();

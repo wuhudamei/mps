@@ -30,12 +30,7 @@ import cn.damei.service.modules.BizPmSettleBillService;
 import cn.damei.entity.modules.BizPmStarCommissionCnfgSnap;
 import cn.damei.service.modules.InspectorConfirmService;
 
-/**
- * 项目经理结算单
- * 
- * @author hyh
- *
- */
+
 @Controller
 @RequestMapping(value = "mobile/modules/manager/projectmanagersettlement/web/pmSettlementController")
 public class PmSettlementController {
@@ -52,16 +47,7 @@ public class PmSettlementController {
 	@Autowired
 	private BizPmGuaranteeMoneyCnfgSnapService bizPmGuaranteeMoneyCnfgSnapService;
 
-	/**
-	 * 结算单详情
-	 * 
-	 * @param orderId
-	 * @param settleBillType
-	 *            1:中期结算单 2：竣工结算单
-	 * @param model
-	 * @param request
-	 * @return
-	 */
+
 	@RequestMapping(value = "pmSettleDetail")
 	public String pmSettleDetail(int orderId, int settleBillType, Model model, HttpServletRequest request) {
 		Manager manager = (Manager) request.getSession().getAttribute("manager");
@@ -109,17 +95,11 @@ public class PmSettlementController {
 
 		if (bizPmSettleBill.getMidwayAuxiliaryMaterialsSettleAmount() == null) {
 			bizPmSettleBill.setMidwayAuxiliaryMaterialsSettleAmount(0.0);
-		} /*else if (bizPmSettleBill.getMidwayAuxiliaryMaterialsSettleAmount() < 0) {
-			bizPmSettleBill.setMidwayAuxiliaryMaterialsSettleAmount(
-					0 - bizPmSettleBill.getMidwayAuxiliaryMaterialsSettleAmount());
-		}*/
+		}
 
 		if (bizPmSettleBill.getCompleteAuxiliaryMaterialsSettleAmount() == null) {
 			bizPmSettleBill.setCompleteAuxiliaryMaterialsSettleAmount(0.0);
-		}/* else if (bizPmSettleBill.getCompleteAuxiliaryMaterialsSettleAmount() < 0) {
-			bizPmSettleBill.setCompleteAuxiliaryMaterialsSettleAmount(
-					0 - bizPmSettleBill.getCompleteAuxiliaryMaterialsSettleAmount());
-		}*/
+		}
 
 		if (bizPmSettleBill.getMidwayRewardAmount() == null) {
 			bizPmSettleBill.setMidwayRewardAmount(0.0);
@@ -181,15 +161,7 @@ public class PmSettlementController {
 		return result;
 	}
 
-	/**
-	 * 提成信息
-	 * 
-	 * @param orderId
-	 * @param model
-	 * @param type
-	 *            1: 中期提成 2：竣工提成
-	 * @return
-	 */
+
 	@RequestMapping(value = "pmCommissionDetail")
 	public String pmCommissionDetail(int orderId, Model model, String type,HttpServletRequest request) {
 		Manager manager = (Manager) request.getSession().getAttribute("manager");
@@ -214,11 +186,7 @@ public class PmSettlementController {
 		return result;
 	}
 
-	/**
-	 * 自主支配信息
-	 * 
-	 * @return
-	 */
+
 	@RequestMapping(value = "pmOwnpayDetail")
 	public String pmOwnpayDetail(int orderId, Model model) {
 		Double managerOwnpay = inspectorConfirmService.queryManagerOwnpay(orderId);
@@ -229,13 +197,7 @@ public class PmSettlementController {
 		return "mobile/modules/Manager/projectmanagersettlement/pmsettlementDetail/midwayOwnpayDetail";
 	}
 
-	/**
-	 * 标化辅料信息
-	 * 
-	 * @param orderId
-	 * @param model
-	 * @return
-	 */
+
 	@RequestMapping(value = "pmMaterialsStandardDetail")
 	public String pmMaterialsStandardDetail(int orderId, Model model) {
 		BizMaterialsStandardReceiveBill details3 = new BizMaterialsStandardReceiveBill();
@@ -262,15 +224,7 @@ public class PmSettlementController {
 		return "mobile/modules/Manager/projectmanagersettlement/pmsettlementDetail/midwayMaterialsStandardDetail";
 	}
 
-	/**
-	 * 质检罚款信息
-	 * 
-	 * @param orderId
-	 * @param model
-	 * @param type
-	 *            1:中期质检罚款 2：竣工质检罚款
-	 * @return
-	 */
+
 	@RequestMapping(value = "pmQcCheckPunishDetail")
 	public String pmQcCheckPunishDetail(Integer orderId, String type, Model model, HttpServletRequest request) {
 		Manager manager = (Manager) request.getSession().getAttribute("manager");
@@ -295,16 +249,7 @@ public class PmSettlementController {
 		return result;
 	}
 
-	/**
-	 * 奖励信息
-	 * 
-	 * @param orderId
-	 * @param model
-	 * @param request
-	 * @param type
-	 *            1:中期奖励信息 2：竣工奖励信息  3:中期巡检奖励信息  4:竣工巡检奖励信息
-	 * @return
-	 */
+
 	@RequestMapping(value = "pmRewardDetail")
 	public String pmRewardDetail(int orderId, Model model, HttpServletRequest request, String type) {
 		Manager manager = (Manager) request.getSession().getAttribute("manager");
@@ -336,16 +281,7 @@ public class PmSettlementController {
 		return result;
 	}
 
-	/**
-	 * 扣款信息
-	 * 
-	 * @param orderId
-	 * @param model
-	 * @param request
-	 * @param type
-	 *            1:中期扣款信息 2：竣工扣款信息  3:中期巡检扣款信息  4:竣工巡检扣款信息
-	 * @return
-	 */
+
 	@RequestMapping(value = "pmPunishDetail")
 	public String pmPunishDetail(int orderId, Model model, HttpServletRequest request, String type) {
 		Manager manager = (Manager) request.getSession().getAttribute("manager");
@@ -377,15 +313,7 @@ public class PmSettlementController {
 		return result;
 	}
 
-	/**
-	 * 任务包材结算明细
-	 * 
-	 * @param orderId
-	 * @param type
-	 *            1:中期任务包材结算明细 2:竣工任务包材结算明细
-	 * @param model
-	 * @return
-	 */
+
 	@RequestMapping(value = "queryPmMaterials")
 	public String queryPmMaterials(Integer orderId, String type, String settleStatus, Model model,
 			HttpServletRequest request) {
@@ -414,13 +342,7 @@ public class PmSettlementController {
 		return result;
 	}
 
-	/**
-	 * 自采材料信息
-	 * 
-	 * @param orderId
-	 * @param model
-	 * @return
-	 */
+
 	@RequestMapping(value = "querySelfbuyMaterial")
 	public String querySelfbuyMaterial(Integer orderId, Model model, HttpServletRequest request) {
 		Manager manager = (Manager) request.getSession().getAttribute("manager");
@@ -439,13 +361,7 @@ public class PmSettlementController {
 		return "mobile/modules/Manager/projectmanagersettlement/pmsettlementDetail/completeSelfbuyMaterial";
 	}
 
-	/**
-	 * 质保金明细
-	 * 
-	 * @param orderId
-	 * @param model
-	 * @return
-	 */
+
 	@RequestMapping(value = "queryGuaranteeMoney")
 	public String queryGuaranteeMoney(Integer orderId, Double pmGuaranteeMoney, Model model) {
 		BizPmStarCommissionCnfgSnap bizPmStarCommissionCnfgSnap = inspectorConfirmService

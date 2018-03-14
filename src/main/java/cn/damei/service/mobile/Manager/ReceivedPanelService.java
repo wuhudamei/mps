@@ -19,7 +19,7 @@ public class ReceivedPanelService extends CrudService2<ReceivedPanelDao, Receive
 	}
 
 	public List<ReceivedPanel> queryPanelByReceiveBillId(Integer id) {
-		// TODO Auto-generated method stub
+
 		return dao.queryPanelByReceiveBillId(id);
 	}
 

@@ -6,58 +6,54 @@ import java.util.List;
 import cn.damei.common.persistence.DataEntity2;
 
 
-/**
- * 工人评分实体类
- * @author hyh
- *
- */
+
 public class BizEvalWorkGrade extends DataEntity2<BizEvalWorkGrade>{
 
 	private static final long serialVersionUID = 1L;
 	
 	private String relatedBusinessId;
 	
-	private String storeId;		// 门店id
+	private String storeId;
 	
-	private String projectMode;//工程模式
+	private String projectMode;
 	
-	private Integer enginDepartId;//区域
+	private Integer enginDepartId;
 	
-	private String enginDepartName;//区域名称
+	private String enginDepartName;
 	
-	private Date gradeDate;//评分时间
+	private Date gradeDate;
 	
-	private String groupRealName;//工人组长
+	private String groupRealName;
 	
-	private String customerMessage;//客户地址信息
+	private String customerMessage;
 	
-	private String customerName;//客户姓名
+	private String customerName;
 	
 	private Integer packageId;
 	
-	private String packageName;//任务包名称
+	private String packageName;
 	
-	private Integer evalRoleType;//评价角色类型 1：项目经理  2：质检   3:客户
+	private Integer evalRoleType;
 	
-	private Double evaltotalScore;//总分
+	private Double evaltotalScore;
 	
-	private Double gradtotalScore;//实际得分
+	private Double gradtotalScore;
 	
 	private List<BizEvalActivityIndex> bizEvalActivityIndexList;
 	
-	private Date startDate;//开始时间
+	private Date startDate;
 	
-	private Date endDate;//结束时间
+	private Date endDate;
 	
-	private String manager;//项目经理
+	private String manager;
 	
-	private String communityName;//小区
+	private String communityName;
 	
-	private String buildNumber;//楼号
+	private String buildNumber;
 	
-	private String buildUnit;//单元
+	private String buildUnit;
 	
-	private String buildRoom;//哪一室
+	private String buildRoom;
 	
 
 	

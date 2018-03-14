@@ -15,11 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import cn.damei.entity.mobile.home.BizOrder;
 import cn.damei.entity.mobile.home.BizProjectChangeBill;
 import cn.damei.service.mobile.home.NewProjectChangeService;
-/**
- * 施工变更单
- * @author Administrator
- *
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/app/home/NewApplyProjectChange")
 public class NewProjectChangeController {
@@ -27,19 +23,14 @@ public class NewProjectChangeController {
 	@Autowired
 	private NewProjectChangeService newProjectChangeService;
 	
-	/**
-	 * 施工变更列表页
-	 * @param request
-	 * @param model
-	 * @return
-	 */
+
 	@RequestMapping(value = "list")
 	public String list(Integer orderId,HttpServletRequest request, Model model) {
 		
 		
 		String customerPhone = (String) request.getSession().getAttribute("customerPhone");
 		
-		//查询施工变更单列表
+
 		BizOrder order = newProjectChangeService.findProjectChangeBillList(customerPhone,orderId);
 		
 		if(null!=order){
@@ -56,7 +47,7 @@ public class NewProjectChangeController {
 			model.addAttribute("order", order);
 		}
 		
-		//查询订单列表
+
 		List<BizOrder> list = newProjectChangeService.findOrderList(customerPhone);
 		if(null!=list && list.size()>0){
 			if(list.size()>1){
@@ -70,23 +61,18 @@ public class NewProjectChangeController {
 		return "mobile/modules/home/projectChange/changeConstruction";
 	}
 	
-	/**
-	 * 变更单详情
-	 * @param model
-	 * @param qcBillId
-	 * @return
-	 */
+
 	@RequestMapping(value = "details")
 	public String details(Model model, Integer projectChangeId) {
 
-//		//查看消息是否已读
-//		Integer count = newProjectChangeService.findView(projectChangeId);
-//		if(count==0){
-//			//如果未读则插入已读信息
-//			newProjectChangeService.insertView(projectChangeId);
-//		}
+
+
+
+
+
+
 		
-		//变更单详情
+
 		BizProjectChangeBill projectChange = newProjectChangeService.projectChangeDetail(projectChangeId);
 		if(null!=projectChange){
 			model.addAttribute("projectChange", projectChange);
@@ -97,35 +83,29 @@ public class NewProjectChangeController {
 		return "mobile/modules/home/projectChange/changeConstruction_xiangqing";
 	}
 	
-	/**
-	 * 客户审核通过
-	 * @return
-	 */
+
 	@RequestMapping(value = "agree",method=RequestMethod.GET)
 	public @ResponseBody String agree(Integer projectChangeId,String reason,HttpServletRequest request, Model model) {
 		
-		//客户审核
+
 		String status = "40";
 		newProjectChangeService.updateChangeBill(projectChangeId,reason,status);
 		
-		//短信
+
 		newProjectChangeService.mesesagePass(projectChangeId);
 		
 		return "0";
 	}
 	
-	/**
-	 * 客户审核不通过
-	 * @return
-	 */
+
 	@RequestMapping(value = "refuse",method=RequestMethod.GET)
 	public @ResponseBody String refuse(Integer projectChangeId,String reason,HttpServletRequest request, Model model) {
 		
-		//客户审核
+
 		String status = "35";
 		newProjectChangeService.updateChangeBill(projectChangeId,reason,status);
 		
-		//短信
+
 		newProjectChangeService.mesesageRefuse(projectChangeId,reason);
 		
 		

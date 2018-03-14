@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import java.text.SimpleDateFormat;
@@ -31,11 +29,7 @@ import cn.damei.service.modules.BizPmAttendMonthService;
 import cn.damei.service.modules.BizPmAttendSalaryBillService;
 import cn.damei.service.modules.SysSequenceService;
 
-/**
- * 考勤月度工资单Controller
- * @author wl
- * @version 2017-08-07
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/attend/bizPmAttendSalaryBill")
 public class BizPmAttendSalaryBillController extends BaseController {
@@ -89,13 +83,13 @@ public class BizPmAttendSalaryBillController extends BaseController {
 		BizPmAttendSalaryBill findAttendSalaryList = bizPmAttendSalaryBillService.findAttendSalaryList(bizPmAttendSalaryBill);
 		if(null == findAttendSalaryList){
 			String sequence = sysSequenceService.getSequence(BizAttendBillConstantUtil.GZ_NO);
-			//考勤单号
+
 			String gzNo = sequence.substring(0,2);
-			//顺序码
+
 			String No = sequence.substring(2);
-			//时间
+
 			String date = BizAttendBillConstantUtil.getDate(new Date());
-			//考勤单编号
+
 			bizPmAttendSalaryBill.setPmAttendSalaryBillCode(gzNo+date+No);
 			bizPmAttendMonthService.updatePmAttendMonthStatus(bizPmAttendMonth);
 			bizPmAttendSalaryBillService.save(bizPmAttendSalaryBill);
@@ -143,7 +137,7 @@ public class BizPmAttendSalaryBillController extends BaseController {
 		System.out.println(mon);
 		List<BizPmAttendSalaryBill> findSalaryBillAuditingList = bizPmAttendSalaryBillService.findSalaryBillAuditingList(bizPmAttendSalaryBill);
 		model.addAttribute("bizPmAttendSalaryBill", bizPmAttendSalaryBill);
-		//model.addAttribute("page", findSalaryBillAuditingList);
+
 		model.addAttribute("list", findSalaryBillAuditingList);
 		model.addAttribute("maxMonth", mon);
 		return "modules/attend/bizPmAttendSalaryAuditing";

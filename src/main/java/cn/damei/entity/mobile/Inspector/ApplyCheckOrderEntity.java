@@ -6,15 +6,13 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Created by joseph on 2017/4/22.
- */
+
 public class ApplyCheckOrderEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private String customerInfo;
     private String customerPhone;
-    private String managerInfo;//name-phone
+    private String managerInfo;
     private Date actualStartDate;
     private Integer orderId;
     private Integer pqcId;

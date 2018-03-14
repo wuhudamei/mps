@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.util.List;
@@ -19,11 +17,7 @@ import cn.damei.common.service.CrudService2;
 import cn.damei.entity.modules.BizPmSettleSummaryBill;
 import cn.damei.dao.modules.BizPmSettleSummaryBillDao;
 
-/**
- * 结算汇总单Service
- * @author qww
- * @version 2016-12-26
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizPmSettleSummaryBillService extends CrudService2<BizPmSettleSummaryBillDao, BizPmSettleSummaryBill> {
@@ -66,16 +60,12 @@ public class BizPmSettleSummaryBillService extends CrudService2<BizPmSettleSumma
 		return page;
 	}
 
-	/**
-	 * 中国银行导出数据
-	 * @param bill
-	 * @return
-	 */
-	public HSSFWorkbook exportExcel(BizPmSettleSummaryBill bill) {
-		HSSFWorkbook wb = new HSSFWorkbook();// 创建一个Excel文件
-		HSSFSheet sheet = wb.createSheet("项目经理月度工程结算单");// 创建一个Excel的Sheet
 
-		// 单元格宽度
+	public HSSFWorkbook exportExcel(BizPmSettleSummaryBill bill) {
+		HSSFWorkbook wb = new HSSFWorkbook();
+		HSSFSheet sheet = wb.createSheet("项目经理月度工程结算单");
+
+
 		sheet.setColumnWidth(0, 2000);
 		sheet.setColumnWidth(1, 2000);
 		sheet.setColumnWidth(2, 3000);
@@ -100,30 +90,30 @@ public class BizPmSettleSummaryBillService extends CrudService2<BizPmSettleSumma
 		
 
 		HSSFCellStyle columnStyle = wb.createCellStyle();
-		columnStyle.setLeftBorderColor(HSSFColor.BLACK.index); // 左边框线的颜色
-		columnStyle.setBorderLeft((short) 1);// 左边框线的大小
-		columnStyle.setRightBorderColor(HSSFColor.BLACK.index); // 右边框线的颜色
-		columnStyle.setBorderRight((short) 1);// 右边框线的大小
-		columnStyle.setTopBorderColor(HSSFColor.BLACK.index); // 上边框线的颜色
-		columnStyle.setBorderTop((short) 1);// 上边框线的大小
-		columnStyle.setBottomBorderColor(HSSFColor.BLACK.index); // 下边框线的颜色
-		columnStyle.setBorderBottom((short) 1);// 下边框线的大小
+		columnStyle.setLeftBorderColor(HSSFColor.BLACK.index);
+		columnStyle.setBorderLeft((short) 1);
+		columnStyle.setRightBorderColor(HSSFColor.BLACK.index);
+		columnStyle.setBorderRight((short) 1);
+		columnStyle.setTopBorderColor(HSSFColor.BLACK.index);
+		columnStyle.setBorderTop((short) 1);
+		columnStyle.setBottomBorderColor(HSSFColor.BLACK.index);
+		columnStyle.setBorderBottom((short) 1);
 		columnStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
 
 		HSSFCellStyle headStyle = wb.createCellStyle();
-		headStyle.setLeftBorderColor(HSSFColor.BLACK.index); // 左边框线的颜色
-		headStyle.setBorderLeft((short) 1);// 左边框线的大小
-		headStyle.setRightBorderColor(HSSFColor.BLACK.index); // 右边框线的颜色
-		headStyle.setBorderRight((short) 1);// 右边框线的大小
-		headStyle.setTopBorderColor(HSSFColor.BLACK.index); // 上边框线的颜色
-		headStyle.setBorderTop((short) 1);// 上边框线的大小
-		headStyle.setBottomBorderColor(HSSFColor.BLACK.index); // 下边框线的颜色
-		headStyle.setBorderBottom((short) 1);// 下边框线的大小
-		headStyle.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);// 设置背景色
+		headStyle.setLeftBorderColor(HSSFColor.BLACK.index);
+		headStyle.setBorderLeft((short) 1);
+		headStyle.setRightBorderColor(HSSFColor.BLACK.index);
+		headStyle.setBorderRight((short) 1);
+		headStyle.setTopBorderColor(HSSFColor.BLACK.index);
+		headStyle.setBorderTop((short) 1);
+		headStyle.setBottomBorderColor(HSSFColor.BLACK.index);
+		headStyle.setBorderBottom((short) 1);
+		headStyle.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
 		headStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
 		headStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
 
-		// 标题
+
 		HSSFRow rowTitle = sheet.createRow(0);
 		HSSFCell headCell0 = rowTitle.createCell(0);
 		headCell0.setCellStyle(headStyle);
@@ -210,7 +200,7 @@ public class BizPmSettleSummaryBillService extends CrudService2<BizPmSettleSumma
 		headCell20.setCellStyle(headStyle);
 		headCell20.setCellValue("合计");
 
-		// 数据
+
 		bill.setStatus(ConstantUtils.PM_SETTLE_STATUS_50);
 		bill.setSettleRole(ConstantUtils.SETTLE_ROLE_1);
 		List<BizPmSettleSummaryBill> list = dao.findSummaryBillList(bill);
@@ -348,16 +338,12 @@ public class BizPmSettleSummaryBillService extends CrudService2<BizPmSettleSumma
 		return wb;
 	}
 
-	/**
-	 * 中国银行导出数据
-	 * @param bill
-	 * @return
-	 */
-	public HSSFWorkbook exportExcelPbc(BizPmSettleSummaryBill bill) {
-		HSSFWorkbook wb = new HSSFWorkbook();// 创建一个Excel文件
-		HSSFSheet sheet = wb.createSheet("质检员月度工程结算单");// 创建一个Excel的Sheet
 
-		// 单元格宽度
+	public HSSFWorkbook exportExcelPbc(BizPmSettleSummaryBill bill) {
+		HSSFWorkbook wb = new HSSFWorkbook();
+		HSSFSheet sheet = wb.createSheet("质检员月度工程结算单");
+
+
 		sheet.setColumnWidth(0, 2000);
 		sheet.setColumnWidth(1, 2000);
 		sheet.setColumnWidth(2, 3000);
@@ -371,30 +357,30 @@ public class BizPmSettleSummaryBillService extends CrudService2<BizPmSettleSumma
 		sheet.setColumnWidth(10, 3000);
 
 		HSSFCellStyle columnStyle = wb.createCellStyle();
-		columnStyle.setLeftBorderColor(HSSFColor.BLACK.index); // 左边框线的颜色
-		columnStyle.setBorderLeft((short) 1);// 左边框线的大小
-		columnStyle.setRightBorderColor(HSSFColor.BLACK.index); // 右边框线的颜色
-		columnStyle.setBorderRight((short) 1);// 右边框线的大小
-		columnStyle.setTopBorderColor(HSSFColor.BLACK.index); // 上边框线的颜色
-		columnStyle.setBorderTop((short) 1);// 上边框线的大小
-		columnStyle.setBottomBorderColor(HSSFColor.BLACK.index); // 下边框线的颜色
-		columnStyle.setBorderBottom((short) 1);// 下边框线的大小
+		columnStyle.setLeftBorderColor(HSSFColor.BLACK.index);
+		columnStyle.setBorderLeft((short) 1);
+		columnStyle.setRightBorderColor(HSSFColor.BLACK.index);
+		columnStyle.setBorderRight((short) 1);
+		columnStyle.setTopBorderColor(HSSFColor.BLACK.index);
+		columnStyle.setBorderTop((short) 1);
+		columnStyle.setBottomBorderColor(HSSFColor.BLACK.index);
+		columnStyle.setBorderBottom((short) 1);
 		columnStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
 
 		HSSFCellStyle headStyle = wb.createCellStyle();
-		headStyle.setLeftBorderColor(HSSFColor.BLACK.index); // 左边框线的颜色
-		headStyle.setBorderLeft((short) 1);// 左边框线的大小
-		headStyle.setRightBorderColor(HSSFColor.BLACK.index); // 右边框线的颜色
-		headStyle.setBorderRight((short) 1);// 右边框线的大小
-		headStyle.setTopBorderColor(HSSFColor.BLACK.index); // 上边框线的颜色
-		headStyle.setBorderTop((short) 1);// 上边框线的大小
-		headStyle.setBottomBorderColor(HSSFColor.BLACK.index); // 下边框线的颜色
-		headStyle.setBorderBottom((short) 1);// 下边框线的大小
-		headStyle.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);// 设置背景色
+		headStyle.setLeftBorderColor(HSSFColor.BLACK.index);
+		headStyle.setBorderLeft((short) 1);
+		headStyle.setRightBorderColor(HSSFColor.BLACK.index);
+		headStyle.setBorderRight((short) 1);
+		headStyle.setTopBorderColor(HSSFColor.BLACK.index);
+		headStyle.setBorderTop((short) 1);
+		headStyle.setBottomBorderColor(HSSFColor.BLACK.index);
+		headStyle.setBorderBottom((short) 1);
+		headStyle.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
 		headStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
 		headStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
 
-		// 标题
+
 		HSSFRow rowTitle = sheet.createRow(0);
 		HSSFCell headCell0 = rowTitle.createCell(0);
 		headCell0.setCellStyle(headStyle);
@@ -440,7 +426,7 @@ public class BizPmSettleSummaryBillService extends CrudService2<BizPmSettleSumma
 		headCell10.setCellStyle(headStyle);
 		headCell10.setCellValue("合计");
 
-		// 数据
+
 		bill.setStatus(ConstantUtils.PM_SETTLE_STATUS_50);
 		bill.setSettleRole(ConstantUtils.SETTLE_ROLE_2);
 		List<BizPmSettleSummaryBill> list = dao.findSummaryBillListPbc(bill);

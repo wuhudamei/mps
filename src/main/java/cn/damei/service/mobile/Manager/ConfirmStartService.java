@@ -54,19 +54,15 @@ import cn.damei.entity.modules.BizPhoneMsg;
 
 import net.sf.json.JSONObject;
 
-/**
- * 确认开工功能
- * @author llp
- *
- */
+
 @Service
 @Transactional(readOnly = true)
 public class ConfirmStartService extends CrudService<ConfirmStartDao, ConfirmStartOrder>{
 
 	@Autowired
-	private ConfirmStartDao confirmStartDao;//确认开工功能
+	private ConfirmStartDao confirmStartDao;
 	@Autowired
-	private OrderConfirmStartworkDao orderConfirmStartworkDao;// 确认开工功能
+	private OrderConfirmStartworkDao orderConfirmStartworkDao;
 	@Autowired
 	private BizConstructionScheduleDao bizConstructionScheduleDao;
 	@Autowired
@@ -74,7 +70,7 @@ public class ConfirmStartService extends CrudService<ConfirmStartDao, ConfirmSta
 	@Autowired
     private BroadCastService broadCastService;
 	@Autowired
-	private OrderConfirmStartworkPicDao orderConfirmStartworkPicDao;//确认开工功能
+	private OrderConfirmStartworkPicDao orderConfirmStartworkPicDao;
 	@Autowired
 	private CheckConfirmDao checkConfirmDao;
 	@Autowired
@@ -110,11 +106,7 @@ public class ConfirmStartService extends CrudService<ConfirmStartDao, ConfirmSta
 		return (confirmStartDao.updateByOrderStatusNumber(orderStatusNumber,orderStatusDescription,actualStartDate,orderId))?true:false;
 	}
 
-	/**
-	 * 进度管理
-	 * @param integer2 
-	 * @param string 
-	 */
+
 	public List<ConfirmStartOrder> queryByManagerIdList(Integer managerId) {
 		return confirmStartDao.queryByManagerIdList(managerId);
 	}
@@ -128,24 +120,7 @@ public class ConfirmStartService extends CrudService<ConfirmStartDao, ConfirmSta
 	}
 
 	
-	/**
-	 * 订单确认开工【保存】
-	 * @param houseIsNew
-	 * @param projectMode
-	 * @param storeId
-	 * @param orderId
-	 * @param input_date
-	 * @param startRemark
-	 * @param dateCompare
-	 * @param delayType
-	 * @param decorateDelayDays
-	 * @param isSelfDecorateNeedSign
-	 * @param photos
-	 * @param isNeedSign
-	 * @param request
-	 * @param manager
-	 * @return
-	 */
+
 	@Transactional(readOnly = false)
 	public String saveConfirmStart(String houseIsNew, String projectMode, String storeId, String orderId,
 			String input_date, String startRemark, String dateCompare, String delayType, String decorateDelayDays,
@@ -156,17 +131,17 @@ public class ConfirmStartService extends CrudService<ConfirmStartDao, ConfirmSta
 		
 		try {
 			
-			//1.订单id为空
+
 			if(StringUtils.isBlank(orderId)){
 				result = "1";
 				return result;
 			}
 			Integer orderIdInt = Integer.valueOf(orderId);
 
-			//查询回访节点表是否设置过这个节点
+
 			List<Map<String,Object>>ll=bizCustomerReturnVisitRecordService.findIsThereNode(storeId,0);
 			if(ll.size()>0){
-				//判断传统订单表中是否插入过该订单对应的节点数据
+
 				Integer i=0;
 				if(null!=orderId){
 					i=bizCustomerReturnVisitRecordService.findExistCount(orderIdInt,0);
@@ -182,7 +157,7 @@ public class ConfirmStartService extends CrudService<ConfirmStartDao, ConfirmSta
 					bto.preInsert();
 				}
 			}
-			//将其余的变为0状态（已作废）
+
 			List<BizCustomerReturnVisitTraditionOrderData>list=bizCustomerReturnVisitRecordService.findReturnVisitNode(orderIdInt);
 			if(list.size()>0){
 				for(BizCustomerReturnVisitTraditionOrderData bto:list){
@@ -190,45 +165,45 @@ public class ConfirmStartService extends CrudService<ConfirmStartDao, ConfirmSta
 					bizCustomerReturnVisitRecordService.updateStatus(bto);
 				}
 			}
-			//2.查询该订单是否已经开工
+
 			Integer existOrderId = orderConfirmStartworkDao.findByOrderId(orderIdInt);
 			if(null != existOrderId){
 				result = "2";
 				return result;
 			}
 			
-			//3.工程模式为空
+
 			if(StringUtils.isBlank(projectMode)){
 				result = "3";
 				return result;
 			}
 			
-			//4.请至少上传一张图片
+
 			if(null==photos || photos.length < 1){
 				result = "4";
 				return result;
 			}
 			
-			//5.查询工程进度节点
+
 			List<BizConstructionSchedule> listBcs = bizConstructionScheduleDao.getConsScheduleByIsOldHouseAndStoreId(storeId, houseIsNew, projectMode);
 			if(null==listBcs || listBcs.size()<1){
 				result = "5";
 				return result;
 			}
 			
-			//6.获取订单安装项列表
+
 			List<OrderInstallItem> installItemList = orderInstallItemDao.getByOrderIdList(orderIdInt);
 			if(null == installItemList || installItemList.size() < 1){
 				result = "6";
 				return result;
 			}
 			
-			//7.保存确认开工信息到biz_order_confirm_startwork【返回主键id】
-			//7.1开工客户签字【空】
+
+
 			if(StringUtils.isBlank(isNeedSign)){
 				isNeedSign = "1";
 			}
-			//7.2自装客户签字 【空】
+
 			if(StringUtils.isBlank(isSelfDecorateNeedSign)){
 				isSelfDecorateNeedSign = "1";
 			}
@@ -239,13 +214,13 @@ public class ConfirmStartService extends CrudService<ConfirmStartDao, ConfirmSta
 				return result;
 			}
 			
-			//8.保存播报图片及表报记录
+
 			Integer broadCastId = broadCastService.saveBroadCast(orderIdInt,photos,manager);
 			if(null == broadCastId || broadCastId < 1){
 				result = "8";
 				return result;
 			}
-			//9.保存图片【开工图片及播报图片】
+
 			try {
 				boolean picsFlag = savePicConfirmStartAndBroadCast(photos,orderConfirmStartworkID,broadCastId,startRemark,request);
 				if(!picsFlag){
@@ -258,14 +233,14 @@ public class ConfirmStartService extends CrudService<ConfirmStartDao, ConfirmSta
 				return result;
 			}
 			
-			//10.保存订单进度节点
+
 			boolean nodePlanFlag = nodePlanService.saveNodePlanList(listBcs,orderId, startRemark, input_date, manager);
 			if(!nodePlanFlag){
 				result = "10";
 				return result;
 			}
 			
-			//11.修改订单的状态
+
 			boolean orderFlag = updateByOrderStatusNumber(ConstantUtils.ORDERSTATUS_200_VALUE,
                     ConstantUtils.ORDERSTATUS_200_VALUE_REMARK, input_date, orderId);
 			if(!orderFlag){
@@ -273,7 +248,7 @@ public class ConfirmStartService extends CrudService<ConfirmStartDao, ConfirmSta
 				return result;
 			}
 			
-			//12.保存确认开工到biz_syn_date表中【同步数据表】
+
 			try {
 				saveBizSynDate(orderIdInt);
 			} catch (UnsupportedEncodingException e) {
@@ -286,7 +261,7 @@ public class ConfirmStartService extends CrudService<ConfirmStartDao, ConfirmSta
 				return result;
 			}
 			
-			//13.确认开工中提交数据需修改delay_type(延期类型0代表公司原因1代表客户原因)
+
 			if("3".equals(dateCompare)){
 				delayType = "";
 			}else if(StringUtils.isBlank(delayType)){
@@ -298,14 +273,14 @@ public class ConfirmStartService extends CrudService<ConfirmStartDao, ConfirmSta
 				return result;
 			}
 			
-			//14.批量生成主材安装项计划
+
 			boolean installPlanFlag = orderInstallPlanService.saveInstallPlanList(installItemList, input_date, manager); 
 			if(!installPlanFlag){
 				result = "14";
 				return result;
 			}
 			
-			//15.推送消息给订单流转系统
+
 			try {
 				orderInstallPlanService.sendNodePlan(orderId);
 			} catch (UnsupportedEncodingException e) {
@@ -314,22 +289,22 @@ public class ConfirmStartService extends CrudService<ConfirmStartDao, ConfirmSta
 				return result;
 			}
 			
-			//16.如果订单的工程模式为产业时，做待办业务【开工后为项目经理生成申请约检的一条待办信息】
+
 			if("1".equals(projectMode)){
-				//17.根据订单id 查询 (防重复插入校验)
+
 				Map<String, String> map = new HashMap<String, String>();
 		        map.put("relatedBusinessType", ApplyCheckToDoConstatntUtil.APPLY_CHECK_TO_DO_BUSINESS_TYPE);
 		        map.put("relatedBusinessId", null);
 		        map.put("orderId", orderId);
 	            String id = toDoItemDao.selectId(map);
 	            if(StringUtils.isBlank(id)){
-	            	//18.开工后为项目经理生成申请约检的一条待办信息
+
 	            	saveToDoItem(orderId);
 	            }
 	            
 			}
 			
-			//19.给设计师发送短信
+
 			saveMessage(orderIdInt);
 
 		} catch (NumberFormatException e) {
@@ -339,16 +314,13 @@ public class ConfirmStartService extends CrudService<ConfirmStartDao, ConfirmSta
 		return result;
 	}
 	
-	/**
-	 * 确认开工给设计师发送短信
-	 * @param orderId
-	 */
+
 	@Transactional(readOnly = false)
 	public void saveMessage(Integer orderId) {
 		
-		 //给设计师发短信
+
         Order2 order = orderDao2.get(orderId);
-        //查询设计师的ID
+
         String id = orderDao2.findDesignerId(order);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String format = sdf.format(new Date());
@@ -371,21 +343,18 @@ public class ConfirmStartService extends CrudService<ConfirmStartDao, ConfirmSta
         
 	}
 
-	/**
-	 * 开工后为项目经理生成申请约检的一条待办信息
-	 * @param orderId
-	 */
+
 	@Transactional(readOnly = false)
 	public void saveToDoItem(String orderId) {
 		
-		//1:如果没有待办信息, 根据订单id 查询出同门店,同模式下的第一条约检节点信息
+
         Map<String, String> paraMap = new HashMap<>(12);
         paraMap.put("orderId", orderId);
         paraMap.put("relatedBusinessType", ApplyCheckToDoConstatntUtil.RELATED_BUSINESS_TYPE);
         Map<String, Object> map = toDoItemDao.getToDoInfoByMap(paraMap);
         if (null != map) {
         	Date date = new Date();
-            //2 插入待办表中
+
 
             String url = "/app/manager/qualityCheck?id=" + orderId;
             ToDoItemEntity entity = new ToDoItemEntity();
@@ -410,17 +379,12 @@ public class ConfirmStartService extends CrudService<ConfirmStartDao, ConfirmSta
         
 	}
 
-	/**
-	 * 保存确认开工到biz_syn_date表中【同步数据表】
-	 * @param orderId
-	 * @throws NoSuchAlgorithmException 
-	 * @throws UnsupportedEncodingException 
-	 */
+
 	@Transactional(readOnly = false)
 	public void saveBizSynDate(Integer orderId) throws UnsupportedEncodingException, NoSuchAlgorithmException {
 		
 		Order2 order = orderDao2.get(orderId);
-		//向biz_syn_data表中保存数据  --- 确认开工时间
+
         Map<String, String> jsonMap = new HashMap<String, String>();
         jsonMap.put("time", DateUtils.formatDateTime(new Date()));
         jsonMap.put("type", "1");
@@ -438,16 +402,7 @@ public class ConfirmStartService extends CrudService<ConfirmStartDao, ConfirmSta
         bizSynDataDao.insert(bizSynData);
 	}
 
-	/**
-	 * 保存图片【开工图片及播报图片】
-	 * @param photos
-	 * @param orderConfirmStartworkID
-	 * @param broadCastId
-	 * @param startRemark
-	 * @param request
-	 * @return
-	 * @throws IOException
-	 */
+
 	@Transactional(readOnly = false)
 	public boolean savePicConfirmStartAndBroadCast(String[] photos, Integer orderConfirmStartworkID,
 			Integer broadCastId, String startRemark, HttpServletRequest request) throws IOException {
@@ -461,10 +416,10 @@ public class ConfirmStartService extends CrudService<ConfirmStartDao, ConfirmSta
 				
 				String rootPath = request.getSession().getServletContext().getRealPath("/");
                 String imgUrl = PicRootName.getConfigValue(ConstantUtils.UPLOAD_CONFIRMSTART);
-                //生成UUID
+
                 String uuid = UUID.randomUUID().toString().replaceAll("-", "");
                 File filePath = new File(rootPath + imgUrl + DateUtils.getDate1());
-                //判断该文件是否存在
+
                 if (!filePath.exists()) {
                 	
                     filePath.mkdirs();
@@ -472,9 +427,9 @@ public class ConfirmStartService extends CrudService<ConfirmStartDao, ConfirmSta
                 String picUrl = imgUrl + DateUtils.getDate1() + "/" + uuid + ".jpeg";
                 String fullPath = filePath + filePath.separator + uuid + ".jpeg";
                 logger.info("完整路径：" + fullPath);
-                Base64Util.generateImage(pic, fullPath.toString());//base64解析成图片
+                Base64Util.generateImage(pic, fullPath.toString());
 
-                //开工图片
+
                 OrderConfirmStartworkPic workPic = new OrderConfirmStartworkPic();
         		workPic.setOrderConfirmStartworkId(orderConfirmStartworkID);
         		workPic.setPicUrl(picUrl);
@@ -482,7 +437,7 @@ public class ConfirmStartService extends CrudService<ConfirmStartDao, ConfirmSta
         		workPic.preInsert();
         		startList.add(workPic);
         		
-                //轮播图
+
  				ReportCheckDetailsPic reportCheckDetailsPic = new ReportCheckDetailsPic();
  				reportCheckDetailsPic.setBusinessIdInt(broadCastId);
  				reportCheckDetailsPic.setBusinessType("501");

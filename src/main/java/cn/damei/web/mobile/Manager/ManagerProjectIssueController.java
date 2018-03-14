@@ -25,9 +25,7 @@ import cn.damei.entity.mobile.Manager.ManagerProjectIssueBean;
 import cn.damei.service.mobile.Manager.ManagerProjectIssueService;
 import cn.damei.common.utils.CusserviceUtils;
 
-/**
- * Created by joseph on 2017/7/4.
- */
+
 
 @Controller
 @RequestMapping(value = "${adminPath}/app/manager/project-issue")
@@ -84,13 +82,13 @@ public class ManagerProjectIssueController {
 		Map<String, Object> map = service.findProblemByHandleId(handleId);
 
 		String responseTime = map.get("responseTime").toString();
-		// 问题创建时间
+
 		Date problemCreateDate = (Date) map.get("createDate");
 
-		// 问题的截止日期
+
 		Date problemDelayDate = DateUtils.addDate(problemCreateDate, (new Double(responseTime)).intValue());
 
-		// 如果截止日期小于实际解决日期 就算超时
+
 		if (problemDelayDate.getTime() < date.getTime()) {
 
 			map.put("delayDays", Math.abs(DateUtils.getDistanceOfTwoDate(date, problemDelayDate)) > 0 ? Math.abs(DateUtils.getDistanceOfTwoDate(date, problemDelayDate)) + 1 : 1);
@@ -103,24 +101,13 @@ public class ManagerProjectIssueController {
 
 	}
 
-	/**
-	 * 
-	 * @Title: ajaxupdateScuStats
-	 * @Description:
-	 * @param @param workOrderCode 售后系统的唯一标示
-	 * @param @param cusServiceid 我们售后表的id
-	 * @param @param status 状态
-	 * @param @return
-	 * @return Map<String,Object>
-	 * @author ZhangTongWei
-	 * @throws
-	 */
+
 	@RequestMapping(value = "ajaxupdateScuStatsapp")
 	@ResponseBody
 	public Map<String, Object> ajaxupdateScuStats(String workOrderCode, String cusServiceid, String status) {
-		// String sendHttp1 = CusserviceUtils.sendHttp(workOrderCode, status,
-		// "http://192.168.1.90:8012/service/orderUpdate");
-		// 准生产59.110.170.55:60101
+
+
+
 		String sendHttp2 = "";
 		String result = "";
 		String msg = "";
@@ -149,34 +136,17 @@ public class ManagerProjectIssueController {
 		return resultMap;
 	}
 
-	/**
-	 * 保存项目经理处理投诉问题 数据
-	 * 
-	 * @Title: saveManagerDeal
-	 * @Description: TODO
-	 * @param @param photos 图片
-	 * @param @param dealDescribe
-	 * @param @param request
-	 * @param @param handleId 投诉单iD
-	 * @param @param complaintProblemItemId 投诉事项ID
-	 * @param @param orderId 订单ID
-	 * @param @param delayDays 超时时间
-	 * @param @param model
-	 * @param @return
-	 * @return String
-	 * @author ZhangTongWei
-	 * @throws
-	 */
+
 	@RequestMapping(value = "saveManagerDeal")
 	@ResponseBody
 	public String saveManagerDeal(String photos[], String dealDescribe, HttpServletRequest request, @RequestParam(value = "handleId") Integer handleId, Integer complaintProblemItemId, Integer orderComplaintProblemId, Integer orderId, @RequestParam(value = "delayDays") Double delayDays, Model model) {
 
-		// 去重复数据校验, 查询是否已经处理过该问题
-		// 保存答复内容
-		// 更新处理表状态-->20
-		// 更新投诉问题状态->30 (已处理)
-		// 保存图片
-		// 保存对应log
+
+
+
+
+
+
 
 		String result = service.saveManagerDeal(request, dealDescribe, handleId, complaintProblemItemId, orderId, delayDays, orderComplaintProblemId, photos);
 		return result;
@@ -192,19 +162,19 @@ public class ManagerProjectIssueController {
 	@RequestMapping(value = "managerCheckDealDetail")
 	public String managerCheckDealDetail(HttpServletRequest request, Integer handleId, Model model) {
 
-		// 根据处理id查询处理详情
+
 		Map<String, Object> map = service.findProblemByHandleId(handleId);
 
 		String responseTime = map.get("responseTime").toString();
-		// 问题创建时间
+
 		Date problemCreateDate = (Date) map.get("createDate");
-		// 问题解决时间
+
 		Date statusDateTime = (Date) map.get("statusDateTime");
 
-		// 问题的截止日期
+
 		Date problemDelayDate = DateUtils.addDate(problemCreateDate, (new Double(responseTime)).intValue());
 
-		// 如果截止日期小于实际解决日期 就算超时
+
 		if (problemDelayDate.getTime() < statusDateTime.getTime()) {
 
 			Double value = Math.abs(DateUtils.getDistanceOfTwoDate(problemDelayDate, statusDateTime)) > 0 ? Math.abs(DateUtils.getDistanceOfTwoDate(problemDelayDate, statusDateTime)) + 1 : 1;
@@ -223,19 +193,19 @@ public class ManagerProjectIssueController {
 		String businessType;
 
 		if (null == relatedId && null != handleId) {
-			// 处理问题的图片
+
 			businessIdInt = String.valueOf(handleId);
 			businessType = PictureTypeContantUtil.PICTURE_TYPE_109;
 
 		} else {
-			// 问题的图片
+
 			businessIdInt = String.valueOf(relatedId);
 			businessType = PictureTypeContantUtil.PICTURE_TYPE_200;
 
 		}
-		// 根据处理id
+
 		Map<String, String> map = new HashMap<>();
-		// 查询关联图片列表
+
 		map.put("businessIdInt", businessIdInt);
 		map.put("businessType", businessType);
 

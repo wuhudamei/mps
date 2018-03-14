@@ -12,11 +12,7 @@ import cn.damei.common.utils.DateUtils;
 import cn.damei.dao.mobile.Manager.RecheckScaleBillToiletDao;
 import cn.damei.entity.mobile.Manager.RecheckScaleBillToilet;
 
-/**
- * 上报复尺(20161107-20161113)
- * @author llp
- * 2016-11-15
- */
+
 @Service
 @Transactional(readOnly = true)
 public class RecheckScaleBillToiletService extends CrudService2<RecheckScaleBillToiletDao,RecheckScaleBillToilet>{
@@ -24,20 +20,7 @@ public class RecheckScaleBillToiletService extends CrudService2<RecheckScaleBill
 	@Autowired
 	private RecheckScaleBillToiletDao recheckScaleBillToiletDao;
 
-	/*@Transactional(readOnly = false)
-	public void insert(int idKey, String position, String packageCover, String holeWidth, String holeHigh, String thick) {
-		RecheckScaleBillToilet taokou = new RecheckScaleBillToilet();
-		
-		taokou.setId(null);
-		taokou.setRecheckScaleBillId(idKey);
-		taokou.setPosition((position.substring(0,position.indexOf("-"))).trim());
-		taokou.setRemarks(position.trim());
-		taokou.setCreateDate(DateUtils.addDate(new Date(), 0));
-		taokou.setUpdateDate(DateUtils.addDate(new Date(), 0));
-		taokou.setDelFlag("0");
-		
-		recheckScaleBillToiletDao.insert(taokou);
-	}*/
+
 	
 	@Transactional(readOnly = false)
 	public String insertToilet(int idKey, String position, String closestoolHoleSize, Integer managerID) {
@@ -58,7 +41,7 @@ public class RecheckScaleBillToiletService extends CrudService2<RecheckScaleBill
 	}
 
 	public List<RecheckScaleBillToilet> getByRecheckID(Integer recheckIDs) {
-		// TODO Auto-generated method stub
+
 		return recheckScaleBillToiletDao.getByRecheckID(recheckIDs);
 	}
 	

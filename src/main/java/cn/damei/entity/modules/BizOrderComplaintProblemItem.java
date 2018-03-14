@@ -1,22 +1,16 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import org.hibernate.validator.constraints.Length;
 
 import cn.damei.common.persistence.DataEntity;
 
-/**
- * 工程事项和工程问题对照表Entity
- * @author ztw
- * @version 2017-07-06
- */
+
 public class BizOrderComplaintProblemItem extends DataEntity<BizOrderComplaintProblemItem> {
 	
 	private static final long serialVersionUID = 1L;
-	private String orderComplaintProblemId;		// 工程问题
-	private String complaintProblemItemId;		// 问题事项ID
+	private String orderComplaintProblemId;
+	private String complaintProblemItemId;
 
 	private String  itemName;
 

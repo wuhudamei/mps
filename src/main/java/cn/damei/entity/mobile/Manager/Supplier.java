@@ -6,25 +6,23 @@ import org.hibernate.validator.constraints.Length;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 供应商管理Entity
- */
+
 public class Supplier extends DataEntity2<Supplier> {
 	
 	private static final long serialVersionUID = 1L;
-	private Integer supplierId;	//供应商id
-	private String supplierNo;		// 供应商编号
-	private String supplierName;		// 供应商名称
-	private String contacts;		// 联系人
-	private String contactsPhone;		// 联系电话
-	private String email;		// 邮箱
-	private String status;		// 状态
-	private String isSandCement;//辅料商品 是否是沙子水泥
-	private Integer orderId;	//订单ID
-	private String isElevator;	//订单 是否有电梯
-	private Integer floor;	//订单 楼层
+	private Integer supplierId;
+	private String supplierNo;
+	private String supplierName;
+	private String contacts;
+	private String contactsPhone;
+	private String email;
+	private String status;
+	private String isSandCement;
+	private Integer orderId;
+	private String isElevator;
+	private Integer floor;
 	
-	private List<SandGoods> sandGoodsList;//商品(沙子水泥)
+	private List<SandGoods> sandGoodsList;
 	
 	public Supplier() {
 		super();

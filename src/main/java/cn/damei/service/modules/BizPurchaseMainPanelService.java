@@ -17,12 +17,12 @@ import cn.damei.entity.modules.BizPurchaseMainPanel;
 public class BizPurchaseMainPanelService extends CrudService2<BizPurchaseMainPanelDao, BizPurchaseMainPanel> {
 
 	public BizPurchaseMainPanel findById(Integer id) {
-		// TODO Auto-generated method stub
+
 		return dao.get(id);
 	}
 
 	public List<BizPurchaseMainPanel> findList1(Integer applyemployeeId,String type) {
-		// TODO Auto-generated method stub
+
 		return dao.findList1(applyemployeeId,type);
 	}
 

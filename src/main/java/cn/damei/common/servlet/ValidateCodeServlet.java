@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.common.servlet;
 
 import java.awt.Color;
@@ -20,11 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.lang3.StringUtils;
 
-/**
- * 生成随机验证码
- * @author ThinkGem
- * @version 2014-7-27
- */
+
 @SuppressWarnings("serial")
 public class ValidateCodeServlet extends HttpServlet {
 	
@@ -48,7 +42,7 @@ public class ValidateCodeServlet extends HttpServlet {
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String validateCode = request.getParameter(VALIDATE_CODE); // AJAX验证，成功返回true
+		String validateCode = request.getParameter(VALIDATE_CODE);
 		if (StringUtils.isNotBlank(validateCode)){
 			response.getOutputStream().print(validate(request, validateCode)?"true":"false");
 		}else{
@@ -69,9 +63,7 @@ public class ValidateCodeServlet extends HttpServlet {
 		response.setDateHeader("Expires", 0);
 		response.setContentType("image/jpeg");
 		
-		/*
-		 * 得到参数高，宽，都为数字时，则使用设置高宽，否则使用默认值
-		 */
+
 		String width = request.getParameter("width");
 		String height = request.getParameter("height");
 		if (StringUtils.isNumeric(width) && StringUtils.isNumeric(height)) {
@@ -82,14 +74,10 @@ public class ValidateCodeServlet extends HttpServlet {
 		BufferedImage image = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
 		Graphics g = image.getGraphics();
 
-		/*
-		 * 生成背景
-		 */
+
 		createBackground(g);
 
-		/*
-		 * 生成字符
-		 */
+
 		String s = createCharacter(g);
 		request.getSession().setAttribute(VALIDATE_CODE, s);
 
@@ -114,10 +102,10 @@ public class ValidateCodeServlet extends HttpServlet {
 	}
 	
 	private void createBackground(Graphics g) {
-		// 填充背景
+
 		g.setColor(getRandColor(220,250)); 
 		g.fillRect(0, 0, w, h);
-		// 加入干扰线条
+
 		for (int i = 0; i < 8; i++) {
 			g.setColor(getRandColor(40,150));
 			Random random = new Random();
@@ -137,11 +125,11 @@ public class ValidateCodeServlet extends HttpServlet {
 		Random random = new Random();
 		StringBuilder s = new StringBuilder();
 		for (int i = 0; i < 4; i++) {
-			String r = String.valueOf(codeSeq[random.nextInt(codeSeq.length)]);//random.nextInt(10));
+			String r = String.valueOf(codeSeq[random.nextInt(codeSeq.length)]);
 			g.setColor(new Color(50 + random.nextInt(100), 50 + random.nextInt(100), 50 + random.nextInt(100)));
 			g.setFont(new Font(fontTypes[random.nextInt(fontTypes.length)],Font.BOLD,26)); 
 			g.drawString(r, 15 * i + 5, 19 + random.nextInt(8));
-//			g.drawString(r, i*w/4, h-5);
+
 			s.append(r);
 		}
 		return s.toString();

@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import java.util.Date;
@@ -10,44 +8,39 @@ import org.hibernate.validator.constraints.Length;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import cn.damei.common.persistence.DataEntity;
 
-/**
- * 客诉罚款Entity
- * 
- * @author ZTW
- * @version 2017-10-27
- */
+
 public class ProComplaintForfeit extends DataEntity<ProComplaintForfeit> {
 
 	private static final long serialVersionUID = 1L;
-	private String sortId; // 序号
-	private String orderId; // 订单ID
-	private String storeId; // 门店
-	private String orderacceptarea; // 区域
-	private String complaintProblemItemId; // 事项ID
-	private Date getOrderDatetime; // 工程部接单时间
-	private String receivePerson; // 接单人
-	private String complaintSource; // 投诉部门
-	private String complaintPersonName; // 投诉人姓名
-	private String orderNmber; // 订单编号
-	private String customername; // 客户姓名
-	private String customerPhone; // 客户手机
-	private String customerAddr; // 客户地址
-	private String itemManager; // 项目经理
-	private String itemManagerId; // 项目经理
-	private String itemManagerPhone; // 项目经理手机号
-	private String itemName; // 事项名称
+	private String sortId;
+	private String orderId;
+	private String storeId;
+	private String orderacceptarea;
+	private String complaintProblemItemId;
+	private Date getOrderDatetime;
+	private String receivePerson;
+	private String complaintSource;
+	private String complaintPersonName;
+	private String orderNmber;
+	private String customername;
+	private String customerPhone;
+	private String customerAddr;
+	private String itemManager;
+	private String itemManagerId;
+	private String itemManagerPhone;
+	private String itemName;
 
-	private Date promiseComDate; // 承诺完成时间
-	private Date actualComDate; // 实际完成时间
-	private String punishMoney; // 惩罚金额
-	private String exaOpinion; // 审批意见
-	private String status; // 状态
-	private Date beginGetOrderDatetime; // 开始 接单时间
-	private Date endGetOrderDatetime; // 结束 接单时间
-	private Date beginPromiseComDate; // 开始 计划完成时间
-	private Date endPromiseComDate; // 结束 计划完成时间
-	private Date beginActualComDate; // 开始 实际完成时间
-	private Date endActualComDate; // 结束 实际完成时间
+	private Date promiseComDate;
+	private Date actualComDate;
+	private String punishMoney;
+	private String exaOpinion;
+	private String status;
+	private Date beginGetOrderDatetime;
+	private Date endGetOrderDatetime;
+	private Date beginPromiseComDate;
+	private Date endPromiseComDate;
+	private Date beginActualComDate;
+	private Date endActualComDate;
 
 	public ProComplaintForfeit() {
 		super();

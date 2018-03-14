@@ -5,28 +5,22 @@ import java.util.Date;
 import cn.damei.common.persistence.DataEntity2;
 import cn.damei.entity.mobile.Manager.AuxiliaryVo;
 
-/** 
-* @author 梅浩   meihao@zzhyun.cn: 
-* @version 创建时间：2016年9月29日 下午8:42:43 
-* 类说明 
-*/
+
 
 public class PurchaseTwoVo extends DataEntity2<AuxiliaryVo> {
 
 	
 	
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	
 	
 	
-	private Integer orderId;//订单id
-	private String purchaseCode;//采购单编码
-	private String remarks; //收货人姓名加上手机号
-	private Date applyTime; //申请时间   当前时间
-	private Integer applyPerson;//申请人
+	private Integer orderId;
+	private String purchaseCode;
+	private String remarks;
+	private Date applyTime;
+	private Integer applyPerson;
 	private Integer  purchaseId;
 	public Integer getPurchaseId() {
 		return purchaseId;
@@ -34,11 +28,11 @@ public class PurchaseTwoVo extends DataEntity2<AuxiliaryVo> {
 	public void setPurchaseId(Integer purchaseId) {
 		this.purchaseId = purchaseId;
 	}
-	private Double AuxiliaryAllMoney; //辅料总价
-	private Date hopeForTime; //期望送货日期
-	private String  status;  //采购单状态    10-项目经理已提交辅料申请
-	private Integer totalCount; //辅料总数量
-	private String purchaseType; //采购单类别    辅材是1
+	private Double AuxiliaryAllMoney;
+	private Date hopeForTime;
+	private String  status;
+	private Integer totalCount;
+	private String purchaseType;
 	private  Date createDate;
 	
 	public Date getCreateDate() {

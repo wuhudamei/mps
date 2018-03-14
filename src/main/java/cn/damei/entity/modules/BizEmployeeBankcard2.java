@@ -4,28 +4,21 @@ import cn.damei.common.persistence.DataEntity2;
 
 public class BizEmployeeBankcard2 extends DataEntity2<BizEmployeeBankcard2>{
 
-	/**
-	 * @author wang
-	 */
+
 	private static final long serialVersionUID = 1L;
-	//private Integer id;
-	private Integer storeId;		// 门店
-	private Integer empId;		// 员工
-	private String idCardNo;		// 身份证号
-	private String bankId;		// 开户行
-	private String branchBank;		// 支行地址
-	private String bankCardNo;		// 银行卡号
-	private String empRealName;//员工姓名
-	private String bankName; //开户行名称
-	private String bankNo; //行号
-	private String provinceName; //省份
+
+	private Integer storeId;
+	private Integer empId;
+	private String idCardNo;
+	private String bankId;
+	private String branchBank;
+	private String bankCardNo;
+	private String empRealName;
+	private String bankName;
+	private String bankNo;
+	private String provinceName;
 	
-/*	public Integer getId() {
-		return id;
-	}
-	public void setId(Integer id) {
-		this.id = id;
-	}*/
+
 	public Integer getStoreId() {
 		return storeId;
 	}

@@ -8,8 +8,8 @@ public class PurchasePic extends DataEntity2<PurchasePic>{
 	
 	private static final long serialVersionUID = 1L;
 	
-	private Integer purchaseId; //采购单id
-	private String picUrl;		//图片路径
+	private Integer purchaseId;
+	private String picUrl;
 	
 	public Integer getPurchaseId() {
 		return purchaseId;

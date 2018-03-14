@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import java.text.ParseException;
@@ -54,11 +52,7 @@ import cn.damei.common.utils.UserUtils;
 import cn.damei.entity.modules.BizTaskPackageTemplatBugetAmount;
 import cn.damei.service.modules.BizTaskPackageTemplatBugetAmountService;
 
-/**
- * 订单管理Controller
- * @author llp
- * @version 2016-09-20
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/ordertaskpack/orderTaskpack")
 public class OrderTaskpackController extends BaseController {
@@ -72,7 +66,7 @@ public class OrderTaskpackController extends BaseController {
 	@Autowired
 	private OrderTaskpackServiceGenVo orderTaskpackServiceGenVo;
 	@Autowired
-	private OrderTaskpackageService OrderTaskpackageService;//订单任务包
+	private OrderTaskpackageService OrderTaskpackageService;
 	@Autowired
 	private OrderService orderService;
 	@Autowired
@@ -82,7 +76,7 @@ public class OrderTaskpackController extends BaseController {
 	@Autowired
 	private TaskpackageTemplatService taskpackageTemplatService;
 	@Autowired
-	private OrderTaskpackageProcedureService orderTaskpackageProcedureService;//订单任务包工序
+	private OrderTaskpackageProcedureService orderTaskpackageProcedureService;
 	@Autowired
 	private BizSeiralnumService bizSeiralnumService;
 	@Autowired
@@ -108,7 +102,7 @@ public class OrderTaskpackController extends BaseController {
 	@RequestMapping(value = {"preList", ""})
 	public String preList(OrderTaskpack orderTaskpack, HttpServletRequest request, HttpServletResponse response, Model model) {
 		User user = UserUtils.getUser();
-		//过滤区域
+
 		if(null == orderTaskpack.getEnginDepartId()){
 			if(null!= UserUtils.getUser().getEmpId()){
 				List<Integer> list = bizEmployeeService2.findEngineIdsByEmpId(Integer.parseInt(UserUtils.getUser().getEmpId()));
@@ -125,7 +119,7 @@ public class OrderTaskpackController extends BaseController {
 			list.add(orderTaskpack.getEnginDepartId());
 			orderTaskpack.setEnginDepartIds(list);
 		}
-		//过滤门店
+
 		if(null == orderTaskpack.getStoreId()){
 			if(null != user.getStoreId()){
 				orderTaskpack.setStoreId(user.getStoreId());
@@ -134,7 +128,7 @@ public class OrderTaskpackController extends BaseController {
 		if(StringUtils.isBlank(user.getStoreId())){
 			model.addAttribute("storeDropEnable", true);
 		}
-		//过滤工程模式
+
 		if(StringUtils.isBlank(orderTaskpack.getProjectMode())){
 			if(null != user.getEmpId()){
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -188,12 +182,12 @@ public class OrderTaskpackController extends BaseController {
 		return "modules/ordertaskpack/orderTaskpackList";
 	}
 	
-	// 已生成任务包的订单
+
 	@RequiresPermissions("ordertaskpack:orderTaskpack:view")
 	@RequestMapping(value = {"list", ""})
 	public String list(OrderTaskpack orderTaskpack,String taskpackType, HttpServletRequest request, HttpServletResponse response, Model model) {
 		User user = UserUtils.getUser();
-		//过滤区域
+
 		if(null == orderTaskpack.getEnginDepartId()){
 			if(null!= UserUtils.getUser().getEmpId()){
 				List<Integer> list = bizEmployeeService2.findEngineIdsByEmpId(Integer.parseInt(UserUtils.getUser().getEmpId()));
@@ -210,7 +204,7 @@ public class OrderTaskpackController extends BaseController {
 			list.add(orderTaskpack.getEnginDepartId());
 			orderTaskpack.setEnginDepartIds(list);
 		}
-		//过滤门店
+
 		if(null == orderTaskpack.getStoreId()){
 			if(null != user.getStoreId()){
 				orderTaskpack.setStoreId(user.getStoreId());
@@ -219,7 +213,7 @@ public class OrderTaskpackController extends BaseController {
 		if(StringUtils.isBlank(user.getStoreId())){
 			model.addAttribute("storeDropEnable", true);
 		}
-		//过滤工程模式
+
 		if(StringUtils.isBlank(orderTaskpack.getProjectMode())){
 			if(null != user.getEmpId()){
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -260,8 +254,8 @@ public class OrderTaskpackController extends BaseController {
 		}
 		List<Dict> dictListByType = orderTaskpackService.getOrderStatus(Integer.valueOf(110));
 		
-		orderTaskpack.setOrdertaskpackStatus("1");// 设置生成任务包状态为1：已生成
-		orderTaskpack.setOrderStatusNumber("110");// 设置订单状态
+		orderTaskpack.setOrdertaskpackStatus("1");
+		orderTaskpack.setOrderStatusNumber("110");
 		
 		Page<OrderTaskpack> page = orderTaskpackService.myFindPage(new Page<OrderTaskpack>(request, response), orderTaskpack);
 		model.addAttribute("page", page);
@@ -274,12 +268,12 @@ public class OrderTaskpackController extends BaseController {
 		return "modules/ordertaskpack/orderTaskpackList";
 	}
 	
-	// 待生成任务包的订单
+
 	@RequiresPermissions("ordertaskpack:orderTaskpack:view")
 	@RequestMapping(value = {"stayList", ""})
 	public String stayList(OrderTaskpack orderTaskpack,String taskpackType, HttpServletRequest request, HttpServletResponse response, Model model) {
 		User user = UserUtils.getUser();
-		//过滤区域
+
 		if(null == orderTaskpack.getEnginDepartId()){
 			if(null!= UserUtils.getUser().getEmpId()){
 				List<Integer> list = bizEmployeeService2.findEngineIdsByEmpId(Integer.parseInt(UserUtils.getUser().getEmpId()));
@@ -296,7 +290,7 @@ public class OrderTaskpackController extends BaseController {
 			list.add(orderTaskpack.getEnginDepartId());
 			orderTaskpack.setEnginDepartIds(list);
 		}
-		//过滤门店
+
 		if(null == orderTaskpack.getStoreId()){
 			if(null != user.getStoreId()){
 				orderTaskpack.setStoreId(user.getStoreId());
@@ -305,7 +299,7 @@ public class OrderTaskpackController extends BaseController {
 		if(StringUtils.isBlank(user.getStoreId())){
 			model.addAttribute("storeDropEnable", true);
 		}
-		//过滤工程模式
+
 		if(StringUtils.isBlank(orderTaskpack.getProjectMode())){
 			if(null != user.getEmpId()){
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -338,7 +332,7 @@ public class OrderTaskpackController extends BaseController {
 			}
 		}
 		
-		orderTaskpack.setOrdertaskpackStatus("0");// 设置生成任务包状态为0：未生成
+		orderTaskpack.setOrdertaskpackStatus("0");
 		Integer stayCount = orderTaskpackService.getStayOrdCount(orderTaskpack);
 		
 		Page<OrderTaskpack> page = orderTaskpackService.findPage(new Page<OrderTaskpack>(request, response), orderTaskpack); 
@@ -355,30 +349,30 @@ public class OrderTaskpackController extends BaseController {
 	@RequiresPermissions("ordertaskpack:orderTaskpack:view")
 	@RequestMapping(value = "form")
 	public String form(OrderTaskpackVo orderTaskpack, Model model,HttpServletRequest request,RedirectAttributes redirectAttributes) throws ParseException {
-		String mark = request.getParameter("mark");//标识1=生成任务包，2=查看详情
-		String id = request.getParameter("id");//订单id
-		String storeId = request.getParameter("storeId");//门店Id
-		String projectMode = request.getParameter("projectMode");//工程模式
+		String mark = request.getParameter("mark");
+		String id = request.getParameter("id");
+		String storeId = request.getParameter("storeId");
+		String projectMode = request.getParameter("projectMode");
 		
 		logger.info("标识："+mark+"\t order_taskpackage_id:" + id);
 		List<OrderTaskpackVo> list = null;
 		List<OrderTaskpackGenVo> listGen = null;
 		if(mark.equals("1")){
 			
-			//1.校验数据是否正确
+
 			Order2 order2 = orderService2.get(Integer.valueOf(id));
 			String messageVerification = orderService2.verificationPrepareOrder(order2);
 			if(null!=messageVerification && messageVerification.equals("error")){
-				//addMessage(redirectAttributes, "生成任务包失败，请完善该订单数据，再操作此功能");
+
 				String taskpackType = "1";
 				return "redirect:" + Global.getAdminPath() + "/ordertaskpack/orderTaskpack/list?taskpackType="+taskpackType;
 			}
 			
 			
-			//生成任务包
-			String contractStartDate = request.getParameter("contractStartDate");//合同开始时间
+
+			String contractStartDate = request.getParameter("contractStartDate");
 			logger.info("contractStartDate==="+contractStartDate);
-			listGen = orderTaskpackServiceGenVo.getByOrderIdAndTaskpacksgeId(contractStartDate,storeId,storeId,projectMode);//根据合同开始时间、门店查询对应的任务包--工序--工序价格
+			listGen = orderTaskpackServiceGenVo.getByOrderIdAndTaskpacksgeId(contractStartDate,storeId,storeId,projectMode);
 			logger.info("查询出来的数据为："+listGen.size());
 			
 			Order order = orderService.getByIdAndStoreId(id,storeId);
@@ -395,15 +389,15 @@ public class OrderTaskpackController extends BaseController {
 			List<OrderTaskpackGenVo> taskpackageTemplatList = orderTaskpackServiceGenVo.getTemplatByOrderIdAndTaskpacksgeId(contractStartDate,storeId,storeId,projectMode);
 			
 			model.addAttribute("taskpackageTemplatList",taskpackageTemplatList);
-			model.addAttribute("countAll", listGen.size());//查询总数
-			model.addAttribute("storeId", storeId);//门店ID
-			model.addAttribute("projectMode",projectMode);//工程模式
-			model.addAttribute("order", order);//订单
+			model.addAttribute("countAll", listGen.size());
+			model.addAttribute("storeId", storeId);
+			model.addAttribute("projectMode",projectMode);
+			model.addAttribute("order", order);
 			model.addAttribute("orderTaskpackGenList", listGen);
-			model.addAttribute("orderId", id);//订单ID
+			model.addAttribute("orderId", id);
 			model.addAttribute("templatBugetAmountMaxList",templatBugetAmountList);
 			return "modules/ordertaskpack/orderTaskpackGen";
-		}else{//显示详情
+		}else{
 			Order order = orderService.getByIdAndStoreId(id,storeId);
 			list = orderTaskpackServiceVo.getByOrderIdAndTaskpacksgeId(id);
 			BizOrderTaskpackage taskpackage = new BizOrderTaskpackage();
@@ -430,19 +424,15 @@ public class OrderTaskpackController extends BaseController {
 	@RequestMapping(value = "save",method=RequestMethod.POST)
 	public @ResponseBody String save(OrderTaskpackGenVo orderTaskpack, Model model, RedirectAttributes redirectAttributes,
 			HttpServletRequest request) throws Exception {
-		String orderId = request.getParameter("orderId");//订单ID
-		String storeId = request.getParameter("storeId");//门店ID
-		String projectMode = request.getParameter("projectMode");//工程模式
-		String json1 = request.getParameter("val");//JSON数据
+		String orderId = request.getParameter("orderId");
+		String storeId = request.getParameter("storeId");
+		String projectMode = request.getParameter("projectMode");
+		String json1 = request.getParameter("val");
 		return orderTaskpackageService.createTaskpackage(orderTaskpack, orderId, storeId, projectMode, json1);
 	}
 
 	
-	/**
-	 * 创建特殊任务包
-	 * @param id
-	 * @return
-	 */
+
 	@RequestMapping(value="toCreateSpecialTaskpackage")
 	public String toCreateSpecialTaskpackage(String id,Model model){
 		Order2 order = orderService2.get(Integer.parseInt(id));
@@ -460,13 +450,7 @@ public class OrderTaskpackController extends BaseController {
 		return "modules/ordertaskpack/createSpecialTaskpackagePage";
 	}
 	
-	/*@RequestMapping(value="addProcedure")
-	@ResponseBody
-	public String addProcedure(String procedureNo){
-		
-		System.out.println("addProcedure ok");
-		return null;
-	}*/
+
 	
 	@RequestMapping(value="procedures")
 	@ResponseBody
@@ -486,22 +470,12 @@ public class OrderTaskpackController extends BaseController {
 		}else{
 			return null;
 		}
-//		System.out.println(procedure);
-		//JsonMapper.getInstance().toJson();
+
+
 		
 	}
 	
-	/**
-	 * 生成特殊任务包
-	 * @param packageName
-	 * @param parmeters
-	 * @param startDate
-	 * @param endDate
-	 * @param orderId
-	 * @param request
-	 * @return
-	 * @throws Exception
-	 */
+
 	@RequestMapping(value="createTaskpackage")
 	@ResponseBody
 	public String createTaskpackage(String packageName,String parmeters,String startDate,String endDate,Integer orderId,HttpServletRequest request) throws Exception{

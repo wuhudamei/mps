@@ -10,11 +10,7 @@ import cn.damei.common.service.CrudService2;
 import cn.damei.dao.modules.BizAssessRuleTypeDao;
 import cn.damei.entity.modules.BizAssessRuleType;
 
-/**
- * 考核条例分类Service
- * @author hyh
- *
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizAssessRuleTypeService extends CrudService2<BizAssessRuleTypeDao, BizAssessRuleType>{

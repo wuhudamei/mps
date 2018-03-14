@@ -24,9 +24,7 @@ import cn.damei.entity.modules.BizOrderInstallPlanPic;
 import cn.damei.service.modules.BizOrderInstallAcceptanceDetailService;
 import cn.damei.service.modules.BizOrderInstallPlanPicService;
 
-/*
- *	订单交底查询
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/bizorderinstallplanpic/bizOrderInstallPlanPic")
 public class BizOrderInstallPlanPicController extends BaseController {
@@ -50,9 +48,7 @@ public class BizOrderInstallPlanPicController extends BaseController {
         return entity;
     }
 
-    /**
-     * 安装项验收明细查看图片
-     **/
+
     @RequestMapping(value = {"installAcceptPhotos", ""})
     public String installAcceptPhotos(BizOrderInstallPlanPic bizOrderInstallPlanPic, HttpServletRequest request, HttpServletResponse response, Model model, String installID, String orderID) throws IOException {
         logger.info("安装项编号：" + installID + "\t订单编号：" + orderID);
@@ -69,13 +65,11 @@ public class BizOrderInstallPlanPicController extends BaseController {
         for (BizOrderInstallPlanPic bizOrderInstallPlanPic2 : installPic) {
             System.err.println("zhangtotnwei_test:" + bizOrderInstallPlanPic2.getPicUrl());
         }
-        // /upload/pic/manager/progress/acceptance/20171031/27d239fd356443169f6e5d92302754a4.jpeg
+
         return "modules/bizEnginInstall/installAcceptPhotos";
     }
 
-    /**
-     * ajax安装项验收明细查看图片
-     **/
+
     @RequestMapping(value = "/ajaxinstallAcceptPhotos")
     @ResponseBody
     public Map<Object, Object> ajaxinstallAcceptPhotos(BizOrderInstallPlanPic bizOrderInstallPlanPic, HttpServletRequest request, HttpServletResponse response, Model model, String installID, String orderID) throws IOException {
@@ -89,7 +83,7 @@ public class BizOrderInstallPlanPicController extends BaseController {
         Map<Object, Object> mapObject = new HashMap<Object, Object>();
         mapObject.put("mapObject", installPic);
 
-        // /upload/pic/manager/progress/acceptance/20171031/27d239fd356443169f6e5d92302754a4.jpeg
+
         return mapObject;
     }
 

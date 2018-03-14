@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import javax.servlet.ServletOutputStream;
@@ -32,11 +30,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-/**
- * 辅料管理Controller
- * @author chy
- * @version 2016-09-09
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/auxiliarymaterials/bizAuxiliaryMaterials")
 public class BizAuxiliaryMaterialsController extends BaseController {
@@ -61,7 +55,7 @@ public class BizAuxiliaryMaterialsController extends BaseController {
 	@RequiresPermissions("auxiliarymaterials:bizAuxiliaryMaterials:view")
 	@RequestMapping(value = {"list", ""})
 	public String list(BizAuxiliaryMaterials bizAuxiliaryMaterials, HttpServletRequest request, HttpServletResponse response, Model model) {
-		//过滤门店
+
 		if(StringUtils.isBlank(bizAuxiliaryMaterials.getStoreId())){
 			bizAuxiliaryMaterials.setStoreId(UserUtils.getUser().getStoreId());
 		}
@@ -74,18 +68,11 @@ public class BizAuxiliaryMaterialsController extends BaseController {
 		return "modules/auxiliarymaterials/bizAuxiliaryMaterialsList";
 	}
 	
-	/**
-	 * 网真 辅料
-	 * @param bizAuxiliaryMaterials
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @return
-	 */
+
 	@RequiresPermissions("auxiliarymaterials:bizWZAuxiliaryMaterials:view")
 	@RequestMapping(value = "WZlist")
 	public String WZList(BizAuxiliaryMaterials bizAuxiliaryMaterials, HttpServletRequest request, HttpServletResponse response, Model model) {
-		//过滤门店
+
 		if(StringUtils.isBlank(bizAuxiliaryMaterials.getStoreId())){
 			bizAuxiliaryMaterials.setStoreId(UserUtils.getUser().getStoreId());
 		}
@@ -112,18 +99,11 @@ public class BizAuxiliaryMaterialsController extends BaseController {
 		return "modules/auxiliarymaterials/bizAuxiliaryMaterialsForm";
 	}
 	
-	/**
-	 * 供应商 辅料
-	 * @param bizAuxiliaryMaterials
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @return
-	 */
+
 	@RequiresPermissions("auxiliarymaterials:bizSupplierListAuxiliaryMaterials:view")
 	@RequestMapping(value = "supplierList")
 	public String supplierList(BizAuxiliaryMaterials bizAuxiliaryMaterials, HttpServletRequest request, HttpServletResponse response, Model model) {
-		//过滤门店
+
 		if(StringUtils.isBlank(bizAuxiliaryMaterials.getStoreId())){
 			bizAuxiliaryMaterials.setStoreId(UserUtils.getUser().getStoreId());
 		}
@@ -203,21 +183,16 @@ public class BizAuxiliaryMaterialsController extends BaseController {
 	}
 	
 	
-	/**
-	 * 导出excel--辅料
-	 * @param bizPmSettleBill
-	 * @param response
-	 * @throws Exception
-	 */
+
 	@RequestMapping(value="exportExcel")
 	public void exportExcel(BizAuxiliaryMaterials bizAuxiliaryMaterials, HttpServletResponse response) throws Exception{
 		SimpleDateFormat sf = new SimpleDateFormat("yyyyMMddHHmmss");
 		HSSFWorkbook excel = bizAuxiliaryMaterialsService.exportExcel(bizAuxiliaryMaterials);
-		ServletOutputStream out= null;//创建一个输出流对象
+		ServletOutputStream out= null;
 		try {
 			response.setContentType("application/binary;charset=utf-8");
-			String headerStr =new String(("辅料商品清单-"+sf.format(new Date())).getBytes("utf-8"), "ISO8859-1");//headerString为中文时转码
-			response.setHeader("Content-disposition","attachment; filename="+headerStr+".xls");//filename是下载的xls的名
+			String headerStr =new String(("辅料商品清单-"+sf.format(new Date())).getBytes("utf-8"), "ISO8859-1");
+			response.setHeader("Content-disposition","attachment; filename="+headerStr+".xls");
 			out = response.getOutputStream();
 			excel.write(out);
 		} catch (IOException ex) {

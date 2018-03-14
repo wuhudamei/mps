@@ -12,11 +12,7 @@ import cn.damei.common.utils.DateUtils;
 import cn.damei.dao.mobile.Manager.RecheckScaleBillCurtainDao;
 import cn.damei.entity.mobile.Manager.RecheckScaleBillCurtain;
 
-/**
- * 上报复尺(20161107-20161113)
- * @author llp
- * 2016-11-15
- */
+
 @Service
 @Transactional(readOnly = true)
 public class RecheckScaleBillCurtainService extends CrudService2<RecheckScaleBillCurtainDao,RecheckScaleBillCurtain>{
@@ -62,9 +58,9 @@ public class RecheckScaleBillCurtainService extends CrudService2<RecheckScaleBil
 		return recheckScaleBillCurtainDao.insertCurtain(curtain) ? "0" : "2";
 	}
 
-	//根据订单编号查询该订单复尺的所有内容
+
 	public List<RecheckScaleBillCurtain> getByRecheckID(Integer recheckIDs) {
-		// TODO Auto-generated method stub
+
 		return recheckScaleBillCurtainDao.getByRecheckID(recheckIDs);
 	}
 	

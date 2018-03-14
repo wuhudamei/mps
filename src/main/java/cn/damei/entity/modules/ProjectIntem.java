@@ -1,35 +1,29 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import org.hibernate.validator.constraints.Length;
 
 import cn.damei.common.persistence.DataEntity;
 
-/**
- * 施工项Entity
- * @author 梅浩
- * @version 2016-11-15
- */
+
 public class ProjectIntem extends DataEntity<ProjectIntem> {
 	
 	private static final long serialVersionUID = 1L;
-	private String projectItemId;		// id
-	private Integer projectIntemTypeId;		// 施工项分类
-	private String projectIntemMold;		// 施工项类型
-	private String projectIntemCode;		// 施工项编码
-	private String projectIntemName;		// 施工项名称
-	private String projectIntemUnit;		// 施工项计量单位
-	private String projectType;		// 施工类型
-	private Integer groupType;		// 套餐类型
-	private Integer status;		// 状态
-	private String projectIntemDetail;		// 施工项详情
+	private String projectItemId;
+	private Integer projectIntemTypeId;
+	private String projectIntemMold;
+	private String projectIntemCode;
+	private String projectIntemName;
+	private String projectIntemUnit;
+	private String projectType;
+	private Integer groupType;
+	private Integer status;
+	private String projectIntemDetail;
 	private String projectIntemTypeName;
-	private String usingPlatform;//使用平台
-	private String valuationMethod;//计价方式
-	private String subordinateCategory;//所属类别
-	private String isDefault;//是否是默认项
+	private String usingPlatform;
+	private String valuationMethod;
+	private String subordinateCategory;
+	private String isDefault;
 	
 	
 	

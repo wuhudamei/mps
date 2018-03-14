@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.common.utils;
 
 import java.text.ParseException;
@@ -13,11 +11,7 @@ import org.apache.commons.lang3.time.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- * 日期转换类
- * @author ThinkGem
- * @version 2013-11-03
- */
+
 public class DateConverter implements Converter {
 
 	private static final Logger logger = LoggerFactory.getLogger(DateConverter.class);
@@ -45,13 +39,7 @@ public class DateConverter implements Converter {
 		return result;
 	}
 
-	/**
-	 * Convert String to Date
-	 *
-	 * @param value
-	 * @return
-	 * @throws ParseException 
-	 */
+
 	private Date doConvertToDate(Object value) throws ParseException {
 		Date result = null;
 
@@ -59,7 +47,7 @@ public class DateConverter implements Converter {
 			result = DateUtils.parseDate((String) value, new String[] { DATE_PATTERN, DATETIME_PATTERN,
 					DATETIME_PATTERN_NO_SECOND, MONTH_PATTERN });
 
-			// all patterns failed, try a milliseconds constructor
+
 			if (result == null && StringUtils.isNotEmpty((String) value)) {
 
 				try {
@@ -72,7 +60,7 @@ public class DateConverter implements Converter {
 			}
 
 		} else if (value instanceof Object[]) {
-			// let's try to convert the first element only
+
 			Object[] array = (Object[]) value;
 
 			if (array.length >= 1) {
@@ -86,12 +74,7 @@ public class DateConverter implements Converter {
 		return result;
 	}
 
-	/**
-	 * Convert Date to String
-	 *
-	 * @param value
-	 * @return
-	 */
+
 	private String doConvertToString(Object value) {
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DATETIME_PATTERN);
 		String result = null;

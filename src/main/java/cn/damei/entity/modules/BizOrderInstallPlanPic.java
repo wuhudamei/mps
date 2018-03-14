@@ -9,34 +9,22 @@ public class BizOrderInstallPlanPic extends DataEntity2<BizOrderInstallPlanPic> 
 
 	private Integer id;
 
-	/**
-	 * 订单安装项计划id
-	 */
+
 	private Integer orderInstallPlanId;
 
-	/**
-	 * 图片路径
-	 */
+
 	private String picUrl;
 
-	/**
-	 * 备注
-	 */
+
 	private String remarks;
 
-	/**
-	 * 创建日期时间
-	 */
+
 	private Date createDate;
 
-	/**
-	 * 更新日期时间
-	 */
+
 	private Date updateDate;
 
-	/**
-	 * 是否删除
-	 */
+
 	private String delFlag;
 
 	public Integer getId() {

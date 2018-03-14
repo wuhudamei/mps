@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.util.Date;
@@ -24,11 +22,7 @@ import cn.damei.entity.modules.BizBusinessStatusLog;
 import cn.damei.entity.modules.DropModel;
 import cn.damei.dao.modules.OrderTaskpackageAuditDao;
 
-/**
- * 订单任务包审核Service
- * @author llp
- * @version 2016-09-24
- */
+
 @Service
 @Transactional(readOnly = true)
 public class OrderTaskpackageAuditService extends CrudService<OrderTaskpackageAuditDao, OrderTaskpackageAudit> {
@@ -66,22 +60,17 @@ public class OrderTaskpackageAuditService extends CrudService<OrderTaskpackageAu
 		orderTaskpackageAuditDao.updateOrderTaskpackageByPackageStatusId(auditResult,auditRemarks,id);
 	}
 	
-	/**
-	 * 预算员审核
-	 * return boolean
-	 * @param request 
-	 * @param id,auditResult,auditRemarks
-	 */
+
 	@Transactional(readOnly = false)
 	public boolean updateOrderTaskpackageByPackageStatusIdReturn(String auditResult,String auditRemarks, String id, HttpServletRequest request) {
 		boolean flag = false;
 		flag = (orderTaskpackageAuditDao.updateOrderTaskpackageByPackageStatusIdReturn(auditResult,auditRemarks,id)) ? true :false;
 		logger.info("OrderTaskpackageAuditService updateOrderTaskpackageByPackageStatusId " + flag);
-		// 添加状态日志信息
+
 		BizBusinessStatusLog statusLog = new BizBusinessStatusLog();
 		statusLog.setBusinessType(BusinessLogConstantUtil.BUSINESS_TYPE_1001);
 		statusLog.setBusinessOnlyMarkInt(Integer.parseInt(id));
-		statusLog.setBusinessStatus(ConstantUtils.ORDER_TASKPACKAGE_STATUS_20);//预算员审核通过
+		statusLog.setBusinessStatus(ConstantUtils.ORDER_TASKPACKAGE_STATUS_20);
 		statusLog.setStatusDatetime(new Date());
 		String empId = UserUtils.getUser1().getEmpId();
 		if (null != empId) {
@@ -93,16 +82,13 @@ public class OrderTaskpackageAuditService extends CrudService<OrderTaskpackageAu
 		return flag;
 	}
 
-	/**
-	 *	根据主键查询数据 
-	 * @param id
-	 */
+
 	public OrderTaskpackageAudit getById(String id) {
 		return orderTaskpackageAuditDao.getById(id);
 	}
 
 	public OrderTaskpackageAudit getByIdOrEmployee(String id) {
-		// TODO Auto-generated method stub
+
 		return orderTaskpackageAuditDao.getByIdOrEmployee(id);
 	}
 	

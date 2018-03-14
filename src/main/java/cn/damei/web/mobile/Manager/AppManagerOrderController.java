@@ -15,12 +15,7 @@ import cn.damei.entity.mobile.Manager.Manager;
 import cn.damei.entity.mobile.Manager.AppManagerOrder;
 import cn.damei.service.mobile.Manager.AppManagerOrderService;
 
-/**
- * 项目经理端
- * 现场交底
- * @author llp 
- * 2016/10/17
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/app/manager")
 public class AppManagerOrderController {
@@ -29,16 +24,10 @@ public class AppManagerOrderController {
 	@Autowired
 	private AppManagerOrderService appManagerOrderService;
 	
-	/**
-	 * 现场交底
-	 * @param appManagerOrder
-	 * @param request
-	 * @param model
-	 * @return
-	 */
+
 	@RequestMapping(value={"orderDisclose",""})
 	public String orderCadfileList(AppManagerOrder appManagerOrder, HttpServletRequest request, Model model) {
-		// 获取项目经理sesseion
+
 		Manager manager = (Manager) request.getSession().getAttribute("manager");
 		logger.info("当前项目经理ID："+ manager.getId() + "当前项目经理名字：" + manager.getRealname());
 		

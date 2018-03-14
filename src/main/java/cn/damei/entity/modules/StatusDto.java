@@ -1,27 +1,17 @@
 package cn.damei.entity.modules;
 import org.apache.commons.lang3.StringUtils;
-/**
- * 接口结果返回实体
- * @author Liwancai
- * @version 2017-05-06
- */
+
 public class StatusDto<T> {
 	
 	private final static String RESP_STATUS_CODE_SUCCESS = "200";
 	private final static String RESP_STATUS_CODE_FAIL = "201";
-    /**
-     * 状态码
-     */
+
     protected String code;
 
-    /**
-     * 信息
-     */
+
     protected String message;
 
-    /**
-     * 携带数据
-     */
+
     protected T data;
     
     public String getCode() {
@@ -72,13 +62,7 @@ public class StatusDto<T> {
         return dto;
     }
 
-    /**
-     * 自定义code
-     *
-     * @param message 消息信息
-     * @param code    code
-     * @return
-     */
+
     public static StatusDto<String> buildSuccessStatusDtoWithCode(String message, String code) {
         StatusDto<String> dto = new StatusDto<String>();
         dto.code = code;

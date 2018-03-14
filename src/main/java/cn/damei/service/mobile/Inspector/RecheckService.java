@@ -30,14 +30,7 @@ import cn.damei.entity.mobile.Manager.QualityControl;
 import cn.damei.entity.modules.BizMsg;
 import cn.damei.service.modules.BizProjectChangeBillService;
 
-/**
- * 
- * @author 梅浩
- * @2016年11月9日
- * @mdn大美装饰管理平台
- * @author_phone : 18610507472
- * @ClassInfo:复检单service
- */
+
 @Service
 @Transactional(readOnly=false)
 public class RecheckService {
@@ -48,10 +41,7 @@ public class RecheckService {
 	private BizProjectChangeBillService bizProjectChangeBillService;
 	
 
-	/**
-	 * 查询所有该质检员下的复检单
-	 * @param inspectId
-	 */
+
 	
 	public List<RecheckEntity> findRecheckList(Integer   inspectId){
 		
@@ -59,52 +49,31 @@ public class RecheckService {
 	}
 
 	
-	/**
-	 * 得到订单经纬度
-	 * 
-	 * @param orderId
-	 * @return
-	 */
+
 	public String getOrderLngLatByOrderId(Integer orderId) {
 
 		return dao.getOrderLngLatByOrderId(orderId);
 	}
 
-	/**
-	 * 质检员签到
-	 * 
-	 * @param InspectSign
-	 */
+
 	@Transactional(readOnly = false)
 	public void inspectorSign(InspectSign InspectSign) {
 
 		dao.inspectorSign(InspectSign);
 	}
-	/**
-	 * 复检单的照片
-	 * @param recheckId
-	 * @return
-	 */
+
 	public List<RecheckEntity> findRecheckPic(Integer recheckId){
 
 
 		return dao.findRecheckPic(recheckId);
 	}
-	/**
-	 * 该质检单是否有签到记录
-	 * 
-	 * @param inspectId
-	 */
+
 	public Integer findInspectSignRecord(Integer inspectId) {
 
 		return dao.findInspectSignRecord(inspectId);
 	}
 
-	/**
-	 * 更新质检员的签到记录
-	 * 
-	 * @param detail
-	 */
+
 	@Transactional(readOnly = false)
 	public void updateInspectRecord(InspectSign detail) {
 
@@ -112,11 +81,7 @@ public class RecheckService {
 	}
 	
 	
-	/**
-	 *  检查项
-	 * @return
-	 * @throws IOException 
-	 */
+
 	public void getCheckItemByRecheckId(Integer recheckId,Model model) throws IOException{
 		
 		
@@ -157,22 +122,16 @@ public class RecheckService {
 	
 	
 	
-	/**
-	 * 保存复检单图片,更改复检单状态, 次数, 检查项合格与否
-	 * @param recheckId
-	 * @param photo
-	 * @param checkItemId
-	 * @param isPassed
-	 */
+
 	@Transactional(readOnly=false)
 	public boolean  recheckManRecheckedRecheckCheckItemAndPhoto(String recheckId, String[] photo, String []checkItemId, String[] isPassed,HttpServletRequest request){
 		
 		try{
 			Date date = new Date();
-			//校验 复检单id
+
 				if(null!=recheckId){
 						
-					//如果新上传了图片,  保存
+
 					if(null!=photo&&photo.length>0){
 						
 						for (String p : photo) {
@@ -198,14 +157,14 @@ public class RecheckService {
 						
 					}
 					
-					//保存检查项的检查结果,是否合格, 
+
 					
 					if(null!=isPassed&&isPassed.length>0){
 						
 						RecheckEntity entity = new RecheckEntity();
 						
 						
-						//是否全部合格, 如果全部合格, 复检单状态更改为检查合格,不然为不合格
+
 						Integer  length = isPassed.length;
 						boolean  flag = false;
 						for(int v=0;v<isPassed.length;v++){
@@ -214,7 +173,7 @@ public class RecheckService {
 							entity.setIsPassed(isPassed[v]);
 						
 							if(isPassed[v].equals("1")){
-								//如果合格, 记录更新时间
+
 								entity.setUpdateTime(date);
 								length--;
 								if(length==0){
@@ -227,33 +186,33 @@ public class RecheckService {
 							
 							
 						}
-						//更改复检单的状态,复检次数+1,检查日期
+
 						
 						
-						//查询该复检单
+
 						RecheckEntity recheckEntity = dao.findRecheckById(Integer.parseInt(recheckId));
 						
 						if(recheckEntity == null){
 							recheckEntity = new RecheckEntity();
 						}
 						if(null!=recheckEntity){
-							//如果有检查次数, 则+1
+
 							if(null!=recheckEntity.getRecheckTimes()){
 								
 								recheckEntity.setRecheckTimes(recheckEntity.getRecheckTimes()+1);
 							}else{
-								//没有就设置为1
+
 								recheckEntity.setRecheckTimes(1);
 							}
 						}
-						//是否合格
+
 						if(flag){
-							//合格
+
 							
-							//【大美装饰管理平台】订单（东晨小区-10-4-202-王维-13333333333），复检员（王毅-13212341234），质检员复检合格，请及时登录APP查看详情。
+
 							QualityControl control = itemDao.findMessageInfoByInspectId(Integer.parseInt(recheckId));
 							String content = "订单（" + control.getCommunityName() + "-" + control.getBuildNumber() + "-" + control.getBuildUnit() + "-" + control.getBuildRoom() + "-" + control.getCustomerName() + "-" + control.getCustomerPhone() + "，质检员（" + SessionUtils.getInspectorSession(request).getRealName() + "-" + SessionUtils.getInspectorSession(request).getPhone() + "）质检员复检合格,请及时登录APP查看详情。";
-							//发给经理, 短信内质检员
+
 							PhoneMessageEntity entity2 = new PhoneMessageEntity();
 							entity2.setReceiveEmployeeId(control.getItemManagerId());
 							entity2.setReceivePhone(control.getPhone());
@@ -264,11 +223,9 @@ public class RecheckService {
 							entity2.setRelatedBusinessType("600402");
 							messageDao.saveMessageContent(entity2);
 							
-							//=====================================消息推送start========================================================
+
 							
-							/**
-							 * 消息推送   消息推送类型 103002001-通知项目经理-复检合格
-							 */
+
 							BizMsg bizMsg = new BizMsg();
 							bizMsg.setMsgTitle("质检员复检合格");
 							bizMsg.setMsgTime(date);
@@ -278,16 +235,16 @@ public class RecheckService {
 							bizMsg.setBusiIdInt(Integer.valueOf(recheckId));
 							bizMsg.setEmployeeId(control.getItemManagerId());
 							bizProjectChangeBillService.saveBizMsg(bizMsg);
-							//=====================================消息推送end========================================================
+
 							
 							
 						recheckEntity.setRecheckStatus("4");
 						}else{
-							//不合格
-							//订单（东晨小区-10-4-202-王维-13333333333），复检员（王毅-13212341234），质检员复检合格，请及时登录APP查看详情。
+
+
 							recheckEntity.setRecheckStatus("3");
 							
-							//发给项目经理,短信内质检员
+
 							QualityControl control = itemDao.findMessageInfoByInspectId(Integer.parseInt(recheckId));
 							String content2 = "订单（" + control.getCommunityName() + "-" + control.getBuildNumber() + "-" + control.getBuildUnit() + "-" + control.getBuildRoom() + "-" + control.getCustomerName() + "-" + control.getCustomerPhone() + "，质检员（" + SessionUtils.getInspectorSession(request).getRealName() + "-" + SessionUtils.getInspectorSession(request).getPhone() + "）质检员复检不合格，不合格原因（检查不合格），请及时登录APP查看详情。";
 							PhoneMessageEntity entity2 = new PhoneMessageEntity();
@@ -300,11 +257,9 @@ public class RecheckService {
 							entity2.setRelatedBusinessType("600401");
 							messageDao.saveMessageContent(entity2);
 							
-							//=====================================消息推送start========================================================
+
 							
-							/**
-							 * 消息推送   消息推送类型 103002002-通知项目经理-复检不合格
-							 */
+
 							BizMsg bizMsg = new BizMsg();
 							bizMsg.setMsgTitle("质检员复检不合格");
 							bizMsg.setMsgTime(date);
@@ -314,7 +269,7 @@ public class RecheckService {
 							bizMsg.setBusiIdInt(Integer.valueOf(recheckId));
 							bizMsg.setEmployeeId(control.getItemManagerId());
 							bizProjectChangeBillService.saveBizMsg(bizMsg);
-							//=====================================消息推送end========================================================
+
 							
 							
 						}
@@ -342,10 +297,7 @@ public class RecheckService {
 	@Autowired
 	private PhoneMessageDao messageDao;
 
-	/**
-	 * 查询复检单
-	 * @param recheckId
-	 */
+
 	public RecheckEntity findRecheckById(Integer recheckId){
 
 

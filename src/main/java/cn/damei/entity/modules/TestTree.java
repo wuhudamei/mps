@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -9,18 +7,14 @@ import org.hibernate.validator.constraints.Length;
 
 import cn.damei.common.persistence.TreeEntity;
 
-/**
- * 树结构生成Entity
- * @author ThinkGem
- * @version 2015-04-06
- */
+
 public class TestTree extends TreeEntity<TestTree> {
 	
 	private static final long serialVersionUID = 1L;
-	private TestTree parent;		// 父级编号
-	private String parentIds;		// 所有父级编号
-	private String name;		// 名称
-	private Integer sort;		// 排序
+	private TestTree parent;
+	private String parentIds;
+	private String name;
+	private Integer sort;
 	
 	public TestTree() {
 		super();

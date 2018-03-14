@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.util.List;
@@ -14,11 +12,7 @@ import cn.damei.common.persistence.Page;
 import cn.damei.common.service.CrudService2;
 import cn.damei.dao.modules.BizOrderInstallItemProblemLogDao;
 
-/**
- * 订单安装项问题日志Service
- * @author 汪文
- * @version 2017-02-20
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizOrderInstallItemProblemLogService extends CrudService2<BizOrderInstallItemProblemLogDao, BizOrderInstallItemProblemLog> {

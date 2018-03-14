@@ -5,45 +5,43 @@ import java.util.Date;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 材料统计表Entity
- */
+
 public class PurchaseStatistics extends DataEntity2<PurchaseStatistics> {
 	
 	private static final long serialVersionUID = 1L;
-	private Integer storeId;		//门店id
-	private String storeName;		//门店名称
+	private Integer storeId;
+	private String storeName;
 	
-	private String projectMode;		//工程模式id
-	private String projectModeName;		//工程模式
+	private String projectMode;
+	private String projectModeName;
 	
-	private Date beginDateTime; //开始时间
-	private Date endDateTime; //结束时间
+	private Date beginDateTime;
+	private Date endDateTime;
 	
-	private String type;//类型
-	private Integer typeCount;//类型数量
+	private String type;
+	private Integer typeCount;
 	
-	private Integer auxiliaryApplyCount; //辅料发货申请单数
-	private Integer auxiliaryTransferSupplierCount; //辅料转供应商单数
-	private Integer auxiliaryReceiveCount; //辅料收货单数
+	private Integer auxiliaryApplyCount;
+	private Integer auxiliaryTransferSupplierCount;
+	private Integer auxiliaryReceiveCount;
 	
-	private Integer sandApplyCount; //沙子水泥发货申请单数
-	private Integer sandTransferSupplierCount; //沙子水泥转供应商单数
-	private Integer sandReceiveCount; //沙子水泥收货单数
+	private Integer sandApplyCount;
+	private Integer sandTransferSupplierCount;
+	private Integer sandReceiveCount;
 	
-	private Integer standardApplyCount; //标化申请单数
-	private Integer standardReceiveCount; //标化领取单数
+	private Integer standardApplyCount;
+	private Integer standardReceiveCount;
 
-	private Integer downlightApplyCount; //筒灯灯带申请单数
-	private Integer downlightReceiveCount; //筒灯灯带领取单数
+	private Integer downlightApplyCount;
+	private Integer downlightReceiveCount;
 	
-	private Integer wallFloorApplyCount; //墙地砖发货申请单数
-	private Integer wallFloorTransferSupplierCount; //墙地砖转供应商单数
-	private Integer wallFloorReceiveCount; //墙地砖收货单数
+	private Integer wallFloorApplyCount;
+	private Integer wallFloorTransferSupplierCount;
+	private Integer wallFloorReceiveCount;
 	
-	private Integer mainPanelApplyCount; //开关面板发货申请单数
-	private Integer mainPanelTransferSupplierCount; //开关面板转供应商单数
-	private Integer mainPanelReceiveCount; //开关面板收货单数
+	private Integer mainPanelApplyCount;
+	private Integer mainPanelTransferSupplierCount;
+	private Integer mainPanelReceiveCount;
 	
 	
 	public PurchaseStatistics() {

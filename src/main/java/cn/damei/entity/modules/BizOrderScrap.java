@@ -1,63 +1,59 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import java.util.Date;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 订单作废Entity
- */
+
 public class BizOrderScrap extends DataEntity2<BizOrderScrap> {
 
 	private static final long serialVersionUID = 1L;
 
-	private String orderId; // 订单id
-	private Integer storeId; // 门店id
-	private String storeName; // 门店名称
-	private Integer enginDepartId; // 区域id
-	private String enginDepartName; // 区域名称
-	private String projectMode; // 工程模式
-	private String projectModeName; // 工程模式名称
+	private String orderId;
+	private Integer storeId;
+	private String storeName;
+	private Integer enginDepartId;
+	private String enginDepartName;
+	private String projectMode;
+	private String projectModeName;
 
-	private String orderNumber; // 订单编号
+	private String orderNumber;
 
-	private String communityName; // 小区名称
-	private String buildNumber; // 几号楼
-	private String buildUnit; // 几单元
-	private String buildRoom; // 哪一室
+	private String communityName;
+	private String buildNumber;
+	private String buildUnit;
+	private String buildRoom;
 
-	private String customerName; // 客户姓名
-	private String customerPhone; // 客户电话
+	private String customerName;
+	private String customerPhone;
 
-	private Integer itemManagerId; // 项目经理id
-	private String itemManager; // 项目经理
+	private Integer itemManagerId;
+	private String itemManager;
 
-	private Integer orderInspectorId; // 订单质检员
-	private String orderInspector; // 订单质检员
+	private Integer orderInspectorId;
+	private String orderInspector;
 
-	private String designerName; // 设计师姓名
-	private String designerPhone; // 设计师电话
+	private String designerName;
+	private String designerPhone;
 
-	private String orderStatusNumber; // 订单状态码 创建订单成功默认状态码 105
-	private String orderStatusDescription; // 订单状态码详情 默认详情 确认订单 状态码105
+	private String orderStatusNumber;
+	private String orderStatusDescription;
 
-	private Date signContractDate; // 签约日期
-	private Date contractStartDate; // 合同开工日期
-	private Date contractEndDate; // 合同竣工日期
-	private Date getOrderDatetime; // 接单日期
+	private Date signContractDate;
+	private Date contractStartDate;
+	private Date contractEndDate;
+	private Date getOrderDatetime;
 
-	private String istorefreshprocessdata; // 大看版
-	private String isScrap; // 是否作废
-	private Integer scrapOperatorEmployeeId; // 作废操作人员工id
-	private String scrapOperatorEmployeeName; // 作废操作人员工/名称
-	private Date scrapDatetime; // 作废日期时间
-	private String scrapDescribe; // 作废说明
-	private Date qcCompleteAcceptCheckDatetime; // 质检竣工验收日期时间
-	private String scrapReasonType; // 作废原因类型
-	private String scrapReasonTypeName; // 作废原因类型/名称
+	private String istorefreshprocessdata;
+	private String isScrap;
+	private Integer scrapOperatorEmployeeId;
+	private String scrapOperatorEmployeeName;
+	private Date scrapDatetime;
+	private String scrapDescribe;
+	private Date qcCompleteAcceptCheckDatetime;
+	private String scrapReasonType;
+	private String scrapReasonTypeName;
 
 	public String getFlag() {
 		char charAt = orderNumber.charAt(0);

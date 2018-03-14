@@ -9,11 +9,7 @@ import cn.damei.common.service.CrudService;
 import cn.damei.dao.mobile.Manager.PackTimeChangeDao;
 import cn.damei.entity.mobile.Manager.TaskPackage;
 
-/** 
-* @author 梅浩   meihao@zzhyun.cn: 
-* @version 创建时间：2016年10月19日 下午5:46:28 
-* 类说明 
-*/
+
 @Service
 @Transactional(readOnly=true)
 public class PackTimeChangeService extends CrudService<PackTimeChangeDao, TaskPackage> {

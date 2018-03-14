@@ -9,11 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import cn.damei.common.service.CrudService2;
 import cn.damei.dao.modules.BizOrderChangeDao;
 
-/**
- * 订单变更Service
- * @author hyh
- *
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizOrderChangeService extends CrudService2<BizOrderChangeDao, BizOrderChange>{

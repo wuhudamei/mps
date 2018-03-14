@@ -1,26 +1,20 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import org.hibernate.validator.constraints.Length;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 订单图片Entity
- * @author mh
- * @version 2016-09-08
- */
+
 public class OrderCadfile extends DataEntity2<OrderCadfile> {
 	
 	private static final long serialVersionUID = 1L;
-	private Integer orderId;		// 所有订单id
-	private String orderNumber;//订单编号
-	private String displayFileName;		// 订单图纸文件名-显示
-	private String fileName;		// 订单图纸文件名-系统生成的文件名
-	private String filePath;		// 订单图纸文件路径
-	private Integer version;		// 文件版本
+	private Integer orderId;
+	private String orderNumber;
+	private String displayFileName;
+	private String fileName;
+	private String filePath;
+	private Integer version;
 	private String flag;
 	
 	

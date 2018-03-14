@@ -15,17 +15,13 @@ import cn.damei.common.service.CrudService2;
 import cn.damei.dao.mobile.Manager.ManagerBizOrderReportDao;
 import cn.damei.entity.modules.BizOrderReport;
 
-/**
- * 项目经理App返单上报Service
- * @author hyh
- *
- */
+
 @Service
 @Transactional(readOnly = true)
 public class ManagerBizOrderReportService extends CrudService2<ManagerBizOrderReportDao, BizOrderReport>{
 
 
-	//log及校验返单的service
+
 	@Autowired
 	private ReturnOrderLogBusinessService reportLogService;
 
@@ -52,11 +48,7 @@ public class ManagerBizOrderReportService extends CrudService2<ManagerBizOrderRe
 	}
 
 
-	/**
-	 * 保存返单
-	 * @param bizOrderReport
-	 * @param manager
-	 */
+
 	@Transactional(readOnly = false)
 	public void save(BizOrderReport bizOrderReport,Manager manager){
 		bizOrderReport.setReporterEmployeeId(manager.getId());
@@ -65,9 +57,9 @@ public class ManagerBizOrderReportService extends CrudService2<ManagerBizOrderRe
 		bizOrderReport.setStoreId(Integer.valueOf(manager.getStoreid()));
 
 		bizOrderReport.setReportDatetime(new Date());
-		bizOrderReport.setReportStatus(BizOrderReportConstantUtil.REPORT_STATUS_10);//返单上报
-		bizOrderReport.setReporterType(BizOrderReportConstantUtil.REPORT_TYPE_1);//项目经理
-		bizOrderReport.setReportSourceType(BizOrderReportConstantUtil.REPORT_SOURCE_TYPE_1);//项目经理APP
+		bizOrderReport.setReportStatus(BizOrderReportConstantUtil.REPORT_STATUS_10);
+		bizOrderReport.setReporterType(BizOrderReportConstantUtil.REPORT_TYPE_1);
+		bizOrderReport.setReportSourceType(BizOrderReportConstantUtil.REPORT_SOURCE_TYPE_1);
 
 
 		super.save(bizOrderReport);

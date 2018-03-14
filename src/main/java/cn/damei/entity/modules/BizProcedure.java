@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import java.util.Date;
@@ -9,21 +7,17 @@ import org.hibernate.validator.constraints.Length;
 
 import cn.damei.common.persistence.DataEntity;
 
-/**
- * 工序管理Entity
- * @author 魏建勇
- * @version 2016-09-03
- */
+
 public class BizProcedure extends DataEntity<BizProcedure> {
 	
 	private static final long serialVersionUID = 1L;
-	private String procedureNo;		// 工序编号
-	private String procedureName;		// 工序名称
-	private String isOtherFlag;		// 是否其他
-	private String measurementUnit;		// 计量单位
-	private String isEnable;		// 启用标记
-	private Date beginDate;        // 开始日期
-    private Date endDate;       // 结束日期
+	private String procedureNo;
+	private String procedureName;
+	private String isOtherFlag;
+	private String measurementUnit;
+	private String isEnable;
+	private Date beginDate;
+    private Date endDate;
 	
 	public BizProcedure() {
 		super();
@@ -78,30 +72,22 @@ public class BizProcedure extends DataEntity<BizProcedure> {
 		this.isEnable = isEnable;
 	}
 
-    /**
-     * @return the beginDate
-     */
+
     public Date getBeginDate() {
         return beginDate;
     }
 
-    /**
-     * @param beginDate the beginDate to set
-     */
+
     public void setBeginDate(Date beginDate) {
         this.beginDate = beginDate;
     }
 
-    /**
-     * @return the endDate
-     */
+
     public Date getEndDate() {
         return endDate;
     }
 
-    /**
-     * @param endDate the endDate to set
-     */
+
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }

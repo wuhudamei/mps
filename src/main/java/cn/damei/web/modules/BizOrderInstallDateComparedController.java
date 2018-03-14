@@ -21,11 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Arrays;
 
-/**
- *	@author llp
- *	说明： 到场日期对比表
- *	@version 20161124-20161204
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/bizorderinstalldatecompared/bizOrderInstallDateCompared")
 public class BizOrderInstallDateComparedController extends BaseController {
@@ -52,7 +48,7 @@ public class BizOrderInstallDateComparedController extends BaseController {
 	@RequestMapping(value = { "preList", "" })
 	public String preList(BizOrderInstallDateCompared bizOrderInstallDateCompared,Model model) {
 		User user = UserUtils.getUser();
-		//过滤门店
+
 		if(null == bizOrderInstallDateCompared.getStoreId()){
 			if(null != user.getStoreId()){
 				bizOrderInstallDateCompared.setStoreId(Integer.valueOf(user.getStoreId()));
@@ -61,7 +57,7 @@ public class BizOrderInstallDateComparedController extends BaseController {
 		if(StringUtils.isBlank(user.getStoreId())){
 			model.addAttribute("storeDropEnable", true);
 		}
-		//过滤工程模式
+
 		if(null != user.getEmpId()){
 			BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
 			if(StringUtils.isBlank(be.getProjectMode())){
@@ -85,7 +81,7 @@ public class BizOrderInstallDateComparedController extends BaseController {
 	public String list(BizOrderInstallDateCompared bizOrderInstallDateCompared, HttpServletRequest request, 
 			HttpServletResponse response, Model model) {
 		User user = UserUtils.getUser();
-		//过滤门店
+
 		if(null == bizOrderInstallDateCompared.getStoreId()){
 			if(null != user.getStoreId()){
 				bizOrderInstallDateCompared.setStoreId(Integer.valueOf(user.getStoreId()));
@@ -94,7 +90,7 @@ public class BizOrderInstallDateComparedController extends BaseController {
 		if(StringUtils.isBlank(user.getStoreId())){
 			model.addAttribute("storeDropEnable", true);
 		}
-		//过滤工程模式
+
 		if(null != user.getEmpId()){
 			BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
 			if(StringUtils.isBlank(be.getProjectMode())){

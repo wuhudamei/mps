@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import org.hibernate.validator.constraints.Length;
@@ -11,67 +9,63 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import cn.damei.common.persistence.DataEntity;
 
-/**
- * 考勤月度工资单Entity
- * @author wl
- * @version 2017-08-07
- */
+
 public class BizPmAttendSalaryBill extends DataEntity<BizPmAttendSalaryBill> {
 	
 	private static final long serialVersionUID = 1L;
-	private String salaryBillId; //工资单Id
-	private String pmAttendSalaryBillCode;		// 工资单编号
-	private String pmAttendSalarySummaryBillId;		// pm工资汇总ID
-	private String pmAttendMonthId;		// 考勤月度ID
-	private String pmEmployeeId;		// 员工ID
-	private String pmStar;		// 星级
-	private String pmStarSalary;		// 星级全勤底薪
-	private String pmStarSalaryMin;		// 星级最低薪水
-	private String pmStarSalaryAttendFullDefault;		// 考勤周期全勤薪水
-	private String pmStarSalaryAttendDefault;		// 考勤薪水
-	private String pmStarSalaryRealDefault;		// 实际薪水
-	private String pmStarSalaryAttendFull;		// 考勤周期全勤薪水
-	private String pmStarSalaryAttend;		// 考勤薪水
-	private String pmStarSalaryPunish;		// 薪水扣款
-	private String pmStarSalaryReal;		// 实际薪水
-	private String status;		// 状态
-	private Date statusDatetime;		// 状态日期时间
-	private String statusEmployeeId;		// 状态操作人员ID
-	private String statusDescribe;		// 状态描述
-	private String storeId; //门店ID
-	private String enginDepartId; //区域ID
-	private String departmentName; //区域名称
-	private String attendMonth;		// 考勤月份
-	private String attendRateStart; //考勤率开始
-	private String attendRateEnd; //考勤率结束
-	private String itemManager; //项目经理名称
-	private BigDecimal attendRate;	// 考勤率
+	private String salaryBillId;
+	private String pmAttendSalaryBillCode;
+	private String pmAttendSalarySummaryBillId;
+	private String pmAttendMonthId;
+	private String pmEmployeeId;
+	private String pmStar;
+	private String pmStarSalary;
+	private String pmStarSalaryMin;
+	private String pmStarSalaryAttendFullDefault;
+	private String pmStarSalaryAttendDefault;
+	private String pmStarSalaryRealDefault;
+	private String pmStarSalaryAttendFull;
+	private String pmStarSalaryAttend;
+	private String pmStarSalaryPunish;
+	private String pmStarSalaryReal;
+	private String status;
+	private Date statusDatetime;
+	private String statusEmployeeId;
+	private String statusDescribe;
+	private String storeId;
+	private String enginDepartId;
+	private String departmentName;
+	private String attendMonth;
+	private String attendRateStart;
+	private String attendRateEnd;
+	private String itemManager;
+	private BigDecimal attendRate;
 	
-	private String itemManagerId;//项目经理ID
+	private String itemManagerId;
 	
-	private String phone;//项目经理手机号
+	private String phone;
 	
-	private String customerName; //客户姓名
+	private String customerName;
 	
-	private String customerAddress; //客户地址
+	private String customerAddress;
 	
-	private String orderStatusNumber; //订单状态
+	private String orderStatusNumber;
 	
-	private String countDay; //应签到天数
+	private String countDay;
 	
-	private String sjCountDay; //实际签到天数
+	private String sjCountDay;
 	
-	private String wcDay; //误差天数
+	private String wcDay;
 	
-	private double starSalaryAllAttend;  //星级全勤底薪
+	private double starSalaryAllAttend;
 	
-	private double starSalaryMin;  //星级最低底薪
+	private double starSalaryMin;
 	
-	private double starSalaryReal; //实际薪水
+	private double starSalaryReal;
 
-	private String actualValueTotal;//实际取值总和
+	private String actualValueTotal;
 
-	private String salaryBillIds;//全选(工资单ID）
+	private String salaryBillIds;
 
 	public String getSalaryBillIds() {
 		return salaryBillIds;

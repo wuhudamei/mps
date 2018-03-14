@@ -7,35 +7,33 @@ import cn.damei.common.persistence.DataEntity2;
 
 public class MaterialScheduleQueryEntity extends DataEntity2<MaterialScheduleQueryEntity> {
 
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
-	private Integer storeId;	//门店
-	private String orderNumber;	//订单编号
-	private String communityName;//小区
-	private String buildNumber;//楼
-	private String buildUnit;	//单元
-	private String buildRoom;	//室
-	private String customerName;	//客户姓名
-	private String itemManager;	//项目经理
-	private String purchaseType;	//材料类型
-	private String purchaseCode;	//采购单编号
-	private String status;	//采购单状态
-	private Date applyTime;		//项目经理申请日期
-	private Date beginApplyTime;	//开始   项目经理申请日期
-	private Date endAapplyTime;		//结束   项目经理申请日期
-	private Date transferDate;		//转单日期
-	private Date beginTransferDate;	//开始 转单日期
-	private Date endTransferDate;		//结束  转单日期
-	private Date completionDate;		//收货完成日期
-	private Date beginCompletionDate;	//开始   收货完成日期
-	private Date endCompletionDate;		//结束   收货完成日期
-	private Integer  acceptMaterialCount;//收货次数 
-	private Integer purchaseId;// 采购单id
-	private List<String> purchaseStatusList;//状态集合
-	private Date recieveGoodsDate;//收货日期
-	private String projectMode;//工程模式
+	private Integer storeId;
+	private String orderNumber;
+	private String communityName;
+	private String buildNumber;
+	private String buildUnit;
+	private String buildRoom;
+	private String customerName;
+	private String itemManager;
+	private String purchaseType;
+	private String purchaseCode;
+	private String status;
+	private Date applyTime;
+	private Date beginApplyTime;
+	private Date endAapplyTime;
+	private Date transferDate;
+	private Date beginTransferDate;
+	private Date endTransferDate;
+	private Date completionDate;
+	private Date beginCompletionDate;
+	private Date endCompletionDate;
+	private Integer  acceptMaterialCount;
+	private Integer purchaseId;
+	private List<String> purchaseStatusList;
+	private Date recieveGoodsDate;
+	private String projectMode;
 	
 	public String getProjectMode() {
 		return projectMode;

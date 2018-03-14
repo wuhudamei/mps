@@ -6,74 +6,70 @@ import java.util.List;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 准产业项目经理结算单汇总实体类
- * @author hyh
- *
- */
+
 public class BizPmPreIndustrySettleSummaryBill extends DataEntity2<BizPmPreIndustrySettleSummaryBill> {
 
 	private static final long serialVersionUID = 1L;
 	
-	private String pmPreIndustrySettleSummaryBill;//汇总单号
+	private String pmPreIndustrySettleSummaryBill;
 	
-	private Integer storeId;//门店
+	private Integer storeId;
 
 	private String storeName;
 	
-	private Integer projectMode;//工程模式
+	private Integer projectMode;
 	
-	private Integer enginDepartId;//区域
+	private Integer enginDepartId;
 	
-	private String enginDepartName;//
+	private String enginDepartName;
 	
 	private List<Integer> enginDepartIds = new ArrayList<Integer>();
 	
-	private String settleMonth;//结算月份
+	private String settleMonth;
 	
-	private Integer pmEmployeeId;//项目经理员工ID
+	private Integer pmEmployeeId;
 	
-	private String pmEmployeeName;//项目经理员工
+	private String pmEmployeeName;
 	
-	private String pmEmployeePhone;//项目经理手机号
+	private String pmEmployeePhone;
 	
-	private Double contractAmount;//承包总金额
+	private Double contractAmount;
 	
-	private Double midwayQcCheckPunishAmount;//质检罚款总金额
+	private Double midwayQcCheckPunishAmount;
 	
-	private Double rewardAmount;//奖励金额
+	private Double rewardAmount;
 	
-	private Double punishAmount;//扣款金额
+	private Double punishAmount;
 	
-	private Double orderChangeAddAmount;//变更增项金额
+	private Double orderChangeAddAmount;
 	
-	private Double orderChangeReduceAmount;//变更减项金额
+	private Double orderChangeReduceAmount;
 	
-	private Double midwayBasicworkAddAmount;//中期基装增项金额
+	private Double midwayBasicworkAddAmount;
 	
-	private Double midwayMaterialsStandardAmount;//中期标化辅料扣款金额
+	private Double midwayMaterialsStandardAmount;
 	
-	private Double midwayMaterialsAuxiliaryAmount;//中期辅料用量扣款金额
+	private Double midwayMaterialsAuxiliaryAmount;
 	
-	private Double midwaySandCementAmount;//中期水泥沙子扣款金额
+	private Double midwaySandCementAmount;
 	
-	private Double midwaSwitchPanelAmount;//中期开关面板扣款金额
+	private Double midwaSwitchPanelAmount;
 	
-	private Double midwayWorkerSalaryAmount;//中期工人人工费扣款金额
+	private Double midwayWorkerSalaryAmount;
 	
-	private Double midwayMaterialCarryCostAmount;//中期材料搬运及运输费金额
+	private Double midwayMaterialCarryCostAmount;
 	
-	private Double completeGuaranteeMoneyAmount;//竣工质保金金额
+	private Double completeGuaranteeMoneyAmount;
 	
-	private Double completeLongwayCommissionAmount;//竣工远程费金额
+	private Double completeLongwayCommissionAmount;
 	
-	private Double contractSettleAmount;//承包价结算金额
+	private Double contractSettleAmount;
 	
-	private Double realSettleAmount;//实际结算金额
+	private Double realSettleAmount;
 	
-	private Double midwayRealSettleAmount;//中期结算金额
+	private Double midwayRealSettleAmount;
 	
-	private Double completeRealSettleAmount;//竣工结算金额
+	private Double completeRealSettleAmount;
 	
 	private String status; 
 	

@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import org.hibernate.validator.constraints.Length;
@@ -9,23 +7,19 @@ import cn.damei.common.persistence.DataEntity2;
 
 
 
-/**
- * 订单安装项问题日志Entity
- * @author 汪文
- * @version 2017-02-20
- */
+
 public class BizOrderInstallItemProblemLog extends DataEntity2<BizOrderInstallItemProblemLog> {
 	
 	private static final long serialVersionUID = 1L;
-	private Integer businessProblemId;		// 问题上报id
-	private String status;		// 状态
-	private String problemSolveRole;		// 问题处理角色
-	private Integer problemSolveEmployeeId;		// 问题处理员工id
-	private String problemSolveEmployeeName;		// 问题处理员工 名字
-	private String problemSolveEmployeePhone;		// 问题处理员工 电话
-	private String problemSolveNotes;		// 问题处理说明
-	private String statusName;	//状态名称
-	private BizOrderInstallItemProblem bizOrderInstallItemProblem;//问题上报
+	private Integer businessProblemId;
+	private String status;
+	private String problemSolveRole;
+	private Integer problemSolveEmployeeId;
+	private String problemSolveEmployeeName;
+	private String problemSolveEmployeePhone;
+	private String problemSolveNotes;
+	private String statusName;
+	private BizOrderInstallItemProblem bizOrderInstallItemProblem;
 	
 	private String realName;
 	

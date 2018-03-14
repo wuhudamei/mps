@@ -2,23 +2,19 @@ package cn.damei.entity.mobile.Manager;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 任务包结算Entity
- * @author qww
- * @version 2016-10-15
- */
+
 
 public class EmpTaskpackageSettlement extends DataEntity2<EmpTaskpackageSettlement>{
 
 	private static final long serialVersionUID = 1L;
 	
-	private Integer id; // 员工id
-	private String realName; // 员工名称
-	private String isLeader; // 是否组长
+	private Integer id;
+	private String realName;
+	private String isLeader;
 	
-	private Double paymentAmount; // 工人薪酬
-	private String remarks; // 工人薪酬备注
-	private Integer settlementDetailId; // 工人薪酬表id
+	private Double paymentAmount;
+	private String remarks;
+	private Integer settlementDetailId;
 	
 	public Integer getId() {
 		return id;

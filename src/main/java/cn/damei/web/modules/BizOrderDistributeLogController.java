@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import java.util.List;
@@ -24,11 +22,7 @@ import cn.damei.common.persistence.Page;
 import cn.damei.common.web.BaseController;
 import cn.damei.service.modules.BizOrderDistributeLogService;
 
-/**
- * 订单分配记录Controller
- * @author 汪文
- * @version 2017-03-08
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/bizorderdistributelog/bizOrderDistributeLog")
 public class BizOrderDistributeLogController extends BaseController {

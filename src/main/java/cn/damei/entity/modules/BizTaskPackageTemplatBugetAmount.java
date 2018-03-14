@@ -2,34 +2,30 @@ package cn.damei.entity.modules;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 任务包模板预算金额
- * @author hyh
- *
- */
+
 public class BizTaskPackageTemplatBugetAmount extends DataEntity2<BizTaskPackageTemplatBugetAmount>{
 	
 	
 	
 	private static final long serialVersionUID = 1L;
 
-	private Integer taskpackageTemplatId; //任务包模板Id
+	private Integer taskpackageTemplatId;
 	
-	private Double budgetSquareMax;//最大预算面积
+	private Double budgetSquareMax;
 	
-	private Double budgetSquareMin;//最小预算面积
+	private Double budgetSquareMin;
 	
-	private Double laborAuxiliaryMaterialsBudgetAmountMax;//工料费预算金额上限
+	private Double laborAuxiliaryMaterialsBudgetAmountMax;
 	
 	private String isEnabled;
 	
-	private String storeId;  //门店
+	private String storeId;
 	
-	private String projectMode; //工程模式
+	private String projectMode;
 	
-	private String templatName;		// 任务包模板名称 
+	private String templatName;
 	
-	private String templatNumber;//任务包模板编号
+	private String templatNumber;
     
 
 	public String getTemplatNumber() {

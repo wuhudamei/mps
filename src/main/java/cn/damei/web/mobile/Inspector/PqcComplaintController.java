@@ -20,9 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by joseph on 2017/7/4.
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/app/pqc/project-issue")
 public class PqcComplaintController {
@@ -70,14 +68,14 @@ public class PqcComplaintController {
         Map<String, Object> map = service.findProblemByHandleId(handleId);
 
         String responseTime = map.get("responseTime").toString();
-        //问题创建时间
+
         Date problemCreateDate = (Date) map.get("createDate");
 
 
-        //问题的截止日期
+
         Date problemDelayDate = DateUtils.addDate(problemCreateDate, (new Double(responseTime)).intValue());
 
-        //如果截止日期小于实际解决日期  就算超时
+
         if (problemDelayDate.getTime() < date.getTime()) {
 
 
@@ -89,26 +87,17 @@ public class PqcComplaintController {
     }
 
 
-    /**
-     * 保存质检员处理投诉问题 数据
-     *
-     * @param photos
-     * @param dealDescribe
-     * @param request
-     * @param handleId
-     * @param model
-     * @return
-     */
+
     @RequestMapping(value = "savePqcDeal")
     @ResponseBody
     public String savePqcDeal(String photos[], String dealDescribe, HttpServletRequest request, Integer handleId, Model model) {
 
-        //去重复数据校验, 查询是否已经处理过该问题
-        //保存答复内容
-        //更新处理表状态-->20
-        //更新投诉问题状态->30 (已处理)
-        //保存图片
-        //保存对应log
+
+
+
+
+
+
 
 
         String result = service.savePqcDeal(request, dealDescribe, handleId, photos);
@@ -119,20 +108,20 @@ public class PqcComplaintController {
 
     @RequestMapping(value = "pqcCheckDealDetail")
     public String managerCheckDealDetail(HttpServletRequest request, Integer handleId, Model model) {
-        //根据处理id查询处理详情
+
         Map<String, Object> map = service.findProblemByHandleId(handleId);
 
         String responseTime = map.get("responseTime").toString();
-        //问题创建时间
+
         Date problemCreateDate = (Date) map.get("createDate");
-        //问题解决时间
+
         Date statusDateTime = (Date) map.get("statusDateTime");
 
 
-        //问题的截止日期
+
         Date problemDelayDate = DateUtils.addDate(problemCreateDate, (new Double(responseTime)).intValue());
 
-        //如果截止日期小于实际解决日期  就算超时
+
         if (problemDelayDate.getTime() < statusDateTime.getTime()) {
 
             Double value = Math.abs(DateUtils.getDistanceOfTwoDate(problemDelayDate, statusDateTime)) > 0 ? Math.abs(DateUtils.getDistanceOfTwoDate(problemDelayDate, statusDateTime))+1 : 1;
@@ -161,9 +150,9 @@ public class PqcComplaintController {
             businessType = PictureTypeContantUtil.PICTURE_TYPE_200;
 
         }
-        //根据处理id
+
         Map<String, String> map = new HashMap<>();
-        // 查询关联图片列表
+
         map.put("businessIdInt", businessIdInt);
         map.put("businessType", businessType);
 

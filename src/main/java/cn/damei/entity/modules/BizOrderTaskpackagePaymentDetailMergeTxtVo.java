@@ -1,24 +1,18 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 付款单明细合并Entity
- * @author qww
- * @version 2016-10-27
- */
+
 public class BizOrderTaskpackagePaymentDetailMergeTxtVo extends DataEntity2<BizOrderTaskpackagePaymentDetailMergeTxtVo> {
 	
 	private static final long serialVersionUID = 1L;
-	private Double amount; // 金额
-	private String bankCardNo; // 收款人银行卡号
-	private String realName; // 收款人姓名
-	private String bankName; // 开户行名称
-	private String bankNo; // 收款方开户行号
-	private String provinceName; // 所属省份
+	private Double amount;
+	private String bankCardNo;
+	private String realName;
+	private String bankName;
+	private String bankNo;
+	private String provinceName;
 	
 	public BizOrderTaskpackagePaymentDetailMergeTxtVo() {
 		super();

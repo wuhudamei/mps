@@ -1,6 +1,6 @@
 package cn.damei.entity.mobile.home;
 
-//import cn.damei.entity.mobile.home.CheckBreak;
+
 
 import java.io.Serializable;
 import java.util.Date;
@@ -8,38 +8,34 @@ import java.util.List;
 
 
 
-/**
- * 质检报告 检查项 Entity
- * @author wyb
- * @version 2016-11-16
- */
+
 public class CheckItem implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
-	private Integer qcBillItemId; //质检项id
-	private Integer qcCheckItemId; //检查项id
-	private String qcCheckItemName; //检查内容
-	private String isPassed; //是否合格
+	private Integer qcBillItemId;
+	private Integer qcCheckItemId;
+	private String qcCheckItemName;
+	private String isPassed;
 
 	private Report report;
 	
 	
-	private String isWarned; //是否警告
-	private String isLocaleRepaire; //是否现场整改
-	private String isLimitDateRepaire; //是否限期整改
-	private Date limitDate; //整改期限
-	private String limitDateRepaireCheckStyle; //限期整改  整改方式
-	private String isPunishMoney; //是否罚款
-	private Double punishMoneyAmountReal; //罚款金额
-	private Integer pmPunishScore; //罚款分数
-	private Double workerPunishAmount; //工人罚款金额
-	private Integer workerPunishScore; //罚款分数
-	private Double qcPunishAmount; //质检罚款金额
-	private Integer qcPunishScore; //罚款分数
-	private String checkStyle; //检查方式
+	private String isWarned;
+	private String isLocaleRepaire;
+	private String isLimitDateRepaire;
+	private Date limitDate;
+	private String limitDateRepaireCheckStyle;
+	private String isPunishMoney;
+	private Double punishMoneyAmountReal;
+	private Integer pmPunishScore;
+	private Double workerPunishAmount;
+	private Integer workerPunishScore;
+	private Double qcPunishAmount;
+	private Integer qcPunishScore;
+	private String checkStyle;
 	
-	private List<CheckBreak> checkBreakList; //违规形式列表
+	private List<CheckBreak> checkBreakList;
 	
 	public Integer getQcBillItemId() {
 		return qcBillItemId;

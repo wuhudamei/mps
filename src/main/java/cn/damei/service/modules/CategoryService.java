@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.util.List;
@@ -24,11 +22,7 @@ import cn.damei.entity.modules.Office;
 import cn.damei.entity.modules.User;
 import cn.damei.common.utils.UserUtils;
 
-/**
- * 栏目Service
- * @author ThinkGem
- * @version 2013-5-31
- */
+
 @Service
 @Transactional(readOnly = true)
 public class CategoryService extends TreeService<CategoryDao, Category> {
@@ -49,7 +43,7 @@ public class CategoryService extends TreeService<CategoryDao, Category> {
 			category.setSite(new Site());
 			category.setParent(new Category());
 			list = dao.findList(category);
-			// 将没有父节点的节点，找到父节点
+
 			Set<String> parentIdSet = Sets.newHashSet();
 			for (Category e : list){
 				if (e.getParent()!=null && StringUtils.isNotBlank(e.getParent().getId())){
@@ -66,12 +60,12 @@ public class CategoryService extends TreeService<CategoryDao, Category> {
 				}
 			}
 			if (parentIdSet.size() > 0){
-				//FIXME 暂且注释，用于测试
-//				dc = dao.createDetachedCriteria();
-//				dc.add(Restrictions.in("id", parentIdSet));
-//				dc.add(Restrictions.eq("delFlag", Category.DEL_FLAG_NORMAL));
-//				dc.addOrder(Order.asc("site.id")).addOrder(Order.asc("sort"));
-//				list.addAll(0, dao.find(dc));
+
+
+
+
+
+
 			}
 			UserUtils.putCache(CACHE_CATEGORY_LIST, list);
 		}
@@ -106,23 +100,23 @@ public class CategoryService extends TreeService<CategoryDao, Category> {
 	}
 	
 	public Page<Category> find(Page<Category> page, Category category) {
-//		DetachedCriteria dc = dao.createDetachedCriteria();
-//		if (category.getSite()!=null && StringUtils.isNotBlank(category.getSite().getId())){
-//			dc.createAlias("site", "site");
-//			dc.add(Restrictions.eq("site.id", category.getSite().getId()));
-//		}
-//		if (category.getParent()!=null && StringUtils.isNotBlank(category.getParent().getId())){
-//			dc.createAlias("parent", "parent");
-//			dc.add(Restrictions.eq("parent.id", category.getParent().getId()));
-//		}
-//		if (StringUtils.isNotBlank(category.getInMenu()) && Category.SHOW.equals(category.getInMenu())){
-//			dc.add(Restrictions.eq("inMenu", category.getInMenu()));
-//		}
-//		dc.add(Restrictions.eq(Category.FIELD_DEL_FLAG, Category.DEL_FLAG_NORMAL));
-//		dc.addOrder(Order.asc("site.id")).addOrder(Order.asc("sort"));
-//		return dao.find(page, dc);
-//		page.setSpringPage(dao.findByParentId(category.getParent().getId(), page.getSpringPage()));
-//		return page;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 		category.setPage(page);
 		category.setInMenu(Global.SHOW);
 		page.setList(dao.findModule(category));
@@ -147,29 +141,27 @@ public class CategoryService extends TreeService<CategoryDao, Category> {
 		CmsUtils.removeCache("mainNavList_"+category.getSite().getId());
 	}
 	
-	/**
-	 * 通过编号获取栏目列表
-	 */
+
 	public List<Category> findByIds(String ids) {
 		List<Category> list = Lists.newArrayList();
 		String[] idss = StringUtils.split(ids,",");
 		if (idss.length>0){
-//			List<Category> l = dao.findByIdIn(idss);
-//			for (String id : idss){
-//				for (Category e : l){
-//					if (e.getId().equals(id)){
-//						list.add(e);
-//						break;
-//					}
-//				}
-//			}
+
+
+
+
+
+
+
+
+
 			for(String id : idss){
 				Category e = dao.get(id);
 				if(null != e){
-					//System.out.println("e.id:"+e.getId()+",e.name:"+e.getName());
+
 					list.add(e);
 				}
-				//list.add(dao.get(id));
+
 				
 			}
 		}

@@ -6,9 +6,7 @@ import cn.damei.common.persistence.DataEntity2;
 
 public class Guarantee extends DataEntity2<Guarantee>{
 
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	
 	private Integer id;

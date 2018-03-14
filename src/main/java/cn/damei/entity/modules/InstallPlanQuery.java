@@ -1,40 +1,33 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import java.util.Date;
 
 import cn.damei.common.persistence.DataEntity;
 
-/**
- * 安装项计划查询Entity
- * 
- * @author 梅浩
- * @version 2017-02-06
- */
+
 public class InstallPlanQuery extends DataEntity<InstallPlanQuery> {
 
 	private static final long serialVersionUID = 1L;
-	private Integer orderId;//订单id
-	private Integer storeId;//门店id
-	private String projectMode;//工程模式
-	private Date generateInstallPlanTime;//生成安装计划时间
-	private String communityName;//小区名称
-	private String buildNumber;//楼号
-	private String buildUnit;//单元号
-	private String buildRoom;//室
-	private String customerName;//客户名称
-	private Integer ManagerId;//项目经理id
-	private String managerName;//经理名称
-	private Date contractStartDate;//合同开工时间
-	private Date actualStartDate;//实际开工时间
-	private Integer installCount;//安装项数量
-	private Date startDate;//查询: 生成安装项日期 开始
-	private Date endDate;//查询:  生成安装项日期  结束
-	private Integer installOrder;//安装项顺序
-	private String installName;//安装项名称
-	private Date planIntoDate;//计划安装日期
+	private Integer orderId;
+	private Integer storeId;
+	private String projectMode;
+	private Date generateInstallPlanTime;
+	private String communityName;
+	private String buildNumber;
+	private String buildUnit;
+	private String buildRoom;
+	private String customerName;
+	private Integer ManagerId;
+	private String managerName;
+	private Date contractStartDate;
+	private Date actualStartDate;
+	private Integer installCount;
+	private Date startDate;
+	private Date endDate;
+	private Integer installOrder;
+	private String installName;
+	private Date planIntoDate;
 	public Date getPlanIntoDate() {
 		return planIntoDate;
 	}

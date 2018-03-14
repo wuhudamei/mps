@@ -6,11 +6,11 @@ public class BizEvalActivityStage extends DataEntity2<BizEvalActivityStage>{
 
 	private static final long serialVersionUID = 1L;
 	
-	private Integer evalActivityId;  //评价活动Id
+	private Integer evalActivityId;
 	
-	private String relatedStage;  //关联阶段类型  1:基础装修验收完成评价  2:竣工验收完成评价
+	private String relatedStage;
 	
-	private Integer relatedQcCheckNodeId;  //关联约检节点Id
+	private Integer relatedQcCheckNodeId;
 
 	public Integer getEvalActivityId() {
 		return evalActivityId;

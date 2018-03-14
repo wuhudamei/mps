@@ -14,14 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Map;
 import java.util.List;
-/**
- * <dl>
- * <dd>描述:查询全国已竣工订单接口</dd>
- * <dd>公司: 智装</dd>
- * <dd>创建时间：2017-10-16</dd>
- * <dd>创建人：wangdan</dd>
- * </dl>
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/api/completeCheck")
 public class CompleteCheckController {
@@ -30,11 +23,7 @@ public class CompleteCheckController {
     private OrderService2 orderService2;
 
 
-    /**
-     *
-     * 查询已竣工订单数据
-     * @return
-     */
+
     @RequestMapping(value ="/findOrder",
             method = RequestMethod.POST,produces = "application/json;charset=UTF-8")
     public @ResponseBody Object findOrder(){
@@ -52,12 +41,7 @@ public class CompleteCheckController {
     }
 
 
-    /**
-     *
-     * 查询每天已竣工订单数据
-     * @param actualEndDate
-     * @return
-     */
+
     @RequestMapping(value ="/orderByActualEndDate",
             method = RequestMethod.POST,produces = "application/json;charset=UTF-8")
     public @ResponseBody Object orderByActualEndDate(@RequestParam String actualEndDate,

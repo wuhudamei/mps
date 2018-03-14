@@ -1,30 +1,24 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import org.hibernate.validator.constraints.Length;
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 标化辅材领取详情Entity
- * @author 汪文文
- * @version 2016-12-26
- */
+
 public class BizMaterialsStandardReceiveDetail extends DataEntity2<BizMaterialsStandardReceiveDetail> {
 	
 	private static final long serialVersionUID = 1L;	
-	private Integer materialsStandardReceiveBillId;		// 标化辅材领取单id -- '
+	private Integer materialsStandardReceiveBillId;
 	private Integer materialsId;
-	private String materialsType;		// 物料类别
-	private String materialsName;		// 物料名称
-	private String materialsUnit;		// 物料单位
-	private Double materialsPrice;		// 物料单价
-	private Double receiveNumber;		// 领取数量
-	private Double materialsAmount;		// 物料金额
-	private Double maxReceiveNumberSnap;//领取上限快照
-	private Double applyNumberTotalSnap;//已申请总数快照
-	private Double receiveNumberTotalSnap;//已领取总数快照
+	private String materialsType;
+	private String materialsName;
+	private String materialsUnit;
+	private Double materialsPrice;
+	private Double receiveNumber;
+	private Double materialsAmount;
+	private Double maxReceiveNumberSnap;
+	private Double applyNumberTotalSnap;
+	private Double receiveNumberTotalSnap;
 	
 	public Double getMaxReceiveNumberSnap() {
 		return maxReceiveNumberSnap;

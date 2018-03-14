@@ -6,9 +6,7 @@ import cn.damei.entity.modules.ApplyCheckEarlyWarningQueryEntity;
 import java.util.List;
 
 
-/**
- * Created by joseph on 2017/4/7.
- */
+
 @MyBatisDao
 public interface ApplyCheckEarlyWarningQueryDao  extends CrudDao<ApplyCheckEarlyWarningQueryEntity>{
 

@@ -2,9 +2,9 @@ package cn.damei.entity.modules;
 
 public class ElpGroup {
 
-	private String xingji; // 星级
-	private String groupName; // 姓名
-	private String phone; // 手机号
+	private String xingji;
+	private String groupName;
+	private String phone;
 
 	public String getXingji() {
 		return xingji;

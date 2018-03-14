@@ -47,9 +47,9 @@ public class InspectSignQueryController extends BaseController{
 	@RequestMapping(value="inspectSignListCheck")
 	public String    inspectSignListCheck( InspectSignQueryEntity sign,HttpServletRequest request, HttpServletResponse response, Model model){
 		int x = 0;
-		// 不是管理员就不能查全部门店
+
 		if (!UserUtils.getUser().getOffice().getId().equals("1")) {
-			// 安心查自己门店吧
+
 			sign.setStoreId(Integer.parseInt(UserUtils.getUser().getStoreId()));
 			x++;
 		}

@@ -12,7 +12,7 @@ import cn.damei.common.Base64Util;
 import cn.damei.entity.mobile.Inspector.ReportCheckDetailsPic;
 
 public class SaverPictureUtils {
-	// 保存图片
+
 	public static List<ReportCheckDetailsPic> savePic(String[] photo, HttpServletRequest request, String inspectId) {
 		List<ReportCheckDetailsPic> picList = new ArrayList<>();
 
@@ -23,9 +23,9 @@ public class SaverPictureUtils {
 
 			String uuid = UUID.randomUUID().toString().replaceAll("-", "");
 
-			// String rootPath = RootName.SystemEnvironment(request);
 
-			// 判断该文件是否存在
+
+
 			if (!filePath.exists() && !filePath.isDirectory()) {
 				filePath.mkdirs();
 			}
@@ -33,7 +33,7 @@ public class SaverPictureUtils {
 			Base64Util.generateImage(p, filepath);
 
 			String picpath = ConstantUtils.ORDER_COMPLINT + DateUtils.getDate1() + filePath.separator + uuid + ".jpeg";
-			// 保存图片到数据库
+
 			ReportCheckDetailsPic reportCheckDetailsPic = new ReportCheckDetailsPic();
 			reportCheckDetailsPic.setBusinessIdInt(Integer.valueOf(inspectId));
 			reportCheckDetailsPic.setBusinessType("200");
@@ -46,13 +46,13 @@ public class SaverPictureUtils {
 
 	}
 
-	// 保存图片
+
 	public static List<ReportCheckDetailsPic> savePhoto(String photoUrl, HttpServletRequest request, String inspectId) {
 		List<ReportCheckDetailsPic> picList = new ArrayList<>();
 
 		Date date = new Date();
 
-		// 保存图片到数据库
+
 		ReportCheckDetailsPic reportCheckDetailsPic = new ReportCheckDetailsPic();
 		reportCheckDetailsPic.setBusinessIdInt(Integer.valueOf(inspectId));
 		reportCheckDetailsPic.setBusinessType("200");

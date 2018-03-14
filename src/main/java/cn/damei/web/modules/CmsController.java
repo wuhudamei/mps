@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -12,11 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import cn.damei.common.web.BaseController;
 import cn.damei.service.modules.CategoryService;
 
-/**
- * 内容管理Controller
- * @author ThinkGem
- * @version 2013-4-21
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/cms")
 public class CmsController extends BaseController {

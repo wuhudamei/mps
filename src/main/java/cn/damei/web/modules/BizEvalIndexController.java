@@ -23,11 +23,7 @@ import cn.damei.service.modules.BizEvalIndexService;
 import cn.damei.entity.modules.User;
 import cn.damei.common.utils.UserUtils;
 
-/**
- * 评价指标设置Controller
- * @author wyb
- * @version 2017-02-24
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/evaluate/bizevalindex/bizEvalIndex")
 public class BizEvalIndexController extends BaseController {
@@ -53,7 +49,7 @@ public class BizEvalIndexController extends BaseController {
 	@RequestMapping(value = {"list", ""})
 	public String list(BizEvalIndex bizEvalIndex, HttpServletRequest request, HttpServletResponse response, Model model) {
 		User user = UserUtils.getUser();
-		//过滤门店
+
 		if(null==bizEvalIndex.getStoreId()){
 			if(null!=user.getStoreId()){
 				bizEvalIndex.setStoreId(Integer.valueOf(user.getStoreId()));
@@ -62,7 +58,7 @@ public class BizEvalIndexController extends BaseController {
 		if(StringUtils.isBlank(user.getStoreId())){
 			model.addAttribute("storeDropEnable", true);
 		}
-		//过滤工程模式
+
 		if(StringUtils.isBlank(bizEvalIndex.getProjectMode())){
 			if(null != user.getEmpId()){
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -102,7 +98,7 @@ public class BizEvalIndexController extends BaseController {
 	public String list1(BizEvalIndex bizEvalIndex, HttpServletRequest request, HttpServletResponse response, Model model) {
 		
 		User user = UserUtils.getUser();
-		//过滤门店
+
 		if(null==bizEvalIndex.getStoreId()){
 			if(null!=user.getStoreId()){
 				bizEvalIndex.setStoreId(Integer.valueOf(user.getStoreId()));
@@ -111,7 +107,7 @@ public class BizEvalIndexController extends BaseController {
 		if(StringUtils.isBlank(user.getStoreId())){
 			model.addAttribute("storeDropEnable", true);
 		}
-		//过滤工程模式
+
 		if(StringUtils.isBlank(bizEvalIndex.getProjectMode())){
 			if(null != user.getEmpId()){
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));

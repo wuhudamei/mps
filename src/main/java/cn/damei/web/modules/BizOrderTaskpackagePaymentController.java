@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import java.util.ArrayList;
@@ -43,12 +41,7 @@ import cn.damei.service.modules.BizOrderTaskpackagePaymentDetailService;
 import cn.damei.entity.modules.User;
 import cn.damei.common.utils.UserUtils;
 
-/**
- * 付款单Controller
- * 
- * @author qww
- * @version 2016-10-26
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/ordertaskpackagepayment/bizOrderTaskpackagePayment")
 public class BizOrderTaskpackagePaymentController extends BaseController {
@@ -81,7 +74,7 @@ public class BizOrderTaskpackagePaymentController extends BaseController {
 	@RequestMapping(value = { "list", "" })
 	public String list(BizOrderTaskpackagePaymentVo bizOrderTaskpackagePaymentVo, Model model) {
 		User user = UserUtils.getUser();
-		// 过滤门店
+
 		if (bizOrderTaskpackagePaymentVo.getStoreId() == null) {
 			String storeId = UserUtils.getUser().getStoreId();
 			if (StringUtils.isBlank(storeId)) {
@@ -94,7 +87,7 @@ public class BizOrderTaskpackagePaymentController extends BaseController {
 			model.addAttribute("storeDropEnable", true);
 		}
 
-		// 过滤工程模式
+
 		if (StringUtils.isBlank(bizOrderTaskpackagePaymentVo.getProjectMode())) {
 			if (null != user.getEmpId()) {
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -127,7 +120,7 @@ public class BizOrderTaskpackagePaymentController extends BaseController {
 			}
 		}
 
-		// 过滤区域
+
 		if (null == bizOrderTaskpackagePaymentVo.getEnginDepartId()) {
 			if (null != UserUtils.getUser().getEmpId()) {
 				List<Integer> list = bizEmployeeService2
@@ -155,7 +148,7 @@ public class BizOrderTaskpackagePaymentController extends BaseController {
 	@RequestMapping(value = { "loadList", "" })
 	public String loadList(BizOrderTaskpackagePaymentVo bizOrderTaskpackagePaymentVo, Model model) {
 		User user = UserUtils.getUser();
-		// 过滤门店
+
 		if (bizOrderTaskpackagePaymentVo.getStoreId() == null) {
 			String storeId = UserUtils.getUser().getStoreId();
 			if (StringUtils.isBlank(storeId)) {
@@ -168,7 +161,7 @@ public class BizOrderTaskpackagePaymentController extends BaseController {
 			model.addAttribute("storeDropEnable", true);
 		}
 
-		// 过滤工程模式
+
 		if (StringUtils.isBlank(bizOrderTaskpackagePaymentVo.getProjectMode())) {
 			if (null != user.getEmpId()) {
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -201,7 +194,7 @@ public class BizOrderTaskpackagePaymentController extends BaseController {
 			}
 		}
 
-		// 区域
+
 		if (bizOrderTaskpackagePaymentVo.getEnginDepartId() == null) {
 			if (StringUtils.isNoneBlank(UserUtils.getUser().getEmpId())) {
 				List<Integer> list = bizEmployeeService2
@@ -228,11 +221,11 @@ public class BizOrderTaskpackagePaymentController extends BaseController {
 		return "modules/ordertaskpackagepayment/bizOrderTaskpackagePaymentList";
 	}
 
-	// 查询需审核的付款单尾款
+
 	@RequestMapping(value = "list1")
 	public String list1(BizOrderTaskpackagePaymentVo bizOrderTaskpackagePaymentVo, Model model) {
 
-		// 过滤门店
+
 		if (bizOrderTaskpackagePaymentVo.getStoreId() == null) {
 			String storeId = UserUtils.getUser().getStoreId();
 			if (StringUtils.isBlank(storeId)) {
@@ -247,11 +240,11 @@ public class BizOrderTaskpackagePaymentController extends BaseController {
 		return "modules/ordertaskpackagepayment/bizOrderTaskpackagePaymentList1";
 	}
 
-	// 查询需审核的付款单尾款
+
 	@RequestMapping(value = "alist1")
 	public String alist1(BizOrderTaskpackagePaymentVo bizOrderTaskpackagePaymentVo, Model model) {
 
-		// 过滤门店
+
 		if (bizOrderTaskpackagePaymentVo.getStoreId() == null) {
 			String storeId = UserUtils.getUser().getStoreId();
 			if (StringUtils.isBlank(storeId)) {
@@ -268,7 +261,7 @@ public class BizOrderTaskpackagePaymentController extends BaseController {
 		map.put("qcStatus", "10");
 		map.put("qcType", "1");
 		map.put("ischeck", "0");
-		map.put("cnrStatus", "1");// 任务包和之间节点关系状态--启用
+		map.put("cnrStatus", "1");
 		map.put("orderTaskpackagePaymentType", ConstantUtils.PAYMENT_TYPE_1);
 
 		if (bizOrderTaskpackagePaymentVo.getStoreId() != null) {
@@ -289,12 +282,12 @@ public class BizOrderTaskpackagePaymentController extends BaseController {
 		return "modules/ordertaskpackagepayment/bizOrderTaskpackagePaymentList1";
 	}
 
-	// 查询需审核的付款单尾款--查看质检员验收详情
+
 	@RequestMapping(value = "list2")
 	public String list2(Integer qcBillId, Model model) throws Exception {
-		// 验收详情
+
 		BizOrderTaskpackagePaymentDetails qcBill = bizOrderTaskpackagePaymentService.findQcBill(qcBillId);
-		// 验收图片
+
 		List<ReportCheckDetailsPic> picList = bizOrderTaskpackagePaymentService.findPic(qcBillId);
 
 		model.addAttribute("qcBill", qcBill);
@@ -304,22 +297,22 @@ public class BizOrderTaskpackagePaymentController extends BaseController {
 		return "modules/ordertaskpackagepayment/bizOrderTaskpackagePaymentDetails";
 	}
 
-	// 需审核的付款单尾款 --通过 修改质检单的状态 同时 修改付款单的状态
+
 	@RequiresPermissions("ordertaskpackagepayment:bizOrderTaskpackagePayment:view")
 	@RequestMapping(value = "approvePass")
 	public String approvePass(Integer qcBillId, Integer paymentId, RedirectAttributes redirectAttributes) {
 		boolean flag = true;
-		// 修改该付款单的状态 --15
+
 		bizOrderTaskpackagePaymentService.updateStatusByPaymentId(paymentId, ConstantUtils.PAYMENT_STATUS_15);
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("status", ConstantUtils.PAYMENT_STATUS_10);
-		// map.put("qcStatus", "10");
+
 		map.put("qcType", "1");
 		map.put("ischeck", "0");
 		map.put("orderTaskpackagePaymentType", ConstantUtils.PAYMENT_TYPE_1);
 		map.put("qcBillId", qcBillId);
-		map.put("cnrStatus", "1");// 任务包和之间节点关系状态--启用
+		map.put("cnrStatus", "1");
 		List<BizOrderTaskpackagePaymentVo> list = bizOrderTaskpackagePaymentService.queryPaymentForCheckByQcBillId(map);
 
 		if (list != null && list.size() > 0) {
@@ -330,7 +323,7 @@ public class BizOrderTaskpackagePaymentController extends BaseController {
 				}
 			}
 		}
-		// 修改质检单的状态 --30 质检单所有的尾款付款单
+
 		if (flag) {
 			bizOrderTaskpackagePaymentService.updateQcbillStatusById(qcBillId, "30", "");
 		}
@@ -338,22 +331,22 @@ public class BizOrderTaskpackagePaymentController extends BaseController {
 		return "redirect:" + Global.getAdminPath() + "/ordertaskpackagepayment/bizOrderTaskpackagePayment/list1";
 	}
 
-	// 需审核的付款单尾款 --驳回 修改质检单的状态 修改质检单下的尾款付款单状态为10
+
 	@RequiresPermissions("ordertaskpackagepayment:bizOrderTaskpackagePayment:view")
 	@RequestMapping(value = "refusePass")
 	public String refusePass(Integer qcBillId, String reason, RedirectAttributes redirectAttributes) {
-		// 修改质检单的状态--20+驳回原因
+
 		bizOrderTaskpackagePaymentService.updateQcbillStatusById(qcBillId, "20", reason);
 
-		// 质检单下的尾款付款单
+
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("status", ConstantUtils.PAYMENT_STATUS_10);
-		// map.put("qcStatus", "10");
+
 		map.put("qcType", "1");
 		map.put("ischeck", "0");
 		map.put("orderTaskpackagePaymentType", ConstantUtils.PAYMENT_TYPE_1);
 		map.put("qcBillId", qcBillId);
-		map.put("cnrStatus", "1");// 任务包和之间节点关系状态--启用
+		map.put("cnrStatus", "1");
 		List<BizOrderTaskpackagePaymentVo> list = bizOrderTaskpackagePaymentService.queryPaymentForCheckByQcBillId(map);
 		if (list != null && list.size() > 0) {
 			for (BizOrderTaskpackagePaymentVo bizOrderTaskpackagePaymentVo : list) {
@@ -400,7 +393,7 @@ public class BizOrderTaskpackagePaymentController extends BaseController {
 			model.addAttribute("storeDropEnable", true);
 		}
 
-		// 过滤工程模式
+
 		if (StringUtils.isBlank(bizOrderTaskpackagePaymentVo.getProjectMode())) {
 			if (null != user.getEmpId()) {
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -433,7 +426,7 @@ public class BizOrderTaskpackagePaymentController extends BaseController {
 			}
 		}
 
-		// 区域
+
 		if (bizOrderTaskpackagePaymentVo.getEnginDepartId() == null) {
 			if (StringUtils.isNoneBlank(UserUtils.getUser().getEmpId())) {
 				List<Integer> list = bizEmployeeService2
@@ -460,7 +453,7 @@ public class BizOrderTaskpackagePaymentController extends BaseController {
 	public String paymentLoadList(BizOrderTaskpackagePaymentVo bizOrderTaskpackagePaymentVo, Model model,
 			HttpServletRequest request, HttpServletResponse response) {
 		User user = UserUtils.getUser();
-		// 过滤门店
+
 		if (bizOrderTaskpackagePaymentVo.getStoreId() == null) {
 			String storeId = UserUtils.getUser().getStoreId();
 			if (StringUtils.isBlank(storeId)) {
@@ -473,7 +466,7 @@ public class BizOrderTaskpackagePaymentController extends BaseController {
 			model.addAttribute("storeDropEnable", true);
 		}
 
-		// 过滤工程模式
+
 		if (StringUtils.isBlank(bizOrderTaskpackagePaymentVo.getProjectMode())) {
 			if (null != user.getEmpId()) {
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -506,7 +499,7 @@ public class BizOrderTaskpackagePaymentController extends BaseController {
 			}
 		}
 
-		// 区域
+
 		if (bizOrderTaskpackagePaymentVo.getEnginDepartId() == null) {
 			if (StringUtils.isNoneBlank(UserUtils.getUser().getEmpId())) {
 				List<Integer> list = bizEmployeeService2
@@ -547,7 +540,7 @@ public class BizOrderTaskpackagePaymentController extends BaseController {
 	@RequestMapping(value = { "paymentSummaryList", "" })
 	public String paymentSummaryList(BizOrderTaskpackagePaymentSummaryVo bizOrderTaskpackagePaymentSummaryVo,
 			Model model, HttpServletRequest request, HttpServletResponse response) {
-		// 过滤门店
+
 		if (bizOrderTaskpackagePaymentSummaryVo.getStoreId() == null) {
 			String storeId = UserUtils.getUser().getStoreId();
 			if (StringUtils.isBlank(storeId)) {
@@ -567,7 +560,7 @@ public class BizOrderTaskpackagePaymentController extends BaseController {
 	@RequestMapping(value = { "paymentSummaryLoadList", "" })
 	public String paymentSummaryLoadList(BizOrderTaskpackagePaymentSummaryVo bizOrderTaskpackagePaymentSummaryVo,
 			Model model, HttpServletRequest request, HttpServletResponse response) {
-		// 过滤门店
+
 		if (bizOrderTaskpackagePaymentSummaryVo.getStoreId() == null) {
 			String storeId = UserUtils.getUser().getStoreId();
 			if (StringUtils.isBlank(storeId)) {
@@ -586,16 +579,12 @@ public class BizOrderTaskpackagePaymentController extends BaseController {
 		return "modules/ordertaskpackagepayment/bizOrderTaskpackagePaymentSummaryList";
 	}
 
-	/**
-	 * 付款单冻结/解冻查询
-	 * 
-	 * @return
-	 */
+
 	@RequestMapping(value = "paymentFreezeList")
 	public String paymentFreezeList(BizOrderTaskpackagePaymentVo bizOrderTaskpackagePaymentVo, Model model,
 			HttpServletRequest request, HttpServletResponse response) {
 		User user = UserUtils.getUser();
-		// 过滤门店
+
 		if (bizOrderTaskpackagePaymentVo.getStoreId() == null) {
 			String storeId = UserUtils.getUser().getStoreId();
 			if (StringUtils.isBlank(storeId)) {
@@ -608,7 +597,7 @@ public class BizOrderTaskpackagePaymentController extends BaseController {
 			model.addAttribute("storeDropEnable", true);
 		}
 
-		// 过滤工程模式
+
 		if (StringUtils.isBlank(bizOrderTaskpackagePaymentVo.getProjectMode())) {
 			if (null != user.getEmpId()) {
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -641,7 +630,7 @@ public class BizOrderTaskpackagePaymentController extends BaseController {
 			}
 		}
 
-		// 区域
+
 		if (bizOrderTaskpackagePaymentVo.getEnginDepartId() == null) {
 			if (StringUtils.isNoneBlank(UserUtils.getUser().getEmpId())) {
 				List<Integer> list = bizEmployeeService2
@@ -669,13 +658,7 @@ public class BizOrderTaskpackagePaymentController extends BaseController {
 		return "modules/ordertaskpackagepayment/bizOrderTaskpackagePaymentFreezeList";
 	}
 
-	/**
-	 * 解冻/冻结付款单
-	 * 
-	 * @param id
-	 * isFrozenType 1:冻结首款+尾款  0：不是
-	 * @return
-	 */
+
 	@RequestMapping(value = "freezePayment")
 	public @ResponseBody String freezePayment(Integer id, String status, String frozenRemarks,int isFrozenType) {
 		String result = null;
@@ -689,15 +672,7 @@ public class BizOrderTaskpackagePaymentController extends BaseController {
 		return result;
 	}
 
-	/**
-	 * 付款单冻结解冻详情
-	 * 
-	 * @param bizOrderTaskpackagePaymentFreeze
-	 * @param model
-	 * @param request
-	 * @param response
-	 * @return
-	 */
+
 	@RequestMapping(value = "findfreezePaymentDetailList")
 	public String findfreezePaymentDetailList(BizOrderTaskpackagePaymentFreeze bizOrderTaskpackagePaymentFreeze,
 			Model model, HttpServletRequest request, HttpServletResponse response) {

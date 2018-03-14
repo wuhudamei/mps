@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.util.List;
@@ -15,12 +13,7 @@ import cn.damei.common.service.CrudService;
 import cn.damei.dao.modules.BizCusServiceProblemDao;
 import cn.damei.entity.modules.BizCusServiceProblem;
 
-/**
- * 售后问题反馈详情Service
- * 
- * @author joseph
- * @version 2017-06-23
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizCusServiceProblemService extends CrudService<BizCusServiceProblemDao, BizCusServiceProblem> {

@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.util.List;
@@ -14,11 +12,7 @@ import cn.damei.common.service.CrudService;
 import cn.damei.entity.modules.BizQcBill;
 import cn.damei.dao.modules.BizQcBillDao;
 
-/**
- * 质检报告Service
- * @author wyb
- * @version 2016-10-31
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizQcBillService extends CrudService<BizQcBillDao, BizQcBill> {
@@ -50,7 +44,7 @@ public class BizQcBillService extends CrudService<BizQcBillDao, BizQcBill> {
 	}
 
 	public List<BizQcBill> findBizQcBillByOrderId(BizQcBill bizQcBill) {
-		// TODO Auto-generated method stub
+
 		return dao.findBizQcBillByOrderId(bizQcBill);
 	}
 	

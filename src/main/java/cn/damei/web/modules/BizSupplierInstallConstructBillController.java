@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,11 +20,7 @@ import cn.damei.common.utils.StringUtils;
 import cn.damei.entity.modules.BizSupplierInstallConstructBill;
 import cn.damei.service.modules.BizSupplierInstallConstructBillService;
 
-/**
- * 供应商安装施工单表Controller
- * @author wyb
- * @version 2017-07-14
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/bizsupplierinstallcontructbill/bizSupplierInstallConstructBill")
 public class BizSupplierInstallConstructBillController extends BaseController {

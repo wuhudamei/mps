@@ -5,18 +5,16 @@ import java.util.Date;
 
 public class SwitchPanelPic implements Serializable{
 
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 
 	
 	
-	private Integer picId;//图片id
-	private String bussinessType;//类型
-	private  Integer relatedBussinessId;//关联业务id
-	private String picUrl;//图片路径
-	private Date picUpdateTime;//图片上传时间
+	private Integer picId;
+	private String bussinessType;
+	private  Integer relatedBussinessId;
+	private String picUrl;
+	private Date picUpdateTime;
 	public Integer getPicId() {
 		return picId;
 	}

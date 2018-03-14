@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,11 +26,7 @@ import cn.damei.service.modules.BizNormalPmSettleNodeService;
 
 import java.util.List;
 
-/**
- * 结算节点配置Controller
- * @author 梅浩
- * @version 2017-04-15
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/bizsettlenodeconfig/bizNormalPmSettleNode")
 public class BizNormalPmSettleNodeController extends BaseController {
@@ -63,7 +57,7 @@ public class BizNormalPmSettleNodeController extends BaseController {
 	@RequiresPermissions("bizsettlenodeconfig:bizNormalPmSettleNode:view")
 	@RequestMapping(value = "form")
 	public String form(BizNormalPmSettleNode bizNormalPmSettleNode, Model model) {
-		/*BizNormalPmSettleNode node=bizNormalPmSettleNodeService.findSettleNodeListByStoreId(bizNormalPmSettleNode.getStoreId());*/
+
 		BizNormalPmSettleNode node2 = bizNormalPmSettleNodeService.findSettleNodeList(bizNormalPmSettleNode);
 		
 		model.addAttribute("bizNormalPmSettleNode", bizNormalPmSettleNode);
@@ -103,28 +97,24 @@ public class BizNormalPmSettleNodeController extends BaseController {
 
 	}
 
-	/**
-	 * 传入所有参数, 根据门店和settle_index判断是更新还是插入
-	 * @param bizNormalPmSettleNode
-	 * @return
-	 */
+
 	@RequiresPermissions("bizsettlenodeconfig:bizNormalPmSettleNode:view")
 	@RequestMapping(value = "saveOrUpdateSettleNode")
 	public @ResponseBody String saveOrUpdateSettleNode(BizNormalPmSettleNode bizNormalPmSettleNode){
 
-		/*Integer count =bizNormalPmSettleNodeService.checkCheckNodeIsExist(bizNormalPmSettleNode.getStoreId(),bizNormalPmSettleNode.getSettleIndex());*/
+
 		Integer count = bizNormalPmSettleNodeService.checkCheckNodeIsExistChecked(bizNormalPmSettleNode);
 		if(0==count){
-			//插入
+
 			if("4".equals(bizNormalPmSettleNode.getProjectMode())){
-				//判断准产业有没有添加过结算阶段
+
 				Integer temp = bizNormalPmSettleNodeService.findSettleStage(bizNormalPmSettleNode);
-				//没有添加过，可以添加
+
 				if(temp == 0){
 					bizNormalPmSettleNodeService.save(bizNormalPmSettleNode);
 					return "1";
 				}else{
-					//添加过，不可以再次添加
+
 					return "4";
 				}
 			}else{
@@ -141,11 +131,7 @@ public class BizNormalPmSettleNodeController extends BaseController {
 
 	}
 
-	/**
-	 * 根据门店和settle_index
-	 * @param bizNormalPmSettleNode
-	 * @return
-	 */
+
 	@RequiresPermissions("bizsettlenodeconfig:bizNormalPmSettleNode:view")
 	@RequestMapping(value = "deleteSettleNode")
 	public @ResponseBody String deleteSettleNode(BizNormalPmSettleNode bizNormalPmSettleNode){
@@ -163,11 +149,7 @@ public class BizNormalPmSettleNodeController extends BaseController {
 
 	}
 
-	/**
-	 * 检查门店的工程模式是否已经配置过
-	 * @param storeId
-	 * @return
-	 */
+
 	@RequiresPermissions("bizsettlenodeconfig:bizNormalPmSettleNode:view")
 	@RequestMapping(value = "checkStoreIsExist")
 	public @ResponseBody String checkStoreIsExist(Integer storeId,Integer projectMode){

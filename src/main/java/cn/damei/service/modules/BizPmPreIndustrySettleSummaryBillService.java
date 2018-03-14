@@ -12,11 +12,7 @@ import cn.damei.entity.modules.BizPmPreIndustrySettleBill;
 import cn.damei.dao.modules.BizPmPreIndustrySettleSummaryBillDao;
 import cn.damei.entity.modules.BizPmPreIndustrySettleSummaryBill;
 
-/**
- * 准产业项目经理月度结算Service
- * @author hyh
- *
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizPmPreIndustrySettleSummaryBillService extends CrudService2<BizPmPreIndustrySettleSummaryBillDao, BizPmPreIndustrySettleSummaryBill>{

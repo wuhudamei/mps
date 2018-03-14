@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import java.text.SimpleDateFormat;
@@ -28,11 +26,7 @@ import cn.damei.entity.modules.BizPmAttendSalarySummaryBillRel;
 import cn.damei.service.modules.BizPmAttendSalaryBillService;
 import cn.damei.service.modules.BizPmAttendSalarySummaryBillRelService;
 
-/**
- * 工资单批次审批Controller
- * @author wl
- * @version 2017-08-10
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/attend/bizPmAttendSalarySummaryBillRel")
 public class BizPmAttendSalarySummaryBillRelController extends BaseController {
@@ -100,9 +94,7 @@ public class BizPmAttendSalarySummaryBillRelController extends BaseController {
 	@RequiresPermissions("attend:bizPmAttendSalarySummaryBillRel:edit")
 	@RequestMapping(value = "save")
 	public String save(BizPmAttendSalarySummaryBillRel bizPmAttendSalarySummaryBillRel, Model model, RedirectAttributes redirectAttributes) {
-		/*if (!beanValidator(model, bizPmAttendSalarySummaryBillRel)){
-			return form(bizPmAttendSalarySummaryBillRel, model);
-		}*/
+
 		bizPmAttendSalarySummaryBillRelService.save(bizPmAttendSalarySummaryBillRel);
 		addMessage(redirectAttributes, "保存工资单批次审批成功");
 		return "redirect:"+Global.getAdminPath()+"/attend/bizPmAttendSalarySummaryBillRel/?repage";

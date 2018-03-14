@@ -1,30 +1,24 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import org.hibernate.validator.constraints.Length;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * PC违规形式Entity
- * @author 梅浩
- * @version 2016-10-26
- */
+
 public class IllegalModality extends DataEntity2<IllegalModality> {
 	
 	private static final long serialVersionUID = 1L;
-	private Integer storeId;		// 门店id -- '
-	private String storeName; 		//门店名称
-	private Integer checkKindId;//检查分类id
-	private String checkKindName;//检查分类名称
-	private Integer checkItemId;//检查项id
-	private String checkItemName;//检查项名称
-	private String breakDescribe;		// 违规形式描述 -- '
-	private String isRequiredRemarks;		// 是否填写备注 -- '0.否；1.是
-	private String status;		// 状态 -- '0.停用；1.启用
-	private String projectMode;//工程模式
+	private Integer storeId;
+	private String storeName;
+	private Integer checkKindId;
+	private String checkKindName;
+	private Integer checkItemId;
+	private String checkItemName;
+	private String breakDescribe;
+	private String isRequiredRemarks;
+	private String status;
+	private String projectMode;
 	public String getProjectMode() {
 		return projectMode;
 	}
@@ -33,7 +27,7 @@ public class IllegalModality extends DataEntity2<IllegalModality> {
 		this.projectMode = projectMode;
 	}
 
-	private String isNew; //新增还是修改
+	private String isNew;
 
 	public String getIsNew() {
 		return isNew;

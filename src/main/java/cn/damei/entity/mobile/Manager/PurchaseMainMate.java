@@ -6,27 +6,27 @@ public class PurchaseMainMate extends DataEntity2<PurchaseMainMate> {
 
 	private static final long serialVersionUID = 1L;
 
-	private Integer purchaseId; // 采购单id
-	private String mainMateType; // 主材类型 墙砖，地砖，开关面板
-	private String position; // 位置 厨房--
-	private String brandCombo; // 品牌套餐
-	private String model; // 类型
+	private Integer purchaseId;
+	private String mainMateType;
+	private String position;
+	private String brandCombo;
+	private String model;
 
-	private String specification; // 规格
-	private String unit; // 单位
-	private Double count; // 数量
-	private Double includLossCount; // 含耗损数量
-	private Double applyCounta; // 实发数量
-	private String remarks; // 备注
-	private String mainMateTypeName; // 主材类型名称
-	private String attribute; // 属性
-	private String supplier; // 供应商
-	private Double receivedWallFloorCount; // 已收货数量
-	private Double owedWallFloorCount; // 欠货数量
+	private String specification;
+	private String unit;
+	private Double count;
+	private Double includLossCount;
+	private Double applyCounta;
+	private String remarks;
+	private String mainMateTypeName;
+	private String attribute;
+	private String supplier;
+	private Double receivedWallFloorCount;
+	private Double owedWallFloorCount;
 
-	private String isCountSquare; // 是否计算面积
-	private Double unitSquare; // 单位面积
-	private Double applySquare; // 申请面积
+	private String isCountSquare;
+	private Double unitSquare;
+	private Double applySquare;
 
 	public String getIsCountSquare() {
 		return isCountSquare;

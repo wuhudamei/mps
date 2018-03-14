@@ -12,22 +12,14 @@ public interface BizOrderTaskpackageSettlementVoDao extends CrudDao2<BizOrderTas
 
 	void updateRefusedReason(Integer orderTaskpackageId, String reason, Date date, String status);
 
-	/**
-	 * 查询结算单修改列表
-	 * @param vo
-	 * @return
-	 */
+
 	public List<BizOrderTaskpackageSettlementVo> findSettlementList(BizOrderTaskpackageSettlementVo vo);
 
 	public List<BizOrderTaskpackageSettlementVo> findSettlementAllList(BizOrderTaskpackageSettlementVo vo);
 
 	Date queryConfirmSalaryTime(Integer id);
 
-	/**
-	 * 查询超定额任务包列表
-	 * @param vo
-	 * @return
-	 */
+
 	public List<BizOrderTaskpackageSettlementVo> findSettlementTaskList(BizOrderTaskpackageSettlementVo vo);
 
 	public BizOrderTaskpackageSettlementVo queryEntityByOrderTaskpackageId(Integer orderTaskpackageId);

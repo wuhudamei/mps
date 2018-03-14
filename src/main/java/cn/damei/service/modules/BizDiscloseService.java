@@ -11,10 +11,7 @@ import cn.damei.common.service.CrudService2;
 import cn.damei.dao.modules.BizDiscloseDao;
 import cn.damei.entity.modules.BizDisclose;
 
-/**
- * 订单交底
- * @author llp
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizDiscloseService extends CrudService2<BizDiscloseDao, BizDisclose>{
@@ -34,9 +31,7 @@ public class BizDiscloseService extends CrudService2<BizDiscloseDao, BizDisclose
 		return super.findPage(page, bizDisclose);
 	}
 
-	/**
-	 * @return List<BizOrderDisclose>
-	 */
+
 	public List<BizDisclose> getByList() {
 		return bizDiscloseDao.getByList();
 	}

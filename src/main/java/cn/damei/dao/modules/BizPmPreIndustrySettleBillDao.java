@@ -8,11 +8,7 @@ import cn.damei.common.persistence.annotation.MyBatisDao;
 import cn.damei.entity.modules.BizPmPreIndustrySettleBill;
 import cn.damei.entity.modules.BizPmPreIndustrySettleSummaryBill;
 
-/**
- * 项目经理准产业结算单Dao
- * @author hyh
- *
- */
+
 @MyBatisDao
 public interface BizPmPreIndustrySettleBillDao extends CrudDao2<BizPmPreIndustrySettleBill>{
 	

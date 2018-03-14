@@ -11,11 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import cn.damei.dao.modules.BizOrderReportSendRuleDao;
 import cn.damei.entity.modules.BizOrderReportSendRule;
 
-/**
- * 返单客服轮训规则定时任务
- * @author Liwancai
- * @version 2017-05-0
- */
+
 public class OrderReportSendRuleQuarz {
 	
 	Logger logger = Logger.getLogger(OrderReportSendRuleQuarz.class); 
@@ -23,13 +19,11 @@ public class OrderReportSendRuleQuarz {
 	@Autowired
 	private BizOrderReportSendRuleDao orderReportSendRuleDao;
 	
-	private final String PEDDING_EXECUTION = "0";	//待执行
-	private final String ON_EXECUTION = "1";		//在执行
-	private final String EXPIRED = "2";				//已过期
+	private final String PEDDING_EXECUTION = "0";
+	private final String ON_EXECUTION = "1";
+	private final String EXPIRED = "2";
 	
-	/**
-	 * 每天晚上零点执行，获取当前待执行的轮循规则
-	 */
+
     public void execute(){
 		logger.info("规则轮循定时任务：执行......begin......");
 		List<BizOrderReportSendRule>  list =  orderReportSendRuleDao.selectByStatus(PEDDING_EXECUTION);
@@ -38,11 +32,7 @@ public class OrderReportSendRuleQuarz {
 			Date currentTime = new Date();
 			Date startTime = rule.getStartDatetime();
 			
-			/**
-			 * 当前时间大于规则开始时间
-			 * 更新当前正在执行的规则状态为已过期，设置结束时间
-			 * 将待执行规则状态更新为正在执行
-			 */
+
 			if(PEDDING_EXECUTION.equals(rule.getStatus() )  && currentTime.getTime() >= startTime.getTime() ){
 				Map<String,Object> params = new HashMap<>();
 				params.put("setStatus", EXPIRED);

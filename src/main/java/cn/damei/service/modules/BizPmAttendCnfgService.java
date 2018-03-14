@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.util.List;
@@ -16,11 +14,7 @@ import cn.damei.entity.modules.BizPmAttendCnfg;
 import cn.damei.entity.modules.BizPmAttendCnfgStar;
 import cn.damei.dao.modules.BizPmAttendCnfgDao;
 
-/**
- * 项目经理考勤基础设置Service
- * @author lzm
- * @version 2017-08-02
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizPmAttendCnfgService extends CrudService<BizPmAttendCnfgDao, BizPmAttendCnfg> {

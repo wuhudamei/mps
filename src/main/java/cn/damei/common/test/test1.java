@@ -8,11 +8,7 @@ import org.junit.Test;
 
 import cn.damei.common.LngAndLatUtils;
 
-/** 
-* @author 梅浩   meihao@zzhyun.cn: 
-* @version 创建时间：2016年9月23日 下午12:02:57 
-* 类说明 
-*/
+
 
 public class test1 {
 
@@ -30,7 +26,7 @@ public class test1 {
 	@Test
 	public void t () throws ParseException{
 		String hopeForTime = "2016-12-7";
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");// 小写的mm表示的是分钟
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		java.util.Date date = sdf.parse(hopeForTime);
 System.out.println(date.toString());
 	}

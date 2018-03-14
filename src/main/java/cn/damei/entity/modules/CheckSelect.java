@@ -1,76 +1,70 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import java.util.Date;
 
 import cn.damei.common.persistence.DataEntity;
 
-/**
- * 项目约检情况查询Entity
- * @author wyb
- * @version 2016-10-31
- */
+
 public class CheckSelect extends DataEntity<CheckSelect> {
 	
 	private static final long serialVersionUID = 1L;
 	
-	private Integer orderId;//订单id
-	private Integer storeId; //门店
-	private String storeName; //门店名称
-	private String projectMode;		//工程模式   1-产业模式；2-传统模式
-	private String projectModeName;		//工程模式名称
-	private Integer engineDepartId; // 区域id
-	private String engineDepartName; // 区域名称
-	private String orderNumber;		// 订单编号
+	private Integer orderId;
+	private Integer storeId;
+	private String storeName;
+	private String projectMode;
+	private String projectModeName;
+	private Integer engineDepartId;
+	private String engineDepartName;
+	private String orderNumber;
 
-	private String detailAddress;	//详细地址
-	private String communityName;		// 小区名称
-	private String buildNumber;		// 几号楼
-	private String buildUnit;		// 几单元
-	private String buildRoom;		// 哪一室
-	private String customerName;		// 客户姓名
+	private String detailAddress;
+	private String communityName;
+	private String buildNumber;
+	private String buildUnit;
+	private String buildRoom;
+	private String customerName;
 	
-	private String itemManager;		// 项目经理
-	private String orderInspector;	//质检
-	private String signType;	//签到类型
+	private String itemManager;
+	private String orderInspector;
+	private String signType;
 	
-	private Date actualStartDate; //实际开工日期
-	private Date beginActualStartDate; // 开始   实际开工日期
-	private Date endActualStartDate; // 结束   实际开工日期
+	private Date actualStartDate;
+	private Date beginActualStartDate;
+	private Date endActualStartDate;
 	
-	private Integer qcBillId;	//质检单id
-	private String qcBillType; // 质检单类型 1约检单  2抽检单
+	private Integer qcBillId;
+	private String qcBillType;
 	
-	private String isRecheck; // 是否复检
+	private String isRecheck;
 	
-	private Integer qcCheckNodeId; // 检查节点id
-	private String qcCheckNodeName; // 检查节点名称
+	private Integer qcCheckNodeId;
+	private String qcCheckNodeName;
 	
-	private String status; // 状态 -- '抽检单状态：-1.未选择检查项；0.暂存；5.提交报告；
+	private String status;
 	
-	private Date expectCheckDatetime; // 期望质检日期时间
-	private Date signCheckDatetime; // 签到日期时间
+	private Date expectCheckDatetime;
+	private Date signCheckDatetime;
 	
-	private Date checkDatetime; // 质检日期时间
-	private Date beginCheckDatetime; // 开始   质检日期时间
-	private Date endCheckDatetime; // 结束   质检日期时间
+	private Date checkDatetime;
+	private Date beginCheckDatetime;
+	private Date endCheckDatetime;
 	
-	private Date acceptCheckDatetime; // 验收日期时间
-	private Date beginAcceptCheckDatetime; // 开始   验收日期时间
-	private Date endAcceptCheckDatetime; // 结束   验收日期时间
+	private Date acceptCheckDatetime;
+	private Date beginAcceptCheckDatetime;
+	private Date endAcceptCheckDatetime;
 
 	private Date assertNodeConfirmDoneStartDate;
 	private Date assertNodeConfirmDoneEndDate;
 
-	private Double totalScore; // 总分
-	private Double gotScore; // 实际得分
+	private Double totalScore;
+	private Double gotScore;
 	
-	private Date beginCreateDate; // 开始   申请日期时间
-	private Date endCreateDate; // 结束  申请日期时间
+	private Date beginCreateDate;
+	private Date endCreateDate;
 	
-	private String totalAndGotIsEqual;//总分与实际得分是否相等
+	private String totalAndGotIsEqual;
 	private String delayReasonPm;
 	private String delayReasonQc;
 

@@ -9,9 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
-/**
- * Created by joseph on 2017/6/13.
- */
+
 @Service
 @Transactional(readOnly = true)
 public class ApplyCheckPlanService {
@@ -65,7 +63,7 @@ public class ApplyCheckPlanService {
                     for (int v = 0; v < allStatusNodeListSize; v++) {
 
 
-                        //解决已申请之后node节点被停用 但仍需显示的情况
+
                         if (applyNodeList.get(j).getQcNodeId().equals(allStatusLNodeList.get(v).getQcNodeId())) {
 
                             if (Integer.valueOf(applyNodeList.get(j).getQcStatus()) >= 30) {

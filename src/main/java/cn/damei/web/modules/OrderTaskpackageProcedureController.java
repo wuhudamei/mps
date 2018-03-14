@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import java.util.ArrayList;
@@ -39,11 +37,7 @@ import cn.damei.service.modules.OrderTaskpackageProcedureService;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
-/**
- * 订单任务包工序Controller
- * @author llp
- * @version 2016-09-23
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/ordertaskpackageprocedure/orderTaskpackageProcedure")
 public class OrderTaskpackageProcedureController extends BaseController {
@@ -107,16 +101,13 @@ public class OrderTaskpackageProcedureController extends BaseController {
 		return "redirect:"+Global.getAdminPath()+"/ordertaskpackageprocedure/orderTaskpackageProcedure/?repage";
 	}
 	
-	/**
-	 * 修改任务包提交数据
-	 * ajax submit
-	 */
+
 	@ResponseBody
 	@RequestMapping(value = "insertProcedure")
 	public String insertProcedure(String procedureName, String procedureNo,String taskPackageTemplatId,String orderId, 
 			String taskPackageTemplatNo,String taskpackageId){
 		boolean flag = false;
-		String result = "0";//返回结果
+		String result = "0";
 		logger.info("procedureName="+procedureName+"\t\t procedureNo"+procedureNo+"\t"
 				+ "\t taskPackageTemplatId="+taskPackageTemplatId);
 		Order2 order = null;
@@ -145,40 +136,37 @@ public class OrderTaskpackageProcedureController extends BaseController {
 		return result;
 	}
 	
-	/**
-	 * 任务包审核
-	 * 确认修改任务包
-	 */
+
 	@SuppressWarnings("rawtypes")
 	@ResponseBody
 	@RequestMapping(value="updateByAuditProcedure")
 	public String updateByAuditProcedure(HttpServletRequest request){
-		String jsonVal = request.getParameter("jsonVal");//获取前台传值
-		String taskpackageID = request.getParameter("taskpackageID");//获取任务包编号
+		String jsonVal = request.getParameter("jsonVal");
+		String taskpackageID = request.getParameter("taskpackageID");
 		String viewFlag = request.getParameter("viewFlag");
 		boolean flag = false;
 		Map<String,String> map = new HashMap<String,String>();
-		List<Double> list = new ArrayList<Double>(); // 计算任务包的工料费预算总金额
-		List<Double> laborList = new ArrayList<Double>(); // 计算任务包的人工费预算总金额
-		List<Double> auxiliaryList = new ArrayList<Double>(); // 计算任务包的辅料费预算总金额
-		String result = "0";//返回状态码
+		List<Double> list = new ArrayList<Double>();
+		List<Double> laborList = new ArrayList<Double>();
+		List<Double> auxiliaryList = new ArrayList<Double>();
+		String result = "0";
 		logger.info("获取任务包编号："+taskpackageID);
 		if(jsonVal != null){
-			JSONObject json = JSONObject.fromObject(jsonVal.toString());//转换为json对象
+			JSONObject json = JSONObject.fromObject(jsonVal.toString());
 			
-			//遍历
+
 			Iterator iter = json.keySet().iterator();  
 			while (iter.hasNext()) {    
 	            String key = (String) iter.next();    
 	            String value = json.getString(key);
 	            System.out.println("key:"+key+",value:"+value);  
-	            map.put(key, value);//循环放入Map    
+	            map.put(key, value);
 	        }
 		}
 		
-		String root = map.get("json"); //获取根节点
-		JSONArray jsonArray =JSONArray.fromObject(root); //JSON数组 
-		//System.out.println("获取节点的大小："+jsonArray.size());
+		String root = map.get("json");
+		JSONArray jsonArray =JSONArray.fromObject(root);
+
 		Double budgetNumber = Double.valueOf(0);
 		Double total = Double.valueOf(0);
 		String procedureID = "";
@@ -186,7 +174,7 @@ public class OrderTaskpackageProcedureController extends BaseController {
 		Double laborBudgetAmount = Double.valueOf(0);
 		Double auxiliaryMaterialsBudgetAmount = Double.valueOf(0);
 		for (int i = 0; i < jsonArray.size(); i++) {
-			//判断页面输入的数据是null或""
+
 			if(((String) jsonArray.getJSONObject(i).get("budgetNumber")).equals("")){
 				budgetNumber = Double.valueOf(0);
 			}else{
@@ -195,13 +183,13 @@ public class OrderTaskpackageProcedureController extends BaseController {
 			total = Double.valueOf((String) jsonArray.getJSONObject(i).get("total"));
 			procedureID = (String) jsonArray.getJSONObject(i).get("procedureID");
 			remarks=(String) jsonArray.getJSONObject(i).get("remarks");
-			// 工序的人工费预算金额
+
 			if (((String) jsonArray.getJSONObject(i).get("laborBudgetAmount")).equals("")) {
 				laborBudgetAmount = Double.valueOf(0);
 			} else {
 				laborBudgetAmount = Double.valueOf((String) jsonArray.getJSONObject(i).get("laborBudgetAmount"));
 			}
-			// 工序的辅料费预算金额
+
 			if (((String) jsonArray.getJSONObject(i).get("auxiliaryMaterialsBudgetAmount")).equals("")) {
 				auxiliaryMaterialsBudgetAmount = Double.valueOf(0);
 			} else {
@@ -213,7 +201,7 @@ public class OrderTaskpackageProcedureController extends BaseController {
 			flag = orderTaskpackageProcedureService.updateById(budgetNumber,total,procedureID,remarks,laborBudgetAmount,auxiliaryMaterialsBudgetAmount);
 		}
 		
-		//list求和
+
 		Double sum = 0d;
 		for(Double d:list){
 			sum += d;
@@ -229,7 +217,7 @@ public class OrderTaskpackageProcedureController extends BaseController {
 			auxiliarySum += d;
 		}
 		
-		//修改任务包中的总价
+
 		if(!flag){
 			result = "1";
 		}else{

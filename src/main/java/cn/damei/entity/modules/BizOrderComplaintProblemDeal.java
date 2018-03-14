@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import java.util.Date;
@@ -10,21 +8,16 @@ import org.hibernate.validator.constraints.Length;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import cn.damei.common.persistence.DataEntity;
 
-/**
- * 投诉问题处理Entity
- * 
- * @author ztw
- * @version 2017-07-07
- */
+
 public class BizOrderComplaintProblemDeal extends DataEntity<BizOrderComplaintProblemDeal> {
 
 	private static final long serialVersionUID = 1L;
-	private String orderComplaintProblemId; // 问题表ID
-	private String dealPersonType; // deal_person_type
-	private String dealEmployeeId; // deal_employee_id
-	private String dealStatus; // deal_status
-	private Date dealStatusDatetime; // deal_status_datetime
-	private String dealDescribe; // deal_describe
+	private String orderComplaintProblemId;
+	private String dealPersonType;
+	private String dealEmployeeId;
+	private String dealStatus;
+	private Date dealStatusDatetime;
+	private String dealDescribe;
 	private Integer handleId;
 
 	private String replyName;
@@ -34,7 +27,7 @@ public class BizOrderComplaintProblemDeal extends DataEntity<BizOrderComplaintPr
 
 	private String replyContent;
 	private Integer overDays;
-	private String isdatefla;// 相差的时间数如果为正说说明没有超时 如果为负数说明超时了
+	private String isdatefla;
 private Double msgsndPeriod;
 
 	public Integer getOverDays() {

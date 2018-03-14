@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,11 +19,7 @@ import cn.damei.common.web.BaseController;
 import cn.damei.entity.modules.BizPmStarCommissionCnfgSnap;
 import cn.damei.service.modules.BizPmStarCommissionCnfgSnapService;
 
-/**
- * 项目经理星级提成快照Controller
- * @author 汪文文
- * @version 2016-12-28
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/starcommissionsnap/bizPmStarCommissionCnfgSnap")
 public class BizPmStarCommissionCnfgSnapController extends BaseController {

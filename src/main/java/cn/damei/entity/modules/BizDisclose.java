@@ -4,34 +4,21 @@ import java.util.Date;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * biz_order_disclose
- * 订单交底
- * @author llp
- * 2016/10/17
- */
+
 @SuppressWarnings("serial")
 public class BizDisclose extends DataEntity2<BizDisclose> {
 	private Integer id;
-	/**
-	 * 订单ID
-	 */
+
 	private Integer orderId;
 
-	/**
-	 * 交底人_员工id
-	 */
+
 	private Integer discloseEmployeeId;
 
-	/**
-	 * 交底日期
-	 */
+
 	private Date discloseDate;
 
-	//页面取值用的字段
-	/**
-	 * 设计交底/延期天数
-	 */
+
+
 	private String days;
 	
 	public Integer getId() {

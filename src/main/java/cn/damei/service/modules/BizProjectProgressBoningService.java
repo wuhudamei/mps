@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.lang.reflect.Method;
@@ -31,12 +29,7 @@ import cn.damei.dao.modules.BizProjectProgressBoningDao;
 import cn.damei.entity.modules.BizProjectProgressBoning;
 import cn.damei.common.utils.BizDictUtils;
 
-/**
- * 工程进度大看板Service
- * 
- * @author qww
- * @version 2016-10-26
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizProjectProgressBoningService
@@ -72,13 +65,13 @@ public class BizProjectProgressBoningService
 					Object obj = method.invoke(boning);
 					if (obj != null) {
 						Date date = (Date) obj;
-						// 判断日期大小
+
 						Map<String, Object> map = this.compare(index, oldDate, i, date);
 						index = Integer.parseInt(map.get("index").toString());
 						oldDate = (Date) map.get("oldDate");
 					}
 				}
-				// 判断是哪个节点
+
 				String noteName = this.getNoteName(index);
 				boning.setNodeName(noteName);
 				boning.setNodeLastActualDate(oldDate);
@@ -87,14 +80,7 @@ public class BizProjectProgressBoningService
 		return pageList;
 	}
 
-	/**
-	 * 比较两个日期的大小
-	 * 
-	 * @param index
-	 * @param oldDate
-	 * @param i
-	 * @param newDate
-	 */
+
 	private Map<String, Object> compare(int index, Date oldDate, int i, Date newDate) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		if (oldDate == null || oldDate.getTime() < newDate.getTime()) {
@@ -186,8 +172,8 @@ public class BizProjectProgressBoningService
 	@Transactional(readOnly = false)
 	public void insert(BizProjectProgressBoning bizProjectProgressBoning) {
 		dao.insert(bizProjectProgressBoning);
-		if(bizProjectProgressBoning.getOrderStatus().equals("400") || bizProjectProgressBoning.getIsScrap() == 1){//订单状态是已竣工或者订单已废除
-			//更新订单表的is_to_refresh_process_data字段为1
+		if(bizProjectProgressBoning.getOrderStatus().equals("400") || bizProjectProgressBoning.getIsScrap() == 1){
+
 			dao.updateOrder(bizProjectProgressBoning.getOrderId());
 		}
 	}
@@ -202,44 +188,27 @@ public class BizProjectProgressBoningService
 		super.delete(bizProjectProgressBoning);
 	}
 
-	/**
-	 * 查询订单
-	 * 
-	 * @return
-	 */
+
 	public List<BizProjectProgressBoning> queryOrderByCondition() {
 		return dao.queryOrderByCondition();
 	}
 
-	/**
-	 * 根据订单查询
-	 * 
-	 * @param orderId
-	 * @return
-	 */
+
 	public BizProjectProgressBoning queryByOrderId(Integer orderId) {
 		return dao.queryByOrderId(orderId);
 	}
 
-	/**
-	 * 根据订单id更新
-	 * 
-	 * @param boning
-	 */
+
 	@Transactional(readOnly = false)
 	public void updateByOrderId(BizProjectProgressBoning boning) {
 		dao.updateByOrderId(boning);
-		if(boning.getOrderStatus().equals("400") || boning.getIsScrap() == 1){//订单状态是已竣工或者订单已废除
-			//更新订单表的is_to_refresh_process_data字段为1
+		if(boning.getOrderStatus().equals("400") || boning.getIsScrap() == 1){
+
 			dao.updateOrder(boning.getOrderId());
 		}
 	}
 
-	/**
-	 * 更新订单节点
-	 * 
-	 * @param orderId
-	 */
+
 	@Transactional(readOnly = false)
 	public void editOrderNode(Integer orderId) {
 		BizProjectProgressBoning boning = dao.queryOrderByOrderId(orderId);
@@ -824,52 +793,39 @@ public class BizProjectProgressBoningService
 		return Integer.parseInt(String.valueOf(between_days));
 	}
 
-	/**
-	 * 中国银行导出数据
-	 * 
-	 * @param bizProjectProgressBoning
-	 * @return
-	 */
-	public HSSFWorkbook exportExcel(BizProjectProgressBoning bizProjectProgressBoning) {
-		HSSFWorkbook wb = new HSSFWorkbook();// 创建一个Excel文件
-		HSSFSheet sheet = wb.createSheet("工程进度看板");// 创建一个Excel的Sheet
 
-		// 单元格宽度
-		/*
-		 * sheet.setColumnWidth(0, 2000); sheet.setColumnWidth(1, 2000);
-		 * sheet.setColumnWidth(2, 2000); sheet.setColumnWidth(3, 3000);
-		 * sheet.setColumnWidth(4, 5000); sheet.setColumnWidth(5, 3000);
-		 * sheet.setColumnWidth(6, 3000); sheet.setColumnWidth(7, 3000);
-		 * sheet.setColumnWidth(8, 3000); sheet.setColumnWidth(9, 3000);
-		 * sheet.setColumnWidth(10, 3000); sheet.setColumnWidth(11, 3000);
-		 * sheet.setColumnWidth(12, 3000); sheet.setColumnWidth(13, 3000);
-		 */
+	public HSSFWorkbook exportExcel(BizProjectProgressBoning bizProjectProgressBoning) {
+		HSSFWorkbook wb = new HSSFWorkbook();
+		HSSFSheet sheet = wb.createSheet("工程进度看板");
+
+
+
 
 		HSSFCellStyle columnStyle = wb.createCellStyle();
-		columnStyle.setLeftBorderColor(HSSFColor.BLACK.index); // 左边框线的颜色
-		columnStyle.setBorderLeft((short) 1);// 左边框线的大小
-		columnStyle.setRightBorderColor(HSSFColor.BLACK.index); // 右边框线的颜色
-		columnStyle.setBorderRight((short) 1);// 右边框线的大小
-		columnStyle.setTopBorderColor(HSSFColor.BLACK.index); // 上边框线的颜色
-		columnStyle.setBorderTop((short) 1);// 上边框线的大小
-		columnStyle.setBottomBorderColor(HSSFColor.BLACK.index); // 下边框线的颜色
-		columnStyle.setBorderBottom((short) 1);// 下边框线的大小
+		columnStyle.setLeftBorderColor(HSSFColor.BLACK.index);
+		columnStyle.setBorderLeft((short) 1);
+		columnStyle.setRightBorderColor(HSSFColor.BLACK.index);
+		columnStyle.setBorderRight((short) 1);
+		columnStyle.setTopBorderColor(HSSFColor.BLACK.index);
+		columnStyle.setBorderTop((short) 1);
+		columnStyle.setBottomBorderColor(HSSFColor.BLACK.index);
+		columnStyle.setBorderBottom((short) 1);
 		columnStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
 
 		HSSFCellStyle headStyle = wb.createCellStyle();
-		headStyle.setLeftBorderColor(HSSFColor.BLACK.index); // 左边框线的颜色
-		headStyle.setBorderLeft((short) 1);// 左边框线的大小
-		headStyle.setRightBorderColor(HSSFColor.BLACK.index); // 右边框线的颜色
-		headStyle.setBorderRight((short) 1);// 右边框线的大小
-		headStyle.setTopBorderColor(HSSFColor.BLACK.index); // 上边框线的颜色
-		headStyle.setBorderTop((short) 1);// 上边框线的大小
-		headStyle.setBottomBorderColor(HSSFColor.BLACK.index); // 下边框线的颜色
-		headStyle.setBorderBottom((short) 1);// 下边框线的大小
-		headStyle.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);// 设置背景色
+		headStyle.setLeftBorderColor(HSSFColor.BLACK.index);
+		headStyle.setBorderLeft((short) 1);
+		headStyle.setRightBorderColor(HSSFColor.BLACK.index);
+		headStyle.setBorderRight((short) 1);
+		headStyle.setTopBorderColor(HSSFColor.BLACK.index);
+		headStyle.setBorderTop((short) 1);
+		headStyle.setBottomBorderColor(HSSFColor.BLACK.index);
+		headStyle.setBorderBottom((short) 1);
+		headStyle.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
 		headStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
 		headStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
 
-		// 标题
+
 		HSSFRow rowTitle1 = sheet.createRow(0);
 		HSSFCell headCell10 = rowTitle1.createCell(0);
 		headCell10.setCellStyle(headStyle);
@@ -963,7 +919,7 @@ public class BizProjectProgressBoningService
 		headCell115.setCellStyle(headStyle);
 		headCell115.setCellValue("客户是\n否签字");
 		
-//		客户认可延期天数
+
 		HSSFCell headCell1151 = rowTitle1.createCell(24);
 		headCell1151.setCellStyle(headStyle);
 		headCell1151.setCellValue("客户认可延期天数");
@@ -975,127 +931,123 @@ public class BizProjectProgressBoningService
 		HSSFCell headCell117 = rowTitle1.createCell(27);
 		headCell117.setCellStyle(headStyle);
 		
-		/*HSSFCell headCell118 = rowTitle1.createCell(24);
-		headCell118.setCellStyle(headStyle);
 
-		HSSFCell headCell119 = rowTitle1.createCell(25);
-		headCell119.setCellStyle(headStyle);*/
 
 		HSSFCell headCell120 = rowTitle1.createCell(34);
 		headCell120.setCellStyle(headStyle);
 		headCell120.setCellValue("辅材进场");
 
-//		44, 53));//瓷砖   
+
 
 		HSSFCell headCell130 = rowTitle1.createCell(43);
 		headCell130.setCellStyle(headStyle);
 		headCell130.setCellValue("瓷砖");
 
 		
-//		54, 63));//水电隐蔽验收            
+
 		HSSFCell headCell135 = rowTitle1.createCell(52);
 		headCell135.setCellStyle(headStyle);
 		headCell135.setCellValue("水电隐蔽验收");
 
 		
-//		64, 73));//防水验收  
+
 		HSSFCell headCell140 = rowTitle1.createCell(61);
 		headCell140.setCellStyle(headStyle);
 		headCell140.setCellValue("防水验收 ");
 
-//		74, 83));//橱柜核尺 
+
 
 		HSSFCell headCell144 = rowTitle1.createCell(70);
 		headCell144.setCellStyle(headStyle);
 		headCell144.setCellValue("橱柜核尺");
 
-//		84, 93));//瓦工验收
+
 
 		HSSFCell headCell149 = rowTitle1.createCell(79);
 		headCell149.setCellStyle(headStyle);
 		headCell149.setCellValue("瓦工验收");
 
-//		94, 97));//二期款  
+
 
 		HSSFCell headCell153 = rowTitle1.createCell(88);
 		headCell153.setCellStyle(headStyle);
 		headCell153.setCellValue("二期款");
 		
-//		98, 107));//基础施工验收     
+
 		HSSFCell headCell153c = rowTitle1.createCell(92);
 		headCell153c.setCellStyle(headStyle);
 		headCell153c.setCellValue("基础施工验收");
-//		108, 117));//厨卫吊顶    
+
 		HSSFCell headCell158 = rowTitle1.createCell(101);
 		headCell158.setCellStyle(headStyle);
 		headCell158.setCellValue("厨卫吊顶");
 
-//		118, 127));//洁具  
+
 		HSSFCell headCell165 = rowTitle1.createCell(111);
 		headCell165.setCellStyle(headStyle);
 		headCell165.setCellValue("洁具");
 
-//		128, 137));//五金，灯具，开关面板   
+
 
 		HSSFCell headCell173 = rowTitle1.createCell(121);
 		headCell173.setCellStyle(headStyle);
 		headCell173.setCellValue("五金，灯具，开关面板");
 
-//		138, 147));//橱柜  
+
 		HSSFCell headCell180 = rowTitle1.createCell(131);
 		headCell180.setCellStyle(headStyle);
 		headCell180.setCellValue("橱柜");
 
-//		148, 157));//定制衣柜  
+
 
 		HSSFCell headCell187 = rowTitle1.createCell(142);
 		headCell187.setCellStyle(headStyle);
 		headCell187.setCellValue("定制衣柜");
 
-//		158, 167));//壁纸  
+
 
 		HSSFCell headCell194 = rowTitle1.createCell(153);
 		headCell194.setCellStyle(headStyle);
 		headCell194.setCellValue("壁纸");
 
-//		168, 177));//木门，铝镁门，门窗套      
+
 
 		HSSFCell headCell201 = rowTitle1.createCell(155+8);
 		headCell201.setCellStyle(headStyle);
 		headCell201.setCellValue("木门，铝镁门，门窗套");
 
-//		178, 187));//木地板   
+
 
 		HSSFCell headCell208 = rowTitle1.createCell(164+10);
 		headCell208.setCellStyle(headStyle);
 		headCell208.setCellValue("木地板");
 
-//		188, 197));//窗帘 
+
 
 		HSSFCell headCell215 = rowTitle1.createCell(173+11);
 		headCell215.setCellStyle(headStyle);
 		headCell215.setCellValue("窗帘");
 
-//		198, 207));//竣工验收   
+
 
 
 		HSSFCell headCell222 = rowTitle1.createCell(183+12);
 		headCell222.setCellStyle(headStyle);
 		headCell222.setCellValue("竣工验收");
 
-//		208, 210));//尾款 
+
 
 		HSSFCell headCell230 = rowTitle1.createCell(191+13);
 		headCell230.setCellStyle(headStyle);
 		headCell230.setCellValue("尾款");
 
-//		211, 221));//家电  
+
 
 		HSSFCell headCell237 = rowTitle1.createCell(193+14);
 		headCell237.setCellStyle(headStyle);
 		headCell237.setCellValue("家电");
 
-//		222, 232));//家具  
+
 		
 		HSSFCell headCell244 = rowTitle1.createCell(202+15);
 		headCell244.setCellStyle(headStyle);
@@ -1186,7 +1138,7 @@ public class BizProjectProgressBoningService
 		headCell2215.setCellStyle(headStyle);
 
 		
-//		25, 33));//防盗门复尺     
+
 		HSSFCell headCell22161 = rowTitle2.createCell(25);
 		headCell22161.setCellStyle(headStyle);
 		headCell22161.setCellValue("计划提报日期");
@@ -1223,7 +1175,7 @@ public class BizProjectProgressBoningService
 		headCell2225.setCellStyle(headStyle);
 		headCell2225.setCellValue("正常/延期/提前天数");
 		
-//		34, 43));//辅材进场(3天内)    
+
 		
 		HSSFCell headCellfc161 = rowTitle2.createCell(34);
 		headCellfc161.setCellStyle(headStyle);
@@ -1261,7 +1213,7 @@ public class BizProjectProgressBoningService
 		headCellfc25.setCellStyle(headStyle);
 		headCellfc25.setCellValue("正常/延期/提前天数");
 		
-//		44-1, 53-1-1));//瓷砖
+
 		
 		HSSFCell headCellcz161 = rowTitle2.createCell(43);
 		headCellcz161.setCellStyle(headStyle);
@@ -1298,7 +1250,7 @@ public class BizProjectProgressBoningService
 		HSSFCell headCellcz25 = rowTitle2.createCell(51);
 		headCellcz25.setCellStyle(headStyle);
 		headCellcz25.setCellValue("正常/延期/提前天数");
-//		54-1-1, 63-3));//水电隐蔽验收 
+
 		
 		HSSFCell headCellsd161 = rowTitle2.createCell(52);
 		headCellsd161.setCellStyle(headStyle);
@@ -1335,7 +1287,7 @@ public class BizProjectProgressBoningService
 		HSSFCell headCellsd25 = rowTitle2.createCell(60);
 		headCellsd25.setCellStyle(headStyle);
 		headCellsd25.setCellValue("正常/延期/提前天数");
-//		 0, 64-3, 73-4));//防水验收  
+
 		HSSFCell headCellfs161 = rowTitle2.createCell(61);
 		headCellfs161.setCellStyle(headStyle);
 		headCellfs161.setCellValue("计划提报日期");
@@ -1373,7 +1325,7 @@ public class BizProjectProgressBoningService
 		headCellfs25.setCellValue("正常/延期/提前天数");
 		
 		
-//		 0, 74-4, 83-5));//橱柜核尺    
+
 		HSSFCell headCellcg161 = rowTitle2.createCell(70);
 		headCellcg161.setCellStyle(headStyle);
 		headCellcg161.setCellValue("计划提报日期");
@@ -1411,7 +1363,7 @@ public class BizProjectProgressBoningService
 		headCellcg25.setCellValue("正常/延期/提前天数");
 		
 		
-//		 0, 84-5, 93-6));//瓦工验收   
+
 		HSSFCell headCellwg161 = rowTitle2.createCell(79);
 		headCellwg161.setCellStyle(headStyle);
 		headCellwg161.setCellValue("计划提报日期");
@@ -1448,7 +1400,7 @@ public class BizProjectProgressBoningService
 		headCellwg25.setCellStyle(headStyle);
 		headCellwg25.setCellValue("正常/延期/提前天数");
 		
-//		 0, 94-6, 97-6));//二期款  
+
 		HSSFCell headCelleqk161 = rowTitle2.createCell(88);
 		headCelleqk161.setCellStyle(headStyle);
 		headCelleqk161.setCellValue("计划");
@@ -1464,7 +1416,7 @@ public class BizProjectProgressBoningService
 		HSSFCell headCelleqk19 = rowTitle2.createCell(91);
 		headCelleqk19.setCellStyle(headStyle);
 		headCelleqk19.setCellValue("正常/延期/提前天数");
-//		 0, 92, 107-7));//基础施工验收  
+
 		HSSFCell headCelljc161 = rowTitle2.createCell(92);
 		headCelljc161.setCellStyle(headStyle);
 		headCelljc161.setCellValue("计划提报日期");
@@ -1500,7 +1452,7 @@ public class BizProjectProgressBoningService
 		HSSFCell headCelljc25 = rowTitle2.createCell(100);
 		headCelljc25.setCellStyle(headStyle);
 		headCelljc25.setCellValue("正常/延期/提前天数");
-//		 0, 101, 110));//厨卫吊顶  
+
 		HSSFCell headCellcw161 = rowTitle2.createCell(101);
 		headCellcw161.setCellStyle(headStyle);
 		headCellcw161.setCellValue("计划提报日期");
@@ -1541,7 +1493,7 @@ public class BizProjectProgressBoningService
 		HSSFCell headCellcw25 = rowTitle2.createCell(110);
 		headCellcw25.setCellStyle(headStyle);
 		headCellcw25.setCellValue("正常/延期/提前天数");
-//		 0, 109+2, 118+2));//洁具 10   
+
 		HSSFCell headCellju161 = rowTitle2.createCell(111);
 		headCellju161.setCellStyle(headStyle);
 		headCellju161.setCellValue("计划提报日期");
@@ -1582,7 +1534,7 @@ public class BizProjectProgressBoningService
 		HSSFCell headCellju25 = rowTitle2.createCell(120);
 		headCellju25.setCellStyle(headStyle);
 		headCellju25.setCellValue("正常/延期/提前天数");
-//		 0, 117+4, 126+4));//五金，灯具，开关面板    
+
 		HSSFCell headCellwj161 = rowTitle2.createCell(121);
 		headCellwj161.setCellStyle(headStyle);
 		headCellwj161.setCellValue("计划提报日期");
@@ -1623,7 +1575,7 @@ public class BizProjectProgressBoningService
 		HSSFCell headCellwj25 = rowTitle2.createCell(130);
 		headCellwj25.setCellStyle(headStyle);
 		headCellwj25.setCellValue("正常/延期/提前天数");
-//		 0, 126+5, 136+5));//橱柜  
+
 		HSSFCell headCellcgs171 = rowTitle2.createCell(131);
 		headCellcgs171.setCellStyle(headStyle);
 		headCellcgs171.setCellValue("计划提报日期");
@@ -1635,7 +1587,7 @@ public class BizProjectProgressBoningService
 		HSSFCell headCellcgs18 = rowTitle2.createCell(133);
 		headCellcgs18.setCellStyle(headStyle);
 		headCellcgs18.setCellValue("提报延期天数");
-		//提报核尺时间
+
 		HSSFCell headCellcgs18s = rowTitle2.createCell(134);
 		headCellcgs18s.setCellStyle(headStyle);
 		headCellcgs18s.setCellValue("提报核尺时间");
@@ -1667,7 +1619,7 @@ public class BizProjectProgressBoningService
 		HSSFCell headCellcgs25 = rowTitle2.createCell(141);
 		headCellcgs25.setCellStyle(headStyle);
 		headCellcgs25.setCellValue("正常/延期/提前天数");
-//		 0, 136+6, 146+6));//定制衣柜     
+
 		HSSFCell headCelldz161 = rowTitle2.createCell(142);
 		headCelldz161.setCellStyle(headStyle);
 		headCelldz161.setCellValue("计划提报日期");
@@ -1679,7 +1631,7 @@ public class BizProjectProgressBoningService
 		HSSFCell headCelldz18 = rowTitle2.createCell(144);
 		headCelldz18.setCellStyle(headStyle);
 		headCelldz18.setCellValue("提报延期天数");
-		//提报核尺时间
+
 		HSSFCell headCelldz18s = rowTitle2.createCell(145);
 		headCelldz18s.setCellStyle(headStyle);
 		headCelldz18s.setCellValue("提报核尺时间");
@@ -1711,7 +1663,7 @@ public class BizProjectProgressBoningService
 		HSSFCell headCelldz25 = rowTitle2.createCell(152);
 		headCelldz25.setCellStyle(headStyle);
 		headCelldz25.setCellValue("正常/延期/提前天数");
-//		 0, 146+7, 155+7));//壁纸  
+
 		
 		HSSFCell headCellbzs161 = rowTitle2.createCell(153);
 		headCellbzs161.setCellStyle(headStyle);
@@ -1753,7 +1705,7 @@ public class BizProjectProgressBoningService
 		HSSFCell headCellbzs25 = rowTitle2.createCell(162);
 		headCellbzs25.setCellStyle(headStyle);
 		headCellbzs25.setCellValue("正常/延期/提前天数");
-//		 0, 155+8, 164+9));//木门，铝镁门，门窗套        
+
 		HSSFCell headCellmm171 = rowTitle2.createCell(163);
 		headCellmm171.setCellStyle(headStyle);
 		headCellmm171.setCellValue("计划提报日期");
@@ -1765,7 +1717,7 @@ public class BizProjectProgressBoningService
 		HSSFCell headCellmm18 = rowTitle2.createCell(165);
 		headCellmm18.setCellStyle(headStyle);
 		headCellmm18.setCellValue("提报延期天数");
-		//提报核尺时间
+
 		HSSFCell headCellmm18s = rowTitle2.createCell(166);
 		headCellmm18s.setCellStyle(headStyle);
 		headCellmm18s.setCellValue("提报核尺时间");
@@ -1797,7 +1749,7 @@ public class BizProjectProgressBoningService
 		HSSFCell headCellmm25 = rowTitle2.createCell(173);
 		headCellmm25.setCellStyle(headStyle);
 		headCellmm25.setCellValue("正常/延期/提前天数");
-//		 0, 164+10, 173+10));//木地板 
+
 		HSSFCell headCellmd171 = rowTitle2.createCell(174);
 		headCellmd171.setCellStyle(headStyle);
 		headCellmd171.setCellValue("计划提报日期");
@@ -1837,7 +1789,7 @@ public class BizProjectProgressBoningService
 		HSSFCell headCellmd25 = rowTitle2.createCell(183);
 		headCellmd25.setCellStyle(headStyle);
 		headCellmd25.setCellValue("正常/延期/提前天数");
-//		0, 173+11, 183+11));//窗帘 
+
 		HSSFCell headCellcl171 = rowTitle2.createCell(184);
 		headCellcl171.setCellStyle(headStyle);
 		headCellcl171.setCellValue("计划提报日期");
@@ -1849,7 +1801,7 @@ public class BizProjectProgressBoningService
 		HSSFCell headCellcl18 = rowTitle2.createCell(186);
 		headCellcl18.setCellStyle(headStyle);
 		headCellcl18.setCellValue("提报延期天数");
-		//提报核尺时间
+
 		HSSFCell headCellcl18s = rowTitle2.createCell(187);
 		headCellcl18s.setCellStyle(headStyle);
 		headCellcl18s.setCellValue("提报核尺时间");
@@ -1881,7 +1833,7 @@ public class BizProjectProgressBoningService
 		HSSFCell headCellcl25 = rowTitle2.createCell(194);
 		headCellcl25.setCellStyle(headStyle);
 		headCellcl25.setCellValue("正常/延期/提前天数");
-//		 0, 183+12, 191+12));//竣工验收    
+
 		HSSFCell headCelljg171 = rowTitle2.createCell(195);
 		headCelljg171.setCellStyle(headStyle);
 		headCelljg171.setCellValue("计划提报日期");
@@ -1919,7 +1871,7 @@ public class BizProjectProgressBoningService
 		headCelljg25.setCellStyle(headStyle);
 		headCelljg25.setCellValue("正常/延期/提前天数");
 		
-//		 0, 191+13, 193+13));//尾款 
+
 		HSSFCell headCellwk23 = rowTitle2.createCell(204);
 		headCellwk23.setCellStyle(headStyle);
 		headCellwk23.setCellValue("计划");
@@ -1932,7 +1884,7 @@ public class BizProjectProgressBoningService
 		headCellwk25.setCellStyle(headStyle);
 		headCellwk25.setCellValue("正常/延期/提前天数");
 		
-//		 0, 193+14, 202+14));//家电   
+
 		HSSFCell headCelljd171 = rowTitle2.createCell(207);
 		headCelljd171.setCellStyle(headStyle);
 		headCelljd171.setCellValue("计划提报日期");
@@ -1974,7 +1926,7 @@ public class BizProjectProgressBoningService
 		headCelljd25.setCellStyle(headStyle);
 		headCelljd25.setCellValue("正常/延期/提前天数");
 		
-//		 0, 202+15, 211+15));//家具  
+
 		
 		HSSFCell headCellju171 = rowTitle2.createCell(217);
 		headCellju171.setCellStyle(headStyle);
@@ -2017,57 +1969,56 @@ public class BizProjectProgressBoningService
 		headCelljus25.setCellStyle(headStyle);
 		headCelljus25.setCellValue("正常/延期/提前天数");
 
-		sheet.addMergedRegion(new CellRangeAddress(0, 1, 0, 0));// 门店
-		sheet.addMergedRegion(new CellRangeAddress(0, 1, 1, 1));//区域
-		sheet.addMergedRegion(new CellRangeAddress(0, 1, 2, 2));//订单编号
-		sheet.addMergedRegion(new CellRangeAddress(0, 1, 3, 3));//片区
-		sheet.addMergedRegion(new CellRangeAddress(0, 1, 4, 4));//接单日期
-		sheet.addMergedRegion(new CellRangeAddress(0, 1, 5, 5));//客户姓名
-		sheet.addMergedRegion(new CellRangeAddress(0, 1, 6, 6));//客户电话
-		sheet.addMergedRegion(new CellRangeAddress(0, 1, 7, 7));//工程地址
-		sheet.addMergedRegion(new CellRangeAddress(0, 1, 8, 8));//合同面积
-		sheet.addMergedRegion(new CellRangeAddress(0, 1, 9, 9));//房屋类型
+		sheet.addMergedRegion(new CellRangeAddress(0, 1, 0, 0));
+		sheet.addMergedRegion(new CellRangeAddress(0, 1, 1, 1));
+		sheet.addMergedRegion(new CellRangeAddress(0, 1, 2, 2));
+		sheet.addMergedRegion(new CellRangeAddress(0, 1, 3, 3));
+		sheet.addMergedRegion(new CellRangeAddress(0, 1, 4, 4));
+		sheet.addMergedRegion(new CellRangeAddress(0, 1, 5, 5));
+		sheet.addMergedRegion(new CellRangeAddress(0, 1, 6, 6));
+		sheet.addMergedRegion(new CellRangeAddress(0, 1, 7, 7));
+		sheet.addMergedRegion(new CellRangeAddress(0, 1, 8, 8));
+		sheet.addMergedRegion(new CellRangeAddress(0, 1, 9, 9));
 		
-		sheet.addMergedRegion(new CellRangeAddress(0, 0, 10,11));//项目经理
-		sheet.addMergedRegion(new CellRangeAddress(0, 0, 12, 13));//设计师
-		sheet.addMergedRegion(new CellRangeAddress(0, 0, 14, 15));//质检员
+		sheet.addMergedRegion(new CellRangeAddress(0, 0, 10,11));
+		sheet.addMergedRegion(new CellRangeAddress(0, 0, 12, 13));
+		sheet.addMergedRegion(new CellRangeAddress(0, 0, 14, 15));
 		
-		sheet.addMergedRegion(new CellRangeAddress(0, 0, 16, 17)); //合同工期时间
-		sheet.addMergedRegion(new CellRangeAddress(0, 0, 18, 19));//实际工期时间
-		sheet.addMergedRegion(new CellRangeAddress(0, 1, 20, 20));//开工延期天数
-		sheet.addMergedRegion(new CellRangeAddress(0, 1, 21, 21));//实际开工客户是否签字
-		sheet.addMergedRegion(new CellRangeAddress(0, 1, 22, 22));//变更/停电/停水/客户自装项目延期天数
-		sheet.addMergedRegion(new CellRangeAddress(0, 1, 23, 23));//客户是否签字
-		sheet.addMergedRegion(new CellRangeAddress(0, 1, 24, 24));//客户认可天数
+		sheet.addMergedRegion(new CellRangeAddress(0, 0, 16, 17));
+		sheet.addMergedRegion(new CellRangeAddress(0, 0, 18, 19));
+		sheet.addMergedRegion(new CellRangeAddress(0, 1, 20, 20));
+		sheet.addMergedRegion(new CellRangeAddress(0, 1, 21, 21));
+		sheet.addMergedRegion(new CellRangeAddress(0, 1, 22, 22));
+		sheet.addMergedRegion(new CellRangeAddress(0, 1, 23, 23));
+		sheet.addMergedRegion(new CellRangeAddress(0, 1, 24, 24));
 		
-		sheet.addMergedRegion(new CellRangeAddress(0, 0, 25, 33));//防盗门复尺
-		sheet.addMergedRegion(new CellRangeAddress(0, 0, 34, 43-1));//辅材进场(3天内)
-		sheet.addMergedRegion(new CellRangeAddress(0, 0, 44-1, 53-1-1));//瓷砖
-		sheet.addMergedRegion(new CellRangeAddress(0, 0, 54-1-1, 63-3));//水电隐蔽验收
-		sheet.addMergedRegion(new CellRangeAddress(0, 0, 64-3, 73-4));//防水验收
-		sheet.addMergedRegion(new CellRangeAddress(0, 0, 74-4, 83-5));//橱柜核尺
-		sheet.addMergedRegion(new CellRangeAddress(0, 0, 84-5, 93-6));//瓦工验收
-		sheet.addMergedRegion(new CellRangeAddress(0, 0, 94-6, 97-6));//二期款
-		sheet.addMergedRegion(new CellRangeAddress(0, 0, 92, 107-7));//基础施工验收
-		sheet.addMergedRegion(new CellRangeAddress(0, 0, 101, 110));//厨卫吊顶
-		sheet.addMergedRegion(new CellRangeAddress(0, 0, 109+2, 118+2));//洁具 10
-		sheet.addMergedRegion(new CellRangeAddress(0, 0, 117+4, 126+4));//五金，灯具，开关面板
-		sheet.addMergedRegion(new CellRangeAddress(0, 0, 126+5, 136+5));//橱柜
-		sheet.addMergedRegion(new CellRangeAddress(0, 0, 136+6, 146+6));//定制衣柜
-		sheet.addMergedRegion(new CellRangeAddress(0, 0, 146+7, 155+7));//壁纸
-		sheet.addMergedRegion(new CellRangeAddress(0, 0, 155+8, 164+9));//木门，铝镁门，门窗套
-		sheet.addMergedRegion(new CellRangeAddress(0, 0, 164+10, 173+10));//木地板
-		sheet.addMergedRegion(new CellRangeAddress(0, 0, 173+11, 183+11));//窗帘
-		sheet.addMergedRegion(new CellRangeAddress(0, 0, 183+12, 191+12));//竣工验收
-		sheet.addMergedRegion(new CellRangeAddress(0, 0, 191+13, 193+13));//尾款
-		sheet.addMergedRegion(new CellRangeAddress(0, 0, 193+14, 202+14));//家电
-		sheet.addMergedRegion(new CellRangeAddress(0, 0, 202+15, 211+15));//家具
-		/*sheet.addMergedRegion(new CellRangeAddress(0, 1, 149, 149));//客户认可延期天数
-*/
+		sheet.addMergedRegion(new CellRangeAddress(0, 0, 25, 33));
+		sheet.addMergedRegion(new CellRangeAddress(0, 0, 34, 43-1));
+		sheet.addMergedRegion(new CellRangeAddress(0, 0, 44-1, 53-1-1));
+		sheet.addMergedRegion(new CellRangeAddress(0, 0, 54-1-1, 63-3));
+		sheet.addMergedRegion(new CellRangeAddress(0, 0, 64-3, 73-4));
+		sheet.addMergedRegion(new CellRangeAddress(0, 0, 74-4, 83-5));
+		sheet.addMergedRegion(new CellRangeAddress(0, 0, 84-5, 93-6));
+		sheet.addMergedRegion(new CellRangeAddress(0, 0, 94-6, 97-6));
+		sheet.addMergedRegion(new CellRangeAddress(0, 0, 92, 107-7));
+		sheet.addMergedRegion(new CellRangeAddress(0, 0, 101, 110));
+		sheet.addMergedRegion(new CellRangeAddress(0, 0, 109+2, 118+2));
+		sheet.addMergedRegion(new CellRangeAddress(0, 0, 117+4, 126+4));
+		sheet.addMergedRegion(new CellRangeAddress(0, 0, 126+5, 136+5));
+		sheet.addMergedRegion(new CellRangeAddress(0, 0, 136+6, 146+6));
+		sheet.addMergedRegion(new CellRangeAddress(0, 0, 146+7, 155+7));
+		sheet.addMergedRegion(new CellRangeAddress(0, 0, 155+8, 164+9));
+		sheet.addMergedRegion(new CellRangeAddress(0, 0, 164+10, 173+10));
+		sheet.addMergedRegion(new CellRangeAddress(0, 0, 173+11, 183+11));
+		sheet.addMergedRegion(new CellRangeAddress(0, 0, 183+12, 191+12));
+		sheet.addMergedRegion(new CellRangeAddress(0, 0, 191+13, 193+13));
+		sheet.addMergedRegion(new CellRangeAddress(0, 0, 193+14, 202+14));
+		sheet.addMergedRegion(new CellRangeAddress(0, 0, 202+15, 211+15));
+
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		
 		SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		// 数据
+
 		List<BizProjectProgressBoning> list = dao.findList(bizProjectProgressBoning);
 		if (CollectionUtils.isNotEmpty(list)) {
 			for (int i = 0; i < list.size(); i++) {
@@ -2075,51 +2026,51 @@ public class BizProjectProgressBoningService
 				HSSFRow row = sheet.createRow(i + 2);
 
 				HSSFCell cell0 = row.createCell(0);
-				if (boning.getStoreId() != null) {//门店
+				if (boning.getStoreId() != null) {
 					cell0.setCellValue(BizDictUtils.getStoreLabel(boning.getStoreId() + "", ""));
 				}
 
-				HSSFCell cell1 = row.createCell(1);//区域
+				HSSFCell cell1 = row.createCell(1);
 				if (StringUtils.isNoneBlank(boning.getEnginDepartName())) {
 					cell1.setCellValue(boning.getEnginDepartName());
 				}
 
-				HSSFCell cell2 = row.createCell(2);//订单编号
+				HSSFCell cell2 = row.createCell(2);
 				if (boning.getOrderNumber() != null) {
 					cell2.setCellValue(boning.getOrderNumber());
 				}
 
-				HSSFCell cell3 = row.createCell(3);//片区
+				HSSFCell cell3 = row.createCell(3);
 				if (StringUtils.isNoneBlank(boning.getArea())) {
 					cell3.setCellValue(boning.getArea());
 				}
 
-				HSSFCell cell4 = row.createCell(4);//接单日期
+				HSSFCell cell4 = row.createCell(4);
 				if (boning.getOrderCreateDate() != null) {
 					cell4.setCellValue(format.format(boning.getOrderCreateDate()));
 				}
 				
-				HSSFCell cell5 = row.createCell(5);//客户姓名
+				HSSFCell cell5 = row.createCell(5);
 				if (StringUtils.isNoneBlank(boning.getCustomerName())) {
 					cell5.setCellValue(boning.getCustomerName());
 				}
 				
-				HSSFCell cell6 = row.createCell(6);//客户电话
+				HSSFCell cell6 = row.createCell(6);
 				if (StringUtils.isNoneBlank(boning.getCustomerPhone())) {
 					cell6.setCellValue(boning.getCustomerPhone());
 				}
 
-				HSSFCell cell7 = row.createCell(7);//工程地址
+				HSSFCell cell7 = row.createCell(7);
 				if (StringUtils.isNoneBlank(boning.getDetailAddress())) {
 					cell7.setCellValue(boning.getDetailAddress());
 				}
 				
-				HSSFCell cell6g1 = row.createCell(8);//合同面积
+				HSSFCell cell6g1 = row.createCell(8);
 				if (StringUtils.isNoneBlank(boning.getContractArea())) {
 					cell6g1.setCellValue(boning.getContractArea());
 				}
 
-				HSSFCell cell7g1 = row.createCell(9);//房屋类型
+				HSSFCell cell7g1 = row.createCell(9);
 				if (StringUtils.isNoneBlank(boning.getBuildType())) {
 					if("0".equals(boning.getBuildType())){
 						cell7g1.setCellValue("平层楼房");
@@ -2130,76 +2081,76 @@ public class BizProjectProgressBoningService
 					}
 				}
 
-				//项目经理
-				HSSFCell cell8 = row.createCell(10);//姓名
+
+				HSSFCell cell8 = row.createCell(10);
 				if (StringUtils.isNoneBlank(boning.getItemManager())) {
 					cell8.setCellValue(boning.getItemManager());
 				}
 
-				HSSFCell cell9 = row.createCell(11);//电话
+				HSSFCell cell9 = row.createCell(11);
 				if (StringUtils.isNoneBlank(boning.getItemManagerPhone())) {
 					cell9.setCellValue(boning.getItemManagerPhone());
 				}
-				//设计师
-				HSSFCell cell6888 = row.createCell(12);//姓名
+
+				HSSFCell cell6888 = row.createCell(12);
 				if (StringUtils.isNoneBlank(boning.getDesignerName())) {
 					cell6888.setCellValue(boning.getDesignerName());
 				}
 
-				HSSFCell cell7999 = row.createCell(13);//电话
+				HSSFCell cell7999 = row.createCell(13);
 				if (StringUtils.isNoneBlank(boning.getDesignerPhone())) {
 					cell7999.setCellValue(boning.getDesignerPhone());
 				}
-                //质检员
-				HSSFCell cell1010 = row.createCell(14);//姓名
+
+				HSSFCell cell1010 = row.createCell(14);
 				if (StringUtils.isNoneBlank(boning.getOrderInspector())) {
 					cell1010.setCellValue(boning.getOrderInspector());
 				}
 
-				HSSFCell cell71111 = row.createCell(15);//电话
+				HSSFCell cell71111 = row.createCell(15);
 				if (StringUtils.isNoneBlank(boning.getInspectorPhone())) {
 					cell71111.setCellValue(boning.getInspectorPhone());
 				}
-                //合同工期时间
-				HSSFCell cell14 = row.createCell(16);//合同签订开工日期
+
+				HSSFCell cell14 = row.createCell(16);
 				if (boning.getContractStartDate() != null) {
 					cell14.setCellValue(format.format(boning.getContractStartDate()));
 				}
 
 				HSSFCell cell15 = row.createCell(17);
-				if (boning.getContractEndDate() != null) {//合同签订竣工日期
+				if (boning.getContractEndDate() != null) {
 					cell15.setCellValue(format.format(boning.getContractEndDate()));
 				}
 
-				//实际工期时间
+
 				HSSFCell cell10 = row.createCell(18);
-				if (boning.getActualStartDate() != null) {//实际开工日期
+				if (boning.getActualStartDate() != null) {
 					cell10.setCellValue(format.format(boning.getActualStartDate()));
 				}
 
-				HSSFCell cell11 = row.createCell(19);//实际竣工日期
+				HSSFCell cell11 = row.createCell(19);
 				if (boning.getActualEndDate() != null) {
 					cell11.setCellValue(format.format(boning.getActualEndDate()));
 				}
 				
-				//开工延期天数
+
 				HSSFCell cell12 = row.createCell(20);
 				if (boning.getStartDiffDay() != null) {
 					cell12.setCellValue(boning.getStartDiffDay());
 				}
-                //开工是否需要客户签
+
 				HSSFCell cell13 = row.createCell(21);
 				if ("0".equals(boning.getIsNeedSign())) {
 					cell13.setCellValue("否");
 				} else if ("1".equals(boning.getIsNeedSign())) {
 					cell13.setCellValue("是");
 				}
-                //变更/停电/停水/客户自装项目延期天数
+
 				HSSFCell cell20 = row.createCell(22);
 				if (boning.getSelfDecorateDelayDays() != null) {
 					cell20.setCellValue(boning.getSelfDecorateDelayDays());
 				}
-                //客户是否签字
+
 				HSSFCell cell21 = row.createCell(23);
 				if ("0".equals(boning.getIsSelfDecorateNeedSign())) {
 					cell21.setCellValue("否");
@@ -2207,1026 +2158,1026 @@ public class BizProjectProgressBoningService
 					cell21.setCellValue("是");
 				}
 				
-				//客户认可延期天数	
+
 				
 				HSSFCell cell16 = row.createCell(24);
 				if (boning.getDelayDays() != null) {
 					cell16.setCellValue(boning.getDelayDays());
 				}
-				//防盗门复尺
+
 				HSSFCell cell23 = row.createCell(25);
 				
-				if (boning.getNode1PlanSubDate() != null) {//计划提报日期
+				if (boning.getNode1PlanSubDate() != null) {
 					cell23.setCellValue(format.format(boning.getNode1PlanSubDate()));
 				}
 				
 				HSSFCell cell17 = row.createCell(26);
-				if (boning.getNode1SubmDate() != null) {//实际提报日期
+				if (boning.getNode1SubmDate() != null) {
 					cell17.setCellValue(format1.format(boning.getNode1SubmDate()));
 				}
 
 				HSSFCell cell18 = row.createCell(27);
-				if (boning.getNode1SubDiffDay() != null) {//提报延期天数
+				if (boning.getNode1SubDiffDay() != null) {
 					cell18.setCellValue(boning.getNode1SubDiffDay());
 				}
                 
 				HSSFCell cell19 = row.createCell(28);
-				if (boning.getNode1ApplyEntryDate() != null) {//期望进场日期
+				if (boning.getNode1ApplyEntryDate() != null) {
 					cell19.setCellValue(format.format(boning.getNode1ApplyEntryDate()));
 				}
 				
 				HSSFCell cell27 = row.createCell(29);
-				if (boning.getNode1ActualEntryDate()!= null) {//实际进场日期
+				if (boning.getNode1ActualEntryDate()!= null) {
 					cell27.setCellValue(format1.format(boning.getNode1ActualEntryDate()));
 				}
 
 				HSSFCell cell28 = row.createCell(30);
-				if (boning.getNode1EntryDiffDay() != null) {//进场延期天数
+				if (boning.getNode1EntryDiffDay() != null) {
 					cell28.setCellValue(boning.getNode1EntryDiffDay());
 				}
 
 				HSSFCell cell29 = row.createCell(31);
-				if (boning.getNode1PlanDate() != null) {//计划完成日期
+				if (boning.getNode1PlanDate() != null) {
 					cell29.setCellValue(format.format(boning.getNode1PlanDate()));
 				}
 
 				HSSFCell cell22 = row.createCell(32);
-				if (boning.getNode1ActualDate() != null) {//实际完成日期
+				if (boning.getNode1ActualDate() != null) {
 					cell22.setCellValue(format1.format(boning.getNode1ActualDate()));
 				}
 				
 				HSSFCell cell22g1 = row.createCell(33);
-				if (boning.getNode1DiffDay() != null) {//常/延期/提前天数
+				if (boning.getNode1DiffDay() != null) {
 					cell22g1.setCellValue(boning.getNode1DiffDay());
 				}
-				//辅材进场
+
 				HSSFCell cell31 = row.createCell(34);
-				if (boning.getNode2PlanSubDate() != null) {//计划
+				if (boning.getNode2PlanSubDate() != null) {
 					cell31.setCellValue(format.format(boning.getNode2PlanSubDate()));
 				}
 				
 				HSSFCell cell32 = row.createCell(35);
-				if (boning.getNode2SubmDate() != null) {//提报时间
+				if (boning.getNode2SubmDate() != null) {
 					cell32.setCellValue(format1.format(boning.getNode2SubmDate()));
 				}
 
 				HSSFCell cell33 = row.createCell(36);
-				if (boning.getNode2SubDiffDay() != null) {//申请期望
+				if (boning.getNode2SubDiffDay() != null) {
 					cell33.setCellValue(boning.getNode2SubDiffDay());
 				}
 
 				HSSFCell cell25 = row.createCell(37);
-				if (boning.getNode2ExpectDate() != null) {//实际
+				if (boning.getNode2ExpectDate() != null) {
 					cell25.setCellValue(format.format(boning.getNode2ExpectDate()));
 				}
 
 				HSSFCell cell26 = row.createCell(38);
-				if (boning.getNode2ActualExpectDate() != null) {//正常/延期/提前天数
+				if (boning.getNode2ActualExpectDate() != null) {
 					cell26.setCellValue(format1.format(boning.getNode2ActualExpectDate()));
 				}
 				HSSFCell cell36 = row.createCell(39);
-				if (boning.getNode2EntryDiffDay() != null) {//计划
+				if (boning.getNode2EntryDiffDay() != null) {
 					cell36.setCellValue(boning.getNode2EntryDiffDay());
 				}
 				
 				HSSFCell cell37 = row.createCell(40);
-				if (boning.getNode2PlanDate() != null) {//提报时间
+				if (boning.getNode2PlanDate() != null) {
 					cell37.setCellValue(format.format(boning.getNode2PlanDate()));
 				}
 				
 				HSSFCell cell38 = row.createCell(41);
-				if (boning.getNode2ActualDate() != null) {//期望
+				if (boning.getNode2ActualDate() != null) {
 					cell38.setCellValue(format1.format(boning.getNode2ActualDate()));
 				}
 				
 				HSSFCell cell39 = row.createCell(42);
-				if (boning.getNode2DiffDay() != null) {//实际
+				if (boning.getNode2DiffDay() != null) {
 					cell39.setCellValue(boning.getNode2DiffDay());
 				}
 
-				//瓷砖
+
 				HSSFCell cell40 = row.createCell(43);
-				if (boning.getNode3PlanSubDate() != null) {//正常/延期/提前天数
+				if (boning.getNode3PlanSubDate() != null) {
 					cell40.setCellValue(format.format(boning.getNode3PlanSubDate()));
 				}
 
 				HSSFCell cell30 = row.createCell(44);
-				if (boning.getNode3SubmDate() != null) {//计划
+				if (boning.getNode3SubmDate() != null) {
 					cell30.setCellValue(format1.format(boning.getNode3SubmDate()));
 				}
 				
 				HSSFCell cell42 = row.createCell(45);
-				if (boning.getNode3SubDiffDay() != null) {//提报时间`
+				if (boning.getNode3SubDiffDay() != null) {
 					cell42.setCellValue(boning.getNode3SubDiffDay());
 				}
 				
 				HSSFCell cell43 = row.createCell(46);
-				if (boning.getNode3ExpectDate() != null) {//期望
+				if (boning.getNode3ExpectDate() != null) {
 					cell43.setCellValue(format.format(boning.getNode3ExpectDate()));
 				}
 
 				HSSFCell cell44 = row.createCell(47);
-				if (boning.getNode3ActualExpectDate() != null) {//实际
+				if (boning.getNode3ActualExpectDate() != null) {
 					cell44.setCellValue(format1.format(boning.getNode3ActualExpectDate()));
 				}
 
 				HSSFCell cell45 = row.createCell(48);
-				if (boning.getNode3EntryDiffDay() != null) {//正常/延期/提前天数
+				if (boning.getNode3EntryDiffDay() != null) {
 					cell45.setCellValue(boning.getNode3EntryDiffDay());
 				}
 
 				HSSFCell cell46 = row.createCell(49);
-				if (boning.getNode3PlanDate() != null) {//计划
+				if (boning.getNode3PlanDate() != null) {
 					cell46.setCellValue(format.format(boning.getNode3PlanDate()));
 				}
 				
 				HSSFCell cell47 = row.createCell(50);
-				if (boning.getNode3ActualDate() != null) {//提报时间
+				if (boning.getNode3ActualDate() != null) {
 					cell47.setCellValue(format1.format(boning.getNode3ActualDate()));
 				}
 
 				HSSFCell cell48 = row.createCell(51);
-				if (boning.getNode3DiffDay() != null) {//实际
+				if (boning.getNode3DiffDay() != null) {
 					cell48.setCellValue(boning.getNode3DiffDay());
 				}
-				//水电隐蔽验收
+
 				HSSFCell cell35 = row.createCell(52);
-				if (boning.getNode4PlanSubDate() != null) {//正常/延期/提前天数
+				if (boning.getNode4PlanSubDate() != null) {
 					cell35.setCellValue(format.format(boning.getNode4PlanSubDate()));
 				}
 
-				//瓦工验收
+
 				HSSFCell cell50 = row.createCell(53);
-				if (boning.getNode4SubmDate() != null) {//计划
+				if (boning.getNode4SubmDate() != null) {
 					cell50.setCellValue(format1.format(boning.getNode4SubmDate()));
 				}
 				
 				HSSFCell cell51 = row.createCell(54);
-				if (boning.getNode4SubDiffDay() != null) {//提报时间
+				if (boning.getNode4SubDiffDay() != null) {
 					cell51.setCellValue(boning.getNode4SubDiffDay());
 				}
 				
 				HSSFCell cell52 = row.createCell(55);
-				if (boning.getNode4ExpectDate() != null) {//期望
+				if (boning.getNode4ExpectDate() != null) {
 					cell52.setCellValue(format.format(boning.getNode4ExpectDate()));
 				}
 				
 				HSSFCell cell53 = row.createCell(56);
-				if (boning.getNode4ActualExpectDate() != null) {//实际
+				if (boning.getNode4ActualExpectDate() != null) {
 					cell53.setCellValue(format1.format(boning.getNode4ActualExpectDate()));
 				}
 
 				HSSFCell cell54 = row.createCell(57);
-				if (boning.getNode4EntryDiffDay() != null) {//正常/延期/提前天数
+				if (boning.getNode4EntryDiffDay() != null) {
 					cell54.setCellValue(boning.getNode4EntryDiffDay());
 				}
 
 				HSSFCell cell55 = row.createCell(58);
-				if (boning.getNode4PlanDate() != null) {//计划
+				if (boning.getNode4PlanDate() != null) {
 					cell55.setCellValue(format.format(boning.getNode4PlanDate()));
 				}
 
 				HSSFCell cell56 = row.createCell(59);
-				if (boning.getNode4ActualDate() != null) {//催款
+				if (boning.getNode4ActualDate() != null) {
 					cell56.setCellValue(format1.format(boning.getNode4ActualDate()));
 				}
 
 				HSSFCell cell41 = row.createCell(60);
-				if (boning.getNode4DiffDay() != null) {//实际
+				if (boning.getNode4DiffDay() != null) {
 					cell41.setCellValue(boning.getNode4DiffDay());
 				}
-				//防水验收
+
 				HSSFCell cell58= row.createCell(61);
-				if (boning.getNode5PlanSubDate() != null) {//正常/延期/提前天数
+				if (boning.getNode5PlanSubDate() != null) {
 					cell58.setCellValue(format.format(boning.getNode5PlanSubDate()));
 				}
 				
 				HSSFCell cell59 = row.createCell(62);
-				if (boning.getNode5SubmDate() != null) {//计划
+				if (boning.getNode5SubmDate() != null) {
 					cell59.setCellValue(format1.format(boning.getNode5SubmDate()));
 				}
 				
 				HSSFCell cell60 = row.createCell(63);
-				if (boning.getNode5SubDiffDay() != null) {//提报时间
+				if (boning.getNode5SubDiffDay() != null) {
 					cell60.setCellValue(boning.getNode5SubDiffDay());
 				}
 
 				HSSFCell cell61 = row.createCell(64);
-				if (boning.getNode5ExpectDate() != null) {//期望
+				if (boning.getNode5ExpectDate() != null) {
 					cell61.setCellValue(format.format(boning.getNode5ExpectDate()));
 				}
 
 				HSSFCell cell62 = row.createCell(65);
-				if (boning.getNode5ActualExpectDate() != null) {//实际
+				if (boning.getNode5ActualExpectDate() != null) {
 					cell62.setCellValue(format1.format(boning.getNode5ActualExpectDate()));
 				}
 
 				HSSFCell cell63 = row.createCell(66);
-				if (boning.getNode5EntryDiffDay() != null) {//正常/延期/提前天数
+				if (boning.getNode5EntryDiffDay() != null) {
 					cell63.setCellValue(boning.getNode5EntryDiffDay());
 				}
 				
 				HSSFCell cell64 = row.createCell(67);
-				if (boning.getNode5PlanDate() != null) {//计划
+				if (boning.getNode5PlanDate() != null) {
 					cell64.setCellValue(format.format(boning.getNode5PlanDate()));
 				}
 				
 				HSSFCell cell65 = row.createCell(68);
-				if (boning.getNode5ActualDate() != null) {//提报时间
+				if (boning.getNode5ActualDate() != null) {
 					cell65.setCellValue(format1.format(boning.getNode5ActualDate()));
 				}
 				
 				HSSFCell cell66 = row.createCell(69);
-				if (boning.getNode5DiffDay() != null) {//申请进场
+				if (boning.getNode5DiffDay() != null) {
 					cell66.setCellValue(boning.getNode5DiffDay());
 				}
-				//橱柜核尺
+
 				HSSFCell cell67 = row.createCell(70);
-				if (boning.getNode6PlanSubDate() != null) {//实际进场
+				if (boning.getNode6PlanSubDate() != null) {
 					cell67.setCellValue(format.format(boning.getNode6PlanSubDate()));
 				}
 
 				HSSFCell cell68 = row.createCell(71);
-				if (boning.getNode6SubmDate() != null) {//实际完工
+				if (boning.getNode6SubmDate() != null) {
 					cell68.setCellValue(format1.format(boning.getNode6SubmDate()));
 				}
 				
 				HSSFCell cell69 = row.createCell(72);
-				if (boning.getNode6SubDiffDay() != null) {//实际验收
+				if (boning.getNode6SubDiffDay() != null) {
 					cell69.setCellValue(boning.getNode6SubDiffDay());
 				}
 
 				HSSFCell cell70 = row.createCell(73);
-				if (boning.getNode6ExpectDate() != null) {//正常/延期/提前天数
+				if (boning.getNode6ExpectDate() != null) {
 					cell70.setCellValue(format.format(boning.getNode6ExpectDate()));
 				}
 
-				//洁具
+
 				HSSFCell cell49 = row.createCell(74);
-				if (boning.getNode6ActualExpectDate() != null) {//计划时间
+				if (boning.getNode6ActualExpectDate() != null) {
 					cell49.setCellValue(format1.format(boning.getNode6ActualExpectDate()));
 				}
 
 				HSSFCell cell72 = row.createCell(75);
-				if (boning.getNode6EntryDiffDay() != null) {//提报时间
+				if (boning.getNode6EntryDiffDay() != null) {
 					cell72.setCellValue(boning.getNode6EntryDiffDay());
 				}
 				
 				HSSFCell cell73 = row.createCell(76);
-				if (boning.getNode6PlanDate() != null) {//申请进场
+				if (boning.getNode6PlanDate() != null) {
 					cell73.setCellValue(format.format(boning.getNode6PlanDate()));
 				}
 				
 				HSSFCell cell74 = row.createCell(77);
-				if (boning.getNode6ActualDate() != null) {//实际进场
+				if (boning.getNode6ActualDate() != null) {
 					cell74.setCellValue(format1.format(boning.getNode6ActualDate()));
 				}
 				
 				HSSFCell cell75 = row.createCell(78);
-				if (boning.getNode6DiffDay() != null) {//实际完工
+				if (boning.getNode6DiffDay() != null) {
 					cell75.setCellValue(boning.getNode6DiffDay());
 				}
-				//瓦工验收
+
 				HSSFCell cell76 = row.createCell(79);
-				if (boning.getNode7PlanSubDate() != null) {//实际验收
+				if (boning.getNode7PlanSubDate() != null) {
 					cell76.setCellValue(format.format(boning.getNode7PlanSubDate()));
 				}
 
 				HSSFCell cell77 = row.createCell(80);
-				if (boning.getNode7SubmDate() != null) {//正常/延期/提前天数
+				if (boning.getNode7SubmDate() != null) {
 					cell77.setCellValue(format1.format(boning.getNode7SubmDate()));
 				}
 
 				
 				HSSFCell cell78 = row.createCell(81);
-				if (boning.getNode7SubDiffDay() != null) {//计划
+				if (boning.getNode7SubDiffDay() != null) {
 					cell78.setCellValue(boning.getNode7SubDiffDay());
 				}
 
 				HSSFCell cell79 = row.createCell(82);
-				if (boning.getNode7ExpectDate() != null) {//提报时间
+				if (boning.getNode7ExpectDate() != null) {
 					cell79.setCellValue(format.format(boning.getNode7ExpectDate()));
 				}
 				
 				HSSFCell cell80 = row.createCell(83);
-				if (boning.getNode7ActualExpectDate() != null) {//申请进场
+				if (boning.getNode7ActualExpectDate() != null) {
 					cell80.setCellValue(format1.format(boning.getNode7ActualExpectDate()));
 				}
 				
 				HSSFCell cell81 = row.createCell(84);
-				if (boning.getNode7EntryDiffDay() != null) {//实际进场
+				if (boning.getNode7EntryDiffDay() != null) {
 					cell81.setCellValue(boning.getNode7EntryDiffDay());
 				}
 				
 				HSSFCell cell82= row.createCell(85);
-				if (boning.getNode7PlanDate() != null) {//实际完工
+				if (boning.getNode7PlanDate() != null) {
 					cell82.setCellValue(format.format(boning.getNode7PlanDate()));
 				}
 
 				HSSFCell cell83= row.createCell(86);
-				if (boning.getNode7ActualDate() != null) {//实际验收
+				if (boning.getNode7ActualDate() != null) {
 					cell83.setCellValue(format1.format(boning.getNode7ActualDate()));
 				}
 
 				HSSFCell cell84 = row.createCell(87);
-				if (boning.getNode7DiffDay() != null) {//正常/延期/提前天数
+				if (boning.getNode7DiffDay() != null) {
 					cell84.setCellValue(boning.getNode7DiffDay());
 				}
 				
 				
-				//二期款（同瓦工验收日期）
+
 				HSSFCell cell85 = row.createCell(88);
-				if (boning.getNode8PlanDate() != null) {//计划
+				if (boning.getNode8PlanDate() != null) {
 					cell85.setCellValue(format.format(boning.getNode8PlanDate()));
 				}
 				
 				HSSFCell cell86 = row.createCell(89);
-				if (boning.getNode8AmountDate() != null) {//提报时间
+				if (boning.getNode8AmountDate() != null) {
 					cell86.setCellValue(format1.format(boning.getNode8AmountDate()));
 				}
 				
 				HSSFCell cell87 = row.createCell(90);
-				if (boning.getNode8ActualDate() != null) {//申请进场
+				if (boning.getNode8ActualDate() != null) {
 					cell87.setCellValue(format1.format(boning.getNode8ActualDate()));
 				}
 				
 				HSSFCell cell88 = row.createCell(91);
-				if (boning.getNode8DiffDay() != null) {//实际进场
+				if (boning.getNode8DiffDay() != null) {
 					cell88.setCellValue(boning.getNode8DiffDay());
 				}
-				//基础施工验收
+
 				HSSFCell cell89 = row.createCell(92);
-				if (boning.getNode9PlanSubDate() != null) {//实际完工
+				if (boning.getNode9PlanSubDate() != null) {
 					cell89.setCellValue(format.format(boning.getNode9PlanSubDate()));
 				}
 
 				HSSFCell cell90 = row.createCell(93);
-				if (boning.getNode9SubmDate() != null) {//实际验收
+				if (boning.getNode9SubmDate() != null) {
 					cell90.setCellValue(format1.format(boning.getNode9SubmDate()));
 				}
 
 				HSSFCell cell91 = row.createCell(94);
-				if (boning.getNode9SubDiffDay() != null) {//正常/延期/提前天数
+				if (boning.getNode9SubDiffDay() != null) {
 					cell91.setCellValue(boning.getNode9SubDiffDay());
 				}
 
 				HSSFCell cell92 = row.createCell(95);
-				if (boning.getNode9ExpectDate() != null) {//计划
+				if (boning.getNode9ExpectDate() != null) {
 					cell92.setCellValue(format.format(boning.getNode9ExpectDate()));
 				}
 				
 				HSSFCell cell93 = row.createCell(96);
-				if (boning.getNode9ActualExpectDate() != null) {//提报时间
+				if (boning.getNode9ActualExpectDate() != null) {
 					cell93.setCellValue(format1.format(boning.getNode9ActualExpectDate()));
 				}
 				
 				HSSFCell cell94 = row.createCell(97);
-				if (boning.getNode9EntryDiffDay() != null) {//申请进场
+				if (boning.getNode9EntryDiffDay() != null) {
 					cell94.setCellValue(boning.getNode9EntryDiffDay());
 				}
 				
 				HSSFCell cell95 = row.createCell(98);
-				if (boning.getNode9PlanDate() != null) {//实际进场
+				if (boning.getNode9PlanDate() != null) {
 					cell95.setCellValue(format.format(boning.getNode9PlanDate()));
 				}
 
 				HSSFCell cell96 = row.createCell(99);
-				if (boning.getNode9ActualDate() != null) {//实际完工
+				if (boning.getNode9ActualDate() != null) {
 					cell96.setCellValue(format1.format(boning.getNode9ActualDate()));
 				}
 
 				HSSFCell cell97 = row.createCell(100);
-				if (boning.getNode9DiffDay() != null) {//实际验收
+				if (boning.getNode9DiffDay() != null) {
 					cell97.setCellValue(boning.getNode9DiffDay());
 				}
-				//厨卫吊顶
+
 				HSSFCell cell98 = row.createCell(101);
-				if (boning.getNode10PlanSubDate() != null) {//正常/延期/提前天数
+				if (boning.getNode10PlanSubDate() != null) {
 					cell98.setCellValue(format.format(boning.getNode10PlanSubDate()));
 				}
 
 				
-				//壁纸
+
 				HSSFCell cell99 = row.createCell(102);
-				if (boning.getNode10SubmDate() != null) {//计划
+				if (boning.getNode10SubmDate() != null) {
 					cell99.setCellValue(format1.format(boning.getNode10SubmDate()));
 				}
 				
 				HSSFCell cell100 = row.createCell(103);
-				if (boning.getNode10SubDiffDay() != null) {//提报时间
+				if (boning.getNode10SubDiffDay() != null) {
 					cell100.setCellValue(boning.getNode10SubDiffDay());
 				}
 				
 				HSSFCell cell101 = row.createCell(104);
-				if (boning.getNode10ApplyEntryDate() != null) {//申请进场
+				if (boning.getNode10ApplyEntryDate() != null) {
 					cell101.setCellValue(format.format(boning.getNode10ApplyEntryDate()));
 				}
 				
 				HSSFCell cell102 = row.createCell(105);
-				if (boning.getNode10ActualEntryDate() != null) {//实际进场
+				if (boning.getNode10ActualEntryDate() != null) {
 					cell102.setCellValue(format1.format(boning.getNode10ActualEntryDate()));
 				}
 
 				HSSFCell cell103 = row.createCell(106);
-				if (boning.getNode10EntryDiffDay() != null) {//实际完工
+				if (boning.getNode10EntryDiffDay() != null) {
 					cell103.setCellValue(boning.getNode10EntryDiffDay());
 				}
 
 				HSSFCell cell104 = row.createCell(107);
-				if (boning.getNode10PlanDate() != null) {//实际验收
+				if (boning.getNode10PlanDate() != null) {
 					cell104.setCellValue(format.format(boning.getNode10PlanDate()));
 				}
 
 				HSSFCell cell105 = row.createCell(108);
-				if (boning.getNode10ActualDate() != null) {//正常/延期/提前天数
+				if (boning.getNode10ActualDate() != null) {
 					cell105.setCellValue(format1.format(boning.getNode10ActualDate()));
 				}
 
 				HSSFCell cell106 = row.createCell(109);
-				if (boning.getNode10ActualCheckDate() != null) {//计划
+				if (boning.getNode10ActualCheckDate() != null) {
 					cell106.setCellValue(format1.format(boning.getNode10ActualCheckDate()));
 				}
 				
 				HSSFCell cell107 = row.createCell(110);
-				if (boning.getNode10DiffDay() != null) {//提报时间
+				if (boning.getNode10DiffDay() != null) {
 					cell107.setCellValue(boning.getNode10DiffDay());
 				}
 				
-				//洁具
+
 				HSSFCell cell108 = row.createCell(111);
-				if (boning.getNode11PlanSubDate() != null) {//申请进场
+				if (boning.getNode11PlanSubDate() != null) {
 					cell108.setCellValue(format.format(boning.getNode11PlanSubDate()));
 				}
 				
 				HSSFCell cell109 = row.createCell(112);
-				if (boning.getNode11SubmDate() != null) {//实际进场
+				if (boning.getNode11SubmDate() != null) {
 					cell109.setCellValue(format1.format(boning.getNode11SubmDate()));
 				}
 
 				HSSFCell cell110 = row.createCell(113);
-				if (boning.getNode11SubDiffDay() != null) {//实际完成
+				if (boning.getNode11SubDiffDay() != null) {
 					cell110.setCellValue(boning.getNode11SubDiffDay());
 				}
 
 				HSSFCell cell111 = row.createCell(114);
-				if (boning.getNode11ApplyEntryDate() != null) {//实际验收
+				if (boning.getNode11ApplyEntryDate() != null) {
 					cell111.setCellValue(format.format(boning.getNode11ApplyEntryDate()));
 				}
 
 				HSSFCell cell112 = row.createCell(115);
-				if (boning.getNode11ActualEntryDate() != null) {//正常/延期/提前天数
+				if (boning.getNode11ActualEntryDate() != null) {
 					cell112.setCellValue(format1.format(boning.getNode11ActualEntryDate()));
 				}
 
 				
 		
 				HSSFCell cell113 = row.createCell(116);
-				if (boning.getNode11EntryDiffDay() != null) {//计划
+				if (boning.getNode11EntryDiffDay() != null) {
 					cell113.setCellValue(boning.getNode11EntryDiffDay());
 				}
 
 				HSSFCell cell114 = row.createCell(117);
-				if (boning.getNode11PlanDate() != null) {//提报时间
+				if (boning.getNode11PlanDate() != null) {
 					cell114.setCellValue(format.format(boning.getNode11PlanDate()));
 				}
 				
 				HSSFCell cell115 = row.createCell(118);
-				if (boning.getNode11InstallDate() != null) {//申请进场
+				if (boning.getNode11InstallDate() != null) {
 					cell115.setCellValue(format1.format(boning.getNode11InstallDate()));
 				}
 				
 				HSSFCell cell116 = row.createCell(119);
-				if (boning.getNode11ActualDate() != null) {//实际进场
+				if (boning.getNode11ActualDate() != null) {
 					cell116.setCellValue(format1.format(boning.getNode11ActualDate()));
 				}
 				
 				HSSFCell cell117 = row.createCell(120);
-				if (boning.getNode11DiffDay() != null) {//实际完成
+				if (boning.getNode11DiffDay() != null) {
 					cell117.setCellValue(boning.getNode11DiffDay());
 				}
-				//五金，灯具，开关面板
+
 				HSSFCell cell118 = row.createCell(121);
-				if (boning.getNode12PlanSubDate() != null) {//实际验收
+				if (boning.getNode12PlanSubDate() != null) {
 					cell118.setCellValue(format.format(boning.getNode12PlanSubDate()));
 				}
 
 				HSSFCell cell119 = row.createCell(122);
-				if (boning.getNode12SubmDate() != null) {//正常/延期/提前天数
+				if (boning.getNode12SubmDate() != null) {
 					cell119.setCellValue(format1.format(boning.getNode12SubmDate()));
 				}
 				
 				HSSFCell cell120 = row.createCell(123);
-				if (boning.getNode12SubDiffDay() != null) {//计划
+				if (boning.getNode12SubDiffDay() != null) {
 					cell120.setCellValue(boning.getNode12SubDiffDay());
 				}
 
 				HSSFCell cell121 = row.createCell(124);
-				if (boning.getNode12ApplyEntryDate() != null) {//提报时间
+				if (boning.getNode12ApplyEntryDate() != null) {
 					cell121.setCellValue(format.format(boning.getNode12ApplyEntryDate()));
 				}
 				
 				HSSFCell cell122 = row.createCell(125);
-				if (boning.getNode12ActualEntryDate() != null) {//申请进场
+				if (boning.getNode12ActualEntryDate() != null) {
 					cell122.setCellValue(format1.format(boning.getNode12ActualEntryDate()));
 				}
 				
 				HSSFCell cell123 = row.createCell(126);
-				if (boning.getNode12EntryDiffDay() != null) {//实际进场
+				if (boning.getNode12EntryDiffDay() != null) {
 					cell123.setCellValue(boning.getNode12EntryDiffDay());
 				}
 				
 				HSSFCell cell124 = row.createCell(127);
-				if (boning.getNode12PlanDate() != null) {//实际完成
+				if (boning.getNode12PlanDate() != null) {
 					cell124.setCellValue(format.format(boning.getNode12PlanDate()));
 				}
 
 				HSSFCell cell125 = row.createCell(128);
-				if (boning.getNode12InstallDate() != null) {//实际验收
+				if (boning.getNode12InstallDate() != null) {
 					cell125.setCellValue(format1.format(boning.getNode12InstallDate()));
 				}
 
 				HSSFCell cell126 = row.createCell(129);
-				if (boning.getNode12ActualDate() != null) {//正常/延期/提前天数
+				if (boning.getNode12ActualDate() != null) {
 					cell126.setCellValue(format1.format(boning.getNode12ActualDate()));
 				}
 
 				HSSFCell cel81 = row.createCell(130);
-				if (boning.getNode12DiffDay() != null) {//计划
+				if (boning.getNode12DiffDay() != null) {
 					cel81.setCellValue(boning.getNode12DiffDay());
 				}
-				//橱柜
+
 				HSSFCell cell128 = row.createCell(131);
-				if (boning.getNode13PlanSubDate() != null) {//提报时间
+				if (boning.getNode13PlanSubDate() != null) {
 					cell128.setCellValue(format.format(boning.getNode13PlanSubDate()));
 				}
 				
 				HSSFCell cell129 = row.createCell(132);
-				if (boning.getNode13SubmDate() != null) {//期望
+				if (boning.getNode13SubmDate() != null) {
 					cell129.setCellValue(format1.format(boning.getNode13SubmDate()));
 				}
 				
 				HSSFCell cell130 = row.createCell(133);
-				if (boning.getNode13SubDiffDay() != null) {//实际
+				if (boning.getNode13SubDiffDay() != null) {
 					cell130.setCellValue(boning.getNode13SubDiffDay());
 				}
 
 				HSSFCell cell131 = row.createCell(134);
-				if (boning.getNode13RuleDate() != null) {//正常/延期/提前天数
+				if (boning.getNode13RuleDate() != null) {
 					cell131.setCellValue(format1.format(boning.getNode13RuleDate()));
 				}
 
 				HSSFCell cell132 = row.createCell(135);
-				if (boning.getNode13ApplyEntryDate() != null) {//计划
+				if (boning.getNode13ApplyEntryDate() != null) {
 					cell132.setCellValue(format.format(boning.getNode13ApplyEntryDate()));
 				}
 
 				HSSFCell cell133 = row.createCell(136);
-				if (boning.getNode13ActualEntryDate() != null) {//实际
+				if (boning.getNode13ActualEntryDate() != null) {
 					cell133.setCellValue(format1.format(boning.getNode13ActualEntryDate()));
 				}
 
 				HSSFCell cell134 = row.createCell(137);
-				if (boning.getNode13EntryDiffDay() != null) {//正常/延期/提前天数
+				if (boning.getNode13EntryDiffDay() != null) {
 					cell134.setCellValue(boning.getNode13EntryDiffDay());
 				}
 
 				HSSFCell cell135 = row.createCell(138);
-				if (boning.getNode13PlanDate() != null) {//计划
+				if (boning.getNode13PlanDate() != null) {
 					cell135.setCellValue(format.format(boning.getNode13PlanDate()));
 				}
 
 				HSSFCell cell136 = row.createCell(139);
-				if (boning.getNode13InstallDate() != null) {//提报时间
+				if (boning.getNode13InstallDate() != null) {
 					cell136.setCellValue(format1.format(boning.getNode13InstallDate()));
 				}
 				
 				HSSFCell cell137 = row.createCell(140);
-				if (boning.getNode13ActualDate() != null) {//申请进场
+				if (boning.getNode13ActualDate() != null) {
 					cell137.setCellValue(format1.format(boning.getNode13ActualDate()));
 				}
 				
 				HSSFCell cell138 = row.createCell(141);
-				if (boning.getNode13DiffDay() != null) {//实际进场
+				if (boning.getNode13DiffDay() != null) {
 					cell138.setCellValue(boning.getNode13DiffDay());
 				}
-				//定制衣柜
+
 				HSSFCell cell139 = row.createCell(142);
-				if (boning.getNode14PlanSubDate() != null) {//实际完成
+				if (boning.getNode14PlanSubDate() != null) {
 					cell139.setCellValue(format.format(boning.getNode14PlanSubDate()));
 				}
 
 				HSSFCell cell140 = row.createCell(143);
-				if (boning.getNode14SubmDate() != null) {//实际验收
+				if (boning.getNode14SubmDate() != null) {
 					cell140.setCellValue(format1.format(boning.getNode14SubmDate()));
 				}
 
 				HSSFCell cell141 = row.createCell(144);
-				if (boning.getNode14SubDiffDay() != null) {//正常/延期/提前天数
+				if (boning.getNode14SubDiffDay() != null) {
 					cell141.setCellValue(boning.getNode14SubDiffDay());
 				}
 
-				//家具
+
 				HSSFCell cell142 = row.createCell(145);
-				if (boning.getNode14RuleDate() != null) {//计划
+				if (boning.getNode14RuleDate() != null) {
 					cell142.setCellValue(format1.format(boning.getNode14RuleDate()));
 				}
 				
 				HSSFCell cell143 = row.createCell(146);
-				if (boning.getNode14ApplyEntryDate() != null) {//提报时间
+				if (boning.getNode14ApplyEntryDate() != null) {
 					cell143.setCellValue(format.format(boning.getNode14ApplyEntryDate()));
 				}
 				
 				HSSFCell cell144 = row.createCell(147);
-				if (boning.getNode14ActualEntryDate() != null) {//申请进场
+				if (boning.getNode14ActualEntryDate() != null) {
 					cell144.setCellValue(format1.format(boning.getNode14ActualEntryDate()));
 				}
 				
 				HSSFCell cell145 = row.createCell(148);
-				if (boning.getNode14EntryDiffDay() != null) {//实际进场
+				if (boning.getNode14EntryDiffDay() != null) {
 					 cell145.setCellValue(boning.getNode14EntryDiffDay());
 				}
 
 				HSSFCell cell146 = row.createCell(149);
-				if (boning.getNode14PlanDate() != null) {//实际完成
+				if (boning.getNode14PlanDate() != null) {
 					cell146.setCellValue(format.format(boning.getNode14PlanDate()));
 				}
 
 				HSSFCell cell147 = row.createCell(150);
-				if (boning.getNode14InstallDate() != null) {//实际验收
+				if (boning.getNode14InstallDate() != null) {
 					cell147.setCellValue(format1.format(boning.getNode14InstallDate()));
 				}
 
 				HSSFCell cell148 = row.createCell(151);
-				if (boning.getNode14ActualDate() != null) {//正常/延期/提前天数
+				if (boning.getNode14ActualDate() != null) {
 					cell148.setCellValue(format1.format(boning.getNode14ActualDate()));
 				}
 				
 				HSSFCell cell149 = row.createCell(152);
-				if (boning.getNode14DiffDay() != null) {//正常/延期/提前天数
+				if (boning.getNode14DiffDay() != null) {
 					cell149.setCellValue(boning.getNode14DiffDay());
 				}
 				
-//				--------------------------------------------
-				//壁纸
+
+
 				HSSFCell cell123s = row.createCell(153);
-				if (boning.getNode15PlanSubDate() != null) {//实际进场
+				if (boning.getNode15PlanSubDate() != null) {
 					cell123s.setCellValue(format.format(boning.getNode15PlanSubDate()));
 				}
 				
 				HSSFCell cell124s = row.createCell(154);
-				if (boning.getNode15SubmDate() != null) {//实际完成
+				if (boning.getNode15SubmDate() != null) {
 					cell124s.setCellValue(format1.format(boning.getNode15SubmDate()));
 				}
 
 				HSSFCell cell125s = row.createCell(155);
-				if (boning.getNode15SubDiffDay() != null) {//实际验收
+				if (boning.getNode15SubDiffDay() != null) {
 					cell125s.setCellValue(boning.getNode15SubDiffDay());
 				}
 
 				HSSFCell cell126s = row.createCell(156);
-				if (boning.getNode15ApplyEntryDate() != null) {//正常/延期/提前天数
+				if (boning.getNode15ApplyEntryDate() != null) {
 					cell126s.setCellValue(format.format(boning.getNode15ApplyEntryDate()));
 				}
 
 				HSSFCell cel81s = row.createCell(157);
-				if (boning.getNode15ActualEntryDate() != null) {//计划
+				if (boning.getNode15ActualEntryDate() != null) {
 					cel81s.setCellValue(format1.format(boning.getNode15ActualEntryDate()));
 				}
 				HSSFCell cell128s = row.createCell(158);
-				if (boning.getNode15EntryDiffDay() != null) {//提报时间
+				if (boning.getNode15EntryDiffDay() != null) {
 					cell128s.setCellValue(boning.getNode15EntryDiffDay());
 				}
 				
 				HSSFCell cell129s = row.createCell(159);
-				if (boning.getNode15PlanDate() != null) {//期望
+				if (boning.getNode15PlanDate() != null) {
 					cell129s.setCellValue(format.format(boning.getNode15PlanDate()));
 				}
 				
 				HSSFCell cell130s = row.createCell(160);
-				if (boning.getNode15InstallDate() != null) {//实际
+				if (boning.getNode15InstallDate() != null) {
 					cell130s.setCellValue(format1.format(boning.getNode15InstallDate()));
 				}
 
 				HSSFCell cell131s = row.createCell(161);
-				if (boning.getNode15ActualDate() != null) {//正常/延期/提前天数
+				if (boning.getNode15ActualDate() != null) {
 					cell131s.setCellValue(format1.format(boning.getNode15ActualDate()));
 				}
 
 				HSSFCell cell132s = row.createCell(162);
-				if (boning.getNode15DiffDay() != null) {//计划
+				if (boning.getNode15DiffDay() != null) {
 					cell132s.setCellValue(boning.getNode15DiffDay());
 				}
-				//木门，铝镁门，门窗套
+
 				HSSFCell cell133s = row.createCell(163);
-				if (boning.getNode16PlanSubDate() != null) {//实际
+				if (boning.getNode16PlanSubDate() != null) {
 					cell133s.setCellValue(format.format(boning.getNode16PlanSubDate()));
 				}
 
 				HSSFCell cell134s = row.createCell(164);
-				if (boning.getNode16SubmDate() != null) {//正常/延期/提前天数
+				if (boning.getNode16SubmDate() != null) {
 					cell134s.setCellValue(format1.format(boning.getNode16SubmDate()));
 				}
 
 				HSSFCell cell135s = row.createCell(165);
-				if (boning.getNode16SubDiffDay() != null) {//计划
+				if (boning.getNode16SubDiffDay() != null) {
 					cell135s.setCellValue(boning.getNode16SubDiffDay());
 				}
 
 				HSSFCell cell136s = row.createCell(166);
-				if (boning.getNode16RuleDate() != null) {//提报时间
+				if (boning.getNode16RuleDate() != null) {
 					cell136s.setCellValue(format1.format(boning.getNode16RuleDate()));
 				}
 				
 				HSSFCell cell137s = row.createCell(167);
-				if (boning.getNode16ApplyEntryDate() != null) {//申请进场
+				if (boning.getNode16ApplyEntryDate() != null) {
 					cell137s.setCellValue(format.format(boning.getNode16ApplyEntryDate()));
 				}
 				
 				HSSFCell cell138s = row.createCell(168);
-				if (boning.getNode16ActualEntryDate() != null) {//实际进场
+				if (boning.getNode16ActualEntryDate() != null) {
 					cell138s.setCellValue(format1.format(boning.getNode16ActualEntryDate()));
 				}
 				HSSFCell cell139s = row.createCell(169);
-				if (boning.getNode16EntryDiffDay() != null) {//实际完成
+				if (boning.getNode16EntryDiffDay() != null) {
 					cell139s.setCellValue(boning.getNode16EntryDiffDay());
 				}
 
 				HSSFCell cell140s = row.createCell(170);
-				if (boning.getNode16PlanDate() != null) {//实际验收
+				if (boning.getNode16PlanDate() != null) {
 					cell140s.setCellValue(format.format(boning.getNode16PlanDate()));
 				}
 
 				HSSFCell cell141s = row.createCell(171);
-				if (boning.getNode16InstallDate() != null) {//正常/延期/提前天数
+				if (boning.getNode16InstallDate() != null) {
 					cell141s.setCellValue(format1.format(boning.getNode16InstallDate()));
 				}
 				HSSFCell cell142s = row.createCell(172);
-				if (boning.getNode16ActualDate() != null) {//计划
+				if (boning.getNode16ActualDate() != null) {
 					cell142s.setCellValue(format1.format(boning.getNode16ActualDate()));
 				}
 				
 				HSSFCell cell143s = row.createCell(173);
-				if (boning.getNode16DiffDay() != null) {//提报时间
+				if (boning.getNode16DiffDay() != null) {
 					cell143s.setCellValue(boning.getNode16DiffDay());
 				}
-				//木地板
+
 				HSSFCell cell144s = row.createCell(174);
-				if (boning.getNode17PlanSubDate() != null) {//申请进场
+				if (boning.getNode17PlanSubDate() != null) {
 					cell144s.setCellValue(format.format(boning.getNode17PlanSubDate()));
 				}
 				
 				HSSFCell cell145s = row.createCell(175);
-				if (boning.getNode17SubmDate() != null) {//实际进场
+				if (boning.getNode17SubmDate() != null) {
 					 cell145s.setCellValue(format1.format(boning.getNode17SubmDate()));
 				}
 
 				HSSFCell cell146s = row.createCell(176);
-				if (boning.getNode17SubDiffDay() != null) {//实际完成
+				if (boning.getNode17SubDiffDay() != null) {
 					cell146s.setCellValue(boning.getNode17SubDiffDay());
 				}
-//定制衣柜
+
 				HSSFCell cell147s = row.createCell(177);
-				if (boning.getNode17ApplyEntryDate() != null) {//实际验收
+				if (boning.getNode17ApplyEntryDate() != null) {
 					cell147s.setCellValue(format.format(boning.getNode17ApplyEntryDate()));
 				}
 
 				HSSFCell cell148s = row.createCell(178);
-				if (boning.getNode17ActualEntryDate() != null) {//正常/延期/提前天数
+				if (boning.getNode17ActualEntryDate() != null) {
 					cell148s.setCellValue(format1.format(boning.getNode17ActualEntryDate()));
 				}
 				
 				HSSFCell cell149s= row.createCell(179);
-				if (boning.getNode17EntryDiffDay() != null) {//正常/延期/提前天数
+				if (boning.getNode17EntryDiffDay() != null) {
 					cell149s.setCellValue(boning.getNode17EntryDiffDay());
 				}
 				
 				
 				HSSFCell cell123ss = row.createCell(180);
-				if (boning.getNode17PlanDate() != null) {//实际进场
+				if (boning.getNode17PlanDate() != null) {
 					cell123ss.setCellValue(format.format(boning.getNode17PlanDate()));
 				}
 				
 				HSSFCell cell124ss = row.createCell(181);
-				if (boning.getNode17InstallDate() != null) {//实际完成
+				if (boning.getNode17InstallDate() != null) {
 					cell124ss.setCellValue(format1.format(boning.getNode17InstallDate()));
 				}
 
 				HSSFCell cell125ss = row.createCell(182);
-				if (boning.getNode17ActualDate() != null) {//实际验收
+				if (boning.getNode17ActualDate() != null) {
 					cell125ss.setCellValue(format1.format(boning.getNode17ActualDate()));
 				}
 
 				HSSFCell cell126ss = row.createCell(183);
-				if (boning.getNode17DiffDay() != null) {//正常/延期/提前天数
+				if (boning.getNode17DiffDay() != null) {
 					cell126ss.setCellValue(boning.getNode17DiffDay());
 				}
-				//窗帘
+
 				HSSFCell cel81ss = row.createCell(184);
-				if (boning.getNode18PlanSubDate() != null) {//计划
+				if (boning.getNode18PlanSubDate() != null) {
 					cel81ss.setCellValue(format.format(boning.getNode18PlanSubDate()));
 				}
 				HSSFCell cell128ss = row.createCell(185);
-				if (boning.getNode18SubmDate() != null) {//提报时间
+				if (boning.getNode18SubmDate() != null) {
 					cell128ss.setCellValue(format1.format(boning.getNode18SubmDate()));
 				}
 				
 				HSSFCell cell129ss = row.createCell(186);
-				if (boning.getNode18SubDiffDay() != null) {//期望
+				if (boning.getNode18SubDiffDay() != null) {
 					cell129ss.setCellValue(boning.getNode18SubDiffDay());
 				}
 				
 				HSSFCell cell130ss = row.createCell(187);
-				if (boning.getNode18RuleDate() != null) {//实际
+				if (boning.getNode18RuleDate() != null) {
 					cell130ss.setCellValue(format1.format(boning.getNode18RuleDate()));
 				}
 
 				HSSFCell cell131ss = row.createCell(188);
-				if (boning.getNode18ApplyEntryDate() != null) {//正常/延期/提前天数
+				if (boning.getNode18ApplyEntryDate() != null) {
 					cell131ss.setCellValue(format.format(boning.getNode18ApplyEntryDate()));
 				}
 
 				HSSFCell cell132ss = row.createCell(189);
-				if (boning.getNode18ActualEntryDate() != null) {//计划
+				if (boning.getNode18ActualEntryDate() != null) {
 					cell132ss.setCellValue(format1.format(boning.getNode18ActualEntryDate()));
 				}
 				HSSFCell cell133ss = row.createCell(190);
-				if (boning.getNode18EntryDiffDay() != null) {//实际
+				if (boning.getNode18EntryDiffDay() != null) {
 					cell133ss.setCellValue(boning.getNode18EntryDiffDay());
 				}
 
 				HSSFCell cell134ss = row.createCell(191);
-				if (boning.getNode18PlanDate() != null) {//正常/延期/提前天数
+				if (boning.getNode18PlanDate() != null) {
 					cell134ss.setCellValue(format.format(boning.getNode18PlanDate()));
 				}
 
 				HSSFCell cell135ss = row.createCell(192);
-				if (boning.getNode18InstallDate() != null) {//计划
+				if (boning.getNode18InstallDate() != null) {
 					cell135ss.setCellValue(format1.format(boning.getNode18InstallDate()));
 				}
 
 				HSSFCell cell136ss = row.createCell(193);
-				if (boning.getNode18ActualDate() != null) {//提报时间
+				if (boning.getNode18ActualDate() != null) {
 					cell136ss.setCellValue(format1.format(boning.getNode18ActualDate()));
 				}
 				
 				HSSFCell cell137ss = row.createCell(194);
-				if (boning.getNode18DiffDay() != null) {//申请进场
+				if (boning.getNode18DiffDay() != null) {
 					cell137ss.setCellValue(boning.getNode18DiffDay());
 				}
 				HSSFCell cell138ss = row.createCell(195);
-				if (boning.getNode19PlanSubDate() != null) {//实际进场
+				if (boning.getNode19PlanSubDate() != null) {
 					cell138ss.setCellValue(format.format(boning.getNode19PlanSubDate()));
 				}
 				HSSFCell cell139ss = row.createCell(196);
-				if (boning.getNode19SubmDate() != null) {//实际完成
+				if (boning.getNode19SubmDate() != null) {
 					cell139ss.setCellValue(format1.format(boning.getNode19SubmDate()));
 				}
 
 				HSSFCell cell140ss = row.createCell(197);
-				if (boning.getNode19SubDiffDay() != null) {//实际验收
+				if (boning.getNode19SubDiffDay() != null) {
 					cell140ss.setCellValue(boning.getNode19SubDiffDay());
 				}
 
 				HSSFCell cell141ss = row.createCell(198);
-				if (boning.getNode19ExpectDate() != null) {//正常/延期/提前天数
+				if (boning.getNode19ExpectDate() != null) {
 					cell141ss.setCellValue(format.format(boning.getNode19ExpectDate()));
 				}
 
 				HSSFCell cell142ss = row.createCell(199);
-				if (boning.getNode19ActualEntryDate() != null) {//计划
+				if (boning.getNode19ActualEntryDate() != null) {
 					cell142ss.setCellValue(format1.format(boning.getNode19ActualEntryDate()));
 				}
 				
 				HSSFCell cell143ss = row.createCell(200);
-				if (boning.getNode19EntryDiffDay() != null) {//提报时间
+				if (boning.getNode19EntryDiffDay() != null) {
 					cell143ss.setCellValue(boning.getNode19EntryDiffDay());
 				}
 				HSSFCell cell144ss = row.createCell(201);
-				if (boning.getNode19PlanDate() != null) {//申请进场
+				if (boning.getNode19PlanDate() != null) {
 					cell144ss.setCellValue(format.format(boning.getNode19PlanDate()));
 				}
 				
 				HSSFCell cell145ss = row.createCell(202);
-				if (boning.getNode19ActualDate() != null) {//实际进场
+				if (boning.getNode19ActualDate() != null) {
 					 cell145ss.setCellValue(format1.format(boning.getNode19ActualDate()));
 				}
 
 				HSSFCell cell146ss = row.createCell(203);
-				if (boning.getNode19DiffDay() != null) {//实际完成
+				if (boning.getNode19DiffDay() != null) {
 					cell146ss.setCellValue(boning.getNode19DiffDay());
 				}
-				//尾款
+
 				HSSFCell cell147ss = row.createCell(204);
-				if (boning.getNode20PlanDate() != null) {//实际验收
+				if (boning.getNode20PlanDate() != null) {
 					cell147ss.setCellValue(format.format(boning.getNode20PlanDate()));
 				}
 
 				HSSFCell cell148ss = row.createCell(205);
-				if (boning.getNode20ActualDate() != null) {//正常/延期/提前天数
+				if (boning.getNode20ActualDate() != null) {
 					cell148ss.setCellValue(format1.format(boning.getNode20ActualDate()));
 				}
 				
 				HSSFCell cell149ss= row.createCell(206);
-				if (boning.getNode20DiffDay() != null) {//正常/延期/提前天数
+				if (boning.getNode20DiffDay() != null) {
 					cell149ss.setCellValue(boning.getNode20DiffDay());
 				}
-				//家电
+
 				HSSFCell cell23s = row.createCell(207);
-				if (boning.getNode21PlanSubDate() != null) {//计划提报日期
+				if (boning.getNode21PlanSubDate() != null) {
 					cell23s.setCellValue(format.format(boning.getNode21PlanSubDate()));
 				}
 				
 				HSSFCell cell17s = row.createCell(208);
-				if (boning.getNode21SubmDate() != null) {//实际提报日期
+				if (boning.getNode21SubmDate() != null) {
 					cell17s.setCellValue(format1.format(boning.getNode21SubmDate()));
 				}
 
 				HSSFCell cell18ss = row.createCell(209);
-				if (boning.getNode21SubDiffDay() != null) {//提报延期天数
+				if (boning.getNode21SubDiffDay() != null) {
 					cell18ss.setCellValue(boning.getNode21SubDiffDay());
 				}
 				HSSFCell cell18s = row.createCell(210);
-				if (boning.getNode21ApplyEntryDate() != null) {//提报延期天数
+				if (boning.getNode21ApplyEntryDate() != null) {
 					cell18s.setCellValue(format.format(boning.getNode21ApplyEntryDate()));
 				}
                 
 				HSSFCell cell19s = row.createCell(211);
-				if (boning.getNode21ActualEntryDate() != null) {//期望进场日期
+				if (boning.getNode21ActualEntryDate() != null) {
 					cell19s.setCellValue(format1.format(boning.getNode21ActualEntryDate()));
 				}
 				
 				HSSFCell cell27s = row.createCell(212);
-				if (boning.getNode21EntryDiffDay()!= null) {//实际进场日期
+				if (boning.getNode21EntryDiffDay()!= null) {
 					cell27s.setCellValue(boning.getNode21EntryDiffDay());
 				}
 
 				HSSFCell cell28s = row.createCell(213);
-				if (boning.getNode21PlanDate() != null) {//进场延期天数
+				if (boning.getNode21PlanDate() != null) {
 					cell28s.setCellValue(format.format(boning.getNode21PlanDate()));
 				}
 
 				HSSFCell cell29s = row.createCell(214);
-				if (boning.getNode21InstallDate() != null) {//计划完成日期
+				if (boning.getNode21InstallDate() != null) {
 					cell29s.setCellValue(format1.format(boning.getNode21InstallDate()));
 				}
 
 				HSSFCell cell22s = row.createCell(215);
-				if (boning.getNode21ActualDate() != null) {//实际完成日期
+				if (boning.getNode21ActualDate() != null) {
 					cell22s.setCellValue(format1.format(boning.getNode21ActualDate()));
 				}
 				
 				HSSFCell cell22g1s = row.createCell(216);
-				if (boning.getNode21DiffDay() != null) {//常/延期/提前天数
+				if (boning.getNode21DiffDay() != null) {
 					cell22g1s.setCellValue(boning.getNode21DiffDay());
 				}
-				////家具
+
 				HSSFCell cell31s = row.createCell(217);
-				if (boning.getNode22PlanSubDate() != null) {//计划
+				if (boning.getNode22PlanSubDate() != null) {
 					cell31s.setCellValue(format.format(boning.getNode22PlanSubDate()));
 				}
 				
 				HSSFCell cell32s = row.createCell(218);
-				if (boning.getNode22SubmDate() != null) {//提报时间
+				if (boning.getNode22SubmDate() != null) {
 					cell32s.setCellValue(format1.format(boning.getNode22SubmDate()));
 				}
 
 				HSSFCell cell33s = row.createCell(219);
-				if (boning.getNode22SubDiffDay() != null) {//申请期望
+				if (boning.getNode22SubDiffDay() != null) {
 					cell33s.setCellValue(boning.getNode22SubDiffDay());
 				}
 
 				HSSFCell cell25s = row.createCell(220);
-				if (boning.getNode22ApplyEntryDate() != null) {//实际
+				if (boning.getNode22ApplyEntryDate() != null) {
 					cell25s.setCellValue(format.format(boning.getNode22ApplyEntryDate()));
 				}
 
 				HSSFCell cell26s = row.createCell(221);
-				if (boning.getNode22ActualEntryDate() != null) {//正常/延期/提前天数
+				if (boning.getNode22ActualEntryDate() != null) {
 					cell26s.setCellValue(format1.format(boning.getNode22ActualEntryDate()));
 				}
 				HSSFCell cell36s = row.createCell(222);
-				if (boning.getNode22EntryDiffDay() != null) {//计划
+				if (boning.getNode22EntryDiffDay() != null) {
 					cell36s.setCellValue(boning.getNode22EntryDiffDay());
 				}
 				
 				HSSFCell cell37s = row.createCell(223);
-				if (boning.getNode22PlanDate() != null) {//提报时间
+				if (boning.getNode22PlanDate() != null) {
 					cell37s.setCellValue(format.format(boning.getNode22PlanDate()));
 				}
 				
 				HSSFCell cell38s = row.createCell(224);
-				if (boning.getNode22InstallDate() != null) {//期望
+				if (boning.getNode22InstallDate() != null) {
 					cell38s.setCellValue(format1.format(boning.getNode22InstallDate()));
 				}
 				
 				HSSFCell cell39s = row.createCell(225);
-				if (boning.getNode22ActualDate() != null) {//实际
+				if (boning.getNode22ActualDate() != null) {
 					cell39s.setCellValue(format1.format(boning.getNode22ActualDate()));
 				}
 
 				
 				HSSFCell cell40s = row.createCell(226);
-				if (boning.getNode22DiffDay() != null) {//正常/延期/提前天数
+				if (boning.getNode22DiffDay() != null) {
 					cell40s.setCellValue(boning.getNode22DiffDay());
 				}
 

@@ -9,12 +9,7 @@ import cn.damei.common.service.CrudService2;
 import cn.damei.dao.mobile.Manager.OrderSettlementScheduleDao;
 import cn.damei.entity.mobile.Manager.OrderSettlementSchedule;
 
-/**
- * 订单结算进度Service
- * 
- * @author hyh
- *
- */
+
 @Service
 @Transactional(readOnly = false)
 public class OrderSettlementScheduleService extends CrudService2<OrderSettlementScheduleDao, OrderSettlementSchedule> {

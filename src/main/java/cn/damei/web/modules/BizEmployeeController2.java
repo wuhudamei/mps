@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import cn.damei.common.config.Global;
@@ -28,12 +26,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 import java.util.List;
 
-/**
- * 员工信息Controller
- * 
- * @author qhy
- * @version 2016-08-24
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/employee/bizEmployee2")
 public class BizEmployeeController2 extends BaseController {
@@ -56,7 +49,7 @@ public class BizEmployeeController2 extends BaseController {
 	@RequiresPermissions("employee:bizEmployee2:view")
 	@RequestMapping(value = {"list", ""})
 	public String list(BizEmployee2 bizEmployee2, Model model) {
-		//过滤门店
+
 		if(bizEmployee2.getStoreid() == null){
 			String storeId = UserUtils.getUser().getStoreId();
 			if(StringUtils.isBlank(storeId)){
@@ -75,7 +68,7 @@ public class BizEmployeeController2 extends BaseController {
 	@RequiresPermissions("employee:bizEmployee2:view")
 	@RequestMapping(value = {"loadList", ""})
 	public String loadList(BizEmployee2 bizEmployee2, Model model, HttpServletRequest request, HttpServletResponse response) {
-		//过滤门店
+
 		if(bizEmployee2.getStoreid() == null){
 			String storeId = UserUtils.getUser().getStoreId();
 			if(StringUtils.isBlank(storeId)){
@@ -106,7 +99,7 @@ public class BizEmployeeController2 extends BaseController {
 	@RequiresPermissions("employee:bizEmployee2:view")
 	@RequestMapping(value = {"managerGuranteeMoneyList", ""})
 	public String managerGuranteeMoneyList(BizEmployee2 bizEmployee2, Model model, HttpServletRequest request, HttpServletResponse response) {
-		//过滤门店
+
 		if(StringUtils.isBlank(bizEmployee2.getStoreid())){
 			String storeId = UserUtils.getUser().getStoreId();
 			if(StringUtils.isBlank(storeId)){
@@ -119,7 +112,7 @@ public class BizEmployeeController2 extends BaseController {
 			model.addAttribute("storeDropEnable", true);
 		}
 
-		//过滤工程模式
+
 		if(bizEmployee2.getProjectMode() == null || "".equals(bizEmployee2.getProjectMode())){
 			User user = UserUtils.getUser();
 			if(null !=user.getEmpId()){
@@ -134,15 +127,14 @@ public class BizEmployeeController2 extends BaseController {
 				bizEmployee2.setProjectMode(null);
 			}
 		}
-		/*Page<BizEmployee2> page = bizEmployeeService2.findWorkerGroupGuaranteeMoneyPage(new Page<BizEmployee2>(request, response), bizEmployee2);
-		model.addAttribute("page", page);*/
+
 		return "modules/employee/managerGuranteeMoneyList";
 	}
 
 	@RequiresPermissions("employee:bizEmployee2:view")
 	@RequestMapping(value = {"managerGuranteeMoneyLoadList", ""})
 	public String managerGuranteeMoneyLoadList(BizEmployee2 bizEmployee2, Model model, HttpServletRequest request, HttpServletResponse response) {
-		//过滤门店
+
 		if(StringUtils.isBlank(bizEmployee2.getStoreid())){
 			String storeId = UserUtils.getUser().getStoreId();
 			if(StringUtils.isBlank(storeId)){
@@ -155,7 +147,7 @@ public class BizEmployeeController2 extends BaseController {
 			model.addAttribute("storeDropEnable", true);
 		}
 
-		//过滤工程模式
+
 		if(bizEmployee2.getProjectMode() == null || "".equals(bizEmployee2.getProjectMode())){
 			User user = UserUtils.getUser();
 			if(null !=user.getEmpId()){
@@ -179,7 +171,7 @@ public class BizEmployeeController2 extends BaseController {
 	@RequiresPermissions("employee:bizEmployee2:view")
 	@RequestMapping(value = {"deleteEmployeeList", ""})
 	public String deleteEmployeeList(BizEmployee2 bizEmployee2, Model model) {
-		//过滤门店
+
 		if(StringUtils.isBlank(bizEmployee2.getStoreid())){
 			String storeId = UserUtils.getUser().getStoreId();
 			if(StringUtils.isBlank(storeId)){
@@ -198,7 +190,7 @@ public class BizEmployeeController2 extends BaseController {
 	@RequiresPermissions("employee:bizEmployee2:view")
 	@RequestMapping(value = {"deleteEmployeeLoadList", ""})
 	public String deleteEmployeeLoadList(BizEmployee2 bizEmployee2, Model model, HttpServletRequest request, HttpServletResponse response) {
-		//过滤门店
+
 		if(StringUtils.isBlank(bizEmployee2.getStoreid())){
 			String storeId = UserUtils.getUser().getStoreId();
 			if(StringUtils.isBlank(storeId)){

@@ -2,18 +2,13 @@ package cn.damei.entity.modules;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 辅料对账单结算单关系实体类
- * 
- * @author hyh
- *
- */
+
 public class BizAuxiliarMaterialsVerifySettlementRel extends DataEntity2<BizAuxiliarMaterialsVerifySettlementRel> {
 
 	private static final long serialVersionUID = 1L;
 
-	private Integer auxiliaryMaterialsVerifyId; // 对账单Id
-	private Integer orderTaskpackageSettlementId;// 结算单Id
+	private Integer auxiliaryMaterialsVerifyId;
+	private Integer orderTaskpackageSettlementId;
 
 	public Integer getAuxiliaryMaterialsVerifyId() {
 		return auxiliaryMaterialsVerifyId;

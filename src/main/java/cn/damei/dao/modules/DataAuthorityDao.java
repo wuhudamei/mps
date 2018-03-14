@@ -31,9 +31,9 @@ public interface DataAuthorityDao extends CrudDao<DataAuthority>{
 	void updateSysDataAuthRuleOptionRole(DataAuthority da);
 
 	List<BizEmpStore> findStoreList(String id);
-	//组长
+
 	List<String> findHeadmanPhone(String id);
-	//总监
+
 	List<String> findInspectorGeneral(String parentIds);
 
 	void deleteSysDataAuthRuleOptionRole(String roleId, String string);

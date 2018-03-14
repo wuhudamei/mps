@@ -16,11 +16,7 @@ import cn.damei.common.utils.StringUtils;
 import cn.damei.entity.modules.ToDoItemTypeEntity;
 import cn.damei.service.modules.ToDoItemTypeService;
 
-/**
- * 待办事项controller
- * @author lzm
- * @version 2017-7-14
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/toDoItemTypeController")
 public class ToDoItemTypeController {

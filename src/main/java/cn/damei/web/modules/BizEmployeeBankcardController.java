@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import java.util.List;
@@ -34,11 +32,7 @@ import cn.damei.service.modules.BizEmployeeService;
 import cn.damei.service.modules.BizEmployeeService2;
 import cn.damei.common.utils.UserUtils;
 
-/**
- * 工人银行卡Controller
- * @author haven
- * @version 2016-09-03
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/empbankcard/bizEmployeeBankcard")
 public class BizEmployeeBankcardController extends BaseController {
@@ -72,7 +66,7 @@ public class BizEmployeeBankcardController extends BaseController {
 	public String pageList(BizEmployeeBankcard bizEmployeeBankcard, HttpServletRequest request, HttpServletResponse response, Model model){
 		if(UserUtils.getUser().getStoreId()!=null)
 		{
-			//当前登录用户门店
+
 			bizEmployeeBankcard.setStoreId(UserUtils.getUser().getStoreId());
 		}
 		return "modules/empbankcard/bizEmployeeBankcardList";
@@ -101,9 +95,7 @@ public class BizEmployeeBankcardController extends BaseController {
 	@RequiresPermissions("empbankcard:bizEmployeeBankcard:edit")
 	@RequestMapping(value = "save")
 	public String save(BizEmployeeBankcard2 bizEmployeeBankcard, Model model, RedirectAttributes redirectAttributes) {
-		/*if (!beanValidator(model, bizEmployeeBankcard)){
-			return form(bizEmployeeBankcard, model);
-		}*/
+
 		boolean flag = false;
 		List<BizEmployeeBankcard> list = bizEmployeeBankcardService.findAll();
 		for (BizEmployeeBankcard bizEmployeeBankcard3 : list) {
@@ -122,11 +114,8 @@ public class BizEmployeeBankcardController extends BaseController {
 			BizEmployeeBankcard2 bizEmployeeBankcard2 = bizEmployeeBankcardService.getByBankcard(bizEmployeeBankcard.getBankCardNo());
 			BizEmployee2 employee = bizEmployeeService2.findEmployeeById(bizEmployeeBankcard2.getEmpId());
 			
-			//BizEmployeeBankcardRelatedIdcard bankcardRelatedIdcard = new BizEmployeeBankcardRelatedIdcard();
-			/*bankcardRelatedIdcard.setEmployeeBankcardId(bizEmployeeBankcard2.getId());
-			bankcardRelation.setEmployeeBankcardId(bizEmployeeBankcard2.getId());
-			bankcardRelation.setEmployeeName(employee.getRealname());
-			bankcardRelation.setIdCardNo(employee.getIdcardno());*/
+
+
 			
 			bizEmployeeBankcardService.addRelation(bizEmployeeBankcard2.getId(), employee.getRealname(), employee.getIdcardno());
 			addMessage(redirectAttributes, "保存工人银行卡成功");
@@ -142,10 +131,7 @@ public class BizEmployeeBankcardController extends BaseController {
 		return "redirect:"+Global.getAdminPath()+"/empbankcard/bizEmployeeBankcard/?repage";
 	}
 	
-	/**
-	 * @param id 银行卡id
-	 * @return
-	 */
+
 	@Autowired
 	private BizEmployeeService2 bizEmployeeService2;
 	
@@ -182,12 +168,12 @@ public class BizEmployeeBankcardController extends BaseController {
 			
 			Map<String, Integer> checkIdCard = bizEmployeeBankcardService.checkIdCard(identifiedCardNumber.trim());
 			if(checkIdCard.isEmpty()){
-				//如果没查到, 就是不重复 可以提交
+
 				return "1";
 				
 				
 			}else{
-				//不是空的 就是重复  不可以提交
+
 				return "2";
 			}
 			

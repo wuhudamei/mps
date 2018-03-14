@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.util.List;
@@ -26,12 +24,7 @@ import cn.damei.entity.modules.BizEmployee2;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
-/**
- * 员工信息Service
- * 
- * @author qhy
- * @version 2016-08-24
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizEmployeeService2 extends
@@ -44,7 +37,7 @@ public class BizEmployeeService2 extends
 	@Autowired
 	private UserDao userDao;
 	public BizEmployee2 findEmployeeNameById(Integer id) {
-		// TODO Auto-generated method stub
+
 		return dao.get(id);
 	}
 	
@@ -56,8 +49,8 @@ public class BizEmployeeService2 extends
 		String userId = bizEmployeeDao2.findsysUserId(bizEmployee2.getId());
 		user.setId(userId);
 		userDao.empDelete(user);
-		//如果工人组被删除了，也要还原出来
-		//判断是否组长，如果是组长，还原，如果不是，不还原工人组
+
+
 		List<String> leader = bizEmployeeDao2.findIsLeader(bizEmployee2.getId());
 		if(leader != null && leader.size() > 0){
 			bizEmployee2.setDelFlag("0");
@@ -75,9 +68,7 @@ public class BizEmployeeService2 extends
 		return super.get(id);
 	}
 
-	/**
-	 * @param list
-	 */
+
 	public List<BizEmployee2> getById(List<Integer> list) {
 		return bizEmployeeDao2.getById(list);
 	}
@@ -130,7 +121,7 @@ public class BizEmployeeService2 extends
 	}
 
     public void projectMode(@ModelAttribute LaborCapital laborCapital, Model model, User user, LaborCapitalController laborCapitalController) {
-        // 过滤工程模式
+
         if (StringUtils.isBlank(laborCapital.getProjectMode())) {
             if (null != user.getEmpId()) {
                 BizEmployee2 be = get(Integer.parseInt(user.getEmpId()));

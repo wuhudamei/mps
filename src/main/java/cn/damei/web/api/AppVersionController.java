@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.api;
 
 import java.util.HashMap;
@@ -18,11 +16,7 @@ import cn.damei.entity.modules.SysAppVersion;
 import cn.damei.service.modules.SysAppVersionService;
 import net.sf.json.JSONObject;
 
-/**
- * 手机app版本Controller
- * @author qww
- * @version 2016-12-27
- */
+
 @Controller
 @RequestMapping(value = "/api/appVersion")
 public class AppVersionController extends BaseController {
@@ -30,17 +24,12 @@ public class AppVersionController extends BaseController {
 	@Autowired
 	private SysAppVersionService sysAppVersionService;
 
-	/**
-	 * 接口（查询app最新版本接口）
-	 * @param appType
-	 * @param sign
-	 * @return
-	 */
+
 	@RequestMapping(value = "queryNewestAppVersion",method=RequestMethod.POST)
 	public @ResponseBody String queryNewestAppVersion(String appType, String sign) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		try{
-			// 1.验证sign
+
 			Map<String, String> signMap = new HashMap<String, String>();
 			signMap.put("appType", appType);
 			if(!MD5Utils.MD5(signMap).equalsIgnoreCase(sign)){

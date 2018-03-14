@@ -9,60 +9,60 @@ public class QualityControl extends DataEntity2<QualityControl>{
 	
 	private static final long serialVersionUID = 1L;
 	
-	private Integer orderId;	//订单id
-	private String orderNumber;		// 订单编号
-	private String contractNumber;		// 合同编号
-	private String customerType;		// 客户类型
-	private String customerDescription;		// 客户属性描述
-	private String customerName;		// 客户姓名
-	private String customerPhone;		// 客户电话
+	private Integer orderId;
+	private String orderNumber;
+	private String contractNumber;
+	private String customerType;
+	private String customerDescription;
+	private String customerName;
+	private String customerPhone;
 	
-	private String customerAddress;     //客户地址
-	private String communityName;		// 小区名称
-	private String buildNumber;		// 几号楼
-	private String buildUnit;		// 几单元
-	private String buildRoom;		// 哪一室
-	private String info;		//顾客信息
+	private String customerAddress;
+	private String communityName;
+	private String buildNumber;
+	private String buildUnit;
+	private String buildRoom;
+	private String info;
 	
-	private String mapCoordinate;		// 地图坐标
-	private String saleType;		// 套餐类型
-	private String area;		// 片区
-	private String buildType;		// 房屋类型
-	private String houseType;		// 户型
-	private String houseIsNew;		// 新房老房  1为新房  0为老房  默认老房
-	private String isElevator;		// 是否有电梯  1代表有   0代表没有   默认没有
+	private String mapCoordinate;
+	private String saleType;
+	private String area;
+	private String buildType;
+	private String houseType;
+	private String houseIsNew;
+	private String isElevator;
 	
-	private String designerName;		// 设计师姓名
-	private String designerPhone;		// 设计师电话
-	private String orderReporterName;		// 跟单员姓名
-	private String orderReporterPhone;		// 跟单员电话
-	private String serviceName;		// 客服姓名
-	private String servicePhone;		// 客服电话
+	private String designerName;
+	private String designerPhone;
+	private String orderReporterName;
+	private String orderReporterPhone;
+	private String serviceName;
+	private String servicePhone;
 	
-	private Date contractStartDate;		// 合同开工日期
-	private Date contractEndDate;		// 合同竣工日期
-	private String coveredArea;		// 建筑面积
-	private String contractArea;		// 合同面积
-	private Integer contractTime;		// 合同工期
-	private Date signContractDate;		// 签约日期
+	private Date contractStartDate;
+	private Date contractEndDate;
+	private String coveredArea;
+	private String contractArea;
+	private Integer contractTime;
+	private Date signContractDate;
 	
-	private String orderStatusNumber;		// 订单状态码  创建订单成功默认状态码 105
-	private String orderStatusDescription;		// 订单状态码详情   默认详情 确认订单   状态码105
-	private String orderInspector;		// 订单质检员
-	private String orderInspectorPhone; //质检员电话
-	private String itemManager;		// 项目经理
-	private String phone;		//项目经理电话
-	private Integer itemManagerId;  	//项目经理id
-	private Integer storeId;		// 门店id
-	private String cusManager;		// 客户经理
+	private String orderStatusNumber;
+	private String orderStatusDescription;
+	private String orderInspector;
+	private String orderInspectorPhone;
+	private String itemManager;
+	private String phone;
+	private Integer itemManagerId;
+	private Integer storeId;
+	private String cusManager;
 	
 	
-	private String orderTaskPackStatus; //任务包状态
-	private Date actualStartDate;	//实际开工日期
-	private Date actualEndDate;		//实际竣工日期
-	private String signFlag;		//是否签到
-	private Integer orderInspectorId;	//质检id
-	private String projectMode; //工程模式
+	private String orderTaskPackStatus;
+	private Date actualStartDate;
+	private Date actualEndDate;
+	private String signFlag;
+	private Integer orderInspectorId;
+	private String projectMode;
 	
 	
 	

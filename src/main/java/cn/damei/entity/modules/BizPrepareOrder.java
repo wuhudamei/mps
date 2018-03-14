@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import org.hibernate.validator.constraints.Length;
@@ -9,79 +7,75 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 预备订单表Entity
- * @author wyb
- * @version 2017-03-15
- */
+
 public class BizPrepareOrder extends DataEntity2<BizPrepareOrder> {
 	
 	private static final long serialVersionUID = 1L;
-	private Integer synDataId;		// 同步数据id
-	private Integer storeId;		// 门店
-	private String projectMode;		// 工程模式
-	private String orderNumber;		// 订单编号
-	private Integer enginDepartId;		// 区域
-	private String enginDepartName;		// 区域名称
-	private String contractNumber;		// 合同编号
-	private String customerType;		// 客户类型
-	private String customerDescription;		// 客户属性描述
-	private String customerName;		// 客户姓名
-	private String customerPhone;		// 客户手机
-	private String customerAddress;		// 客户地址
-	private String isLongwayCommission;		// 是否有远程费
-	private Double longwayAmount;		// 远程费金额
-	private String communityName;		// 小区名称
-	private String detailAddress;		// 详细地址
-	private String buildNumber;		// 楼
-	private String buildUnit;		// 单元
-	private String buildRoom;		// 室
-	private String mapCoordinate;		// 坐标
-	private String province;		// 省
-	private String city;		// 市
-	private String county;		// 县
-	private String saleType;		// 套餐类型
-	private String buildType;		// 房屋类型
-	private String houseType;		// 户型
-	private String houseIsNew;		// 是否新房
-	private String isElevator;		// 有无电梯
-	private String designerName;		// 设计师姓名
-	private String designerPhone;		// 设计师电话
-	private String orderReporterName;		// 跟单员姓名
-	private String orderReporterPhone;		// 跟单员电话
-	private String serviceName;		// 客服姓名
-	private String servicePhone;		// 客服电话
-	private Date contractStartDate;		// 合同开工时间
-	private Date beginContractStartDate;		// 开始 合同开工日期
-	private Date endContractStartDate;		// 结束 合同开工日期
-	private Date contractEndDate;		// 合同竣工时间
-	private String coveredArea;		// 建筑面积
-	private String contractArea;		// 合同面积
-	private Integer contractTime;		// 合同工期
-	private Date signContractDate;		// 签约日期
-	private Date beginSignContractDate;		// 开始 签约日期
-	private Date endSignContractDate;		// 结束 签约日期
-	private String bizOrderAcceptArea;		// 接单区域
-	private String bizOrderAcceptAreaName;		// 接单区域名称
-	private Date beginCreateDate;		// 开始 创建时间
-	private Date endCreateDate;		// 结束 创建时间
-	private String status;	//预备订单状态
-	private Date getOrderDatetime;//接单日期
-	private Integer floor;   //楼层
-	private Double  contractAmount; //合同金额
+	private Integer synDataId;
+	private Integer storeId;
+	private String projectMode;
+	private String orderNumber;
+	private Integer enginDepartId;
+	private String enginDepartName;
+	private String contractNumber;
+	private String customerType;
+	private String customerDescription;
+	private String customerName;
+	private String customerPhone;
+	private String customerAddress;
+	private String isLongwayCommission;
+	private Double longwayAmount;
+	private String communityName;
+	private String detailAddress;
+	private String buildNumber;
+	private String buildUnit;
+	private String buildRoom;
+	private String mapCoordinate;
+	private String province;
+	private String city;
+	private String county;
+	private String saleType;
+	private String buildType;
+	private String houseType;
+	private String houseIsNew;
+	private String isElevator;
+	private String designerName;
+	private String designerPhone;
+	private String orderReporterName;
+	private String orderReporterPhone;
+	private String serviceName;
+	private String servicePhone;
+	private Date contractStartDate;
+	private Date beginContractStartDate;
+	private Date endContractStartDate;
+	private Date contractEndDate;
+	private String coveredArea;
+	private String contractArea;
+	private Integer contractTime;
+	private Date signContractDate;
+	private Date beginSignContractDate;
+	private Date endSignContractDate;
+	private String bizOrderAcceptArea;
+	private String bizOrderAcceptAreaName;
+	private Date beginCreateDate;
+	private Date endCreateDate;
+	private String status;
+	private Date getOrderDatetime;
+	private Integer floor;
+	private Double  contractAmount;
 	private String orderDesignerName;
 	private String orderDesignerPhone;
 	private String itemManager;
 	
-	private Integer auditorEmployeeId;//审计员id
-	private String auditorName;//审计员姓名
-	private String auditorPhone;//审计员电话
+	private Integer auditorEmployeeId;
+	private String auditorName;
+	private String auditorPhone;
 	
-	private String refuseReasonType; //拒绝类型
-	private String refuseReasonTypeName; //拒绝类型/名称
-	private String refuseReason; //拒绝原因
+	private String refuseReasonType;
+	private String refuseReasonTypeName;
+	private String refuseReason;
 	
-	private String auditorTagname;//串单标签名称
+	private String auditorTagname;
 
 	public String getAuditorTagname() {
 		return auditorTagname;

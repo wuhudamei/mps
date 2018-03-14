@@ -16,9 +16,7 @@ import cn.damei.entity.modules.UrgeCheck;
 @Transactional
 public class BizOrderTaskpackageService extends CrudService2<BizOrderTaskpackageDao, BizOrderTaskpackage>{
 	
-	/**
-	 * 任务包明细
-	 */
+
 	public Page<BizOrderTaskpackage> findPage(Page<BizOrderTaskpackage> page, BizOrderTaskpackage bizOrderTaskpackage) {
 		bizOrderTaskpackage.setPage(page);
 		page.setList(dao.findList(bizOrderTaskpackage));
@@ -67,7 +65,7 @@ public class BizOrderTaskpackageService extends CrudService2<BizOrderTaskpackage
 	}
 
 	public List<TaskpackageProceduces> queryProceduresByPackageId(Integer id) {
-		// TODO Auto-generated method stub
+
 		return dao.queryProceduresByPackageId(id);
 	}
 

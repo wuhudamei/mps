@@ -4,18 +4,16 @@ import cn.damei.common.persistence.DataEntity2;
 
 public class PmSubsidyCnfg extends DataEntity2<PmSubsidyCnfg>{
 
-	/**
-	 * 结算补助设置实体
-	 */
+
 	private static final long serialVersionUID = 1L;
 
 	
 	private String storeId       ;
 	private String projectMode   ;
-	private Double squareMin     ;//面积开始
-	private Double squareMax     ;//面积结束
-	private String subsidyPrice  ;//补助单价
-	private String isEnabled     ;//是否启用
+	private Double squareMin     ;
+	private Double squareMax     ;
+	private String subsidyPrice  ;
+	private String isEnabled     ;
 	public String getStoreId() {
 		return storeId;
 	}

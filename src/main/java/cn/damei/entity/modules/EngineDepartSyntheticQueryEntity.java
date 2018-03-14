@@ -5,18 +5,15 @@ import cn.damei.common.persistence.DataEntity;
 import java.util.Date;
 import java.util.Objects;
 
-/**
- * Created by joseph on 2017/4/7.
- * 工程部综合查询类
- */
+
 public class EngineDepartSyntheticQueryEntity  extends DataEntity<EngineDepartSyntheticQueryEntity>{
 
-    private Integer storeId; //门店id
+    private Integer storeId;
     private String storeName;
 
-    private Integer distributeOrderCountNow;//分配项目经理当天
-    private Integer actualStartOrderCount;//开工数
-    private Integer actualStartOrderCountNow;//开工数当天
+    private Integer distributeOrderCountNow;
+    private Integer actualStartOrderCount;
+    private Integer actualStartOrderCountNow;
 
     private Integer buildOrderCount;
     private Integer buildOrderCountNow;
@@ -38,34 +35,34 @@ public class EngineDepartSyntheticQueryEntity  extends DataEntity<EngineDepartSy
 
 
 
-    private String  basicDoneName="基装验收";//基装验收
+    private String  basicDoneName="基装验收";
     private String  completeDoneName="竣工验收";
 
 
-    private Integer basicDoneCount;//基装验收数
-    private Integer basicDaysDiff=40;//基装延期比较天数
-    private  Integer basicDelayCount;//基装延期数量
-    private String basicDelayPercent;//基装延期占比
+    private Integer basicDoneCount;
+    private Integer basicDaysDiff=40;
+    private  Integer basicDelayCount;
+    private String basicDelayPercent;
 
 
 
-    private Integer  mainMaterialDaysDiff=60;//主材延期比较天数
-    private Integer mainMaterialStartCount;//主材施工数量
-    private Integer mainMaterialDaysDelayCount;//主材延期数量
-    private String  mainMaterialDelayPercent;//主材延期占比
+    private Integer  mainMaterialDaysDiff=60;
+    private Integer mainMaterialStartCount;
+    private Integer mainMaterialDaysDelayCount;
+    private String  mainMaterialDelayPercent;
 
 
 
-    private Integer contractStartDayCount;//合同约定工期-施工中
-    private  Integer contractStartDayDelayCount;//合同约定工期-延期数
-    private String  contractStartDelayPercent;//合同约定工期-延期占比
+    private Integer contractStartDayCount;
+    private  Integer contractStartDayDelayCount;
+    private String  contractStartDelayPercent;
 
 
-    private String  orderDiscloseStatus;//交底状态130
-    private String orderConfirmStartStatus;//确认开工状态200
-    private String orderDistributeManagerStatus;//分配项目经理120
-    private String orderApplyCompleteStatus;//竣工300
-    private String  orderInspectionCheckPassStatus;//质检审核通过320
+    private String  orderDiscloseStatus;
+    private String orderConfirmStartStatus;
+    private String orderDistributeManagerStatus;
+    private String orderApplyCompleteStatus;
+    private String  orderInspectionCheckPassStatus;
 
 
     private Date start;

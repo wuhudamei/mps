@@ -11,11 +11,7 @@ import cn.damei.common.utils.DateUtils;
 import cn.damei.dao.modules.BizRecheckScaleBillDao;
 import cn.damei.entity.modules.BizRecheckScaleBill;
 
-/**
- * 上报复尺(20161107-20161113)
- * @author llp
- * 2016-11-15
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizRecheckScaleBillService extends CrudService2<BizRecheckScaleBillDao,BizRecheckScaleBill>{

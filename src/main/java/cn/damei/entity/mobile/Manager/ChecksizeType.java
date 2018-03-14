@@ -9,10 +9,10 @@ public class ChecksizeType extends DataEntity2<ChecksizeType>{
 	private static final long serialVersionUID = 1L;
 	
 
-	private String type;		// 复尺类型value
-	private String name;		// 复尺类型 名称
-	private String daysPlanChecksize;//延期的天数
-	private String orderInstallItemId; //订单安装箱的ID
+	private String type;
+	private String name;
+	private String daysPlanChecksize;
+	private String orderInstallItemId;
 	
 	public String getDaysPlanChecksize() {
 		return daysPlanChecksize;

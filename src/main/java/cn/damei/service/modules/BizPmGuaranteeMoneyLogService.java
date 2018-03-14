@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.util.List;
@@ -14,11 +12,7 @@ import cn.damei.common.service.CrudService2;
 import cn.damei.entity.modules.BizPmGuaranteeMoneyLog;
 import cn.damei.dao.modules.BizPmGuaranteeMoneyLogDao;
 
-/**
- * 质保金日志Service
- * @author 汪文文
- * @version 2017-01-05
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizPmGuaranteeMoneyLogService extends CrudService2<BizPmGuaranteeMoneyLogDao, BizPmGuaranteeMoneyLog> {
@@ -46,13 +40,13 @@ public class BizPmGuaranteeMoneyLogService extends CrudService2<BizPmGuaranteeMo
 	}
 
 	public BizPmGuaranteeMoneyLog findByEmployeeId(Integer pmEmployeeId) {
-		// TODO Auto-generated method stub
+
 		return dao.findByEmployeeId(pmEmployeeId);
 	}
 	
 	@Transactional(readOnly = false)
 	public Integer insert1(BizPmGuaranteeMoneyLog gml) {
-		// TODO Auto-generated method stub
+
 		return dao.insert1(gml);
 	}
 	

@@ -23,10 +23,10 @@ public class ProjectProgressController {
 	
 	@RequestMapping(value="list.php")
 	public String   list(HttpServletRequest request ,Model model,String orderId){
-		//從session拿出登录的客户
+
 	String customerPhone =(String)request.getSession().getAttribute("customerPhone");
 	if(null!=customerPhone){
-		//查询该客户的订单  
+
 		List<ProjectProgressVo> list = service.getOrderListByCustomerPhone(customerPhone);
 		ProjectProgressVo vo = new ProjectProgressVo();
 		for (ProjectProgressVo projectProgressVo:list) {
@@ -37,7 +37,7 @@ public class ProjectProgressController {
 			}
 		}
 		if(list.size()>0){
-				//如果有 ,取最近的一条或有新消息的作为显示 ,并查询该订单的确认开工的信息
+
 				model.addAttribute("orderList", list);
 				if(null!=orderId&&JobSiteController.isNum(orderId)){
 					for (ProjectProgressVo projectProgressVo : list) {
@@ -77,7 +77,7 @@ public class ProjectProgressController {
 		vo.setOrderId(orderId);
 		ProjectProgressVo progressVo = service.getConfirmStartInfoByOrderId(vo);
 		if(null!=progressVo){
-			//該客戶最近的一個訂單的開工信息
+
 			model.addAttribute("progressVo", progressVo);
 
 		}
@@ -95,7 +95,7 @@ public class ProjectProgressController {
 
 		if(null!=progressVo){
 			progressVo.setOrderId(orderId);
-			//已讀
+
 			Integer integer = service.findLog(progressVo);
 			if(null!=integer&&integer==0){
 				progressVo.setLogType("555");
@@ -106,7 +106,7 @@ public class ProjectProgressController {
 
 
 
-			//該客戶最近的一個訂單的開工信息
+
 			model.addAttribute("progressVo", progressVo);
 
 

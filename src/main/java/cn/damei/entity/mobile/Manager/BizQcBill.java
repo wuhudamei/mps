@@ -6,32 +6,30 @@ import cn.damei.common.persistence.DataEntity2;
 
 public class BizQcBill extends DataEntity2<BizQcBill>{
 	
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	
 	private Integer id;
-	private String qcBillCode; // 质检单编号
-	private String qcBillType; // 质检单类型 1约检单  2抽检单
+	private String qcBillCode;
+	private String qcBillType;
 	
-	private String isRecheck; // 是否复检
-	private Integer relatedQcBillId; // 关联质检单id
+	private String isRecheck;
+	private Integer relatedQcBillId;
 	
-	private Integer orderId; // 订单id
-	private Integer qcCheckNodeId; // 检查节点id
-	private String qcCheckNodeName;	//节点名称
-	private Integer qcCheckNodeIndex;//节点顺序
-	private String applyRemarks; // 申请备注
+	private Integer orderId;
+	private Integer qcCheckNodeId;
+	private String qcCheckNodeName;
+	private Integer qcCheckNodeIndex;
+	private String applyRemarks;
 	
-	private String status; // 状态  1创建  2项目经理已申请 3.复检不合格；4.复检合格
+	private String status;
 	
-	private Integer applyEmployeeId; // 质检申请人员工id
-	private Integer checkEmployeeId; // 实际质检人员工id
+	private Integer applyEmployeeId;
+	private Integer checkEmployeeId;
 	
-	private Date checkDatetime; // 质检日期时间
-	private Date expectCheckDatetime; // 期望质检日期时间
-	private Date acceptCheckDatetime; // 验收日期时间
+	private Date checkDatetime;
+	private Date expectCheckDatetime;
+	private Date acceptCheckDatetime;
 
 	private String preStatusName;
 	private String preCheckManName;
@@ -107,8 +105,8 @@ public class BizQcBill extends DataEntity2<BizQcBill>{
 		this.checkManPhone = checkManPhone;
 	}
 
-	private Double totalScore; // 总分
-	private Double gotScore; // 实际得分
+	private Double totalScore;
+	private Double gotScore;
 	public Integer getId() {
 		return id;
 	}

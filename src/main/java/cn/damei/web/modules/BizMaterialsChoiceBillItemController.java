@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import java.util.List;
@@ -24,11 +22,7 @@ import cn.damei.entity.modules.BizMaterialsChoiceBillItem;
 import cn.damei.entity.modules.BizMaterialsChoiceCategory;
 import cn.damei.service.modules.BizMaterialsChoiceBillItemService;
 
-/**
- * 选材单材料表Controller
- * @author wyb
- * @version 2017-06-13
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/bizmaterialschoicebillitem/bizMaterialsChoiceBillItem")
 public class BizMaterialsChoiceBillItemController extends BaseController {
@@ -64,15 +58,11 @@ public class BizMaterialsChoiceBillItemController extends BaseController {
 	}
 
 
-	/**
-	 * 查询一级类目
-	 * @param categoryLevel
-	 * @return
-	 */
+
 	@RequestMapping(value = "findFirstMaterialsChoiceCategory")
 	public @ResponseBody List<BizMaterialsChoiceCategory> findFirstMaterialsChoiceCategory(String categoryLevel) {
 		
-		// 查询商品类目
+
 		BizMaterialsChoiceCategory bizMaterialsChoiceCategory = new BizMaterialsChoiceCategory();
 		if(StringUtils.isNotBlank(categoryLevel)){
 			bizMaterialsChoiceCategory.setCategoryLevel(Integer.valueOf(categoryLevel));
@@ -83,16 +73,11 @@ public class BizMaterialsChoiceBillItemController extends BaseController {
 
 	}
 	
-	/**
-	 * 查询二级类目
-	 * @param categoryLevel
-	 * @param firstCode
-	 * @return
-	 */
+
 	@RequestMapping(value = "findSecondMaterialsChoiceCategory")
 	public @ResponseBody List<BizMaterialsChoiceCategory> findSecondMaterialsChoiceCategory(String categoryLevel,String firstCode) {
 		
-		// 查询商品类目
+
 		BizMaterialsChoiceCategory bizMaterialsChoiceCategory = new BizMaterialsChoiceCategory();
 		if(StringUtils.isNotBlank(categoryLevel)){
 			bizMaterialsChoiceCategory.setCategoryLevel(Integer.valueOf(categoryLevel));

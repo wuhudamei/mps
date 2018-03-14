@@ -27,7 +27,7 @@ public class BizPurchaseMainTileService extends CrudService2<BizPurchaseMainTile
 	}
 
 	public BizPurchaseMainTile findById(Integer id) {
-//		return dao.findById(id);
+
 		return dao.get(id);
 	}
 
@@ -37,7 +37,7 @@ public class BizPurchaseMainTileService extends CrudService2<BizPurchaseMainTile
 	}
 
 	public List<BizPurchaseMainTile> findList1(Integer applyemployeeId,String type) {
-		// TODO Auto-generated method stub
+
 		return dao.findList1(applyemployeeId,type);
 	}
 	

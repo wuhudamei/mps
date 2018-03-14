@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import org.hibernate.validator.constraints.Length;
@@ -9,21 +7,17 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 项目经理保证金快照Entity
- * @author 汪文文
- * @version 2016-12-28
- */
+
 public class BizPmGuaranteeMoneyCnfgSnap extends DataEntity2<BizPmGuaranteeMoneyCnfgSnap> {
 	
 	private static final long serialVersionUID = 1L;
-	private Integer storeId;		// 门店id -- '
-	private Integer orderId;		// 订单id -- '
-	private Integer pmEmployeeId;		// 项目经理员工id -- '
-	private String projectMode;		// 工程模式 -- '
-	private Double guaranteeMoneyMax;		// 质保金上限定额 -- '
-	private Double guaranteeMoneyPerOrder;		// 每个订单上缴额度 -- '
-	private Date generatedDatetime;		// 生成日期时间 -- '
+	private Integer storeId;
+	private Integer orderId;
+	private Integer pmEmployeeId;
+	private String projectMode;
+	private Double guaranteeMoneyMax;
+	private Double guaranteeMoneyPerOrder;
+	private Date generatedDatetime;
 	
 	public BizPmGuaranteeMoneyCnfgSnap() {
 		super();

@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import java.io.UnsupportedEncodingException;
@@ -51,10 +49,7 @@ import cn.damei.service.modules.InspectorConfirmService;
 import cn.damei.entity.modules.User;
 import cn.damei.common.utils.UserUtils;
 
-/**
- * 结算员审核验收单Controller
- *
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/settlementPaymentManagement/checkAccept/confirm")
 public class InspectorConfirmController extends BaseController {
@@ -107,7 +102,7 @@ public class InspectorConfirmController extends BaseController {
 			list.add(inspectorConfirm.getEnginDepartId());
 			inspectorConfirm.setEnginDepartIds(list);
 		}
-		// 过滤门店
+
 		if (null == inspectorConfirm.getStoreId()) {
 			if (null != user.getStoreId()) {
 				inspectorConfirm.setStoreId(user.getStoreId());
@@ -117,7 +112,7 @@ public class InspectorConfirmController extends BaseController {
 			model.addAttribute("storeDropEnable", true);
 		}
 
-		// 过滤工程模式
+
 		if (StringUtils.isBlank(inspectorConfirm.getProjectMode())) {
 			if (null != user.getEmpId()) {
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -178,7 +173,7 @@ public class InspectorConfirmController extends BaseController {
 			inspectorConfirm.setEnginDepartIds(list);
 		}
 
-		// 过滤门店
+
 		if (null == inspectorConfirm.getStoreId()) {
 			if (null != user.getStoreId()) {
 				inspectorConfirm.setStoreId(user.getStoreId());
@@ -187,7 +182,7 @@ public class InspectorConfirmController extends BaseController {
 		if (StringUtils.isBlank(user.getStoreId())) {
 			model.addAttribute("storeDropEnable", true);
 		}
-		// 过滤工程模式
+
 		if (StringUtils.isBlank(inspectorConfirm.getProjectMode())) {
 			if (StringUtils.isBlank(user.getProjectMode()) || user.getProjectMode().equals("3")) {
 				model.addAttribute("gongcheng", true);
@@ -213,38 +208,9 @@ public class InspectorConfirmController extends BaseController {
 		return "modules/settlementPaymentManagement/checkAccept/confirm/confirmList";
 	}
 
-/*	*//**
-	 * 查看验收图片
-	 *
-	 * @param qcBillId
-	 * @param model
-	 * @return
-	 * @throws Exception
-	 *//*
-	@RequiresPermissions("confirm:confirm:view")
-	@RequestMapping(value = "pic")
-	public String pic(Integer qcBillId, Model model) throws Exception {
 
-		ReportCheckDetailsPic reportCheckDetailsPic = new ReportCheckDetailsPic();
-		reportCheckDetailsPic.setBusinessType("3");
-		reportCheckDetailsPic.setBusinessIdInt(qcBillId);
-		// 验收图片
-		List<ReportCheckDetailsPic> picList = inspectorConfirmService.findPic(reportCheckDetailsPic);
 
-		model.addAttribute("picList", picList);
-		model.addAttribute("baseUrl", PicRootName.picPrefixName());
 
-		return "modules/settlementPaymentManagement/checkAccept/confirm/pic";
-	}*/
-
-	/**
-	 * Ajax查看验收图片
-	 *
-	 * @param qcBillId
-	 * @param model
-	 * @return
-	 * @throws Exception
-	 */
 	@RequiresPermissions("confirm:confirm:view")
 	@RequestMapping(value = "/pic")
 	@ResponseBody
@@ -253,7 +219,7 @@ public class InspectorConfirmController extends BaseController {
 		ReportCheckDetailsPic reportCheckDetailsPic = new ReportCheckDetailsPic();
 		reportCheckDetailsPic.setBusinessType("3");
 		reportCheckDetailsPic.setBusinessIdInt(qcBillId);
-		// 验收图片
+
 		List<ReportCheckDetailsPic> picList = inspectorConfirmService.findPic(reportCheckDetailsPic);
 
 		model.addAttribute("picList", picList);
@@ -263,46 +229,35 @@ public class InspectorConfirmController extends BaseController {
 		return mapObject;
 	}
 
-	/**
-	 * 查看尾款付款单
-	 *
-	 * @param qcBillId
-	 * @param model
-	 * @return
-	 * @throws Exception
-	 */
+
 	@RequiresPermissions("confirm:confirm:view")
 	@RequestMapping(value = "payment")
 	public String payment(Integer qcBillId, Model model) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
-		// map.put("status", ConstantUtils.PAYMENT_STATUS_10);
-		// map.put("qcStatus", "10");
+
+
 		map.put("qcType", "1");
 		map.put("ischeck", "0");
 		map.put("orderTaskpackagePaymentType", ConstantUtils.PAYMENT_TYPE_1);
 		map.put("qcBillId", qcBillId);
-		// map.put("cnrStatus", "1");//任务包和之间节点关系状态--启用
+
 		List<Payment> paymentList = bizOrderTaskpackagePaymentService.findPayments(map);
-		// List<Payment> paymentList = null;
+
 		model.addAttribute("paymentList", paymentList);
 		return "modules/settlementPaymentManagement/checkAccept/confirm/paymentDetails";
 	}
 
-	/**
-	 * 项目经理中期提成明细
-	 *
-	 * @return
-	 */
+
 	@RequestMapping(value = "managerAmortizationDetail")
 	public String managerAmortizationDetail(Integer orderId, Integer qcBillId, Model model) {
 		BizPmStarCommissionCnfgSnap bizPmStarCommissionCnfgSnap = inspectorConfirmService
 				.queryManagerCommissionByOrderId(orderId);
 		CheckConfirm settlementCount = checkConfirmService.findSettlement(qcBillId);
 		if (settlementCount.getManagerCount() != 0) {
-			// 中期提成
+
 			Double commissionAmount = bizPmStarCommissionCnfgSnap.getCommissionAmount()
 					* bizPmStarCommissionCnfgSnap.getCommissionRateMidway();
-			// 标化材料扣款金额
+
 			List<BizMaterialsStandardReceiveBill> list = inspectorConfirmService.findThree(orderId);
 			BizMaterialsStandardReceiveBill details3 = new BizMaterialsStandardReceiveBill();
 			details3.setReceiveBillAmount(0.0);
@@ -317,11 +272,11 @@ public class InspectorConfirmController extends BaseController {
 			}
 			List<BizOrderMaterialsStandard> materialsStandardList = inspectorConfirmService
 					.queryMaterialsStandardByOrderId(orderId);
-			// 自主支配金额
+
 			Double managerOwnpay = inspectorConfirmService.queryManagerOwnpay(orderId);
 			List<BizPmOwnpayCnfgSnap> pmOwnpayCnfgSnapList = inspectorConfirmService
 					.queryPmOwnpayCnfgSnapByOrderId(orderId);
-			// 中期罚款
+
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("orderId", orderId);
 			map.put("settleCategory", ConstantUtils.PM_SETTLE_CATEGORY_4);
@@ -333,7 +288,7 @@ public class InspectorConfirmController extends BaseController {
 			if (managerPenalty < 0) {
 				managerPenalty = 0 - managerPenalty;
 			}
-			// 中期任务包材料结算总金额
+
 			double pmMaterialsSettleAmount = 0.00;
 			List<PmMaterialsSettleInfo> pmMaterials = pmMaterialsSettleInfoService.queryPmMaterialsByOrderId(orderId);
 			if (pmMaterials == null) {
@@ -345,7 +300,7 @@ public class InspectorConfirmController extends BaseController {
 				}
 			}
 
-			// 中期奖励金额
+
 			double pmRewardAmount = 0.0;
 			BizAssessRewardPunish rewardPunish = new BizAssessRewardPunish();
 			rewardPunish.setRelatedBusinessIdInt(orderId);
@@ -356,18 +311,18 @@ public class InspectorConfirmController extends BaseController {
 			rewardPunish.setIsMonthInspection("0");
 			rewardPunish.setRewardPunishStatus("1");
 			pmRewardAmount = bizAssessRewardPunishService.queryTotalAmountByParam(rewardPunish);
-			// 中期扣款金额
+
 			double pmPunishAmount = 0.0;
 			rewardPunish.setIsRewardOrPunish("2");
 			pmPunishAmount = bizAssessRewardPunishService.queryTotalAmountByParam(rewardPunish);
 
-			//巡检
+
 			rewardPunish.setIsMonthInspection("1");
-			//中期巡检奖励
+
 			double pmInspectionRewardAmount = 0.0;
 			rewardPunish.setIsRewardOrPunish("1");
 			pmInspectionRewardAmount = bizAssessRewardPunishService.queryTotalAmountByParam(rewardPunish);
-			//中期巡检罚款
+
 			double pmInspectionPunishAmount = 0.0;
 			rewardPunish.setIsRewardOrPunish("2");
 			pmInspectionPunishAmount = bizAssessRewardPunishService.queryTotalAmountByParam(rewardPunish);
@@ -396,17 +351,8 @@ public class InspectorConfirmController extends BaseController {
 		return "modules/settlementPaymentManagement/checkAccept/confirm/managerAmortizationDetail";
 	}
 
-	/**
-	 * 约检验收单审核--通过
-	 *
-	 * @param qcBillId
-	 * @param
-	 * @return
-	 * @throws NoSuchAlgorithmException
-	 * @throws UnsupportedEncodingException
-	 * @throws Exception
-	 */
-	// @RequiresPermissions("confirm:confirm:view")
+
+
 	@RequestMapping(value = "pass")
 	public @ResponseBody String pass(Integer orderId, Integer qcBillId, Integer qcCheckNodeId,
 									 RedirectAttributes redirectAttributes) throws Exception {
@@ -421,13 +367,7 @@ public class InspectorConfirmController extends BaseController {
 		return result;
 	}
 
-	/**
-	 * 约检验收单审核--驳回
-	 *
-	 * @param qcBillId
-	 * @param
-	 * @return
-	 */
+
 	@RequiresPermissions("confirm:confirm:view")
 	@RequestMapping(value = "reject")
 	public String reject(Integer qcBillId, String reason, RedirectAttributes redirectAttributes) {
@@ -438,7 +378,7 @@ public class InspectorConfirmController extends BaseController {
 		inspectorConfirm.setReviewStatus("0");
 		inspectorConfirm.setReviewRemark(reason);
 		inspectorConfirm.setReviewDatetime(new Date());
-		// 更新约检验收单
+
 		inspectorConfirmService.updateQcBill(inspectorConfirm);
 
 		addMessage(redirectAttributes, "约检验收单审核驳回");

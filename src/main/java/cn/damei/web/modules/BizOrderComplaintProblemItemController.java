@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,11 +20,7 @@ import cn.damei.common.utils.StringUtils;
 import cn.damei.entity.modules.BizOrderComplaintProblemItem;
 import cn.damei.service.modules.BizOrderComplaintProblemItemService;
 
-/**
- * 工程事项和工程问题对照表Controller
- * @author ztw
- * @version 2017-07-06
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/ordercomplan/bizOrderComplaintProblemItem")
 public class BizOrderComplaintProblemItemController extends BaseController {

@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import java.util.Date;
@@ -10,36 +8,32 @@ import org.hibernate.validator.constraints.Length;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 订单安装项问题Entity
- * @author 汪文文
- * @version 2017-02-20
- */
+
 public class BizOrderInstallItemProblem extends DataEntity2<BizOrderInstallItemProblem> {
 	
 	private static final long serialVersionUID = 1L;
-	private Integer businessOnlyMarkId;		// 唯一标识id
-	private Integer problemTypeId;		// 问题分类id
-	private String isDelay;		// 是否延期
-	private Double delayDays;		// 延期天数
-	private String problemDescribe;		// 问题描述
-	private String status;		// 状态
-	private String typeName;	//工程安装项问题
-	private String businessType;	//业务类型
-	private String problemSolveRole;		// 问题处理角色
-	private String problemSolveNotes;		// 问题处理说明
-	private Date logDate;	//材料部处理时间
+	private Integer businessOnlyMarkId;
+	private Integer problemTypeId;
+	private String isDelay;
+	private Double delayDays;
+	private String problemDescribe;
+	private String status;
+	private String typeName;
+	private String businessType;
+	private String problemSolveRole;
+	private String problemSolveNotes;
+	private Date logDate;
 	
 	
-	private Date expectSolveDatetime;	//期望完成日期
-	private String inchargeName;		// 责任人
-	private Double punishScore;		// 扣除分数
-	private Double punishMoney;		// 罚款金额
-	private String punishRemarks;		// 罚款说明
+	private Date expectSolveDatetime;
+	private String inchargeName;
+	private Double punishScore;
+	private Double punishMoney;
+	private String punishRemarks;
 	
-	private String createDateString;		// 创建日期  字符串类型
+	private String createDateString;
 	
-	private List<BizOrderInstallItemProblemLog> logList; //问题上报日志 
+	private List<BizOrderInstallItemProblemLog> logList;
 	
 	
 	

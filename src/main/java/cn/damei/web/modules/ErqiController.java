@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import java.io.IOException;
@@ -35,11 +33,7 @@ import cn.damei.service.modules.OrderService;
 
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-/**
- * 结算二期款Controller
- * @author 梅浩
- * @version 2016-12-28
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/balancemid/Erqi")
 public class ErqiController extends BaseController {
@@ -62,11 +56,10 @@ public class ErqiController extends BaseController {
 	@RequiresPermissions("balancemid:ErqiEntity:view")
 	@RequestMapping(value = {"list", ""})
 	public String list(ErqiEntity ErqiEntity, HttpServletRequest request, HttpServletResponse response, Model model) {
-		/*List<Integer> orderIds = (List<Integer>) request.getSession().getAttribute("orderIds");
-		if(orderIds != null && orderIds.size()>0){*/
+
 			List<Integer> list = new ArrayList<Integer>();
 			request.getSession().setAttribute("orderIds",list);
-		//}
+
 		
 		return "modules/balancemid/ErqiEntityList";
 	}
@@ -97,21 +90,12 @@ public class ErqiController extends BaseController {
 			e.printStackTrace();
 			throw e;
 		}
-		/*if(result.equals("0")){
-			addMessage(redirectAttributes, "确认已收二期款成功");
-		}else if(result.equals("1")){
-			addMessage(redirectAttributes, "该订单已收二期款,请不要重复提交！");
-		}*/
+
 		
 		return result;
 	}
 	
-	/**
-	 * 批量
-	 * @param orderIds
-	 * @param redirectAttributes
-	 * @return
-	 */
+
 	@RequiresPermissions("balancemid:ErqiEntity:edit")
 	@RequestMapping(value = "confirmCheckSecondMoneys")
 	public String confirmCheckSecondMoneys(Integer [] orderIds, RedirectAttributes redirectAttributes,HttpServletRequest request) {
@@ -147,23 +131,18 @@ public class ErqiController extends BaseController {
 		return "redirect:"+ Global.getAdminPath()+"/balancemid/Erqi/list2?repage";
 	}
 	
-	/**
-	 * 导出execl
-	 * @param orderIds
-	 * @param redirectAttributes
-	 * @return
-	 */
+
 	@RequiresPermissions("balancemid:ErqiEntity:edit")
 	@RequestMapping(value = "exportExcel")
 	public void exportExcel(ErqiEntity erqiEntity,HttpServletResponse response){
 		
 		SimpleDateFormat sf = new SimpleDateFormat("yyyyMMddHHmmss");
 		HSSFWorkbook excel = erqiMoneyService.exportExcel(erqiEntity);
-		ServletOutputStream out= null;//创建一个输出流对象
+		ServletOutputStream out= null;
 		try {  
 			response.setContentType("application/binary;charset=utf-8"); 
-			String headerStr =new String(("确认二期款"+sf.format(new Date())).getBytes("utf-8"), "ISO8859-1");//headerString为中文时转码  
-			response.setHeader("Content-disposition","attachment; filename="+headerStr+".xls");//filename是下载的xls的名
+			String headerStr =new String(("确认二期款"+sf.format(new Date())).getBytes("utf-8"), "ISO8859-1");
+			response.setHeader("Content-disposition","attachment; filename="+headerStr+".xls");
 			out = response.getOutputStream();    
 			excel.write(out);
 		} catch (IOException ex) {  
@@ -187,13 +166,13 @@ public class ErqiController extends BaseController {
 		
 			if(checkedStr != null){
 				List<Integer> list2 = (List<Integer>) request.getSession().getAttribute("orderIds");
-				//session 获取list
+
 				if(list2 != null && list2.size() >0){
 					
 					if(!list2.contains(checkedStr)){
 						list2.add(checkedStr);
 					}else{
-						//判断是否有重复
+
 						Iterator<Integer> it = list2.iterator();
 						while(it.hasNext()){
 							if(it.next().equals(checkedStr)){

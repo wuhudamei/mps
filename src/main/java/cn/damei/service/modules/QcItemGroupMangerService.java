@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import cn.damei.common.persistence.Page;
@@ -13,12 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-/**
- * 检查项工人组和项目经理Service
- *
- * @author ztw
- * @version 2017-12-24
- */
+
 @Service
 @Transactional(readOnly = true)
 public class QcItemGroupMangerService extends CrudService<QcItemGroupMangerDao, QcItemGroupManger> {
@@ -35,7 +28,7 @@ public class QcItemGroupMangerService extends CrudService<QcItemGroupMangerDao, 
 
         qcItemGroupManger.setPage(page);
         List<QcItemGroupManger> list = dao.findList(qcItemGroupManger);
-        //获取罚款次数和罚款金额
+
         List<QcItemGroupManger> listCountAndIllegal = dao.queryWorkerGrouPunishCountAndIllegal(qcItemGroupManger);
         if (null != list && null != listCountAndIllegal) {
             for (QcItemGroupManger itemGroupManger : list) {

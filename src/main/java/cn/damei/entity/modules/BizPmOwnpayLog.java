@@ -1,27 +1,21 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import org.hibernate.validator.constraints.Length;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 自主支配日志表Entity
- * @author wyb
- * @version 2017-02-15
- */
+
 public class BizPmOwnpayLog extends DataEntity2<BizPmOwnpayLog> {
 	
 	private static final long serialVersionUID = 1L;
-	private Integer storeId;		// 门店
-	private Integer orderId;		// 订单
-	private String isOldNew;		// 新老房
-	private String projectMode;		// 工程模式
-	private String ownpayName;		// ֧支配项名称
-	private String unit;		// 单位
-	private Double amount;		// 金额
+	private Integer storeId;
+	private Integer orderId;
+	private String isOldNew;
+	private String projectMode;
+	private String ownpayName;
+	private String unit;
+	private Double amount;
 	
 	public BizPmOwnpayLog() {
 		super();

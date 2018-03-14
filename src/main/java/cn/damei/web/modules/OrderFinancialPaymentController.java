@@ -19,9 +19,7 @@ import cn.damei.entity.modules.Order;
 import cn.damei.service.modules.OrderFinancialPaymentService;
 
 
-/**
- * 财务收款2.0
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/orderFinancialPayment/orderFinancialPayment")
 public class OrderFinancialPaymentController extends BaseController {
@@ -39,14 +37,7 @@ public class OrderFinancialPaymentController extends BaseController {
 		return "modules/orderFinancialPayment/orderFinancialPaymenyt";
 	}
 	
-	/**
-	 * 查询
-	 * @param storeId
-	 * @param orderNumber
-	 * @param customerName
-	 * @param customerPhone
-	 * @return
-	 */
+
 	@RequiresPermissions("orderFinancialPayment:orderFinancialPayment:view")
 	@RequestMapping(value = "order_financial_payment_ajax_list")
 	public @ResponseBody List<Map<String, String>> orderFinancialPaymentAjaxList(String storeId,String orderNumber,String customerName,String customerPhone) {

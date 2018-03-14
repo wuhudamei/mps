@@ -4,12 +4,7 @@ import java.util.Date;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 付款单冻结/解冻实体类
- * 
- * @author hyh
- *
- */
+
 public class BizOrderTaskpackagePaymentFreeze extends DataEntity2<BizOrderTaskpackagePaymentFreeze> {
 
 	private static final long serialVersionUID = 1L;
@@ -18,25 +13,25 @@ public class BizOrderTaskpackagePaymentFreeze extends DataEntity2<BizOrderTaskpa
 	
 	private String operator;
 
-	private Integer bizOrderTaskpackagePaymentId;// 付款单Id
+	private Integer bizOrderTaskpackagePaymentId;
 
-	private String orderTaskpackagePaymentType; // 付款单类型
+	private String orderTaskpackagePaymentType;
 
-	private Double amount; // 金额
+	private Double amount;
 
-	private String frozenType;// 冻结解冻类型 1冻结 2解冻
+	private String frozenType;
 
-	private String frozenRemarks;// 冻结解冻说明
+	private String frozenRemarks;
 
-	private String bizOrderTaskpackagePaymentCode;// 付款单号
+	private String bizOrderTaskpackagePaymentCode;
 	
-	private String bizOrderTaskpackageName;// 任务包名称
+	private String bizOrderTaskpackageName;
 
-	private String customerName; // 客户姓名
+	private String customerName;
 	
-	private String groupName;// 工人组长
+	private String groupName;
 
-	private String customerMessage; //客户地址
+	private String customerMessage;
 	
 
 	public Integer getBizOrderTaskpackagePaymentId() {

@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,11 +20,7 @@ import cn.damei.common.utils.StringUtils;
 import cn.damei.entity.modules.QcItemGroupManger;
 import cn.damei.service.modules.QcItemGroupMangerService;
 
-/**
- * 检查项工人组和项目经理Controller
- * @author ztw
- * @version 2017-12-24
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/qualitygroupmanger/qcItemGroupManger")
 public class QcItemGroupMangerController extends BaseController {
@@ -61,28 +55,14 @@ public class QcItemGroupMangerController extends BaseController {
 		return "modules/qualitygroupmanger/qcItemGroupMangerList";
 	}
 
-	/**
-	 * 项目经理跳转页面
-	 * @param qcItemGroupManger
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @return
-	 */
+
 	@RequiresPermissions("qualitygroupmanger:qcItemGroupManger:view")
 	@RequestMapping(value = "listManager")
 	public String listManager(QcItemGroupManger qcItemGroupManger, HttpServletRequest request, HttpServletResponse response, Model model) {
 		return "modules/qualitygroupmanger/qcItemMangerList";
 	}
 
-	/**
-	 * 项目经理查询方法
-	 * @param qcItemGroupManger
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @return
-	 */
+
 	@RequiresPermissions("qualitygroupmanger:qcItemGroupManger:view")
 	@RequestMapping(value = "/listManagerall")
 	public String listManagerall(QcItemGroupManger qcItemGroupManger, HttpServletRequest request, HttpServletResponse response, Model model) {
@@ -91,14 +71,7 @@ public class QcItemGroupMangerController extends BaseController {
 		return "modules/qualitygroupmanger/qcItemMangerList";
 	}
 
-	/**
-	 * 查询项目经理违规次数详情
-	 * @param qcItemGroupManger
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @return
-	 */
+
 	@RequiresPermissions("qualitygroupmanger:qcItemGroupManger:view")
 	@RequestMapping(value = "/queryQcItemMangerIllegalDetails")
 	public String queryQcItemMangerIllegalDetails(QcItemGroupManger qcItemGroupManger, HttpServletRequest request, HttpServletResponse response, Model model) {
@@ -107,14 +80,7 @@ public class QcItemGroupMangerController extends BaseController {
 		model.addAttribute("qcItemGroupManger", qcItemGroupManger);
 		return "modules/qualitygroupmanger/qcItemMangerIllegalDetails";
 	}
-	/**
-	 * 查询项目经理罚款次数详情
-	 * @param qcItemGroupManger
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @return
-	 */
+
 	@RequiresPermissions("qualitygroupmanger:qcItemGroupManger:view")
 	@RequestMapping(value = "/queryQcItemMangerPunishDetails")
 	public String queryQcItemMangerPunishDetails(QcItemGroupManger qcItemGroupManger, HttpServletRequest request, HttpServletResponse response, Model model) {
@@ -123,14 +89,7 @@ public class QcItemGroupMangerController extends BaseController {
 		model.addAttribute("qcItemGroupManger", qcItemGroupManger);
 		return "modules/qualitygroupmanger/qcItemMangerPunishDetails";
 	}
-	/**
-	 * 查询项目工人组违规次数详情
-	 * @param qcItemGroupManger
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @return
-	 */
+
 	@RequiresPermissions("qualitygroupmanger:qcItemGroupManger:view")
 	@RequestMapping(value = "/queryQcItemGroupIllegalDetails")
 	public String queryQcItemGroupIllegalDetails(QcItemGroupManger qcItemGroupManger, HttpServletRequest request, HttpServletResponse response, Model model) {
@@ -139,14 +98,7 @@ public class QcItemGroupMangerController extends BaseController {
 		model.addAttribute("qcItemGroupManger", qcItemGroupManger);
 		return "modules/qualitygroupmanger/qcItemGroupIllegalDetails";
 	}
-	/**
-	 * 查询项目工人组罚款次数详情
-	 * @param qcItemGroupManger
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @return
-	 */
+
 	@RequiresPermissions("qualitygroupmanger:qcItemGroupManger:view")
 	@RequestMapping(value = "/queryQcItemGroupPunishDetails")
 	public String queryQcItemGroupPunishDetails(QcItemGroupManger qcItemGroupManger, HttpServletRequest request, HttpServletResponse response, Model model) {

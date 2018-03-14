@@ -1,20 +1,14 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import cn.damei.common.persistence.DataEntity;
 
-/**
- * 区域信息Entity
- * @author qhy
- * @version 2016-08-24
- */
+
 public class BizEmpArea extends DataEntity<BizEmpArea> {
 	
 	private static final long serialVersionUID = 1L;
-	private String value;//标识
-	private String label;		// 区域说明
+	private String value;
+	private String label;
 	public BizEmpArea() {
 		super();
 	}

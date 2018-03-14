@@ -2,11 +2,7 @@ package cn.damei.entity.modules;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 订单材料搬运运输费实体类
- * @author hyh
- *
- */
+
 public class BizOrderMaterialCarryCost extends DataEntity2<BizOrderMaterialCarryCost>{
 	
 	private static final long serialVersionUID = 1L;

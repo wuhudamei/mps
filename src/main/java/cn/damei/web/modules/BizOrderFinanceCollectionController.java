@@ -35,7 +35,7 @@ public class BizOrderFinanceCollectionController extends BaseController {
 	public String openBizOrderFinanceCollectionList(BizOrderFinanceCollection bizOrderFinanceCollection,
 			HttpServletRequest request, HttpServletResponse response, Model model) {
 		User user = UserUtils.getUser();
-		// 过滤区域
+
 		if (null == bizOrderFinanceCollection.getEnginDepartId()) {
 			if (null != UserUtils.getUser().getEmpId()) {
 				List<Integer> list = bizEmployeeService2
@@ -53,7 +53,7 @@ public class BizOrderFinanceCollectionController extends BaseController {
 			list.add(bizOrderFinanceCollection.getEnginDepartId());
 			bizOrderFinanceCollection.setEnginDepartIds(list);
 		}
-		// 过滤门店
+
 		if (null == bizOrderFinanceCollection.getStoreId()) {
 			if (null != user.getStoreId()) {
 				bizOrderFinanceCollection.setStoreId(Integer.valueOf(user.getStoreId()));
@@ -62,7 +62,7 @@ public class BizOrderFinanceCollectionController extends BaseController {
 		if (StringUtils.isBlank(user.getStoreId())) {
 			model.addAttribute("storeDropEnable", true);
 		}
-		// 过滤工程模式
+
 		if (StringUtils.isBlank(bizOrderFinanceCollection.getProjectMode())) {
 			if (null != user.getEmpId()) {
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -102,7 +102,7 @@ public class BizOrderFinanceCollectionController extends BaseController {
 	public String queryBizOrderFinanceCollectionList(BizOrderFinanceCollection bizOrderFinanceCollection,
 			HttpServletRequest request, HttpServletResponse response, Model model) {
 		User user = UserUtils.getUser();
-		// 过滤区域
+
 		if (null == bizOrderFinanceCollection.getEnginDepartId()) {
 			if (null != UserUtils.getUser().getEmpId()) {
 				List<Integer> list = bizEmployeeService2
@@ -120,7 +120,7 @@ public class BizOrderFinanceCollectionController extends BaseController {
 			list.add(bizOrderFinanceCollection.getEnginDepartId());
 			bizOrderFinanceCollection.setEnginDepartIds(list);
 		}
-		// 过滤门店
+
 		if (null == bizOrderFinanceCollection.getStoreId()) {
 			if (null != user.getStoreId()) {
 				bizOrderFinanceCollection.setStoreId(Integer.valueOf(user.getStoreId()));
@@ -129,7 +129,7 @@ public class BizOrderFinanceCollectionController extends BaseController {
 		if (StringUtils.isBlank(user.getStoreId())) {
 			model.addAttribute("storeDropEnable", true);
 		}
-		// 过滤工程模式
+
 		if (StringUtils.isBlank(bizOrderFinanceCollection.getProjectMode())) {
 			if (null != user.getEmpId()) {
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -182,7 +182,7 @@ public class BizOrderFinanceCollectionController extends BaseController {
 	public String openBizPrePmSettleFinList(BizOrderFinanceCollection bizOrderFinanceCollection,
 			HttpServletRequest request, HttpServletResponse response, Model model) {
 		User user = UserUtils.getUser();
-		// 过滤区域
+
 		if (null == bizOrderFinanceCollection.getEnginDepartId()) {
 			if (null != UserUtils.getUser().getEmpId()) {
 				List<Integer> list = bizEmployeeService2
@@ -200,7 +200,7 @@ public class BizOrderFinanceCollectionController extends BaseController {
 			list.add(bizOrderFinanceCollection.getEnginDepartId());
 			bizOrderFinanceCollection.setEnginDepartIds(list);
 		}
-		// 过滤门店
+
 		if (null == bizOrderFinanceCollection.getStoreId()) {
 			if (null != user.getStoreId()) {
 				bizOrderFinanceCollection.setStoreId(Integer.valueOf(user.getStoreId()));
@@ -209,7 +209,7 @@ public class BizOrderFinanceCollectionController extends BaseController {
 		if (StringUtils.isBlank(user.getStoreId())) {
 			model.addAttribute("storeDropEnable", true);
 		}
-		// 过滤工程模式
+
 		if (StringUtils.isBlank(bizOrderFinanceCollection.getProjectMode())) {
 			if (null != user.getEmpId()) {
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -248,7 +248,7 @@ public class BizOrderFinanceCollectionController extends BaseController {
 	public String findListPrePmSettleFinList(BizOrderFinanceCollection bizOrderFinanceCollection,
 			HttpServletRequest request, HttpServletResponse response, Model model) {
 		User user = UserUtils.getUser();
-		// 过滤区域
+
 		if (null == bizOrderFinanceCollection.getEnginDepartId()) {
 			if (null != UserUtils.getUser().getEmpId()) {
 				List<Integer> list = bizEmployeeService2
@@ -266,7 +266,7 @@ public class BizOrderFinanceCollectionController extends BaseController {
 			list.add(bizOrderFinanceCollection.getEnginDepartId());
 			bizOrderFinanceCollection.setEnginDepartIds(list);
 		}
-		// 过滤门店
+
 		if (null == bizOrderFinanceCollection.getStoreId()) {
 			if (null != user.getStoreId()) {
 				bizOrderFinanceCollection.setStoreId(Integer.valueOf(user.getStoreId()));
@@ -275,7 +275,7 @@ public class BizOrderFinanceCollectionController extends BaseController {
 		if (StringUtils.isBlank(user.getStoreId())) {
 			model.addAttribute("storeDropEnable", true);
 		}
-		// 过滤工程模式
+
 		if (StringUtils.isBlank(bizOrderFinanceCollection.getProjectMode())) {
 			if (null != user.getEmpId()) {
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));

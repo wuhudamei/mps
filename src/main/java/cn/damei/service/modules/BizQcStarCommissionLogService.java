@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.util.List;
@@ -13,11 +11,7 @@ import cn.damei.common.service.CrudService2;
 import cn.damei.entity.modules.BizQcStarCommissionLog;
 import cn.damei.dao.modules.BizQcStarCommissionLogDao;
 
-/**
- * 质检员星级提成记录Service
- * @author 汪文文
- * @version 2017-02-13
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizQcStarCommissionLogService extends CrudService2<BizQcStarCommissionLogDao, BizQcStarCommissionLog> {

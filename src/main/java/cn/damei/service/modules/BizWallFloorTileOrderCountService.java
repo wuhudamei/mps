@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.util.List;
@@ -13,11 +11,7 @@ import cn.damei.common.service.CrudService2;
 import cn.damei.entity.modules.BizWallFloorTileOrderCount;
 import cn.damei.dao.modules.BizWallFloorTileOrderCountDao;
 
-/**
- * 墙地砖订单统计表Service
- * @author wyb
- * @version 2017-08-01
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizWallFloorTileOrderCountService extends CrudService2<BizWallFloorTileOrderCountDao, BizWallFloorTileOrderCount> {

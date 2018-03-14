@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.common.web;
 
 import java.io.IOException;
@@ -16,11 +14,7 @@ import cn.damei.common.utils.UserUtils;
 
 import com.ckfinder.connector.ConnectorServlet;
 
-/**
- * CKFinderConnectorServlet
- * @author ThinkGem
- * @version 2014-06-25
- */
+
 public class CKFinderConnectorServlet extends ConnectorServlet {
 	
 	private static final long serialVersionUID = 1L;
@@ -47,9 +41,9 @@ public class CKFinderConnectorServlet extends ConnectorServlet {
 		}
 		String command = request.getParameter("command");
 		String type = request.getParameter("type");
-		// 初始化时，如果startupPath文件夹不存在，则自动创建startupPath文件夹
+
 		if ("Init".equals(command)){
-			String startupPath = request.getParameter("startupPath");// 当前文件夹可指定为模块名
+			String startupPath = request.getParameter("startupPath");
 			if (startupPath!=null){
 				String[] ss = startupPath.split(":");
 				if (ss.length==2){
@@ -61,17 +55,17 @@ public class CKFinderConnectorServlet extends ConnectorServlet {
 				}
 			}
 		}
-		// 快捷上传，自动创建当前文件夹，并上传到该路径
+
 		else if ("QuickUpload".equals(command) && type!=null){
-			String currentFolder = request.getParameter("currentFolder");// 当前文件夹可指定为模块名
+			String currentFolder = request.getParameter("currentFolder");
 			String realPath = Global.getUserfilesBaseDir() + Global.USERFILES_BASE_URL
 					+ principal + "/" + type + (currentFolder != null ? currentFolder : "");
 			FileUtils.createDirectory(FileUtils.path(realPath));
 		}
-//		System.out.println("------------------------");
-//		for (Object key : request.getParameterMap().keySet()){
-//			System.out.println(key + ": " + request.getParameter(key.toString()));
-//		}
+
+
+
+
 	}
 	
 }

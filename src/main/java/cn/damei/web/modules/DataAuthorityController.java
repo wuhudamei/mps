@@ -37,10 +37,10 @@ public class DataAuthorityController  extends BaseController{
 	
 	@RequestMapping(value = "list")
 	public String configure(Model model,String roleName,String authorityId){
-		//查询业务数据
+
 		List<DataAuthority> list = dataAuthorityService.findTransactionData(authorityId);
 		model.addAttribute("list", list);
-		//拼接下拉框
+
 		String str = "<select id='adds' class='input-medium' >"+"<option value = ''>"+"    "+"</option>";
 		for (DataAuthority s : list) {
 			 str += "<option value = ''>"+s.getTransactionData()+"</option>";
@@ -69,19 +69,19 @@ public class DataAuthorityController  extends BaseController{
 	@SuppressWarnings("deprecation")
 	@RequestMapping(value = "save")
 	public String save(String roleId,String transactionId,String checkId,String roleName){
-		//查询角色已有的权限
+
 		List<String> list = dataAuthorityService.findSysDataAuthRuleOptionRole(roleId,transactionId);
 		DataAuthority da = new DataAuthority();
 		da.setRoleId(roleId);
 		da.setDataAuthOptionId(checkId);
-		//如果有 就删除
+
 		if(list!=null&&list.size()>0){
-			/*dataAuthorityService.updateSysDataAuthRuleOptionRole(da);*/
-			//删除非法数据
+
+
 			dataAuthorityService.delete(da);
 			dataAuthorityService.deleteSysDataAuthRuleOptionRole(roleId,list.get(0));
 		}
-		//如果权限id为空，不保存
+
 		if(checkId!=null&&!checkId.equals("")){
 			da.preInsert();
 			dataAuthorityService.insertSysDataAuthRuleOptionRole(da);
@@ -91,7 +91,7 @@ public class DataAuthorityController  extends BaseController{
 		try {
 			encode = URLEncoder.encode(roleName,"UTF-8");
 		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		}
 		return "redirect:" + Global.getAdminPath() + "/dataAuthority/configure/list?authorityId="+roleId+"&roleName="+encode;

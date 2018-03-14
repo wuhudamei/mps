@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,11 +19,7 @@ import cn.damei.common.web.BaseController;
 import cn.damei.entity.modules.BizSynData;
 import cn.damei.service.modules.BizSynDataService;
 
-/**
- * 同步数据Controller
- * @author 汪文
- * @version 2017-03-15
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/bizsyndata/bizSynData")
 public class BizSynDataController extends BaseController {

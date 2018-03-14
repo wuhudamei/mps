@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import java.util.Date;
@@ -13,53 +11,49 @@ import org.hibernate.validator.constraints.Length;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 客户回访记录Entity
- * @author lft
- * @version 2017-05-26
- */
+
 public class BizCustomerReturnVisitRecord extends DataEntity2<BizCustomerReturnVisitRecord> {
 	
 	private static final long serialVersionUID = 1L;
-	private Integer orderId;		// 订单ID
-	private String customServiceId;		// 回访人员ID
-	private String customServiceName;		// 回访人员姓名
-	private Date returnVisitTime;		// 回访时间
-	private String returnVisitNode;		// 回访节点id
-	private String returnVisitNodeName;		// 回访节点名称
-	private String storeId; //门店ID
-	private String storeName; //门店名字
-	private String projectModeName; //工程模式名字
-	private String projectMode; //工程模式
-	private String area; //区域
-	private String areaName; //区域名字
-	private String orderNumber; //订单编号
-	private String customerAddress;//工程地址
-	private String customerPhone; //客户电话
-	private String customerName; //客户名字
-	private String designerName;//设计师的名字
-	private String itemManager;//项目经理
-	private String orderInspector; //质检名字
-	private Date contractStartDate;//合同开工日期
-	private Date contractEndDate;	//合同竣工日期
-	private Date actualStartDate;//实际开工日期
-	private Date nodeCheckDate;	//节点验收时间
-	private Date nodeCheckDateBegin;	//节点验收时间区间开始
-	private Date nodeCheckDateEnd;	//节点验收时间区间结束
-	private Date visitDate; //回访日期
-	private Date visitDateBegin; //回访开始日期
-	private Date visitDateEnd; //回访结束日期
-	private String orderInspectorPhone;//质检电话
-	private String itemManagerPhone;//项目经理电话
-	private String designerPhone;//设计师电话
-	private List<BizCustomerReturnVisitRecordAnswer> answerList; //问题和答案
+	private Integer orderId;
+	private String customServiceId;
+	private String customServiceName;
+	private Date returnVisitTime;
+	private String returnVisitNode;
+	private String returnVisitNodeName;
+	private String storeId;
+	private String storeName;
+	private String projectModeName;
+	private String projectMode;
+	private String area;
+	private String areaName;
+	private String orderNumber;
+	private String customerAddress;
+	private String customerPhone;
+	private String customerName;
+	private String designerName;
+	private String itemManager;
+	private String orderInspector;
+	private Date contractStartDate;
+	private Date contractEndDate;
+	private Date actualStartDate;
+	private Date nodeCheckDate;
+	private Date nodeCheckDateBegin;
+	private Date nodeCheckDateEnd;
+	private Date visitDate;
+	private Date visitDateBegin;
+	private Date visitDateEnd;
+	private String orderInspectorPhone;
+	private String itemManagerPhone;
+	private String designerPhone;
+	private List<BizCustomerReturnVisitRecordAnswer> answerList;
 	private Integer enabled;
-	private Integer invalidNum;   //回访次数
-	private Integer isValid;  //是否有效
-	private String invalidReason; //无效原因
-	private Date invalidDateBegin;   //无效起始日期
-	private Date invalidDateEnd;	//无效结束日期
-	private Date invalid;		//无效回访时间
+	private Integer invalidNum;
+	private Integer isValid;
+	private String invalidReason;
+	private Date invalidDateBegin;
+	private Date invalidDateEnd;
+	private Date invalid;
 
 	private String num;
 	private String size;

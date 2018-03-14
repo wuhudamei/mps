@@ -4,50 +4,47 @@ import cn.damei.common.persistence.DataEntity2;
 
 import java.util.Date;
 
-/**
- * 评价分数导出
- * Created by hyh on 2017/11/29.
- */
+
 public class ExportEvalInfo extends DataEntity2<ExportEvalInfo> {
     private static final long serialVersionUID = 1L;
-    // 门店id
+
     private String storeId;
 
     private String storeName;
-    //工程模式
+
     private String projectMode;
     private String projectModeName;
-    //区域
+
     private Integer enginDepartId;
-    //区域名称
+
     private String enginDepartName;
-    //评分时间
+
     private Date gradeDate;
-    //工人组长
+
     private String groupRealName;
-    //客户信息
+
     private String customerMessage;
-    //客户姓名
+
     private String customerName;
-    //任务包名称
+
     private String packageName;
-    //评价角色类型 1：项目经理  2：质检   3:客户
+
     private Integer evalRoleType;
 
     private String evalRoleTypeName;
-    // 评价指标id
+
     private Integer evalIndexId;
-    //评价指标内容
+
     private String indexName;
-    //评价分数
+
     private Double gradtotalScore;
-    //评价总分
+
     private Double evaltotalScore;
-    // 评价对象  1:工人   2:项目经理
+
     private String evalTargetType;
-    //开始时间
+
     private Date startDate;
-    //结束时间
+
     private Date endDate;
 
     public String getStoreName() {

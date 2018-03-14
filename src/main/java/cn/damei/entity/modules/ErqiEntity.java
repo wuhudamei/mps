@@ -1,17 +1,11 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import java.util.Date;
 
 import cn.damei.common.persistence.DataEntity;
 
-/**
- * 结算二期款Entity
- * @author 梅浩
- * @version 2016-12-28
- */
+
 public class ErqiEntity extends DataEntity<ErqiEntity> {
 	
 	private static final long serialVersionUID = 1L;
@@ -20,20 +14,20 @@ public class ErqiEntity extends DataEntity<ErqiEntity> {
 	private Date start;
 	private Date end;
 	private  String orderNumber;
-	private String customerName;	// 客户姓名
-	private String communityName;		// 小区名称
-	private String buildNumber;		// 几号楼
-	private String buildUnit;		// 几单元
-	private String buildRoom;		// 哪一室
+	private String customerName;
+	private String communityName;
+	private String buildNumber;
+	private String buildUnit;
+	private String buildRoom;
 	private Date applyCheckDate;
 	private String inspectName;
 	private Date yanshouDate;
 	private Integer orderId;
 	private Integer engineDepartId;
 	private String engineDepartName;
-	private Date paymentDate;    //交款时间 
-	private Double paymentAmount;  //交款金额
-	private Date reviewDateTime;//审核日期时间
+	private Date paymentDate;
+	private Double paymentAmount;
+	private Date reviewDateTime;
 	
 	
 	public Date getReviewDateTime() {

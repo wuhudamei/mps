@@ -1,31 +1,25 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import java.util.Date;
 
 import cn.damei.common.persistence.DataEntity;
 
-/**
- * 财务确认尾款Entity
- * @author 梅浩
- * @version 2016-12-28
- */
+
 public class WeiKuanEntity extends DataEntity<WeiKuanEntity> {
 	
 	private static final long serialVersionUID = 1L;
 private  Integer storeId;
 private String customerName;
-private String communityName;		// 小区名称
-private String buildNumber;		// 几号楼
-private String buildUnit;		// 几单元
-private String buildRoom;		// 哪一室
+private String communityName;
+private String buildNumber;
+private String buildUnit;
+private String buildRoom;
 	private Integer orderId;
 	private Integer engineDepartId;
 	private String engineDepartName;
-	private Date paymentDate;    //交款时间 
-	private Double paymentAmount;  //交款金额
+	private Date paymentDate;
+	private Double paymentAmount;
 public Integer getEngineDepartId() {
 		return engineDepartId;
 	}

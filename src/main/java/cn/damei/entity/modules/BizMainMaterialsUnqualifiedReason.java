@@ -1,34 +1,28 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import cn.damei.common.persistence.DataEntity2;
 
 import java.util.List;
 
-/**
- * 主材安装项验收不合格原因配置Entity
- * @author wyb
- * @version 2018-01-23
- */
+
 public class BizMainMaterialsUnqualifiedReason extends DataEntity2<BizMainMaterialsUnqualifiedReason> {
 	
 	private static final long serialVersionUID = 1L;
-	private Integer storeId;		// 门店
-	private String projectMode;		// 工程模式
-	private String installMode;		// 安装模式
-	private Integer mainMaterialsInstallItemId;		// 主材安装项
-	private String mainMaterialsInstallItem;		// 主材安装项名称
-	private String unqualifiedReason;		// 不合格原因
-	private String status;		// 是否启用
+	private Integer storeId;
+	private String projectMode;
+	private String installMode;
+	private Integer mainMaterialsInstallItemId;
+	private String mainMaterialsInstallItem;
+	private String unqualifiedReason;
+	private String status;
 
-	private String storeName;		//门店名称
-	private String projectModeName;		//工程模式名称
-	private String installModeName;		//安装模式名称
-	private String operatorName;		//操作人名称
-	private Integer mainMaterialsInstallItemIdStop;		//主材安装项【停用】
-	private List<Integer> mainMaterialsInstallItemIdList = null; //主材安装项id集合
+	private String storeName;
+	private String projectModeName;
+	private String installModeName;
+	private String operatorName;
+	private Integer mainMaterialsInstallItemIdStop;
+	private List<Integer> mainMaterialsInstallItemIdList = null;
 
 	public BizMainMaterialsUnqualifiedReason() {
 		super();

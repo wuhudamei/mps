@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import java.io.IOException;
@@ -19,11 +17,7 @@ import cn.damei.service.modules.MaterialChangeBillInterfaceService;
 
 import net.sf.json.JSONArray;
 
-/**
- * 选材变更单表Controller
- * @author wyb
- * @version 2017-06-14
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/api/bizmaterialschoicechangebill/bizMaterialsChoiceChangeBill")
 public class MaterialChangeBillInterfaceController extends BaseController {
@@ -32,12 +26,7 @@ public class MaterialChangeBillInterfaceController extends BaseController {
 	private MaterialChangeBillInterfaceService materialChangeBillInterfaceService;
 
 	
-	/**
-	 * 变更单接口
-	 * @param request
-	 * @return
-	 * @throws IOException
-	 */
+
 	@RequestMapping(value = "receiveJsonDate")
 	@ResponseBody
 	public String receiveJsonData(HttpServletRequest request) throws IOException{	

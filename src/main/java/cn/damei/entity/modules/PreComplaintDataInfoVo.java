@@ -2,9 +2,7 @@ package cn.damei.entity.modules;
 
 import java.io.Serializable;
 
-/**
- * Created by joseph on 2017/8/1.
- */
+
 public class PreComplaintDataInfoVo implements Serializable {
 
     private static final long serialVersionUID = 1L;

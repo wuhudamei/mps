@@ -4,32 +4,26 @@ import java.util.Date;
 
 import cn.damei.common.persistence.DataEntity;
 
-/** 
-* @author 梅浩   meihao@zzhyun.cn: 
-* @version 创建时间：2016年9月12日 下午5:41:44 
-* 类说明 
-*/
+
 
 public class WorkerGroup  extends  DataEntity<WorkerGroup>{
 
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 
 	
-	private Integer star;//工人组星级
-	private String NPS; //NPS
-	private Integer sort;//排序
+	private Integer star;
+	private String NPS;
+	private Integer sort;
 	private  Integer orderStop;
-	private String address;//地址
-	private String ordersArea;//接单区域
-	private Integer workType; //工种
-	private  String groupId;  //组长id
-	private String storeId;//门店id
-	private String taskPackageId;//任务包id
-	private String  elactriationId;//归属工程部Id
-	private Date allotStartTime;//任务包分配时间(计时,超90分钟  更改状态)
+	private String address;
+	private String ordersArea;
+	private Integer workType;
+	private  String groupId;
+	private String storeId;
+	private String taskPackageId;
+	private String  elactriationId;
+	private Date allotStartTime;
 	public Integer getStar() {
 		return star;
 	}

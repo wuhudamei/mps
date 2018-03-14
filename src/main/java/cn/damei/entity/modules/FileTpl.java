@@ -7,16 +7,12 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Date;
 
-/**
- * User: songlai
- * Date: 13-8-22
- * Time: 上午9:44
- */
+
 public class FileTpl {
 	
     private File file;
     
-   	// 应用的根目录
+
    	private String root;
 
    	public FileTpl(File file, String root) {
@@ -43,7 +39,7 @@ public class FileTpl {
     public String getName() {
    		String ap = file.getAbsolutePath().substring(root.length());
    		ap = ap.replace(File.separatorChar, '/');
-   		// 在resin里root的结尾是带'/'的，这样会导致getName返回的名称不以'/'开头。
+
    		if (!ap.startsWith("/")) {
    			ap = "/" + ap;
    		}
@@ -53,7 +49,7 @@ public class FileTpl {
     public String getParent(){
         String ap = file.getParent().substring(root.length());
         ap = ap.replace(File.separatorChar, '/');
-        // 在resin里root的结尾是带'/'的，这样会导致getName返回的名称不以'/'开头。
+
         if (!ap.startsWith("/")) {
             ap = "/" + ap;
         }

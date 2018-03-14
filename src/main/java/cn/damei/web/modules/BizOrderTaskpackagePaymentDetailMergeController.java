@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import java.io.IOException;
@@ -32,11 +30,7 @@ import cn.damei.entity.modules.BizOrderTaskpackagePaymentDetailMergeTxtVo;
 import cn.damei.entity.modules.BizOrderTaskpackagePaymentDetailMergeVo;
 import cn.damei.service.modules.BizOrderTaskpackagePaymentDetailMergeService;
 
-/**
- * 付款单明细合并Controller
- * @author qww
- * @version 2016-10-27
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/ordertaskpaymentdetailmerge/bizOrderTaskpackagePaymentDetailMerge")
 public class BizOrderTaskpackagePaymentDetailMergeController extends BaseController {
@@ -122,10 +116,10 @@ public class BizOrderTaskpackagePaymentDetailMergeController extends BaseControl
 		ServletOutputStream out = null;
 		try {  
 			response.setContentType("application/binary;charset=utf-8"); 
-			String headerStr =new String(("导出徽商银行txt格式文件"+sf.format(new Date())).getBytes("gbk"), "ISO8859-1");//headerString为中文时转码
-			response.setHeader("Content-disposition","attachment; filename="+headerStr+".txt");//filename是下载的xls的名
+			String headerStr =new String(("导出徽商银行txt格式文件"+sf.format(new Date())).getBytes("gbk"), "ISO8859-1");
+			response.setHeader("Content-disposition","attachment; filename="+headerStr+".txt");
 			out = response.getOutputStream();
-			//IOUtils.write(txt, out);
+
 			IOUtils.write(txt, out, "gbk");
 		} catch (IOException ex) {  
             ex.printStackTrace();  
@@ -143,11 +137,11 @@ public class BizOrderTaskpackagePaymentDetailMergeController extends BaseControl
 	public void exportExcel(Integer summaryId, HttpServletResponse response){
 		SimpleDateFormat sf = new SimpleDateFormat("yyyyMMddHHmmss");
 		HSSFWorkbook excel = bizOrderTaskpackagePaymentDetailMergeService.queryPaymentDetailMergeForExcel(summaryId);
-		ServletOutputStream out= null;//创建一个输出流对象
+		ServletOutputStream out= null;
 		try {  
 			response.setContentType("application/binary;charset=utf-8"); 
-			String headerStr =new String(("导出中国银行excel格式文件"+sf.format(new Date())).getBytes("utf-8"), "ISO8859-1");//headerString为中文时转码  
-			response.setHeader("Content-disposition","attachment; filename="+headerStr+".xls");//filename是下载的xls的名
+			String headerStr =new String(("导出中国银行excel格式文件"+sf.format(new Date())).getBytes("utf-8"), "ISO8859-1");
+			response.setHeader("Content-disposition","attachment; filename="+headerStr+".xls");
 			out = response.getOutputStream();    
 			excel.write(out);
 		} catch (IOException ex) {  
@@ -168,12 +162,12 @@ public class BizOrderTaskpackagePaymentDetailMergeController extends BaseControl
 		SimpleDateFormat sf = new SimpleDateFormat("yyyyMMddHHmmss");
 		ExportSWIFTExcel exp = new ExportSWIFTExcel();
 		HSSFWorkbook excel = exp.ExportSWIFTExcel(list);
-		/*HSSFWorkbook excel = bizOrderTaskpackagePaymentDetailMergeService.queryPaymentDetailMergeForExcel(list);*/
-		ServletOutputStream out= null;//创建一个输出流对象
+
+		ServletOutputStream out= null;
 		try {  
 			response.setContentType("application/binary;charset=utf-8"); 
-			String headerStr =new String(("对外支付---支付").getBytes("utf-8"), "ISO8859-1");//headerString为中文时转码  
-			response.setHeader("Content-disposition","attachment; filename="+headerStr+".xls");//filename是下载的xls的名
+			String headerStr =new String(("对外支付---支付").getBytes("utf-8"), "ISO8859-1");
+			response.setHeader("Content-disposition","attachment; filename="+headerStr+".xls");
 			out = response.getOutputStream();    
 			excel.write(out);
 		} catch (IOException ex) {  

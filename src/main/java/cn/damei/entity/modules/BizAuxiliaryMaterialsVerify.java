@@ -4,33 +4,28 @@ import java.util.Date;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 对账单实体类
- * 
- * @author hyh
- *
- */
+
 public class BizAuxiliaryMaterialsVerify extends DataEntity2<BizAuxiliaryMaterialsVerify> {
 
 	private static final long serialVersionUID = 1L;
-	private Integer storeId; // 门店ID
-	private String verifyCode; // 对账单号
-	private Date generateDatetime; //对账单生成日期
-	private Date startDate; // 对账单起始日期
-	private Date endDate; //  对账单截止日期
-	private Integer orderTaskpackageSettlementCount;//订单任务包结算单数量
-	private Double auxiliaryMaterialsSupplierPriceAmount;//辅料供应商价格总金额
-	private Double auxiliaryMaterialsWangzhenPriceAmount;//辅料网真价格总金额
-	private Double auxiliaryMaterialsLaborPriceAmount;//辅料结算价格总金额
-	private Integer auxiliaryMaterialsCount;//辅料总数量
-	private String status;//状态
-	private Date statusDatetime;//状态日期时间
-	private String statusRemark;//状态备注
-	private Integer statusOperateEmployeeId;//状态操作人ID
+	private Integer storeId;
+	private String verifyCode;
+	private Date generateDatetime;
+	private Date startDate;
+	private Date endDate;
+	private Integer orderTaskpackageSettlementCount;
+	private Double auxiliaryMaterialsSupplierPriceAmount;
+	private Double auxiliaryMaterialsWangzhenPriceAmount;
+	private Double auxiliaryMaterialsLaborPriceAmount;
+	private Integer auxiliaryMaterialsCount;
+	private String status;
+	private Date statusDatetime;
+	private String statusRemark;
+	private Integer statusOperateEmployeeId;
 	private String  empName;
-	private String cancelReason;//驳回理由
-	private String supplierId;//供应商Id
-	private String supplierName;//供应商名称
+	private String cancelReason;
+	private String supplierId;
+	private String supplierName;
 	
 
 	public Integer getStoreId() {

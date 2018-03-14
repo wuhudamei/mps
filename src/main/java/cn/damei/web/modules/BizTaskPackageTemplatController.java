@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import java.util.HashMap;
@@ -40,12 +38,7 @@ import cn.damei.entity.modules.BizTaskPackageTemplatRelProcedure;
 import cn.damei.service.modules.BizTaskPackageTemplatBugetAmountService;
 import cn.damei.service.modules.BizTaskPackageTemplatService;
 
-/**
- * 单表生成Controller
- * 
- * @author ThinkGem
- * @version 2016-09-03
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/taskpackage/bizTaskPackageTemplat")
 public class BizTaskPackageTemplatController extends BaseController {
@@ -79,7 +72,7 @@ public class BizTaskPackageTemplatController extends BaseController {
 	public String list(BizTaskPackageTemplat bizTaskPackageTemplat, HttpServletRequest request,
 			HttpServletResponse response, Model model) {
 		User user = UserUtils.getUser();
-		// 过滤门店
+
 		if (StringUtils.isBlank(bizTaskPackageTemplat.getStoreId())) {
 			bizTaskPackageTemplat.setStoreId(user.getStoreId());
 		}
@@ -87,7 +80,7 @@ public class BizTaskPackageTemplatController extends BaseController {
 			model.addAttribute("storeDropEnable", true);
 		}
 
-		// 过滤工程模式
+
 		if (StringUtils.isBlank(bizTaskPackageTemplat.getProjectMode())) {
 			if (null != user.getEmpId()) {
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -147,8 +140,8 @@ public class BizTaskPackageTemplatController extends BaseController {
 			bizTaskPackageTemplat.setProjectMode(UserUtils.getUser().getProjectMode());
 		}
 		if (StringUtils.isNotBlank(bizTaskPackageTemplat.getId())) {
-			// List<BizTaskPackageTemplatRel> list =
-			// bizTaskPackageTemplatRelDao.findByTaskPackageTemplateId(bizTaskPackageTemplat.getId());
+
+
 			List<BizTaskPackageTemplatRelProcedure> list = bizTaskPackageTemplatRelDao
 					.findByTaskPackageRelProcedureTemplateId(bizTaskPackageTemplat.getId());
 			bizTaskPackageTemplat.setBizTaskPackageTemplatRefs(list);
@@ -211,7 +204,7 @@ public class BizTaskPackageTemplatController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "taskListByNowStoreId")
     public String getTaskListByNowStoreId(BizEmployee bizEmployee, Model model, HttpServletRequest request) {
-    	/*List<DropModel> list  = TaskPackageUtils.getTaskListByStoreId(bizEmployee.getStoreid(),"");*/
+
         List<DropModel> list2 = bizTaskPackageTemplatService.getTaskList(bizEmployee);
    
         return JsonMapper.getInstance().toJson(list2);
@@ -277,13 +270,7 @@ public class BizTaskPackageTemplatController extends BaseController {
 		return "redirect:" + Global.getAdminPath() + "/taskpackage/bizTaskPackageTemplat/queryTemplatBudgetAmountList?taskpackageTemplatId="+bizTaskPackageTemplatBugetAmount.getTaskpackageTemplatId()+"&repage";
 	}
 	
-	/**
-	 * 校验-门店+工程模式+工种的唯一性
-	 * @param bizTaskPackageTemplat
-	 * @param model
-	 * @param request
-	 * @return
-	 */
+
 	@ResponseBody
     @RequestMapping(value = "check_emp_work_type_ajax")
     public String checkEmpWorkTypeAjax(BizTaskPackageTemplat bizTaskPackageTemplat, Model model, HttpServletRequest request) {

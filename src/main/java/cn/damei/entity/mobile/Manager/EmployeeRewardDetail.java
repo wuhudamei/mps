@@ -6,9 +6,9 @@ public class EmployeeRewardDetail extends DataEntity2<EmployeeRewardDetail>{
 
 	private static final long serialVersionUID = 1L;
 
-	private Integer starLevel; // 星级
-	private Double rewardAmount; // 奖励金额
-	private Double gotScore; // 总得分
+	private Integer starLevel;
+	private Double rewardAmount;
+	private Double gotScore;
 
 	public Integer getStarLevel() {
 		return starLevel;

@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,11 +20,7 @@ import cn.damei.common.utils.StringUtils;
 import cn.damei.entity.modules.BizBusinessUrgePayEntity;
 import cn.damei.service.modules.BizBusinessUrgePayService;
 
-/**
- * 业务催缴Controller
- * @author lzm
- * @version 2017-07-20
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/businessurgepay/bizBusinessUrgePay")
 public class BizBusinessUrgePayController extends BaseController {

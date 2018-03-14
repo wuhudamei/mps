@@ -25,9 +25,7 @@ import cn.damei.entity.modules.BizEmployeegroupVO;
 import cn.damei.entity.modules.BizEvalActivityIndex;
 
 
-/**
- * Created by qww on 2016/12/1.
- */
+
 public class EvalRewardQuartz {
 
     @Autowired
@@ -57,19 +55,19 @@ public class EvalRewardQuartz {
     public void execute() {
         try{
             Date date = new Date();
-            // 查询超过系统间隔时间的任务包评价
+
             Map<String, Object> map = new HashMap<String, Object>();
             map.put("evalStatus", ConstantUtils.EVAL_ROLE_STATUS_0);
             List<EvalScore> bizEvalTaskpackScoreList = bizEvalTaskpackScoreService.queryEvalRoleOvertimeByMap(map);
             
             
             for(EvalScore bizEvalTaskpackScore:bizEvalTaskpackScoreList){
-            	//项目经理
+
               if(bizEvalTaskpackScore.getEvalType().equals("101")){
             	  bizEvalTaskpackScore.setEvalStatus("1");
             	  bizEvalTaskpackScore.setEvalType("102");
             	  bizEvalTaskpackScoreService.updateEvalRole(bizEvalTaskpackScore);
-            	  //插入biz_eval_score_role_index
+
             	  EvaluateWorker evaluateWorker = new EvaluateWorker();
           		  evaluateWorker.setEvalRoleType(ConstantUtils.EVAL_ROLE_TYPE_1);
           		  evaluateWorker.setOrderTaskpackageId(bizEvalTaskpackScore.getRelatedBusinessId());
@@ -88,12 +86,12 @@ public class EvalRewardQuartz {
 					bizEvalTaskpackRoleIndexScoreDao.insertBatch(bizEvalTaskpackRoleIndexScoreList);
             	  
               }
-              //质检
+
               if(bizEvalTaskpackScore.getEvalType().equals("201")){
             	  bizEvalTaskpackScore.setEvalStatus("1");
             	  bizEvalTaskpackScore.setEvalType("202");
             	  bizEvalTaskpackScoreService.updateEvalRole(bizEvalTaskpackScore);
-            	  //插入biz_eval_score_role_index
+
             	  EvaluateWorker evaluateWorker = new EvaluateWorker();
           		  evaluateWorker.setEvalRoleType(ConstantUtils.EVAL_ROLE_TYPE_2);
           		  evaluateWorker.setOrderTaskpackageId(bizEvalTaskpackScore.getRelatedBusinessId());
@@ -112,12 +110,12 @@ public class EvalRewardQuartz {
 					bizEvalTaskpackRoleIndexScoreDao.insertBatch(bizEvalTaskpackRoleIndexScoreList);
             	  
               }
-              //项目经理
+
               if(bizEvalTaskpackScore.getEvalType().equals("301")){
             	  bizEvalTaskpackScore.setEvalStatus("1");
             	  bizEvalTaskpackScore.setEvalType("302");
             	  bizEvalTaskpackScoreService.updateEvalRole(bizEvalTaskpackScore);
-            	  //插入biz_eval_score_role_index
+
             	  EvaluateWorker evaluateWorker = new EvaluateWorker();
           		  evaluateWorker.setEvalRoleType(ConstantUtils.EVAL_ROLE_TYPE_3);
           		  evaluateWorker.setOrderTaskpackageId(bizEvalTaskpackScore.getRelatedBusinessId());
@@ -139,11 +137,11 @@ public class EvalRewardQuartz {
             }
             
             
-            // 查询评价总分表状态为0 和 1 的 未评价和评价中的
+
             List<EvalScore> list = bizEvalTaskpackScoreService.findEvalScoreByEvalStatus();
             for (EvalScore evalScore : list) {
             	Integer id = evalScore.getId();
-            	//根据评价总分表ID 查询角色评分表
+
             	List<EvalScore> EvalRoleList = bizEvalTaskpackScoreService.findEvalRoleByEvalScoreId(id);
             	int i = 0;
             	int j = 0;
@@ -156,17 +154,17 @@ public class EvalRewardQuartz {
             				evalStatus = "0";
             			}
             		}
-//            		0 未评价
+
 					if(evalStatus.equals("0")){
 						i++;
 					}
-//					1 评价完成
+
 					if(evalStatus.equals("1")){
 						j++;
 					}
             		
 				}
-//            	没有未评价的，更新评分总表，状态改为评价完成
+
             	if(i == 0){
             		  Map<String,Object> getScoreMap = new HashMap<String,Object>();
                       getScoreMap.put("relatedBusinessId", evalScore.getRelatedBusinessId());
@@ -178,7 +176,7 @@ public class EvalRewardQuartz {
                       evalScore.setUpdateDate(date);
                      
                      
-                     //插入星级变化记录
+
                     
                       List<BizEmployeegroupVO>listqqq =bizBizEmployeegroupVoDao.getSumAvg(evalScore.getGroupLeaderEmployeeId());
               			
@@ -200,7 +198,7 @@ public class EvalRewardQuartz {
               			bizEvalTaskpackScoreService.update(evalScore);
               			bizBizEmployeegroupVoDao.updateStar(evalScore.getGroupLeaderEmployeeId());
               			bizBizEmployeegroupVoDao.updateStarGroup(evalScore.getGroupLeaderEmployeeId());
-                      // 查询奖励金额
+
                       Map<String, Object> rewardMap = new HashMap<String, Object>();
                       rewardMap.put("orderTaskpackId", evalScore.getRelatedBusinessId());
                       rewardMap.put("gotScore", gotScore);

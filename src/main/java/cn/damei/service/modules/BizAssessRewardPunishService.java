@@ -13,11 +13,7 @@ import cn.damei.common.service.CrudService2;
 import cn.damei.dao.modules.BizAssessRewardPunishDao;
 import cn.damei.entity.modules.BizAssessRewardPunish;
 
-/**
- * 产业项目经理奖惩Service
- * @author  hyh
- *
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizAssessRewardPunishService extends CrudService2<BizAssessRewardPunishDao, BizAssessRewardPunish> {
@@ -53,7 +49,7 @@ public class BizAssessRewardPunishService extends CrudService2<BizAssessRewardPu
 							String[] rewardPunishScores ,String[]   detailRemarks) {
 		Date date =new Date();
 		User user = UserUtils.getUser();
-		// 如果已存在，先进行删除
+
           if(bizAssessRewardPunish.getIds() != null && !bizAssessRewardPunish.getIds().equals("")){
               List<String> ids = new ArrayList<String>();
               String[] idsArr = bizAssessRewardPunish.getIds().split(",");

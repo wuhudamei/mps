@@ -6,9 +6,7 @@ import cn.damei.common.persistence.DataEntity;
 
 public class unqualifiedItemsStatisticsEntity  extends DataEntity<unqualifiedItemsStatisticsEntity>{
 
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 
 	private Date startDate;

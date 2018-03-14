@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import java.util.List;
@@ -25,11 +23,7 @@ import cn.damei.service.modules.BizMaterialsChoiceChangeBillService;
 import cn.damei.entity.modules.BizMaterialsChoiceChangeBillItem;
 import cn.damei.service.modules.BizMaterialsChoiceChangeBillItemService;
 
-/**
- * 选材变更单表Controller
- * @author wyb
- * @version 2017-06-14
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/bizmaterialschoicechangebill/bizMaterialsChoiceChangeBill")
 public class BizMaterialsChoiceChangeBillController extends BaseController {
@@ -65,26 +59,21 @@ public class BizMaterialsChoiceChangeBillController extends BaseController {
 		return "modules/bizmaterialschoicechangebill/bizMaterialsChoiceChangeBillList";
 	}
 	
-	/**
-	 * 选材变更单详情
-	 * @param id
-	 * @param model
-	 * @return
-	 */
+
 	@RequestMapping(value = "materialsChoiceChangeBillDetail")
 	public String materialsChoiceChangeBillDetail(Integer id , Model model) {
 		
-		//1.选材变更单基本信息详情
+
 		BizMaterialsChoiceChangeBill bizMaterialsChoiceChangeBill = bizMaterialsChoiceChangeBillService.get(id);
 		
 		BizMaterialsChoiceChangeBillItem bizMaterialsChoiceChangeBillItem = new BizMaterialsChoiceChangeBillItem();
 		bizMaterialsChoiceChangeBillItem.setMaterialsChoiceChangeBillId(id);
 		
-		//2.增项详情
+
 		bizMaterialsChoiceChangeBillItem.setChangeType(ChangeBillConstantUtil.change_bill_change_type_1);
 		List<BizMaterialsChoiceChangeBillItem> addList = bizMaterialsChoiceChangeBillItemService.findList(bizMaterialsChoiceChangeBillItem);
 		
-		//3.减项详情
+
 		bizMaterialsChoiceChangeBillItem.setChangeType(ChangeBillConstantUtil.change_bill_change_type_2);
 		List<BizMaterialsChoiceChangeBillItem> subList = bizMaterialsChoiceChangeBillItemService.findList(bizMaterialsChoiceChangeBillItem);
 		
@@ -95,16 +84,11 @@ public class BizMaterialsChoiceChangeBillController extends BaseController {
 		return "modules/bizmaterialschoicechangebill/bizMaterialsChoiceChangeBillDetails";
 	}
 	
-	/**
-	 * 订单变更单列表
-	 * @param orderNumber
-	 * @param model
-	 * @return
-	 */
+
 	@RequestMapping(value = "materialsChangeBillList")
 	public String materialsChangeBillList(String orderNumber , Model model) {
 		
-		//根据订单编号查询该订单下所有的变更单
+
 		List<BizMaterialsChoiceChangeBill> changeBillList = bizMaterialsChoiceChangeBillService.findChangeBillMessage(orderNumber);
 		
 		model.addAttribute("changeBillList", changeBillList);

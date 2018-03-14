@@ -8,11 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-/**
-* @author 梅浩   qww@zzhyun.cn: 
-* @version 创建时间：2016年9月28日 上午10:14:21 
-* 类说明 
-*/
+
 
 @Service
 @Transactional(readOnly=true)

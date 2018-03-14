@@ -12,7 +12,7 @@ import cn.damei.entity.modules.Guarantee;
 public class GuaranteeService extends CrudService2<GuaranteeDao, Guarantee>{
 
 	public Guarantee findGuaranteeBySettlementId(Integer id) {
-		// TODO Auto-generated method stub
+
 		return dao.findGuaranteeBySettlementId(id);
 	}
 

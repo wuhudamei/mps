@@ -21,11 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 
-/**
- * 进度通报
- * biz_node_plan
- * llp
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/app/worker/notice")
 public class WorkNoticeController {

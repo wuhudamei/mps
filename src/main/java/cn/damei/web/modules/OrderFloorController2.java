@@ -23,10 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * 订单地板地砖面积查询
- * Created by hyh on 2017/11/6.
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/orderfloor/orderFloor")
 public class OrderFloorController2 extends BaseController {
@@ -40,7 +37,7 @@ public class OrderFloorController2 extends BaseController {
     @RequestMapping(value = "openOrderFloorPage")
     public String openOrderFloorPage(OrderFloor2 orderFloor, HttpServletRequest request, HttpServletResponse response, Model model){
         User user = UserUtils.getUser();
-        // 过滤区域
+
         if (null == orderFloor.getEnginDepartId()) {
             if (null != UserUtils.getUser().getEmpId()) {
                 List<Integer> list = bizEmployeeService2
@@ -58,7 +55,7 @@ public class OrderFloorController2 extends BaseController {
             list.add(orderFloor.getEnginDepartId());
             orderFloor.setEnginDepartIds(list);
         }
-        // 过滤门店
+
         if (null == orderFloor.getStoreId()) {
             if (null != user.getStoreId()) {
                 orderFloor.setStoreId(Integer.valueOf(user.getStoreId()));
@@ -67,7 +64,7 @@ public class OrderFloorController2 extends BaseController {
         if (StringUtils.isBlank(user.getStoreId())) {
             model.addAttribute("storeDropEnable", true);
         }
-        // 过滤工程模式
+
         if (StringUtils.isBlank(orderFloor.getProjectMode())) {
             if (null != user.getEmpId()) {
                 BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -106,7 +103,7 @@ public class OrderFloorController2 extends BaseController {
     @RequestMapping(value = "queryOrderFloor")
     public String queryOrderFloor(OrderFloor2 orderFloor, HttpServletRequest request, HttpServletResponse response, Model model){
         User user = UserUtils.getUser();
-        // 过滤区域
+
         if (null == orderFloor.getEnginDepartId()) {
             if (null != UserUtils.getUser().getEmpId()) {
                 List<Integer> list = bizEmployeeService2
@@ -124,7 +121,7 @@ public class OrderFloorController2 extends BaseController {
             list.add(orderFloor.getEnginDepartId());
             orderFloor.setEnginDepartIds(list);
         }
-        // 过滤门店
+
         if (null == orderFloor.getStoreId()) {
             if (null != user.getStoreId()) {
                 orderFloor.setStoreId(Integer.valueOf(user.getStoreId()));
@@ -133,7 +130,7 @@ public class OrderFloorController2 extends BaseController {
         if (StringUtils.isBlank(user.getStoreId())) {
             model.addAttribute("storeDropEnable", true);
         }
-        // 过滤工程模式
+
         if (StringUtils.isBlank(orderFloor.getProjectMode())) {
             if (null != user.getEmpId()) {
                 BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -171,12 +168,7 @@ public class OrderFloorController2 extends BaseController {
         return "modules/orderFloor/orderFloorList";
     }
 
-    /**
-     * hyh
-     * @param taskpackageId
-     * @param type   1：木地板面积详情  2：地砖预算/结算面积详情
-     * @return
-     */
+
     @RequestMapping(value="queryProduceInfoByParam")
     @ResponseBody
     public List<BizOrderTaskpackageProcedure> queryProduceInfoByParam(int taskpackageId,int type){

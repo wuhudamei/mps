@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.util.ArrayList;
@@ -29,12 +27,7 @@ import cn.damei.dao.modules.BizOrderComplaintProblemItemDao;
 import cn.damei.entity.modules.BizOrderComplaint;
 import cn.damei.entity.modules.ComplaintLogEntity;
 
-/**
- * 订单投诉问题Service
- *
- * @author ztw
- * @version 2017-07-04
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizOrderComplaintService extends CrudService<BizOrderComplaintDao, BizOrderComplaint> {
@@ -94,16 +87,11 @@ public class BizOrderComplaintService extends CrudService<BizOrderComplaintDao, 
         return page;
     }
 
-    /**
-     * 查看日志详情
-     *
-     * @param bizOrderComplaint
-     * @return
-     */
+
     public Map<String, Object> formDetails(BizOrderComplaint bizOrderComplaint) {
-        // 根据订单投诉ID查询 订单相关信息 和订单投诉相关信息
-        // 然后根据订单投诉ID查询问题单的相关字段
-        // 最后根据问题单id或者问题分类的id查询事项ID
+
+
+
         List<BizOrderComplaint> OrderComplaintList = bizOrderComplaintDao.findPageList(bizOrderComplaint);
 
         List<ComplaintLogEntity> entities = bizOrderComplaintDao.findLogByComplaintIdz(bizOrderComplaint.getComplaintId());
@@ -130,7 +118,7 @@ public class BizOrderComplaintService extends CrudService<BizOrderComplaintDao, 
 
 
                         if(null!=statesDateTime){
-                        //如果处理状态为空,表示没做完
+
                             if (statesDateTime.getTime() > doneDate.getTime()) {
 
                                 deals.get(v).setIsdatefla("0");
@@ -258,9 +246,9 @@ public class BizOrderComplaintService extends CrudService<BizOrderComplaintDao, 
     }
 
     public Map<String, Object> formDetailsz(BizOrderComplaint bizOrderComplaint) {
-        // 根据订单投诉ID查询 订单相关信息 和订单投诉相关信息
-        // 然后根据订单投诉ID查询问题单的相关字段
-        // 最后根据问题单id或者问题分类的id查询事项ID
+
+
+
         List<BizOrderComplaint> OrderComplaintList = bizOrderComplaintDao.findPageList(bizOrderComplaint);
 
         List<ComplaintLogEntity> entities = bizOrderComplaintDao.findLogByComplaintIdz(bizOrderComplaint.getComplaintId());
@@ -273,11 +261,7 @@ public class BizOrderComplaintService extends CrudService<BizOrderComplaintDao, 
     }
 
 
-    /**
-     * 投诉地图
-     * @param orderComplaint
-     * @return
-     */
+
     public 	List<BizOrderComplaint> findComplaintListForMap(BizOrderComplaint orderComplaint){
 
 

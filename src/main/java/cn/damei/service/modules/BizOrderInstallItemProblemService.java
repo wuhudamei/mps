@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.util.List;
@@ -19,11 +17,7 @@ import cn.damei.dao.modules.BizOrderInstallItemProblemLogDao;
 import cn.damei.entity.modules.DropModel;
 import cn.damei.dao.modules.BizOrderInstallItemProblemDao;
 
-/**
- * 订单安装项问题Service
- * @author 汪文文
- * @version 2017-02-20
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizOrderInstallItemProblemService extends CrudService2<BizOrderInstallItemProblemDao, BizOrderInstallItemProblem> {
@@ -57,12 +51,7 @@ public class BizOrderInstallItemProblemService extends CrudService2<BizOrderInst
 		return dao.getOrderInstallItemProblemVo(id);
 	}
 
-	/**
-	 * 工程安装问题上报申请
-	 * @param page
-	 * @param bizOrderInstallItemProblemVo
-	 * @return
-	 */
+
 	public Page<BizOrderInstallItemProblemVo> findVoPage(Page<BizOrderInstallItemProblemVo> page,
 			BizOrderInstallItemProblemVo bizOrderInstallItemProblemVo) {
 		bizOrderInstallItemProblemVo.setPage(page);
@@ -90,12 +79,7 @@ public class BizOrderInstallItemProblemService extends CrudService2<BizOrderInst
 		return dao.insert1(bizOrderInstallItemProblem);
 	}
 
-	/**
-	 * 工程安装问题上报查询
-	 * @param page
-	 * @param bizOrderInstallItemProblemVo
-	 * @return
-	 */
+
 	public Page<BizOrderInstallItemProblemVo> findVoPage3(Page<BizOrderInstallItemProblemVo> page,
 			BizOrderInstallItemProblemVo bizOrderInstallItemProblemVo) {
 		bizOrderInstallItemProblemVo.setPage(page);

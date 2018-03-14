@@ -6,9 +6,9 @@ public class EvalScoreRoleIndex extends DataEntity2<EvalScoreRoleIndex>{
 
 	private static final long serialVersionUID = 1L;
 
-	private Integer evalScoreRoleId; // 评价角色得分id
-	private Integer evalActivityIndexId; // 评价活动指标id
-	private Double gotScore; // 得分
+	private Integer evalScoreRoleId;
+	private Integer evalActivityIndexId;
+	private Double gotScore;
 
 	public Integer getEvalScoreRoleId() {
 		return evalScoreRoleId;

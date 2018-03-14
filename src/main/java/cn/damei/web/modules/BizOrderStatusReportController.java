@@ -23,16 +23,12 @@ import cn.damei.entity.modules.User;
 import cn.damei.service.modules.DictService;
 import cn.damei.common.utils.UserUtils;
 
-/**
- * 大统计表-大阶段(只查询订单状态是100至400 的项目)
- * @author llp
- * @version 2016-11-29
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/bizorderstatusreport/bizOrderStatusReport")
 public class BizOrderStatusReportController extends BaseController {
 
-	/*private static Logger logger = LoggerFactory.getLogger(BizConfirmStartController.class);*/
+
 
 	@Autowired
 	private BizOrderStatusReportService bizOrderStatusReportService;
@@ -41,16 +37,13 @@ public class BizOrderStatusReportController extends BaseController {
 	@Autowired
 	private BizEmployeeService2 bizEmployeeService2;
 
-	/**
-	 * 准备列出大统计表
-	 * 大阶段(只查询订单状态是100至400 的项目)列表
-	 */
+
 	@RequiresPermissions("bizorderstatusreport:bizOrderStatusReport:view")
 	@RequestMapping(value = { "preList", "" })
 	public String packageList(BizOrderStatusReport bizOrderStatusReport, Model model, 
 			HttpServletRequest request) {
 		User user = UserUtils.getUser();
-		//过滤门店
+
 		if(null == bizOrderStatusReport.getStoreId()){
 			if(null != user.getStoreId()){
 				bizOrderStatusReport.setStoreId(user.getStoreId());
@@ -59,7 +52,7 @@ public class BizOrderStatusReportController extends BaseController {
 		if(StringUtils.isBlank(user.getStoreId())){
 			model.addAttribute("storeDropEnable", true);
 		}
-		//过滤工程模式
+
 		if(StringUtils.isBlank(bizOrderStatusReport.getProjectMode())){
 			if(null != user.getEmpId()){
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -92,23 +85,20 @@ public class BizOrderStatusReportController extends BaseController {
 			}
 		}
 		
-		/**获取所有的订单状态**/
+
 		List<Dict> dictList = dictService.getByType("order_status");
 		
 		model.addAttribute("dictList", dictList);
 		return "modules/bizconfirmstart/bizStatusReportList";
 	}
 
-	/**
-	 * 列出大统计表
-	 * 大阶段(只查询订单状态是100至400 的项目)列表
-	 */
+
 	@RequiresPermissions("bizorderstatusreport:bizOrderStatusReport:view")
 	@RequestMapping(value = { "list", "" })
 	public String list(BizOrderStatusReport bizOrderStatusReport, Model model, HttpServletResponse response, 
 			HttpServletRequest request) {
 		User user = UserUtils.getUser();
-		//过滤门店
+
 		if(null == bizOrderStatusReport.getStoreId()){
 			if(null != user.getStoreId()){
 				bizOrderStatusReport.setStoreId(user.getStoreId());
@@ -117,7 +107,7 @@ public class BizOrderStatusReportController extends BaseController {
 		if(StringUtils.isBlank(user.getStoreId())){
 			model.addAttribute("storeDropEnable", true);
 		}
-		//过滤工程模式
+
 		if(StringUtils.isBlank(bizOrderStatusReport.getProjectMode())){
 			if(null != user.getEmpId()){
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -150,7 +140,7 @@ public class BizOrderStatusReportController extends BaseController {
 			}
 		}
 		
-		/**获取所有的订单状态**/
+
 		List<Dict> dictList = dictService.getByType("order_status");
 		
 		Page<BizOrderStatusReport> page = bizOrderStatusReportService.findPage(new Page<BizOrderStatusReport>(request, response),

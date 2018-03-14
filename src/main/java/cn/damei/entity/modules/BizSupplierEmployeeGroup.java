@@ -1,29 +1,22 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import org.hibernate.validator.constraints.Length;
 
 import cn.damei.common.persistence.DataEntity;
 
-/**
- * 主材安装供应商和工人组Entity
- * 
- * @author ztw
- * @version 2017-07-17
- */
+
 public class BizSupplierEmployeeGroup extends DataEntity<BizSupplierEmployeeGroup> {
 
 	private static final long serialVersionUID = 1L;
-	private String projectInstallItemName; // 供应商业务分类
-	private String supplierName; // 供应商名称
-	private String supplierId; // 供应商ID
-	private String employeeGroupId; // 工人组ID
-	private String employeeGroupId1; // 工人组ID
-	private String storeid; // 门店
-	private String worktype; // 工种
-	private String index; // 工种
+	private String projectInstallItemName;
+	private String supplierName;
+	private String supplierId;
+	private String employeeGroupId;
+	private String employeeGroupId1;
+	private String storeid;
+	private String worktype;
+	private String index;
 
 	public BizSupplierEmployeeGroup() {
 		super();

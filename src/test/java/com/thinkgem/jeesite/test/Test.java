@@ -1,4 +1,4 @@
-package cn.damei.test;
+package com.thinkgem.jeesite.test;
 
 public class Test {
 

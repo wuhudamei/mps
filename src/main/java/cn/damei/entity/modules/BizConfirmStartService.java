@@ -10,11 +10,7 @@ import cn.damei.common.service.CrudService2;
 import cn.damei.dao.modules.BizConfirmStartDao;
 import cn.damei.entity.modules.BizConfirmStartOrder;
 
-/**
- * 确认开工功能
- * @author llp
- *
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizConfirmStartService extends CrudService2<BizConfirmStartDao,BizConfirmStartOrder>{

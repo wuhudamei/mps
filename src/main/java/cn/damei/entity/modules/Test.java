@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import java.util.Date;
@@ -15,11 +13,7 @@ import cn.damei.common.supcan.annotation.treelist.SupTreeList;
 import cn.damei.common.supcan.annotation.treelist.cols.SupCol;
 import cn.damei.common.supcan.annotation.treelist.cols.SupGroup;
 
-/**
- * 测试Entity
- * @author ThinkGem
- * @version 2013-10-17
- */
+
 @SupTreeList(
 	groups={
 		@SupGroup(id="date", name="日期", sort=50),
@@ -29,9 +23,9 @@ import cn.damei.common.supcan.annotation.treelist.cols.SupGroup;
 public class Test extends DataEntity<Test> {
 	
 	private static final long serialVersionUID = 1L;
-	private Office office;	// 归属部门
-	private String loginName;// 登录名
-	private String name; 	// 名称
+	private Office office;
+	private String loginName;
+	private String name;
 
 	public Test() {
 		super();

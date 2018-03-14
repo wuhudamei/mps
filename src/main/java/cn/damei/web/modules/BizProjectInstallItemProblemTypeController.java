@@ -24,11 +24,7 @@ import cn.damei.service.modules.BizEmployeeService2;
 import cn.damei.entity.modules.User;
 import cn.damei.common.utils.UserUtils;
 
-/**
- * 工程安装问题分类设置Controller
- * @author wyb
- * @version 2016-10-27
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/bizProjectInstallItemProblemType/bizProjectInstallItemProblemType")
 public class BizProjectInstallItemProblemTypeController extends BaseController {
@@ -55,7 +51,7 @@ public class BizProjectInstallItemProblemTypeController extends BaseController {
 	public String list(BizProjectInstallItemProblemType bizProjectInstallItemProblemType, HttpServletRequest request, HttpServletResponse response, Model model) {
 		
 		User user = UserUtils.getUser();
-		//过滤门店
+
 		if(null==bizProjectInstallItemProblemType.getStoreId()){
 			if(null!=user.getStoreId()){
 				bizProjectInstallItemProblemType.setStoreId(Integer.valueOf(user.getStoreId()));
@@ -64,7 +60,7 @@ public class BizProjectInstallItemProblemTypeController extends BaseController {
 		if(StringUtils.isBlank(user.getStoreId())){
 			model.addAttribute("storeDropEnable", true);
 		}
-		//过滤工程模式
+
 		if(StringUtils.isBlank(bizProjectInstallItemProblemType.getProjectMode())){
 			if(null != user.getEmpId()){
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -105,7 +101,7 @@ public class BizProjectInstallItemProblemTypeController extends BaseController {
 	public String list2(BizProjectInstallItemProblemType bizProjectInstallItemProblemType, HttpServletRequest request, HttpServletResponse response, Model model) {
 		
 		User user = UserUtils.getUser();
-		//过滤门店
+
 		if(null==bizProjectInstallItemProblemType.getStoreId()){
 			if(null!=user.getStoreId()){
 				bizProjectInstallItemProblemType.setStoreId(Integer.valueOf(user.getStoreId()));
@@ -114,7 +110,7 @@ public class BizProjectInstallItemProblemTypeController extends BaseController {
 		if(StringUtils.isBlank(user.getStoreId())){
 			model.addAttribute("storeDropEnable", true);
 		}
-		//过滤工程模式
+
 		if(StringUtils.isBlank(bizProjectInstallItemProblemType.getProjectMode())){
 			if(null != user.getEmpId()){
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));

@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import cn.damei.common.persistence.DataEntity2;
@@ -9,275 +7,271 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-/**
- * 工程进度大看板Entity
- * @author qww
- * @version 2016-10-26
- */
+
 public class BizProjectProgressBoning extends DataEntity2<BizProjectProgressBoning> {
 
 	private static final long serialVersionUID = 1L;
 
-	private Integer orderId; // 订单id
-	private String orderNumber; //订单编号
-	private String orderStatus;//订单状态
-	private String area;//片区
-	private Integer storeId; // 门店id
-	private Integer enginDepartId; // 区域id
-	private String enginDepartName; // 区域名称
-	private String houseIsNew; // 新房老房  1为新房  0为老房  默认老房
-	private Date orderCreateDate; // 订单创建日期
-	private String customerName; // 客户姓名
-	private String customerPhone; // 客户电话
-	private String detailAddress; // 工程地址（详细地址）
-	private String contractArea;//订单合同面积
-	private String buildType;//房屋类型
-	private String itemManager; // 项目经理
-	private String itemManagerPhone; // 项目经理手机号
-	private String designerName;		// 设计师姓名
-	private String designerPhone;		// 设计师电话
+	private Integer orderId;
+	private String orderNumber;
+	private String orderStatus;
+	private String area;
+	private Integer storeId;
+	private Integer enginDepartId;
+	private String enginDepartName;
+	private String houseIsNew;
+	private Date orderCreateDate;
+	private String customerName;
+	private String customerPhone;
+	private String detailAddress;
+	private String contractArea;
+	private String buildType;
+	private String itemManager;
+	private String itemManagerPhone;
+	private String designerName;
+	private String designerPhone;
 
-	private String orderInspector;		//质检员姓名
-	private String inspectorPhone;      //质检员电话
-	private Date contractStartDate; // 合同开工日期
-	private Date contractEndDate; // 合同竣工日期
-	private Date actualStartDate; // 实际开工日期
-	private Date actualEndDate; // 实际竣工日期
-	private Integer startDiffDay; // 开工延期天数
-	private String isNeedSign; // 开工是否需要客户签字 -- '0.否；1.是
-	private Integer selfDecorateDelayDays; // 自装延期天数
-	private String isSelfDecorateNeedSign; // 自装是否需要客户签字 -- '0.否；1.是
-	private Integer isScrap;//是否作废 
-	//防盗门核尺
-	private Date node1PlanSubDate;//节点1的计划提报日期  取确认开工时间
-	private Date node1SubmDate;   // 节点1实际提报日期   项目经理提交的第一个申请厂家复尺单且【复尺类型是防盗门】的【提交时间时分秒】（复尺单内容为【防盗门】的创建时间）
-	private Integer node1SubDiffDay;//节点1提报延期天数 （实际提报时间-计划提报日期）
-	private Date node1ApplyEntryDate;//节点1期望进场日期  项目经理第一次申请防盗门复尺的【期望复尺时间】
-	private Date node1ActualEntryDate;//节点1实际进场日期  
-	private Integer node1EntryDiffDay;//节点1进场延期天数   （实际进场日期  -期望进场日期）
-	private Date node1PlanDate; // 节点1计划完成日期
-	private Date node1ActualDate; // 节点1实际完成日期   项目经理提交的第一个申请厂家复尺单且【复尺类型是防盗门】的【复尺日期】
-	private Integer node1DiffDay; // 节点1正常/延期/提前天数 (实际完成日期 -计划完成日期)
-	//辅材进场
-	private Date node2PlanSubDate;//节点2计划提报日期 
-	private Date node2SubmDate;   //节点2实际提报时间    项目经理申请第一单辅料单的【提交时间时分秒】
-	private Integer node2SubDiffDay; //节点2提报延期天数 （实际提报时间-计划提报日期 ）
-	private Date node2ExpectDate; // 节点2期望进场日期 项目经理申请第一单辅料单的【期望进场日期】
-	private Date node2ActualExpectDate;//节点2实际进场日期  
-	private Integer node2EntryDiffDay;//节点2进场延期天数   （实际进场日期  -期望进场日期）
-	private Date node2PlanDate; // 节点2计划完成日期
-	private Date node2ActualDate; // 节点2实际收货时间 项目经理提交的第一个【收货类型=辅料】的收货单的【实际送货日期】
-	private Integer node2DiffDay; // 节点2提前天数  （实际收货时间-计划完成日期）
-	//瓷砖
-	private Date node3PlanSubDate;//节点3计划提报日期 
-	private Date node3SubmDate;  //节点3实际提报时间 项目经理申请第一单墙地砖单的【提交时间时分秒】
-	private Integer node3SubDiffDay; //节点3提报延期天数 （实际提报时间 -计划提报日期  ）
-	private Date node3ExpectDate; // 节点3期望到货日期 项目经理申请第一单墙地砖单的【期望进场日期】
-	private Date node3ActualExpectDate;//节点3实际进场日期  
-	private Integer node3EntryDiffDay;//节点3进场延期天数   （实际进场日期  -期望到货日期）
-	private Date node3PlanDate; // 节点3计划完成日期
-	private Date node3ActualDate; // 节点3实际收货时间 项目经理提交的第一个【收货类型=墙地砖】的收货单的【实际送货日期】
-	private Integer node3DiffDay; // 节点3提前天数 （实际收货时间-计划完成日期）
-	//水电隐蔽验收
-	private Date node4PlanSubDate;//节点4计划提报日期 
-	private Date node4SubmDate;//节点4实际提报时间 biz_qc_bill【约检单】项目经理申请的【节点是水电隐蔽验收】的【提交时间时分秒】
-	private Integer node4SubDiffDay; //节点4提报延期天数 （实际提报时间-计划提报日期 ）
-	private Date node4ExpectDate;//节点4期望验收日期  biz_qc_bill【约检单】项目经理申请的【节点是水电隐蔽验收】的【期望上门日期】
-	private Date node4ActualExpectDate;//节点4质检上门日期 质检员签到查询表中的【签到日期】
-	private Integer node4EntryDiffDay;//节点4上门延期天数 (质检上门日期-期望验收日期)
-	private Date node4PlanDate; // 节点4计划验收日期
-	private Date node4ActualDate; // 节点4实际验收合格日期  biz_qc_bill【约检单】且【状态是已质检确认】且【节点是水电隐蔽验收】的验收日期accept_check_datetime
-	private Integer node4DiffDay; // 节点4提前天数 （实际验收合格日期 - 计划验收日期）
-	//防水验收
-	private Date node5PlanSubDate;//节点5计划提报日期 
-	private Date node5SubmDate;//节点5实际提报时间  biz_qc_bill【约检单】项目经理申请的【节点是防水验收】的【提交时间时分秒】
-	private Integer node5SubDiffDay; //节点5提报延期天数 （实际提报时间-计划提报日期 ）
-	private Date node5ExpectDate;//节点5期望验收日期  biz_qc_bill【约检单】项目经理申请的【节点是防水验收】的【期望上门日期】
-	private Date node5ActualExpectDate;//节点5质检上门日期 质检员签到查询表中的【签到日期】
-	private Integer node5EntryDiffDay;//节点5上门延期天数 (质检上门日期-期望验收日期)
-	private Date node5PlanDate; // 节点5计划验收日期
-	private Date node5ActualDate; // 节点5实际验收合格日期 biz_qc_bill【约检单】且【状态是已质检确认】且【节点是防水验收】的验收日期accept_check_datetime
-	private Integer node5DiffDay; // 节点5提前天数 (实际验收合格日期 -计划验收日期)
-	//橱柜核尺
-	private Date node6PlanSubDate;//节点6计划提报日期 
-	private Date node6SubmDate;//节点6实际提报时间  项目经理提交的第一个申请厂家复尺单且【复尺类型是橱柜】的【提交时间时分秒】
-	private Integer node6SubDiffDay; //节点6提报延期天数 （实际提报时间-计划提报日期 ）
-	private Date node6ExpectDate;//节点6期望进场日期  项目经理提报橱柜核尺的【期望进场日期】
-	private Date node6ActualExpectDate;//节点6实际进场日期 
-	private Integer node6EntryDiffDay;//节点6进场延期天数 (实际进场日期-期望进场日期)
-	private Date node6PlanDate; // 节点6计划完成日期
-	private Date node6ActualDate; // 节点6实际日期 项目经理提交的第一个申请厂家复尺单且【复尺类型是橱柜】的【复尺日期】
-	private Integer node6DiffDay; // 节点6提前天数 (实际日期-计划完成日期)
-	//瓦工验收
-	private Date node7PlanSubDate;//节点7计划提报日期 
-	private Date node7SubmDate;//节点7提报日期  biz_qc_bill【约检单】项目经理申请的【节点是瓦工验收】的【提交时间时分秒】
-	private Integer node7SubDiffDay; //节点7提报延期天数 （实际提报时间-计划提报日期 ）
-	private Date node7ExpectDate;//节点7期望验收日期 biz_qc_bill【约检单】项目经理申请的【节点是瓦工验收】的【期望上门日期】
-	private Date node7ActualExpectDate;//节点7实际进场日期 
-	private Integer node7EntryDiffDay;//节点7进场延期天数 (实际进场日期-期望验收日期)
-	private Date node7PlanDate; // 节点7计划验收日期
-	private Date node7ActualDate; // 节点7实际验收合格日期 biz_qc_bill【约检单】且【状态是已质检确认】且【节点是瓦工验收】的验收日期accept_check_datetime
-	private Integer node7DiffDay; // 节点7提前天数 (实际验收合格日期-计划验收日期)
-	//二期款（同瓦工验收日期）
-	private Date node8PlanDate; // 节点8计划日期
-	private Date node8AmountDate; // 节点8催款日期
-	private Date node8ActualDate; // 节点8实际日期 客户实际收交二期款的日期，数据来源biz_pre_pm_settle_finance_receive_moeny表中receive_money_type为1的交款时间receive_money_datetime
-	private Integer node8DiffDay; // 节点8提前天数
-	//基础施工验收
-	private Date node9PlanSubDate;//节点9计划提报日期
-	private Date node9SubmDate;//节点9实际提报时间 biz_qc_bill【约检单】项目经理申请的【节点是基装验收】的【提交时间时分秒】
-	private Integer node9SubDiffDay; //节点9提报延期天数 （实际提报时间-计划提报日期 ）
-	private Date node9ExpectDate;//节点9期望验收日期 biz_qc_bill【约检单】项目经理申请的【节点是基装验收】的【期望上门日期】
-	private Date node9ActualExpectDate;//节点9实际进场日期 
-	private Integer node9EntryDiffDay;//节点9进场延期天数 (实际进场日期-期望验收日期)
-	private Date node9PlanDate; // 节点9计划验收日期
-	private Date node9ActualDate; // 节点9实际验收合格日期 biz_qc_bill【约检单】且【状态是已质检确认】且【节点是基装验收】的验收日期accept_check_datetime
-	private Integer node9DiffDay; // 节点9提前天数 (实际验收合格日期-计划验收日期)
-	//厨卫吊顶
-	private Date node10PlanSubDate;//节点10计划提报日期
-	private Date node10SubmDate;//节点10实际提报时间  biz_order_install_plan中【安装项是铝扣板安装】的【提交时间时分秒】
-	private Integer node10SubDiffDay; //节点10提报延期天数 （实际提报时间-计划提报日期 ） 
-	private Date node10ApplyEntryDate;//节点10期望进场日期  biz_order_install_plan中【安装项是铝扣板安装】的【申请进场日期】
-	private Date node10ActualEntryDate;//节点10实际进场日期  biz_order_install_plan中【安装项是铝扣板安装】的【实际进场日期】
-	private Integer node10EntryDiffDay;//节点10进场延期天数 (实际进场日期-期望进场日期) 
-	private Date node10PlanDate; // 节点10计划完成日期
-	private Date node10ActualDate; // 节点10实际完工日期 biz_order_install_plan中【安装项是铝扣板安装】的【实际完工日期
-	private Date node10ActualCheckDate;//节点10实际验收日期  biz_order_install_plan中【安装项是铝扣板安装】的【实际验收日期】
-	private Integer node10DiffDay; // 节点10提前天数(实际验收日期-计划完工日期)
-	//洁具
-	private Date node11PlanSubDate;//节点11计划提报日期
-	private Date node11SubmDate;//节点11实际提报时间
-	private Integer node11SubDiffDay; //节点11提报延期天数 （实际提报时间-计划提报日期 ） 
-	private Date node11ApplyEntryDate;//节点11期望进场日期
-	private Date node11ActualEntryDate;//节点11实际进场日期
-	private Integer node11EntryDiffDay;//节点11进场延期天数 (实际进场日期-期望进场日期) 
-	private Date node11PlanDate; // 节点11计划完成日期
-	private Date node11InstallDate; // 节点11实际完工日期 biz_order_install_plan中【安装项是洁具】的【实际完工日期】
-	private Date node11ActualDate; // 节点11实际验收日期 biz_order_install_plan中【安装项是洁具】的【实际验收日期】
-	private Integer node11DiffDay; // 节点11提前天数 (实际验收日期-计划完成日期)
-	//五金，灯具，开关面板
-	private Date node12PlanSubDate;//节点12计划提报日期
-	private Date node12SubmDate;//节点12实际提报时间
-	private Integer node12SubDiffDay; //节点12提报延期天数 （实际提报时间-计划提报日期 ） 
-	private Date node12ApplyEntryDate;//节点12期望进场日期
-	private Date node12ActualEntryDate;//节点12实际进场日期
-	private Integer node12EntryDiffDay;//节点12进场延期天数 (实际进场日期-期望进场日期) 
-	private Date node12PlanDate; // 节点12计划完成日期
-	private Date node12InstallDate; // 节点12计划完成日期 biz_order_install_plan中【安装项是灯具】的【实际完工日期】
-	private Date node12ActualDate; // 节点12实际验收日期 biz_order_install_plan中【安装项是灯具】的【实际验收日期】
-	private Integer node12DiffDay; // 节点12提前天数(实际验收日期-计划完成日期)
-	//橱柜
-	private Date node13PlanSubDate;//节点13计划提报日期
-	private Date node13SubmDate;//节点13实际提报时间
-	private Integer node13SubDiffDay; //节点13提报延期天数 （实际提报时间-计划提报日期 ） 
-	private Date node13RuleDate;//节点13核尺时间     项目经理提报复尺单，类别为【橱柜】的【创建时间】
-	private Date node13ApplyEntryDate;//节点13期望进场时间
-	private Date node13ActualEntryDate;//节点13实际进场日期
-	private Integer node13EntryDiffDay;//节点13进场延期天数 (实际进场日期-期望进场时间) 
-	private Date node13PlanDate; // 节点13计划完成日期
-	private Date node13InstallDate; // 节点13实际完工日期  biz_order_install_plan中【安装项是橱柜】的【实际完工日期】
-	private Date node13ActualDate; // 节点13实际验收日期 biz_order_install_plan中【安装项是橱柜】的【实际验收日期】
-	private Integer node13DiffDay; // 节点13提前天数(实际验收日期-计划完成日期)
-	//定制衣柜
-	private Date node14PlanSubDate;//节点14计划提报日期
-	private Date node14SubmDate;//节点14实际提报时间
-	private Integer node14SubDiffDay; //节点14提报延期天数 （实际提报时间-计划提报日期 ） 
-	private Date node14RuleDate;//节点14核尺时间     项目经理提报复尺单，类别为【定制衣柜】的【创建时间】
-	private Date node14ApplyEntryDate;//节点14期望进场时间
-	private Date node14ActualEntryDate;//节点14实际进场日期
-	private Integer node14EntryDiffDay;//节点14进场延期天数 (实际进场日期-期望进场时间) 
-	private Date node14PlanDate; // 节点14计划完成日期
-	private Date node14InstallDate; // 节点14实际完工日期 biz_order_install_plan中【安装项是定制衣柜】的【实际完工日期】
-	private Date node14ActualDate; // 节点14实际验收日期  biz_order_install_plan中【安装项是定制衣柜】的【实际验收日期】
-	private Integer node14DiffDay; // 节点14提前天数(实际验收日期-计划完成日期)
-	//壁纸
-	private Date node15PlanSubDate;//节点15计划提报日期
-	private Date node15SubmDate;//节点15实际提报时间
-	private Integer node15SubDiffDay; //节点15提报延期天数 （实际提报时间-计划提报日期 ） 
-	private Date node15ApplyEntryDate;//节点15期望进场时间
-	private Date node15ActualEntryDate;//节点15实际进场日期
-	private Integer node15EntryDiffDay;//节点15进场延期天数 (实际进场日期-期望进场时间) 
-	private Date node15PlanDate; // 节点15计划完成日期
-	private Date node15InstallDate; // 节点15实际完工日期 biz_order_install_plan中【安装项是壁纸】的【实际完工日期】
-	private Date node15ActualDate; // 节点15实际验收日期   biz_order_install_plan中【安装项是壁纸】的【实际验收日期】
-	private Integer node15DiffDay; // 节点15提前天数(实际验收日期-计划完成日期)
-	//木门，铝镁门，门窗套
-	private Date node16PlanSubDate;//节点16计划提报日期
-	private Date node16SubmDate;//节点16实际提报时间
-	private Integer node16SubDiffDay; //节点16提报延期天数 （实际提报时间-计划提报日期 ） 
-	private Date node16RuleDate;//节点16核尺时间  项目经理提交申请核尺单，类别为【木门，铝镁门，门窗套】的【创建时间】
-	private Date node16ApplyEntryDate;//节点16期望验收日期
-	private Date node16ActualEntryDate;//节点16实际进场日期
-	private Integer node16EntryDiffDay;//节点16进场延期天数 (实际进场日期-期望验收日期) 
-	private Date node16PlanDate; // 节点16计划完成日期
-	private Date node16InstallDate; // 节点16实际完工日期  biz_order_install_plan中【安装项是木门】的【实际完工日期】
-	private Date node16ActualDate; // 节点16实际验收日期  biz_order_install_plan中【安装项是木门】的【实际验收日期】
-	private Integer node16DiffDay; // 节点16提前天数(实际验收日期-计划完成日期)
-	//木地板
-	private Date node17PlanSubDate;//节点17计划提报日期
-	private Date node17SubmDate;//节点17实际提报时间
-	private Integer node17SubDiffDay; //节点17提报延期天数 （实际提报时间-计划提报日期 ） 
-	private Date node17ApplyEntryDate;//节点17期望进场时间
-	private Date node17ActualEntryDate;//节点17实际进场日期
-	private Integer node17EntryDiffDay;//节点17进场延期天数 (实际进场日期-期望进场时间) 
-	private Date node17PlanDate; // 节点17计划完成日期
-	private Date node17InstallDate; // 节点17实际完工日期  biz_order_install_plan中【安装项是木地板】的【实际完工日期】
-	private Date node17ActualDate; // 节点17实际验收日期  biz_order_install_plan中【安装项是木地板】的【实际验收日期】
-	private Integer node17DiffDay; // 节点17提前天数(实际验收日期-计划完成日期)
-	//窗帘
-	private Date node18PlanSubDate;//节点18计划提报日期
-	private Date node18SubmDate;//节点18实际提报时间
-	private Integer node18SubDiffDay; //节点18提报延期天数 （实际提报时间-计划提报日期 ） 
-	private Date node18RuleDate;//节点18核尺时间          项目经理提报复尺单，类别为【窗帘】的创建时间
-	private Date node18ApplyEntryDate;//节点18期望进场时间
-	private Date node18ActualEntryDate;//节点18实际进场日期
-	private Integer node18EntryDiffDay;//节点18进场延期天数 (实际进场日期-期望进场时间) 
-	private Date node18PlanDate; // 节点18计划完成日期
-	private Date node18InstallDate; // 节点18实际完工日期  biz_order_install_plan中【安装项是窗帘】的【实际完工日期】
-	private Date node18ActualDate; // 节点18实际验收日期  biz_order_install_plan中【安装项是窗帘】的【实际验收日期】
-	private Integer node18DiffDay; // 节点18提前天数(实际验收日期-计划完成日期)
-	//竣工验收
-	private Date node19PlanSubDate;//节点19计划提报日期
-	private Date node19SubmDate;//节点19实际提报时间
-	private Integer node19SubDiffDay; //节点19提报延期天数 （实际提报时间-计划提报日期 ） 
-	private Date node19ExpectDate;//节点19期望验收日期
-	private Date node19ActualEntryDate;//节点19实际进场日期 
-	private Integer node19EntryDiffDay;//节点19进场延期天数 (实际进场日期-期望验收日期) 
-	private Date node19PlanDate; // 节点19计划验收日期
-	private Date node19ActualDate; // 节点19实际验收合格日期  biz_qc_bill【约检单】且【状态是已质检确认】且【节点是竣工验收】的验收日期accept_check_datetime
-	private Integer node19DiffDay; // 节点19提前天数(实际验收合格日期  -计划验收日期)
-	//尾款
-	private Date node20PlanDate; // 节点20计划日期
-	private Date node20ActualDate; // 节点20实际日期  客户实际收交二期款的日期来源，数据来源biz_pre_pm_settle_finance_receive_moeny表中receive_money_type为2的交款时间receive_money_datetime
-	private Integer node20DiffDay; // 节点20提前天数
-	//家电
-	private Date node21PlanSubDate;//节点21计划提报日期
-	private Date node21SubmDate;//节点21实际提报时间
-	private Integer node21SubDiffDay; //节点21提报延期天数 （实际提报时间-计划提报日期 ） 
-	private Date node21ApplyEntryDate;//节点21期望进场时间
-	private Date node21ActualEntryDate;//节点21实际进场日期
-	private Integer node21EntryDiffDay;//节点21进场延期天数 (实际进场日期-期望进场时间) 
-	private Date node21PlanDate; // 节点21计划验收日期
-	private Date node21InstallDate; // 节点21实际完工日期  biz_order_install_plan中【安装项是家电】的【实际完工日期】
-	private Date node21ActualDate; // 节点21实际验收合格日期  biz_order_install_plan中【安装项是家电】的【实际验收日期】
-	private Integer node21DiffDay; // 节点21提前天数 (实际验收合格日期- 计划验收日期)
-	//家具
-	private Date node22PlanSubDate;//节点22计划提报日期
-	private Date node22SubmDate;//节点22实际提报时间
-	private Integer node22SubDiffDay; //节点22提报延期天数 （实际提报时间-计划提报日期 ） 
-	private Date node22ApplyEntryDate;//节点22期望进场日期
-	private Date node22ActualEntryDate;//节点22实际进场日期
-	private Integer node22EntryDiffDay;//节点22进场延期天数 (实际进场日期-期望进场时间) 
-	private Date node22PlanDate; // 节点22计划验收日期
-	private Date node22InstallDate; // 节点22实际完工日期  biz_order_install_plan中【安装项是家具】的【实际完工日期】
-	private Date node22ActualDate; // 节点22实际验收合格日期  biz_order_install_plan中【安装项是家具】的【实际验收日期】
-	private Integer node22DiffDay; // 节点22提前天数(实际验收合格日期-计划验收日期)
+	private String orderInspector;
+	private String inspectorPhone;
+	private Date contractStartDate;
+	private Date contractEndDate;
+	private Date actualStartDate;
+	private Date actualEndDate;
+	private Integer startDiffDay;
+	private String isNeedSign;
+	private Integer selfDecorateDelayDays;
+	private String isSelfDecorateNeedSign;
+	private Integer isScrap;
 
-	private Date beginActualStartDate; // 实际开工日期时间段(搜索时使用)
-	private Date endActualStartDate; // 实际开工日期时间段(搜索时使用)
-	private Integer nodeIndex; // 节点序号
-	private Date planDoneDate; // 节点计划日期
-	private String nodeName; // 节点名称
+	private Date node1PlanSubDate;
+	private Date node1SubmDate;
+	private Integer node1SubDiffDay;
+	private Date node1ApplyEntryDate;
+	private Date node1ActualEntryDate;
+	private Integer node1EntryDiffDay;
+	private Date node1PlanDate;
+	private Date node1ActualDate;
+	private Integer node1DiffDay;
+
+	private Date node2PlanSubDate;
+	private Date node2SubmDate;
+	private Integer node2SubDiffDay;
+	private Date node2ExpectDate;
+	private Date node2ActualExpectDate;
+	private Integer node2EntryDiffDay;
+	private Date node2PlanDate;
+	private Date node2ActualDate;
+	private Integer node2DiffDay;
+
+	private Date node3PlanSubDate;
+	private Date node3SubmDate;
+	private Integer node3SubDiffDay;
+	private Date node3ExpectDate;
+	private Date node3ActualExpectDate;
+	private Integer node3EntryDiffDay;
+	private Date node3PlanDate;
+	private Date node3ActualDate;
+	private Integer node3DiffDay;
+
+	private Date node4PlanSubDate;
+	private Date node4SubmDate;
+	private Integer node4SubDiffDay;
+	private Date node4ExpectDate;
+	private Date node4ActualExpectDate;
+	private Integer node4EntryDiffDay;
+	private Date node4PlanDate;
+	private Date node4ActualDate;
+	private Integer node4DiffDay;
+
+	private Date node5PlanSubDate;
+	private Date node5SubmDate;
+	private Integer node5SubDiffDay;
+	private Date node5ExpectDate;
+	private Date node5ActualExpectDate;
+	private Integer node5EntryDiffDay;
+	private Date node5PlanDate;
+	private Date node5ActualDate;
+	private Integer node5DiffDay;
+
+	private Date node6PlanSubDate;
+	private Date node6SubmDate;
+	private Integer node6SubDiffDay;
+	private Date node6ExpectDate;
+	private Date node6ActualExpectDate;
+	private Integer node6EntryDiffDay;
+	private Date node6PlanDate;
+	private Date node6ActualDate;
+	private Integer node6DiffDay;
+
+	private Date node7PlanSubDate;
+	private Date node7SubmDate;
+	private Integer node7SubDiffDay;
+	private Date node7ExpectDate;
+	private Date node7ActualExpectDate;
+	private Integer node7EntryDiffDay;
+	private Date node7PlanDate;
+	private Date node7ActualDate;
+	private Integer node7DiffDay;
+
+	private Date node8PlanDate;
+	private Date node8AmountDate;
+	private Date node8ActualDate;
+	private Integer node8DiffDay;
+
+	private Date node9PlanSubDate;
+	private Date node9SubmDate;
+	private Integer node9SubDiffDay;
+	private Date node9ExpectDate;
+	private Date node9ActualExpectDate;
+	private Integer node9EntryDiffDay;
+	private Date node9PlanDate;
+	private Date node9ActualDate;
+	private Integer node9DiffDay;
+
+	private Date node10PlanSubDate;
+	private Date node10SubmDate;
+	private Integer node10SubDiffDay;
+	private Date node10ApplyEntryDate;
+	private Date node10ActualEntryDate;
+	private Integer node10EntryDiffDay;
+	private Date node10PlanDate;
+	private Date node10ActualDate;
+	private Date node10ActualCheckDate;
+	private Integer node10DiffDay;
+
+	private Date node11PlanSubDate;
+	private Date node11SubmDate;
+	private Integer node11SubDiffDay;
+	private Date node11ApplyEntryDate;
+	private Date node11ActualEntryDate;
+	private Integer node11EntryDiffDay;
+	private Date node11PlanDate;
+	private Date node11InstallDate;
+	private Date node11ActualDate;
+	private Integer node11DiffDay;
+
+	private Date node12PlanSubDate;
+	private Date node12SubmDate;
+	private Integer node12SubDiffDay;
+	private Date node12ApplyEntryDate;
+	private Date node12ActualEntryDate;
+	private Integer node12EntryDiffDay;
+	private Date node12PlanDate;
+	private Date node12InstallDate;
+	private Date node12ActualDate;
+	private Integer node12DiffDay;
+
+	private Date node13PlanSubDate;
+	private Date node13SubmDate;
+	private Integer node13SubDiffDay;
+	private Date node13RuleDate;
+	private Date node13ApplyEntryDate;
+	private Date node13ActualEntryDate;
+	private Integer node13EntryDiffDay;
+	private Date node13PlanDate;
+	private Date node13InstallDate;
+	private Date node13ActualDate;
+	private Integer node13DiffDay;
+
+	private Date node14PlanSubDate;
+	private Date node14SubmDate;
+	private Integer node14SubDiffDay;
+	private Date node14RuleDate;
+	private Date node14ApplyEntryDate;
+	private Date node14ActualEntryDate;
+	private Integer node14EntryDiffDay;
+	private Date node14PlanDate;
+	private Date node14InstallDate;
+	private Date node14ActualDate;
+	private Integer node14DiffDay;
+
+	private Date node15PlanSubDate;
+	private Date node15SubmDate;
+	private Integer node15SubDiffDay;
+	private Date node15ApplyEntryDate;
+	private Date node15ActualEntryDate;
+	private Integer node15EntryDiffDay;
+	private Date node15PlanDate;
+	private Date node15InstallDate;
+	private Date node15ActualDate;
+	private Integer node15DiffDay;
+
+	private Date node16PlanSubDate;
+	private Date node16SubmDate;
+	private Integer node16SubDiffDay;
+	private Date node16RuleDate;
+	private Date node16ApplyEntryDate;
+	private Date node16ActualEntryDate;
+	private Integer node16EntryDiffDay;
+	private Date node16PlanDate;
+	private Date node16InstallDate;
+	private Date node16ActualDate;
+	private Integer node16DiffDay;
+
+	private Date node17PlanSubDate;
+	private Date node17SubmDate;
+	private Integer node17SubDiffDay;
+	private Date node17ApplyEntryDate;
+	private Date node17ActualEntryDate;
+	private Integer node17EntryDiffDay;
+	private Date node17PlanDate;
+	private Date node17InstallDate;
+	private Date node17ActualDate;
+	private Integer node17DiffDay;
+
+	private Date node18PlanSubDate;
+	private Date node18SubmDate;
+	private Integer node18SubDiffDay;
+	private Date node18RuleDate;
+	private Date node18ApplyEntryDate;
+	private Date node18ActualEntryDate;
+	private Integer node18EntryDiffDay;
+	private Date node18PlanDate;
+	private Date node18InstallDate;
+	private Date node18ActualDate;
+	private Integer node18DiffDay;
+
+	private Date node19PlanSubDate;
+	private Date node19SubmDate;
+	private Integer node19SubDiffDay;
+	private Date node19ExpectDate;
+	private Date node19ActualEntryDate;
+	private Integer node19EntryDiffDay;
+	private Date node19PlanDate;
+	private Date node19ActualDate;
+	private Integer node19DiffDay;
+
+	private Date node20PlanDate;
+	private Date node20ActualDate;
+	private Integer node20DiffDay;
+
+	private Date node21PlanSubDate;
+	private Date node21SubmDate;
+	private Integer node21SubDiffDay;
+	private Date node21ApplyEntryDate;
+	private Date node21ActualEntryDate;
+	private Integer node21EntryDiffDay;
+	private Date node21PlanDate;
+	private Date node21InstallDate;
+	private Date node21ActualDate;
+	private Integer node21DiffDay;
+
+	private Date node22PlanSubDate;
+	private Date node22SubmDate;
+	private Integer node22SubDiffDay;
+	private Date node22ApplyEntryDate;
+	private Date node22ActualEntryDate;
+	private Integer node22EntryDiffDay;
+	private Date node22PlanDate;
+	private Date node22InstallDate;
+	private Date node22ActualDate;
+	private Integer node22DiffDay;
+
+	private Date beginActualStartDate;
+	private Date endActualStartDate;
+	private Integer nodeIndex;
+	private Date planDoneDate;
+	private String nodeName;
 	private Date nodeLastActualDate;
 	private List<Integer> enginDepartIds = new ArrayList<Integer>();
 	private String projectMode;

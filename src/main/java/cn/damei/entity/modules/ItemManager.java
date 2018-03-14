@@ -4,40 +4,37 @@ import cn.damei.common.persistence.DataEntity2;
 
 public class ItemManager extends DataEntity2<ItemManager>{
 
-	/**
-	 * @author wang
-	 * @version 2016-10-10
-	 */
+
 	private static final long serialVersionUID = 1L;
 	
-	private Integer id;// 标识
-	private String no; // 员工编号
-	private String loginname; // 登录名
-	private String realname; // 真实姓名
-	private String phone; // 手机号
-	private Integer empType; // 员工类型
-	private String idcardno; // 员工身份证
-	private String address; // 地址
-	private String pointXy; //坐标
-	private String headpic; // 头像
-	private Integer star; // 星级
-	private Integer sort; // 排名
-	private String nps; // NPS值
-	private String orderarea; // 订单区域
-	private String orderstop; // 是否停单
-	private Integer houseType;//接单新老房
-	private Integer buildingCount; //施工订单数
-	private Integer orderCount;  //总订单数
-	private Integer totalCount; //星级承接总量
-	private double distance; // 住址和工地距离
-	private String storeid; // 门店Id
-	private String totalCountWeight;        //承接量负荷
-	private String projectMode;//工程模式 -- '1-产业模式；2-传统模式；3-全部
-	private String orderPointx; //经度
-	private String orderPointy; //纬度
-	private Integer enginDepartId;//工程部id
-	private Integer workerIntroduceCount; //推荐工人数
-	private Integer exchangeOrderTimes; //被换单次数
+	private Integer id;
+	private String no;
+	private String loginname;
+	private String realname;
+	private String phone;
+	private Integer empType;
+	private String idcardno;
+	private String address;
+	private String pointXy;
+	private String headpic;
+	private Integer star;
+	private Integer sort;
+	private String nps;
+	private String orderarea;
+	private String orderstop;
+	private Integer houseType;
+	private Integer buildingCount;
+	private Integer orderCount;
+	private Integer totalCount;
+	private double distance;
+	private String storeid;
+	private String totalCountWeight;
+	private String projectMode;
+	private String orderPointx;
+	private String orderPointy;
+	private Integer enginDepartId;
+	private Integer workerIntroduceCount;
+	private Integer exchangeOrderTimes;
 	public String getOrderPointx() {
 		return orderPointx;
 	}

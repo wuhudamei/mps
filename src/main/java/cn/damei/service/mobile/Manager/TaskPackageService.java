@@ -15,19 +15,12 @@ import cn.damei.dao.mobile.Manager.TaskPackageDao;
 import cn.damei.entity.mobile.Manager.PackProcedure;
 import cn.damei.entity.mobile.Manager.TaskPackage;
 
-/**
- * @author 梅浩 meihao@zzhyun.cn:
- * @version 创建时间：2016年9月19日 下午5:00:04 类说明
- */
+
 @Service
 @Transactional(readOnly = true)
 public class TaskPackageService extends CrudService<TaskPackageDao, TaskPackage> {
 
-	/**
-	 * 查询项目经理下的订单下的所有的任务包
-	 * 
-	 * @return
-	 */
+
 	public List<TaskPackage> getAllPackage(TaskPackage pack) {
 
 		return dao.getAllPackage(pack);
@@ -41,26 +34,19 @@ public class TaskPackageService extends CrudService<TaskPackageDao, TaskPackage>
 		return dao.getPackById(packId);
 	}
 	
-	/**
-	 * 根据 任务包id 查询 工序
-	 * @return
-	 */
+
 	public List<PackProcedure> findProcedureByPackId(Integer packageId){
 		
 		return dao.findProcedureByPackId(packageId);
 	}
 	
-	/**
-	 * 根据组长id 获取组长手机
-	*/
+
 	public String getLeaderPhoneById(String leaderId){
 		
 		return dao.getLeaderPhoneById(leaderId);
 	}
 	
-	/**
-	 * 查询项目经理名下，任务包状态为【已申请完工】的任务包 
-	*/
+
 	public List<TaskPackage> queryTaskPackageByNoState(Integer itemManagerId){
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("itemManagerId", itemManagerId);
@@ -75,13 +61,7 @@ public class TaskPackageService extends CrudService<TaskPackageDao, TaskPackage>
 		return dao.queryTaskPackageStateList(type);
 	}
 	
-	/**
-	 * 结算单管理列表
-	 * @param taskPackageTemplatId
-	 * @param stateId
-	 * @param orderType
-	 * @return
-	 */
+
 	public List<TaskPackage> queryOrderPackageList(Integer taskPackageTemplatId, String stateId, Integer orderType, Integer managerId){
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("managerId", managerId);

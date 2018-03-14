@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.util.List;
@@ -13,11 +11,7 @@ import cn.damei.common.service.CrudService;
 import cn.damei.dao.modules.RecheckControlDao;
 import cn.damei.entity.modules.RecheckControl;
 
-/**
- * 复检单监控表Service
- * @author wyb
- * @version 2016-10-31
- */
+
 @Service
 @Transactional(readOnly = true)
 public class RecheckControlService extends CrudService<RecheckControlDao, RecheckControl> {

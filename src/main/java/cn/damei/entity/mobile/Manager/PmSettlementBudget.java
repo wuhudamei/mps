@@ -4,44 +4,40 @@ import java.util.Date;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 项目经理订单结算金额预览实体类
- * @author hyh
- *
- */
+
 public class PmSettlementBudget extends DataEntity2<PmSettlementBudget>{
 
 	private static final long serialVersionUID = 1L;
-	private Integer orderId;//订单Id
-	private String customerName;		// 客户姓名
-	private String communityName;		// 小区名称
-	private String buildNumber;		// 几号楼
-	private String buildUnit;		// 几单元
-	private String buildRoom;		// 哪一室 
-	private String settleBillType;     //结算阶段  10:中期结算  20：竣工结算
-    private Double settlementBudgetAmount;//预计金额
-    private Date acceptCheckDatetime;//验收时间
-    private Double midwayCommissionAmount;		// 中期提成金额 -- '
-    private Double ownpayAmount;		// 自主支配项金额 -- '
-    private Double materialsStandardAmount;		// 标化辅材金额 -- '
-    private Double midwayQcCheckPunishAmount;		// 中期质检罚款金额 -- '
-    private Double midwayRewardAmount;//中期奖励金额
-    private Double midwayPunishAmount;//中期罚款金额
-	private Double midwayInspectionRewardAmount;//中期巡检奖励金额
-	private Double midwayInspectionPunishAmount;//中期巡检罚款金额
-    private Double midwayAuxiliaryMaterialsSettleAmount; //中期辅料结算金额
-    private Double completeCommissionAmount;		// 竣工提成金额 -- '
-    private Double completQcCheckPunishAmount;		// 竣工质检罚款金额 -- '
-    private Double completeRewardAmount;//竣工奖励金额
-    private Double completePunishAmount;//竣工罚款金额
-	private Double completeInspectionRewardAmount;//竣工巡检奖励金额
-	private Double completeInspectionPunishAmount;//竣工巡检罚款金额
-    private Double materialSelfbuyReimburseAmount;//自采材料报销金额
-    private Double guaranteeMoneyAmount;		// 质保金金额 -- '
-    private Double completeAuxiliaryMaterialsSettleAmount;//竣工辅料结算金额
-    private Double totalAmount;//结算总金额
-    private Integer pmEmployeeId;//项目经理Id
-	private String queryParam; //查询参数
+	private Integer orderId;
+	private String customerName;
+	private String communityName;
+	private String buildNumber;
+	private String buildUnit;
+	private String buildRoom;
+	private String settleBillType;
+    private Double settlementBudgetAmount;
+    private Date acceptCheckDatetime;
+    private Double midwayCommissionAmount;
+    private Double ownpayAmount;
+    private Double materialsStandardAmount;
+    private Double midwayQcCheckPunishAmount;
+    private Double midwayRewardAmount;
+    private Double midwayPunishAmount;
+	private Double midwayInspectionRewardAmount;
+	private Double midwayInspectionPunishAmount;
+    private Double midwayAuxiliaryMaterialsSettleAmount;
+    private Double completeCommissionAmount;
+    private Double completQcCheckPunishAmount;
+    private Double completeRewardAmount;
+    private Double completePunishAmount;
+	private Double completeInspectionRewardAmount;
+	private Double completeInspectionPunishAmount;
+    private Double materialSelfbuyReimburseAmount;
+    private Double guaranteeMoneyAmount;
+    private Double completeAuxiliaryMaterialsSettleAmount;
+    private Double totalAmount;
+    private Integer pmEmployeeId;
+	private String queryParam;
 
 	public Double getMidwayInspectionRewardAmount() {
 		return midwayInspectionRewardAmount;

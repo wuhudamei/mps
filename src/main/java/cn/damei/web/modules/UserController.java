@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import java.util.List;
@@ -38,11 +36,7 @@ import cn.damei.entity.modules.User;
 import cn.damei.service.modules.SystemService;
 import cn.damei.common.utils.UserUtils;
 
-/**
- * 用户Controller
- * @author ThinkGem
- * @version 2013-8-29
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/sys/user")
 public class UserController extends BaseController {
@@ -102,10 +96,10 @@ public class UserController extends BaseController {
 			addMessage(redirectAttributes, "演示模式，不允许操作！");
 			return "redirect:" + adminPath + "/sys/user/list?repage";
 		}
-		// 修正引用赋值问题，不知道为何，Company和Office引用的一个实例地址，修改了一个，另外一个跟着修改。
+
 		user.setCompany(new Office(request.getParameter("company.id")));
 		user.setOffice(new Office(request.getParameter("office.id")));
-		// 如果新密码为空，则不更换密码
+
 		if (StringUtils.isNotBlank(user.getNewPassword())) {
 			user.setPassword(SystemService.entryptPassword(user.getNewPassword()));
 		}
@@ -116,7 +110,7 @@ public class UserController extends BaseController {
 			addMessage(model, "保存用户'" + user.getLoginName() + "'失败，登录名已存在");
 			return form(user, model);
 		}
-		// 角色数据有效性验证，过滤不在授权内的角色
+
 		List<Role> roleList = Lists.newArrayList();
 		List<String> roleIdList = user.getRoleIdList();
 		for (Role r : systemService.findAllRole()){
@@ -125,12 +119,12 @@ public class UserController extends BaseController {
 			}
 		}
 		user.setRoleList(roleList);
-		// 保存用户信息
+
 		systemService.saveUser(user);
-		// 清除当前用户缓存
+
 		if (user.getLoginName().equals(UserUtils.getUser().getLoginName())){
 			UserUtils.clearCache();
-			//UserUtils.getCacheMap().clear();
+
 		}
 		addMessage(redirectAttributes, "保存用户'" + user.getLoginName() + "'成功");
 		return "redirect:" + adminPath + "/sys/user/list?repage";
@@ -154,14 +148,7 @@ public class UserController extends BaseController {
 		return "redirect:" + adminPath + "/sys/user/list?repage";
 	}
 	
-	/**
-	 * 导出用户数据
-	 * @param user
-	 * @param request
-	 * @param response
-	 * @param redirectAttributes
-	 * @return
-	 */
+
 	@RequiresPermissions("sys:user:view")
     @RequestMapping(value = "export", method=RequestMethod.POST)
     public String exportFile(User user, HttpServletRequest request, HttpServletResponse response, RedirectAttributes redirectAttributes) {
@@ -176,12 +163,7 @@ public class UserController extends BaseController {
 		return "redirect:" + adminPath + "/sys/user/list?repage";
     }
 
-	/**
-	 * 导入用户数据
-	 * @param file
-	 * @param redirectAttributes
-	 * @return
-	 */
+
 	@RequiresPermissions("sys:user:edit")
     @RequestMapping(value = "import", method=RequestMethod.POST)
     public String importFile(MultipartFile file, RedirectAttributes redirectAttributes) {
@@ -227,12 +209,7 @@ public class UserController extends BaseController {
 		return "redirect:" + adminPath + "/sys/user/list?repage";
     }
 	
-	/**
-	 * 下载导入用户数据模板
-	 * @param response
-	 * @param redirectAttributes
-	 * @return
-	 */
+
 	@RequiresPermissions("sys:user:view")
     @RequestMapping(value = "import/template")
     public String importFileTemplate(HttpServletResponse response, RedirectAttributes redirectAttributes) {
@@ -247,12 +224,7 @@ public class UserController extends BaseController {
 		return "redirect:" + adminPath + "/sys/user/list?repage";
     }
 
-	/**
-	 * 验证登录名是否有效
-	 * @param oldLoginName
-	 * @param loginName
-	 * @return
-	 */
+
 	@ResponseBody
 	@RequiresPermissions("sys:user:edit")
 	@RequestMapping(value = "checkLoginName")
@@ -265,12 +237,7 @@ public class UserController extends BaseController {
 		return "false";
 	}
 
-	/**
-	 * 用户信息显示及保存
-	 * @param user
-	 * @param model
-	 * @return
-	 */
+
 	@RequiresPermissions("user")
 	@RequestMapping(value = "info")
 	public String info(User user, HttpServletResponse response, Model model) {
@@ -293,10 +260,7 @@ public class UserController extends BaseController {
 		return "modules/sys/userInfo";
 	}
 
-	/**
-	 * 返回用户信息
-	 * @return
-	 */
+
 	@RequiresPermissions("user")
 	@ResponseBody
 	@RequestMapping(value = "infoData")
@@ -304,13 +268,7 @@ public class UserController extends BaseController {
 		return UserUtils.getUser();
 	}
 	
-	/**
-	 * 修改个人用户密码
-	 * @param oldPassword
-	 * @param newPassword
-	 * @param model
-	 * @return
-	 */
+
 	@RequiresPermissions("user")
 	@RequestMapping(value = "modifyPwd")
 	public String modifyPwd(String oldPassword, String newPassword, Model model) {
@@ -348,25 +306,25 @@ public class UserController extends BaseController {
 		return mapList;
 	}
     
-//	@InitBinder
-//	public void initBinder(WebDataBinder b) {
-//		b.registerCustomEditor(List.class, "roleList", new PropertyEditorSupport(){
-//			@Autowired
-//			private SystemService systemService;
-//			@Override
-//			public void setAsText(String text) throws IllegalArgumentException {
-//				String[] ids = StringUtils.split(text, ",");
-//				List<Role> roles = new ArrayList<Role>();
-//				for (String id : ids) {
-//					Role role = systemService.getRole(Long.valueOf(id));
-//					roles.add(role);
-//				}
-//				setValue(roles);
-//			}
-//			@Override
-//			public String getAsText() {
-//				return Collections3.extractToString((List) getValue(), "id", ",");
-//			}
-//		});
-//	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

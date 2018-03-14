@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import cn.damei.common.persistence.DataEntity2;
@@ -8,23 +6,19 @@ import org.hibernate.validator.constraints.Length;
 import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-/**
- * 结算类目汇总Entity
- * @author qww
- * @version 2016-12-26
- */
+
 public class BizPmSettleCategorySummary extends DataEntity2<BizPmSettleCategorySummary> {
 	
 	private static final long serialVersionUID = 1L;
-	private Integer orderId;		// 订单id -- '
-	private Integer pmEmployeeId;		// 项目经理员工id -- '
-	private String settleCategory;		// 结算类目 -- '1.标化辅材;2.自主支配;3.中期提成;4.质检罚款;5.竣工提成;6.质保金;
-	private Double settleAmount;		// 结算金额 -- '
-	private Integer pmSettleBillId;		// 项目经理结算单id -- '
-	private String settleStatus;		// 结算状态 -- '
-	private Date settleStatusDatetime;		// 结算状态日期时间 -- '
-	private String settleRemark;		// 结算备注 -- '
-	private String settleRole; // 结算角色 1-项目经理 2-质检员
+	private Integer orderId;
+	private Integer pmEmployeeId;
+	private String settleCategory;
+	private Double settleAmount;
+	private Integer pmSettleBillId;
+	private String settleStatus;
+	private Date settleStatusDatetime;
+	private String settleRemark;
+	private String settleRole;
 	
 	public BizPmSettleCategorySummary() {
 		super();

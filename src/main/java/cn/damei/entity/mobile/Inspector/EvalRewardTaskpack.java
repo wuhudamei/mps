@@ -4,20 +4,16 @@ import java.util.Date;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 评价奖励任务包表
- * @author Administrator
- *
- */
+
 public class EvalRewardTaskpack extends DataEntity2<EvalRewardTaskpack>{
 
 	
 	private static final long serialVersionUID = 1L;
 	
-	private Integer orderTaskpackageId;	//订单任务包ID
-    private Integer groupLeaderEmployeeId; //工人组长员工ID
-    private Double rewardAmount; //奖励金额
-    private Date rewardDatetime; //奖励日期时间
+	private Integer orderTaskpackageId;
+    private Integer groupLeaderEmployeeId;
+    private Double rewardAmount;
+    private Date rewardDatetime;
     
 	public Integer getOrderTaskpackageId() {
 		return orderTaskpackageId;

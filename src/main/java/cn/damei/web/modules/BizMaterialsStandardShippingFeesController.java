@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import cn.damei.common.config.Global;
@@ -26,11 +24,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-/**
- * 筒灯灯带标化辅料配送费Controller
- * @author Ryze
- * @version 2017-10-25
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/bizmaterialsstandardshipfees/bizMaterialsStandardShippingFees")
 public class BizMaterialsStandardShippingFeesController extends BaseController {
@@ -55,7 +49,7 @@ public class BizMaterialsStandardShippingFeesController extends BaseController {
 	public String list(BizMaterialsStandardShippingFees bizMaterialsStandardShippingFees, HttpServletRequest request, HttpServletResponse response, Model model) {
 		Page<BizMaterialsStandardShippingFees> page = bizMaterialsStandardShippingFeesService.findPage(new Page<BizMaterialsStandardShippingFees>(request, response), bizMaterialsStandardShippingFees);
 		List<BizMaterialsStandardShippingFees> list = page.getList();
-		//对同一门店下材料 启用的状态做个统计   并把不可以启用的状态 放回去 门店+材料类型 只能有一个启用
+
 		HashMap<String, String> stringStringHashMap = new HashMap<>();
 		Integer status=1;
 		for (BizMaterialsStandardShippingFees biz:list) {

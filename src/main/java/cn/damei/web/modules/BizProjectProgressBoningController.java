@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import cn.damei.common.config.Global;
@@ -32,12 +30,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-/**
- * 工程进度大看板Controller
- * 
- * @author qww
- * @version 2016-10-26
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/projectprogressboning/bizProjectProgressBoning")
 public class BizProjectProgressBoningController extends BaseController {
@@ -67,7 +60,7 @@ public class BizProjectProgressBoningController extends BaseController {
 	@RequestMapping(value = { "list", "" })
 	public String list(BizProjectProgressBoning bizProjectProgressBoning, Model model, HttpServletRequest request,
 			HttpServletResponse response) {
-		// 过滤门店
+
 		if (bizProjectProgressBoning.getStoreId() == null) {
 			String storeId = UserUtils.getUser().getStoreId();
 			if (StringUtils.isBlank(storeId)) {
@@ -82,7 +75,7 @@ public class BizProjectProgressBoningController extends BaseController {
 			bizProjectProgressBoning.setStoreId(Integer.parseInt(UserUtils.getUser().getStoreId()));
 		}
 
-		// 区域
+
 		if (bizProjectProgressBoning.getEnginDepartId() == null) {
 			if (StringUtils.isNoneBlank(UserUtils.getUser().getEmpId())) {
 				List<Integer> list = bizEmployeeService2
@@ -101,7 +94,7 @@ public class BizProjectProgressBoningController extends BaseController {
 			bizProjectProgressBoning.setEnginDepartIds(list);
 		}
 		User user = UserUtils.getUser();
-		// 过滤工程模式
+
 		if (StringUtils.isBlank(bizProjectProgressBoning.getProjectMode())) {
 			if (null != user.getEmpId()) {
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -145,7 +138,7 @@ public class BizProjectProgressBoningController extends BaseController {
 	@RequestMapping(value = { "loadList", "" })
 	public String loadList(BizProjectProgressBoning bizProjectProgressBoning, Model model, HttpServletRequest request,
 			HttpServletResponse response) {
-		// 过滤门店
+
 		if (bizProjectProgressBoning.getStoreId() == null) {
 			String storeId = UserUtils.getUser().getStoreId();
 			if (StringUtils.isBlank(storeId)) {
@@ -160,7 +153,7 @@ public class BizProjectProgressBoningController extends BaseController {
 			bizProjectProgressBoning.setStoreId(Integer.parseInt(UserUtils.getUser().getStoreId()));
 		}
 
-		// 区域
+
 		if (bizProjectProgressBoning.getEnginDepartId() == null) {
 			if (StringUtils.isNoneBlank(UserUtils.getUser().getEmpId())) {
 				List<Integer> list = bizEmployeeService2
@@ -180,7 +173,7 @@ public class BizProjectProgressBoningController extends BaseController {
 		}
 
 		User user = UserUtils.getUser();
-		// 过滤工程模式
+
 		if (StringUtils.isBlank(bizProjectProgressBoning.getProjectMode())) {
 			if (null != user.getEmpId()) {
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -228,7 +221,7 @@ public class BizProjectProgressBoningController extends BaseController {
 		if (StringUtils.isBlank(UserUtils.getUser().getStoreId())) {
 			model.addAttribute("storeDropEnable", true);
 		}
-		// 工程模式控制
+
 		User user = UserUtils.getUser();
 		String projectMode = user.getProjectMode();
 		if (projectMode == null || projectMode.equals("3")) {
@@ -248,7 +241,7 @@ public class BizProjectProgressBoningController extends BaseController {
 	@RequestMapping(value = { "loadList1", "" })
 	public String loadList1(BizProjectProgressBoning bizProjectProgressBoning, Model model, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
-		// 过滤门店
+
 		if (bizProjectProgressBoning.getStoreId() == null) {
 			String storeId = UserUtils.getUser().getStoreId();
 			if (StringUtils.isBlank(storeId)) {
@@ -260,7 +253,7 @@ public class BizProjectProgressBoningController extends BaseController {
 		if (StringUtils.isBlank(UserUtils.getUser().getStoreId())) {
 			model.addAttribute("storeDropEnable", true);
 		}
-		// 工程模式控制
+
 		User user = UserUtils.getUser();
 		String projectMode = user.getProjectMode();
 		if (projectMode.equals("3")) {
@@ -272,7 +265,7 @@ public class BizProjectProgressBoningController extends BaseController {
 			bizProjectProgressBoning.setProjectMode(projectMode);
 			model.addAttribute("projectModeEnable", true);
 		}
-		// 区域
+
 		if (bizProjectProgressBoning.getEnginDepartId() == null) {
 			if (StringUtils.isNoneBlank(UserUtils.getUser().getEmpId())) {
 				List<Integer> list = bizEmployeeService2
@@ -304,19 +297,14 @@ public class BizProjectProgressBoningController extends BaseController {
 	public String editOrderNode(Integer orderId, RedirectAttributes redirectAttributes) {
 		bizProjectProgressBoningService.editOrderNode(orderId);
 		addMessage(redirectAttributes, "更新订单节点成功");
-		/*try {
-			updateBizProjectProgressSummaryData(orderId);
-			addMessage(redirectAttributes, "更新订单节点成功");
-		}catch (Exception e){
-			addMessage(redirectAttributes, "更新订单节点失败");
-		}*/
+
 		return "redirect:" + Global.getAdminPath() + "/projectprogressboning/bizProjectProgressBoning/loadList?repage";
 	}
 
 	@RequestMapping(value = "exportExcel")
 	public void exportExcel(BizProjectProgressBoning bizProjectProgressBoning, HttpServletResponse response)
 			throws Exception {
-		// 过滤门店
+
 		if (bizProjectProgressBoning.getStoreId() == null) {
 			String storeId = UserUtils.getUser().getStoreId();
 			if (StringUtils.isBlank(storeId)) {
@@ -329,7 +317,7 @@ public class BizProjectProgressBoningController extends BaseController {
 			bizProjectProgressBoning.setStoreId(Integer.parseInt(UserUtils.getUser().getStoreId()));
 		}
 
-		// 区域
+
 		if (bizProjectProgressBoning.getEnginDepartId() == null) {
 			if (StringUtils.isNoneBlank(UserUtils.getUser().getEmpId())) {
 				List<Integer> list = bizEmployeeService2
@@ -350,11 +338,11 @@ public class BizProjectProgressBoningController extends BaseController {
 
 		SimpleDateFormat sf = new SimpleDateFormat("yyyyMMddHHmmss");
 		HSSFWorkbook excel = bizProjectProgressBoningService.exportExcel(bizProjectProgressBoning);
-		ServletOutputStream out = null;// 创建一个输出流对象
+		ServletOutputStream out = null;
 		try {
 			response.setContentType("application/binary;charset=utf-8");
-			String headerStr = new String(("工程进度大看板" + sf.format(new Date())).getBytes("utf-8"), "ISO8859-1");// headerString为中文时转码
-			response.setHeader("Content-disposition", "attachment; filename=" + headerStr + ".xls");// filename是下载的xls的名
+			String headerStr = new String(("工程进度大看板" + sf.format(new Date())).getBytes("utf-8"), "ISO8859-1");
+			response.setHeader("Content-disposition", "attachment; filename=" + headerStr + ".xls");
 			out = response.getOutputStream();
 			excel.write(out);
 		} catch (IOException ex) {

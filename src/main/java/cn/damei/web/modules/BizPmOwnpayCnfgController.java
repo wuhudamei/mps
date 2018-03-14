@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,11 +24,7 @@ import cn.damei.entity.modules.User;
 import cn.damei.common.utils.UserUtils;
 import cn.damei.common.utils.StringUtils;
 
-/**
- * 自主支配项定义Controller
- * @author wyb
- * @version 2016-12-26
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/managerSettlement/bizpmownpaycnfg/bizPmOwnpayCnfg")
 public class BizPmOwnpayCnfgController extends BaseController {
@@ -57,7 +51,7 @@ public class BizPmOwnpayCnfgController extends BaseController {
 	public String list(BizPmOwnpayCnfg bizPmOwnpayCnfg, HttpServletRequest request, HttpServletResponse response, Model model) {
 		
 		User user = UserUtils.getUser();
-		//过滤门店
+
 		if(null==bizPmOwnpayCnfg.getStoreId()){
 			if(null!=user.getStoreId()){
 				bizPmOwnpayCnfg.setStoreId(Integer.valueOf(user.getStoreId()));
@@ -66,7 +60,7 @@ public class BizPmOwnpayCnfgController extends BaseController {
 		if(StringUtils.isBlank(user.getStoreId())){
 			model.addAttribute("storeDropEnable", true);
 		}
-		//过滤工程模式
+
 		if(StringUtils.isBlank(bizPmOwnpayCnfg.getProjectMode())){
 			if(null != user.getEmpId()){
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -106,7 +100,7 @@ public class BizPmOwnpayCnfgController extends BaseController {
 	public String list2(BizPmOwnpayCnfg bizPmOwnpayCnfg, HttpServletRequest request, HttpServletResponse response, Model model) {
 		
 		User user = UserUtils.getUser();
-		//过滤门店
+
 		if(null==bizPmOwnpayCnfg.getStoreId()){
 			if(null!=user.getStoreId()){
 				bizPmOwnpayCnfg.setStoreId(Integer.valueOf(user.getStoreId()));
@@ -115,7 +109,7 @@ public class BizPmOwnpayCnfgController extends BaseController {
 		if(StringUtils.isBlank(user.getStoreId())){
 			model.addAttribute("storeDropEnable", true);
 		}
-		//过滤工程模式
+
 		if(StringUtils.isBlank(bizPmOwnpayCnfg.getProjectMode())){
 			if(null != user.getEmpId()){
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));

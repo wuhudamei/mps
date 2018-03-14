@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.common.web;
 
 import javax.servlet.ServletConfig;
@@ -15,11 +13,7 @@ import com.ckfinder.connector.configuration.Configuration;
 import com.ckfinder.connector.data.AccessControlLevel;
 import com.ckfinder.connector.utils.AccessControlUtil;
 
-/**
- * CKFinder配置
- * @author ThinkGem
- * @version 2014-06-25
- */
+
 public class CKFinderConfig extends Configuration {
 
 	public CKFinderConfig(ServletConfig servletConfig) {
@@ -32,9 +26,9 @@ public class CKFinderConfig extends Configuration {
 		if (principal == null){
 			return new CKFinderConfig(this.servletConf);
 		}
-		boolean isView = true;//UserUtils.getSubject().isPermitted("cms:ckfinder:view");
-		boolean isUpload = true;//UserUtils.getSubject().isPermitted("cms:ckfinder:upload");
-		boolean isEdit = true;//UserUtils.getSubject().isPermitted("cms:ckfinder:edit");
+		boolean isView = true;
+		boolean isUpload = true;
+		boolean isEdit = true;
 		AccessControlLevel alc = this.getAccessConrolLevels().get(0);
 		alc.setFolderView(isView);
 		alc.setFolderCreate(isEdit);
@@ -44,15 +38,15 @@ public class CKFinderConfig extends Configuration {
 		alc.setFileUpload(isUpload);
 		alc.setFileRename(isEdit);
 		alc.setFileDelete(isEdit);
-//		for (AccessControlLevel a : this.getAccessConrolLevels()){
-//			System.out.println(a.getRole()+", "+a.getResourceType()+", "+a.getFolder()
-//					+", "+a.isFolderView()+", "+a.isFolderCreate()+", "+a.isFolderRename()+", "+a.isFolderDelete()
-//					+", "+a.isFileView()+", "+a.isFileUpload()+", "+a.isFileRename()+", "+a.isFileDelete());
-//		}
+
+
+
+
+
 		AccessControlUtil.getInstance(this).loadACLConfig();
 		try {
-//			Principal principal = (Principal)SecurityUtils.getSubject().getPrincipal();
-//			this.baseURL = ServletContextFactory.getServletContext().getContextPath()+"/userfiles/"+principal+"/";
+
+
 			this.baseURL = FileUtils.path(Servlets.getRequest().getContextPath() + Global.USERFILES_BASE_URL + principal + "/");
 			this.baseDir = FileUtils.path(Global.getUserfilesBaseDir() + Global.USERFILES_BASE_URL + principal + "/");
 			this.baseDir = "/" + this.baseDir;

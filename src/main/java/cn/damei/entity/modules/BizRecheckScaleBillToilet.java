@@ -4,50 +4,30 @@ import java.util.Date;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 上报复尺新版(20161107-20161113)
- * @author llp
- * 马桶
- * biz_recheck_scale_bill_closestool
- * 2016-11-17
- */
+
 @SuppressWarnings("serial")
 public class BizRecheckScaleBillToilet extends DataEntity2<BizRecheckScaleBillToilet> {
 	private Integer id;
 
-	/**
-	 * 复尺单id
-	 */
+
 	private Integer recheckScaleBillId;
 
-	/**
-	 * 位置
-	 */
+
 	private String position;
 
-	/**
-	 * 马桶孔距
-	 */
+
 	private String closestoolHoleSize;
 
-	/**
-	 * 备注
-	 */
+
 	private String remarks;
 	
-	/**
-	 * 创建日期时间
-	 */
+
 	private Date createDate;
 
-	/**
-	 * 更新日期时间
-	 */
+
 	private Date updateDate;
 
-	/**
-	 * 是否删除
-	 */
+
 	private String delFlag;
 
 	public Integer getId() {

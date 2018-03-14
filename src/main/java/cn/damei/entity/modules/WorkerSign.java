@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import java.util.Date;
@@ -10,36 +8,32 @@ import org.hibernate.validator.constraints.Length;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 项目经理签到查询Entity
- * @author 梅浩
- * @version 2016-09-26
- */
+
 public class WorkerSign extends DataEntity2<WorkerSign> {
 	
 	private static final long serialVersionUID = 1L;
 	
 
-	private String orderNumber;//订单编号
-	private Integer storeId; //门店id
-	private String storeName;//门店名称
-	private Integer orderId;		// 相关订单id
-	private Integer packId; //相关任务包id
-	private String signPic;		// 签到照片
-	private Date signDate;		// 签到日期,时分秒
-	private String signAddress;		// 签到地址
-	private Double signDistance;		// 误差(单位:米)
-	private Integer managerId;		// 项目经理id
-	private String managerName;		// 经理姓名
-	private Integer workerId;//工人id
-	private  String workerName;//工人姓名
-	private String customerInfo;		// 顾客信息
-	private Double conditionDistance1;//条件距离1
-	private Double conditionDistance2;//条件距s离2
-	private Date  signDate1;//签到时间1
-	private Date signDate2;//签到时间2
+	private String orderNumber;
+	private Integer storeId;
+	private String storeName;
+	private Integer orderId;
+	private Integer packId;
+	private String signPic;
+	private Date signDate;
+	private String signAddress;
+	private Double signDistance;
+	private Integer managerId;
+	private String managerName;
+	private Integer workerId;
+	private  String workerName;
+	private String customerInfo;
+	private Double conditionDistance1;
+	private Double conditionDistance2;
+	private Date  signDate1;
+	private Date signDate2;
 	private String customerName;
-	private String projectMode; //工程模式
+	private String projectMode;
 	public String getCustomerName() {
 		return customerName;
 	}

@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,11 +20,7 @@ import cn.damei.common.utils.StringUtils;
 import cn.damei.entity.modules.IllegalModality;
 import cn.damei.service.modules.IllegalModalityService;
 
-/**
- * PC违规形式Controller
- * @author 梅浩
- * @version 2016-10-26
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/illegalmodality/illegalModality")
 public class IllegalModalityController extends BaseController {
@@ -56,7 +50,7 @@ public class IllegalModalityController extends BaseController {
 			
 	
 		Page<IllegalModality> page = illegalModalityService.findPage(new Page<IllegalModality>(request, response), illegalModality); 
-		//埋一个检查项的id
+
 		if(null!=illegalModality.getProjectMode()){
 			
 			model.addAttribute("projectMode", illegalModality.getProjectMode());
@@ -78,8 +72,8 @@ public class IllegalModalityController extends BaseController {
 	@RequiresPermissions("illegalmodality:illegalModality:view")
 	@RequestMapping(value = "form")
 	public String form(IllegalModality illegalModality, Model model) {
-		//通过检查项id ,查询检查项和检查分类,门店信息
-		//添加违规形式需要的门店, 检查项,检查分类
+
+
 		
 			IllegalModality modality = illegalModalityService.getStoreKindItemInfoByIllegalModalityId(illegalModality.getCheckItemId());
 			model.addAttribute("modality", modality);
@@ -91,7 +85,7 @@ public class IllegalModalityController extends BaseController {
 	@RequiresPermissions("illegalmodality:illegalModality:view")
 	@RequestMapping(value = "form1")
 	public String form1(IllegalModality illegalModality, Model model) {
-		//修改页面
+
 			
 			model.addAttribute("modality", illegalModality);
 		return "modules/illegalmodality/illegalModalityFormEdit";

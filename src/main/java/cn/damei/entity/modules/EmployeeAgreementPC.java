@@ -6,16 +6,14 @@ import cn.damei.common.persistence.DataEntity2;
 
 public class EmployeeAgreementPC extends DataEntity2<EmployeeAgreementPC>{
 
-	/**
-	 * 工人协议实体类
-	 */
+
 	private static final long serialVersionUID = 1L;
 	
-	private String employeeType;//员工类型
-	private String employeeId;//员工ID
-	private String isSignEmployeeAgreement;//是否签订协议
-	private Date employeeAgreementSignDatetime;//签订协议时间
-	private Date employeeAgreementReadDatetime;//最后阅读时间
+	private String employeeType;
+	private String employeeId;
+	private String isSignEmployeeAgreement;
+	private Date employeeAgreementSignDatetime;
+	private Date employeeAgreementReadDatetime;
 	
 	private String realName;
 	private String phone;

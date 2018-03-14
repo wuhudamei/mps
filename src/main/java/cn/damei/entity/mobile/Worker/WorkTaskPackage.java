@@ -7,36 +7,33 @@ import cn.damei.common.persistence.DataEntity2;
 
 public class WorkTaskPackage extends DataEntity2<WorkTaskPackage>{
 
-	/**
-	 * @author 汪文文
-	 * @version 2016-9-20
-	 */
+
 	private static final long serialVersionUID = 1L;
 	
-	private Integer storeId;		// 门店Id
-	private int picId;          //任务包图片id
-	private Integer orderId;		// 订单Id
+	private Integer storeId;
+	private int picId;
+	private Integer orderId;
 	private String communityName;
 	private String buildNumber;
 	private String buildUnit;
 	private String buildRoom;
-	private String packageCode;		// 任务包编号
-	private String packageName;		// 任务包名称
-	private Date planStartdate;		// 计划开工日期
-	private Date planEnddate;		// 计划完工日期
-	private Date actualStartdate;		// 实际开工日期
-	private Date actualEnddate;		// 实际完工日期
-	private String packageStateid;		// 任务包状态Id
-	private String packageStatename;		// 任务包状态名称
-	private String empGroupid;		// 工人组ID
-	private Integer groupId;		// 组长ID
-	//private String groupRealname;		// 组长真实姓名
-	private String itemCustomer;		// 项目经理
-	private String settleStyle; // 结算方式，1-包工包料，2-包工
-	private Double laborBudgetAmount;// 人工费预算总金额
-	private Double auxiliaryMaterialsBudgetAmount;// 辅料费预算总金额
+	private String packageCode;
+	private String packageName;
+	private Date planStartdate;
+	private Date planEnddate;
+	private Date actualStartdate;
+	private Date actualEnddate;
+	private String packageStateid;
+	private String packageStatename;
+	private String empGroupid;
+	private Integer groupId;
+
+	private String itemCustomer;
+	private String settleStyle;
+	private Double laborBudgetAmount;
+	private Double auxiliaryMaterialsBudgetAmount;
 	
-	private String isScrap;//是否作废
+	private String isScrap;
 	
 	
 	public String getIsScrap() {
@@ -69,18 +66,18 @@ public class WorkTaskPackage extends DataEntity2<WorkTaskPackage>{
 	public void setBuildRoom(String buildRoom) {
 		this.buildRoom = buildRoom;
 	}
-	//private String taskPackageType;		// 任务包类型
-	private String customerName;		// 客户姓名
-//	private String dispatcher;			//调度员
-	private String customerMessage;     //客户信息
-	//private Date dispatchTime;        //派工时间
-	//private String isOvertime;    //是否超时
-	private String leaderPhone ;//手机
-	private String leaderName;//组长姓名
-	private String managerPhone;//项目经理手机
+
+	private String customerName;
+
+	private String customerMessage;
+
+
+	private String leaderPhone ;
+	private String leaderName;
+	private String managerPhone;
 	private Integer managerId;
-	private Integer taskPackageTemplatId;//任务包模板id
-	private String customerPhone; //客户手机号
+	private Integer taskPackageTemplatId;
+	private String customerPhone;
 	private String workerName;
 	private String workerPhone;
 	
@@ -142,7 +139,7 @@ public class WorkTaskPackage extends DataEntity2<WorkTaskPackage>{
 	public void setLeaderName(String leaderName) {
 		this.leaderName = leaderName;
 	}
-	private Double laborAuxiliaryMaterialsBudgetAmount;//任务包工序总价
+	private Double laborAuxiliaryMaterialsBudgetAmount;
 
 
 	public Double getLaborAuxiliaryMaterialsBudgetAmount() {

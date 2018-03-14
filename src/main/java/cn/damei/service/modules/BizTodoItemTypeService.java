@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.util.List;
@@ -14,11 +12,7 @@ import cn.damei.common.service.CrudService;
 import cn.damei.entity.modules.BizTodoItemType;
 import cn.damei.dao.modules.BizTodoItemTypeDao;
 
-/**
- * 待办配置Service
- * @author mh
- * @version 2017-07-14
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizTodoItemTypeService extends CrudService<BizTodoItemTypeDao, BizTodoItemType> {

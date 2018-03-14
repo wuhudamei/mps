@@ -12,12 +12,12 @@ import cn.damei.entity.modules.PmSubsidyCnfg;
 public class PmSubsidyCnfgService extends CrudService2<PmSubsidyCnfgDao,PmSubsidyCnfg>{
 
 	public List<PmSubsidyCnfg> findAllPmSubsidyCnfg(PmSubsidyCnfg pmSubsidyCnfg) {
-		// TODO Auto-generated method stub
+
 		return dao.findAllPmSubsidyCnfg(pmSubsidyCnfg);
 	}
 	@Transactional(readOnly=false)
 	public void isEnabel(PmSubsidyCnfg pmSubsidyCnfg) {
-		// TODO Auto-generated method stub
+
 		dao.isEnabel(pmSubsidyCnfg);
 	}
 

@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,11 +20,7 @@ import cn.damei.common.utils.StringUtils;
 import cn.damei.entity.modules.BizPmOwnpayLog;
 import cn.damei.service.modules.BizPmOwnpayLogService;
 
-/**
- * 自主支配日志表Controller
- * @author wyb
- * @version 2017-02-15
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/pmownpaylog/bizPmOwnpayLog")
 public class BizPmOwnpayLogController extends BaseController {

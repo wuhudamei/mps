@@ -5,9 +5,7 @@ import java.util.Date;
 
 public class ManagerBroadCastEntity implements  Serializable {
 
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	
 	private Integer broadcastId;
@@ -45,8 +43,8 @@ public class ManagerBroadCastEntity implements  Serializable {
 	private String applyBroadCastPhone;
 	private String picPath;
 	private String customerName;
-	private String isShow;//是否展示给顾客看
-	private String text;//条件搜索
+	private String isShow;
+	private String text;
 	private Integer picId;
 	private String picType;
 	private Integer picCount;

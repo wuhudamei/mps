@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import java.util.Date;
@@ -21,39 +19,35 @@ import cn.damei.common.utils.Collections3;
 import cn.damei.common.utils.excel.annotation.ExcelField;
 import cn.damei.common.utils.excel.fieldtype.RoleListType;
 
-/**
- * 用户Entity
- * @author ThinkGem
- * @version 2013-12-05
- */
+
 public class User extends DataEntity<User> {
 
 	private static final long serialVersionUID = 1L;
-	private Office company;	// 归属公司
-	private Office office;	// 归属部门
-	private String loginName;// 登录名
-	private String password;// 密码
-	private String no;		// 工号
-	private String name;	// 姓名
-	private String email;	// 邮箱
-	private String phone;	// 电话
-	private String mobile;	// 手机
-	private String userType;// 用户类型
-	private String loginIp;	// 最后登陆IP
-	private Date loginDate;	// 最后登陆日期
-	private String loginFlag;	// 是否允许登陆
-	private String photo;	// 头像
+	private Office company;
+	private Office office;
+	private String loginName;
+	private String password;
+	private String no;
+	private String name;
+	private String email;
+	private String phone;
+	private String mobile;
+	private String userType;
+	private String loginIp;
+	private Date loginDate;
+	private String loginFlag;
+	private String photo;
 
-	private String oldLoginName;// 原登录名
-	private String newPassword;	// 新密码
+	private String oldLoginName;
+	private String newPassword;
 	
-	private String oldLoginIp;	// 上次登陆IP
-	private Date oldLoginDate;	// 上次登陆日期
+	private String oldLoginIp;
+	private Date oldLoginDate;
 	
-	private Role role;	// 根据角色查询用户条件
-	private String empId;//关联员工表id
-	private String projectMode;//该员工是传统还是产业还是管理员
-	private String employeePhone;	//员工手机号
+	private Role role;
+	private String empId;
+	private String projectMode;
+	private String employeePhone;
 
 	public String getProjectMode() {
 		return projectMode;
@@ -71,7 +65,7 @@ public class User extends DataEntity<User> {
 		this.empId = empId;
 	}
 
-	private List<Role> roleList = Lists.newArrayList(); // 拥有角色列表
+	private List<Role> roleList = Lists.newArrayList();
 
 	public User() {
 		super();
@@ -321,9 +315,7 @@ public class User extends DataEntity<User> {
 		}
 	}
 	
-	/**
-	 * 用户拥有的角色名称字符串, 多个角色名称用','分隔.
-	 */
+
 	public String getRoleNames() {
 		return Collections3.extractToString(roleList, "name", ",");
 	}
@@ -341,26 +333,23 @@ public class User extends DataEntity<User> {
 		return id;
 	}
 	
-	/**
-	 * 获取当前用户所在门店，总部人员返回null
-	 * @return
-	 */
+
 	public String getStoreId(){
-		//return null;
+
 		Office office2 = this.getOffice();
 		if(office2!=null){
 
-			//2017-08-07  三级目录结构不适合这个代码
 
 
-			//三级部门
+
+
 			if(null!=office2.getParentIds()&&office2.getParentIds().split(",").length>2){
 
 				return office2.getParentIds().split(",")[2];
 
 
 
-				//不是总部
+
 			}else  if(!"0".equals(office2.getParent().getId())){
 
 
@@ -368,7 +357,7 @@ public class User extends DataEntity<User> {
 				return this.getOffice().getId();
 
 			}else{
-				//总部为null;
+
 				return null;
 
 			}

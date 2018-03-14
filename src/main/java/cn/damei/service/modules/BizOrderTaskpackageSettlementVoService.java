@@ -94,14 +94,8 @@ public class BizOrderTaskpackageSettlementVoService
 	private OrderTaskpackageSettlementDetailService orderTaskpackageSettlementDetailService;
 	@Autowired
 	private BizOrderTaskpackageSettlementService bizOrderTaskpackageSettlementService;
-	/*
-	 * @Autowired private BizOrderTaskpackagePaymentService
-	 * bizOrderTaskpackagePaymentService;
-	 */
-	/*
-	 * @Autowired private BizOrderTaskpackagePaymentDetailService
-	 * bizOrderTaskpackagePaymentDetailService;
-	 */
+
+
 	@Autowired
 	private BizOrderTaskpackageProcedureDao orderTaskpackageProcedureDao;
 	@Autowired
@@ -117,11 +111,7 @@ public class BizOrderTaskpackageSettlementVoService
 	@Autowired
 	private BizPmSettleCategoryDetailDao bizPmSettleCategoryDetailDao;
 
-	/**
-	 * 审核通过
-	 * 
-	 * @param orderTaskpackageId
-	 */
+
 	@Transactional(readOnly = false)
 	public void updateStatusDate(Integer orderTaskpackageId, String statusName, String status) {
 
@@ -134,7 +124,7 @@ public class BizOrderTaskpackageSettlementVoService
 		orderTaskackage.setPackageStatename(statusName);
 		allotWorkerGroupDao.updatePackage(orderTaskackage);
 
-		// 更新结算单
+
 		Double rewardAmount = bizEvalRewardTaskpackService.queryRewardAmount(orderTaskpackageId);
 		BizOrderTaskpackageSettlementVo vo = dao.queryEntityByOrderTaskpackageId(orderTaskpackageId);
 		vo.setUpdateBy(user);
@@ -147,7 +137,7 @@ public class BizOrderTaskpackageSettlementVoService
 		vo.setRewardAmount(rewardAmount);
 		dao.update(vo);
 
-		// 添加状态日志信息
+
 		BizBusinessStatusLog statusLog = new BizBusinessStatusLog();
 		statusLog.setBusinessType(BusinessLogConstantUtil.BUSINESS_TYPE_601);
 		statusLog.setBusinessOnlyMarkInt(vo.getOrderTaskpackageId());
@@ -159,7 +149,7 @@ public class BizOrderTaskpackageSettlementVoService
 		statusLog.setBusinessRemarks("工人结算单通过");
 		statusLog.preInsert();
 		bizBusinessStatusLogDao.insert(statusLog);
-		// 更新结算明细单
+
 		OrderTaskpackageSettlementDetail detail = new OrderTaskpackageSettlementDetail();
 		detail.setOrderTaskpackageId(orderTaskpackageId);
 		detail.setSettlementId(vo.getId());
@@ -173,8 +163,8 @@ public class BizOrderTaskpackageSettlementVoService
 						+ (rewardAmount == null ? 0 : rewardAmount))));
 		orderTaskpackageSettlementDetailService.update(settlementDetail);
 
-		// 生成付款单和付款明细
-		// 1.根据任务包查询是否分首款和尾款
+
+
 		Integer taskTackageTempId = orderTaskackage.getTaskTackageTempId();
 		BizTaskPackageTemplat bizTaskPackageTemplat = bizTaskPackageTemplatService.get(taskTackageTempId + "");
 		BizOrderTaskpackageSettlement settlement = bizOrderTaskpackageSettlementService
@@ -182,11 +172,11 @@ public class BizOrderTaskpackageSettlementVoService
 		List<OrderTaskpackageSettlementDetail> settlementDetails = orderTaskpackageSettlementDetailService
 				.findByOrderTaskpackageId(orderTaskpackageId);
 
-		if ("100".equals(bizTaskPackageTemplat.getAdvancePaymentRates())) {// 只有首款
+		if ("100".equals(bizTaskPackageTemplat.getAdvancePaymentRates())) {
 			BizOrderTaskpackagePayment payment = getPayment(settlement);
 			payment.setOrderTaskpackagePaymentType(ConstantUtils.PAYMENT_TYPE_0);
-			// 首款 --状态设为 15-已审核通过待打款
-			// payment.setStatus(ConstantUtils.PAYMENT_STATUS_15);
+
+
 			payment.setPaymentRates(1.0);
 			payment.preInsert();
 
@@ -204,46 +194,22 @@ public class BizOrderTaskpackageSettlementVoService
 				paymentDetail.setOrderTaskpackagePaymentId(payment.getId());
 				bizOrderTaskpackagePaymentDetailDao.insert(paymentDetail);
 
-				/*
-				 * List<BizOrderTaskpackagePayment> existPayments =
-				 * bizOrderTaskpackagePaymentDao
-				 * .findPaymentBySettlementId(settlement.getId());
-				 * List<BizOrderTaskpackagePaymentDetail> paymentDetails =
-				 * getDetails(settlementDetails); for
-				 * (BizOrderTaskpackagePaymentDetail
-				 * bizOrderTaskpackagePaymentDetail : paymentDetails) {
-				 * bizOrderTaskpackagePaymentDetail.setOrderTaskpackagePaymentId
-				 * (existPayments.get(0).getId());
-				 * bizOrderTaskpackagePaymentDetailDao.insert(
-				 * bizOrderTaskpackagePaymentDetail); }
-				 */
+
 			}
 
-			/*
-			 * List<BizOrderTaskpackagePayment> existPayments =
-			 * bizOrderTaskpackagePaymentDao
-			 * .findPaymentBySettlementId(settlement.getId());
-			 * List<BizOrderTaskpackagePaymentDetail> paymentDetails =
-			 * getDetails(settlementDetails); for
-			 * (BizOrderTaskpackagePaymentDetail
-			 * bizOrderTaskpackagePaymentDetail : paymentDetails) {
-			 * bizOrderTaskpackagePaymentDetail.setOrderTaskpackagePaymentId(
-			 * existPayments.get(0).getId());
-			 * bizOrderTaskpackagePaymentDetailService.insert(
-			 * bizOrderTaskpackagePaymentDetail);
-			 */
-			// bizOrderTaskpackagePaymentDetail.preInsert(); --批量
-			// }
-			// bizOrderTaskpackagePaymentDetailService.insertList(paymentDetails);--批量
 
-		} else {// 分收尾款
+
+
+
+
+		} else {
 
 			BizOrderTaskpackagePayment payment1 = getPayment(settlement);
 			Integer advance = Integer.parseInt(bizTaskPackageTemplat.getAdvancePaymentRates());
 			payment1.setAmount(settlement.getWorkerGroupSettleAmount() * advance / 100);
 			payment1.setOrderTaskpackagePaymentType(ConstantUtils.PAYMENT_TYPE_0);
-			// 首款 --状态设为 15-已审核通过待打款
-			// payment1.setStatus(ConstantUtils.PAYMENT_STATUS_15);
+
+
 			payment1.setPaymentRates(advance / 100.0);
 			payment1.preInsert();
 
@@ -267,7 +233,7 @@ public class BizOrderTaskpackageSettlementVoService
 			payment2.setAmount(settlement.getWorkerGroupSettleAmount() * rest / 100);
 			payment2.setOrderTaskpackagePaymentType(ConstantUtils.PAYMENT_TYPE_1);
 
-			// 判断尾款是否已经约检通过，若约检通过则设置尾款状态为15-已审核通过待打款，否则为10-已生成付款单
+
 			Integer num = bizOrderTaskpackagePaymentDao.getBalPmtCheckNode(orderTaskackage);
 			if (num > 0) {
 				payment2.setStatus(ConstantUtils.PAYMENT_STATUS_15);
@@ -294,22 +260,12 @@ public class BizOrderTaskpackageSettlementVoService
 				bizOrderTaskpackagePaymentDetailDao.insert(paymentDetail);
 			}
 
-			/*List<BizOrderTaskpackagePayment> existPayments = bizOrderTaskpackagePaymentDao
-					.findPaymentBySettlementId(settlement.getId());
-			for (BizOrderTaskpackagePayment payment : existPayments) {
-				List<BizOrderTaskpackagePaymentDetail> paymentDetails = getDetails(settlementDetails);
-				for (BizOrderTaskpackagePaymentDetail bizOrderTaskpackagePaymentDetail : paymentDetails) {
-					bizOrderTaskpackagePaymentDetail.setOrderTaskpackagePaymentId(payment.getId());
-					bizOrderTaskpackagePaymentDetail
-							.setAmount(bizOrderTaskpackagePaymentDetail.getAmount() * payment.getPaymentRates());
-					bizOrderTaskpackagePaymentDetailDao.insert(bizOrderTaskpackagePaymentDetail);
-				}
-			}*/
+
 
 		}
 
-		if ("2".equals(settlement.getSettleStyle())) {// 结算方式是包工
-			// 生成项目经理材料结算类目明细
+		if ("2".equals(settlement.getSettleStyle())) {
+
 			PmSettleCategoryDetail details = new PmSettleCategoryDetail();
 			details.setOrderId(Integer.valueOf(orderTaskackage.getOrderId()));
 			details.setPmEmployeeId(Integer.valueOf(orderTaskackage.getItemManagerId()));
@@ -330,13 +286,7 @@ public class BizOrderTaskpackageSettlementVoService
 
 	}
 
-	/**
-	 * 驳回
-	 * 
-	 * @param orderTaskpackageId
-	 * @param reason
-	 * @param date
-	 */
+
 	@Autowired
 
 	private AllotWorkerGroupDao allotWorkerGroupDao;
@@ -344,16 +294,16 @@ public class BizOrderTaskpackageSettlementVoService
 	@Transactional(readOnly = false)
 	public void updateRefusedReason(Integer orderTaskpackageId, String reason, Date date, String statusName,
 			String status) {
-		// 根据任务包的id修改任务包的状态
-		// OrderTaskpackage orderTaskackage =
-		// allotWorkerGroupService.findTargetPackageById(orderTaskpackageId);
+
+
+
 		OrderTaskpackage orderTaskackage = allotWorkerGroupDao.findTargetPackageById(orderTaskpackageId);
 		orderTaskackage.setPackageStateId(status);
 		orderTaskackage.setPackageStatename(statusName);
 		allotWorkerGroupDao.updatePackage(orderTaskackage);
-		// 跟新结算单 日期 驳回理由
+
 		dao.updateRefusedReason(orderTaskpackageId, reason, date, ConstantUtils.SETTLEMENT_STATUS_70);
-		// 添加状态日志信息
+
 		BizBusinessStatusLog statusLog = new BizBusinessStatusLog();
 		statusLog.setBusinessType(BusinessLogConstantUtil.BUSINESS_TYPE_601);
 		statusLog.setBusinessOnlyMarkInt(orderTaskpackageId);
@@ -371,7 +321,7 @@ public class BizOrderTaskpackageSettlementVoService
 	@Autowired
 	private BizSeiralnumService bizSeiralnumService;
 
-	// 封装付款单
+
 	public BizOrderTaskpackagePayment getPayment(BizOrderTaskpackageSettlement settlement) {
 
 		BizOrderTaskpackagePayment payment = new BizOrderTaskpackagePayment();
@@ -379,14 +329,14 @@ public class BizOrderTaskpackageSettlementVoService
 		payment.setAmount(settlement.getWorkerGroupSettleAmount());
 		payment.setOrderTaskpackageSettlementId(settlement.getId());
 		payment.setOrderTaskpackagePaymentCode(bizSeiralnumService.getDateSequence("FK"));
-		// payment.setStatus(ConstantUtils.PAYMENT_STATUS_10); //---10-已生成付款单
-		payment.setStatus(ConstantUtils.PAYMENT_STATUS_15); // ---15 已审核通过待打款
+
+		payment.setStatus(ConstantUtils.PAYMENT_STATUS_15);
 		payment.setStatusDatetime(new Date());
 		payment.setGeneratedDatetime(new Date());
 		return payment;
 	}
 
-	// 封装付款明细
+
 	public List<BizOrderTaskpackagePaymentDetail> getDetails(List<OrderTaskpackageSettlementDetail> settlementDetails) {
 
 		List<BizOrderTaskpackagePaymentDetail> list = new ArrayList<BizOrderTaskpackagePaymentDetail>();
@@ -419,7 +369,7 @@ public class BizOrderTaskpackageSettlementVoService
 	@Transactional(readOnly = false)
 	public void updateSettlement(OrderTaskpackageSettlement settlement) {
 		Date date = new Date();
-		// 1.更新工程清单
+
 		if (!Collections3.isEmpty(settlement.getOrderTaskProcedure())) {
 			for (BizOrderTaskpackageProcedure pro : settlement.getOrderTaskProcedure()) {
 				BizOrderTaskpackageProcedure procedure = orderTaskpackageProcedureDao.get(pro.getId());
@@ -434,9 +384,9 @@ public class BizOrderTaskpackageSettlementVoService
 			}
 		}
 
-		// 2.更新结算单
+
 		OrderTaskpackageSettlement taskSettlement = orderTaskpackageSettlementDao.get(settlement.getId());
-		// 添加结算单更新日志
+
 		User user = UserUtils.getUser();
 		BizOrderTaskpackageSettlementUpdateLog bizOrderTaskpackageSettlementUpdateLog = new BizOrderTaskpackageSettlementUpdateLog();
 		bizOrderTaskpackageSettlementUpdateLog.setOrderTaskpackageSettlementId(settlement.getId());
@@ -464,7 +414,7 @@ public class BizOrderTaskpackageSettlementVoService
 		taskSettlement.setUpdateDate(date);
 		orderTaskpackageSettlementDao.update(taskSettlement);
 		bizOrderTaskpackageSettlementUpdateLogDao.insert(bizOrderTaskpackageSettlementUpdateLog);
-		// 3.修改质保金并修改质保金余额信息
+
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("orderTaskpackageId", taskSettlement.getOrderTaskpackageId());
 		map.put("settlementId", settlement.getId());
@@ -565,7 +515,7 @@ public class BizOrderTaskpackageSettlementVoService
 	}
 
 	public Date queryConfirmSalaryTime(Integer id) {
-		// TODO Auto-generated method stub
+
 		return dao.queryConfirmSalaryTime(id);
 	}
 
@@ -576,21 +526,14 @@ public class BizOrderTaskpackageSettlementVoService
 		return page;
 	}
 
-	/**
-	 * 结算单撤回
-	 * 
-	 * @return
-	 */
+
 	@Transactional(readOnly = false)
 	public String settleCancel(Integer id, String operateRemarks) {
 		String result = "success";
-		// 更新结算单对应的付款单、付款单明细的状态
+
 		List<BizOrderTaskpackagePayment> paymentList = bizOrderTaskpackagePaymentDao.findPaymentBySettlementId(id);
 		if (paymentList != null) {
-			/*
-			 * if (ConstantUtils.PAYMENT_STATUS_93.equals(paymentList.get(0).
-			 * getStatus())) { result = "repeat"; return result; }
-			 */
+
 			for (BizOrderTaskpackagePayment payment : paymentList) {
 				payment.setStatus(ConstantUtils.PAYMENT_STATUS_93);
 				payment.setStatusDatetime(new Date());
@@ -610,13 +553,13 @@ public class BizOrderTaskpackageSettlementVoService
 			}
 		}
 
-		// 更新结算单状态
+
 		BizOrderTaskpackageSettlement bizOrderTaskpackageSettlement = bizOrderTaskpackageSettlementDao.get(id);
 		bizOrderTaskpackageSettlement.setStatus(ConstantUtils.SETTLEMENT_STATUS_65);
 		bizOrderTaskpackageSettlement.preUpdate();
 		bizOrderTaskpackageSettlementDao.update(bizOrderTaskpackageSettlement);
 
-		// 更新任务包状态
+
 		OrderTaskpackage orderTaskackage = allotWorkerGroupDao
 				.findTargetPackageById(bizOrderTaskpackageSettlement.getOrderTaskpackageId());
 		orderTaskackage.setPackageStateId("120");
@@ -624,8 +567,8 @@ public class BizOrderTaskpackageSettlementVoService
 		orderTaskackage.preUpdate();
 		allotWorkerGroupDao.updatePackage(orderTaskackage);
 
-		if ("2".equals(bizOrderTaskpackageSettlement.getSettleStyle())) {// 包工
-			// 更新项目经理材料结算类目
+		if ("2".equals(bizOrderTaskpackageSettlement.getSettleStyle())) {
+
 			Map<String, Object> param = new HashMap<String, Object>();
 			param.put("orderId", orderTaskackage.getOrderId());
 			param.put("settleStatus", ConstantUtils.PM_SETTLE_STATUS_15);
@@ -634,7 +577,7 @@ public class BizOrderTaskpackageSettlementVoService
 			bizPmSettleCategoryDetailDao.updateStatusByParam(param);
 		}
 
-		// 添加结算单撤回日志
+
 		BizOrderTaskpackageSettleMentCancleLog bizOrderTaskpackageSettleMentCancleLog = new BizOrderTaskpackageSettleMentCancleLog();
 		bizOrderTaskpackageSettleMentCancleLog.setOperateType("1");
 		bizOrderTaskpackageSettleMentCancleLog.setBizOrderTaskpackageSettlemenId(id);

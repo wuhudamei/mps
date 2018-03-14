@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import java.util.List;
@@ -31,11 +29,7 @@ import cn.damei.service.modules.CheckNodeService;
 import cn.damei.entity.modules.User;
 import cn.damei.common.utils.UserUtils;
 
-/**
- * 项目约检情况查询Controller
- * @author wyb
- * @version 2016-10-31
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/pqc/checkDetails/checkDetails")
 public class CheckDetailsController extends BaseController {
@@ -64,7 +58,7 @@ public class CheckDetailsController extends BaseController {
 	public String list(CheckDetails checkDetails, HttpServletRequest request, HttpServletResponse response, Model model) {
 		
 		User user = UserUtils.getUser();
-		//过滤门店
+
 		if(null==checkDetails.getStoreId()){
 			if(null!=user.getStoreId()){
 				checkDetails.setStoreId(user.getStoreId());
@@ -73,7 +67,7 @@ public class CheckDetailsController extends BaseController {
 		if(StringUtils.isBlank(user.getStoreId())){
 			model.addAttribute("storeDropEnable", true);
 		}
-		//过滤工程模式
+
 		if(StringUtils.isBlank(checkDetails.getProjectMode())){
 			if(StringUtils.isBlank(user.getProjectMode())||user.getProjectMode().equals("3")){
 				model.addAttribute("gongcheng", true);
@@ -95,7 +89,7 @@ public class CheckDetailsController extends BaseController {
 	public String checkDetailsList(CheckDetails checkDetails, HttpServletRequest request, HttpServletResponse response, Model model) {
 		
 		User user = UserUtils.getUser();
-		//过滤门店
+
 		if(null==checkDetails.getStoreId()){
 			if(null!=user.getStoreId()){
 				checkDetails.setStoreId(user.getStoreId());
@@ -104,7 +98,7 @@ public class CheckDetailsController extends BaseController {
 		if(StringUtils.isBlank(user.getStoreId())){
 			model.addAttribute("storeDropEnable", true);
 		}
-		//过滤工程模式
+
 		if(StringUtils.isBlank(checkDetails.getProjectMode())){
 			if(StringUtils.isBlank(user.getProjectMode())||user.getProjectMode().equals("3")){
 				model.addAttribute("gongcheng", true);
@@ -124,21 +118,14 @@ public class CheckDetailsController extends BaseController {
 		return "modules/PQC/checkDetails/checkDetailsList";
 	}
 	
-	/**
-	 * 约检单列表
-	 * @param checkDetails
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @return
-	 */
+
 	@RequiresPermissions("CheckDetails:CheckDetails:view")
 	@RequestMapping(value = {"detailsList", ""})
 	public String detailsList(Integer orderId, HttpServletRequest request, HttpServletResponse response, Model model) {
 		
-		//通过订单id查询订单
+
 		BizOrderQcBill bizOrderQcBill = bizOrderQcBillService.findOrder(orderId);
-		//约检单列表
+
 		List<BizQcBill> bizQcBill = checkDetailsService.detailsList(orderId);
 		
 		model.addAttribute("bizOrderQcBill", bizOrderQcBill);
@@ -146,21 +133,14 @@ public class CheckDetailsController extends BaseController {
 		return "modules/PQC/checkDetails/detailsList";
 	}
 	
-	/**
-	 * 约检单列表
-	 * @param checkDetails
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @return
-	 */
+
 	@RequiresPermissions("CheckDetails:CheckDetails:view")
 	@RequestMapping(value = {"detailsList2", ""})
 	public String detailsList2(Integer orderId, HttpServletRequest request, HttpServletResponse response, Model model) {
 		
-		//通过订单id查询订单
+
 		BizOrderQcBill bizOrderQcBill = bizOrderQcBillService.findOrder(orderId);
-		//约检单列表
+
 		List<BizQcBill> bizQcBill = checkDetailsService.detailsList(orderId);
 		
 		model.addAttribute("bizOrderQcBill", bizOrderQcBill);
@@ -170,12 +150,7 @@ public class CheckDetailsController extends BaseController {
 	
 	
 
-	/**
-	 * 加载约检节点
-	 * @param storeId
-	 * @param projectModeValue
-	 * @return
-	 */
+
 	@RequestMapping(value = "checkNode")
 	public @ResponseBody List<CheckNode> checkNode(String storeId, String projectModeValue) {
 		
@@ -189,10 +164,10 @@ public class CheckDetailsController extends BaseController {
 		List<CheckNode> list = checkNodeService.findList(checkNode);
 
 		if (null != list && list.size() > 0) {
-			// 如果该门店和工程模式下的约检节点
+
 			return list;
 		} else {
-			// 该门店下没有相关安装项
+
 			return null;
 		}
 

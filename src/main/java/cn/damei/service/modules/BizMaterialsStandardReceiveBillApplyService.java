@@ -24,20 +24,16 @@ public class BizMaterialsStandardReceiveBillApplyService extends CrudService2<Bi
 	}
 
 	public List<BizMaterialsStandardReceiveBillApply> materialsApplyBillVoById(BizMaterialsStandardReceiveBillApply ba) {
-		// TODO Auto-generated method stub
+
 		return bizMaterialsStandardReceiveBillApplyDao.materialsApplyBillVoById(ba);
 	}
 
 	public List<BizMaterialsStandardRecords> findApplyMaterialsStandardReceiveDetailById(String billId) {
-		// TODO Auto-generated method stub
+
 		return bizMaterialsStandardReceiveBillApplyDao.findApplyMaterialsStandardReceiveDetailById(billId);
 	}
 
-	/**
-	 * 根据订单 id 查询下面 （已领取）的订单项
-	 * @param orderId
-	 * @return
-	 */
+
 	public List<BizMaterialsStandardReceiveBillApply> findMaterialsApplyBillByOrderId(@Param("orderId") String orderId, @Param("receiveBillType")String receiveBillType){
 		return bizMaterialsStandardReceiveBillApplyDao.findMaterialsApplyBillByOrderId(orderId,receiveBillType);
 	}

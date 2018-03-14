@@ -6,35 +6,31 @@ import java.io.Serializable;
 import java.util.List;
 
 
-/**
- * 订单Entity
- * @author wyb
- * @version 2016-11-16
- */
+
 public class Order implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
-	private Integer orderId; //订单id
+	private Integer orderId;
 	
-	private String communityName;	//小区
-	private String buildNumber;	//几号楼
-	private String buildUnit;	//几单元
-	private String buildRoom;	//几室
+	private String communityName;
+	private String buildNumber;
+	private String buildUnit;
+	private String buildRoom;
 	
-	private String customerName;	//客户姓名
-	private String customerPhone; //客户电话
+	private String customerName;
+	private String customerPhone;
 	
-	private Integer itemManagerId; //项目经理id
-	private String itemManager;	//项目经理
-	private String itemManagerPhone; //项目经理电话
+	private Integer itemManagerId;
+	private String itemManager;
+	private String itemManagerPhone;
 	
-	private Integer orderInspectorId; //质检员id
-	private String orderInspector;	//质检员
-	private String orderInspectorPhone; //质检员电话
-	private Integer number;//业务表
+	private Integer orderInspectorId;
+	private String orderInspector;
+	private String orderInspectorPhone;
+	private Integer number;
 	
-	private List<Report> reportList; //质检报告列表
+	private List<Report> reportList;
 
 
 	public Integer getOrderId() {

@@ -6,10 +6,7 @@ import cn.damei.entity.modules.OrderReportLogEntity;
 
 import java.util.Date;
 
-/**
- * Created by joseph on 2017/5/15.
- * 信息失效
- */
+
 public class OrderReportLogOutOfDateImpl implements OrderReportLogStatePolicyInterface{
 
 

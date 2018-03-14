@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.util.List;
@@ -13,11 +11,7 @@ import cn.damei.common.service.CrudService2;
 import cn.damei.entity.modules.BizPmOwnpayLog;
 import cn.damei.dao.modules.BizPmOwnpayLogDao;
 
-/**
- * 自主支配日志表Service
- * @author wyb
- * @version 2017-02-15
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizPmOwnpayLogService extends CrudService2<BizPmOwnpayLogDao, BizPmOwnpayLog> {

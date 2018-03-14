@@ -7,58 +7,53 @@ import java.util.List;
 
 public class BizPurchaseMainPanel extends DataEntity2<BizPurchaseMainPanel> {
 
-	/**
-	 * 主材采购单 --开关面板
-	 * 
-	 * @author wang
-	 * @version 2016-10-10
-	 */
+
 	private static final long serialVersionUID = 1L;
 
-	private Integer id; // 采购单id
-	private Integer orderId; // 订单id
-	private Integer storeId; // 门店id
-	private Date applyTime; // 申请时间
-	private Date applyReceiveTime; // 期望送货时间
-	private String orderNumber; // 订单
-	private String purchaseCode; // 采购单编号
-	private String purchaseType; // 采购单类型 辅材，地墙砖 ，开关面板
-	private String receiverName; // 收货人
-	private String receiverPhone; // 收货电话
-	private Integer applyEmployee; // 申请人 id
-	private String applyName; // 申请人姓名
-	private String applyEmployeePhone; // 申请人电话
-	// private String pictureUrl; //图片路径
-	private String status; // 状态
-	private String remarks; // 备注
-	private String customerName; // 客户姓名
-	private String customerPhone; // 客户电话
-	private String customerAddress; // 地址
-	private String communityName; // 小区名称
-	private String buildNumber; // 几号楼
-	private String buildUnit; // 几单元
-	private String buildRoom; // 哪一室
-	private String itemManager; // 项目经理
-	private Integer itemManagerId; // 项目经理id
+	private Integer id;
+	private Integer orderId;
+	private Integer storeId;
+	private Date applyTime;
+	private Date applyReceiveTime;
+	private String orderNumber;
+	private String purchaseCode;
+	private String purchaseType;
+	private String receiverName;
+	private String receiverPhone;
+	private Integer applyEmployee;
+	private String applyName;
+	private String applyEmployeePhone;
+
+	private String status;
+	private String remarks;
+	private String customerName;
+	private String customerPhone;
+	private String customerAddress;
+	private String communityName;
+	private String buildNumber;
+	private String buildUnit;
+	private String buildRoom;
+	private String itemManager;
+	private Integer itemManagerId;
 	private String itemManagerPhone;
-	private Date beginApplyReceiveTime; // 开始 期望送货日期
-	private Date endApplyReceiveTime; // 结束 期望送货日期
-	private Date beginApplyTime; // 开始 申请时间
-	private Date endApplyTime; // 结束 申请时间
-	// private String managerPhone;
+	private Date beginApplyReceiveTime;
+	private Date endApplyReceiveTime;
+	private Date beginApplyTime;
+	private Date endApplyTime;
+
 	private String projectMode;
-	private Double overNumber; // 超额数量
-	private String overReasonType; // 超额类型
-	private String overReasonWords; // 超额描述
-	private String contractArea; // 合同面积
-	private Double purchaseCountTotal; // 采购商品总数
-	private Double standardCountTotal; // 标配数量
-	private String statusDescribe; // 废弃原因
-	private String isScrap; // 订单是否作废 1为是 0为否
+	private Double overNumber;
+	private String overReasonType;
+	private String overReasonWords;
+	private String contractArea;
+	private Double purchaseCountTotal;
+	private Double standardCountTotal;
+	private String statusDescribe;
+	private String isScrap;
 
-	private String purchaseApplyIndex; //第几次申请
+	private String purchaseApplyIndex;
 
-	private List<Integer> purchaseIds = null; //采购单id集合
+	private List<Integer> purchaseIds = null;
 
 	public List<Integer> getPurchaseIds() {
 		return purchaseIds;

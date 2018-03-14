@@ -18,11 +18,7 @@ import cn.damei.common.web.BaseController;
 import cn.damei.entity.modules.BizStarBasicSalary;
 import cn.damei.service.modules.BizStarBasicSalaryService;
 
-/**
- * 项目经理星级和底薪设置
- * @author cgh
- *
- */
+
 @RequestMapping(value="${adminPath}/bizstar/bizManagerStar/bizStarBasicSalary/")
 @Controller
 public class BizStarBasicSalaryController extends BaseController{
@@ -42,14 +38,7 @@ public class BizStarBasicSalaryController extends BaseController{
 		return entity;
 	}
 	
-	/**
-	 * bizStarBasicSalary LIST
-	 * @param bizStarBasicSalary
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @return
-	 */
+
 	@RequiresPermissions("bizmanagerstar:bizmanagerstar:view")
 	@RequestMapping(value="list")
 	public String basicSalaryList(BizStarBasicSalary bizStarBasicSalary,HttpServletRequest request, HttpServletResponse response, Model model){
@@ -58,12 +47,7 @@ public class BizStarBasicSalaryController extends BaseController{
 		return "modules/bizstar/bizStarBasicSalaryList";
 	}
 	
-	/**
-	 * 更新版本
-	 * @param id
-	 * @param status
-	 * @return
-	 */
+
 	@RequiresPermissions("bizmanagerstar:bizmanagerstar:edit")
 	@RequestMapping(value="updateStatus")
 	public String updateStatus(Integer id,String status){
@@ -72,7 +56,7 @@ public class BizStarBasicSalaryController extends BaseController{
 			BizStarBasicSalary bizStarBasicSalary = bizStarBasicSalaryService.get(id);
 		
 			BizStarBasicSalary bizStarBasicSalary2 = new BizStarBasicSalary();
-			//状态
+
 			bizStarBasicSalary2.setStatus(status);
 			bizStarBasicSalary2.setId(bizStarBasicSalary.getId());
 			bizStarBasicSalary2.setBasicSalary(bizStarBasicSalary.getBasicSalary());
@@ -81,7 +65,7 @@ public class BizStarBasicSalaryController extends BaseController{
 			bizStarBasicSalary2.setProjectMode(bizStarBasicSalary.getProjectMode());
 			bizStarBasicSalary2.setStarLevel(bizStarBasicSalary.getStarLevel());
 			bizStarBasicSalary2.setStoreId(bizStarBasicSalary.getStoreId());
-			//版本
+
 			bizStarBasicSalary2.setVersion(bizStarBasicSalary.getVersion());
 			bizStarBasicSalaryService.save(bizStarBasicSalary2);
 		}

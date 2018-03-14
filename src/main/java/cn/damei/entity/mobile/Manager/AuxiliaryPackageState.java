@@ -2,31 +2,28 @@ package cn.damei.entity.mobile.Manager;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 
- * 该订单的辅料对应的任务包是否已验收
- */
+
 
 public class AuxiliaryPackageState extends DataEntity2<AuxiliaryPackageState> {
 
 	private static final long serialVersionUID = 1L;
 	
-	private Integer orderId; // 订单id
-	private Integer storeId; // 门店id
-	private String projectMode; // 工程模式
-	private String empWorkType; // 工种
-	private String empWorkTypeName; // 工种名称
-	private Integer taskPackageTemplatId; // 模板id
-	private Integer orderTaskpackageId; // 订单任务包id
-	private String templatName; //任务包模板名称
-	private String packageStateId;//任务包状态
-	private String isCanApplyAuxiliary;//是否可以申请辅料的标识
+	private Integer orderId;
+	private Integer storeId;
+	private String projectMode;
+	private String empWorkType;
+	private String empWorkTypeName;
+	private Integer taskPackageTemplatId;
+	private Integer orderTaskpackageId;
+	private String templatName;
+	private String packageStateId;
+	private String isCanApplyAuxiliary;
 	
-	private Double laborAuxiliaryMaterialsBudgetAmount;//任务包预算金额
-	private Integer applyBudgetRatio;//申请辅料预算比例
-	private Double totalAmount;//任务包申请的辅料金额总和（任务包预算金额*申请辅料预算比例）
-	private Double beginAmount;//任务包已经申请的辅料金额
-	private Double afterAmount;//任务包可以申请的辅料金额
+	private Double laborAuxiliaryMaterialsBudgetAmount;
+	private Integer applyBudgetRatio;
+	private Double totalAmount;
+	private Double beginAmount;
+	private Double afterAmount;
 	
 	public Integer getOrderId() {
 		return orderId;

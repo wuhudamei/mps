@@ -39,11 +39,7 @@ public class MessageService extends CrudService2<MessageDao, Message>{
 		return dao.findMessagePage(start,number,employeedId);
 	}
 
-	/**
-	 * 根据员工id 查询未读消息(这里数据库设计不太好, 导致性能较差)
-	 * @param id
-	 * @return
-	 */
+
 	public List<Message> findUnreadMessage(Integer id) {
 List<Message> allMessage= dao.findMessage(id);
 List<Integer> list= dao.findReadMessage(id);

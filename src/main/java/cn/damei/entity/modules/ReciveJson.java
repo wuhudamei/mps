@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import java.io.Serializable;
@@ -14,11 +12,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import cn.damei.common.persistence.DataEntity;
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 
- *
- * 
- */
+
 public class ReciveJson{
 	private static final long serialVersionUID = 1L;
 	private String business_type;
@@ -61,7 +55,7 @@ public class ReciveJson{
 	private String contract_time;
 	private String sign_contract_date;
 	private String biz_order_accept_area;
-	//private String[] order_install_item;
+
 	private String key;
 	private String type;
 	private String orderId;
@@ -69,10 +63,10 @@ public class ReciveJson{
 	private String time;
 	private String customer_level;
 	private String contract_amount;
-	private String tagname; //串单标签名称  
-	private String auditor_realname; //审计员姓名
-	private String auditor_mobile;  //审计员电话
-	private String paymentStatus;//交款状态  P10-已交款（实收>应收） P20-已交款（0<=应收-实收<=1000） P30-已交款（特批）
+	private String tagname;
+	private String auditor_realname;
+	private String auditor_mobile;
+	private String paymentStatus;
 
 
 	public String getPaymentStatus() {
@@ -436,7 +430,7 @@ public class ReciveJson{
 	}
 	public ReciveJson() {
 		super();
-		// TODO Auto-generated constructor stub
+
 	}
 	
 	

@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,11 +22,7 @@ import cn.damei.service.modules.BizEmployeeService2;
 import cn.damei.entity.modules.User;
 import cn.damei.common.utils.UserUtils;
 
-/**
- * 检查分类Controller
- * @author wyb
- * @version 2016-10-26
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/bizqccheckkind/bizQcCheckKind")
 public class BizQcCheckKindController extends BaseController {
@@ -55,14 +49,14 @@ public class BizQcCheckKindController extends BaseController {
 	public String list(BizQcCheckKind bizQcCheckKind, HttpServletRequest request, HttpServletResponse response, Model model) {
 		
 		User user = UserUtils.getUser();
-		//过滤门店
+
 		if(StringUtils.isBlank(bizQcCheckKind.getStoreId())){
 			bizQcCheckKind.setStoreId(user.getStoreId());
 		}
 		if(StringUtils.isBlank(user.getStoreId())){
 			model.addAttribute("storeDropEnable", true);
 		}
-		//过滤工程模式
+
 		if(StringUtils.isBlank(bizQcCheckKind.getProjectMode())){
 			if(null != user.getEmpId()){
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -102,14 +96,14 @@ public class BizQcCheckKindController extends BaseController {
 	public String kindList(BizQcCheckKind bizQcCheckKind, HttpServletRequest request, HttpServletResponse response, Model model) {
 		
 		User user = UserUtils.getUser();
-		//过滤门店
+
 		if(StringUtils.isBlank(bizQcCheckKind.getStoreId())){
 			bizQcCheckKind.setStoreId(user.getStoreId());
 		}
 		if(StringUtils.isBlank(user.getStoreId())){
 			model.addAttribute("storeDropEnable", true);
 		}
-		//过滤工程模式
+
 		if(StringUtils.isBlank(bizQcCheckKind.getProjectMode())){
 			if(null != user.getEmpId()){
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));

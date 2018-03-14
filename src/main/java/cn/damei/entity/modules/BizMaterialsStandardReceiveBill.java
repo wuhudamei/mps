@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import org.hibernate.validator.constraints.Length;
@@ -8,23 +6,19 @@ import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 标化辅材记录Entity
- * @author 汪文文
- * @version 2016-12-26
- */
+
 public class BizMaterialsStandardReceiveBill extends DataEntity2<BizMaterialsStandardReceiveBill> {
 	
 	private static final long serialVersionUID = 1L;
-	private Integer storeId;		// 门店id
-	private Integer orderId;		// 订单id
-	private String materialsStandardReceiveBillCode;		// 领取单号
-	private Date receiveDatetime;		// 领取日期
-	private Integer receiveEmployeeId;		// 领取人员工id -- '
-	private Double receiveBillAmount;		// 领取单总金额 -- '
-	private String isSettled;		// 是否已作项目经理结算 -- '1.是；0.否
-	private Date beginReceiveDatetime;		// 开始 领取日期
-	private Date endReceiveDatetime;		// 结束 领取日期
+	private Integer storeId;
+	private Integer orderId;
+	private String materialsStandardReceiveBillCode;
+	private Date receiveDatetime;
+	private Integer receiveEmployeeId;
+	private Double receiveBillAmount;
+	private String isSettled;
+	private Date beginReceiveDatetime;
+	private Date endReceiveDatetime;
 	
 	public BizMaterialsStandardReceiveBill() {
 		super();

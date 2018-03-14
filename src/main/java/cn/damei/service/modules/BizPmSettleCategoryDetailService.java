@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.util.*;
@@ -13,11 +11,7 @@ import cn.damei.common.persistence.Page;
 import cn.damei.entity.modules.BizPmSettleCategoryDetail;
 import cn.damei.dao.modules.BizPmSettleCategoryDetailDao;
 
-/**
- * 结算类目明细Service
- * @author qww
- * @version 2016-12-26
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizPmSettleCategoryDetailService extends CrudService2<BizPmSettleCategoryDetailDao, BizPmSettleCategoryDetail> {
@@ -50,13 +44,13 @@ public class BizPmSettleCategoryDetailService extends CrudService2<BizPmSettleCa
 	}
 
 	public Double findMoneyByemployeeId(Integer pmEmployeeId, String pmSettleCategory6) {
-		// TODO Auto-generated method stub
+
 		return dao.findMoneyByemployeeId(pmEmployeeId,pmSettleCategory6);
 	}
 	
 	@Transactional(readOnly = false)
 	public void insert(BizPmSettleCategoryDetail details) {
-		// TODO Auto-generated method stub
+
 		dao.insert(details);
 	}
 	

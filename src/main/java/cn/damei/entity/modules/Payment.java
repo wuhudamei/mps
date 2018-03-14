@@ -1,38 +1,32 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 
 import cn.damei.common.persistence.DataEntity;
 
-/**
- * 应打尾款付款单Entity
- * @author wyb
- * @version 2016-10-31
- */
+
 public class Payment extends DataEntity<Payment> {
 	
 	private static final long serialVersionUID = 1L;
 	
-	private Integer qcBillId;	//约检验收单id
-	private Integer orderId;	//订单id
-	private String storeId;	//门店
+	private Integer qcBillId;
+	private Integer orderId;
+	private String storeId;
 
-	private String paymentCode;	//付款单编号
-	private String settlementCode;	//结算单编号
+	private String paymentCode;
+	private String settlementCode;
 	
-	private String communityName;		// 小区名称
-	private String buildNumber;		// 几号楼
-	private String buildUnit;		// 几单元
-	private String buildRoom;		// 哪一室
-	private String customerName;		// 客户姓名
+	private String communityName;
+	private String buildNumber;
+	private String buildUnit;
+	private String buildRoom;
+	private String customerName;
 	
-	private String itemManager;		// 项目经理
-	private Integer itemManagerId;		// 项目经理id
+	private String itemManager;
+	private Integer itemManagerId;
 
-	private String taskpackage; //任务包名称
-	private Double money;	//结算金额
+	private String taskpackage;
+	private Double money;
 	
 	
 	public Integer getQcBillId() {

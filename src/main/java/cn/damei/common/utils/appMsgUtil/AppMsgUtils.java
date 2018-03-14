@@ -5,9 +5,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-/**
- * Created by joseph on 2017/7/31.
- */
+
 @Service
 public class AppMsgUtils {
 
@@ -20,11 +18,7 @@ public class AppMsgUtils {
     private AppMsgUtilDao msgUtilDao;
 
 
-    /**
-     * 保存消息内容,并返回主键
-     * @param entity
-     * @return
-     */
+
     public  Integer saveMsgContent(AppMsgEntity entity){
 
 
@@ -35,12 +29,7 @@ public class AppMsgUtils {
 
 
 
-      /**
-     * 根据业务id和类型查询是否插入 (1为插入,0为没插入)
-     * @param relatedBusinessType
-     * @param relatedBusinessId
-     * @return
-     */
+
       public  int checkIsExistByTypeAndId(final String relatedBusinessType,final String relatedBusinessId){
 
         return msgUtilDao.checkIsExistByTypeAndId(relatedBusinessType,relatedBusinessId);

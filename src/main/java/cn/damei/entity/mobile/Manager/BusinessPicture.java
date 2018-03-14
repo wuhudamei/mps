@@ -8,10 +8,10 @@ public class BusinessPicture extends DataEntity2<BusinessPicture>{
 
 	private static final long serialVersionUID = 1L;
 	
-	private String businessType; //业务类型 5收货单图片
-	private Integer businessIdInt; //业务id
+	private String businessType;
+	private Integer businessIdInt;
 	private String businessIdVarchar;
-	private String picType; //1、缩略图 2大图
+	private String picType;
 	private Integer picIndex; 
 	private String picUrl;
 	private Date picDateTime; 

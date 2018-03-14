@@ -21,11 +21,7 @@ import cn.damei.entity.mobile.Manager.RecheckScaleBillFlatOpenDoor;
 import cn.damei.service.mobile.Manager.RecheckScaleBillFlatOpenDoorService;
 import cn.damei.service.mobile.Manager.RecheckScaleBillService;
 
-/**
- * 平推门(20161107-20161113)
- * @author llp 
- * 2016-11-16
- */
+
 @Controller
 @RequestMapping(value="${adminPath}/app/manager")
 public class RecheckScaleBillFlatOpenController {
@@ -38,23 +34,21 @@ public class RecheckScaleBillFlatOpenController {
 	@Autowired
 	private RecheckScaleBillService recheckScaleBillService;
 	
-	/****
-	 * 浴室柜复尺记录
-	 ****/
+
 	@RequestMapping(value={"flatopenDetail",""})
 	public String flatopenDetail(RecheckScaleBillFlatOpenDoor recheckScaleBillFlatOpenDoor,HttpServletRequest request,Model model,
 			String recheckID, String orderID) throws IOException{
 		logger.info("复尺编号："+recheckID+"\t\t订单编号："+orderID);
 		
 		Integer recheckIDs = Integer.valueOf(recheckID);
-		//获取复尺信息
+
 		RecheckScaleBill scale = recheckScaleBillService.getByID(recheckIDs);
 		
-		//根据订单编号查询该订单复尺的所有内容
+
 		List<RecheckScaleBillFlatOpenDoor> flatopenList = recheckScaleBillFlatOpenDoorService.
 				getByRecheckID(recheckIDs);
 		
-		/**获取图片路径*/
+
 		List<BusinessPic> picList = businessPicService.getByBusType(ConstantUtils.FLAT_OPEN_DOOR_KEY, 
 				recheckIDs);
 		

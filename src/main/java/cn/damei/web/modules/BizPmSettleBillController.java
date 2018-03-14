@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import javax.servlet.ServletOutputStream;
@@ -45,12 +43,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-/**
- * 结算单Controller
- * 
- * @author qww
- * @version 2016-12-26
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/pmsettlebill/bizPmSettleBill")
 public class BizPmSettleBillController extends BaseController {
@@ -84,17 +77,11 @@ public class BizPmSettleBillController extends BaseController {
 		return entity;
 	}
 
-	/**
-	 * 项目经理-生成月度工程结算单
-	 * 
-	 * @param bizPmSettleBill
-	 * @param model
-	 * @return
-	 */
+
 	@RequiresPermissions("pmsettlebill:bizPmSettleBill:view")
 	@RequestMapping(value = { "list", "" })
 	public String list(BizPmSettleBill bizPmSettleBill, Model model) {
-		// 过滤门店
+
 		if (bizPmSettleBill.getStoreId() == null) {
 			String storeId = UserUtils.getUser().getStoreId();
 			if (StringUtils.isBlank(storeId)) {
@@ -112,20 +99,12 @@ public class BizPmSettleBillController extends BaseController {
 		return "modules/pmsettlebill/bizPmSettleBillList";
 	}
 
-	/**
-	 * 项目经理-生成月度工程结算单
-	 * 
-	 * @param bizPmSettleBill
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @return
-	 */
+
 	@RequiresPermissions("pmsettlebill:bizPmSettleBill:view")
 	@RequestMapping(value = { "loadList", "" })
 	public String loadList(BizPmSettleBill bizPmSettleBill, HttpServletRequest request, HttpServletResponse response,
 			Model model) {
-		// 过滤门店
+
 		if (bizPmSettleBill.getStoreId() == null) {
 			String storeId = UserUtils.getUser().getStoreId();
 			if (StringUtils.isBlank(storeId)) {
@@ -138,7 +117,7 @@ public class BizPmSettleBillController extends BaseController {
 			model.addAttribute("storeDropEnable", true);
 		}
 
-		// 区域
+
 		if (bizPmSettleBill.getEnginDepartId() == null) {
 			if (StringUtils.isNoneBlank(UserUtils.getUser().getEmpId())) {
 				List<Integer> list = bizEmployeeService2
@@ -159,10 +138,8 @@ public class BizPmSettleBillController extends BaseController {
 
 		bizPmSettleBill.setStatus(ConstantUtils.PM_SETTLE_STATUS_30);
 		bizPmSettleBill.setSettleRole(ConstantUtils.SETTLE_ROLE_1);
-		//2017-12-01  去掉分页  添加全选功能
-		/*Page<BizPmSettleBill> page = bizPmSettleBillService
-				.findPmSettleBillList(new Page<BizPmSettleBill>(request, response), bizPmSettleBill);
-		model.addAttribute("page", page);*/
+
+
 		List<BizPmSettleBill> list = bizPmSettleBillService.findPmSettleBillList(bizPmSettleBill);
 		model.addAttribute("list", list);
 		model.addAttribute("employeeId", UserUtils.getUser().getEmpId());
@@ -170,17 +147,11 @@ public class BizPmSettleBillController extends BaseController {
 		return "modules/pmsettlebill/bizPmSettleBillList";
 	}
 
-	/**
-	 * 质检员-生成月度工程结算单
-	 * 
-	 * @param bizPmSettleBill
-	 * @param model
-	 * @return
-	 */
+
 	@RequiresPermissions("pmsettlebill:bizPmSettleBill:view")
 	@RequestMapping(value = { "listPbc", "" })
 	public String listPbc(BizPmSettleBill bizPmSettleBill, Model model) {
-		// 过滤门店
+
 		if (bizPmSettleBill.getStoreId() == null) {
 			String storeId = UserUtils.getUser().getStoreId();
 			if (StringUtils.isBlank(storeId)) {
@@ -198,20 +169,12 @@ public class BizPmSettleBillController extends BaseController {
 		return "modules/pmsettlebill/bizPmSettleBillListPbc";
 	}
 
-	/**
-	 * 质检员-生成月度工程结算单
-	 * 
-	 * @param bizPmSettleBill
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @return
-	 */
+
 	@RequiresPermissions("pmsettlebill:bizPmSettleBill:view")
 	@RequestMapping(value = { "loadListPbc", "" })
 	public String loadListPbc(BizPmSettleBill bizPmSettleBill, HttpServletRequest request, HttpServletResponse response,
 			Model model) {
-		// 过滤门店
+
 		if (bizPmSettleBill.getStoreId() == null) {
 			String storeId = UserUtils.getUser().getStoreId();
 			if (StringUtils.isBlank(storeId)) {
@@ -224,7 +187,7 @@ public class BizPmSettleBillController extends BaseController {
 			model.addAttribute("storeDropEnable", true);
 		}
 
-		// 区域
+
 		if (bizPmSettleBill.getEnginDepartId() == null) {
 			if (StringUtils.isNoneBlank(UserUtils.getUser().getEmpId())) {
 				List<Integer> list = bizEmployeeService2
@@ -253,17 +216,11 @@ public class BizPmSettleBillController extends BaseController {
 		return "modules/pmsettlebill/bizPmSettleBillListPbc";
 	}
 
-	/**
-	 * 项目经理-订单月度工程结算单查询列表
-	 * 
-	 * @param bizPmSettleBill
-	 * @param model
-	 * @return
-	 */
+
 	@RequiresPermissions("pmsettlebill:bizPmSettleBill:view")
 	@RequestMapping(value = { "settleList", "" })
 	public String settleList(BizPmSettleBill bizPmSettleBill, Model model) {
-		// 过滤门店
+
 		if (bizPmSettleBill.getStoreId() == null) {
 			String storeId = UserUtils.getUser().getStoreId();
 			if (StringUtils.isBlank(storeId)) {
@@ -280,20 +237,12 @@ public class BizPmSettleBillController extends BaseController {
 		return "modules/pmsettlebill/bizSettleBillList";
 	}
 
-	/**
-	 * 项目经理-订单月度工程结算单查询列表
-	 * 
-	 * @param bizPmSettleBill
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @return
-	 */
+
 	@RequiresPermissions("pmsettlebill:bizPmSettleBill:view")
 	@RequestMapping(value = { "loadSettleList", "" })
 	public String loadSettleList(BizPmSettleBill bizPmSettleBill, HttpServletRequest request,
 			HttpServletResponse response, Model model) {
-		// 过滤门店
+
 		if (bizPmSettleBill.getStoreId() == null) {
 			String storeId = UserUtils.getUser().getStoreId();
 			if (StringUtils.isBlank(storeId)) {
@@ -306,7 +255,7 @@ public class BizPmSettleBillController extends BaseController {
 			model.addAttribute("storeDropEnable", true);
 		}
 
-		// 区域
+
 		if (bizPmSettleBill.getEnginDepartId() == null) {
 			if (StringUtils.isNoneBlank(UserUtils.getUser().getEmpId())) {
 				List<Integer> list = bizEmployeeService2
@@ -333,17 +282,11 @@ public class BizPmSettleBillController extends BaseController {
 		return "modules/pmsettlebill/bizSettleBillList";
 	}
 
-	/**
-	 * 质检员-订单月度工程结算单查询列表
-	 * 
-	 * @param bizPmSettleBill
-	 * @param model
-	 * @return
-	 */
+
 	@RequiresPermissions("pmsettlebill:bizPmSettleBill:view")
 	@RequestMapping(value = { "settleListPbc", "" })
 	public String settleListPbc(BizPmSettleBill bizPmSettleBill, Model model) {
-		// 过滤门店
+
 		if (bizPmSettleBill.getStoreId() == null) {
 			String storeId = UserUtils.getUser().getStoreId();
 			if (StringUtils.isBlank(storeId)) {
@@ -360,20 +303,12 @@ public class BizPmSettleBillController extends BaseController {
 		return "modules/pmsettlebill/bizSettleBillListPbc";
 	}
 
-	/**
-	 * 质检员-订单月度工程结算单查询列表
-	 * 
-	 * @param bizPmSettleBill
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @return
-	 */
+
 	@RequiresPermissions("pmsettlebill:bizPmSettleBill:view")
 	@RequestMapping(value = { "loadSettleListPbc", "" })
 	public String loadSettleListPbc(BizPmSettleBill bizPmSettleBill, HttpServletRequest request,
 			HttpServletResponse response, Model model) {
-		// 过滤门店
+
 		if (bizPmSettleBill.getStoreId() == null) {
 			String storeId = UserUtils.getUser().getStoreId();
 			if (StringUtils.isBlank(storeId)) {
@@ -386,7 +321,7 @@ public class BizPmSettleBillController extends BaseController {
 			model.addAttribute("storeDropEnable", true);
 		}
 
-		// 区域
+
 		if (bizPmSettleBill.getEnginDepartId() == null) {
 			if (StringUtils.isNoneBlank(UserUtils.getUser().getEmpId())) {
 				List<Integer> list = bizEmployeeService2
@@ -439,13 +374,7 @@ public class BizPmSettleBillController extends BaseController {
 		return "redirect:" + Global.getAdminPath() + "/pmsettlebill/bizPmSettleBill/?repage";
 	}
 
-	/**
-	 * 项目经理-生成月度工程结算单
-	 * 
-	 * @param bizPmSettleBill
-	 * @param redirectAttributes
-	 * @return
-	 */
+
 	@RequiresPermissions("pmsettlebill:bizPmSettleBill:edit")
 	@RequestMapping(value = "createSettleSummaryBill")
 	public String createSettleSummaryBill(BizPmSettleBill bizPmSettleBill,String orderIds, RedirectAttributes redirectAttributes) {
@@ -455,13 +384,7 @@ public class BizPmSettleBillController extends BaseController {
 				+ bizPmSettleBill.getStoreId();
 	}
 
-	/**
-	 * 质检员-生成月度工程结算单
-	 * 
-	 * @param bizPmSettleBill
-	 * @param redirectAttributes
-	 * @return
-	 */
+
 	@RequiresPermissions("pmsettlebill:bizPmSettleBill:edit")
 	@RequestMapping(value = "createSettleSummaryBillPbc")
 	public String createSettleSummaryBillPbc(BizPmSettleBill bizPmSettleBill, RedirectAttributes redirectAttributes) {
@@ -486,17 +409,11 @@ public class BizPmSettleBillController extends BaseController {
 		return map;
 	}
 
-	/**
-	 * 项目经理-生成月度工程结算单查询列表Excel下载
-	 * 
-	 * @param bizPmSettleBill
-	 * @param response
-	 * @throws Exception
-	 */
+
 	@RequestMapping(value = "exportExcel2")
 	public void exportExcel2(BizPmSettleBill bizPmSettleBill, HttpServletResponse response) throws Exception {
 		SimpleDateFormat sf = new SimpleDateFormat("yyyyMMddHHmmss");
-		// 区域
+
 		if (bizPmSettleBill.getEnginDepartId() == null) {
 			if (StringUtils.isNoneBlank(UserUtils.getUser().getEmpId())) {
 				List<Integer> list = bizEmployeeService2
@@ -515,11 +432,11 @@ public class BizPmSettleBillController extends BaseController {
 			bizPmSettleBill.setEnginDepartIds(list);
 		}
 		HSSFWorkbook excel = bizPmSettleBillService.exportExcel2(bizPmSettleBill);
-		ServletOutputStream out = null;// 创建一个输出流对象
+		ServletOutputStream out = null;
 		try {
 			response.setContentType("application/binary;charset=utf-8");
-			String headerStr = new String(("月度工程结算明细" + sf.format(new Date())).getBytes("utf-8"), "ISO8859-1");// headerString为中文时转码
-			response.setHeader("Content-disposition", "attachment; filename=" + headerStr + ".xls");// filename是下载的xls的名
+			String headerStr = new String(("月度工程结算明细" + sf.format(new Date())).getBytes("utf-8"), "ISO8859-1");
+			response.setHeader("Content-disposition", "attachment; filename=" + headerStr + ".xls");
 			out = response.getOutputStream();
 			excel.write(out);
 		} catch (IOException ex) {
@@ -534,16 +451,10 @@ public class BizPmSettleBillController extends BaseController {
 		}	
 	}
 
-	/**
-	 * 项目经理-订单月度工程结算单查询列表Excel下载
-	 * 
-	 * @param bizPmSettleBill
-	 * @param response
-	 * @throws Exception
-	 */
+
 	@RequestMapping(value = "exportExcel")
 	public void exportExcel(BizPmSettleBill bizPmSettleBill, HttpServletResponse response) throws Exception {
-		// 区域
+
 		if (bizPmSettleBill.getEnginDepartId() == null) {
 			if (StringUtils.isNoneBlank(UserUtils.getUser().getEmpId())) {
 				List<Integer> list = bizEmployeeService2
@@ -564,11 +475,11 @@ public class BizPmSettleBillController extends BaseController {
 
 		SimpleDateFormat sf = new SimpleDateFormat("yyyyMMddHHmmss");
 		HSSFWorkbook excel = bizPmSettleBillService.exportExcel(bizPmSettleBill);
-		ServletOutputStream out = null;// 创建一个输出流对象
+		ServletOutputStream out = null;
 		try {
 			response.setContentType("application/binary;charset=utf-8");
-			String headerStr = new String(("项目经理-订单月度工程结算单" + sf.format(new Date())).getBytes("utf-8"), "ISO8859-1");// headerString为中文时转码
-			response.setHeader("Content-disposition", "attachment; filename=" + headerStr + ".xls");// filename是下载的xls的名
+			String headerStr = new String(("项目经理-订单月度工程结算单" + sf.format(new Date())).getBytes("utf-8"), "ISO8859-1");
+			response.setHeader("Content-disposition", "attachment; filename=" + headerStr + ".xls");
 			out = response.getOutputStream();
 			excel.write(out);
 		} catch (IOException ex) {
@@ -583,16 +494,10 @@ public class BizPmSettleBillController extends BaseController {
 		}
 	}
 
-	/**
-	 * 质检员-订单月度工程结算单查询列表Excel下载
-	 * 
-	 * @param bizPmSettleBill
-	 * @param response
-	 * @throws Exception
-	 */
+
 	@RequestMapping(value = "exportExcelPbc")
 	public void exportExcelPbc(BizPmSettleBill bizPmSettleBill, HttpServletResponse response) throws Exception {
-		// 区域
+
 		if (bizPmSettleBill.getEnginDepartId() == null) {
 			if (StringUtils.isNoneBlank(UserUtils.getUser().getEmpId())) {
 				List<Integer> list = bizEmployeeService2
@@ -613,11 +518,11 @@ public class BizPmSettleBillController extends BaseController {
 
 		SimpleDateFormat sf = new SimpleDateFormat("yyyyMMddHHmmss");
 		HSSFWorkbook excel = bizPmSettleBillService.exportExcelPbc(bizPmSettleBill);
-		ServletOutputStream out = null;// 创建一个输出流对象
+		ServletOutputStream out = null;
 		try {
 			response.setContentType("application/binary;charset=utf-8");
-			String headerStr = new String(("质检员-订单月度工程结算单" + sf.format(new Date())).getBytes("utf-8"), "ISO8859-1");// headerString为中文时转码
-			response.setHeader("Content-disposition", "attachment; filename=" + headerStr + ".xls");// filename是下载的xls的名
+			String headerStr = new String(("质检员-订单月度工程结算单" + sf.format(new Date())).getBytes("utf-8"), "ISO8859-1");
+			response.setHeader("Content-disposition", "attachment; filename=" + headerStr + ".xls");
 			out = response.getOutputStream();
 			excel.write(out);
 		} catch (IOException ex) {
@@ -632,15 +537,7 @@ public class BizPmSettleBillController extends BaseController {
 		}
 	}
 
-	/**
-	 * 标化辅料明细
-	 * 
-	 * @param billId
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @return
-	 */
+
 	@RequiresPermissions("pmsettlebill:bizPmSettleBill:view")
 	@RequestMapping(value = "materialsStandardDetails")
 	public String materialsStandardDetails(Integer orderId, HttpServletRequest request, HttpServletResponse response,
@@ -659,13 +556,7 @@ public class BizPmSettleBillController extends BaseController {
 		return "modules/pmsettlebill/materailsDetail";
 	}
 
-	/**
-	 * 自主支配项
-	 * 
-	 * @param id
-	 * @param model
-	 * @return
-	 */
+
 	@RequiresPermissions("pmsettlebill:bizPmSettleBill:view")
 	@RequestMapping(value = { "ownpayAmount", "" })
 	public String ownpayAmount(Integer id, Model model) {
@@ -676,13 +567,7 @@ public class BizPmSettleBillController extends BaseController {
 		return "modules/pmsettlebill/owypayDetails";
 	}
 
-	/**
-	 * 中期质检罚款
-	 * 
-	 * @param id
-	 * @param model
-	 * @return
-	 */
+
 	@RequiresPermissions("pmsettlebill:bizPmSettleBill:view")
 	@RequestMapping(value = { "midwayQcCheckPunishAmount", "" })
 	public String midwayQcCheckPunishAmount(Integer orderId,Integer pmEmployeeId, Model model) {
@@ -696,13 +581,7 @@ public class BizPmSettleBillController extends BaseController {
 		return "modules/pmsettlebill/midInspectorDetails";
 	}
 
-	/**
-	 * 竣工质检罚款
-	 * 
-	 * @param id
-	 * @param model
-	 * @return
-	 */
+
 	@RequiresPermissions("pmsettlebill:bizPmSettleBill:view")
 	@RequestMapping(value = { "completQcCheckPunishAmount", "" })
 	public String completQcCheckPunishAmount(Integer orderId,Integer pmEmployeeId, Model model) {
@@ -715,13 +594,7 @@ public class BizPmSettleBillController extends BaseController {
 		return "modules/pmsettlebill/completeInspectorDetails";
 	}
 
-	/**
-	 * 自采材料信息
-	 * 
-	 * @param orderId
-	 * @param model
-	 * @return
-	 */
+
 	@RequestMapping(value = "querySelfbuyMaterial")
 	public String querySelfbuyMaterial(Integer orderId,Integer pmEmployeeId, Model model) {
 		Map<String,Object> param = new HashMap<String,Object>();
@@ -739,14 +612,7 @@ public class BizPmSettleBillController extends BaseController {
 		return "modules/pmsettlebill/MaterialSelfbuyDetail";
 	}
 
-	/**
-	 * 任务包材结算明细
-	 * 
-	 * @param orderId
-	 * @param settleCategory
-	 * @param model
-	 * @return
-	 */
+
 	@RequestMapping(value = "queryPmMaterials")
 	public String queryPmMaterials(Integer orderId, String settleCategory, String settleStatus,Integer pmEmployeeId, Model model) {
 		Map<String, Object> param = new HashMap<String, Object>();
@@ -767,13 +633,7 @@ public class BizPmSettleBillController extends BaseController {
 		return "modules/pmsettlebill/pmMaterial";
 	}
 
-	/**
-	 * 中期提成明细
-	 * 
-	 * @param orderId
-	 * @param model
-	 * @return
-	 */
+
 	@RequestMapping(value = "queryMidwayCommission")
 	public String queryMidwayCommission(Integer orderId,Integer pmEmployeeId, Model model) {
 		Map<String,Object> param = new HashMap<String,Object>();
@@ -785,13 +645,7 @@ public class BizPmSettleBillController extends BaseController {
 		return "modules/pmsettlebill/midwayCommission";
 	}
 
-	/**
-	 * 竣工提成明细
-	 * 
-	 * @param orderId
-	 * @param model
-	 * @return
-	 */
+
 	@RequestMapping(value = "queryCompleteCommission")
 	public String queryCompleteCommission(Integer orderId,Integer pmEmployeeId, Model model) {
 		Map<String,Object> param = new HashMap<String,Object>();
@@ -803,13 +657,7 @@ public class BizPmSettleBillController extends BaseController {
 		return "modules/pmsettlebill/completeCommission";
 	}
 
-	/**
-	 * 质保金明细
-	 * 
-	 * @param orderId
-	 * @param model
-	 * @return
-	 */
+
 	@RequestMapping(value = "queryGuaranteeMoney")
 	public String queryGuaranteeMoney(Integer orderId, Double pmGuaranteeMoney, Model model) {
 		BizPmStarCommissionCnfgSnap bizPmStarCommissionCnfgSnap = inspectorConfirmService
@@ -822,12 +670,7 @@ public class BizPmSettleBillController extends BaseController {
 	}
 	
 
-	/**
-	 * 中期奖励明细
-	 * @param orderId
-	 * @param model
-	 * @return
-	 */
+
 	@RequestMapping(value = "querymidwayReward")
 	public String querymidwayReward(Integer orderId,Integer pmEmployeeId,double midwayRewardAmount, Model model){
 		Map<String,Object> param = new HashMap<String,Object>();
@@ -841,12 +684,7 @@ public class BizPmSettleBillController extends BaseController {
 	}
 
 
-	/**
-	 * 中期扣款明细
-	 * @param orderId
-	 * @param model
-	 * @return
-	 */
+
 	@RequestMapping(value = "querymidwayPunish")
 	public String querymidwayPunish(Integer orderId,Integer pmEmployeeId,double midwayPunishAmount, Model model){
 		Map<String,Object> param = new HashMap<String,Object>();
@@ -860,12 +698,7 @@ public class BizPmSettleBillController extends BaseController {
 	}
 
 
-	/**
-	 * 竣工奖励明细
-	 * @param orderId
-	 * @param model
-	 * @return
-	 */
+
 	@RequestMapping(value = "querycompleteReward")
 	public String querycompleteReward(Integer orderId,Integer pmEmployeeId,double completeRewardAmount, Model model){
 		Map<String,Object> param = new HashMap<String,Object>();
@@ -878,12 +711,7 @@ public class BizPmSettleBillController extends BaseController {
 		return "modules/pmsettlebill/completeReward";
 	}
 
-	/**
-	 * 竣工扣款明细
-	 * @param orderId
-	 * @param model
-	 * @return
-	 */
+
 	@RequestMapping(value = "querycompletePunish")
 	public String querycompletePunish(Integer orderId,Integer pmEmployeeId,double completePunishAmount, Model model){
 		Map<String,Object> param = new HashMap<String,Object>();
@@ -896,12 +724,7 @@ public class BizPmSettleBillController extends BaseController {
 		return "modules/pmsettlebill/completePunish";
 	}
 
-	/**
-	 * 中期巡检奖励明细
-	 * @param orderId
-	 * @param model
-	 * @return
-	 */
+
 	@RequestMapping(value = "queryMidwayInspectionReward")
 	public String queryMidwayInspectionReward(Integer orderId,Integer pmEmployeeId,double midwayInspectionRewardAmount, Model model){
 		Map<String,Object> param = new HashMap<String,Object>();
@@ -914,12 +737,7 @@ public class BizPmSettleBillController extends BaseController {
 		return "modules/pmsettlebill/midwayInspectionReward";
 	}
 
-	/**
-	 * 中期巡检罚款明细
-	 * @param orderId
-	 * @param model
-	 * @return
-	 */
+
 	@RequestMapping(value = "queryMidwayInspectionPunish")
 	public String queryMidwayInspectionPunish(Integer orderId,Integer pmEmployeeId,double midwayInspectionPunishAmount, Model model){
 		Map<String,Object> param = new HashMap<String,Object>();
@@ -932,12 +750,7 @@ public class BizPmSettleBillController extends BaseController {
 		return "modules/pmsettlebill/midwayInspectionPunish";
 	}
 
-	/**
-	 * 竣工巡检奖励明细
-	 * @param orderId
-	 * @param model
-	 * @return
-	 */
+
 	@RequestMapping(value = "queryCompleteInspectionReward")
 	public String querycompleteInspectionReward(Integer orderId,Integer pmEmployeeId,double completeInspectionRewardAmount, Model model){
 		Map<String,Object> param = new HashMap<String,Object>();
@@ -950,12 +763,7 @@ public class BizPmSettleBillController extends BaseController {
 		return "modules/pmsettlebill/completeInspectionReward";
 	}
 
-	/**
-	 * 竣工巡检罚款明细
-	 * @param orderId
-	 * @param model
-	 * @return
-	 */
+
 	@RequestMapping(value = "queryCompleteInspectionPunish")
 	public String querycompleteInspectionPunish(Integer orderId,Integer pmEmployeeId,double completeInspectionPunishAmount, Model model){
 		Map<String,Object> param = new HashMap<String,Object>();

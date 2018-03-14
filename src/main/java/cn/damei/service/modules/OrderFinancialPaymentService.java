@@ -20,9 +20,7 @@ import cn.damei.common.utils.PicRootName;
 
 import net.sf.json.JSONArray;
 
-/**
- *  财务收款2.0
- */
+
 @Service
 @Transactional(readOnly = true)
 public class OrderFinancialPaymentService {
@@ -30,18 +28,11 @@ public class OrderFinancialPaymentService {
 	private Logger logger =LoggerFactory.getLogger(QuarzUpdateOrderReportStatus.class);
     private String remoteUrl = "/IndustyOrderQueryAPI/QueryOrderInfo";
     
-	/**
-	 * 查询财务收款2.0
-	 * @param storeId
-	 * @param orderNumber
-	 * @param customerName
-	 * @param customerPhone
-	 * @return
-	 */
+
 	public List<Map<String, String>> orderFinancialPaymentAjaxList(String storeId, String orderNumber,
 			String customerName, String customerPhone) {
 		
-		//传递的参数
+
 		Map<String,String> params=new HashMap<String,String>();
 
         if(null==storeId || ("").equals(storeId)){
@@ -64,16 +55,16 @@ public class OrderFinancialPaymentService {
         
         String[] paramArr=new String[]{"storeId:"+storeId,"orderNumber:"+orderNumber,"customerName:"+customerName,"customerPhone:"+customerPhone};
         
-//		Date date = new Date();
-//        String endTime =  DateFormatUtils.format(date, "yyyy-MM-dd");
-//        String   startTime =    DateFormatUtils.format(DateUtils.addDate(date,-20), "yyyy-MM-dd");
-//        params.put("startTime",startTime);
-//        params.put("endTime", endTime);
-//        String[] paramArr=new String[]{"startTime:"+startTime,"endTime:"+endTime};
+
+
+
+
+
+
         
         params.put("key", KeyAuthenticateUtils.getKey(paramArr, BizOrderReportConstantUtil.REMOTE_INTERFACE_PARAM_KEY));
 
-        //返回的查询结果
+
         List<Map<String, String>> list = new ArrayList<Map<String, String>>();
         
         try {
@@ -87,23 +78,23 @@ public class OrderFinancialPaymentService {
                 for (int i = 0; i < mapListJson.size(); i++) {
                     Map<String, Object> obj = mapListJson.get(i);
 
-                    //1.门店信息
+
                     String storeNameParams  = (String) obj.get("storeName");
-                    //2.订单编号
+
 					String orderNumberParams  = (String) obj.get("orderNumber");
-					//3.详细地址
+
 					String detailAddressParams  = (String) obj.get("detailAddress");
-					//4.客户姓名
+
 					String customerNameParams  = (String) obj.get("customerName");
-					//5.客户手机号
+
 					String customerPhoneParams  = (String) obj.get("customerPhone");
-					//6.合同签约日期
+
 					String  contractTimeParams  = (String) obj.get("contractTime");
-					//7.首期款缴纳时间
+
 					String startMoneyParams  = (String) obj.get("startMoney");
-					//8.二期款缴纳时间
+
 					String secondMoneyParams  = (String) obj.get("secondMoney");
-					//9.尾款缴纳时间
+
 					String lastMoneyParams  = (String) obj.get("lastMoney");
 					
 					
@@ -154,12 +145,7 @@ public class OrderFinancialPaymentService {
 		return list;
 	}
 
-	/**
-     * 请求接口，返回结果解析
-     * @param requestURL
-     * @param params
-     * @return
-     */
+
     private Map<String,Object> httpRequest(String requestURL,Map<String,String> params){
         String post = null;
         try {
@@ -170,7 +156,7 @@ public class OrderFinancialPaymentService {
             logger.error(e.getMessage());
         }
 
-        //json结果 解析
+
         return JsonUtils.parseJSON2Map(post);
     }
 	

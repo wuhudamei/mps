@@ -6,22 +6,20 @@ import cn.damei.common.persistence.DataEntity2;
 
 public class Order  extends DataEntity2<Order>{
 
-	/**
-	 * 质检端,质检单Vo   @author  梅浩
-	 */
+
 	private static final long serialVersionUID = 1L;
 
-	private Integer orderId; // 订单id
-	private String projectMode; // 订单id
-	private String communityName;//小区
-	private String buildNumber;//几号楼
-	private String buildUnit;//几单元
-	private String buildRoom;//几室
-	private String customerName;//客户姓名
-	private String customerPhone;//客户电话
-	private String itemManager;//项目经理
-	private Date actualStartDate;//实际开工日期
-	private Integer orderInspectorId;//质检员id
+	private Integer orderId;
+	private String projectMode;
+	private String communityName;
+	private String buildNumber;
+	private String buildUnit;
+	private String buildRoom;
+	private String customerName;
+	private String customerPhone;
+	private String itemManager;
+	private Date actualStartDate;
+	private Integer orderInspectorId;
 	private String managerPhone;
 	public String getManagerPhone() {
 		return managerPhone;
@@ -29,12 +27,12 @@ public class Order  extends DataEntity2<Order>{
 	public void setManagerPhone(String managerPhone) {
 		this.managerPhone = managerPhone;
 	}
-	private Integer qcBillId; //抽检单id
-	private String qcBillStatus; //抽检单状态
-	private String text;//2017-1-5 app端加入搜索功能
+	private Integer qcBillId;
+	private String qcBillStatus;
+	private String text;
 	private String lon;
 	private String lat;
-	private String isScrap; // 是否作废
+	private String isScrap;
 	
 	
 	public String getIsScrap() {

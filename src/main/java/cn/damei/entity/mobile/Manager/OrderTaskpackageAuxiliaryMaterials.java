@@ -2,25 +2,21 @@ package cn.damei.entity.mobile.Manager;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 任务包结算Entity
- * @author qww
- * @version 2016-10-15
- */
+
 
 public class OrderTaskpackageAuxiliaryMaterials extends DataEntity2<OrderTaskpackageAuxiliaryMaterials>{
 
 	private static final long serialVersionUID = 1L;
 
-	private Integer id; // id
-	private Integer orderId; // 订单id
-	private Integer orderTaskpackageId; // 订单任务包id
-	private String auxiliaryMaterialsNo; // 辅料编码
-	private Double usedCount; // 实际使用数量
-	private Double price;//辅料价格 
-	private Double supplierPrice;//供应商价格
-	private Double wangzhenPrice;//网真价格
-	private char isSandCement;//是否是沙子水泥
+	private Integer id;
+	private Integer orderId;
+	private Integer orderTaskpackageId;
+	private String auxiliaryMaterialsNo;
+	private Double usedCount;
+	private Double price;
+	private Double supplierPrice;
+	private Double wangzhenPrice;
+	private char isSandCement;
 	
 	public Integer getId() {
 		return id;

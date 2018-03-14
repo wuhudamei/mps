@@ -6,18 +6,16 @@ import cn.damei.common.persistence.DataEntity2;
 
 public class InspectorOrderVo  extends DataEntity2<InspectorOrderVo>{
 
-	/**
-	 * 质检端,质检单Vo   @author  梅浩
-	 */
+
 	private static final long serialVersionUID = 1L;
 
-	private Integer id; // 质检单主键
-	private Integer orderId;//相关订单id
-	private  String communityAddress;//顾客小区地址
-	private String buildNumber;//楼
-	private String buildUnit;//单元
-	private String buildRoom;//室
-	private String text;//条件查询的文本
+	private Integer id;
+	private Integer orderId;
+	private  String communityAddress;
+	private String buildNumber;
+	private String buildUnit;
+	private String buildRoom;
+	private String text;
 	private String managerPhone;
 	public String getManagerPhone() {
 		return managerPhone;
@@ -49,22 +47,22 @@ public class InspectorOrderVo  extends DataEntity2<InspectorOrderVo>{
 	public void setBuildRoom(String buildRoom) {
 		this.buildRoom = buildRoom;
 	}
-	private String customerName;//顾客姓名
-	private String customerPhone;//顾客手机号
-	private Integer managerId;//发起约检的经理id
-	private String managerName;//发起约检的经理姓名
-	private Date actualStartDate;//订单的实际开工日期
-	private String checkNodeName;//约检节点名称
-	private Integer checkNodeId;//约检节点id
-	private Date checkTime;//约检日期
-	private String status; //状态
+	private String customerName;
+	private String customerPhone;
+	private Integer managerId;
+	private String managerName;
+	private Date actualStartDate;
+	private String checkNodeName;
+	private Integer checkNodeId;
+	private Date checkTime;
+	private String status;
 	private String lon;
 	private String lat;
 
 	private String delayDaysPm;
 	private String delayDaysQc;
-	private String isScrap;  //订单作废标识
-	private Integer noScoreCount;//质检员未对工人评价的数量
+	private String isScrap;
+	private Integer noScoreCount;
 	
 	
 	public Integer getNoScoreCount() {

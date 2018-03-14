@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.util.List;
@@ -13,12 +11,7 @@ import cn.damei.common.service.CrudService;
 import cn.damei.dao.modules.BizProjectInstallItemDao;
 import cn.damei.entity.modules.BizProjectInstallItem;
 
-/**
- * 工程安装项Service
- * 
- * @author 梅浩
- * @version 2016-09-01
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizProjectInstallItemService extends CrudService<BizProjectInstallItemDao, BizProjectInstallItem> {
@@ -45,13 +38,11 @@ public class BizProjectInstallItemService extends CrudService<BizProjectInstallI
 		super.delete(bizProjectInstallItem);
 	}
 
-	/**
-	 * 根据门店id查询所有安装项
-	 */
+
 
 	public List<BizProjectInstallItem> getAllInstallItemByStoreId(String storeId) {
 
-		return null;// super.dao.getAllInstallItemByStoreId(storeId);
+		return null;
 	}
 
 	@Transactional(readOnly = false)

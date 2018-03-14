@@ -19,11 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Arrays;
 
-/**
- * 复尺未转单监控(20161114-20161120)Controller
- * @author llp
- * @version 2016-11-28
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/bizorderrecheckmonitor/bizOrderRecheckMonitor")
 public class BizOrderRecheckMonitorController extends BaseController{
@@ -32,15 +28,13 @@ public class BizOrderRecheckMonitorController extends BaseController{
 	@Autowired
 	private BizEmployeeService2 bizEmployeeService2;
 	
-	/**
-	 * 准备列出复尺未转单监控列表
-	 */
+
 	@RequiresPermissions("bizorderrecheckmonitor:bizOrderRecheckMonitor:view")
 	@RequestMapping(value = { "preList", "" })
 	public String packageList(BizOrderRecheckMonitor bizOrderRecheckMonitor, Model model, HttpServletRequest request) {
 		logger.info("当前登陆人ID："+UserUtils.getUser().getId());
 		User user = UserUtils.getUser();
-		//过滤门店
+
 		if(null == bizOrderRecheckMonitor.getStoreId()){
 			if(null != user.getStoreId()){
 				bizOrderRecheckMonitor.setStoreId(Integer.valueOf(user.getStoreId()));
@@ -49,7 +43,7 @@ public class BizOrderRecheckMonitorController extends BaseController{
 		if(StringUtils.isBlank(user.getStoreId())){
 			model.addAttribute("storeDropEnable", true);
 		}
-		//过滤工程模式
+
 		if(null != user.getEmpId()){
 			BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
 			if(StringUtils.isBlank(be.getProjectMode())){
@@ -68,15 +62,13 @@ public class BizOrderRecheckMonitorController extends BaseController{
 		return "modules/bizrecheck/bizRecheckMonitorList";
 	}
 	
-	/**
-	 * 列出复尺未转单监控列表
-	 */
+
 	@RequiresPermissions("bizconstruction:bizConstruction:view")
 	@RequestMapping(value = { "list", "" })
 	public String list(BizOrderRecheckMonitor bizOrderRecheckMonitor, Model model, HttpServletResponse response,
 			HttpServletRequest request) {
 		User user = UserUtils.getUser();
-		//过滤门店
+
 		if(null == bizOrderRecheckMonitor.getStoreId()){
 			if(null != user.getStoreId()){
 				bizOrderRecheckMonitor.setStoreId(Integer.valueOf(user.getStoreId()));
@@ -85,7 +77,7 @@ public class BizOrderRecheckMonitorController extends BaseController{
 		if(StringUtils.isBlank(user.getStoreId())){
 			model.addAttribute("storeDropEnable", true);
 		}
-		//过滤工程模式
+
 		if(null != user.getEmpId()){
 			BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
 			if(StringUtils.isBlank(be.getProjectMode())){

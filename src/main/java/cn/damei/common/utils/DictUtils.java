@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.common.utils;
 
 import java.util.ArrayList;
@@ -20,11 +18,7 @@ import cn.damei.common.utils.SpringContextHolder;
 import cn.damei.dao.modules.DictDao;
 import cn.damei.entity.modules.Dict;
 
-/**
- * 字典工具类
- * @author ThinkGem
- * @version 2013-5-29
- */
+
 public class DictUtils {
 	
 	private static DictDao dictDao = SpringContextHolder.getBean(DictDao.class);
@@ -87,7 +81,7 @@ public class DictUtils {
 	}
 	
 	public static List<Dict> getTaskPackageStatusList(String type){
-		//@SuppressWarnings("unchecked")
+
 		List<Dict> dictList = dictDao.getTaskPackageStatusList(type);
 		return dictList;
 	}
@@ -241,28 +235,24 @@ public class DictUtils {
 	}
 	
 	public static List<Dict> getOrderTaskPackageStatusList(String type){
-		//@SuppressWarnings("unchecked")
+
 		List<Dict> dictList = dictDao.getOrderTaskPackageStatusList(type);
 		return dictList;
 	}
 	
 	public static List<Dict> getSummaryStatusList(String type){
-		//@SuppressWarnings("unchecked")
+
 		List<Dict> dictList = dictDao.getSummaryStatusList(type);
 		return dictList;
 	}
 	
 	public static List<Dict> getSummaryCheckedStatusList(String type){
-		//@SuppressWarnings("unchecked")
+
 		List<Dict> dictList = dictDao.getSummaryCheckedStatusList(type);
 		return dictList;
 	}
 	
-	/**
-	 * 返回字典列表（JSON）
-	 * @param type
-	 * @return
-	 */
+
 	public static String getDictListJson(String type){
 		return JsonMapper.toJsonString(getDictList(type));
 	}

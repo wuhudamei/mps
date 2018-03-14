@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import javax.validation.constraints.NotNull;
@@ -9,29 +7,24 @@ import org.hibernate.validator.constraints.Length;
 
 import cn.damei.common.persistence.DataEntity;
 
-/**
- * 工程安装项Entity
- * 
- * @author 梅浩
- * @version 2016-09-01
- */
+
 public class BizProjectInstallItem extends DataEntity<BizProjectInstallItem> {
 
 	private static final long serialVersionUID = 1L;
-	private String storeId; // 门店id
-	private String projectMode;// 工程模式
-	private String installMode;// 安装模式
-	private String installItemName; // 安装项名称
-	private Integer installItemSequence; // 安装项顺序
-	private Integer workApplyDay; // 开工第几天申请
-	private Integer workEnterDay; // 开工第几天进场
-	private Integer workCompleteDay; // 开工第几天完成
-	private String isOn; // 停用或启用 (默认停用)
-	private String daysPlanChecksize; // 开工第几天复尺
-	private String isToChecksize = "0"; // 是否需要复尺 (默认否)
+	private String storeId;
+	private String projectMode;
+	private String installMode;
+	private String installItemName;
+	private Integer installItemSequence;
+	private Integer workApplyDay;
+	private Integer workEnterDay;
+	private Integer workCompleteDay;
+	private String isOn;
+	private String daysPlanChecksize;
+	private String isToChecksize = "0";
 
-	private String isShowInstallDescription = "0"; // 是否展示安装说明
-	private String installDescription; // 安装说明
+	private String isShowInstallDescription = "0";
+	private String installDescription;
 
 	private Integer orderInstallItemId;
 

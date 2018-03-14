@@ -3,11 +3,7 @@ package cn.damei.entity.mobile.Manager;
 import java.util.Date;
 
 import cn.damei.common.persistence.DataEntity2;
-/**
- * 收货单entity
- * @author wang
- *
- */
+
 public class BizPurchaseReceiveBill extends DataEntity2<BizPurchaseReceiveBill>{
 
 	private static final long serialVersionUID = 1L;

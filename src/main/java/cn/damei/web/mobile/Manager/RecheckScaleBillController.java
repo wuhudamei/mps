@@ -51,11 +51,7 @@ import cn.damei.entity.modules.BizPhoneMsg;
 import cn.damei.service.modules.BizPhoneMsgService;
 import cn.damei.service.modules.BizSeiralnumService;
 
-/**
- * 复尺主页面(20161107-20161113)
- * @author llp 
- * 2016-11-15
- */
+
 @Controller
 @RequestMapping(value="${adminPath}/app/manager")
 public class RecheckScaleBillController {
@@ -95,13 +91,13 @@ public class RecheckScaleBillController {
 	public String list(HttpServletRequest request,Model model,String recheckType,String orderID) 
 			throws IOException {
 		String result = null;
-		// 获取项目经理
+
 		Manager manager = SessionUtils.getManagerSession(request);
 		logger.info("获取当前项目经理的编号："+manager.getId()+"\t项目经理名字："+manager.getRealname()
 					+"\t手机号："+manager.getPhone());
 		logger.info("类型："+recheckType +"\t 订单编号："+orderID);
 		model.addAttribute("orderID", orderID);
-		if(recheckType.equals(ConstantUtils.COMPLEX_CONTENT_MAP_1)){//1-套口
+		if(recheckType.equals(ConstantUtils.COMPLEX_CONTENT_MAP_1)){
 			List<DictType> dictList = dictTypeService.queryListByType(PicRootName.RecheckType(ConstantUtils.COMPLEX_CONTENT_MAP_1));
 			List<String> list = new ArrayList<String>();
 			for(DictType type: dictList){
@@ -109,7 +105,7 @@ public class RecheckScaleBillController {
 			}
 			model.addAttribute("taokouList", list);
 			result = "mobile/modules/Manager/progressMain/newChecksize/taokouRecheck";
-		}else if(recheckType.equals(ConstantUtils.COMPLEX_CONTENT_MAP_2)){//2-窗帘
+		}else if(recheckType.equals(ConstantUtils.COMPLEX_CONTENT_MAP_2)){
 			List<DictType> dictList = dictTypeService.queryListByType(PicRootName.RecheckType(ConstantUtils.COMPLEX_CONTENT_MAP_2));
 			List<String> list = new ArrayList<String>();
 			for(DictType type: dictList){
@@ -117,7 +113,7 @@ public class RecheckScaleBillController {
 			}
 			model.addAttribute("curtainList", list);
 			result = "mobile/modules/Manager/progressMain/newChecksize/curtain";
-		}else if(recheckType.equals(ConstantUtils.COMPLEX_CONTENT_MAP_3)){//3-推拉门
+		}else if(recheckType.equals(ConstantUtils.COMPLEX_CONTENT_MAP_3)){
 			List<DictType> dictList = dictTypeService.queryListByType(PicRootName.RecheckType(ConstantUtils.COMPLEX_CONTENT_MAP_3));
 			List<String> list = new ArrayList<String>();
 			for(DictType type: dictList){
@@ -125,7 +121,7 @@ public class RecheckScaleBillController {
 			}
 			model.addAttribute("pushPullList", list);
 			result = "mobile/modules/Manager/progressMain/newChecksize/pushPullDoor";
-		}else if(recheckType.equals(ConstantUtils.COMPLEX_CONTENT_MAP_4)){//4-平开门
+		}else if(recheckType.equals(ConstantUtils.COMPLEX_CONTENT_MAP_4)){
 			List<DictType> dictList = dictTypeService.queryListByType(PicRootName.RecheckType(ConstantUtils.COMPLEX_CONTENT_MAP_4));
 			List<String> list = new ArrayList<String>();
 			for(DictType type: dictList){
@@ -133,7 +129,7 @@ public class RecheckScaleBillController {
 			}
 			model.addAttribute("flatopenList", list);
 			result = "mobile/modules/Manager/progressMain/newChecksize/flatopenRecheck";
-		}else if(recheckType.equals(ConstantUtils.COMPLEX_CONTENT_MAP_5)){//5-马桶
+		}else if(recheckType.equals(ConstantUtils.COMPLEX_CONTENT_MAP_5)){
 			List<DictType> dictList = dictTypeService.queryListByType(PicRootName.RecheckType(ConstantUtils.COMPLEX_CONTENT_MAP_5));
 			List<String> list = new ArrayList<String>();
 			for(DictType type: dictList){
@@ -141,7 +137,7 @@ public class RecheckScaleBillController {
 			}
 			model.addAttribute("closeToolList", list);
 			result = "mobile/modules/Manager/progressMain/newChecksize/closeTool";
-		}else if(recheckType.equals(ConstantUtils.COMPLEX_CONTENT_MAP_6)){//6-浴室柜
+		}else if(recheckType.equals(ConstantUtils.COMPLEX_CONTENT_MAP_6)){
 			List<DictType> dictList = dictTypeService.queryListByType(PicRootName.RecheckType(ConstantUtils.COMPLEX_CONTENT_MAP_6));
 			List<String> list = new ArrayList<String>();
 			for(DictType type: dictList){
@@ -151,15 +147,13 @@ public class RecheckScaleBillController {
 			result = "mobile/modules/Manager/progressMain/newChecksize/roomCabinet";
 		}
 		
-		//获取订单信息
+
 		NewChecksizeOrder order = newChecksizeService.getByID(Integer.valueOf(orderID));
 		model.addAttribute("order", order);
 		return result;
 	}
 	
-	/**
-	 * 套口保存
-	 */
+
 	@ResponseBody
 	@RequestMapping(value={"taokouSubmitData",""})
 	public String taokouSubmitData(HttpServletRequest request,Model model,String planInstallDate,String[] photos,
@@ -168,20 +162,20 @@ public class RecheckScaleBillController {
 		Map<Integer,String> map = new HashMap<Integer,String>();
 		RecheckScaleBill bill = null;
 		logger.info("预计安装时间："+planInstallDate+"\t订单编号："+orderID);
-		// 获取项目经理
+
 		Manager manager = SessionUtils.getManagerSession(request);
 		logger.info("获取当前项目经理的编号："+manager.getId()+"\t项目经理名字："+manager.getRealname()
 					+"\t手机号："+manager.getPhone());
 		
 		if(orderID != null){
-			//根据orderId和上传的类型查询最新的一条记录 判断是否大于5分钟
+
 			Date createDate = checksizeService.findByOrderIdAndType(Integer.parseInt(orderID),ConstantUtils.COMPLEX_CONTENT_MAP_1);
 			if(createDate != null){
 				if(createDate.getTime()+300*1000 > new Date().getTime()){
 					return "error";
 				}
 			}
-			//获取编号规则：复尺单的编号规则：FC+四位年月日+四位流水号（FC201611090001）
+
 			String number = bizSeiralnumService.getDateSequence(ConstantUtils.APP_RECHECK_STRING);
 			int idKey = recheckScaleBillService.insert(Integer.valueOf(orderID),planInstallDate,number,ConstantUtils.COMPLEX_CONTENT_MAP_1,manager.getId());
 			bill = recheckScaleBillService.getByID(idKey);
@@ -212,22 +206,22 @@ public class RecheckScaleBillController {
 					}
 				}
 				
-				//公用图片保存
+
 				if(photos != null && photos.length > 0){
 					String pathName = PicRootName.NewRecheckPath();
 					String rootPath = request.getSession().getServletContext().getRealPath("/");
 					for (String pic : photos) {
-						//生成UUID
+
 						String uuid = UUID.randomUUID().toString().replaceAll("-", "");
 						File filePath = new File(rootPath + pathName + DateUtils.getDate1());
-						//判断该文件是否存在
+
 						if(!filePath.exists()){
 							filePath.mkdirs();
 						}
 						String picUrl = pathName + DateUtils.getDate1() + "/" + uuid + ".jpeg";
 						String fullPath = filePath + filePath.separator + uuid + ".jpeg";
 						logger.info("完整路径："+fullPath);
-						Base64Util.generateImage(pic, fullPath.toString());//base64解析成图片
+						Base64Util.generateImage(pic, fullPath.toString());
 						
 						result = businessPicService.insertPhotos(pic,ConstantUtils.TAOKOU_KEY,idKey,picUrl);
 					}
@@ -272,7 +266,7 @@ public class RecheckScaleBillController {
 				if(list.size() > 0 && employeelist.size() > 0){
 					for(BizEmployee2 employee : employeelist){
 						logger.info("调度员手机号："+employee.getPhone());
-						/**发送短信给材料调度员**/
+
 						BizPhoneMsg p = new BizPhoneMsg();
 						p.setId(null);
 						p.setReceivePhone(employee.getPhone().trim());
@@ -295,9 +289,7 @@ public class RecheckScaleBillController {
 		return result;
 	}
 	
-	/**
-	 * 窗帘保存
-	 */
+
 	@ResponseBody
 	@RequestMapping(value={"curainSubmitData",""})
 	public String curainSubmitData(HttpServletRequest request,String planInstallDate,String[] photos,String[] position,String[] poleLength,
@@ -306,18 +298,18 @@ public class RecheckScaleBillController {
 		Map<Integer,String> map = new HashMap<Integer,String>();
 		RecheckScaleBill bill = null;
 		logger.info("预计安装时间："+planInstallDate+"\t订单编号："+orderID);
-		// 获取项目经理
+
 		Manager manager = SessionUtils.getManagerSession(request);
 		if(orderID != null){
 			
-			//根据orderId和上传的类型查询最新的一条记录 判断是否大于5分钟
+
 			Date createDate = checksizeService.findByOrderIdAndType(Integer.parseInt(orderID),ConstantUtils.COMPLEX_CONTENT_MAP_2);
 			if(createDate != null){
 				if(createDate.getTime()+300*1000 > new Date().getTime()){
 					return "error";
 				}
 			}
-			//获取编号规则：复尺单的编号规则：FC+四位年月日+四位流水号（FC201611090001）
+
 			String number = bizSeiralnumService.getDateSequence(ConstantUtils.APP_RECHECK_STRING);
 			int idKey = recheckScaleBillService.insert(Integer.valueOf(orderID),planInstallDate,number,ConstantUtils.COMPLEX_CONTENT_MAP_2,manager.getId());
 			bill = recheckScaleBillService.getByID(idKey);
@@ -348,22 +340,22 @@ public class RecheckScaleBillController {
 					}
 				}
 				
-				//公用图片保存
+
 				if(photos != null && photos.length > 0){
 					String rootPath = request.getSession().getServletContext().getRealPath("/");
 					String pathName = PicRootName.NewRecheckPath();
 					for (String pic : photos) {
-						//生成UUID
+
 						String uuid = UUID.randomUUID().toString().replaceAll("-", "");
 						File filePath = new File(rootPath + pathName + DateUtils.getDate1());
-						//判断该文件是否存在
+
 						if(!filePath.exists()){
 							filePath.mkdirs();
 						}
 						String picUrl = pathName + DateUtils.getDate1() + "/" + uuid + ".jpeg";
 						String fullPath = filePath + filePath.separator + uuid + ".jpeg";
 						logger.info("完整路径："+fullPath);
-						Base64Util.generateImage(pic, fullPath.toString());//base64解析成图片
+						Base64Util.generateImage(pic, fullPath.toString());
 						
 						result = businessPicService.insertPhotos(pic,ConstantUtils.CURTAIN_KEY,idKey,picUrl);
 					}
@@ -407,7 +399,7 @@ public class RecheckScaleBillController {
 				if(list.size() > 0 && employeelist.size() > 0){
 					for(BizEmployee2 employee : employeelist){
 						logger.info("调度员手机号："+employee.getPhone());
-						/**发送短信给材料调度员**/
+
 						BizPhoneMsg p = new BizPhoneMsg();
 						p.setId(null);
 						p.setReceivePhone(employee.getPhone().trim());
@@ -430,9 +422,7 @@ public class RecheckScaleBillController {
 		return result;
 	}
 	
-	/**
-	 * 推拉门保存
-	 */
+
 	@ResponseBody
 	@RequestMapping(value={"pushPullSubmitData",""})
 	public String pushPullSubmitData(HttpServletRequest request,String planInstallDate,String[] photos,String[] position,String[] pushPullStyle,
@@ -441,18 +431,18 @@ public class RecheckScaleBillController {
 		logger.info("订单编号："+orderID+"\t加一项总个数："+size+"\t预计安装日期："+planInstallDate);
 		Map<Integer,String> map = new HashMap<Integer,String>();
 		RecheckScaleBill bill = null;
-		// 获取项目经理
+
 		Manager manager = SessionUtils.getManagerSession(request);
 		String result = "0";
 		if(orderID != null){
-			//根据orderId和上传的类型查询最新的一条记录 判断是否大于5分钟
+
 			Date createDate = checksizeService.findByOrderIdAndType(Integer.parseInt(orderID),ConstantUtils.COMPLEX_CONTENT_MAP_3);
 			if(createDate != null){
 				if(createDate.getTime()+300*1000 > new Date().getTime()){
 					return "error";
 				}
 			}
-			//获取编号规则：复尺单的编号规则：FC+四位年月日+四位流水号（FC201611090001）
+
 			String number = bizSeiralnumService.getDateSequence(ConstantUtils.APP_RECHECK_STRING);
 			int idKey = recheckScaleBillService.insert(Integer.valueOf(orderID),planInstallDate,number,ConstantUtils.COMPLEX_CONTENT_MAP_3,manager.getId());
 			bill = recheckScaleBillService.getByID(idKey);
@@ -513,22 +503,22 @@ public class RecheckScaleBillController {
 					}
 				}
 				
-				//公用图片保存
+
 				if(photos != null && photos.length > 0){
 					String pathName = PicRootName.NewRecheckPath();
 					String rootPath = request.getSession().getServletContext().getRealPath("/");
 					for (String pic : photos) {
-						//生成UUID
+
 						String uuid = UUID.randomUUID().toString().replaceAll("-", "");
 						File filePath = new File(rootPath + pathName + DateUtils.getDate1());
-						//判断该文件是否存在
+
 						if(!filePath.exists()){
 							filePath.mkdirs();
 						}
 						String picUrl = pathName + DateUtils.getDate1() + "/" + uuid + ".jpeg";
 						String fullPath = filePath + filePath.separator + uuid + ".jpeg";
 						logger.info("完整路径："+fullPath);
-						Base64Util.generateImage(pic, fullPath.toString());//base64解析成图片
+						Base64Util.generateImage(pic, fullPath.toString());
 						
 						result = businessPicService.insertPhotos(pic,ConstantUtils.PUSH_PULL_DOOR_KEY,idKey,picUrl);
 					}
@@ -569,7 +559,7 @@ public class RecheckScaleBillController {
 				if(list.size() > 0 && employeelist.size() > 0){
 					for(BizEmployee2 employee : employeelist){
 						logger.info("调度员手机号："+employee.getPhone());
-						/**发送短信给材料调度员**/
+
 						BizPhoneMsg p = new BizPhoneMsg();
 						p.setId(null);
 						p.setReceivePhone(employee.getPhone().trim());
@@ -592,9 +582,7 @@ public class RecheckScaleBillController {
 		return result;
 	}
 	
-	/**
-	 * 平开门保存
-	 */
+
 	@ResponseBody
 	@RequestMapping(value={"flatSubmitData",""})
 	public String flatSubmitData(HttpServletRequest request,String planInstallDate,String[] photos,String[] position,String[] inOutOpen,
@@ -603,18 +591,18 @@ public class RecheckScaleBillController {
 		logger.info("订单编号："+orderID+"\t加一项总个数："+size+"\t预计安装日期："+planInstallDate);
 		Map<Integer,String> map = new HashMap<Integer,String>();
 		RecheckScaleBill bill = null;
-		// 获取项目经理
+
 		Manager manager = SessionUtils.getManagerSession(request);
 		String result = "0";
 		if(orderID != null){
-			//根据orderId和上传的类型查询最新的一条记录 判断是否大于5分钟
+
 			Date createDate = checksizeService.findByOrderIdAndType(Integer.parseInt(orderID),ConstantUtils.COMPLEX_CONTENT_MAP_4);
 			if(createDate != null){
 				if(createDate.getTime()+300*1000 > new Date().getTime()){
 					return "error";
 				}
 			}
-			//获取编号规则：复尺单的编号规则：FC+四位年月日+四位流水号（FC201611090001）
+
 			String number = bizSeiralnumService.getDateSequence(ConstantUtils.APP_RECHECK_STRING);
 			int idKey = recheckScaleBillService.insert(Integer.valueOf(orderID),planInstallDate,number,ConstantUtils.COMPLEX_CONTENT_MAP_4,manager.getId());
 			bill = recheckScaleBillService.getByID(idKey);
@@ -669,22 +657,22 @@ public class RecheckScaleBillController {
 						}
 					}
 				}
-				//公用图片保存
+
 				if(photos != null && photos.length > 0){
 					String pathName = PicRootName.NewRecheckPath();
 					String rootPath = request.getSession().getServletContext().getRealPath("/");
 					for (String pic : photos) {
-						//生成UUID
+
 						String uuid = UUID.randomUUID().toString().replaceAll("-", "");
 						File filePath = new File(rootPath + pathName + DateUtils.getDate1());
-						//判断该文件是否存在
+
 						if(!filePath.exists()){
 							filePath.mkdirs();
 						}
 						String picUrl = pathName + DateUtils.getDate1() + "/" + uuid + ".jpeg";
 						String fullPath = filePath + filePath.separator + uuid + ".jpeg";
 						logger.info("完整路径："+fullPath);
-						Base64Util.generateImage(pic, fullPath.toString());//base64解析成图片
+						Base64Util.generateImage(pic, fullPath.toString());
 						
 						result = businessPicService.insertPhotos(pic,ConstantUtils.FLAT_OPEN_DOOR_KEY,idKey,picUrl);
 					}
@@ -729,7 +717,7 @@ public class RecheckScaleBillController {
 				if(list.size() > 0 && employeelist.size() > 0){
 					for(BizEmployee2 employee : employeelist){
 						logger.info("调度员手机号："+employee.getPhone());
-						/**发送短信给材料调度员**/
+
 						BizPhoneMsg p = new BizPhoneMsg();
 						p.setId(null);
 						p.setReceivePhone(employee.getPhone().trim());
@@ -752,9 +740,7 @@ public class RecheckScaleBillController {
 		return result;
 	}
 	
-	/**
-	 * 马桶保存
-	 */
+
 	@ResponseBody
 	@RequestMapping(value={"toiletSubmitData",""})
 	public String toiletSubmitData(HttpServletRequest request,Model model,String planInstallDate,String[] photos,
@@ -763,17 +749,17 @@ public class RecheckScaleBillController {
 		Map<Integer,String> map = new HashMap<Integer,String>();
 		RecheckScaleBill bill = null;
 		logger.info("预计安装时间："+planInstallDate+"\t订单编号："+orderID);
-		// 获取项目经理
+
 		Manager manager = SessionUtils.getManagerSession(request);
 		if(orderID != null){
-			//根据orderId和上传的类型查询最新的一条记录 判断是否大于5分钟
+
 			Date createDate = checksizeService.findByOrderIdAndType(Integer.parseInt(orderID),ConstantUtils.COMPLEX_CONTENT_MAP_5);
 			if(createDate != null){
 				if(createDate.getTime()+300*1000 > new Date().getTime()){
 					return "error";
 				}
 			}
-			//获取编号规则：复尺单的编号规则：FC+四位年月日+四位流水号（FC201611090001）
+
 			String number = bizSeiralnumService.getDateSequence(ConstantUtils.APP_RECHECK_STRING);
 			int idKey = recheckScaleBillService.insert(Integer.valueOf(orderID),planInstallDate,number,ConstantUtils.COMPLEX_CONTENT_MAP_5,manager.getId());
 			bill = recheckScaleBillService.getByID(idKey);
@@ -788,31 +774,31 @@ public class RecheckScaleBillController {
 				}
 				
 				if(null != size){
-					//for(Entry<Integer, String> entry : map.entrySet()){
+
 						for(int i = 0; i < size.split(",").length ;i++){
-							//if(entry.getKey() == i){
+
 								logger.info("获取复尺位置："+position[i]+"\t马桶孔距："+closestoolHoleSize[i]);
 								result = recheckScaleBillToiletService.insertToilet(idKey,position[i],closestoolHoleSize[i],manager.getId());
-							//}
+
 						}
-					//}
+
 				}
-				//公用图片保存
+
 				if(photos != null && photos.length > 0){
 					String pathName = PicRootName.NewRecheckPath();
 					String rootPath = request.getSession().getServletContext().getRealPath("/");
 					for (String pic : photos) {
-						//生成UUID
+
 						String uuid = UUID.randomUUID().toString().replaceAll("-", "");
 						File filePath = new File(rootPath + pathName + DateUtils.getDate1());
-						//判断该文件是否存在
+
 						if(!filePath.exists()){
 							filePath.mkdirs();
 						}
 						String picUrl = pathName + DateUtils.getDate1() + "/" + uuid + ".jpeg";
 						String fullPath = filePath + filePath.separator + uuid + ".jpeg";
 						logger.info("完整路径："+fullPath);
-						Base64Util.generateImage(pic, fullPath.toString());//base64解析成图片
+						Base64Util.generateImage(pic, fullPath.toString());
 						
 						result = businessPicService.insertPhotos(pic,ConstantUtils.CLOSE_TOOL_KEY,idKey,picUrl);
 					}
@@ -856,7 +842,7 @@ public class RecheckScaleBillController {
 				if(list.size() > 0 && employeelist.size() > 0){
 					for(BizEmployee2 employee : employeelist){
 						logger.info("调度员手机号："+employee.getPhone());
-						/**发送短信给材料调度员**/
+
 						BizPhoneMsg p = new BizPhoneMsg();
 						p.setId(null);
 						p.setReceivePhone(employee.getPhone().trim());
@@ -879,9 +865,7 @@ public class RecheckScaleBillController {
 		return result;
 	}
 	
-	/**
-	 * 浴室柜保存
-	 */
+
 	@ResponseBody
 	@RequestMapping(value={"roomSubmitData",""})
 	public String roomSubmitData(HttpServletRequest request,Model model,String planInstallDate,String[] photos,
@@ -890,17 +874,17 @@ public class RecheckScaleBillController {
 		Map<Integer,String> map = new HashMap<Integer,String>();
 		RecheckScaleBill bill = null;
 		logger.info("预计安装时间："+planInstallDate+"\t订单编号："+orderID);
-		// 获取项目经理
+
 		Manager manager = SessionUtils.getManagerSession(request);
 		if(orderID != null){
-			//根据orderId和上传的类型查询最新的一条记录 判断是否大于5分钟
+
 			Date createDate = checksizeService.findByOrderIdAndType(Integer.parseInt(orderID),ConstantUtils.COMPLEX_CONTENT_MAP_6);
 			if(createDate != null){
 				if(createDate.getTime()+300*1000 > new Date().getTime()){
 					return "error";
 				}
 			}
-			//获取编号规则：复尺单的编号规则：FC+四位年月日+四位流水号（FC201611090001）
+
 			String number = bizSeiralnumService.getDateSequence(ConstantUtils.APP_RECHECK_STRING);
 			int idKey = recheckScaleBillService.insert(Integer.valueOf(orderID),planInstallDate,number,ConstantUtils.COMPLEX_CONTENT_MAP_6,manager.getId());
 			bill = recheckScaleBillService.getByID(idKey);
@@ -916,31 +900,31 @@ public class RecheckScaleBillController {
 				
 				if(null != size){
 					logger.info("加一项的个数："+size);
-					//for(Entry<Integer, String> entry : map.entrySet()){//有单选按钮需要这行
+
 					for(int i = 0; i < size.split(",").length ;i++){
-						//if(entry.getKey() == i){
+
 							logger.info("获取复尺位置："+position[i]+"\t浴室柜型号："+bathroomCabinetModel[i]);
 							result = recheckScaleBillRoomCabinetService.insertToilet(idKey,position[i],bathroomCabinetModel[i],manager.getId());
-						//}
+
 					}
-					//}
+
 				}
-				//公用图片保存
+
 				if(photos != null && photos.length > 0){
 					String pathName = PicRootName.NewRecheckPath();
 					String rootPath = request.getSession().getServletContext().getRealPath("/");
 					for (String pic : photos) {
-						//生成UUID
+
 						String uuid = UUID.randomUUID().toString().replaceAll("-", "");
 						File filePath = new File(rootPath + pathName + DateUtils.getDate1());
-						//判断该文件是否存在
+
 						if(!filePath.exists()){
 							filePath.mkdirs();
 						}
 						String picUrl = pathName + DateUtils.getDate1() + "/" + uuid + ".jpeg";
 						String fullPath = filePath + filePath.separator + uuid + ".jpeg";
 						logger.info("完整路径："+fullPath);
-						Base64Util.generateImage(pic, fullPath.toString());//base64解析成图片
+						Base64Util.generateImage(pic, fullPath.toString());
 						
 						result = businessPicService.insertPhotos(pic,ConstantUtils.ROOM_CABINET_KEY,idKey,picUrl);
 					}
@@ -984,7 +968,7 @@ public class RecheckScaleBillController {
 				if(list.size() > 0 && employeelist.size() > 0){
 					for(BizEmployee2 employee : employeelist){
 						logger.info("调度员手机号："+employee.getPhone());
-						/**发送短信给材料调度员**/
+
 						BizPhoneMsg p = new BizPhoneMsg();
 						p.setId(null);
 						p.setReceivePhone(employee.getPhone().trim());
@@ -1007,14 +991,12 @@ public class RecheckScaleBillController {
 		return result;
 	}
 	
-	/****
-	 * 复尺记录
-	 ****/
+
 	@RequestMapping(value={"recheckRecord",""})
 	public String recheckRecord(RecheckScaleBill recheckScaleBill,HttpServletRequest request,Model model,String orderID){
 		logger.info("获取订单编号："+orderID);
 		
-		//根据订单编号查询该订单复尺的所有内容
+
 		List<RecheckScaleBill> scaleBillList = recheckScaleBillService.queryListByOrderID(
 				Integer.valueOf(orderID));
 		

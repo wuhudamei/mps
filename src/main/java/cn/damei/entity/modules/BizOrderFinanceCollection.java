@@ -10,25 +10,25 @@ public class BizOrderFinanceCollection extends DataEntity2<BizOrderFinanceCollec
 
 	private static final long serialVersionUID = 1L;
 
-	private Integer orderId;// 订单Id
+	private Integer orderId;
 
-	private String collectionType;// 收款类型
+	private String collectionType;
 
-	private Double collectionAmount;// 收款金额
+	private Double collectionAmount;
 
-	private Date collectionDatetime;// 收款日期
+	private Date collectionDatetime;
 
-	private String collectionStatus;// 收款状态
+	private String collectionStatus;
 	
 	private List<String> collectionStatusList = null;
 	
 	private String collectionStatusStrs;
 
-	private Integer collectionOperatorEmployeeId;// 收款操作人员Id
+	private Integer collectionOperatorEmployeeId;
 
-	private String collectionRemarks;// 收款说明
+	private String collectionRemarks;
 
-	private Date collectionOperatorDatetime;// 收款操作时间
+	private Date collectionOperatorDatetime;
 	private Integer storeId;
 	private String projectMode;
 	private Integer enginDepartId;
@@ -37,10 +37,10 @@ public class BizOrderFinanceCollection extends DataEntity2<BizOrderFinanceCollec
 	private String orderNum;
 	private String customerName;
 	private String customerPhone;
-	private String communityName; // 小区名称
-	private String buildNumber; // 几号楼
-	private String buildUnit; // 几单元
-	private String buildRoom; // 哪一室
+	private String communityName;
+	private String buildNumber;
+	private String buildUnit;
+	private String buildRoom;
 	private Date signContractDate;
 	private Date beginCheckDate;
 	private Date endCheckDate;

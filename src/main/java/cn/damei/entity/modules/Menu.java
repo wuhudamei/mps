@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import java.util.List;
@@ -13,23 +11,19 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import cn.damei.common.persistence.DataEntity;
 
-/**
- * 菜单Entity
- * @author ThinkGem
- * @version 2013-05-15
- */
+
 public class Menu extends DataEntity<Menu> {
 
 	private static final long serialVersionUID = 1L;
-	private Menu parent;	// 父级菜单
-	private String parentIds; // 所有父级编号
-	private String name; 	// 名称
-	private String href; 	// 链接
-	private String target; 	// 目标（ mainFrame、_blank、_self、_parent、_top）
-	private String icon; 	// 图标
-	private Integer sort; 	// 排序
-	private String isShow; 	// 是否在菜单中显示（1：显示；0：不显示）
-	private String permission; // 权限标识
+	private Menu parent;
+	private String parentIds;
+	private String name;
+	private String href;
+	private String target;
+	private String icon;
+	private Integer sort;
+	private String isShow;
+	private String permission;
 	
 	private String userId;
 	
@@ -137,7 +131,7 @@ public class Menu extends DataEntity<Menu> {
 					&& e.getParent().getId().equals(parentId)){
 				list.add(e);
 				if (cascade){
-					// 判断是否还有子节点, 有则继续获取子节点
+
 					for (int j=0; j<sourcelist.size(); j++){
 						Menu child = sourcelist.get(j);
 						if (child.getParent()!=null && child.getParent().getId()!=null

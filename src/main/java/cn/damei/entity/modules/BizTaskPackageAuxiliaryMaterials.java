@@ -1,25 +1,19 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import org.hibernate.validator.constraints.Length;
 
 import cn.damei.common.persistence.DataEntity;
 
-/**
- * 任务包辅料对照表管理Entity
- * @author wangchao
- * @version 2016-09-09
- */
+
 public class BizTaskPackageAuxiliaryMaterials extends DataEntity<BizTaskPackageAuxiliaryMaterials> {
 	
 	private static final long serialVersionUID = 1L;
-	private String storeId;		// 门店
-	private String projectMode; //工程模式
-	private String bizTaskPackageTemplatId;		// 任务包模板id
-	private String bizAuxiliaryMaterialsNo;		// 辅料code
-	private String bizAuxiliaryMaterialsName;// 辅料名称
+	private String storeId;
+	private String projectMode;
+	private String bizTaskPackageTemplatId;
+	private String bizAuxiliaryMaterialsNo;
+	private String bizAuxiliaryMaterialsName;
 	
 	public BizTaskPackageAuxiliaryMaterials() {
 		super();

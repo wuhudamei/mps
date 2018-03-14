@@ -4,25 +4,21 @@ import java.util.Date;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 任务包结算Entity
- * @author qww
- * @version 2016-10-15
- */
+
 
 public class BizOrderTaskpackageSettlementDetail extends DataEntity2<BizOrderTaskpackageSettlementDetail>{
 
 	private static final long serialVersionUID = 1L;
 
-	private Integer id; // id
-	private Integer orderTaskpackageId; // 订单任务包id
-	private Integer settlementId; // 结算单id 
-	private Integer employeeId; // 员工id
-	private String isLeader; // 是否组长 0-不是 1-是
-	private Double paymentAmount; // 薪酬金额
-	private String status; // 状态 -- '1表示接受 0表示拒绝 2-未处理
-	private Date paymentTime; // 核算时间
-	private String remarks; // 备注
+	private Integer id;
+	private Integer orderTaskpackageId;
+	private Integer settlementId;
+	private Integer employeeId;
+	private String isLeader;
+	private Double paymentAmount;
+	private String status;
+	private Date paymentTime;
+	private String remarks;
 	
 	public Integer getId() {
 		return id;

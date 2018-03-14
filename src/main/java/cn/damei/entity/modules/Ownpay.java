@@ -2,20 +2,18 @@ package cn.damei.entity.modules;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 自主支配项Entity
- */
+
 public class Ownpay extends DataEntity2<Ownpay> {
 	
 	private static final long serialVersionUID = 1L;
-	private Integer pmSettleBillId;		// 结算单id
-	private Integer pmSettleCategorySummaryId;		// 结算单汇总表id
-	private Integer pmSettleCategoryDetailsId;		// 结算单汇总表id
-	private Integer orderId;		// 订单id -- '
-	private String ownpayName;		// 支配项名称 -- '
-	private String unit;		// 单位 -- '
-	private Double amount;		// 金额 -- '
-	private String remarks;		// 备注 -- '
+	private Integer pmSettleBillId;
+	private Integer pmSettleCategorySummaryId;
+	private Integer pmSettleCategoryDetailsId;
+	private Integer orderId;
+	private String ownpayName;
+	private String unit;
+	private Double amount;
+	private String remarks;
 	
 	
 	public Integer getPmSettleBillId() {

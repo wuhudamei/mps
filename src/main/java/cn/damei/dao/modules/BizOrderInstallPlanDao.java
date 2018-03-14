@@ -7,10 +7,7 @@ import cn.damei.common.persistence.annotation.MyBatisDao;
 import cn.damei.entity.modules.BizOrderInstallPlan;
 import cn.damei.entity.modules.BizProjectInstallItem;
 
-/**
- * 订单安装项
- * @author llp
- */
+
 @MyBatisDao
 public interface BizOrderInstallPlanDao extends CrudDao2<BizOrderInstallPlan>{
 

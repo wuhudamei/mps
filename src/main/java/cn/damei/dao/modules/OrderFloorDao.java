@@ -9,11 +9,7 @@ import cn.damei.entity.modules.OrderFloor2;
 import java.util.List;
 import java.util.Map;
 
-/**
- * 订单地板地砖面积Dao
- * @author hyh
- *
- */
+
 @MyBatisDao
 public interface OrderFloorDao extends CrudDao2<OrderFloor2>{
 

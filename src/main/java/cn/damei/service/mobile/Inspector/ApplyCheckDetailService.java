@@ -8,9 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-/**
- * Created by joseph on 2017/4/22.
- */
+
 @Service
 @Transactional(readOnly=true)
 public class ApplyCheckDetailService {
@@ -20,22 +18,14 @@ public class ApplyCheckDetailService {
 
 
 
-    /**
-     * 查询项目经理下的验收订单详情
-     * @param orderEntity
-     * @return
-     */
+
    public List<ApplyCheckOrderEntity> findCheckDoneOrderListByManagerId(ApplyCheckOrderEntity orderEntity){
 
 
         return dao.findCheckDoneOrderListByManagerId(orderEntity);
     }
 
-    /**
-     * 根据订单Id查询详情
-     * @param orderId
-     * @return
-     */
+
     public  ApplyCheckOrderEntity applyCheckDetailByOrderId(Integer orderId){
 
         return dao.applyCheckDetailByOrderId(orderId);

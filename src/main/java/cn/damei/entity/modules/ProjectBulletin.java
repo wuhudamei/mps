@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import java.util.Date;
@@ -12,80 +10,74 @@ import org.hibernate.validator.constraints.Length;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 订单管理Entity
- * @author llp
- * @version 2016-10-09
- */
+
 public class ProjectBulletin extends DataEntity2<ProjectBulletin> {
 	
 	private static final long serialVersionUID = 1L;
 	private Integer id;
-	private String orderNumber;		// 订单编号
-	private String contractNumber;		// 合同编号
-	private String customerType;		// 客户类型
-	private String customerAddress;		// 客户地址
-	private Date actualStartDate;		// 实际开工日期
-	private Date actualEndDate;		// 实际竣工日期
-	private String customerDescription;		// 客户属性描述
-	private String itemManagerId;		// 项目经理id
-	private String signFlag;		// 是否签到(根据签到表)
-	private String delayType;		// 延期类型
-	private String orderInspectorId;		// order_inspector_id
-	private String customerName;		// 客户姓名
-	private String customerPhone;		// 客户电话
-	private String communityName;		// 小区名称
-	private String buildNumber;		// 几号楼
-	private String buildUnit;		// 几单元
-	private String buildRoom;		// 哪一室
-	private String mapCoordinate;		// 地图坐标
-	private String saleType;		// 套餐类型
-	private String area;		// 片区
-	private String buildType;		// 房屋类型
-	private String houseType;		// 户型
-	private String houseIsNew;		// 新房老房  1为新房  0为老房  默认老房
-	private String isElevator;		// 是否有电梯  1代表有   0代表没有   默认没有
-	private String designerName;		// 设计师姓名
-	private String designerPhone;		// 设计师电话
-	private String orderReporterName;		// 跟单员姓名
-	private String orderReporterPhone;		// 跟单员电话
-	private String serviceName;		// 客服姓名
-	private String servicePhone;		// 客服电话
-	private Date contractStartDate;		// 合同开工日期
-	private Date contractEndDate;		// 合同竣工日期
-	private String coveredArea;		// 建筑面积
-	private String contractArea;		// 合同面积
-	private String contractTime;		// 合同工期
-	private Date signContractDate;		// 签约日期
-	private String orderStatusNumber;		// 订单状态码  创建订单成功默认状态码 105
-	private String orderStatusDescription;		// 订单状态码详情   默认详情 确认订单   状态码105
-	private String orderInspector;		// 订单质检员
-	private String itemManager;		// 项目经理
-	private String storeId;		// 门店id
-	private String cusManager;		// 客户经理
-	private String ordertaskpackStatus;		// ordertaskpack_status
-	private String projectMode;//产业模式
-	private String managerName;//项目经理名字
-	/*
-	 * 时间段
-	 */
-	//合同开工日期时间段
+	private String orderNumber;
+	private String contractNumber;
+	private String customerType;
+	private String customerAddress;
+	private Date actualStartDate;
+	private Date actualEndDate;
+	private String customerDescription;
+	private String itemManagerId;
+	private String signFlag;
+	private String delayType;
+	private String orderInspectorId;
+	private String customerName;
+	private String customerPhone;
+	private String communityName;
+	private String buildNumber;
+	private String buildUnit;
+	private String buildRoom;
+	private String mapCoordinate;
+	private String saleType;
+	private String area;
+	private String buildType;
+	private String houseType;
+	private String houseIsNew;
+	private String isElevator;
+	private String designerName;
+	private String designerPhone;
+	private String orderReporterName;
+	private String orderReporterPhone;
+	private String serviceName;
+	private String servicePhone;
+	private Date contractStartDate;
+	private Date contractEndDate;
+	private String coveredArea;
+	private String contractArea;
+	private String contractTime;
+	private Date signContractDate;
+	private String orderStatusNumber;
+	private String orderStatusDescription;
+	private String orderInspector;
+	private String itemManager;
+	private String storeId;
+	private String cusManager;
+	private String ordertaskpackStatus;
+	private String projectMode;
+	private String managerName;
+
+
 	private Date contractBegin;
 	private Date contractEnd;
 	
-	//实际开工日期时间段
+
 	private Date actualBegin;
 	private Date actualEnd;
 	
 	
-	//字段VO
-	private String nodeName;//节点名称
+
+	private String nodeName;
 	private Integer nodeIndex; 
 	private Integer nodeId;
 	private Integer nodePlanPicCount;
 	private String isDone;
 	private Date nodeRealDoneDate;
-	private Integer doneDate; //开工天数
+	private Integer doneDate;
 	
 	public ProjectBulletin() {
 		super();

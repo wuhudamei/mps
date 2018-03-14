@@ -4,71 +4,64 @@ import java.util.Date;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * @ClassName: SendItemMgrDetail 
- * @Description: 派项目经理明细 VO
- * @author huhanwei 
- * @date 2017年6月21日 下午1:36:28
- */
+
 public class SendItemMgrDetail extends DataEntity2<SendItemMgrDetail>  {
 	
-	/**
-	 * 派项目经理明细
-	 */
+
 	private static final long serialVersionUID = 1L;
-	private String storeId; //门店ID
-	private String storeName; //门店名称
+	private String storeId;
+	private String storeName;
 	
-	private Date createDate;// 派单时间
-	private Date beginCreateDate; // 派单时间-开始
-	private Date endCreateDate; // 派单时间-结束
+	private Date createDate;
+	private Date beginCreateDate;
+	private Date endCreateDate;
 	
-	private String operName; // 操作人
+	private String operName;
 	
-	private String newItemManager; // 新派项目经理
-	private String oldItemManager; // 原项目经理
+	private String newItemManager;
+	private String oldItemManager;
 	
-	private String projectMode; // 工程模式   1-产业模式；2-传统模式
-	private String projectModeName; // 工程模式名称
+	private String projectMode;
+	private String projectModeName;
 	
-	private String engineDepartId;//区域编号
-	private String engineDepartName; // 区域
+	private String engineDepartId;
+	private String engineDepartName;
 	
-	private String orderNumber; // 订单编号
-	private Date actualStartDate; // 实际开工日期
+	private String orderNumber;
+	private Date actualStartDate;
 	
-	private String communityName; // 小区名称
-	private String buildNumber; // 几号楼
-	private String buildUnit; // 几单元
-	private String buildRoom; // 几室
+	private String communityName;
+	private String buildNumber;
+	private String buildUnit;
+	private String buildRoom;
 	
-	private String customerName; // 客户名称
-	private String customerPhone; // 客户手机号
+	private String customerName;
+	private String customerPhone;
 	
-	private String designerName; // 设计师名称
-	private String designerPhone; // 设计师手机号
+	private String designerName;
+	private String designerPhone;
 	
-	private String itemManager; // 订单项目经理
-	private String itemManagerPhone; // 项目经理手机号
+	private String itemManager;
+	private String itemManagerPhone;
 	
-	private String orderInspector; // 质检员
-	private String orderInspectorPhone; // 质检员手机号
+	private String orderInspector;
+	private String orderInspectorPhone;
 	
-	// excel 导出用到
-	private String itemManagerId; // 员工编号（项目经理）
-	private Integer star; // 星级
-	private String orderCount; // 项目经理接单数
-	private String orderTotalCount; // 项目经理总接单数
-	private String remarks; // 备注
-	private String orderId; // 订单号
-	private Integer orderStop;// 是否接单，0-否，1-是
-	private String dailySendSingular; //日接单数
-	private String contractStartDate; //合同开工时间
-	private String contractEndDate; //合同竣工时间
-	private String customerAddress; // 客户地址
-	private String orderAcceptArea;//接单区域
-	private String month;//月份
-	private String monthDispathCount;//月累计
+
+	private String itemManagerId;
+	private Integer star;
+	private String orderCount;
+	private String orderTotalCount;
+	private String remarks;
+	private String orderId;
+	private Integer orderStop;
+	private String dailySendSingular;
+	private String contractStartDate;
+	private String contractEndDate;
+	private String customerAddress;
+	private String orderAcceptArea;
+	private String month;
+	private String monthDispathCount;
 	private String days;
 	private String managerCount;
 

@@ -53,14 +53,7 @@ public class OrderStartWorkerDateSetController {
 		model.addAttribute("confirmStartOrder", confirmStartOrder);
 		return "/modules/orderstartworkerdateset/orderStartWorkerDateSetListForm";
 	}
-	/**
-	 * 查看详情
-	 * @param confirmStartOrder
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @return
-	 */
+
 	@RequestMapping(value="detail")
 	public String detail(ConfirmStartOrder confirmStartOrder,HttpServletRequest request,HttpServletResponse response,Model model){
 		ConfirmStartOrder detail = orderStartWorkerDateSetService.findDetail(confirmStartOrder);
@@ -69,26 +62,7 @@ public class OrderStartWorkerDateSetController {
 	}
 	
 	
-	/**
-	 * 订单确认开工【保存】【PC端】
-	 * @param houseIsNew
-	 * @param projectMode
-	 * @param storeId
-	 * @param orderId
-	 * @param input_date
-	 * @param startRemark
-	 * @param dateCompare
-	 * @param delayType
-	 * @param decorateDelayDays
-	 * @param isSelfDecorateNeedSign
-	 * @param photos
-	 * @param isNeedSign
-	 * @param request
-	 * @return
-	 * @throws ParseException
-	 * @throws IOException
-	 * @throws NoSuchAlgorithmException
-	 */
+
 	@RequestMapping(value ="updateById")
 	public @ResponseBody String startUpdate(String houseIsNew, String projectMode, String storeId, String orderId, String input_date, String startRemark, String dateCompare,
 			String delayType, String decorateDelayDays, String isSelfDecorateNeedSign, String[] photos, String isNeedSign, HttpServletRequest request) throws ParseException, IOException, NoSuchAlgorithmException {

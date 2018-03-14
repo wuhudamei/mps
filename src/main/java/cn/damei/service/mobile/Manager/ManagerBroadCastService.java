@@ -42,7 +42,7 @@ public class ManagerBroadCastService {
 
 	}
 
-	// 根据播报单id查询图片等
+
 	public List<ManagerBroadCastEntity> findBroadCastInfoAndPic(Integer broadcastId) {
 		if (broadcastId == 0) {
 
@@ -60,16 +60,7 @@ public class ManagerBroadCastService {
 		}
 	}
 
-	/**
-	 * 保存项目经理选择的播报图片展示 及如果新增图片的播报
-	 * 
-	 * @param broadcastId
-	 * @param request
-	 * @param model
-	 * @param photos
-	 * @param picIds
-	 * @param isShow
-	 */
+
 	@Transactional(readOnly = false)
 	public boolean checkBroadcastPicAndStatus(String broadcastId, HttpServletRequest request, Model model,
 			String[] photos, String[] picIds, String[] isShow) {
@@ -94,9 +85,9 @@ public class ManagerBroadCastService {
 
 			
 		}
-		// 1:批量更新播报图片是否展示 picids isShow
+
 					dao.updateCurrentPicStatus(list);
-					// 2:如果项目经理再次上传图片 , 进行批量保存 photos isShow[picIds.length]
+
 
 					ArrayList<ManagerBroadCastEntity> list2 = new ArrayList<ManagerBroadCastEntity>();
 					if (null != photos && photos.length > 0) {
@@ -105,10 +96,10 @@ public class ManagerBroadCastService {
 
 							String uuid = UUID.randomUUID().toString().replaceAll("-", "");
 
-							// String rootPath = RootName.SystemEnvironment(request);
+
 							String rootPath = request.getSession().getServletContext().getRealPath("");
 							File filePath = new File(rootPath + ConstantUtils.UPLOAD_BROADCAST_MANAGER + DateUtils.getDate1());
-							// 判断该文件是否存在
+
 							if (!filePath.exists() && !filePath.isDirectory()) {
 								filePath.mkdirs();
 							}
@@ -117,10 +108,10 @@ public class ManagerBroadCastService {
 
 							String picpath = ConstantUtils.UPLOAD_BROADCAST_MANAGER + DateUtils.getDate1() + filePath.separator + uuid
 									+ ".jpeg";
-							// 保存图片到数据库
-							// 图片主键(自动生成),图片类型:501 播报图片 图片关联id : broadcastId
-							// pucUrl : picpath pic_datetime : new Date()
-							// remarks : isShow
+
+
+
+
 
 							entity = new ManagerBroadCastEntity();
 							entity.setPicDateTime(new Date());
@@ -139,14 +130,14 @@ public class ManagerBroadCastService {
 								return false;
 							}
 
-							// 添加图片到集合中
+
 							list2.add(entity);
 			}
-						// 如果有图片
+
 						dao.savePicAndIsShow(list2);
 			
 		}
-					// 3: 更新播报单状态 为20 项目经理已播报 ---> broadcastId
+
 					ManagerBroadCastEntity entity2 = new ManagerBroadCastEntity();
 					entity2.setBroadcastId(Integer.parseInt(broadcastId == null ? "0" : broadcastId));
 					entity2.setCheckEmployeeId(SessionUtils.getManagerSession(request).getId());

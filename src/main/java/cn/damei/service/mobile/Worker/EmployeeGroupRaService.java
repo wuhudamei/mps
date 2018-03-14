@@ -12,7 +12,7 @@ import cn.damei.entity.mobile.Worker.EmployeeGroupRa;
 public class EmployeeGroupRaService extends CrudService2<EmployeeGroupRaDao, EmployeeGroupRa>{
 
 	public EmployeeGroupRa findByEmployeeId(Integer employeeId) {
-		// TODO Auto-generated method stub
+
 		return dao.findByEmployeeId(employeeId);
 	}
 

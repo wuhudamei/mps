@@ -17,40 +17,40 @@ public class ExportFinanceExcel {
 	public static void main(String[] args) {
 		HSSFWorkbook wb = new HSSFWorkbook();
 		HSSFSheet sheet = wb.createSheet("结算明细表-大美装饰管理平台");
-		// 定义样式
-		HSSFCellStyle cellStyleCenter = ExportFileNameUtils.initColumnHeadStyle(wb);// 表头样工
-		HSSFCellStyle cellStyleRight = ExportFileNameUtils.initColumnCenterstyle(wb);// 单元格样式
+
+		HSSFCellStyle cellStyleCenter = ExportFileNameUtils.initColumnHeadStyle(wb);
+		HSSFCellStyle cellStyleRight = ExportFileNameUtils.initColumnCenterstyle(wb);
 		HSSFCellStyle cellStyleLeft = ExportFileNameUtils.initColumnCenterstyle(wb);
-		cellStyleRight.setAlignment(HSSFCellStyle.ALIGN_RIGHT);// 右对齐
-		cellStyleLeft.setAlignment(HSSFCellStyle.ALIGN_LEFT);// 左对齐
+		cellStyleRight.setAlignment(HSSFCellStyle.ALIGN_RIGHT);
+		cellStyleLeft.setAlignment(HSSFCellStyle.ALIGN_LEFT);
 		
-		// 设置列宽
-		sheet.setColumnWidth(0, 2000);//序号
-		sheet.setColumnWidth(1, 4000);//客户名称
-		sheet.setColumnWidth(2, 4000);//电话
-		sheet.setColumnWidth(3, 8000);//地址
-		sheet.setColumnWidth(4, 3000);//合同面积（M²）
-		sheet.setColumnWidth(5, 4000);//项目经理
-		sheet.setColumnWidth(6, 4000);//工人
-		sheet.setColumnWidth(7, 4000);//铲墙皮
-		sheet.setColumnWidth(8, 4000);//铲墙皮
-		sheet.setColumnWidth(9, 4000);//水电
-		sheet.setColumnWidth(10, 4000);//瓦工
-		sheet.setColumnWidth(11, 3000);//油工
-		sheet.setColumnWidth(12, 3000);//木工
-		sheet.setColumnWidth(13, 3000);//首款
-		sheet.setColumnWidth(14, 3000);//尾款
-		sheet.setColumnWidth(15, 3000);//首款
-		sheet.setColumnWidth(16, 3000);//尾款
-		sheet.setColumnWidth(17, 3000);//首款
-		sheet.setColumnWidth(18, 3000);//尾款
-		sheet.setColumnWidth(19, 3000);//首款
-		sheet.setColumnWidth(20, 3000);//尾款
+
+		sheet.setColumnWidth(0, 2000);
+		sheet.setColumnWidth(1, 4000);
+		sheet.setColumnWidth(2, 4000);
+		sheet.setColumnWidth(3, 8000);
+		sheet.setColumnWidth(4, 3000);
+		sheet.setColumnWidth(5, 4000);
+		sheet.setColumnWidth(6, 4000);
+		sheet.setColumnWidth(7, 4000);
+		sheet.setColumnWidth(8, 4000);
+		sheet.setColumnWidth(9, 4000);
+		sheet.setColumnWidth(10, 4000);
+		sheet.setColumnWidth(11, 3000);
+		sheet.setColumnWidth(12, 3000);
+		sheet.setColumnWidth(13, 3000);
+		sheet.setColumnWidth(14, 3000);
+		sheet.setColumnWidth(15, 3000);
+		sheet.setColumnWidth(16, 3000);
+		sheet.setColumnWidth(17, 3000);
+		sheet.setColumnWidth(18, 3000);
+		sheet.setColumnWidth(19, 3000);
+		sheet.setColumnWidth(20, 3000);
 	
 		try {  
             HSSFRow row = null;
             HSSFCell cell = null; 
-            // ---------------------------1.初始化带边框的表头------------------------------  
+
             for (int i = 0; i < 16; i++) {
             	row = sheet.createRow(i);  
             	if(i==0){
@@ -62,7 +62,7 @@ public class ExportFinanceExcel {
                     cell.setCellStyle(cellStyleCenter);  
                 }  
             }  
-            // ---------------------------2.指定单元格填充数据------------------------------  
+
             cell = sheet.getRow(0).getCell(0);  
             cell.setCellValue(new HSSFRichTextString("2016产业工人结算明细表"));
             cell = sheet.getRow(1).getCell(0);  
@@ -107,8 +107,8 @@ public class ExportFinanceExcel {
             cell.setCellValue(new HSSFRichTextString("首款"));
             cell = sheet.getRow(2).getCell(16);  
             cell.setCellValue(new HSSFRichTextString("尾款"));
-            // ---------------------------3.合并单元格------------------------------  
-            sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 18));// 开始行，结束行，开始列，结束列  
+
+            sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 18));
             sheet.addMergedRegion(new CellRangeAddress(1, 2, 0, 0));  
             sheet.addMergedRegion(new CellRangeAddress(1, 2, 1, 1));  
             sheet.addMergedRegion(new CellRangeAddress(1, 2, 2, 2));  
@@ -134,43 +134,43 @@ public class ExportFinanceExcel {
 	
 	public static HSSFWorkbook exportFinance(List<PaymentDetailSplitForExcel> list){
 		
-		HSSFWorkbook wb = new HSSFWorkbook();// 创建一个Excel文件
-		HSSFSheet sheet = wb.createSheet("结算明细表");// 创建一个Excel的Sheet
-		// 定义样式
-		HSSFCellStyle cellStyleCenter = ExportFileNameUtils.initColumnHeadStyle(wb);// 表头样工
-		HSSFCellStyle cellStyleRight = ExportFileNameUtils.initColumnCenterstyle(wb);// 单元格样式
+		HSSFWorkbook wb = new HSSFWorkbook();
+		HSSFSheet sheet = wb.createSheet("结算明细表");
+
+		HSSFCellStyle cellStyleCenter = ExportFileNameUtils.initColumnHeadStyle(wb);
+		HSSFCellStyle cellStyleRight = ExportFileNameUtils.initColumnCenterstyle(wb);
 		HSSFCellStyle cellStyleLeft = ExportFileNameUtils.initColumnCenterstyle(wb);
-		cellStyleRight.setAlignment(HSSFCellStyle.ALIGN_RIGHT);// 右对齐
-		cellStyleLeft.setAlignment(HSSFCellStyle.ALIGN_LEFT);// 左对齐
+		cellStyleRight.setAlignment(HSSFCellStyle.ALIGN_RIGHT);
+		cellStyleLeft.setAlignment(HSSFCellStyle.ALIGN_LEFT);
 		
-		// 设置列宽
-		sheet.setColumnWidth(0, 2000);//序号
-		sheet.setColumnWidth(1, 4000);//订单编号
-		sheet.setColumnWidth(2, 4000);//客户名称
-		sheet.setColumnWidth(3, 4000);//电话
-		sheet.setColumnWidth(4, 8000);//地址
-		sheet.setColumnWidth(5, 3000);//合同面积（M²）
-		sheet.setColumnWidth(6, 4000);//项目经理
-		sheet.setColumnWidth(7, 4000);//工人
-		sheet.setColumnWidth(8, 4000);//铲墙皮
-		sheet.setColumnWidth(9, 4000);//铲墙皮
-		sheet.setColumnWidth(10, 4000);//水电
-		sheet.setColumnWidth(11, 4000);//瓦工
-		sheet.setColumnWidth(12, 3000);//油工
-		sheet.setColumnWidth(13, 3000);//木工
-		sheet.setColumnWidth(14, 3000);//首款
-		sheet.setColumnWidth(15, 3000);//尾款
-		sheet.setColumnWidth(16, 3000);//首款
-		sheet.setColumnWidth(17, 3000);//尾款
-		sheet.setColumnWidth(18, 3000);//首款
-		sheet.setColumnWidth(19, 3000);//尾款
-		sheet.setColumnWidth(20, 3000);//首款
-		sheet.setColumnWidth(21, 3000);//尾款
+
+		sheet.setColumnWidth(0, 2000);
+		sheet.setColumnWidth(1, 4000);
+		sheet.setColumnWidth(2, 4000);
+		sheet.setColumnWidth(3, 4000);
+		sheet.setColumnWidth(4, 8000);
+		sheet.setColumnWidth(5, 3000);
+		sheet.setColumnWidth(6, 4000);
+		sheet.setColumnWidth(7, 4000);
+		sheet.setColumnWidth(8, 4000);
+		sheet.setColumnWidth(9, 4000);
+		sheet.setColumnWidth(10, 4000);
+		sheet.setColumnWidth(11, 4000);
+		sheet.setColumnWidth(12, 3000);
+		sheet.setColumnWidth(13, 3000);
+		sheet.setColumnWidth(14, 3000);
+		sheet.setColumnWidth(15, 3000);
+		sheet.setColumnWidth(16, 3000);
+		sheet.setColumnWidth(17, 3000);
+		sheet.setColumnWidth(18, 3000);
+		sheet.setColumnWidth(19, 3000);
+		sheet.setColumnWidth(20, 3000);
+		sheet.setColumnWidth(21, 3000);
 		
 		try {  
             HSSFRow row = null;
             HSSFCell cell = null; 
-            // ---------------------------1.初始化带边框的表头------------------------------  
+
             for (int i = 0; i < 3; i++) {
             	row = sheet.createRow(i);  
             	if(i==0){
@@ -181,7 +181,7 @@ public class ExportFinanceExcel {
                     cell.setCellStyle(cellStyleCenter);  
                 }  
             }  
-            // ---------------------------2.指定单元格填充数据------------------------------  
+
             cell = sheet.getRow(0).getCell(0);  
             cell.setCellValue(new HSSFRichTextString("产业工人结算明细表"));
             cell = sheet.getRow(1).getCell(0);  
@@ -236,8 +236,8 @@ public class ExportFinanceExcel {
             cell.setCellValue(new HSSFRichTextString("首款"));
             cell = sheet.getRow(2).getCell(18+1);
             cell.setCellValue(new HSSFRichTextString("尾款"));
-            // ---------------------------3.合并单元格------------------------------  
-            sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 19));// 开始行，结束行，开始列，结束列  
+
+            sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 19));
             sheet.addMergedRegion(new CellRangeAddress(1, 2, 0, 0));  
             sheet.addMergedRegion(new CellRangeAddress(1, 2, 1, 1));  
             sheet.addMergedRegion(new CellRangeAddress(1, 2, 2, 2));  
@@ -267,9 +267,9 @@ public class ExportFinanceExcel {
         		   row.createCell(7).setCellValue(list.get(i).getWorkerName());
         		   if("营销保护类".equals(list.get(i).getPackageType())){
         			   row.createCell(8).setCellValue(list.get(i).getAdvancePayment());
-        		   }else if("拆除类".equals(list.get(i).getPackageType())){//铲墙皮
+        		   }else if("拆除类".equals(list.get(i).getPackageType())){
         			   row.createCell(9).setCellValue(list.get(i).getAdvancePayment());
-        		   }else if("水电类".equals(list.get(i).getPackageType())){//水电
+        		   }else if("水电类".equals(list.get(i).getPackageType())){
         			   if(list.get(i).getAdvancePayment() == null){
    							row.createCell(10).setCellValue("");
    							row.createCell(11).setCellValue(list.get(i).getRestPayment());

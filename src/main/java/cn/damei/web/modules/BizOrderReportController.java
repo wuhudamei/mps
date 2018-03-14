@@ -68,7 +68,7 @@ public class BizOrderReportController extends BaseController {
 	@RequiresPermissions("orderReport:orderReport:view")
 	@RequestMapping(value = { "list", "" })
 	public String list(BizOrderReport bizOrderReport, HttpServletRequest request, HttpServletResponse response, Model model) {
-		// 过滤门店
+
 		if (bizOrderReport.getStoreId() == null) {
 			String storeId = UserUtils.getUser().getStoreId();
 			if (StringUtils.isBlank(storeId)) {
@@ -95,7 +95,7 @@ public class BizOrderReportController extends BaseController {
 			bizOrderReport.setReportStatusList(Arrays.asList(status));
 		}
 
-		// 过滤门店
+
 		if (bizOrderReport.getStoreId() == null) {
 			String storeId = UserUtils.getUser().getStoreId();
 			if (StringUtils.isBlank(storeId)) {
@@ -132,18 +132,7 @@ public class BizOrderReportController extends BaseController {
 		return "redirect:" + Global.getAdminPath() + "/orderReport/bizOrderReport/list";
 	}
 
-	/**
-	 * 已进店未签单
-	 *
-	 * @param id
-	 *            返单上报Id
-	 * @param instoreDatetime
-	 *            进店时间
-	 * @param instoreRemarks
-	 *            进店备注
-	 * @param redirectAttributes
-	 * @return
-	 */
+
 	@RequiresPermissions("orderReport:orderReport:edit")
 	@RequestMapping(value = "jdNoWriteOrder")
 	public @ResponseBody String jdNoWriteOrder(Integer id, Date instoreDatetime, String instoreRemarks, RedirectAttributes redirectAttributes) {
@@ -161,22 +150,7 @@ public class BizOrderReportController extends BaseController {
 		return result;
 	}
 
-	/**
-	 * 已进店已签单
-	 *
-	 * @param id
-	 *            返单上报Id
-	 *            <p>
-	 *            关联订单号
-	 * @param instoreDatetime
-	 *            进店时间
-	 * @param signBillDatetime
-	 *            签单时间
-	 * @param signBillRemarks
-	 *            签单备注
-	 * @param redirectAttributes
-	 * @return
-	 */
+
 	@RequiresPermissions("orderReport:orderReport:edit")
 	@RequestMapping(value = "jdWriteOrder")
 	public @ResponseBody String jdWriteOrder(Integer id, String relOrderNums, Date instoreDatetime, Date signBillDatetime, String signBillRemarks, RedirectAttributes redirectAttributes) {
@@ -210,20 +184,7 @@ public class BizOrderReportController extends BaseController {
 		return result;
 	}
 
-	/**
-	 * 已签单
-	 *
-	 * @param id
-	 *            返单上报Id
-	 * @param relOrderNums
-	 *            关联订单号
-	 * @param signBillDatetime
-	 *            签单时间
-	 * @param signBillRemarks
-	 *            签单备注
-	 * @param redirectAttributes
-	 * @return
-	 */
+
 	@RequiresPermissions("orderReport:orderReport:edit")
 	@RequestMapping(value = "writeOrder")
 	public @ResponseBody String writeOrder(Integer id, String relOrderNums, Date signBillDatetime, String signBillRemarks, RedirectAttributes redirectAttributes) {
@@ -254,13 +215,7 @@ public class BizOrderReportController extends BaseController {
 		return result;
 	}
 
-	/**
-	 * 返单详情流程日志
-	 * 
-	 * @param id
-	 * @param model
-	 * @return
-	 */
+
 	@RequiresPermissions("orderReport:orderReport:view")
 	@RequestMapping(value = "orderReportView")
 	public String orderReportView(Integer id, Model model) {
@@ -311,28 +266,21 @@ public class BizOrderReportController extends BaseController {
 		return "modules/orderreport/bizOrderReportView1";
 	}
 
-	/**
-	 * 检查返单客户手机号是否存在
-	 *
-	 * @param customerPhone
-	 * @return
-	 */
+
 	@RequiresPermissions("orderReport:orderReport:view")
 	@RequestMapping(value = "checkCustomerPhone")
 	public @ResponseBody String checkCustomerPhone(String customerPhone) {
 		String result = null;
 		Integer count = bizOrderReportService.getBizOrderReportByCustomerPhone(customerPhone);
-		if (null == count || count == 0) {// 客户手机号不存在
+		if (null == count || count == 0) {
 			result = "0";
-		} else {// 已存在
+		} else {
 			result = "1";
 		}
 		return result;
 	}
 
-	/**
-	 * 通过返单id(commonReturnOrderId 和orderNumber 去查询是否订单存在,及插入关联订单合同)
-	 */
+
 	@RequiresPermissions("orderReport:orderReport:view")
 	@RequestMapping(value = "replenish-related-order")
 	public @ResponseBody Order replenishRelatedOrder(String returnOrderId, String orderNumber) {
@@ -340,11 +288,11 @@ public class BizOrderReportController extends BaseController {
 		if (null != orderNumber && !orderNumber.trim().equals("")) {
 			Integer count = orderService.getOrderNumberById(orderNumber);
 			if (null != count && count > 0) {
-				// 订单编号有效
+
 				Order order = new Order();
 				order.setOrderNumber(orderNumber);
 				List<Order> list = orderService.findList(order);
-				//
+
 				if (list.size() > 0) {
 					Order orderInfo = list.get(0);
 					orderInfo.setOrderReportId(JobSiteController.isNum(returnOrderId) ? Integer.valueOf(returnOrderId) : 0);
@@ -353,16 +301,10 @@ public class BizOrderReportController extends BaseController {
 
 						return null;
 					} else {
-						/*
-						 * orderInfo.setRemarks("补签");
-						 * orderService.batchInsertOrderReportRelatedInfo
-						 * (orderInfo);
-						 */
-						// 插入补签日志
 
-						/**
-						 * 查询是否关联过
-						 */
+
+
+
 						Map<String, String> map = new HashMap<>();
 						map.put("reportId", String.valueOf(orderInfo.getOrderReportId()));
 						map.put("orderNumber", orderNumber);
@@ -393,12 +335,7 @@ public class BizOrderReportController extends BaseController {
 
 	}
 
-	/**
-	 * 更新补签合同remarks 批量关联合同
-	 *
-	 * @param orderReport
-	 * @return
-	 */
+
 	@RequiresPermissions("orderReport:orderReport:view")
 	@RequestMapping(value = "updateReturnOrderReport")
 	public @ResponseBody String updateReturnOrderReport(BizOrderReport orderReport, String[] contractOrderIds, String[] contractOrderNumbers) {
@@ -422,23 +359,17 @@ public class BizOrderReportController extends BaseController {
 		return "0";
 	}
 
-	/**
-	 * // * 查询备注 // *0 // * @param returnOrderId // * @return //
-	 */
-	// @RequiresPermissions("orderReport:orderReport:view")
-	// @RequestMapping(value = "findReturnOrderRemarks")
-	// public @ResponseBody
-	// String findReturnOrderRemarks(String returnOrderId) {
-	//
-	//
-	// return bizOrderReportService.findRemarksByReturnOrderId(returnOrderId);
-	// }
 
-	/**
-	 * 查询客户列表 转派
-	 *
-	 * @return
-	 */
+
+
+
+
+
+
+
+
+
+
 	@RequiresPermissions("orderReport:orderReport:view")
 	@RequestMapping(value = "findServiceList")
 	public @ResponseBody List<BizOrderReport> findServiceList(String serviceName) {
@@ -449,11 +380,7 @@ public class BizOrderReportController extends BaseController {
 
 	}
 
-	/**
-	 * 更新返单记录,保存转派客服信息,更新返单状态
-	 *
-	 * @return
-	 */
+
 	@RequiresPermissions("orderReport:orderReport:view")
 	@RequestMapping(value = "saveTransferServiceInfo")
 	public @ResponseBody String saveTransferServiceInfo(BizOrderReport orderReport) {
@@ -466,11 +393,7 @@ public class BizOrderReportController extends BaseController {
 	@Autowired
 	private QuarzUpdateOrderReportStatus quarzUpdateOrderReportStatus;
 
-	/**
-	 * 更新返单记录,保存转派客服信息,更新返单状态
-	 *
-	 * @return
-	 */
+
 	@RequiresPermissions("orderReport:orderReport:view")
 	@RequestMapping(value = "quarz")
 	public @ResponseBody String quarz() {

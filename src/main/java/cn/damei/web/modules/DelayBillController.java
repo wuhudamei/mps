@@ -54,34 +54,28 @@ public class DelayBillController extends BaseController {
 	public DelayBill get(@RequestParam(required = false) String id) {
 		DelayBill entity = null;
 		if (StringUtils.isNotBlank(id)) {
-			/* entity = delayBillService.get(id); */
+
 		}
 		if (entity == null) {
 			entity = new DelayBill();
 		}
 		return entity;
 	}
-	/**
-	* @Description: 延期单查询列表
-	* @Author zhangkangjian
-	* @param
-	* @return
-	* @Date 2017/11/14 18:42
-	*/
+
 	@RequestMapping(value = "list")
 	public String list(DelayBill delayBill, HttpServletRequest request, HttpServletResponse response, Model model) {
 
 		if (UserUtils.getUser().getStoreId() != null) {
-			// 当前登录用户门店
+
 			delayBill.setStoreId(UserUtils.getUser().getStoreId());
 		} else {
-			// 门店是总部的查询所有部门信息
+
 			if (delayBill.getStoreId() != null && delayBill.getStoreId().equals("1")) {
-				// 总部
+
 				delayBill.setStoreId(null);
 			}
 		}
-		// 过滤工程模式
+
 		if (delayBill.getProjectMode() == null || "".equals(delayBill.getProjectMode())) {
 			User user = UserUtils.getUser();
 			if (null != user.getEmpId()) {
@@ -96,7 +90,7 @@ public class DelayBillController extends BaseController {
 				delayBill.setProjectMode(null);
 			}
 		}
-		//		默认查询待审批的延期单
+
 		String status = delayBill.getStatus();
 		if(status == null ||  "".equals(status)){
 			delayBill.setStatus("10");
@@ -131,12 +125,7 @@ public class DelayBillController extends BaseController {
 		return mapObject;
 	}
 
-	/**
-	 * 通过
-	 * 
-	 * @param delayBill
-	 * @return
-	 */
+
 	@RequestMapping(value = "pass")
 	public String pass(DelayBill delayBill, Model model, RedirectAttributes redirectAttributes) {
 		delaySheetService.pass(delayBill);
@@ -144,38 +133,22 @@ public class DelayBillController extends BaseController {
 		return "forward:" + Global.getAdminPath() + "/delayBill/list";
 	}
 
-	/**
-	 * 动态加载延期原因
-	 * 
-	 * @param id
-	 * @return
-	 */
+
 	@RequestMapping(value = "ajaxreson")
 	@ResponseBody
 	public List<Dict> ajaxreson(String id) {
-		// 查询延期分类 根据一级ID查询二级类目
+
 		List<Dict> list = delaySheetService.findDelayCategorytow(id, 2);
 		return list;
 	}
-	/**
-	 * @Description: 动态加载延期阶段
-	 * @Author zhangkangjian
-	 * @param
-	 * @return
-	 * @Date 2017/11/14 14:50
-	 */
+
 	@RequestMapping(value = "/ajaxDelayStage")
 	@ResponseBody
 	public List<Dict> ajaxDelayStage(String storeId,String projectMode){
 		return delaySheetService.findTemplateNodePlan(storeId,projectMode);
 	}
 
-	/**
-	 * 拒绝
-	 * 
-	 * @param delayBill
-	 * @return
-	 */
+
 	@RequestMapping(value = "refuse")
 	public String refuse(DelayBill delayBill, RedirectAttributes redirectAttributes) {
 		delaySheetService.refuse(delayBill);
@@ -183,14 +156,7 @@ public class DelayBillController extends BaseController {
 		return "redirect:" + Global.getAdminPath() + "/delayBill/list";
 	}
 
-	/**
-	 * @Description: 更新延期单延期时间
-	 * @param @param delayBill
-	 * @param @param redirectAttributes
-	 * @param @return
-	 * @author zkj
-	 * @date 2017年10月24日 下午3:47:31
-	 */
+
 	@RequestMapping(value = "update")
 	@ResponseBody
 	public void update(DelayBill delayBill, RedirectAttributes redirectAttributes) {
@@ -198,12 +164,7 @@ public class DelayBillController extends BaseController {
 		addMessage(redirectAttributes, "延期单更新成功");
 	}
 
-	/**
-	 * @Description: 延期单详情
-	 * @param @return
-	 * @author zkj
-	 * @date 2017年10月24日 下午5:46:16
-	 */
+
 	@RequestMapping(value = "detail")
 	public String detail(HttpServletResponse response, Model model, HttpServletRequest resquest, DelayBill delayBill) {
 		List<DelayBill> findList = delayBillService.findList(delayBill);
@@ -215,28 +176,14 @@ public class DelayBillController extends BaseController {
 		return "/modules/delaybill/delayBillDetail";
 	}
 
-	/**
-	 * @Description: 导出延期单
-	 * @param @param response
-	 * @param @param model
-	 * @param @param resquest
-	 * @param @param delayBill
-	 * @author zkj
-	 * @date 2017年10月26日 下午3:33:28
-	 */
+
 	@RequestMapping(value = "export")
 	@ResponseBody
 	public void export(HttpServletResponse response, Model model, HttpServletRequest resquest, DelayBill delayBill) {
 		delayBillService.exportDetailExcel(delayBill, response);
 	}
 
-	/**
-	* @Description: 延期单作废
-	* @Author zhangkangjian
-	* @param
-	* @return
-	* @Date 2017/11/14 18:48
-	*/
+
 	@RequestMapping(value="delayBillInvalid")
 	@ResponseBody
 	public void invalid(DelayBill delayBill){

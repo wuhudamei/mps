@@ -37,11 +37,7 @@ import cn.damei.service.modules.BizPhoneMsgService;
 import cn.damei.entity.modules.User;
 import cn.damei.common.utils.UserUtils;
 
-/**
- *	订单
- *	确认竣工
- *	biz_order
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/bizconfirmcompleted/bizConfirmCompleted")
 public class BizConfirmCompletedController extends BaseController{
@@ -93,7 +89,7 @@ public class BizConfirmCompletedController extends BaseController{
 			bizConfirmCompleted.setEnginDepartIds(list);
 		}
 		User user = UserUtils.getUser();
-		//过滤门店
+
 		if(null == bizConfirmCompleted.getStoreId()){
 			if(null != user.getStoreId()){
 				bizConfirmCompleted.setStoreId(Integer.valueOf(user.getStoreId()));
@@ -102,7 +98,7 @@ public class BizConfirmCompletedController extends BaseController{
 		if(StringUtils.isBlank(user.getStoreId())){
 			model.addAttribute("storeDropEnable", true);
 		}
-		//过滤工程模式
+
 		if(StringUtils.isBlank(bizConfirmCompleted.getProjectMode())){
 			if(null != user.getEmpId()){
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -159,7 +155,7 @@ public class BizConfirmCompletedController extends BaseController{
 			list.add(bizConfirmCompleted.getEnginDepartId());
 			bizConfirmCompleted.setEnginDepartIds(list);
 		}
-		//过滤门店
+
 		if(null == bizConfirmCompleted.getStoreId()){
 			if(null != user.getStoreId()){
 				bizConfirmCompleted.setStoreId(Integer.valueOf(user.getStoreId()));
@@ -168,7 +164,7 @@ public class BizConfirmCompletedController extends BaseController{
 		if(StringUtils.isBlank(user.getStoreId())){
 			model.addAttribute("storeDropEnable", true);
 		}
-		//过滤工程模式
+
 		if(StringUtils.isBlank(bizConfirmCompleted.getProjectMode())){
 			if(null != user.getEmpId()){
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -208,9 +204,7 @@ public class BizConfirmCompletedController extends BaseController{
 		return "modules/bizcompleted/confirmCompletedList";
 	}
 	
-	/**
-	 * 确认竣工
-	 */
+
 	@ResponseBody
 	@RequestMapping(value = "conCompleted")
 	public String conCompleted(BizConfirmCompleted bizConfirmCompleted, HttpServletRequest request, HttpServletResponse response, 

@@ -6,24 +6,24 @@ public class OrderMainMate extends DataEntity2<OrderMainMate> {
 
 	private static final long serialVersionUID = 1L;
 
-	private Integer orderId; // 订单id
-	private String mainMateType; // 主材类型 4墙砖，3地砖
-	private String mainMateTypeName; // 主材类型名称
-	private String position; // 位置 厨房--
-	private String brandCombo; // 品牌套餐
-	private String model; // 类型
+	private Integer orderId;
+	private String mainMateType;
+	private String mainMateTypeName;
+	private String position;
+	private String brandCombo;
+	private String model;
 
-	private String specification; // 规格
-	private String attribute; // 属性
-	private String supplier; // 供应商
-	private String unit; // 单位
-	private Double count; // 数量
-	private Double includLossCount; // 含耗损数量
-	private Double applyCounta; // 实发数量
-	private String remarks; // 备注
-	private String isCountSquare; // 是否计算面积 1为是 0 为否
-	private String unitSquare; // 面积
-	private Double purchaseCount; // 已申请数量
+	private String specification;
+	private String attribute;
+	private String supplier;
+	private String unit;
+	private Double count;
+	private Double includLossCount;
+	private Double applyCounta;
+	private String remarks;
+	private String isCountSquare;
+	private String unitSquare;
+	private Double purchaseCount;
 
 	public Integer getOrderId() {
 		return orderId;

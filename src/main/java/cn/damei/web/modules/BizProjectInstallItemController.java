@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import java.util.HashMap;
@@ -28,12 +26,7 @@ import cn.damei.entity.modules.BizProjectInstallItem;
 import cn.damei.service.modules.BizProjectInstallItemService;
 import cn.damei.common.utils.UserUtils;
 
-/**
- * 工程安装项Controller
- * 
- * @author 梅浩
- * @version 2016-09-01
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/installitem/bizProjectInstallItem")
 public class BizProjectInstallItemController extends BaseController {
@@ -63,9 +56,9 @@ public class BizProjectInstallItemController extends BaseController {
 	@RequiresPermissions("installitem:bizProjectInstallItem:view")
 	@RequestMapping(value = { "list1" })
 	public String list1(BizProjectInstallItem bizProjectInstallItem, HttpServletRequest request, HttpServletResponse response, Model model) {
-		// 不是管理员就不能查全部门店
+
 		if (!UserUtils.getUser().getOffice().getId().equals("1")) {
-			// 安心查自己门店吧
+
 			bizProjectInstallItem.setStoreId(UserUtils.getUser().getStoreId());
 		}
 

@@ -10,11 +10,7 @@ import cn.damei.common.service.CrudService2;
 import cn.damei.dao.modules.BizOrderReportRelatedOrderDao;
 import cn.damei.entity.modules.BizOrderReportRelatedOrder;
 
-/**
- * 返单上报关联订单Service
- * @author hyh
- *
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizOrderReportRelatedOrderService extends CrudService2<BizOrderReportRelatedOrderDao,BizOrderReportRelatedOrder>{

@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import org.hibernate.validator.constraints.Length;
@@ -11,43 +9,39 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import cn.damei.common.persistence.DataEntity;
 
-/**
- * 工人组管理Entity
- * @author qhy
- * @version 2016-09-01
- */
+
 public class BizEmployeegroup extends DataEntity<BizEmployeegroup> {
 	
 	private static final long serialVersionUID = 1L;
-	private Integer star;		// 星级
-	private String nps;		// NPS
-	private Integer sort;		// 排名
-	private Integer orderstop;		// 是否停单
-	private String address;		// 现住址
-	private String ordersarea;		// 接单区域
-	private Date createtime;		// 创建时间
-	private String createuser;		// 创建人
-	private Integer state;		// 是否删除状态
-	private Integer worktype;		// 工种
-	private String groupid;		// 组长id
-	private String storeid;		// 门店Id
-	private String taskpackageid;		// 任务包Id
-	private String elactricationid;		// 归属工程部Id
-	private List<BizEmgrouprelation>empGropRelation;//工人组关联关系表
+	private Integer star;
+	private String nps;
+	private Integer sort;
+	private Integer orderstop;
+	private String address;
+	private String ordersarea;
+	private Date createtime;
+	private String createuser;
+	private Integer state;
+	private Integer worktype;
+	private String groupid;
+	private String storeid;
+	private String taskpackageid;
+	private String elactricationid;
+	private List<BizEmgrouprelation>empGropRelation;
 	
-	private String empId;//工人ID，保存关联关系使用。
-	private String ratio;//工人工资比例。
-	private String isLeader;//是否组长
+	private String empId;
+	private String ratio;
+	private String isLeader;
 	private String pointXy1;
 
-	private String projectMode;//工程模式
-	private String orderStopReasonType;   //停单原因类型
-	private String orderStopReason;       //停单原因
-	private String orderStopOperatorEmployeeId;//停单操作人
-	private Date orderStopOperateDatetime;  //停单操作时间;
+	private String projectMode;
+	private String orderStopReasonType;
+	private String orderStopReason;
+	private String orderStopOperatorEmployeeId;
+	private Date orderStopOperateDatetime;
 
-	private Integer reason;    //工人组星级调整原因
-	private String changeDescribe;  //工人组星级调整修改说明
+	private Integer reason;
+	private String changeDescribe;
 	
 	private Date startChangeDatetime;
 	

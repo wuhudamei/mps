@@ -4,22 +4,18 @@ import org.hibernate.validator.constraints.Length;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 工程安装问题分类设置Entity
- * @author wyb
- * @version 2016-10-27
- */
+
 public class BizProjectInstallItemProblemType extends DataEntity2<BizProjectInstallItemProblemType> {
 	
 	private static final long serialVersionUID = 1L;
-	private Integer storeId;		// 门店id -- '
-	private String projectMode;		// 工程模式
-	private String typeName; 		//问题分类
-	private String isEnabled;		// 是否启用
-	private String businessType;	//所属业务
-	private double punishScore;		//扣除分数
-	private double punishMoney; 	//扣除金额
-	private String punishRemarks;		//处罚说明
+	private Integer storeId;
+	private String projectMode;
+	private String typeName;
+	private String isEnabled;
+	private String businessType;
+	private double punishScore;
+	private double punishMoney;
+	private String punishRemarks;
 
 	
 	public String getPunishRemarks() {

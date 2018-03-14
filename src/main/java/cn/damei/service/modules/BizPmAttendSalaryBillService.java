@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.util.ArrayList;
@@ -15,11 +13,7 @@ import cn.damei.common.service.CrudService;
 import cn.damei.entity.modules.BizPmAttendSalaryBill;
 import cn.damei.dao.modules.BizPmAttendSalaryBillDao;
 
-/**
- * 考勤月度工资单Service
- * @author wl
- * @version 2017-08-07
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizPmAttendSalaryBillService extends CrudService<BizPmAttendSalaryBillDao, BizPmAttendSalaryBill> {
@@ -90,12 +84,12 @@ public class BizPmAttendSalaryBillService extends CrudService<BizPmAttendSalaryB
 	}
 	@Transactional(readOnly = false)
 	public void deleSalaryBill(BizPmAttendSalaryBill bizPmAttendSalaryBill) {
-		// TODO Auto-generated method stub
+
 		bizPmAttendSalaryBillDao.deleSalaryBill(bizPmAttendSalaryBill);
 	}
 	@Transactional(readOnly = false)
 	public void deleteSalaryBillRel(BizPmAttendSalaryBill bizPmAttendSalaryBill) {
-		// TODO Auto-generated method stub
+
 		bizPmAttendSalaryBillDao.deleteSalaryBillRel(bizPmAttendSalaryBill);
 	}
 
@@ -114,11 +108,11 @@ public class BizPmAttendSalaryBillService extends CrudService<BizPmAttendSalaryB
 
 	public List<BizPmAttendSalaryBill> findSalaryBillAuditingBatchList2(Page<BizPmAttendSalaryBill> page,
 			BizPmAttendSalaryBill bizPmAttendSalaryBill) {
-		// TODO Auto-generated method stub
+
 		return bizPmAttendSalaryBillDao.findSalaryBillAuditingBatchList2(bizPmAttendSalaryBill);
 	}
 
-	//全选批量更新
+
 	@Transactional(readOnly = false)
 	public void updateStatusByIds(BizPmAttendSalaryBill bizPmAttendSalaryBill) {
 		String[] ids = bizPmAttendSalaryBill.getSalaryBillIds().split(",");

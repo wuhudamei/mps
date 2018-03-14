@@ -8,9 +8,7 @@ import cn.damei.common.persistence.DataEntity2;
 
 public class UrgeCheck extends DataEntity2<UrgeCheck>{
 
-	/**
-	 * 催促验收的entity
-	 */
+
 	private static final long serialVersionUID = 1L;
 	
 	private Integer storeId;
@@ -22,9 +20,9 @@ public class UrgeCheck extends DataEntity2<UrgeCheck>{
 	private String itemCustomer;
 	private String groupRealname;
 	private Integer orderTaskpackageId;
-	private Integer toUrgeEmployeeId;//催促人id
-	private Integer beUrgedEmployeeId;//被催促人id
-	private Date urgeTime; //催促时间
+	private Integer toUrgeEmployeeId;
+	private Integer beUrgedEmployeeId;
+	private Date urgeTime;
 	private Date beginUrgeTime;
 	private Date endUrgeTime;
 	private Integer engineDepartId;

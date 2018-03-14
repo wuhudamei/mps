@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import java.util.Date;
@@ -13,26 +11,22 @@ import org.hibernate.validator.constraints.Length;
 import cn.damei.common.persistence.DataEntity;
 import cn.damei.common.utils.IdGen;
 
-/**
- * 留言Entity
- * @author ThinkGem
- * @version 2013-05-15
- */
+
 public class Guestbook extends DataEntity<Guestbook> {
 	
 	private static final long serialVersionUID = 1L;
-	private String type; 	// 留言分类（咨询、建议、投诉、其它）
-	private String content; // 留言内容
-	private String name; 	// 姓名
-	private String email; 	// 邮箱
-	private String phone; 	// 电话
-	private String workunit;// 单位
-	private String ip; 		// 留言IP
-	private Date createDate;// 留言时间
-	private User reUser; 		// 回复人
-	private Date reDate;	// 回复时间
-	private String reContent;// 回复内容
-	private String delFlag;	// 删除标记删除标记（0：正常；1：删除；2：审核）
+	private String type;
+	private String content;
+	private String name;
+	private String email;
+	private String phone;
+	private String workunit;
+	private String ip;
+	private Date createDate;
+	private User reUser;
+	private Date reDate;
+	private String reContent;
+	private String delFlag;
 
 	public Guestbook() {
 		this.delFlag = DEL_FLAG_AUDIT;

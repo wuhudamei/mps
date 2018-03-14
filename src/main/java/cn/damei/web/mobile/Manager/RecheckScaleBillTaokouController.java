@@ -21,11 +21,7 @@ import cn.damei.entity.mobile.Manager.RecheckScaleBillTaokou;
 import cn.damei.service.mobile.Manager.RecheckScaleBillService;
 import cn.damei.service.mobile.Manager.RecheckScaleBillTaokouService;
 
-/**
- * 复尺主页面(20161107-20161113)
- * @author llp 
- * 2016-11-16
- */
+
 @Controller
 @RequestMapping(value="${adminPath}/app/manager")
 public class RecheckScaleBillTaokouController {
@@ -38,23 +34,21 @@ public class RecheckScaleBillTaokouController {
 	@Autowired
 	private RecheckScaleBillService recheckScaleBillService;
 	
-	/****
-	 * 套口复尺记录
-	 ****/
+
 	@RequestMapping(value={"taokouDetail",""})
 	public String taokouDetail(RecheckScaleBillTaokou recheckScaleBillTaokou,HttpServletRequest request,Model model,
 			String recheckID, String orderID) throws IOException{
 		logger.info("复尺编号："+recheckID+"\t\t订单编号："+orderID);
 		
 		Integer recheckIDs = Integer.valueOf(recheckID);
-		//获取复尺信息
+
 		RecheckScaleBill scale = recheckScaleBillService.getByID(recheckIDs);
 		
-		//根据订单编号查询该订单复尺的所有内容
+
 		List<RecheckScaleBillTaokou> taokouList = recheckScaleBillTaokouService.getByRecheckID(
 				recheckIDs);
 		
-		/**获取图片路径*/
+
 		List<BusinessPic> picList = businessPicService.getByBusType(ConstantUtils.TAOKOU_KEY, 
 				recheckIDs);
 		

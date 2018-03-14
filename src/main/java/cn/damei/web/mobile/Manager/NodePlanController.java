@@ -24,11 +24,7 @@ import cn.damei.service.mobile.Manager.NodePlanService;
 import cn.damei.entity.mobile.Manager.NodePlanPic;
 import cn.damei.service.mobile.Manager.NodePlanPicService;
 
-/**
- * 进度通报
- * biz_node_plan
- * llp
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/app/manager")
 public class NodePlanController {
@@ -40,16 +36,12 @@ public class NodePlanController {
 	@Autowired
 	private NodePlanPicService nodePlanPicService;
 	
-	/**
-	 * 进度通报
-	 * 根据订单Id查询
-	 * biz_node_plan表列表
-	 */
+
 	@RequestMapping(value={"progressCondition",""})
 	public String progressCondition(NodePlan nodePlan, Model model, HttpServletRequest request) {
 		String orderId = request.getParameter("orderId");
-		//已登录的项目经理
-		//Manager manager = (Manager) request.getSession().getAttribute("manager");
+
+
 		logger.info("ID========" + orderId);
 		
 		NodePlan np = nodePlanService.getByIdLimit(orderId);
@@ -61,7 +53,7 @@ public class NodePlanController {
 			
 			
 		}
-		//logger.info("订单编号(id)："+cso.getId());
+
 		model.addAttribute("nodePlan", np);
 		if(null != np ){
 			model.addAttribute("projectMode", np.getProjectMode());
@@ -70,11 +62,7 @@ public class NodePlanController {
 		return "mobile/modules/Manager/progressMain/progressBulletin/progressCondition";
 	}
 	
-	/**
-	 * 上传图片以及页面中的数据
-	 * 提交数据到后台
-	 * @throws IOException 
-	 */
+
 	@SuppressWarnings("static-access")
 	@ResponseBody
 	@RequestMapping(value = "submitNodePlanData")
@@ -85,7 +73,7 @@ public class NodePlanController {
 		
 		String result = "0";
 		
-		//把图片信息写入biz_node_plan_pic
+
 		NodePlanPic nodePlanPic = new NodePlanPic();
 		String rootPath = request.getSession().getServletContext().getRealPath("/");
 		String imgUrl = PicRootName.getConfigValue(ConstantUtils.UPLOAD_PROGRESS);
@@ -95,14 +83,14 @@ public class NodePlanController {
 			logger.info("rootPath =" + rootPath);
 			String uuid = UUID.randomUUID().toString().replaceAll("-", "");
 			File filePath = new File(rootPath + imgUrl + DateUtils.getDate1());
-			//判断该文件是否存在
+
 			if(!filePath.exists()){
 				filePath.mkdirs();
 			}
 			String picUrl = imgUrl + DateUtils.getDate1()+ "/" + uuid + ".jpeg";
 			String fullPath = filePath + filePath.separator + uuid + ".jpeg";
 			logger.info("完整路径："+fullPath);
-			//base64解析成图片并放到指定文件夹
+
 			Base64Util.generateImage(pic, fullPath.toString());
 			nodePlanPic.setNodePlanId(Integer.valueOf(nodePlanId));
 			nodePlanPic.setPicUrl(picUrl);

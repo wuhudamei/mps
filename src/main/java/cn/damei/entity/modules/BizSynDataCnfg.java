@@ -4,9 +4,7 @@ import java.io.Serializable;
 
 public class BizSynDataCnfg implements Serializable{
 	
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	private String id;
 	private String businessType;
@@ -37,7 +35,7 @@ public class BizSynDataCnfg implements Serializable{
 	}
 	public BizSynDataCnfg() {
 		super();
-		// TODO Auto-generated constructor stub
+
 	}
 	
 	

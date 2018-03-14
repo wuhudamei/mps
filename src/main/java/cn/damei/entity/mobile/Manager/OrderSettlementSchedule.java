@@ -4,29 +4,25 @@ import java.util.Date;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 订单结算进度实体类
- * @author hyh
- *
- */
+
 public class OrderSettlementSchedule extends DataEntity2<OrderSettlementSchedule> {
 	
 	private static final long serialVersionUID = 1L;
 	
-	private Integer orderId;  //订单Id
-	private String customerName;		// 客户姓名
-	private String communityName;		// 小区名称
-	private String buildNumber;		// 几号楼
-	private String buildUnit;		// 几单元
-	private String buildRoom;		// 哪一室  
-	private Date getOrderDatetime; //接单时间
-	private Date pqcCheckedDatetime;//质检员确认验收约检节点时间
-	private Date settlementClerkPassDatetime;//结算员通过约检节点时间
-	private Date financeAffirmDatetime;//财务确认时间
-	private Date pmApplyCompleteDatetime;//项目经理申请竣工
-	private Integer pmEmployeeId;//项目经理Id
-	private String queryParam; //查询参数
-	private Date createMonthSettle;//劳资员生成月度结算单
+	private Integer orderId;
+	private String customerName;
+	private String communityName;
+	private String buildNumber;
+	private String buildUnit;
+	private String buildRoom;
+	private Date getOrderDatetime;
+	private Date pqcCheckedDatetime;
+	private Date settlementClerkPassDatetime;
+	private Date financeAffirmDatetime;
+	private Date pmApplyCompleteDatetime;
+	private Integer pmEmployeeId;
+	private String queryParam;
+	private Date createMonthSettle;
 	
 	
 	public Date getCreateMonthSettle() {

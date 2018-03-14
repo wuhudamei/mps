@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import java.util.List;
@@ -28,12 +26,7 @@ import cn.damei.service.modules.BizProjectInstallItemService;
 import cn.damei.entity.modules.BizSupplier;
 import cn.damei.service.modules.BizSupplierService;
 
-/**
- * 主材安装供应商设置Controller
- * 
- * @author ztw
- * @version 2017-07-14
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/installandsupplier/projectInstallAndSupplier")
 public class ProjectInstallAndSupplierController extends BaseController {
@@ -86,20 +79,7 @@ public class ProjectInstallAndSupplierController extends BaseController {
 		return "modules/installandsupplier/supplierList";
 	}
 
-	/**
-	 * 根據安裝的ID查詢当前下有多少个供应商
-	 * 
-	 * @Title: querySupplierList
-	 * @Description: TODO
-	 * @param @param projectInstallAndSupplier
-	 * @param @param request
-	 * @param @param response
-	 * @param @param model
-	 * @param @return
-	 * @return String
-	 * @author ZhangTongWei
-	 * @throws
-	 */
+
 	@RequestMapping(value = "querySupplierList")
 	public String querySupplierList(ProjectInstallAndSupplier projectInstallAndSupplier, HttpServletRequest request, HttpServletResponse response, Model model) {
 		List<BizSupplier> bizSupplierList = projectInstallAndSupplierService.findPageList(projectInstallAndSupplier);
@@ -125,19 +105,7 @@ public class ProjectInstallAndSupplierController extends BaseController {
 		return "modules/installandsupplier/projectInstallAndSupplierUpdate";
 	}
 
-	/**
-	 * 插入供应商业务分类和供应商表
-	 * 
-	 * @Title: save
-	 * @Description: TODO
-	 * @param @param projectInstallAndSupplier
-	 * @param @param model
-	 * @param @param redirectAttributes
-	 * @param @return
-	 * @return String
-	 * @author ZhangTongWei
-	 * @throws
-	 */
+
 	@RequiresPermissions("installandsupplier:projectInstallAndSupplier:edit")
 	@RequestMapping(value = "save")
 	public String save(ProjectInstallAndSupplier projectInstallAndSupplier, Model model, RedirectAttributes redirectAttributes) {
@@ -174,7 +142,7 @@ public class ProjectInstallAndSupplierController extends BaseController {
 		bizProjectInstallItem.setId(projectInstallAndSupplier.getId());
 		bizProjectInstallItem.setIsOn(projectInstallAndSupplier.getIsOn());
 		bizProjectInstallItemService.isON(bizProjectInstallItem);
-		// projectInstallAndSupplierService.delete(projectInstallAndSupplier);
+
 		addMessage(redirectAttributes, "主材安装供应商设置成功");
 		return "redirect:" + Global.getAdminPath() + "/installandsupplier/projectInstallAndSupplier/list?repage";
 	}

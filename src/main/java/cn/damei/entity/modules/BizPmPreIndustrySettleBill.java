@@ -6,57 +6,53 @@ import java.util.List;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 项目经理准产业结算单实体类
- * @author hyh
- *
- */
+
 public class BizPmPreIndustrySettleBill extends DataEntity2<BizPmPreIndustrySettleBill>{
 	private static final long serialVersionUID = 1L;
-	private Integer storeId;  //门店
-	private Integer projectMode; //工程模式
-	private Integer enginDepartId; //区域
+	private Integer storeId;
+	private Integer projectMode;
+	private Integer enginDepartId;
 	private String departmentName;
-	private String orderNum; //订单编号
+	private String orderNum;
 	private List<Integer> enginDepartIds = new ArrayList<Integer>();
-	private String communityName;		// 小区名称
-	private String buildNumber;		// 几号楼
-	private String buildUnit;		// 几单元
-	private String buildRoom;		// 哪一室 
-	private String customerName;	// 客户姓名
-	private String customerPhone;//客户手机号
-	private String itemCustomer;    // 项目经理
-	private String itemPhone;       //项目经理手机号
+	private String communityName;
+	private String buildNumber;
+	private String buildUnit;
+	private String buildRoom;
+	private String customerName;
+	private String customerPhone;
+	private String itemCustomer;
+	private String itemPhone;
 	
 	
-	private String pmPreIndustrySettleBillCode;//项目经理结算单号
-	private String settleBillType;//结算单类型  1：中期结算单  2：竣工结算单
-	private Integer orderId;  //订单Id
-	private Integer pmEmployeeId; //项目经理员工Id
-	private String settleMonth; //结算月份
-	private Date settleDatetime; //结算日期时间
-	private Double contractAmount; //承包总金额
-	private Double midwayQcCheckPunishAmount; //质检罚款金额
-	private Double rewardAmount; //奖励金额
-	private Double punishAmount; //扣款金额
-    private Double orderChangeAddAmount; //变更增项金额
-    private Double orderChangeReduceAmount;//变更减项金额
-    private Double midwayBasicworkAddAmount;//中期基装增项金额
-    private Double midwayMaterialsStandardAmount;//中期标化材料扣款金额
-    private Double midwayMaterialsAuxiliaryAmount;//中期辅料用量扣款金额
-    private Double midwaySandCementAmount;//中期沙子水泥扣款金额
-    private Double midwaySwitchPanelAmount;//中期开关面板扣款金额
-    private Double midwayWorkerSalaryAmount;//中期工人人工费扣款金额
-    private Double midwayMaterialCarryCostAmount;//中期材料搬运及运输费金额
-    private Double midwayContractSettleRate;//承包价结算比例
-    private Double completeGuaranteeMoneyAmount;//竣工质保金金额
-    private Double completeLongwayCommissionAmount;//竣工远程费金额
-    private Double contractSettleAmount;//承包价结算金额
-    private Double realSettleAmount;//实际结算金额
-    private String status;//状态
-    private Integer statusOperatorEmployeeId;//状态操作人员共Id
-    private Date statusDatetime;//状态日期时间
-    private String statusDescribe;//状态描述
+	private String pmPreIndustrySettleBillCode;
+	private String settleBillType;
+	private Integer orderId;
+	private Integer pmEmployeeId;
+	private String settleMonth;
+	private Date settleDatetime;
+	private Double contractAmount;
+	private Double midwayQcCheckPunishAmount;
+	private Double rewardAmount;
+	private Double punishAmount;
+    private Double orderChangeAddAmount;
+    private Double orderChangeReduceAmount;
+    private Double midwayBasicworkAddAmount;
+    private Double midwayMaterialsStandardAmount;
+    private Double midwayMaterialsAuxiliaryAmount;
+    private Double midwaySandCementAmount;
+    private Double midwaySwitchPanelAmount;
+    private Double midwayWorkerSalaryAmount;
+    private Double midwayMaterialCarryCostAmount;
+    private Double midwayContractSettleRate;
+    private Double completeGuaranteeMoneyAmount;
+    private Double completeLongwayCommissionAmount;
+    private Double contractSettleAmount;
+    private Double realSettleAmount;
+    private String status;
+    private Integer statusOperatorEmployeeId;
+    private Date statusDatetime;
+    private String statusDescribe;
     private Integer pmPreIndustrySettleSummaryBillId;
 
     private Date createSettleMonthStartDate;
@@ -69,7 +65,7 @@ public class BizPmPreIndustrySettleBill extends DataEntity2<BizPmPreIndustrySett
 
     private Date createMonthDate;
 
-    private String isNewSettleBill; //0 老单子，1新单子
+    private String isNewSettleBill;
 
     
     private List<String> statusList = null;

@@ -17,15 +17,7 @@ import cn.damei.common.persistence.Page;
 import cn.damei.entity.mobile.home.HomeLoginLogoutLog;
 import cn.damei.service.mobile.home.HomeLoginLogoutLogService;
 
-/**
- * 
- * <dl>
- * <dd>Description: 业主APP登录日志Controller</dd>
- * <dd>Company: 大城若谷信息技术有限公司</dd>
- * <dd>@date：2017年9月4日 下午7:14:24</dd>
- * <dd>@author：Li wancai</dd>
- * </dl>
- */
+
 @Controller
 @RequestMapping(value="${adminPath}/app/homeLog")
 public class HomeLoginLogoutLogController {
@@ -52,9 +44,9 @@ public class HomeLoginLogoutLogController {
         Page<HomeLoginLogoutLog> page = homeLoginLogoutLogService.findPage(new Page<HomeLoginLogoutLog>(request, response), homeLoginLogoutLog);
         model.addAttribute("page", page);
         Map<String,Object> resultMap = homeLoginLogoutLogService.summaryQueryByCondition(homeLoginLogoutLog);
-        model.addAttribute("actualLogNum", resultMap.get("totalNum") == null ? 0 : resultMap.get("totalNum") );//实际登录人数（）
-        model.addAttribute("appNum", resultMap.get("appNum") == null ? 0 : resultMap.get("appNum") );//微信端人数
-        model.addAttribute("wechatNum", resultMap.get("wechatNum") == null ? 0 : resultMap.get("wechatNum") );//APP端人数
+        model.addAttribute("actualLogNum", resultMap.get("totalNum") == null ? 0 : resultMap.get("totalNum") );
+        model.addAttribute("appNum", resultMap.get("appNum") == null ? 0 : resultMap.get("appNum") );
+        model.addAttribute("wechatNum", resultMap.get("wechatNum") == null ? 0 : resultMap.get("wechatNum") );
         
         return "modules/bizAppHomeLog/LoginLogoutLogList";
     }

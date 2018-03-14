@@ -10,26 +10,14 @@ import cn.damei.entity.modules.InspectorPunish;
 import cn.damei.entity.modules.ProIndustryPmSettleInfo;
 import cn.damei.entity.modules.MainPanel;
 
-/**
- * 准产业订单项目经理结算信息Dao
- * @author hyh
- *
- */
+
 @MyBatisDao
 public interface ProIndustryPmSettleDao extends CrudDao2<ProIndustryPmSettleInfo>{
 	
-	/**
-	 *  项目经理中期结算信息
-	 * @param proIndustryPmSettleInfo
-	 * @return
-	 */
+
 	public List<ProIndustryPmSettleInfo> queryProIndustryPmMidwaySettle(ProIndustryPmSettleInfo proIndustryPmSettleInfo);
 	
-	/**
-	 * 项目经理竣工结算信息
-	 * @param proIndustryPmSettleInfo
-	 * @return
-	 */
+
 	public List<ProIndustryPmSettleInfo> queryProIndustryPmCompleteSettle(ProIndustryPmSettleInfo proIndustryPmSettleInfo);
 	
 	public Double queryAuxiliaryMaterialsAmountByOrderId(Map<String,Object> param);

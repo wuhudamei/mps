@@ -5,16 +5,14 @@ import java.util.Date;
 
 public class DistributeLogEntity implements  Serializable{
 
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 
 
 	private  Integer orderId;
 	private Integer packId;
-	private String distributeType; //分配和重新分配工人组为:301 302 
-	private Integer distributeWorkerGroupId; //分配的工人组id
+	private String distributeType;
+	private Integer distributeWorkerGroupId;
 	private Date createDate;
 	private Integer createMan;
 	private String delFlag;

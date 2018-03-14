@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import java.util.Date;
@@ -8,22 +6,18 @@ import java.util.Date;
 import org.hibernate.validator.constraints.Length;
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 付款单Entity
- * @author qww
- * @version 2016-10-26
- */
+
 public class BizOrderTaskpackagePayment extends DataEntity2<BizOrderTaskpackagePayment> {
 	
 	private static final long serialVersionUID = 1L;
-	private Integer orderTaskpackageSettlementId;		// 订单任务包结算单id -- '
-	private String orderTaskpackagePaymentCode;		// 付款单编号 -- '
-	private String orderTaskpackagePaymentType;		// 付款单类型 -- '
-	private Double amount;		// 金额 -- '
-	private String status;		// 状态 -- '
-	private Double paymentRates; // 付款比例 -- '
-	private Date statusDatetime; // 状态产生时间 -- '
-	private Date generatedDatetime; // 生成时间 -- '
+	private Integer orderTaskpackageSettlementId;
+	private String orderTaskpackagePaymentCode;
+	private String orderTaskpackagePaymentType;
+	private Double amount;
+	private String status;
+	private Double paymentRates;
+	private Date statusDatetime;
+	private Date generatedDatetime;
 	private String remarks;
 	private Integer storeId;
 	private Integer enginDepartId;

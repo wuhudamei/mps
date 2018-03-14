@@ -5,35 +5,29 @@ import java.util.Date;
 import cn.damei.common.persistence.DataEntity2;
 import cn.damei.entity.modules.OrderDetails;
 
-/**
- * 订单安装项vo
- * @author 梅浩
- *
- */
+
 public class OrderInstallItemVoDetails extends  DataEntity2<OrderDetails>{
 
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 
-	//主键在爷爷里
+
 	
-	private Integer orderId;//订单外键id
-	private Integer projectInstallItemId;//关联的模板安装项id
-	private String projectInstallItemName;//关联的模板安装项name
-	private Integer installItemSequence;		// 安装项顺序
-	private Integer daysToApplyInto;		// 开工第几天申请
-	private Integer daysPlanInto;		// 开工第几天进场
-	private Integer daysPalnComplete;		// 开工第几天完成
-	private String isGeneratedOrdeInstallPlan;//是否生成计划
-	private String isOn;//是否启用  0:停用  1:启用
-	private String isChoosed;//修改订单回显判断字段
-	private String status;//安装项的状态    //作为安装项计划中为  1,2,3   作为 订单安装项, 为是否可选
+	private Integer orderId;
+	private Integer projectInstallItemId;
+	private String projectInstallItemName;
+	private Integer installItemSequence;
+	private Integer daysToApplyInto;
+	private Integer daysPlanInto;
+	private Integer daysPalnComplete;
+	private String isGeneratedOrdeInstallPlan;
+	private String isOn;
+	private String isChoosed;
+	private String status;
 	private Date planIntoDate;
 	private Date applyIntoDate;
 	private Date realIntoDate;
-	private String projectMode;//工程模式
+	private String projectMode;
 	
 	public String getProjectMode() {
 		return projectMode;

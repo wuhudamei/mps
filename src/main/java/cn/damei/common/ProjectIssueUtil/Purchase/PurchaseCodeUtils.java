@@ -9,9 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-/**
- * Created by joseph on 2017/7/8.
- */
+
 @Service
 @Transactional(readOnly = true)
 public class PurchaseCodeUtils {
@@ -25,18 +23,14 @@ public class PurchaseCodeUtils {
 
 
 
-    /**
-     * 质检单编号
-     *
-     * @return
-     */
+
     @Transactional(readOnly = false)
     public      String qcBillCode() {
-        // 以ZJ开头
+
 
         StringBuilder builder = new StringBuilder();
         Date date =new Date();
-        // num
+
         ReCheckCode code1 = dao.getCode();
 
         if (null == code1) {
@@ -44,7 +38,7 @@ public class PurchaseCodeUtils {
             code1 = dao.getCode();
         }
 
-        //如果不是同一天
+
         if(!DateUtils.isSameDay(date,code1.getGenerateTime())){
 
             code1.setGenerateTime(date);
@@ -61,13 +55,13 @@ public class PurchaseCodeUtils {
         builder.append(code1.getBussinessType());
         builder.append(new SimpleDateFormat("yyyyMMdd").format(date));
 
-        // 判断长度
+
         if (code.length() == 1) {
 
             builder.append("000").append(code);
 
         } else if (code.length() == 2) {
-            // 拼接采购单编号
+
             builder.append("00").append(code);
         } else if (code.length() == 3) {
             builder.append("0").append(code);
@@ -76,7 +70,7 @@ public class PurchaseCodeUtils {
         }
 
 
-        // 返回采购单编号
+
         return builder.toString();
 
     }

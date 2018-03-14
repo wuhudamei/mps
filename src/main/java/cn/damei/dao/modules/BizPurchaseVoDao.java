@@ -15,11 +15,7 @@ public interface BizPurchaseVoDao extends CrudDao2<BizPurchaseVo>{
 
 	List<BizPurchaseVo> findList1(Integer applyemployeeId,String type);
 
-	/**
-	 * 供应商列表
-	 * @param bizPurchaseVo
-	 * @return
-	 */
+
 	List<BizPurchaseVo> findSupplierList(BizPurchaseVo bizPurchaseVo);
 	
 }

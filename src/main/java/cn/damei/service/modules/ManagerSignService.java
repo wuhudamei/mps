@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.util.List;
@@ -17,11 +15,7 @@ import cn.damei.dao.modules.ManagerSignDao;
 import cn.damei.entity.modules.BizPmAttendDayOrder;
 import cn.damei.entity.modules.ManagerSign;
 
-/**
- * 项目经理签到查询Service
- * @author 梅浩
- * @version 2016-09-26
- */
+
 @Service
 @Transactional(readOnly = true)
 public class ManagerSignService extends CrudService2<ManagerSignDao, ManagerSign> {
@@ -58,11 +52,11 @@ public class ManagerSignService extends CrudService2<ManagerSignDao, ManagerSign
 	}
 	@Transactional(readOnly = false)
 	public void updateIsValiddById(String id,String isValid ,String signId) {
-		//更新biz_pm_attend_day_order合格状态
+
 		if(StringUtils.isNotBlank(id) && StringUtils.isNotBlank(isValid) ){
 			dao.updateIsValiddById(id, isValid);
 		}
-		//更新biz_sign合格状态
+
 		if(StringUtils.isNotBlank(signId) && StringUtils.isNotBlank(isValid) ){
 			bizPmAttendCnfgDao.updateSignEnabled(signId,isValid);
 		}

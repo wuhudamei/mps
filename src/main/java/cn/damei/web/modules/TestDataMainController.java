@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,11 +20,7 @@ import cn.damei.common.utils.StringUtils;
 import cn.damei.entity.modules.TestDataMain;
 import cn.damei.service.modules.TestDataMainService;
 
-/**
- * 主子表生成Controller
- * @author ThinkGem
- * @version 2015-04-06
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/test/testDataMain")
 public class TestDataMainController extends BaseController {

@@ -4,11 +4,7 @@ import java.util.Comparator;
 
 import cn.damei.entity.modules.WorkgroupVo;
 
-/** 
-* @author 梅浩   meihao@zzhyun.cn: 
-* @version 创建时间：2016年10月20日 下午5:31:07 
-* 类说明 
-*/
+
 
 public class CompareUtils  implements Comparator<WorkgroupVo> {
 	public int compare(WorkgroupVo s1,WorkgroupVo s2) {

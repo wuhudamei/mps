@@ -31,9 +31,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-/*
- *	订单交底查询
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/bizorderdisclose/bizOrderDisclose")
 public class BizOrderDiscloseController extends BaseController {
@@ -64,16 +62,9 @@ public class BizOrderDiscloseController extends BaseController {
 	public String preList(BizOrderDisclose bizOrderDisclose, HttpServletRequest request, HttpServletResponse response,
 			Model model) {
 		User user = UserUtils.getUser();
-		//过滤门店
-		/*if(null == bizOrderDisclose.getStoreId()){
-			if(null != user.getStoreId()){
-				bizOrderDisclose.setStoreId(Integer.valueOf(user.getStoreId()));
-			}
-		}
-		if(StringUtils.isBlank(user.getStoreId())){
-			model.addAttribute("storeDropEnable", true);
-		}*/
-		//过滤工程模式
+
+
+
 		if(StringUtils.isBlank(bizOrderDisclose.getProjectMode())){
 			if(null != user.getEmpId()){
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -116,11 +107,11 @@ public class BizOrderDiscloseController extends BaseController {
 			Model model) {
 		User user = UserUtils.getUser();
 		if (UserUtils.getUser().getStoreId() != null) {
-			// 当前登录用户门店
+
 			bizOrderDisclose.setStoreId(Integer.parseInt(UserUtils.getUser().getStoreId()));
 		}
 		
-		//权限控制
+
 		
 		List<String> orderdPhones = dataAuthorityService.orderdPhones(DataAuthorityConstantUtils.Biz_Business_Type_DD);
 		bizOrderDisclose.setPhones(orderdPhones);
@@ -129,7 +120,7 @@ public class BizOrderDiscloseController extends BaseController {
 		
 		
 		
-		//过滤工程模式
+
 		if(StringUtils.isBlank(bizOrderDisclose.getProjectMode())){
 			if(null != user.getEmpId()){
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -179,27 +170,13 @@ public class BizOrderDiscloseController extends BaseController {
 		
 		
 		User user = UserUtils.getUser();
-		//过滤门店
-		/*if(null == bizOrderDisclose.getStoreId()){
-			if(null != user.getStoreId()){
-				bizOrderDisclose.setStoreId(Integer.valueOf(user.getStoreId()));
-			}
-		}
-		if(StringUtils.isBlank(user.getStoreId())){
-			model.addAttribute("storeDropEnable", true);
-		}*/
+
+
 		
-		/*if(bizOrderDisclose.== null){
-			HttpSession session = request.getSession();
-			List<BizEmpStore> attribute = (List<BizEmpStore>)session.getAttribute("storeList");
-			if(attribute!=null){
-				String value = attribute.get(0).getValue();
-				bizEmployee.setStoreid(value);
-			}
-		}*/
+
 		
 		
-		//过滤工程模式
+
 		if(StringUtils.isBlank(bizOrderDisclose.getProjectMode())){
 			if(null != user.getEmpId()){
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));

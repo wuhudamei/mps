@@ -18,12 +18,7 @@ public class BizAttendDayController extends BaseController {
 	private BizAttendDayService bizAttendDayService;
 
 
-	/**
-	 * 修改考勤
-	 * @param id
-	 * @param attendType
-	 * @return
-	 */
+
 	@RequiresPermissions("bizAttendBills:bizAttendBills:edit")
 	@ResponseBody
 	@RequestMapping(value = "updateVal")
@@ -32,7 +27,7 @@ public class BizAttendDayController extends BaseController {
 			BizAttendDay bizAttendDay = bizAttendDayService.get(id);
 
 			BizAttendDay bizAttendDay2 = new BizAttendDay();
-			//类型
+
 			bizAttendDay2.setAttendType(attendType);
 			bizAttendDay2.setAttendEmployeeId(bizAttendDay.getAttendEmployeeId());
 			bizAttendDay2.setAttendEmployeeRole(bizAttendDay.getAttendEmployeeRole());

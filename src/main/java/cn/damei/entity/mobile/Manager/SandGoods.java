@@ -2,29 +2,27 @@ package cn.damei.entity.mobile.Manager;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- *  沙子水泥商品
- */
+
 
 public class SandGoods extends DataEntity2<SandGoods> {
 
 	private static final long serialVersionUID = 1L;
 	
-	private Integer auxiliaryMaterialsId;	//辅料ID
-	private String auxiliaryMaterialsNo; // 辅料编号
-	private String auxiliaryMaterialsName; // 辅料名称
-	private String specifications; // 规格
-	private Integer totalAuxiMateCount; // 送货数量
-	private String measurementUnit; // 商品单位
-	private String measurementUnitLabel; // 商品单位名称
-	private Integer auxiliaryMaterialsSupplierRelId;//关联供应商ID
-	private String laborPrice; // 单价(工人结算价)
-	private String supplierPrice; //供应商价格
-	private String wangzhenPrice; //网真价格（门店价格）
-	private String picUrl; // 图片
-	private String brands;	//品牌
+	private Integer auxiliaryMaterialsId;
+	private String auxiliaryMaterialsNo;
+	private String auxiliaryMaterialsName;
+	private String specifications;
+	private Integer totalAuxiMateCount;
+	private String measurementUnit;
+	private String measurementUnitLabel;
+	private Integer auxiliaryMaterialsSupplierRelId;
+	private String laborPrice;
+	private String supplierPrice;
+	private String wangzhenPrice;
+	private String picUrl;
+	private String brands;
 	
-	private Supplier supplier;	//供应商
+	private Supplier supplier;
 	
 	public String getAuxiliaryMaterialsNo() {
 		return auxiliaryMaterialsNo;

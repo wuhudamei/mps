@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,12 +29,7 @@ import java.net.URLDecoder;
 import java.util.List;
 import java.util.Map;
 
-/**
- * 其他部门投诉Controller
- *
- * @author mh
- * @version 2017-07-24
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/complaintforotherdepartment/complaintForOtherDepartMent")
 public class ComplaintForOtherDepartMentController extends BaseController {
@@ -63,15 +56,7 @@ public class ComplaintForOtherDepartMentController extends BaseController {
         return "modules/complaintforotherdepartment/complaintForOtherDepartMentList";
     }
 
-    /**
-     * 其他部门上报, 有权限list
-     *
-     * @param complaintForOtherDepartMent
-     * @param request
-     * @param response
-     * @param model
-     * @return
-     */
+
     @RequiresPermissions("complaintforotherdepartment:complaintForOtherDepartMent:view")
     @RequestMapping(value = "list")
     public String list(ComplaintForOtherDepartMent complaintForOtherDepartMent, HttpServletRequest request, HttpServletResponse response, Model model) {
@@ -86,20 +71,12 @@ public class ComplaintForOtherDepartMentController extends BaseController {
     @Autowired
     private GetBusinessPhoto photo;
 
-    /**
-     * 查看投诉log
-     *
-     * @param complaintForOtherDepartMent
-     * @param request
-     * @param response
-     * @param model
-     * @return
-     */
+
 
     @RequestMapping(value = "detailLog")
     public String detailLog(ComplaintForOtherDepartMent complaintForOtherDepartMent, HttpServletRequest request, HttpServletResponse response, Model model) {
 
-        //根据预投诉id 查询详情
+
 
 
         Map<String, Object> map = complaintForOtherDepartMentService.findDetailById(complaintForOtherDepartMent.getId());
@@ -113,7 +90,7 @@ public class ComplaintForOtherDepartMentController extends BaseController {
     @RequestMapping(value = "photo")
     public String photo(ComplaintForOtherDepartMent complaintForOtherDepartMent, HttpServletRequest request, HttpServletResponse response, Model model) {
 
-        //查看图片
+
 
         List<String> pic = photo.getBusinessPhoto(complaintForOtherDepartMent.getId(), PictureTypeContantUtil.PICTURE_TYPE_113);
 
@@ -131,17 +108,7 @@ public class ComplaintForOtherDepartMentController extends BaseController {
         return "modules/complaintforotherdepartment/complain";
     }
 
-    /**
-     * 其他部门新增投诉(有权限)
-     *
-     * @param photos
-     * @param orderId
-     * @param complaintText
-     * @param request
-     * @param response
-     * @param model
-     * @return
-     */
+
     @RequiresPermissions("complaintforotherdepartment:complaintForOtherDepartMent:edit")
     @RequestMapping(value = "saveComplaintInfo")
     public String saveComplaintInfo(RedirectAttributes redirectAttributes, String[] photos, String orderId, String complaintText, HttpServletRequest request, HttpServletResponse response, Model model) {
@@ -164,7 +131,7 @@ public class ComplaintForOtherDepartMentController extends BaseController {
     @RequestMapping(value = "findOrderByText")
     @ResponseBody
     public List<Map<String, String>> findOrderByText(String text, String orderId) {
-//       String  guildname = new String(text.getBytes("iso-8859-1"),"gbk");
+
         try {
             if (!StringUtils.isEmpty (text))
             text = URLDecoder.decode (text, "utf-8");

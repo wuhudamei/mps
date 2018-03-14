@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,11 +21,7 @@ import cn.damei.common.utils.UserUtils;
 import cn.damei.entity.modules.TestAudit;
 import cn.damei.service.modules.TestAuditService;
 
-/**
- * 审批Controller
- * @author thinkgem
- * @version 2014-05-16
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/oa/testAudit")
 public class TestAuditController extends BaseController {
@@ -36,13 +30,13 @@ public class TestAuditController extends BaseController {
 	private TestAuditService testAuditService;
 	
 	@ModelAttribute
-	public TestAudit get(@RequestParam(required=false) String id){//, 
-//			@RequestParam(value="act.procInsId", required=false) String procInsId) {
+	public TestAudit get(@RequestParam(required=false) String id){
+
 		TestAudit testAudit = null;
 		if (StringUtils.isNotBlank(id)){
 			testAudit = testAuditService.get(id);
-//		}else if (StringUtils.isNotBlank(procInsId)){
-//			testAudit = testAuditService.getByProcInsId(procInsId);
+
+
 		}
 		if (testAudit == null){
 			testAudit = new TestAudit();
@@ -62,51 +56,46 @@ public class TestAuditController extends BaseController {
 		return "modules/oa/testAuditList";
 	}
 	
-	/**
-	 * 申请单填写
-	 * @param testAudit
-	 * @param model
-	 * @return
-	 */
+
 	@RequiresPermissions("oa:testAudit:view")
 	@RequestMapping(value = "form")
 	public String form(TestAudit testAudit, Model model) {
 		
 		String view = "testAuditForm";
 		
-		// 查看审批申请单
-		if (StringUtils.isNotBlank(testAudit.getId())){//.getAct().getProcInsId())){
 
-			// 环节编号
+		if (StringUtils.isNotBlank(testAudit.getId())){
+
+
 			String taskDefKey = testAudit.getAct().getTaskDefKey();
 			
-			// 查看工单
+
 			if(testAudit.getAct().isFinishTask()){
 				view = "testAuditView";
 			}
-			// 修改环节
+
 			else if ("modify".equals(taskDefKey)){
 				view = "testAuditForm";
 			}
-			// 审核环节
+
 			else if ("audit".equals(taskDefKey)){
 				view = "testAuditAudit";
-//				String formKey = "/oa/testAudit";
-//				return "redirect:" + ActUtils.getFormUrl(formKey, testAudit.getAct());
+
+
 			}
-			// 审核环节2
+
 			else if ("audit2".equals(taskDefKey)){
 				view = "testAuditAudit";
 			}
-			// 审核环节3
+
 			else if ("audit3".equals(taskDefKey)){
 				view = "testAuditAudit";
 			}
-			// 审核环节4
+
 			else if ("audit4".equals(taskDefKey)){
 				view = "testAuditAudit";
 			}
-			// 兑现环节
+
 			else if ("apply_end".equals(taskDefKey)){
 				view = "testAuditAudit";
 			}
@@ -116,13 +105,7 @@ public class TestAuditController extends BaseController {
 		return "modules/oa/" + view;
 	}
 	
-	/**
-	 * 申请单保存/修改
-	 * @param testAudit
-	 * @param model
-	 * @param redirectAttributes
-	 * @return
-	 */
+
 	@RequiresPermissions("oa:testAudit:edit")
 	@RequestMapping(value = "save")
 	public String save(TestAudit testAudit, Model model, RedirectAttributes redirectAttributes) {
@@ -134,12 +117,7 @@ public class TestAuditController extends BaseController {
 		return "redirect:" + adminPath + "/act/task/todo/";
 	}
 
-	/**
-	 * 工单执行（完成任务）
-	 * @param testAudit
-	 * @param model
-	 * @return
-	 */
+
 	@RequiresPermissions("oa:testAudit:edit")
 	@RequestMapping(value = "saveAudit")
 	public String saveAudit(TestAudit testAudit, Model model) {
@@ -152,12 +130,7 @@ public class TestAuditController extends BaseController {
 		return "redirect:" + adminPath + "/act/task/todo/";
 	}
 	
-	/**
-	 * 删除工单
-	 * @param id
-	 * @param redirectAttributes
-	 * @return
-	 */
+
 	@RequiresPermissions("oa:testAudit:edit")
 	@RequestMapping(value = "delete")
 	public String delete(TestAudit testAudit, RedirectAttributes redirectAttributes) {

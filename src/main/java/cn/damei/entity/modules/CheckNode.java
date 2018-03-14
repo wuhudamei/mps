@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import java.util.Date;
@@ -9,36 +7,32 @@ import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 约检节点设置Entity
- * @author 梅浩
- * @version 2016-10-26
- */
+
 public class CheckNode extends DataEntity2<CheckNode> {
 	
 	private static final long serialVersionUID = 1L;
-	private Integer storeId;		// 门店id -- '
-	private String qcCheckNodeName;		// 节点名称 -- '
-	private Integer qcCheckNodeIndex;		// 节点顺序 -- '
-	private Integer daysToCheck;		// 开工后第几天检查 -- '
+	private Integer storeId;
+	private String qcCheckNodeName;
+	private Integer qcCheckNodeIndex;
+	private Integer daysToCheck;
 
-	private Integer constructionScheduleId;		// 所属进度节点模板id -- '
-	private String constructionScheduleName;//进度节点模板名称
-
-
+	private Integer constructionScheduleId;
+	private String constructionScheduleName;
 
 
-	private String isUrgePay;		// 是否缴催 -- '0.否；1.是
-	private String status;		// 状态 -- '0.停用；1.启用
-	private Date statusDatetime;		// 状态产生日期时间 -- '
+
+
+	private String isUrgePay;
+	private String status;
+	private Date statusDatetime;
 	
 	
-	private String projectMode;		//工程模式   1-产业模式；2-传统模式
+	private String projectMode;
 
 
 
-	private Integer daysToApply;  			//开工后第几天申请    2017-7-14 加入
-	//2017-08-08 加入新字段  是否为基装节点  为其他业务逻辑做甄别
+	private Integer daysToApply;
+
 	private String isForBasicWork;
 
 	public String getIsForBasicWork() {

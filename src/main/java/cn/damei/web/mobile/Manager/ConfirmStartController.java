@@ -17,10 +17,7 @@ import cn.damei.service.mobile.Manager.ConfirmStartService;
 import cn.damei.entity.mobile.Manager.Manager;
 
 
-/**
- * @author 梅浩 meihao@zzhyun.cn:
- * @version 创建时间：2016年9月19日 下午5:05:38 类说明
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/app/manager")
 public class ConfirmStartController {
@@ -30,13 +27,11 @@ public class ConfirmStartController {
     @Autowired
     private ConfirmStartService confirmStartService;
 
-    /**
-     * 列出确认开工列表
-     */
+
     @RequestMapping(value = {"confirmStart", ""})
     public String packageList(ConfirmStartOrder confirmStartOrder, Model model, HttpServletRequest request) {
 
-        //已登录的项目经理
+
         Manager manager = (Manager) request.getSession().getAttribute("manager");
         logger.info("项目经理ID========" + manager.getId());
 
@@ -49,9 +44,7 @@ public class ConfirmStartController {
         return "mobile/modules/Manager/progressMain/confirmStart/startList";
     }
 
-    /**
-     * 详情
-     */
+
     @RequestMapping(value = {"confirmStartDetail", ""})
     public String confirmStartDetail(ConfirmStartOrder confirmStartOrder, Model model, HttpServletRequest request) {
         Integer orderId = Integer.parseInt(request.getParameter("orderId"));
@@ -65,23 +58,7 @@ public class ConfirmStartController {
     }
 
 
-    /**
-     * 确认开工【保存】【wyb】
-     * @param houseIsNew
-     * @param projectMode
-     * @param storeId
-     * @param orderId
-     * @param input_date
-     * @param startRemark
-     * @param dateCompare
-     * @param delayType
-     * @param decorateDelayDays
-     * @param isSelfDecorateNeedSign
-     * @param photos
-     * @param isNeedSign
-     * @param request
-     * @return
-     */
+
     @RequestMapping(value = {"updateById", ""})
     public @ResponseBody String startUpdate(String houseIsNew, String projectMode, String storeId, String orderId, String input_date, String startRemark, String dateCompare,
                        String delayType, String decorateDelayDays, String isSelfDecorateNeedSign, String[] photos, String isNeedSign, HttpServletRequest request){
@@ -93,12 +70,10 @@ public class ConfirmStartController {
         		photos, isNeedSign, request,manager);
     } 
 
-    /**
-     * 进度通报
-     */
+
     @RequestMapping(value = {"progressBuiletin", ""})
     public String progressBuiletin(ConfirmStartOrder confirmStartOrder, Model model, HttpServletRequest request) {
-        //已登录的项目经理
+
         Manager manager = (Manager) request.getSession().getAttribute("manager");
         logger.info("项目经理ID========" + manager.getId());
 

@@ -25,11 +25,7 @@ import cn.damei.entity.mobile.home.BizOrder;
 import cn.damei.service.mobile.home.CustomerEvaluateWorkerService;
 import cn.damei.service.modules.BizEvalRewardStarService;
 import cn.damei.entity.modules.BizEvalActivityIndex;
-/**
- * 客户评价工人
- * @author Administrator
- *
- */
+
 @Controller
 @RequestMapping(value="${adminPath}/app/home/evaluate/evalWorker")
 public class CustomerEvaluateWorkerController {
@@ -46,7 +42,7 @@ public class CustomerEvaluateWorkerController {
 		
 		String customerPhone = (String) request.getSession().getAttribute("customerPhone");
 		
-		//查询订单列表
+
 		List<BizOrder> list = customerEvaluateWorkerService.findOrderList(customerPhone);
 		if(null!=list && list.size()>0){
 			if(list.size()>1){
@@ -57,13 +53,13 @@ public class CustomerEvaluateWorkerController {
 			return "mobile/modules/home/evaluate/evalWorker/comment_null";
 		}
 		
-		//查询订单
+
 		BizOrder bizOrder = new BizOrder();
 		bizOrder.setOrderId(orderId);
 		bizOrder.setCustomerPhone(customerPhone);
 		BizOrder order = customerEvaluateWorkerService.findOrder(bizOrder);
 		
-		//查询评价列表
+
 		List<EvaluateWorker> evaluateWorkerList = customerEvaluateWorkerService.findEvaluateList(order.getOrderId());
 		String exists ="0";
 		if(null!=evaluateWorkerList && evaluateWorkerList.size()>0){
@@ -75,19 +71,13 @@ public class CustomerEvaluateWorkerController {
 		return "mobile/modules/home/evaluate/evalWorker/commentList";
 	}
 	
-	/**
-	 * 客户评价页面
-	 * @param evalTaskpackScoreId
-	 * @param request
-	 * @param model
-	 * @return
-	 */
+
 	@RequestMapping(value="toEvaluate")
 	public String toEvaluate(String evalTaskpackScoreId,HttpServletRequest request,Model model){
 		
-		//任务包相关信息
+
 		EvaluateWorker evaluateWorker = inspectorEvaluateWorkerService.findOrderTaskpack(Integer.valueOf(evalTaskpackScoreId));
-		//根据任务包ID查询相关联的评价活动
+
 		evaluateWorker.setEvalRoleType("3");
 		List<BizEvalActivityIndex> list = inspectorEvaluateWorkerService.findEvalActivityIndex(evaluateWorker);
 		
@@ -97,18 +87,7 @@ public class CustomerEvaluateWorkerController {
 	}
 	
 	
-	/**
-	 * 评价
-	 * @param phone
-	 * @param evalTaskpackScoreId
-	 * @param evalActivityIndexId
-	 * @param evalTotalScore
-	 * @param number
-	 * @param advise
-	 * @param request
-	 * @param model
-	 * @return
-	 */
+
 	@RequestMapping(value="evaluate")
 	public @ResponseBody String evaluate(String phone,String evalTaskpackScoreId,String[] evalActivityIndexId,String[] evalTotalScore,String[] number,String advise,HttpServletRequest request,Model model){
 		
@@ -117,7 +96,7 @@ public class CustomerEvaluateWorkerController {
 		Date date = new Date();
 		
 		String fanhui = "1";
-		//判断是否超过了12小时
+
 		BizEvalScore item = new BizEvalScore();
 		item.setEvalStartDatetime(date);
 		item.setId(Integer.valueOf(evalTaskpackScoreId));
@@ -125,7 +104,7 @@ public class CustomerEvaluateWorkerController {
 		item.setRange("301,302");
 		BizEvalScore a = inspectorEvaluateWorkerService.issave(item);
 		if(null!=a){
-			//客户评价
+
 			Inspector inspector = new Inspector();
 			fanhui = inspectorEvaluateWorkerService.evaluate(evalTaskpackScoreId,evalActivityIndexId,evalTotalScore,number,advise,inspector.getId(),phone,ConstantUtils.EVAL_ROLE_TYPE_301);
 			List<BizEvalActivityIndex> activityIndexList= inspectorEvaluateWorkerService.queryEvalActivityIndexByPackageId(a.getRelatedBusinessId());
@@ -134,16 +113,16 @@ public class CustomerEvaluateWorkerController {
 			String  custemerType=null;
 			if(activityIndexList != null && activityIndexList.size()>0){
 				for(BizEvalActivityIndex activityIndex : activityIndexList){
-					if(activityIndex.getEvalRoleType().equals("1")){//项目经理评价
+					if(activityIndex.getEvalRoleType().equals("1")){
 						managerType="1";
-					}else if(activityIndex.getEvalRoleType().equals("2")){//质检评价
+					}else if(activityIndex.getEvalRoleType().equals("2")){
 						pqcType="2";
-					}else if(activityIndex.getEvalRoleType().equals("3")){//客户评价
+					}else if(activityIndex.getEvalRoleType().equals("3")){
 						custemerType="3";
 					}
 				}
 			}
-			//判断是否评价结束
+
 		    BizEvalScoreRole scoreBean = new BizEvalScoreRole();
 			scoreBean.setEvalScoreId(Integer.parseInt(evalTaskpackScoreId));
 			scoreBean.setManagerType(managerType);
@@ -151,7 +130,7 @@ public class CustomerEvaluateWorkerController {
 			scoreBean.setCustemerType(custemerType);
 			BizEvalScoreRole evalTaskpackRoleScore = inspectorEvaluateWorkerService.isEndEvaluate(scoreBean);
 			if(null!=evalTaskpackRoleScore && evalTaskpackRoleScore.getGotScore()!=null && evalTaskpackRoleScore.getGotScore()>0){
-				//更新评价任务包得分表
+
 				BizEvalScore evalTaskpackScore = new BizEvalScore();
 				evalTaskpackScore.setId(Integer.valueOf(evalTaskpackScoreId));
 				evalTaskpackScore.setGotScore(evalTaskpackRoleScore.getGotScore());
@@ -160,7 +139,7 @@ public class CustomerEvaluateWorkerController {
 				evalTaskpackScore.setStatusDatetime(date);
 				inspectorEvaluateWorkerService.updateEvalTaskpackScore(evalTaskpackScore);
 				
-				 // 查询奖励金额
+
                 Map<String, Object> rewardMap = new HashMap<String, Object>();
                 rewardMap.put("orderTaskpackId", a.getRelatedBusinessId());
                 rewardMap.put("gotScore", evalTaskpackRoleScore.getGotScore());
@@ -179,13 +158,7 @@ public class CustomerEvaluateWorkerController {
 		return fanhui;
 	}
 	
-	/**
-	 * 客户评价详情页面
-	 * @param evalTaskpackScoreId
-	 * @param request
-	 * @param model
-	 * @return
-	 */
+
 	@RequestMapping(value="toDetails")
 	public String toDetails(String evalTaskpackScoreId,HttpServletRequest request,Model model){
 		

@@ -1,22 +1,16 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import org.hibernate.validator.constraints.Length;
 
 import cn.damei.common.persistence.DataEntity;
 
-/**
- * 主子表生成Entity
- * @author ThinkGem
- * @version 2015-04-06
- */
+
 public class TestDataChild extends DataEntity<TestDataChild> {
 	
 	private static final long serialVersionUID = 1L;
-	private TestDataMain testDataMain;		// 业务主表 父类
-	private String name;		// 名称
+	private TestDataMain testDataMain;
+	private String name;
 	
 	public TestDataChild() {
 		super();

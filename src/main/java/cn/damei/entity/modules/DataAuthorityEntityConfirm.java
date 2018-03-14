@@ -9,10 +9,10 @@ public class DataAuthorityEntityConfirm extends DataEntity2<BizConfirmStartOrder
 	private String officeId;
 	private String userId;
 	private String parentId;
-	private String designerPhone;//设计师电话
+	private String designerPhone;
 	private String name;
 	private List<String> phones;
-	private String flag = "0"; //0 
+	private String flag = "0";
 	private List<Role> roleList;
 	private String code;
 	

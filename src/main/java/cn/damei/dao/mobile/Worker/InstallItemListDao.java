@@ -9,11 +9,7 @@ import cn.damei.entity.mobile.Worker.InstallItem;
 @MyBatisDao
 public interface InstallItemListDao{
 
-	/**
-	 * 查询施工单列表
-	 * @param installItem
-	 * @return
-	 */
+
 	List<InstallItem> findInstallConstructBillList(InstallItem installItem);
 
 

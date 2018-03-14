@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.util.HashMap;
@@ -15,12 +13,7 @@ import cn.damei.common.service.CrudService;
 import cn.damei.dao.modules.BizComplaintProblemTypeDao;
 import cn.damei.entity.modules.BizComplaintProblemType;
 
-/**
- * 工程投诉Service
- * 
- * @author mh
- * @version 2017-07-03
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizComplaintProblemTypeService extends CrudService<BizComplaintProblemTypeDao, BizComplaintProblemType> {

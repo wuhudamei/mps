@@ -54,17 +54,17 @@ public class DelaySheetController {
 	
 	@RequestMapping(value="list2")
 	public String list2(DelaySheet delaySheet,Model model){
-		//查询订单基础信息
+
 		AppOrder order = appOrderService.getOrder(delaySheet.getOrderId());
-		//查询延期分类 一级类目
+
 		List<Dict> list = delaySheetService.findDelayCategory(1);
-		//延期阶段 
-		/*List<Dict> list2 = delaySheetService.findDelayCategoryStatus();*/
+
+
 		List<Dict> nodePlan = delaySheetService.findOrderNodePlan(String.valueOf(delaySheet.getOrderId()));
 		model.addAttribute("order", order);
 		model.addAttribute("list", list);
 		model.addAttribute("list2", nodePlan);
-		//重新申请
+
 		if(delaySheet.getId()!=null){
 			delaySheet = delaySheetService.get(delaySheet.getId());
 			model.addAttribute("delaySheet", delaySheet);
@@ -72,44 +72,30 @@ public class DelaySheetController {
 		}
 		return "mobile/modules/Manager/delaysheet/delayApply";
 	}
-	/**
-	 * 延期列表查询
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @return
-	 */
+
 	@RequestMapping(value="list3")
 	public String list3(HttpServletRequest request,HttpServletResponse response,Model model){
-		//获得项目经理ID
+
 		Manager manager = (Manager) request.getSession().getAttribute("manager");
-		//查询项目经理下所有的订单
+
 		List<DelaySheet> list = delaySheetService.findDelayOrder(manager.getId());
 		model.addAttribute("list", list);
 		return "mobile/modules/Manager/delaysheet/delayList";
 	}
-	/**
-	 * 动态加载延期原因
-	 * @param id
-	 * @return
-	 */
+
 	@RequestMapping(value="ajaxreson")
 	@ResponseBody
 	public List<Dict> ajaxreson(String id){
-		//查询延期分类 根据一级ID查询二级类目
+
 		List<Dict> list = delaySheetService.findDelayCategorytow(id,2);
 		return list;
 	}
 
 
-	/**
-	 * 保存
-	 * @param
-	 * @return
-	 */
+
 	@RequestMapping(value="save")
 	public String save(DelaySheet delaySheet,String photo[],HttpServletRequest request){
-		//查询延期分类 根据一级ID查询二级类目
+
 		delaySheet.preUserInsert();
 		delaySheet.setStatus(DelayBillConstant.DELAY_BILL_STATUS_10);
 		delaySheetService.save(delaySheet);
@@ -122,23 +108,23 @@ public class DelaySheetController {
 	@ResponseBody
 	public String isSubmit(String orderId,String stageStatus){
 		DelaySheet delaySheet = delaySheetService.checkSubmit(orderId,stageStatus);
-		//判断这个订单是否有待审核的 如果有不让申请
+
 		String str = delaySheetService.checkSubmitOver(orderId);
 		if(!str.equals("0")){
 			return "2";
 		}
 		if(delaySheet == null){
-			//第一次申请，可以申请  1
+
 			return "1";
 		}else{
-			//获取延期状态
+
 			String status = delaySheet.getStatus();
 			if(status != null){
-				//如果审核通过或者被拒绝，可以申请
+
 				if(status.equals("20")){
-					//如果状态
+
 					if(stageStatus.equals(delaySheet.getDelayBillStageStatus())){
-						return "3";//审核通过了不可以重复申请
+						return "3";
 					}else{
 						return "1";
 					}
@@ -146,8 +132,8 @@ public class DelaySheetController {
 					return "1";
 					
 				}else{
-					//不可以申请
-					return "2"; //在审核中不可以申请
+
+					return "2";
 				}
 			}
 		}

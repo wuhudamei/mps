@@ -57,12 +57,7 @@ import cn.damei.service.modules.BizGuaranteeMoneyBalanceService;
 import cn.damei.service.modules.InspectorConfirmService;
 import cn.damei.common.utils.UserUtils;
 
-/**
- * 准产业订单项目经理结算信息Controller
- *
- * @author hyh
- *
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/proIndustryPmSettle/proIndustryPmSettle")
 public class ProIndustryPmSettleController extends BaseController {
@@ -103,19 +98,11 @@ public class ProIndustryPmSettleController extends BaseController {
 	@Autowired
 	private BizBusinessStatusLogService bizBusinessStatusLogService;
 
-	/**
-	 * 发起项目经理中期结算
-	 *
-	 * @param proIndustryPmSettleInfo
-	 * @param model
-	 * @param request
-	 * @param response
-	 * @return
-	 */
+
 	@RequestMapping(value = "queryProIndustryPmMidwaySettle")
 	public String queryProIndustryPmMidwaySettle(ProIndustryPmSettleInfo proIndustryPmSettleInfo, Model model,
 												 HttpServletRequest request, HttpServletResponse response) {
-		// 过滤门店
+
 		if (proIndustryPmSettleInfo.getStoreId() == null) {
 			String storeId = UserUtils.getUser().getStoreId();
 			if (StringUtils.isBlank(storeId)) {
@@ -132,19 +119,11 @@ public class ProIndustryPmSettleController extends BaseController {
 		return "modules/proIndustryPmSettle/proIndustryPmMidwaySettle";
 	}
 
-	/**
-	 * 发起项目经理中期结算查询
-	 *
-	 * @param proIndustryPmSettleInfo
-	 * @param model
-	 * @param request
-	 * @param response
-	 * @return
-	 */
+
 	@RequestMapping(value = "queryProIndustryPmMidwaySettleList")
 	public String queryProIndustryPmMidwaySettleList(ProIndustryPmSettleInfo proIndustryPmSettleInfo, Model model,
 													 HttpServletRequest request, HttpServletResponse response) {
-		// 过滤门店
+
 		if (proIndustryPmSettleInfo.getStoreId() == null) {
 			String storeId = UserUtils.getUser().getStoreId();
 			if (StringUtils.isBlank(storeId)) {
@@ -171,19 +150,11 @@ public class ProIndustryPmSettleController extends BaseController {
 		return "modules/proIndustryPmSettle/proIndustryPmMidwaySettle";
 	}
 
-	/**
-	 * 发起项目经理竣工结算
-	 *
-	 * @param proIndustryPmSettleInfo
-	 * @param model
-	 * @param request
-	 * @param response
-	 * @return
-	 */
+
 	@RequestMapping(value = "queryProIndustryPmCompleteSettle")
 	public String queryProIndustryPmCompleteSettle(ProIndustryPmSettleInfo proIndustryPmSettleInfo, Model model,
 												   HttpServletRequest request, HttpServletResponse response) {
-		// 过滤门店
+
 		if (proIndustryPmSettleInfo.getStoreId() == null) {
 			String storeId = UserUtils.getUser().getStoreId();
 			if (StringUtils.isBlank(storeId)) {
@@ -200,19 +171,11 @@ public class ProIndustryPmSettleController extends BaseController {
 		return "modules/proIndustryPmSettle/proIndustryPmCompleteSettle";
 	}
 
-	/**
-	 * 发起项目经理竣工结算查询
-	 *
-	 * @param proIndustryPmSettleInfo
-	 * @param model
-	 * @param request
-	 * @param response
-	 * @return
-	 */
+
 	@RequestMapping(value = "queryProIndustryPmCompleteSettleList")
 	public String queryProIndustryPmCompleteSettleList(ProIndustryPmSettleInfo proIndustryPmSettleInfo, Model model,
 													   HttpServletRequest request, HttpServletResponse response) {
-		// 过滤门店
+
 		if (proIndustryPmSettleInfo.getStoreId() == null) {
 			String storeId = UserUtils.getUser().getStoreId();
 			if (StringUtils.isBlank(storeId)) {
@@ -250,15 +213,7 @@ public class ProIndustryPmSettleController extends BaseController {
 		return "modules/proIndustryPmSettle/orderPaymentInfo";
 	}
 
-	/**
-	 * 创建中期结算单
-	 *
-	 * @param orderId
-	 * @param model
-	 * @param request
-	 * @param response
-	 * @return
-	 */
+
 	@RequestMapping(value = "openMidwaySettleInfoPage")
 	public String openMidwaySettleInfoPage(Integer orderId, Model model, HttpServletRequest request,
 										   HttpServletResponse response) {
@@ -268,7 +223,7 @@ public class ProIndustryPmSettleController extends BaseController {
 		param.put("projectMode", order2.getProjectMode());
 		param.put("settleStage", 10);
 		BizNormalPmSettleNode bizNormalPmSettleNode = bizNormalPmSettleNodeService.querySettleNodeByParam(param);
-		// 1.承包总价
+
 		Double contractAmount = 0.0;
 		Map<String, Object> settParam = new HashMap<String, Object>();
 		settParam.put("orderId", orderId);
@@ -276,8 +231,8 @@ public class ProIndustryPmSettleController extends BaseController {
 		BizOrderContractSettle contractSettle = bizOrderContractSettleService.findOrderContractSettleByParam(settParam);
 		if (contractSettle == null) {
 			contractSettle = new BizOrderContractSettle();
-			Double subsidySquare = Double.valueOf(order2.getContractArea());// 补助面积
-			Double subsidyPrice = 0.0;// 补助单价
+			Double subsidySquare = Double.valueOf(order2.getContractArea());
+			Double subsidyPrice = 0.0;
 			if (subsidySquare > 0 && subsidySquare < 71) {
 				Map<String, Object> subsidyPriceParam = new HashMap<String, Object>();
 				subsidyPriceParam.put("storeId", order2.getStoreId());
@@ -288,8 +243,8 @@ public class ProIndustryPmSettleController extends BaseController {
 					subsidyPrice = 0.0;
 				}
 			}
-			Double subsidyAmount = subsidySquare * subsidyPrice;// 补助金额
-			// 承包总价=计价面积 * 结算单价+补助金额
+			Double subsidyAmount = subsidySquare * subsidyPrice;
+
 			if(bizNormalPmSettleNode ==null){
 				bizNormalPmSettleNode = new BizNormalPmSettleNode();
 			}
@@ -298,7 +253,7 @@ public class ProIndustryPmSettleController extends BaseController {
 			}
 			contractAmount = Double.valueOf(bizNormalPmSettleNode.getSettlePrice())
 					* Double.valueOf(order2.getContractArea()) + subsidyAmount;
-			// 保存承包结算的业务数据
+
 			contractSettle.setOrderId(orderId);
 			contractSettle.setSettleStage("10");
 			contractSettle.setPackagedSquare( Double.valueOf(order2.getContractArea()));
@@ -312,7 +267,7 @@ public class ProIndustryPmSettleController extends BaseController {
 		} else {
 			contractAmount = contractSettle.getContractAmount();
 		}
-		// 2.辅料用量扣款
+
 		Map<String, Object> auMaterParam = new HashMap<String, Object>();
 		auMaterParam.put("orderId", orderId);
 		auMaterParam.put("isSandCement", 0);
@@ -323,7 +278,7 @@ public class ProIndustryPmSettleController extends BaseController {
 		if(auMaterAmount>0){
 			auMaterAmount = 0-auMaterAmount;
 		}
-		// 3.沙子水泥扣款
+
 		Map<String, Object> sandParam = new HashMap<String, Object>();
 		sandParam.put("orderId", orderId);
 		sandParam.put("isSandCement", 1);
@@ -334,7 +289,7 @@ public class ProIndustryPmSettleController extends BaseController {
 		if(sandAmount>0){
 			sandAmount = 0-sandAmount;
 		}
-		// 4.标化材料扣款
+
 		Double standardMaAmount = 0.0;
 		List<BizOrderMaterialsStandard> materialsStandardList = inspectorConfirmService
 				.queryMaterialsStandardByOrderId(orderId);
@@ -347,7 +302,7 @@ public class ProIndustryPmSettleController extends BaseController {
 		if(standardMaAmount>0){
 			standardMaAmount = 0-standardMaAmount;
 		}
-		// 5.开关面板扣款
+
 		Double mainPanelAmount = proIndustryPmSettleService.queryMainPanelAmountByOrderId(orderId);
 		if (mainPanelAmount == null) {
 			mainPanelAmount = 0.00;
@@ -355,7 +310,7 @@ public class ProIndustryPmSettleController extends BaseController {
 		if(mainPanelAmount>0){
 			mainPanelAmount = 0-mainPanelAmount;
 		}
-		// 6.工人人工费扣款
+
 		Double workerAmount = proIndustryPmSettleService.queryWorkerAmountByOrderId(orderId);
 		if(workerAmount == null){
 			workerAmount = 0.00;
@@ -363,7 +318,7 @@ public class ProIndustryPmSettleController extends BaseController {
 		if(workerAmount>0){
 			workerAmount = 0-workerAmount;
 		}
-		// 7.中期质检罚款
+
 		Map<String, Object> pmQcParam = new HashMap<String, Object>();
 		pmQcParam.put("orderId", orderId);
 		pmQcParam.put("pmEmployeeId", order2.getItemManagerId());
@@ -371,7 +326,7 @@ public class ProIndustryPmSettleController extends BaseController {
 		if (pmQcFine == null) {
 			pmQcFine = 0.00;
 		}
-		// 8.基装增项
+
 		Map<String, Object> baseInstalledParam = new HashMap<String, Object>();
 		baseInstalledParam.put("orderId", orderId);
 		baseInstalledParam.put("changeType", 10);
@@ -380,14 +335,14 @@ public class ProIndustryPmSettleController extends BaseController {
 			baseInstalledAmount = 0.00;
 		}
 
-		// 9.中期变更增项
+
 		baseInstalledParam.put("changeType", 20);
 		Double midwayChangeAddAmount = proIndustryPmSettleService.queryBaseInstalledAmount(baseInstalledParam);
 		if (midwayChangeAddAmount == null) {
 			midwayChangeAddAmount = 0.00;
 		}
 
-		// 10.中期变更减项
+
 		baseInstalledParam.put("changeType", 30);
 		Double midwayChangeReductAmount = proIndustryPmSettleService.queryBaseInstalledAmount(baseInstalledParam);
 		if (midwayChangeReductAmount == null) {
@@ -398,7 +353,7 @@ public class ProIndustryPmSettleController extends BaseController {
 			midwayChangeReductAmount = 0-midwayChangeReductAmount;
 		}
 
-		// 11.材料搬运及运输费
+
 		BizOrderMaterialCarryCost bizOrderMaterialCarryCost = bizOrderMaterialCarryCostService
 				.queryOrderMaterialCarryCostByOrderId(orderId);
 		if(bizOrderMaterialCarryCost == null){
@@ -407,7 +362,7 @@ public class ProIndustryPmSettleController extends BaseController {
 		if(bizOrderMaterialCarryCost.getAccountAmount() == null){
 			bizOrderMaterialCarryCost.setAccountAmount(0.00);
 		}
-		// 12.中期奖励
+
 		Map<String, Object> map1 = new HashMap<String, Object>();
 		map1.put("orderId", orderId);
 		map1.put("employeeType", 2);
@@ -419,7 +374,7 @@ public class ProIndustryPmSettleController extends BaseController {
 			midwayReward.setRewardPunishAmount(0.00);
 		}
 
-		// 13.中期罚款
+
 		Map<String, Object> map2 = new HashMap<String, Object>();
 		map2.put("orderId", orderId);
 		map2.put("employeeType", 2);
@@ -453,20 +408,12 @@ public class ProIndustryPmSettleController extends BaseController {
 		return "modules/proIndustryPmSettle/settleInfo";
 	}
 
-	/**
-	 * 创建竣工结算单
-	 *
-	 * @param orderId
-	 * @param model
-	 * @param request
-	 * @param response
-	 * @return
-	 */
+
 	@RequestMapping(value = "openCompleteSettleInfoPage")
 	public String openCompleteSettleInfoPage(Integer orderId, Model model, HttpServletRequest request,
 											 HttpServletResponse response) {
 		Order2 order2 = orderService2.get(orderId);
-		// 1.承包总价
+
 		Double contractAmount = 0.0;
 		Map<String, Object> param = new HashMap<String, Object>();
 		param.put("storeId", order2.getStoreId());
@@ -479,8 +426,8 @@ public class ProIndustryPmSettleController extends BaseController {
 		BizOrderContractSettle contractSettle = bizOrderContractSettleService.findOrderContractSettleByParam(settParam);
 		if (contractSettle == null) {
 			contractSettle = new BizOrderContractSettle();
-			Double subsidySquare = Double.valueOf(order2.getContractArea());// 补助面积
-			Double subsidyPrice = 0.0;// 补助单价
+			Double subsidySquare = Double.valueOf(order2.getContractArea());
+			Double subsidyPrice = 0.0;
 			if (subsidySquare > 0 && subsidySquare <= 70) {
 				Map<String, Object> subsidyPriceParam = new HashMap<String, Object>();
 				subsidyPriceParam.put("storeId", order2.getStoreId());
@@ -491,8 +438,8 @@ public class ProIndustryPmSettleController extends BaseController {
 					subsidyPrice = 0.0;
 				}
 			}
-			Double subsidyAmount = subsidySquare * subsidyPrice;// 补助金额
-			// 承包总价=计价面积 * 结算单价+补助金额
+			Double subsidyAmount = subsidySquare * subsidyPrice;
+
 			if(bizNormalPmSettleNode ==null){
 				bizNormalPmSettleNode = new BizNormalPmSettleNode();
 			}
@@ -501,7 +448,7 @@ public class ProIndustryPmSettleController extends BaseController {
 			}
 			contractAmount = Double.valueOf(bizNormalPmSettleNode.getSettlePrice())
 					* Double.valueOf(order2.getContractArea()) + subsidyAmount;
-			// 保存承包结算的业务数据
+
 			contractSettle.setOrderId(orderId);
 			contractSettle.setSettleStage("20");
 			contractSettle.setPackagedSquare( Double.valueOf(order2.getContractArea()));
@@ -515,7 +462,7 @@ public class ProIndustryPmSettleController extends BaseController {
 		} else {
 			contractAmount = contractSettle.getContractAmount();
 		}
-		//2.竣工质检罚款
+
 		Map<String, Object> pmQcParam = new HashMap<String, Object>();
 		pmQcParam.put("orderId", orderId);
 		pmQcParam.put("pmEmployeeId", order2.getItemManagerId());
@@ -523,7 +470,7 @@ public class ProIndustryPmSettleController extends BaseController {
 		if (pmQcFine == null) {
 			pmQcFine = 0.00;
 		}
-		//3.质保金
+
 		Double completeGuaranteeMoneyAmount = 0.00;
 		BizPmGuaranteeMoneyCnfgSnap gmcs = bizPmGuaranteeMoneyCnfgSnapService.findGmc(orderId);
 		if (gmcs != null) {
@@ -569,7 +516,7 @@ public class ProIndustryPmSettleController extends BaseController {
 				gml.preInsert();
 
 				Integer id = bizPmGuaranteeMoneyLogService.insert1(gml);
-				// 更新余额信息
+
 				if (bizGuaranteeMoneyBalance == null || bizGuaranteeMoneyBalance.getId() == null) {
 					bizGuaranteeMoneyBalance = new BizGuaranteeMoneyBalance();
 					bizGuaranteeMoneyBalance.setEmployeeId(gml.getPmEmployeeId());
@@ -589,7 +536,7 @@ public class ProIndustryPmSettleController extends BaseController {
 		if(completeGuaranteeMoneyAmount>0){
 			completeGuaranteeMoneyAmount = 0-completeGuaranteeMoneyAmount;
 		}
-		//4.远程费
+
 		Double completeLongwayCommissionAmount = 0.00;
 		BizQcLongwayCommissionLog bizQcLongwayCommissionLog = new BizQcLongwayCommissionLog();
 		bizQcLongwayCommissionLog.setOrderId(orderId);
@@ -599,7 +546,7 @@ public class ProIndustryPmSettleController extends BaseController {
 		if(commissionLog != null){
 			completeLongwayCommissionAmount = 	commissionLog.getCommissionAmount();
 		}
-		//5.竣工变更增项
+
 		Map<String, Object> baseInstalledParam = new HashMap<String, Object>();
 		baseInstalledParam.put("orderId", orderId);
 		baseInstalledParam.put("changeType", 40);
@@ -607,7 +554,7 @@ public class ProIndustryPmSettleController extends BaseController {
 		if (completeChangeAddAmount == null) {
 			completeChangeAddAmount = 0.00;
 		}
-		//6.竣工变更减项
+
 		baseInstalledParam.put("changeType", 50);
 		Double completeChangeReductAmount = proIndustryPmSettleService.queryBaseInstalledAmount(baseInstalledParam);
 		if (completeChangeReductAmount == null) {
@@ -616,7 +563,7 @@ public class ProIndustryPmSettleController extends BaseController {
 		if(completeChangeReductAmount>0){
 			completeChangeReductAmount = 0-completeChangeReductAmount;
 		}
-		//7.竣工奖励
+
 		Map<String, Object> map1 = new HashMap<String, Object>();
 		map1.put("orderId", orderId);
 		map1.put("employeeType", 2);
@@ -627,7 +574,7 @@ public class ProIndustryPmSettleController extends BaseController {
 			completeReward = new BizBusinessRewardPunish();
 			completeReward.setRewardPunishAmount(0.00);
 		}
-		//8.竣工扣款
+
 		Map<String, Object> map2 = new HashMap<String, Object>();
 		map2.put("orderId", orderId);
 		map2.put("employeeType", 2);
@@ -641,7 +588,7 @@ public class ProIndustryPmSettleController extends BaseController {
 		if(completePunish.getRewardPunishAmount()>0){
 			completePunish.setRewardPunishAmount(0-completePunish.getRewardPunishAmount());
 		}
-		//9.中期结算单
+
 		Map<String,Object> midwaySettleBillParam = new HashMap<String,Object>();
 		midwaySettleBillParam.put("orderId", orderId);
 		midwaySettleBillParam.put("settleBillType", 1);
@@ -675,16 +622,7 @@ public class ProIndustryPmSettleController extends BaseController {
 		return "modules/proIndustryPmSettle/contractTotal";
 	}
 
-	/**
-	 * 保存承包总价
-	 * @param contractSettle
-	 * @param isEditSettleBill   0：不是修改结算单  1：修改结算单
-	 * @param redirectAttributes
-	 * @param model
-	 * @param request
-	 * @param response
-	 * @return
-	 */
+
 	@RequestMapping(value = "saveContractTotal")
 	public String saveContractTotal(BizOrderContractSettle contractSettle,Integer isEditSettleBill, RedirectAttributes redirectAttributes,
 									Model model, HttpServletRequest request, HttpServletResponse response,String isNewSettleBill) {
@@ -705,12 +643,12 @@ public class ProIndustryPmSettleController extends BaseController {
 		bizOrderContractSettleService.save(conSett);
 		BizPmPreIndustrySettleBill settleBill = new BizPmPreIndustrySettleBill();
 		if(isEditSettleBill == 1){
-			//修改结算单
+
 			Map<String,Object> settleBillParam = new HashMap<String,Object>();
 			settleBillParam.put("orderId", conSett.getOrderId());
-			if(conSett.getSettleStage().equals("10")){//中期结算
+			if(conSett.getSettleStage().equals("10")){
 				settleBillParam.put("settleBillType", 1);
-			}else if(conSett.getSettleStage().equals("20")){//竣工结算
+			}else if(conSett.getSettleStage().equals("20")){
 				settleBillParam.put("settleBillType", 2);
 			}
 			settleBill = bizPmPreIndustrySettleBillService.queryPmPreIndustrySettleBillByParam(settleBillParam);
@@ -721,14 +659,14 @@ public class ProIndustryPmSettleController extends BaseController {
                 settleBill = bizPmPreIndustrySettleBillService.completedDataEncapsulation(settleBill,conSett.getOrderId());
 			}
 			bizPmPreIndustrySettleBillService.save(settleBill);
-			//修改结算类目汇总
+
 			Map<String,Object> cateGorySummeryParam = new HashMap<String,Object>();
 			cateGorySummeryParam.put("orderId", settleBill.getOrderId());
 			cateGorySummeryParam.put("pmEmployeeId", settleBill.getPmEmployeeId());
 			cateGorySummeryParam.put("pmSettleBillId", settleBill.getId());
-			if(conSett.getSettleStage().equals("10")){//中期结算
+			if(conSett.getSettleStage().equals("10")){
 				cateGorySummeryParam.put("settleCategory", ConstantUtils.PM_SETTLE_CATEGORY_900);
-			}else if(conSett.getSettleStage().equals("20")){//竣工结算
+			}else if(conSett.getSettleStage().equals("20")){
 				cateGorySummeryParam.put("settleCategory", ConstantUtils.PM_SETTLE_CATEGORY_1000);
 			}
 
@@ -745,13 +683,13 @@ public class ProIndustryPmSettleController extends BaseController {
 			}
 			bizPmSettleCategorySummary.setSettleAmount(conSett.getContractAmount());
 			bizPmSettleCategorySummaryService.save(bizPmSettleCategorySummary);
-			//修改结算类目明细
+
 			Map<String,Object> cateGoryDetailParam = new HashMap<String,Object>();
 			cateGoryDetailParam.put("orderId", settleBill.getOrderId());
 			cateGoryDetailParam.put("pmEmployeeId", settleBill.getPmEmployeeId());
-			if(conSett.getSettleStage().equals("10")){//中期结算
+			if(conSett.getSettleStage().equals("10")){
 				cateGoryDetailParam.put("settleCategory", ConstantUtils.PM_SETTLE_CATEGORY_900);
-			}else if(conSett.getSettleStage().equals("20")){//竣工结算
+			}else if(conSett.getSettleStage().equals("20")){
 				cateGoryDetailParam.put("settleCategory", ConstantUtils.PM_SETTLE_CATEGORY_1000);
 			}
 			BizPmSettleCategoryDetail bizPmSettleCategoryDetail = bizPmSettleCategoryDetailService.querySettleCategoryDetailByParam(cateGoryDetailParam);
@@ -834,15 +772,15 @@ public class ProIndustryPmSettleController extends BaseController {
 		model.addAttribute("isEditSettleBill",isEditSettleBill);
         model.addAttribute("isNewSettleBill",isNewSettleBill);
 		String result = null;
-		if (changeType.equals("10")) {// 基装增项
+		if (changeType.equals("10")) {
 			result = "modules/proIndustryPmSettle/baseInstalled";
-		} else if (changeType.equals("20")) {// 中期变更增项
+		} else if (changeType.equals("20")) {
 			result = "modules/proIndustryPmSettle/midwayChangeAdd";
-		} else if (changeType.equals("30")) {// 中期变更减项
+		} else if (changeType.equals("30")) {
 			result = "modules/proIndustryPmSettle/midwayChangeReduce";
-		} else if (changeType.equals("40")) {// 竣工变更增项
+		} else if (changeType.equals("40")) {
 			result = "modules/proIndustryPmSettle/completeChangeAdd";
-		} else if (changeType.equals("50")) {// 竣工变更减项
+		} else if (changeType.equals("50")) {
 			result = "modules/proIndustryPmSettle/completeChangeReduce";
 		}
 		return result;
@@ -852,14 +790,7 @@ public class ProIndustryPmSettleController extends BaseController {
 	public String saveBaseInstalled(BizOrderChange bizOrderChange,Integer isEditSettleBill, RedirectAttributes redirectAttributes, Model model,
 									HttpServletRequest request, HttpServletResponse response,String isNewSettleBill) {
 		BizOrderChange orderChange = null;
-		/*if(bizOrderChange.getId() != null){
-			orderChange = bizOrderChangeService.get(bizOrderChange.getId());
-		}else{
-			Map<String,Object> param = new HashMap<String,Object>();
-			param.put("orderId", bizOrderChange.getOrderId());
-			param.put("changeType", bizOrderChange.getChangeType());
-			orderChange = bizOrderChangeService.queryOrderChangeByParam(param);
-		}*/
+
 		Map<String,Object> param = new HashMap<String,Object>();
 		param.put("orderId", bizOrderChange.getOrderId());
 		param.put("changeType", bizOrderChange.getChangeType());
@@ -876,7 +807,7 @@ public class ProIndustryPmSettleController extends BaseController {
 		bizOrderChangeService.save(orderChange);
 		BizPmPreIndustrySettleBill settleBill = new BizPmPreIndustrySettleBill();
 		if(isEditSettleBill == 1){
-			//修改结算单
+
 			Map<String,Object> midwaySettleBillParam = new HashMap<String,Object>();
 			midwaySettleBillParam.put("orderId", orderChange.getOrderId());
 			if(orderChange.getChangeType().equals("10") || orderChange.getChangeType().equals("20") || orderChange.getChangeType().equals("30")){
@@ -905,7 +836,7 @@ public class ProIndustryPmSettleController extends BaseController {
 
 
 			bizPmPreIndustrySettleBillService.save(settleBill);
-			//修改结算类目汇总
+
 			Map<String,Object> cateGorySummeryParam = new HashMap<String,Object>();
 			cateGorySummeryParam.put("orderId", settleBill.getOrderId());
 			cateGorySummeryParam.put("pmEmployeeId", settleBill.getPmEmployeeId());
@@ -945,7 +876,7 @@ public class ProIndustryPmSettleController extends BaseController {
 			}
 
 			bizPmSettleCategorySummaryService.save(bizPmSettleCategorySummary);
-			//修改结算类目明细
+
 			Map<String,Object> cateGoryDetailParam = new HashMap<String,Object>();
 			cateGoryDetailParam.put("orderId", settleBill.getOrderId());
 			cateGoryDetailParam.put("pmEmployeeId", settleBill.getPmEmployeeId());
@@ -1155,7 +1086,7 @@ public class ProIndustryPmSettleController extends BaseController {
 		bizOrderMaterialCarryCostService.save(orderMaterialCarryCost);
 		BizPmPreIndustrySettleBill settleBill = new BizPmPreIndustrySettleBill();
 		if(isEditSettleBill == 1){
-			//修改结算单
+
 			Map<String,Object> midwaySettleBillParam = new HashMap<String,Object>();
 			midwaySettleBillParam.put("orderId", orderMaterialCarryCost.getOrderId());
 			midwaySettleBillParam.put("settleBillType", 1);
@@ -1165,7 +1096,7 @@ public class ProIndustryPmSettleController extends BaseController {
             settleBill = bizPmPreIndustrySettleBillService.midDataEncapsulation(settleBill);
 
 			bizPmPreIndustrySettleBillService.save(settleBill);
-			//修改结算类目汇总
+
 			Map<String,Object> cateGorySummeryParam = new HashMap<String,Object>();
 			cateGorySummeryParam.put("orderId", settleBill.getOrderId());
 			cateGorySummeryParam.put("pmEmployeeId", settleBill.getPmEmployeeId());
@@ -1184,7 +1115,7 @@ public class ProIndustryPmSettleController extends BaseController {
 			}
 			bizPmSettleCategorySummary.setSettleAmount(bizOrderMaterialCarryCost.getAccountAmount());
 			bizPmSettleCategorySummaryService.save(bizPmSettleCategorySummary);
-			//修改结算类目明细
+
 			Map<String,Object> cateGoryDetailParam = new HashMap<String,Object>();
 			cateGoryDetailParam.put("orderId", settleBill.getOrderId());
 			cateGoryDetailParam.put("pmEmployeeId", settleBill.getPmEmployeeId());
@@ -1237,16 +1168,7 @@ public class ProIndustryPmSettleController extends BaseController {
 		return result;
 	}
 
-	/**
-	 * 添加奖励惩罚
-	 * @param orderId
-	 * @param rewardPunishType
-	 * @param relatedBusinessType
-	 * @param model
-	 * @param request
-	 * @param response
-	 * @return
-	 */
+
 	@RequestMapping(value = "openPmRewardPunish")
 	public String openPmRewardPunish(Integer orderId, String rewardPunishType,Integer isEditSettleBill, String relatedBusinessType, Model model,
 									 HttpServletRequest request, HttpServletResponse response,String isNewSettleBill) {
@@ -1269,30 +1191,23 @@ public class ProIndustryPmSettleController extends BaseController {
 		model.addAttribute("isEditSettleBill",isEditSettleBill);
         model.addAttribute("isNewSettleBill",isNewSettleBill);
 		String result = null;
-		if (rewardPunishType.equals("1")) {// 奖励
-			if (relatedBusinessType.equals("1")) {// 准产业项目经理中期结算
+		if (rewardPunishType.equals("1")) {
+			if (relatedBusinessType.equals("1")) {
 				result = "modules/proIndustryPmSettle/midwayRewardAmount";
-			} else if (relatedBusinessType.equals("2")) { // 准产业项目经理竣工结算
+			} else if (relatedBusinessType.equals("2")) {
 				result = "modules/proIndustryPmSettle/completeRewardAmount";
 			}
-		} else if (rewardPunishType.equals("2")) { // 惩罚
-			if (relatedBusinessType.equals("1")) {// 准产业项目经理中期结算
+		} else if (rewardPunishType.equals("2")) {
+			if (relatedBusinessType.equals("1")) {
 				result = "modules/proIndustryPmSettle/midwayPunishAmount";
-			} else if (relatedBusinessType.equals("2")) { // 准产业项目经理竣工结算
+			} else if (relatedBusinessType.equals("2")) {
 				result = "modules/proIndustryPmSettle/completePunishAmount";
 			}
 		}
 		return result;
 	}
 
-	/**
-	 * 保存奖励惩罚
-	 * @param bizBusinessRewardPunish
-	 * @param model
-	 * @param request
-	 * @param response
-	 * @return
-	 */
+
 	@RequestMapping(value = "savePmRewardPunish")
 	public String savePmRewardPunish(BizBusinessRewardPunish bizBusinessRewardPunish,Integer isEditSettleBill, Model model,
 									 HttpServletRequest request, HttpServletResponse response,String isNewSettleBill) {
@@ -1325,11 +1240,11 @@ public class ProIndustryPmSettleController extends BaseController {
         midwaySettleBillParam.put("settleBillType", businessRewardPunish.getRelatedBusinessType());
         settleBill = bizPmPreIndustrySettleBillService.queryPmPreIndustrySettleBillByParam(midwaySettleBillParam);
 		if(isEditSettleBill == 1){
-			//修改结算单
 
-			if(businessRewardPunish.getRewardPunishType().equals("1")){//奖励
+
+			if(businessRewardPunish.getRewardPunishType().equals("1")){
 				settleBill.setRewardAmount(bizBusinessRewardPunish.getRewardPunishAmount());
-			}else if(businessRewardPunish.getRewardPunishType().equals("2")){//惩罚
+			}else if(businessRewardPunish.getRewardPunishType().equals("2")){
 				if(bizBusinessRewardPunish.getRewardPunishAmount()>0){
 					settleBill.setPunishAmount(0-bizBusinessRewardPunish.getRewardPunishAmount());
 				}else{
@@ -1343,21 +1258,21 @@ public class ProIndustryPmSettleController extends BaseController {
 			}
 
 			bizPmPreIndustrySettleBillService.save(settleBill);
-			//修改结算类目汇总
+
 			Map<String,Object> cateGorySummeryParam = new HashMap<String,Object>();
 			cateGorySummeryParam.put("orderId", settleBill.getOrderId());
 			cateGorySummeryParam.put("pmEmployeeId", settleBill.getPmEmployeeId());
 			cateGorySummeryParam.put("pmSettleBillId", settleBill.getId());
-			if(businessRewardPunish.getRewardPunishType().equals("1")){//奖励
-				if(businessRewardPunish.getRelatedBusinessType().equals("1")){//准产业项目经理中期结算
+			if(businessRewardPunish.getRewardPunishType().equals("1")){
+				if(businessRewardPunish.getRelatedBusinessType().equals("1")){
 					cateGorySummeryParam.put("settleCategory", ConstantUtils.PM_SETTLE_CATEGORY_907);
-				}else if(businessRewardPunish.getRelatedBusinessType().equals("2")){//准产业项目经理竣工结算
+				}else if(businessRewardPunish.getRelatedBusinessType().equals("2")){
 					cateGorySummeryParam.put("settleCategory", ConstantUtils.PM_SETTLE_CATEGORY_1002);
 				}
-			}else if(businessRewardPunish.getRewardPunishType().equals("2")){//惩罚
-				if(businessRewardPunish.getRelatedBusinessType().equals("1")){//准产业项目经理中期结算
+			}else if(businessRewardPunish.getRewardPunishType().equals("2")){
+				if(businessRewardPunish.getRelatedBusinessType().equals("1")){
 					cateGorySummeryParam.put("settleCategory", ConstantUtils.PM_SETTLE_CATEGORY_908);
-				}else if(businessRewardPunish.getRelatedBusinessType().equals("2")){//准产业项目经理竣工结算
+				}else if(businessRewardPunish.getRelatedBusinessType().equals("2")){
 					cateGorySummeryParam.put("settleCategory", ConstantUtils.PM_SETTLE_CATEGORY_1003);
 				}
 			}
@@ -1373,9 +1288,9 @@ public class ProIndustryPmSettleController extends BaseController {
 				bizPmSettleCategorySummary.setSettleRole(ConstantUtils.SETTLE_ROLE_1);
 				bizPmSettleCategorySummary.setPmSettleBillId(settleBill.getId());
 			}
-			if(businessRewardPunish.getRewardPunishType().equals("1")){//奖励
+			if(businessRewardPunish.getRewardPunishType().equals("1")){
 				bizPmSettleCategorySummary.setSettleAmount(bizBusinessRewardPunish.getRewardPunishAmount());
-			}else if(businessRewardPunish.getRewardPunishType().equals("2")){//惩罚
+			}else if(businessRewardPunish.getRewardPunishType().equals("2")){
 				if(bizBusinessRewardPunish.getRewardPunishAmount()>0){
 					bizPmSettleCategorySummary.setSettleAmount(0-bizBusinessRewardPunish.getRewardPunishAmount());
 				}else{
@@ -1385,20 +1300,20 @@ public class ProIndustryPmSettleController extends BaseController {
 			}
 
 			bizPmSettleCategorySummaryService.save(bizPmSettleCategorySummary);
-			//修改结算类目明细
+
 			Map<String,Object> cateGoryDetailParam = new HashMap<String,Object>();
 			cateGoryDetailParam.put("orderId", settleBill.getOrderId());
 			cateGoryDetailParam.put("pmEmployeeId", settleBill.getPmEmployeeId());
-			if(businessRewardPunish.getRewardPunishType().equals("1")){//奖励
-				if(businessRewardPunish.getRelatedBusinessType().equals("1")){//准产业项目经理中期结算
+			if(businessRewardPunish.getRewardPunishType().equals("1")){
+				if(businessRewardPunish.getRelatedBusinessType().equals("1")){
 					cateGoryDetailParam.put("settleCategory", ConstantUtils.PM_SETTLE_CATEGORY_907);
-				}else if(businessRewardPunish.getRelatedBusinessType().equals("2")){//准产业项目经理竣工结算
+				}else if(businessRewardPunish.getRelatedBusinessType().equals("2")){
 					cateGoryDetailParam.put("settleCategory", ConstantUtils.PM_SETTLE_CATEGORY_1002);
 				}
-			}else if(businessRewardPunish.getRewardPunishType().equals("2")){//惩罚
-				if(businessRewardPunish.getRelatedBusinessType().equals("1")){//准产业项目经理中期结算
+			}else if(businessRewardPunish.getRewardPunishType().equals("2")){
+				if(businessRewardPunish.getRelatedBusinessType().equals("1")){
 					cateGoryDetailParam.put("settleCategory", ConstantUtils.PM_SETTLE_CATEGORY_908);
-				}else if(businessRewardPunish.getRelatedBusinessType().equals("2")){//准产业项目经理竣工结算
+				}else if(businessRewardPunish.getRelatedBusinessType().equals("2")){
 					cateGoryDetailParam.put("settleCategory", ConstantUtils.PM_SETTLE_CATEGORY_1003);
 				}
 			}
@@ -1415,9 +1330,9 @@ public class ProIndustryPmSettleController extends BaseController {
 				bizPmSettleCategoryDetail.setSettleRole(ConstantUtils.SETTLE_ROLE_1);
 				bizPmSettleCategoryDetail.setPmSettleCategorySummaryId(bizPmSettleCategorySummary.getId());
 			}
-			if(businessRewardPunish.getRewardPunishType().equals("1")){//奖励
+			if(businessRewardPunish.getRewardPunishType().equals("1")){
 				bizPmSettleCategoryDetail.setSettleAmount(bizBusinessRewardPunish.getRewardPunishAmount());
-			}else if(businessRewardPunish.getRewardPunishType().equals("2")){//惩罚
+			}else if(businessRewardPunish.getRewardPunishType().equals("2")){
 				if(bizBusinessRewardPunish.getRewardPunishAmount()>0){
 					bizPmSettleCategoryDetail.setSettleAmount(0-bizBusinessRewardPunish.getRewardPunishAmount());
 				}else{
@@ -1442,7 +1357,7 @@ public class ProIndustryPmSettleController extends BaseController {
                 }
 
 			}else if(businessRewardPunish.getRelatedBusinessType().equals("2")){
-//                查询中期数据
+
                 midwaySettleBillParam.put("orderId", businessRewardPunish.getRelatedBusinessIdInt());
                 midwaySettleBillParam.put("settleBillType", "1");
                 BizPmPreIndustrySettleBill settleBillComplete = bizPmPreIndustrySettleBillService.queryPmPreIndustrySettleBillByParam(midwaySettleBillParam);
@@ -1481,14 +1396,7 @@ public class ProIndustryPmSettleController extends BaseController {
 		return result;
 	}
 
-	/**
-	 * 查看质保金
-	 * @param orderId
-	 * @param model
-	 * @param request
-	 * @param response
-	 * @return
-	 */
+
 	@RequestMapping(value = "openPmGuaranteeMoney")
 	public String openPmGuaranteeMoney(Integer orderId, Model model,
 									   HttpServletRequest request, HttpServletResponse response){
@@ -1504,14 +1412,7 @@ public class ProIndustryPmSettleController extends BaseController {
 		return "modules/proIndustryPmSettle/pmGuaranteeMoney";
 	}
 
-	/**
-	 * 添加远程费
-	 * @param bizQcLongwayCommissionLog
-	 * @param model
-	 * @param request
-	 * @param response
-	 * @return
-	 */
+
 	@RequestMapping(value = "openCommissionLog")
 	public String openCommissionLog(BizQcLongwayCommissionLog bizQcLongwayCommissionLog,Integer isEditSettleBill,Model model,
 									HttpServletRequest request, HttpServletResponse response){
@@ -1523,14 +1424,7 @@ public class ProIndustryPmSettleController extends BaseController {
 		return "modules/proIndustryPmSettle/commissionLog";
 	}
 
-	/**
-	 * 保存远程费
-	 * @param bizQcLongwayCommissionLog
-	 * @param model
-	 * @param request
-	 * @param response
-	 * @return
-	 */
+
 	@RequestMapping(value = "saveCommissionLog")
 	public String saveCommissionLog(BizQcLongwayCommissionLog bizQcLongwayCommissionLog,Integer isEditSettleBill,Model model,
 									HttpServletRequest request, HttpServletResponse response){
@@ -1546,7 +1440,7 @@ public class ProIndustryPmSettleController extends BaseController {
 		bizQcLongwayCommissionLogService.save(commissionLog);
 		BizPmPreIndustrySettleBill settleBill = new BizPmPreIndustrySettleBill();
 		if(isEditSettleBill == 1){
-			//修改结算单
+
 			Map<String,Object> settleBillParam = new HashMap<String,Object>();
 			settleBillParam.put("orderId", bizQcLongwayCommissionLog.getOrderId());
 			settleBillParam.put("settleBillType", 2);
@@ -1554,7 +1448,7 @@ public class ProIndustryPmSettleController extends BaseController {
 			settleBill.setCompleteLongwayCommissionAmount(bizQcLongwayCommissionLog.getCommissionAmount());
             settleBill = bizPmPreIndustrySettleBillService.completedDataEncapsulation(settleBill,bizQcLongwayCommissionLog.getOrderId());
 			bizPmPreIndustrySettleBillService.save(settleBill);
-			//修改结算类目汇总
+
 			Map<String,Object> cateGorySummeryParam = new HashMap<String,Object>();
 			cateGorySummeryParam.put("orderId", settleBill.getOrderId());
 			cateGorySummeryParam.put("pmEmployeeId", settleBill.getPmEmployeeId());
@@ -1572,7 +1466,7 @@ public class ProIndustryPmSettleController extends BaseController {
 			}
 			bizPmSettleCategorySummary.setSettleAmount(bizQcLongwayCommissionLog.getCommissionAmount());
 			bizPmSettleCategorySummaryService.save(bizPmSettleCategorySummary);
-			//修改结算类目明细
+
 			Map<String,Object> cateGoryDetailParam = new HashMap<String,Object>();
 			cateGoryDetailParam.put("orderId", settleBill.getOrderId());
 			cateGoryDetailParam.put("pmEmployeeId", settleBill.getPmEmployeeId());
@@ -1621,20 +1515,12 @@ public class ProIndustryPmSettleController extends BaseController {
 		return result;
 	}
 
-	/**
-	 * 保存中期结算单
-	 *
-	 * @param bizPmPreIndustrySettleBill
-	 * @param model
-	 * @param request
-	 * @param response
-	 * @return
-	 */
+
 	@RequestMapping(value = "createMidwaySettleBille")
 	public String createMidwaySettleBille(BizPmPreIndustrySettleBill bizPmPreIndustrySettleBill,
 										  RedirectAttributes redirectAttributes, Model model, HttpServletRequest request,
 										  HttpServletResponse response) {
-        bizPmPreIndustrySettleBill.setIsNewSettleBill("0");//老单子
+        bizPmPreIndustrySettleBill.setIsNewSettleBill("0");
 		String result = bizPmPreIndustrySettleBillService.createMidwaySettleBille(bizPmPreIndustrySettleBill);
 		if (result.equals("0")) {
 			addMessage(redirectAttributes, "结算单生成成功！");
@@ -1645,15 +1531,7 @@ public class ProIndustryPmSettleController extends BaseController {
 				+ "/proIndustryPmSettle/proIndustryPmSettle/queryProIndustryPmMidwaySettleList";
 	}
 
-	/**
-	 * 保存竣工结算单
-	 * @param bizPmPreIndustrySettleBill
-	 * @param redirectAttributes
-	 * @param model
-	 * @param request
-	 * @param response
-	 * @return
-	 */
+
 	@RequestMapping(value = "createCompleteSettleBille")
 	public String createCompleteSettleBille(BizPmPreIndustrySettleBill bizPmPreIndustrySettleBill,
 											RedirectAttributes redirectAttributes, Model model, HttpServletRequest request,

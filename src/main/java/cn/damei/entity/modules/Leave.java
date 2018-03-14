@@ -1,6 +1,4 @@
-/**
- * There are <a href="https://github.com/thinkgem/jeesite">JeeSite</a> code generation
- */
+
 package cn.damei.entity.modules;
 
 import java.util.Date;
@@ -19,35 +17,31 @@ import cn.damei.common.persistence.DataEntity;
 import cn.damei.common.utils.StringUtils;
 import cn.damei.common.utils.DictUtils;
 
-/**
- * 请假Entity
- * @author liuj
- * @version 2013-04-05
- */
+
 public class Leave extends DataEntity<Leave> {
 	
 	private static final long serialVersionUID = 1L;
-	private String reason; 	// 请假原因
-	private String processInstanceId; // 流程实例编号
-	private Date startTime;	// 请假开始日期
-	private Date endTime;	// 请假结束日期
-	private Date realityStartTime;	// 实际开始时间
-	private Date realityEndTime;	// 实际结束时间
-	private String leaveType;	// 假种
+	private String reason;
+	private String processInstanceId;
+	private Date startTime;
+	private Date endTime;
+	private Date realityStartTime;
+	private Date realityEndTime;
+	private String leaveType;
 	
 	private String ids;
 	private Date createDateStart;
 	private Date createDateEnd;
 
-	//-- 临时属性 --//
-	// 流程任务
+
+
 	private Task task;
 	private Map<String, Object> variables;
-	// 运行中的流程实例
+
 	private ProcessInstance processInstance;
-	// 历史的流程实例
+
 	private HistoricProcessInstance historicProcessInstance;
-	// 流程定义
+
 	private ProcessDefinition processDefinition;
 
 	public Leave() {
@@ -176,9 +170,9 @@ public class Leave extends DataEntity<Leave> {
 		if (StringUtils.isNotBlank(ids)){
 			String ss = ids.trim().replace("　", ",").replace(" ",",").replace("，", ",").replace("'", "");
 			for(String s : ss.split(",")) {
-//				if(s.matches("\\d*")) {
+
 					idList.add("'"+s+"'");
-//				}
+
 			}
 		}
 		return StringUtils.join(idList, ",");

@@ -6,9 +6,7 @@ import cn.damei.common.persistence.DataEntity;
 
 public class InspectCheckTimesEntity  extends DataEntity<InspectCheckTimesEntity>{
 
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	
 
@@ -17,7 +15,7 @@ public class InspectCheckTimesEntity  extends DataEntity<InspectCheckTimesEntity
 	private String isRecheck;
 	private String qcBillStatus;
 
-	private Integer storeId; //门店
+	private Integer storeId;
 	private String projectMode;
 	public String getProjectMode() {
 		return projectMode;
@@ -25,19 +23,19 @@ public class InspectCheckTimesEntity  extends DataEntity<InspectCheckTimesEntity
 	public void setProjectMode(String projectMode) {
 		this.projectMode = projectMode;
 	}
-	private  String inspectName;//质检员
-	private Integer inspectId;//质检员id
-	private Date  checkStartDate;//提交报告查询开始日期
-	private Date checkEndDate;//提交报告查询结束日期
-	private Integer checkConstructionSiteTimes;//检查工地次数
-	private Integer signTimes;//签到次数
-	private Integer inspectReportTimes;//质检报告次数
-	private  Integer randomCheckReportTimes;//抽检报告次数
-	private Integer  aboutCheckReportTimes;//约检报告次数
-	private Integer recheckReportTimes;//复检报告次数
-	private Integer recheckTimes;//复检次数
-	private Integer fineTimes;//罚款次数
-	private Integer findTotalMoney;//罚款总金额
+	private  String inspectName;
+	private Integer inspectId;
+	private Date  checkStartDate;
+	private Date checkEndDate;
+	private Integer checkConstructionSiteTimes;
+	private Integer signTimes;
+	private Integer inspectReportTimes;
+	private  Integer randomCheckReportTimes;
+	private Integer  aboutCheckReportTimes;
+	private Integer recheckReportTimes;
+	private Integer recheckTimes;
+	private Integer fineTimes;
+	private Integer findTotalMoney;
 	public Integer getStoreId() {
 		return storeId;
 	}

@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.util.List;
@@ -14,11 +12,7 @@ import cn.damei.common.service.CrudService;
 import cn.damei.dao.modules.BreakProblemDao;
 import cn.damei.entity.modules.BreakProblem;
 
-/**
- * 违规问题统计Service
- * @author wyb
- * @version 2016-10-31
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BreakProblemService extends CrudService<BreakProblemDao, BreakProblem> {

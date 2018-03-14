@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,11 +25,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * 约检问题上报查询Controller
- * @author mh
- * @version 2017-05-27
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/bizbusinessproblemquery/bizBusinessProblemQuery")
 public class BizBusinessProblemQueryController extends BaseController {
@@ -54,7 +48,7 @@ public class BizBusinessProblemQueryController extends BaseController {
 	@RequiresPermissions("bizbusinessproblemquery:bizBusinessProblemQuery:view")
 	@RequestMapping(value = {"list", ""})
 	public String list(BizBusinessProblemQuery bizBusinessProblemQuery, HttpServletRequest request, HttpServletResponse response, Model model) {
-        //过滤门店
+
         User user = UserUtils.getUser();
         if(null==bizBusinessProblemQuery.getStoreId()){
             if(null!=user.getStoreId()){

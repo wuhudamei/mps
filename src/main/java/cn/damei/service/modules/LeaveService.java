@@ -1,6 +1,4 @@
-/**
- * There are <a href="https://github.com/thinkgem/jeesite">JeeSite</a> code generation
- */
+
 package cn.damei.service.modules;
 
 import java.util.ArrayList;
@@ -27,11 +25,7 @@ import cn.damei.common.utils.ActUtils;
 import cn.damei.dao.modules.LeaveDao;
 import cn.damei.entity.modules.Leave;
 
-/**
- * 请假Service
- * @author liuj
- * @version 2013-04-05
- */
+
 @Service
 @Transactional(readOnly = true)
 public class LeaveService extends BaseService {
@@ -49,10 +43,7 @@ public class LeaveService extends BaseService {
 	@Autowired
 	private IdentityService identityService;
 
-	/**
-	 * 获取流程详细及工作流参数
-	 * @param id
-	 */
+
 	@SuppressWarnings("unchecked")
 	public Leave get(String id) {
 		Leave leave = leaveDao.get(id);
@@ -67,14 +58,11 @@ public class LeaveService extends BaseService {
 		return leave;
 	}
 	
-	/**
-	 * 启动流程
-	 * @param workgroup
-	 */
+
 	@Transactional(readOnly = false)
 	public void save(Leave leave, Map<String, Object> variables) {
 		
-		// 保存业务数据
+
 		if (StringUtils.isBlank(leave.getId())){
 			leave.preInsert();
 			leaveDao.insert(leave);
@@ -84,17 +72,17 @@ public class LeaveService extends BaseService {
 		}
 		logger.debug("save entity: {}", leave);
 		
-		// 用来设置启动流程的人员ID，引擎会自动把用户ID保存到activiti:initiator中
+
 		identityService.setAuthenticatedUserId(leave.getCurrentUser().getLoginName());
 		
-		// 启动流程
+
 		String businessKey = leave.getId().toString();
 		variables.put("type", "leave");
 		variables.put("busId", businessKey);
 		ProcessInstance processInstance = runtimeService.startProcessInstanceByKey(ActUtils.PD_LEAVE[0], businessKey, variables);
 		leave.setProcessInstance(processInstance);
 		
-		// 更新流程实例ID
+
 		leave.setProcessInstanceId(processInstance.getId());
 		leaveDao.updateProcessInstanceId(leave);
 		
@@ -103,23 +91,19 @@ public class LeaveService extends BaseService {
 		
 	}
 
-	/**
-	 * 查询待办任务
-	 * @param userId 用户ID
-	 * @return
-	 */
+
 	public List<Leave> findTodoTasks(String userId) {
 		
 		List<Leave> results = new ArrayList<Leave>();
 		List<Task> tasks = new ArrayList<Task>();
-		// 根据当前人的ID查询
+
 		List<Task> todoList = taskService.createTaskQuery().processDefinitionKey(ActUtils.PD_LEAVE[0]).taskAssignee(userId).active().orderByTaskPriority().desc().orderByTaskCreateTime().desc().list();
-		// 根据当前人未签收的任务
+
 		List<Task> unsignedTasks = taskService.createTaskQuery().processDefinitionKey(ActUtils.PD_LEAVE[0]).taskCandidateUser(userId).active().orderByTaskPriority().desc().orderByTaskCreateTime().desc().list();
-		// 合并
+
 		tasks.addAll(todoList);
 		tasks.addAll(unsignedTasks);
-		// 根据流程的业务ID查询实体并关联
+
 		for (Task task : tasks) {
 			String processInstanceId = task.getProcessInstanceId();
 			ProcessInstance processInstance = runtimeService.createProcessInstanceQuery().processInstanceId(processInstanceId).active().singleResult();

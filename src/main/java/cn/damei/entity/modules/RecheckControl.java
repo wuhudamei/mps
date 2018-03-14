@@ -1,42 +1,36 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import java.util.Date;
 
 import cn.damei.common.persistence.DataEntity;
 
-/**
- * 复检单监控表Entity
- * @author wyb
- * @version 2016-10-31
- */
+
 public class RecheckControl extends DataEntity<RecheckControl> {
 	
 	private static final long serialVersionUID = 1L;
 	
-	private String storeId ; //门店
-	private String orderNumber;		// 订单编号
+	private String storeId ;
+	private String orderNumber;
 
-	private String communityName;		// 小区名称
-	private String buildNumber;		// 几号楼
-	private String buildUnit;		// 几单元
-	private String buildRoom;		// 哪一室
-	private String customerName;		// 客户姓名
-	private String itemManager;		// 项目经理
+	private String communityName;
+	private String buildNumber;
+	private String buildUnit;
+	private String buildRoom;
+	private String customerName;
+	private String itemManager;
 	
-	private String qcBillCode;		// 质检报告编号 -- '
-	private Integer qcBillId; //质检报告id
-	private Date createDate; //复检单生成日期
-	private Date beginCreateDate; // 开始   复检单生成日期
-	private Date endCreateDate; // 结束   复检单生成日期
+	private String qcBillCode;
+	private Integer qcBillId;
+	private Date createDate;
+	private Date beginCreateDate;
+	private Date endCreateDate;
 	
-	private Date expectCheckDatetime;		//项目经理申请日期
-	private Date checkDatetime;		// 质检员检查日期'
-	private Integer recheckTimes;	//复检次数
-	private String status;		// 状态 -- '复检单状态：1.创建；2.项目经理已申请；3.复检不合格；4.复检合格
-	private String projectMode;		//工程模式   1-产业模式；2-传统模式
+	private Date expectCheckDatetime;
+	private Date checkDatetime;
+	private Integer recheckTimes;
+	private String status;
+	private String projectMode;
 	
 	
 	

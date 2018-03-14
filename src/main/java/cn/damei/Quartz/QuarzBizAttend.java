@@ -7,11 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import cn.damei.entity.modules.BizAttendDay;
 import cn.damei.service.modules.BizAttendDayService;
 
-/**
- * 执行上一月的考勤记录
- * @author chenguanhua
- *
- */
+
 public class QuarzBizAttend {
 	
 	@Autowired

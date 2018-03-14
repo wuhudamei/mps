@@ -6,17 +6,15 @@ import cn.damei.common.persistence.DataEntity2;
 
 public class BizOrderTaskpackagePaymentDetailVo extends DataEntity2<BizOrderTaskpackagePaymentDetailVo>{
 
-	/**
-	 * @author wang
-	 */
+
 	private static final long serialVersionUID = 1L;
 	
 	private String paymentRates;
 	private Integer paymentId;
 	private Integer settlementId;
 	private String paymentType; 
-	private String settlementCode;//结算单编号
-	private String summaryCode;//批次编号
+	private String settlementCode;
+	private String summaryCode;
 	private String customerName;
 	private String customerPhone;
 	private String customerAddress;

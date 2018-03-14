@@ -3,19 +3,15 @@ package cn.damei.entity.mobile.Inspector;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 质检报告vo
- * @author Administrator
- *
- */
+
 public class ReportCheckBreak extends DataEntity2<ReportCheckBreak>{
 
 	private static final long serialVersionUID = 1L;
 	private Integer qcBillCheckItemId;
-	private Integer qcCheckItemBreakId;//违规项id
-	private String breakDescribe;//违规形式
-	private String isRequiredRemarks;//是否备注
-	private String breakRemarks;//违规备注
+	private Integer qcCheckItemBreakId;
+	private String breakDescribe;
+	private String isRequiredRemarks;
+	private String breakRemarks;
 	
 	private ReportCheckDetails reportCheck;
 	

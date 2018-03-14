@@ -4,8 +4,7 @@ import java.util.List;
 
 public class ComPlUtils {
 
-	/**
-	 */
+
 	private List<BizOrderComplaintProblem> bOrContPros;
 
 	public List<BizOrderComplaintProblem> getbOrContPros() {

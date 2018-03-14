@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import cn.damei.common.persistence.DataEntity2;
@@ -11,54 +9,50 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-/**
- * 传统订单工程进度大看板Entity
- * @author qww
- * @version 2016-10-26
- */
+
 public class BizTraditionOrder extends DataEntity2<BizTraditionOrder> {
 
 	private static final long serialVersionUID = 1L;
 
-	private Integer orderId; // 订单id
-	private Integer storeId; // 门店id
-	private String storeName;	//门店名称
-	private Integer engineDepartId; // 区域id
-	private String engineDepartName; // 区域名称
-	private String area;		// 片区
-	private String houseIsNew; // 新房老房  1为新房  0为老房  默认老房
-	private String houseIsNewName;	//新老房名称
-	private Date orderCreateDate; // 订单创建日期
-	private String customerName; // 客户姓名
-	private String customerPhone; // 客户电话
-	private String detailAddress; // 工程地址（详细地址）
-	private String itemManager; // 项目经理
-	private String itemManagerPhone; // 项目经理手机号
-	private String inspector; // 质检员
-	private String inspectorPhone; // 质检员手机号
-	private String designerName; // 设计师
-	private String designerPhone; // 设计师手机号
-	private Date getOrderDatetime;	//接单日期
-	private Date contractStartDate; // 合同开工日期
-	private Date contractEndDate; // 合同竣工日期
-	private Date actualStartDate; // 实际开工日期
-	private Date actualEndDate; // 实际竣工日期
-	private Integer startDiffDay; // 开工延期天数
-	private String isNeedSign; // 开工是否需要客户签字 -- '0.否；1.是
-	private Integer selfDecorateDelayDays; // 自装延期天数
-	private String isSelfDecorateNeedSign; // 自装是否需要客户签字 -- '0.否；1.是
-	private Date beginActualStartDate; // 实际开工日期时间段(搜索时使用)
-	private Date endActualStartDate; // 实际开工日期时间段(搜索时使用)
-	private String communityName;	//小区
-	private String buildNumber;	//楼
-	private String buildUnit;	//单元
-	private String buildRoom;	//室
-	private List<BizNodePlanProject> nodePlanList;	//进度节点list
+	private Integer orderId;
+	private Integer storeId;
+	private String storeName;
+	private Integer engineDepartId;
+	private String engineDepartName;
+	private String area;
+	private String houseIsNew;
+	private String houseIsNewName;
+	private Date orderCreateDate;
+	private String customerName;
+	private String customerPhone;
+	private String detailAddress;
+	private String itemManager;
+	private String itemManagerPhone;
+	private String inspector;
+	private String inspectorPhone;
+	private String designerName;
+	private String designerPhone;
+	private Date getOrderDatetime;
+	private Date contractStartDate;
+	private Date contractEndDate;
+	private Date actualStartDate;
+	private Date actualEndDate;
+	private Integer startDiffDay;
+	private String isNeedSign;
+	private Integer selfDecorateDelayDays;
+	private String isSelfDecorateNeedSign;
+	private Date beginActualStartDate;
+	private Date endActualStartDate;
+	private String communityName;
+	private String buildNumber;
+	private String buildUnit;
+	private String buildRoom;
+	private List<BizNodePlanProject> nodePlanList;
 	private List<Integer> engineDepartIds = new ArrayList<Integer>();
 
-    private String nodeIndex;		// 节点序号 -- '
-    private String planDoneDate;		// 计划完成日期 -- '
-    private String realDoneDate;		// 实际完成日期 -- '
+    private String nodeIndex;
+    private String planDoneDate;
+    private String realDoneDate;
     private String planDiffDay;
 
     private List<String>  planDoneDateList;
@@ -77,7 +71,7 @@ public class BizTraditionOrder extends DataEntity2<BizTraditionOrder> {
             planDiffDayList = Arrays.asList(planDiffDay.split(","));
         }
     }
-//    获取计划时间
+
     public String getPlanDoneDateByList(int i) {
         if (StringUtils.isNoneBlank(planDoneDate)) {
             if (planDoneDateList == null) {
@@ -95,7 +89,7 @@ public class BizTraditionOrder extends DataEntity2<BizTraditionOrder> {
 
 
 
-//  获取天数
+
     public String getPlanDiffDayList(int i) {
         if (StringUtils.isNoneBlank(planDiffDay)) {
             if (planDiffDayList == null) {
@@ -110,7 +104,7 @@ public class BizTraditionOrder extends DataEntity2<BizTraditionOrder> {
         }
         return "";
     }
-//  获取实际时间
+
     public String getRealDoneDateByList(int i) {
         if (StringUtils.isNoneBlank(realDoneDate)) {
             if (realDoneDateList == null) {

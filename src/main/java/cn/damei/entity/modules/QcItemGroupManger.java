@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import org.hibernate.validator.constraints.Length;
@@ -9,73 +7,69 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import cn.damei.common.persistence.DataEntity;
 
-/**
- * 检查项工人组和项目经理Entity
- * @author ztw
- * @version 2017-12-24
- */
+
 public class QcItemGroupManger extends DataEntity<QcItemGroupManger> {
 	
 	private static final long serialVersionUID = 1L;
-	private String qcBillId;		// 质检单id
-	private String relatedQcBillCheckItemId;		// 关联质检单检查项id
-	private String qcCheckItemId;		// 检查项id
-	private String isPassed;		// 是否合格
-	private String itemScore;		// 项目分数
-	private String gotScore;		// 得分
-	private String isWarned;		// 警告
-	private String isLocaleRepaire;		// 是否现场整改 -- '0.否；1.是
-	private String isLimitDateRepaire;		// 是否限期整改
-	private Date limitDate;		// 限期整改期限
+	private String qcBillId;
+	private String relatedQcBillCheckItemId;
+	private String qcCheckItemId;
+	private String isPassed;
+	private String itemScore;
+	private String gotScore;
+	private String isWarned;
+	private String isLocaleRepaire;
+	private String isLimitDateRepaire;
+	private Date limitDate;
 
-	private String limitDateRepaireCheckStyle;		// 限期整改检查方式 -- '0：线上检查；1：线下检查
-	private String isPunishMoney;		// 是否罚款
-	private String punishMoneyAmountDefault;		// 罚款默认金额 -- '
-	private String punishMoneyAmountReal;		// 项目经理被罚款金额 -- '
-	private String checkStyle;		// 检查方式
-	private String workerPunishOrderTaskpackageId;		// 订单问题包ID
-	private String workerPunishEmployeegroupId;		// 处罚工人ID
-	private String workerPunishAmount;		// 工人组被罚金额
-	private String workerPunishScore;		// worker_punish_score
-	private String pmPunishEmployeeId;		// 处罚项目经理ID
-	private String pmPunishScore;		// 责任项目经理被罚款分数
-	private String qcPunishEmployeeId;		// qc_punish_employee_id
-	private String qcPunishScore;		// qc_punish_score
-	private String qcPunishAmount;		// 工人组被罚金额
-
-
-
-	private Date beginCreateDate;		// 开始 创建日期时间
-	private Date endCreateDate;		// 结束 创建日期时间
+	private String limitDateRepaireCheckStyle;
+	private String isPunishMoney;
+	private String punishMoneyAmountDefault;
+	private String punishMoneyAmountReal;
+	private String checkStyle;
+	private String workerPunishOrderTaskpackageId;
+	private String workerPunishEmployeegroupId;
+	private String workerPunishAmount;
+	private String workerPunishScore;
+	private String pmPunishEmployeeId;
+	private String pmPunishScore;
+	private String qcPunishEmployeeId;
+	private String qcPunishScore;
+	private String qcPunishAmount;
 
 
-	private Date quCreateDate;		// 提交报告时间
-	private String qcCheckKindName;	//检查分类
-	private String qcCheckItemName;	//检查项
-	private String breakDescribe;	//违规形式
-	private String breakTimes;	//出现次数
-	private String projectMode;		//工程模式   1-产业模式；2-传统模式(数字)
-	private String projectModeName;		//工程模式   1-产业模式；2-传统模式(汉字)
-	private String storeId;		//门店ID
-	private String storeName;		//门店名称
-	private String qcCheckItemBreakId;		//违规问题统计ID
-	private String enginDepartId;		//区域ID
-	private String enginDepartName;		//区域名称
-	private String customerAddr;		//小区
-	private String orderInspector;		//质检员
-	private String itemManager;		//项目经理
-	private String customerName;		//客户姓名
-	private String workerGroupId;		//责任工人组长ID
-	private String workerGroupName;		//工人组长姓名
-	private String workerGroupPhone;		//工人组长手机
-	private String workerGroupIllegalCount;		//工人组长违规次数
-	private String workerGrouPunishCount;		//工人组长罚款次数
-	private String projectManagerId;		// 责任项目经理id
-	private String punishMoneyAmountRealSum; //某个项目经理被罚款金额总数
-	private String mnagerPerson;		 //责任项目经理姓名
-	private String mnagerPersonIllegalCount;		//责任项目经理违规次数
-	private String mnagerPersonPunishCount;		//责任项目经理处罚次数
-	private String mnagerPersonPhone;		// 责任项目经理手机号
+
+	private Date beginCreateDate;
+	private Date endCreateDate;
+
+
+	private Date quCreateDate;
+	private String qcCheckKindName;
+	private String qcCheckItemName;
+	private String breakDescribe;
+	private String breakTimes;
+	private String projectMode;
+	private String projectModeName;
+	private String storeId;
+	private String storeName;
+	private String qcCheckItemBreakId;
+	private String enginDepartId;
+	private String enginDepartName;
+	private String customerAddr;
+	private String orderInspector;
+	private String itemManager;
+	private String customerName;
+	private String workerGroupId;
+	private String workerGroupName;
+	private String workerGroupPhone;
+	private String workerGroupIllegalCount;
+	private String workerGrouPunishCount;
+	private String projectManagerId;
+	private String punishMoneyAmountRealSum;
+	private String mnagerPerson;
+	private String mnagerPersonIllegalCount;
+	private String mnagerPersonPunishCount;
+	private String mnagerPersonPhone;
 	
 	public QcItemGroupManger() {
 		super();

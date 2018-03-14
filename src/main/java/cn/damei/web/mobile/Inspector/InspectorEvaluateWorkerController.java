@@ -29,11 +29,7 @@ import cn.damei.service.modules.BizEvalRewardStarService;
 import cn.damei.dao.modules.BizBizEmployeegroupVoDao;
 import cn.damei.entity.modules.BizEmployeegroupVO;
 import cn.damei.entity.modules.BizEvalActivityIndex;
-/**
- * 质检评价工人
- * @author Administrator
- *
- */
+
 @Controller
 @RequestMapping(value="${adminPath}/app/pqc/evaluate/evalWorker")
 public class InspectorEvaluateWorkerController {
@@ -55,13 +51,7 @@ public class InspectorEvaluateWorkerController {
     @Autowired
 	private BizBizEmployeegroupVoDao bizBizEmployeegroupVoDao;
 	
-	/**
-	 * 质检评价工人页面
-	 * @param text
-	 * @param request
-	 * @param model
-	 * @return
-	 */
+
 	@RequestMapping(value="list")
 	public String list(String text,HttpServletRequest request,Model model){
 		
@@ -80,20 +70,13 @@ public class InspectorEvaluateWorkerController {
 		return "mobile/modules/pqc/evaluate/evalWorker/commentWorker";
 	}
 	
-	/**
-	 * 质检评价页面
-	 * @param text
-	 * @param evalTaskpackScoreId
-	 * @param request
-	 * @param model
-	 * @return
-	 */
+
 	@RequestMapping(value="toEvaluate")
 	public String toEvaluate(String text,Integer evalTaskpackScoreId,HttpServletRequest request,Model model){
 		
-		//任务包相关信息
+
 		EvaluateWorker evaluateWorker = inspectorEvaluateWorkerService.findOrderTaskpack(evalTaskpackScoreId);
-		//根据任务包ID查询相关联的评价活动
+
 		evaluateWorker.setEvalRoleType("2");
 		List<BizEvalActivityIndex> list = inspectorEvaluateWorkerService.findEvalActivityIndex(evaluateWorker);
 		
@@ -103,18 +86,7 @@ public class InspectorEvaluateWorkerController {
 		return "mobile/modules/pqc/evaluate/evalWorker/commentDisplay";
 	}
 	
-	/**
-	 * 评价
-	 * @param phone
-	 * @param evalTaskpackScoreId
-	 * @param evalActivityIndexId
-	 * @param evalTotalScore
-	 * @param number
-	 * @param advise
-	 * @param request
-	 * @param model
-	 * @return
-	 */
+
 	@RequestMapping(value="evaluate")
 	public @ResponseBody String evaluate(String phone,String evalTaskpackScoreId,String[] evalActivityIndexId,String[] evalTotalScore,String[] number,String advise,HttpServletRequest request,Model model){
 		
@@ -125,22 +97,22 @@ public class InspectorEvaluateWorkerController {
 		item.setRange("201,202");
 		BizEvalScore a = inspectorEvaluateWorkerService.issave(item);
 		
-			//质检评价
+
 			Inspector inspector = SessionUtils.getInspectorSession(request);
 			String fanhui = inspectorEvaluateWorkerService.evaluate(evalTaskpackScoreId,evalActivityIndexId,evalTotalScore,number,advise,inspector.getId(),phone,ConstantUtils.EVAL_ROLE_TYPE_201);
 			
-			//判断是否评价结束
+
 			List<BizEvalActivityIndex> activityIndexList= inspectorEvaluateWorkerService.queryEvalActivityIndexByPackageId(a.getRelatedBusinessId());
 			String  managerType=null;
 			String  pqcType=null;
 			String  custemerType=null;
 			if(activityIndexList != null && activityIndexList.size()>0){
 				for(BizEvalActivityIndex activityIndex : activityIndexList){
-					if(activityIndex.getEvalRoleType().equals("1")){//项目经理评价
+					if(activityIndex.getEvalRoleType().equals("1")){
 						managerType="1";
-					}else if(activityIndex.getEvalRoleType().equals("2")){//质检评价
+					}else if(activityIndex.getEvalRoleType().equals("2")){
 						pqcType="2";
-					}else if(activityIndex.getEvalRoleType().equals("3")){//客户评价
+					}else if(activityIndex.getEvalRoleType().equals("3")){
 						custemerType="3";
 					}
 				}
@@ -153,8 +125,8 @@ public class InspectorEvaluateWorkerController {
 			scoreBean.setEvalStatus(ConstantUtils.EVAL_ROLE_STATUS_1);
 			BizEvalScoreRole evalTaskpackRoleScore = inspectorEvaluateWorkerService.isEndEvaluate(scoreBean);
 			if(null!=evalTaskpackRoleScore && evalTaskpackRoleScore.getGotScore() != null && evalTaskpackRoleScore.getGotScore()>0){
-				//评价结束
-				//更新评价任务包得分表
+
+
 				BizEvalScore  evalTaskpackScore = new BizEvalScore();
 				evalTaskpackScore.setId(Integer.valueOf(evalTaskpackScoreId));
 				evalTaskpackScore.setGotScore(evalTaskpackRoleScore.getGotScore());
@@ -163,7 +135,7 @@ public class InspectorEvaluateWorkerController {
 				evalTaskpackScore.setStatusDatetime(date);
 				
 				
-				//添加星级得分变化表记录
+
 				
 				List<BizEmployeegroupVO>listqqq =bizBizEmployeegroupVoDao.getSumAvg(a.getGroupLeaderEmployeeId());
       			
@@ -186,7 +158,7 @@ public class InspectorEvaluateWorkerController {
       			inspectorEvaluateWorkerService.updateEvalTaskpackScore(evalTaskpackScore);
       			bizBizEmployeegroupVoDao.updateStar(a.getGroupLeaderEmployeeId());
       			bizBizEmployeegroupVoDao.updateStarGroup(a.getGroupLeaderEmployeeId());
-				 // 查询奖励金额
+
                 Map<String, Object> rewardMap = new HashMap<String, Object>();
                 rewardMap.put("orderTaskpackId", a.getRelatedBusinessId());
                 rewardMap.put("gotScore", evalTaskpackRoleScore.getGotScore());

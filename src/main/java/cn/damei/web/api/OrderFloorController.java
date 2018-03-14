@@ -16,10 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * 订单地板地砖面积接口（供台账使用）
- * Created by hyh on 2017/11/6.
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/api/orderFloor")
 public class OrderFloorController extends BaseController {
@@ -37,7 +34,7 @@ public class OrderFloorController extends BaseController {
         }
         String[] paramArr = new String[] { "orderNumber=" + orderNumber };
         String myKey = KeyAuthenticateUtils2.getKey(paramArr, BizOrderReportConstantUtil.REMOTE_INTERFACE_PARAM_KEY);
-        if (!myKey.equals(key)) {// 签名认证失败
+        if (!myKey.equals(key)) {
             map.put("code", "0");
             map.put("message", "签名认证失败");
             return JSONObject.fromObject(map).toString();

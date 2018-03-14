@@ -5,38 +5,34 @@ import java.util.Date;
 import java.util.List;
 
 
-/**
- * 质检报告Entity
- * @author wyb
- * @version 2016-11-16
- */
+
 public class Report implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
-	private Integer qcBillId; //质检id
-	private Integer qcCheckNodeId; //约检节点
-	private String qcCheckNodeName; //检查内容
-	private Date checkDatetime; //检查时间
-	private String isRecheck;	//是否复检  1复检
-	private String qcBillType;	//1约检  2抽检
-	private String inspector; //质检人
-	private Integer viewCount;//日志表
+	private Integer qcBillId;
+	private Integer qcCheckNodeId;
+	private String qcCheckNodeName;
+	private Date checkDatetime;
+	private String isRecheck;
+	private String qcBillType;
+	private String inspector;
+	private Integer viewCount;
 
-	private Order order; //订单
+	private Order order;
 	
 	
-	private String communityName;	//小区
-	private String buildNumber;	//几号楼
-	private String buildUnit;	//几单元
-	private String buildRoom;	//几室
+	private String communityName;
+	private String buildNumber;
+	private String buildUnit;
+	private String buildRoom;
 	
-	private Integer picCount; //图片数量
-	private Integer itemCount; //检查项总量
-	private Integer passedCount; //合格项数量
-	private Integer noPassedCount; //不合格项数量
+	private Integer picCount;
+	private Integer itemCount;
+	private Integer passedCount;
+	private Integer noPassedCount;
 	
-	private List<CheckItem> checkItemList; //检查项列表
+	private List<CheckItem> checkItemList;
 
 	public Integer getQcBillId() {
 		return qcBillId;

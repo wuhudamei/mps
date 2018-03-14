@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.util.List;
@@ -13,11 +11,7 @@ import cn.damei.common.service.CrudService;
 import cn.damei.entity.modules.BizApplyCheckDelete;
 import cn.damei.dao.modules.BizApplyCheckDeleteDao;
 
-/**
- * 约检信息管理Service
- * @author 梅浩
- * @version 2017-04-21
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizApplyCheckDeleteService extends CrudService<BizApplyCheckDeleteDao, BizApplyCheckDelete> {

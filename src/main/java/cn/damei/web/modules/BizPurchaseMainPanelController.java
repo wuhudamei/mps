@@ -62,14 +62,14 @@ public class BizPurchaseMainPanelController extends BaseController {
 	public String panelListPage(BizPurchaseMainPanel bizPurchaseMainPanel,HttpServletRequest request, HttpServletResponse response, Model model){
 		if(UserUtils.getUser().getStoreId()!=null)
 		{
-			//当前登录用户门店
+
 			bizPurchaseMainPanel.setStoreId(Integer.parseInt(UserUtils.getUser().getStoreId()));
 		}
 		else{
-			//门店是总部的查询所有部门信息
+
 		if(bizPurchaseMainPanel.getStoreId()!= null && bizPurchaseMainPanel.getStoreId() ==1)
 			{
-				//总部
+
 			bizPurchaseMainPanel.setStoreId(null);
 			}
 		}
@@ -77,13 +77,13 @@ public class BizPurchaseMainPanelController extends BaseController {
 		if(null !=user.getEmpId()){
 			BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
 			if(ConstantUtils.EMPLOYEE_PROJECT_MODE_3.equals(be.getProjectMode())|| null == be.getProjectMode()){
-				bizPurchaseMainPanel.setProjectMode(null);//表示查询所有的采购单
+				bizPurchaseMainPanel.setProjectMode(null);
 			}else{
 				bizPurchaseMainPanel.setProjectMode(be.getProjectMode());
 				model.addAttribute("projectModeEnable", true);
 			}
 		}else{
-			bizPurchaseMainPanel.setProjectMode(null);//表示查询所有的采购单
+			bizPurchaseMainPanel.setProjectMode(null);
 		}
 		if(null == bizPurchaseMainPanel.getStatus()|| "".equals(bizPurchaseMainPanel.getStatus())){
 			bizPurchaseMainPanel.setStatus("10");
@@ -95,14 +95,14 @@ public class BizPurchaseMainPanelController extends BaseController {
 	public String panelList(BizPurchaseMainPanel bizPurchaseMainPanel,HttpServletRequest request, HttpServletResponse response, Model model){
 		if(UserUtils.getUser().getStoreId()!=null)
 		{
-			//当前登录用户门店
+
 			bizPurchaseMainPanel.setStoreId(Integer.parseInt(UserUtils.getUser().getStoreId()));
 		}
 		else{
-			//门店是总部的查询所有部门信息
+
 		if(bizPurchaseMainPanel.getStoreId()!= null && bizPurchaseMainPanel.getStoreId() ==1)
 			{
-				//总部
+
 			bizPurchaseMainPanel.setStoreId(null);
 			}
 		}
@@ -115,13 +115,13 @@ public class BizPurchaseMainPanelController extends BaseController {
 			if(null !=user.getEmpId()){
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
 				if(ConstantUtils.EMPLOYEE_PROJECT_MODE_3.equals(be.getProjectMode())|| null == be.getProjectMode()){
-					bizPurchaseMainPanel.setProjectMode(null);//表示查询所有的采购单
+					bizPurchaseMainPanel.setProjectMode(null);
 				}else{
 					bizPurchaseMainPanel.setProjectMode(be.getProjectMode());
 					model.addAttribute("projectModeEnable", true);
 				}
 			}else{
-				bizPurchaseMainPanel.setProjectMode(null);//表示查询所有的采购单
+				bizPurchaseMainPanel.setProjectMode(null);
 			}
 		}
 		Page<BizPurchaseMainPanel> page = bizPurchaseMainPanelService.findPage(new Page<BizPurchaseMainPanel>(request, response), bizPurchaseMainPanel);
@@ -129,35 +129,21 @@ public class BizPurchaseMainPanelController extends BaseController {
 		return "modules/purchase/bizPurchaseMainPanelList";
 	}
 	
-	//开关面板
+
 	@RequiresPermissions("purchase:bizPurchaseMainPanel:view")
 	@RequestMapping(value = "mainPanelDetails")
 	public String mainPanelDetails(Integer id , HttpServletRequest request, HttpServletResponse response, Model model){
-		//id 采购单id
+
 		BizPurchaseMainPanel bizPurchaseMainPanel =  bizPurchaseMainPanelService.findById(id);
-		//Integer storeId = bizPurchaseVo.getStoreId();
+
 		List<MainPanel> mainPanels = mainPanelService.findListByPurchaseId(id);
 		model.addAttribute("bizPurchaseMainPanel", bizPurchaseMainPanel);
 		model.addAttribute("mainPanels", mainPanels);
 		return "modules/purchase/mainPanelDetails";
 	}
 	
-/*	@RequestMapping(value = "seePhoto")
-	public String seePhoto(Integer id ,Model model) throws IOException{
-		List<BusinessPicture> pictures = businessPictureService.queryPicture(id, ConstantUtils.PICTURE_BUSINESS_TYPE_5);
-		String baseUrl = PicRootName.picPrefixName();
-		model.addAttribute("pictures", pictures);
-		model.addAttribute("baseUrl", baseUrl);
-		return "modules/purchase/photo";
-	}*/
-	/**
-	 * 查看收货单
-	 * @param
-	 * @param model
-	 * @param request
-	 * @return
-	 * @throws IOException
-	 */
+
+
 	@RequestMapping(value = "seePhoto")
 	@ResponseBody
 	public Map<Object, Object> seePhoto(Integer id, Model model, HttpServletRequest request) throws IOException{
@@ -170,22 +156,8 @@ public class BizPurchaseMainPanelController extends BaseController {
 		return mapObject;
 	}
 
-/*	@RequestMapping(value = "seeOverPhoto")
-	public String seeOverPhoto(Integer id ,Model model) throws IOException{
-		List<BusinessPicture> pictures = businessPictureService.queryOverPicture(id, ConstantUtils.PICTURE_BUSINESS_TYPE_104);
-		String baseUrl = PicRootName.picPrefixName();
-		model.addAttribute("pictures", pictures);
-		model.addAttribute("baseUrl", baseUrl);
-		return "modules/purchase/overPhoto";
-	}*/
-	/**
-	 * 查看超定额图片
-	 * @param
-	 * @param model
-	 * @param request
-	 * @return
-	 * @throws IOException
-	 */
+
+
 	@RequestMapping(value = "seeOverPhoto")
 	@ResponseBody
 	public Map<Object, Object> seeOverPhoto(Integer id, Model model, HttpServletRequest request) throws IOException{

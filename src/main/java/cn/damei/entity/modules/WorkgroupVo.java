@@ -6,28 +6,23 @@ import java.util.Objects;
 
 import cn.damei.common.persistence.DataEntity;
 
-/**
- * @author 梅浩 meihao@zzhyun.cn:
- * @version 创建时间：2016年9月12日 下午2:10:45 工人组显示Vo
- */
+
 
 public class WorkgroupVo extends DataEntity<WorkgroupVo> {
 
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 
-	private String groupId; // 组长id
-	private String groupName;// 组长姓名
-	private String phone; // 组长手机
-	private Integer workerGroupId;//工人组id
-	private Integer starLevel;// 星级
-	private String NPS;// NPS
-	private Integer groupCount;// 组内成员数
-	private String itemManagerId; //推荐人ID==项目经理
-	private String itemManageName; //推荐人姓名
-	private String itemManagerPhone; //推荐人电话
+	private String groupId;
+	private String groupName;
+	private String phone;
+	private Integer workerGroupId;
+	private Integer starLevel;
+	private String NPS;
+	private Integer groupCount;
+	private String itemManagerId;
+	private String itemManageName;
+	private String itemManagerPhone;
 	public String getHeadPic() {
 		return headPic;
 	}
@@ -75,7 +70,7 @@ public class WorkgroupVo extends DataEntity<WorkgroupVo> {
 		this.headPic = headPic;
 	}
 
-	private String headPic;//头像
+	private String headPic;
 	public Integer getWorkerGroupId() {
 		return workerGroupId;
 	}
@@ -84,22 +79,22 @@ public class WorkgroupVo extends DataEntity<WorkgroupVo> {
 		this.workerGroupId = workerGroupId;
 	}
 
-	private String elactricationId;// 工程部ID
-	private String elactricationName;// 工程部名称
-	private Integer targetPackageCount;// 当前未完成任务包数
-	private String address;// 住址
-	private String addressToWorkerAddressDistance;//住址和工地距离
-	private Date packageStartTime;// 分配任务单计时
-	private String targetPackageId; // 任务包id
-	private String packageCode; //任务包模板no
+	private String elactricationId;
+	private String elactricationName;
+	private Integer targetPackageCount;
+	private String address;
+	private String addressToWorkerAddressDistance;
+	private Date packageStartTime;
+	private String targetPackageId;
+	private String packageCode;
 	private Double lng;
 	private Double lat;
 	
-	private Integer packageId;//不相关的任务包id
+	private Integer packageId;
 
 	private Double packLng;
 	private Double packLat;
-	//被换单次数
+
 	private Integer exchangeOrderTimes;
 	
 	public Integer getExchangeOrderTimes() {
@@ -272,9 +267,9 @@ public class WorkgroupVo extends DataEntity<WorkgroupVo> {
 		this.address = address;
 	}
 	
-	private Double   scopeDistance;//查询: 范围
-	private Date planStartDate;//查询:任务包开始时间
-	private Date planEndDate;//查询:任务包结束时间
+	private Double   scopeDistance;
+	private Date planStartDate;
+	private Date planEndDate;
 	public Double getScopeDistance() {
 		return scopeDistance;
 	}

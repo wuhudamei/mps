@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import java.util.ArrayList;
@@ -28,12 +26,7 @@ import cn.damei.entity.modules.OrderCadfile;
 import cn.damei.service.modules.OrderCadfileService;
 import cn.damei.common.utils.UserUtils;
 
-/**
- * 订单图片Controller
- * 
- * @author mh
- * @version 2016-09-08
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/ordercad/orderCadfile")
 public class OrderCadfileController extends BaseController {
@@ -73,7 +66,7 @@ public class OrderCadfileController extends BaseController {
 	@RequiresPermissions("ordercad:orderCadfile:view")
 	@RequestMapping(value = "details")
 	public String details(OrderCadfile orderCadfile, Model model) {
-		/*orderCadfile = orderCadfileService.findDetail(orderCadfile);*/
+
 		model.addAttribute("orderCadfile", orderCadfile);
 		return "modules/ordercad/orderCadfileFormDetails";
 	}
@@ -85,37 +78,37 @@ public class OrderCadfileController extends BaseController {
 			return form(orderCadfile, model);
 		}
 
-		// 通过订单id , 得到该订单下的所有图纸
+
 		List<OrderCadfile> list = orderCadfileService.findList(orderCadfile);
-		// 判断是否有图纸
+
 		if (null != list && list.size() > 0) {
 			
-			//new 一个泛型为版本的集合
+
 			List<Integer> versions = new ArrayList<Integer>();
 
-			// 如果有, 遍历
+
 			for (OrderCadfile orderCadfile2 : list) {
 
-				// 把版本 放到一个泛型为版本的 集合中
+
 				versions.add(orderCadfile2.getVersion());
 
 			}
-			// 利用工具Collections 排序
+
 			Collections.sort(versions);
 
-			// 如果只有一个图纸, 那么设置新增的图纸对象就是 第一个索引的版本号+1
+
 			if (versions.size() == 1) {
 				orderCadfile.setVersion(versions.get(0) + 1);
 
 			}
-			// 不止一个图纸 , 那么就是 该集合的最后一个元素 (已经sort过, 是最大的版本) +1
+
 			orderCadfile.setVersion(versions.get(versions.size() - 1) + 1);
 
 		} else {
-			// 如果为空, 也就是没有图纸 设置 版本为1
+
 			orderCadfile.setVersion(1);
 		}
-		// 默认图纸名,就是就上传的图纸的名字
+
 		orderCadfile.setDisplayFileName(orderCadfile.getFileName());
 		orderCadfile.setCreateDate(new Date());
 		orderCadfile.setCreateBy(UserUtils.getUser());

@@ -3,32 +3,29 @@ package cn.damei.entity.modules;
 import java.io.Serializable;
 import java.util.Date;
 
-/**
- * 主材安装台账
- * Created by 巢帅 on 2017/9/14.
- */
+
 public class PrincipalInstall implements Serializable{
-    /**安装项名称**/
+
     private String installItemName;
-    /**安装项状态**/
+
     private String status;
-    /**期望进场日期**/
+
     private Date planIntoDate;
-    /**实际进场日期**/
+
     private Date realIntoDate;
-    /**实际完成日期**/
+
     private Date realCompleteDate;
-    /**实际验收日期**/
+
     private Date realAcceptDate;
-    /**是否延期**/
+
     private String isCompleteDelay;
-    /**延期天数**/
+
     private String completeDelayDays;
-    /**安装项状态**/
+
     private String label;
-    /**期望进场时间**/
+
     private Date applyIntoDate;
-    /**项目经理申请时间**/
+
     private Date applyIntoCreateDatetime;
 
     public String getInstallItemName() {

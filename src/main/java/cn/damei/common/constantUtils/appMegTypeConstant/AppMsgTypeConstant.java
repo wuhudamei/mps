@@ -1,8 +1,6 @@
 package cn.damei.common.constantUtils.appMegTypeConstant;
 
-/**
- * Created by joseph on 2017/7/31.
- */
+
 public final class AppMsgTypeConstant {
 
 

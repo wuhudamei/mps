@@ -2,9 +2,7 @@ package cn.damei.entity.mobile.Inspector;
 
 import java.util.Objects;
 
-/**
- * Created by joseph on 2017/6/13.
- */
+
 public class BasePqcEntity extends PqcOrderEntity {
 
     private Integer qcBillId;

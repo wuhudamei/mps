@@ -29,12 +29,12 @@ public class InspectorMessageController {
 	@RequestMapping(value="message")
 	public String message(Model model,Integer page,Integer rows,HttpServletRequest request){
 		Inspector inspector = (Inspector) request.getSession().getAttribute("inspector");
-		Integer intPage = ((page == null || page == 0)?1:page); //页号
-		Integer number = ((rows==null || rows == 0)?10:rows); //每页数 
-		Integer start = (intPage - 1)*number;   //开始值
-		/*List<Message> unreadMessage = messageService.findUnreadMessage(inspector.getId());*///查询未读的消息
-		List<Message> messages = messageService.findMessagePage(start,number,inspector.getId());//优化1--查询所有的消息
-		/*model.addAttribute("unreadMessage",unreadMessage);*/
+		Integer intPage = ((page == null || page == 0)?1:page);
+		Integer number = ((rows==null || rows == 0)?10:rows);
+		Integer start = (intPage - 1)*number;
+
+		List<Message> messages = messageService.findMessagePage(start,number,inspector.getId());
+
 		model.addAttribute("messages",messages);
 		return "mobile/modules/pqc/Index/msgIndex";
 	}
@@ -42,10 +42,10 @@ public class InspectorMessageController {
 	@RequestMapping(value="loadMore")
 	public @ResponseBody List<Message> loadMore(Model model,Integer page,Integer rows,HttpServletRequest request){
 		Inspector inspector = (Inspector) request.getSession().getAttribute("inspector");
-		int intPage = ((page == null || page == 0)?1:page); //页号
-		int number = ((rows==null || rows == 0)?10:rows); //每页数 
-		int start = (intPage - 1)*number;   //开始值
-        List<Message> messagePage = messageService.findMessagePage(start,number,inspector.getId());//优化1
+		int intPage = ((page == null || page == 0)?1:page);
+		int number = ((rows==null || rows == 0)?10:rows);
+		int start = (intPage - 1)*number;
+        List<Message> messagePage = messageService.findMessagePage(start,number,inspector.getId());
 		return messagePage;
 	}
 	

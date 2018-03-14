@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import java.io.IOException;
@@ -41,11 +39,7 @@ import cn.damei.entity.modules.StatusDto;
 import cn.damei.entity.modules.User;
 import cn.damei.common.utils.UserUtils;
 
-/**
- * 客户回访记录Controller
- * @author lft
- * @version 2017-05-26
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/customerreturnvisitrecorecord/bizCustomerReturnVisitRecord")
 public class BizCustomerReturnVisitRecordController extends BaseController {
@@ -63,7 +57,7 @@ public class BizCustomerReturnVisitRecordController extends BaseController {
 	@Autowired
 	BizCustomerReturnVisitOrderEnableDao bizCustomerReturnVisitOrderEnableDao;
 
-	//满意度统计参数
+
 	private String[] satisfactionDegreeCodeArray = {"degree_001","degree_002","degree_003","degree_004"};
 	private String[] satisfactionDegreeNameArray = {"满意","一般","不满意","不评价"};
 
@@ -79,18 +73,11 @@ public class BizCustomerReturnVisitRecordController extends BaseController {
 		return entity;
 	}
 
-	/**
-	 * 订单回访记录列表查询
-	 * @param bizCustomerReturnVisitRecord
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @return
-	 */
+
 	@RequiresPermissions("customerreturnvisitrecorecord:bizCustomerReturnVisitRecord:view")
 	@RequestMapping(value = {"list", ""})
 	public String list(BizCustomerReturnVisitRecord bizCustomerReturnVisitRecord, HttpServletRequest request, HttpServletResponse response, Model model) {
-        //过滤门店
+
         User user = UserUtils.getUser();
         if(null==bizCustomerReturnVisitRecord.getStoreId()){
             if(null!=user.getStoreId()){
@@ -102,13 +89,7 @@ public class BizCustomerReturnVisitRecordController extends BaseController {
 		return "modules/customerreturnvisitrecorecord/bizCustomerReturnVisitRecordList";
 	}
 
-	/**
-	 * 回访提交页面展示信息
-	 * @param orderId
-	 * @param returnVisitNode
-	 * @param model
-	 * @return
-	 */
+
 	@RequiresPermissions("customerreturnvisitrecorecord:bizCustomerReturnVisitRecord:view")
 	@RequestMapping(value = "form")
 	public String form(@RequestParam(required=true,value="dealReturnVisitNode") String dealReturnVisitNode,BizCustomerReturnVisitRecord bizCustomerReturnVisitRecord, Model model) {
@@ -133,12 +114,7 @@ public class BizCustomerReturnVisitRecordController extends BaseController {
 		return "modules/customerreturnvisitrecorecord/bizCustomerReturnVisitSubmit";
 	}
 
-	/**
-	 * 订单详细回访信息
-	 * @param customerReturnVisitRecord
-	 * @param model
-	 * @return
-	 */
+
 	@RequiresPermissions("customerreturnvisitrecorecord:bizCustomerReturnVisitRecord:view")
 	@RequestMapping(value = "recordDetail")
 	public String recordDetail(BizCustomerReturnVisitRecord customerReturnVisitRecord, Model model) {
@@ -150,12 +126,7 @@ public class BizCustomerReturnVisitRecordController extends BaseController {
 		return "modules/customerreturnvisitrecorecord/bizCustomerReturnVisitDetail";
 	}
 
-	/**
-	 * 订单回访信息提交
-	 * @param bizCustomerReturnVisitRecord
-	 * @param request
-	 * @return
-	 */
+
 	@RequiresPermissions("customerreturnvisitrecorecord:bizCustomerReturnVisitRecord:edit")
 	@RequestMapping(value = "save",method=RequestMethod.POST)
 	@ResponseBody
@@ -177,12 +148,7 @@ public class BizCustomerReturnVisitRecordController extends BaseController {
 	}
 
 
-	/**
-	 * 订单回访信息提交
-	 * @param bizCustomerReturnVisitRecord
-	 * @param request
-	 * @return
-	 */
+
 	@RequiresPermissions("customerreturnvisitrecorecord:bizCustomerReturnVisitRecord:edit")
 	@RequestMapping(value = "invalidSubmit",method=RequestMethod.POST)
 	@ResponseBody
@@ -197,18 +163,11 @@ public class BizCustomerReturnVisitRecordController extends BaseController {
 		}
 	}
 
-	/**
-	 * 待回访订单列表查询
-	 * @param bizCustomerReturnVisitRecord
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @return
-	 */
+
 	@RequiresPermissions("customerreturnvisitrecorecord:bizCustomerReturnVisitRecord:view")
 	@RequestMapping(value = {"checkingList", ""})
 	public String checkingList(BizCustomerReturnVisitRecord bizCustomerReturnVisitRecord, HttpServletRequest request, HttpServletResponse response, Model model) {
-		//查询工程模式对应的产业、准产业
+
 		List<Dict>listStatus=bizCustomerReturnVisitRecordService.findProjectMode();
 		model.addAttribute("listStatus", listStatus);
 		Page<BizCustomerReturnVisitRecord> page = bizCustomerReturnVisitRecordService.findPageForChecking(new Page<BizCustomerReturnVisitRecord>(request, response), bizCustomerReturnVisitRecord);
@@ -216,33 +175,16 @@ public class BizCustomerReturnVisitRecordController extends BaseController {
 		return "modules/customerreturnvisitrecorecord/bizCustomerReturnVisitCheckingList";
 	}
 
-	/**
-	 * 传统待回访订单列表查询
-	 * @param bizCustomerReturnVisitRecord
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @return
-	 */
+
 	@RequestMapping(value = {"traditionalorderlist", ""})
 	public String traditionalOrderList(BizCustomerReturnVisitTraditionOrderData bizCustomerReturnVisitTraditionOrderData, HttpServletRequest request, HttpServletResponse response, Model model) {
-		/*List<BizCustomerReturnVisitTraditionOrderData>list=bizCustomerReturnVisitRecordService.findReturnVisitNode();
-		if(list.size()>0){
-			for(BizCustomerReturnVisitTraditionOrderData bto:list){
-				bto.setReturnVisitStatus(0);
-				bizCustomerReturnVisitRecordService.updateStatus(bto);
-			}
-		}*/
+
 		Page<BizCustomerReturnVisitTraditionOrderData> page = bizCustomerReturnVisitRecordService.findPageForTraditionOrder(new Page<BizCustomerReturnVisitTraditionOrderData>(request, response), bizCustomerReturnVisitTraditionOrderData);
 		model.addAttribute("page", page);
 		return "modules/customerreturnvisitrecorecord/bizCustomerReturnVisitTraditionOrderList";
 	}
 
-	/**
-	 * 根据门店id获取传统订单对应的回访节点信息
-	 * @param projectNode
-	 * @return
-	 */
+
 	@RequestMapping(value = "queryReturnVisitNodeByStoreId",method=RequestMethod.GET)
 	@ResponseBody
 	public Object queryReturnVisitNodeByStoreId(@RequestParam(value = "storeId", required = true) String storeId){
@@ -250,14 +192,7 @@ public class BizCustomerReturnVisitRecordController extends BaseController {
 		return StatusDto.buildDataSuccessStatusDto(result);
 	}
 
-	/**
-	 * 回访管理列表查询
-	 * @param bizCustomerReturnVisitOrderEnable
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @return
-	 */
+
 	@RequiresPermissions("customerreturnvisitrecorecord:bizCustomerReturnVisitRecord:view")
 	@RequestMapping(value = {"controlList", ""})
 	public String controlList(BizCustomerReturnVisitRecord bizCustomerReturnVisitRecord, HttpServletRequest request, HttpServletResponse response, Model model) {
@@ -266,14 +201,7 @@ public class BizCustomerReturnVisitRecordController extends BaseController {
 		return "modules/customerreturnvisitrecorecord/bizCustomerReturnVisitControlList";
 	}
 
-	/**
-	 * 无效回访列表查询
-	 * @param
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @return
-	 */
+
 	@RequestMapping(value = {"invalidList", ""})
 	public String invalidList(BizCustomerReturnVisitRecord bizCustomerReturnVisitRecord, HttpServletRequest request, HttpServletResponse response, Model model) {
 		Page<BizCustomerReturnVisitRecord> page = bizCustomerReturnVisitRecordService.invalidList(new Page<BizCustomerReturnVisitRecord>(request, response), bizCustomerReturnVisitRecord);
@@ -281,11 +209,7 @@ public class BizCustomerReturnVisitRecordController extends BaseController {
 		return "modules/customerreturnvisitrecorecord/bizCustomerReturnVisitInvalidList";
 	}
 
-	/**
-	 * 请求跳转至回访日报界面，默认日期区间为当前日期前一天
-	 * @param model
-	 * @return
-	 */
+
 	@RequiresPermissions("customerreturnvisitrecorecord:bizCustomerReturnVisitRecord:view")
 	@RequestMapping(value = {"returnVisitReportPage", ""})
 	public String returnVisitReportPage(BizCustomerReturnVisitRecord bizCustomerReturnVisitRecord,Model model) {
@@ -302,14 +226,7 @@ public class BizCustomerReturnVisitRecordController extends BaseController {
 		return "modules/customerreturnvisitrecorecord/dailyReportPage";
 	}
 
-	/**
-	 * 根据查询条件进行回访结果汇总查询
-	 * @param storeId
-	 * @param returnVisitTimeBegin
-	 * @param returnVisitTimeEnd
-	 * @param model
-	 * @return
-	 */
+
 	@RequiresPermissions("customerreturnvisitrecorecord:bizCustomerReturnVisitRecord:view")
 	@RequestMapping(value = {"visitRecordSummaryQuery", ""})
 	public String visitRecordSummaryQuery(
@@ -343,11 +260,7 @@ public class BizCustomerReturnVisitRecordController extends BaseController {
 	}
 
 
-	/**
-	 * 请求跳转至满意度汇总界面，默认日期区间为当前日期前一天
-	 * @param model
-	 * @return
-	 */
+
 	@RequiresPermissions("customerreturnvisitrecorecord:bizCustomerReturnVisitRecord:view")
 	@RequestMapping(value = {"satisfactionDegreeReportPage", ""})
 	public String satisfactionDegreeReportPage(BizCustomerReturnVisitRecord bizCustomerReturnVisitRecord,Model model) {
@@ -365,12 +278,7 @@ public class BizCustomerReturnVisitRecordController extends BaseController {
 		return "modules/customerreturnvisitrecorecord/satisfactionDegreeReportPage";
 	}
 
-	/**
-	 * 满意度汇总查询
-	 * @param bizCustomerReturnVisitRecord
-	 * @param model
-	 * @return
-	 */
+
 	@RequiresPermissions("customerreturnvisitrecorecord:bizCustomerReturnVisitRecord:view")
 	@RequestMapping(value = {"satisfactionDegreeQuery", ""})
 	public String satisfactionDegreeQuery(
@@ -404,19 +312,15 @@ public class BizCustomerReturnVisitRecordController extends BaseController {
 		return "modules/customerreturnvisitrecorecord/satisfactionDegreeReportPage";
 	}
 
-	/**
-	 *
-	 * 根据查询导出
-	 * @return
-	 */
+
 	@RequiresPermissions("customerreturnvisitrecorecord:bizCustomerReturnVisitRecord:view")
 	@RequestMapping(value = { "export", "" })
 	public @ResponseBody void  export(BizCustomerReturnVisitRecord bizCustomerReturnVisitRecord,HttpServletRequest request,HttpServletResponse  response) {
 		SimpleDateFormat sf = new SimpleDateFormat("yyyyMMddHHmmss");
-		//分页模式进行导出
-//		Page<BizCustomerReturnVisitRecord> page = bizCustomerReturnVisitRecordService.findPage(new Page<BizCustomerReturnVisitRecord>(request, response), bizCustomerReturnVisitRecord);
-//		List<BizCustomerReturnVisitRecord> list = page.getList();
-		//不分页模式进行导出
+
+
+
+
 		List<BizCustomerReturnVisitRecord> list = bizCustomerReturnVisitRecordService.findList(bizCustomerReturnVisitRecord);
 		List<Integer> ids = new ArrayList<>();
 		for (BizCustomerReturnVisitRecord bizCustomerReturnVisitRecord2 : list) {
@@ -442,11 +346,11 @@ public class BizCustomerReturnVisitRecordController extends BaseController {
 		}
 		List<BizCustomerReturnVisitContent> questionList = returnVisitService.getByProjectNodeForExport(bizCustomerReturnVisitRecord.getReturnVisitNode(), bizCustomerReturnVisitRecord.getStoreId(),bizCustomerReturnVisitRecord.getProjectMode());
 		HSSFWorkbook problemDetail = ExportCustomerReturnVisitRecord.exportCustomerReturnVisitRecord(questionList,list);
-		ServletOutputStream ouputStream= null;//创建一个输出流对象
+		ServletOutputStream ouputStream= null;
 		try {
 			response.setContentType("application/binary;charset=utf-8");
-			String headerStr =new String(("客户回访统计表"+sf.format(new Date())).getBytes("utf-8"), "ISO8859-1");//headerString为中文时转码
-			response.setHeader("Content-disposition","attachment; filename="+headerStr+".xls");//filename是下载的xls的名
+			String headerStr =new String(("客户回访统计表"+sf.format(new Date())).getBytes("utf-8"), "ISO8859-1");
+			response.setHeader("Content-disposition","attachment; filename="+headerStr+".xls");
 			ouputStream = response.getOutputStream();
 			problemDetail.write(ouputStream);
 			ouputStream.flush();

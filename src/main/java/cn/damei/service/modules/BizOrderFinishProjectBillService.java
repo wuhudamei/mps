@@ -11,10 +11,7 @@ import cn.damei.common.utils.DateUtils;
 import cn.damei.dao.modules.BizOrderFinishProjectBillDao;
 import cn.damei.entity.modules.BizOrderFinishProjectBill;
 
-/**
- * 公共上传图片
- * @author llp
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizOrderFinishProjectBillService extends CrudService2<BizOrderFinishProjectBillDao, BizOrderFinishProjectBill>{
@@ -31,22 +28,14 @@ public class BizOrderFinishProjectBillService extends CrudService2<BizOrderFinis
 		return bizOrderFinishProjectBillDao.updateByDate(realFinishProjectDate,id) ? "0" : "1";
 	}
 
-	/**
-	 * 根据订单编号修改数据
-	 * @param valueOf
-	 * @return
-	 */
+
 	@Transactional(readOnly = false)
 	public String updateByOrderID(Integer orderID,Integer jiesuanId) {
 		return bizOrderFinishProjectBillDao.updateByOrderID(orderID,DateUtils.getDate1("yyyy-MM-dd HH:mm:ss"),jiesuanId,
 				ConstantUtils.ORDER_FINISH_PROJECT_BILL_STATUS_3,ConstantUtils.ORDERSTATUS_340_VALUE_REMARK,DateUtils.getDate1("yyyy-MM-dd HH:mm:ss")) ? "0" : "1";
 	}
 
-	/**
-	 * 330-结算员竣工审核不通过
-	 * @param managerID 
-	 * @param remarks 
-	 */
+
 	@Transactional(readOnly = false)
 	public String updateByOrderIDOrFail(Integer orderID, String checkWords, Integer jiesuanId) {
 		return bizOrderFinishProjectBillDao.updateByOrderIDOrFail(orderID,checkWords,ConstantUtils.ORDER_FINISH_PROJECT_BILL_STATUS_2,
@@ -61,7 +50,7 @@ public class BizOrderFinishProjectBillService extends CrudService2<BizOrderFinis
 	}
 	@Transactional(readOnly = false)
 	public void updateOrderById(Integer valueOf, String realFinishProjectDate) {
-		// TODO Auto-generated method stub
+
 		bizOrderFinishProjectBillDao.updateOrderById(valueOf,realFinishProjectDate);
 	}
 

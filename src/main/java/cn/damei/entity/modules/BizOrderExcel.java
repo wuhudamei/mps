@@ -1,24 +1,18 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import org.hibernate.validator.constraints.Length;
 
 import cn.damei.common.persistence.DataEntity;
 
-/**
- * 材料文件上传Entity
- * @author wyb
- * @version 2016-09-08
- */
+
 public class BizOrderExcel extends DataEntity<BizOrderExcel> {
 	
 	private static final long serialVersionUID = 1L;
-	private String orderId;		// 订单id
-	private String fileName;		// excel文件
-	private Integer version;		// 文件版本
-	private String filePath;		// file_path
+	private String orderId;
+	private String fileName;
+	private Integer version;
+	private String filePath;
 	private String flag;
 	
 	public String getFlag() {

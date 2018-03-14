@@ -1,64 +1,58 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import java.util.Date;
 
 import cn.damei.common.persistence.DataEntity;
 
-/**
- * 质检检查项查询Entity
- * @author ztw
- * @version 2017-12-21
- */
+
 public class BizQcBillCheckItem extends DataEntity<BizQcBillCheckItem> {
 	
 	private static final long serialVersionUID = 1L;
-	private String qcBillId;		// 质检单id
-	private String relatedQcBillCheckItemId;		// 关联质检单检查项id
-	private String qcCheckItemId;		// 检查项id
-	private String itemScore;		// 项目分数 -- '
-	private String gotScore;		// 得分 -- '
-	private String isLimitDateRepaire;		// 是否限期整改 -- '0.否；1.是
-	private Date limitDate;		// 限期整改期限 -- '
-	private String limitDateRepaireCheckStyle;		// 限期整改检查方式 -- '0：线上检查；1：线下检查
-	private String isPunishMoney;		// 是否罚款 -- '0.否；1.是
-	private String punishMoneyAmountDefault;		// 罚款默认金额 -- '
-	private String punishMoneyAmountReal;		//  项目经理被罚金额
-	private String checkStyle;		// 检查方式 -- '0：线上；1：线下；默认为1线下
-	private String workerPunishOrderTaskpackageId;		// 订单问题包ID
-	private String workerPunishEmployeegroupId;		// 被罚工人组ID
-	private String workGroupPerson;		// 被罚工人组名称
-	private String workerPunishAmount;		// 工人组被罚金额
-	private String workerPunishScore;		// worker_punish_score
-	private String pmPunishEmployeeId;		// 处罚项目经理ID
-	private String itemManager;		// 被罚项目经理名称
-	private String mnagerPerson;		// 责任项目经理名称
-	private String pmPunishScore;		// 项目经理被罚分数
-	private String qcPunishEmployeeId;		// qc_punish_employee_id
-	private String qcPunishScore;		// 工人组长被罚分数
-	private String qcPunishAmount;		// qc_punish_amount
-	private String projectManagerId;		// 责任项目经理id
-	private String workerGroupId;		// 责任工人组id
-	private String workerGroupName;		// 责任工人组名称
-	private Date quCreateDate;		// 质检员提交报告时间
-	private String qcBillCode;		// 质检单编号
-	private String storeId;		// 门店
-	private String projectMode;		// 工程模式
-	private String enginDepartId;		// 区域
-	private String customerName;		// 客户姓名
-	private String qcCheckKindName;		// 检查项分类名称
-	private String qcCheckItemName;		// 检查项名称
-	private String breakDescribe;		// 违规形式
-	private String isPassed;		// 是否合格 0.不合格；1.合格
-	private String isWarned;		// 是否警告 0不警告1警告
-	private String isLocaleRepaire; //是否现场整改 , -- 0.否；1.是
-	private String orderInspector; //质检名称
-	private String orderNumber; //订单编号
-	private String employeeId; //员工ID
-	private String employeeName; //员工姓名
-	private String groupId; // 工人组id
+	private String qcBillId;
+	private String relatedQcBillCheckItemId;
+	private String qcCheckItemId;
+	private String itemScore;
+	private String gotScore;
+	private String isLimitDateRepaire;
+	private Date limitDate;
+	private String limitDateRepaireCheckStyle;
+	private String isPunishMoney;
+	private String punishMoneyAmountDefault;
+	private String punishMoneyAmountReal;
+	private String checkStyle;
+	private String workerPunishOrderTaskpackageId;
+	private String workerPunishEmployeegroupId;
+	private String workGroupPerson;
+	private String workerPunishAmount;
+	private String workerPunishScore;
+	private String pmPunishEmployeeId;
+	private String itemManager;
+	private String mnagerPerson;
+	private String pmPunishScore;
+	private String qcPunishEmployeeId;
+	private String qcPunishScore;
+	private String qcPunishAmount;
+	private String projectManagerId;
+	private String workerGroupId;
+	private String workerGroupName;
+	private Date quCreateDate;
+	private String qcBillCode;
+	private String storeId;
+	private String projectMode;
+	private String enginDepartId;
+	private String customerName;
+	private String qcCheckKindName;
+	private String qcCheckItemName;
+	private String breakDescribe;
+	private String isPassed;
+	private String isWarned;
+	private String isLocaleRepaire;
+	private String orderInspector;
+	private String orderNumber;
+	private String employeeId;
+	private String employeeName;
+	private String groupId;
 
 	public BizQcBillCheckItem() {
 		super();

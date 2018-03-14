@@ -1,39 +1,33 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import java.util.Date;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 项目经理星级提成快照Entity
- * @author 汪文文
- * @version 2016-12-28
- */
+
 public class BizPmStarCommissionCnfgSnap extends DataEntity2<BizPmStarCommissionCnfgSnap> {
 	
 	private static final long serialVersionUID = 1L;
-	private Integer storeId;		// 门店id -- '
-	private Integer orderId;		// 订单id -- '
-	private Integer pmEmployeeId;		// 项目经理员工id -- '
-	private String isOldNew;		// 新老房 -- '0.老房；1.新房
-	private Integer starLever;		// 星级 -- '
-	private Double commissionAmount;		// 提成金额 -- '
-	private Double commissionRateMidway;		// 中期提成比例 -- '
-	private Double commissionRateComplete;		// 竣工提成比例 -- '
+	private Integer storeId;
+	private Integer orderId;
+	private Integer pmEmployeeId;
+	private String isOldNew;
+	private Integer starLever;
+	private Double commissionAmount;
+	private Double commissionRateMidway;
+	private Double commissionRateComplete;
 	
-	private String orderNumber;     // 订单编号
-	private String customerName;		// 客户姓名
-	private String customerPhone;		// 客户电话
-	private String communityName;		// 小区名称
-	private String buildNumber;		// 几号楼
-	private String buildUnit;		// 几单元
-	private String buildRoom;		// 哪一室
-	private String itemManager;		// 项目经理
-	private String itemManagerPhone;//项目经理手机号
-	private Date  sendOrderDate;//派单时间
+	private String orderNumber;
+	private String customerName;
+	private String customerPhone;
+	private String communityName;
+	private String buildNumber;
+	private String buildUnit;
+	private String buildRoom;
+	private String itemManager;
+	private String itemManagerPhone;
+	private Date  sendOrderDate;
 	
 	
 	public String getItemManagerPhone() {

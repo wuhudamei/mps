@@ -17,23 +17,18 @@ import cn.damei.common.service.CrudService2;
 import cn.damei.dao.mobile.Manager.OrderConfirmStartworkDao;
 import cn.damei.entity.mobile.Manager.OrderConfirmStartwork;
 
-/**
- * 确认开工功能
- * 
- * @author llp
- *
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizOrderConfirmStartworkService extends CrudService2<OrderConfirmStartworkDao, OrderConfirmStartwork> {
 
 	@Autowired
-	private OrderConfirmStartworkDao orderConfirmStartworkDao;// 确认开工功能
+	private OrderConfirmStartworkDao orderConfirmStartworkDao;
 
 	@Autowired
 	private OrderDao2 orderDao2;
 
-	//传统待回访订单
+
 	@Autowired
 	private BizCustomerReturnVisitRecordService bizCustomerReturnVisitRecordService;
 	@Transactional(readOnly = false)
@@ -56,10 +51,10 @@ public class BizOrderConfirmStartworkService extends CrudService2<OrderConfirmSt
 		orderConfirmStartworkDao.insertConfirmStartwork(sWork);
 
 		Order2 order = orderDao2.get(Integer.parseInt(orderId));
-		//查询回访节点表是否设置过这个节点
+
 		List<Map<String,Object>>ll=bizCustomerReturnVisitRecordService.findIsThereNode(order.getStoreId(),0);
 		if(ll.size()>0){
-			//判断传统订单表中是否插入过该订单对应的节点数据
+
 			Integer i=0;
 			if(null!=orderId){
 				i=bizCustomerReturnVisitRecordService.findExistCount(Integer.parseInt(orderId),0);
@@ -75,7 +70,7 @@ public class BizOrderConfirmStartworkService extends CrudService2<OrderConfirmSt
 				bto.preInsert();
 			}
 		}
-		//将状态变为已过期
+
 		if(null!=orderId) {
 			List<BizCustomerReturnVisitTraditionOrderData> list = bizCustomerReturnVisitRecordService.findReturnVisitNode(Integer.parseInt(orderId));
 			if (list.size() > 0) {
@@ -86,7 +81,7 @@ public class BizOrderConfirmStartworkService extends CrudService2<OrderConfirmSt
 			}
 		}
 		logger.info("返回的主键ID："+sWork.getId());
-		return sWork.getId();//返回biz_order_confirm_startwork主键ID
+		return sWork.getId();
 	}
 
 }

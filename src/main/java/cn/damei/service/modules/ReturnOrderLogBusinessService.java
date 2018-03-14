@@ -18,19 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 
-/**
- * Created by joseph on 2017/5/10.
- * 返单校验及log处理
- *
- * 分派客服log
- * 1:biz_order_report_send_log
- *
- * 进店log
- * 2:biz_order_report_instore_log
- *
- * 签单log
- * 3:biz_order_report_sign_log
- */
+
 
 @Service
 @Transactional
@@ -43,68 +31,22 @@ public class ReturnOrderLogBusinessService {
     @Autowired
     private BizBusinessStatusLogDao logDao;
 
-    /**
-     * 保存分派客服log
-     * @param bizOrderReport
-     *//*
-    public void  saveReportSendLog(BizOrderReport bizOrderReport){
-        Map<String,Object> sendLogMap = new HashMap<>();
 
-            sendLogMap.put("sendType", bizOrderReport.getLogType());
-            sendLogMap.put("orderReportId",bizOrderReport.getId());
-            sendLogMap.put("serviceEmployeeId",bizOrderReport.getServiceEmployeeId());
-            sendLogMap.put("serviceName",bizOrderReport.getServiceName());
-            sendLogMap.put("servicePhone",bizOrderReport.getServicePhone());
-            sendLogMap.put("operateDateTime",bizOrderReport.getCreateDate());
-            sendLogMap.put("operateEmployeeId",bizOrderReport.getCreateBy()==null?null:bizOrderReport.getCreateBy().getId());
-
-            logDao.saveSendLog(sendLogMap);
-
-    }
-    *//**
-     * 保存进店log
-     * @param bizOrderReport
-     *//*
-    public void  saveReportInStoreLog(BizOrderReport bizOrderReport){
-
-        logDao.saveInstoreLog(bizOrderReport);
-
-
-
-
-    }
-    *//**
-     * 保存签单log
-     * @param bizOrderReport
-     *//*
-    public void  saveReportSignLog(BizOrderReport bizOrderReport){
-
-        logDao.saveSignLog(bizOrderReport);
-
-
-
-    }
-*/
 
 
     @Autowired
     private BizOrderReportLogDao orderReportLogDao;
-    /**
-     * 传入刚申请申请的返单
-     * @param bizOrderReport
-     * @return
-     * 返回校验过的添加log日志的返单
-     */
+
     @Transactional(readOnly = false)
     public  BizOrderReport checkOrderReportIsExist(BizOrderReport bizOrderReport) {
 
 
         try{
-        //校验返单是否有效
+
         boolean checkReportIsExist = checkService.orderReportEffectivenessCheck(String.valueOf(bizOrderReport.getStoreId()), bizOrderReport.getCustomerPhone());
         if (checkReportIsExist) {
 
-            //客服id,realName,phone
+
             BizEmployee employee = checkService.orderReportDistributionCustomerService(bizOrderReport);
             if (null != employee) {
                 bizOrderReport.setServiceEmployeeId(employee.getId());
@@ -112,17 +54,17 @@ public class ReturnOrderLogBusinessService {
                 bizOrderReport.setServicePhone(employee.getPhone());
                 bizOrderReport.setReportStatus(BizOrderReportConstantUtil.REPORT_STATUS_25);
                 bizOrderReport.setLogType(BizOrderReportConstantUtil.SEND_LOG_TYPE_1);
-                //分配客服完毕
 
-                //记录分配日志
+
+
 
                 bizOrderReport.preInsert();
 
 
 
 
-                //插入分配客服log
-                // 返单上报日志
+
+
                 OrderReportLogEntity logEntity = new OrderReportLogEntity();
 
 
@@ -148,7 +90,7 @@ public class ReturnOrderLogBusinessService {
 
         } else {
 
-            //无效 插入无效log
+
 
             BizBusinessStatusLog bizBusinessStatusLog = new BizBusinessStatusLog();
             bizBusinessStatusLog.setBusinessRemarks(BizOrderReportConstantUtil.REPORT_STATUS_20_WORD);

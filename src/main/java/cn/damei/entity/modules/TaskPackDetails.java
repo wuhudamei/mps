@@ -1,42 +1,36 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import java.util.Date;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 任务包详情
- * @author 张康健
- * @version 2017-3-25
- */
+
 public class TaskPackDetails extends DataEntity2<TaskPackDetails> {
 	
 	private static final long serialVersionUID = 1L;
 	private Integer id;
-	private Integer orderId;//订单ID
-	private Integer storeId;		// 门店id
-	private String name;//区域
-	private String orderNumber;//订单编号
-	private String orderTaskPackageCode;//任务包编号
-	private String packageName;//任务包名字
-	private String customerMessage;//客户地址，开工地点
-	private String packageStatename;//任务包状态
-	private String customerName;//客户名字
-	private String customerPhone;//客户手机
-	private String itemManager;//项目经理
-	private String phone;//项目经理手机
-	private Date createDate;//创建时间
-	private Date dispatchTime;//派工时间
-	private Date planStartdate;//计划开工时间
-	private Date planEnddate;//计划竣工时间
-	private Date actualStartdate;//实际开工时间
-	private Date actualEnddate;//实际骏工时间
-	private String laborAuxiliaryMaterialsBudgetAmount;//工料费预算金额
-	private String laborBudgetAmount;// 人工费预算金额
-	private String auxiliaryMaterialsBudgetAmount;//辅料费预算金额
+	private Integer orderId;
+	private Integer storeId;
+	private String name;
+	private String orderNumber;
+	private String orderTaskPackageCode;
+	private String packageName;
+	private String customerMessage;
+	private String packageStatename;
+	private String customerName;
+	private String customerPhone;
+	private String itemManager;
+	private String phone;
+	private Date createDate;
+	private Date dispatchTime;
+	private Date planStartdate;
+	private Date planEnddate;
+	private Date actualStartdate;
+	private Date actualEnddate;
+	private String laborAuxiliaryMaterialsBudgetAmount;
+	private String laborBudgetAmount;
+	private String auxiliaryMaterialsBudgetAmount;
 	
 	public Integer getOrderId() {
 		return orderId;

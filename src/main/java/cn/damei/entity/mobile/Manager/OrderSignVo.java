@@ -4,21 +4,15 @@ import java.util.Date;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/** 
-* @author 梅浩   meihao@zzhyun.cn: 
-* @version 创建时间：2016年9月22日 下午6:35:08 
-* 项目经理(ItemManager)     订单(Order)   质检员(Inspector)  签到(Sign)      Vo
-*/
+
 
 public class OrderSignVo extends DataEntity2<OrderSignVo>{
 
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 
 	
-	//订单id主键在 爷爷类中
+
 
 	public String getCustomerAddress() {
 		return customerAddress;
@@ -29,33 +23,33 @@ public class OrderSignVo extends DataEntity2<OrderSignVo>{
 	}
 
 	private String customerAddress;
-		private Integer  itemManagerId; //关键的项目经理id
-		private String  customerName;//客户姓名
-		private String communityName;//小区名称
-		private String buildNumber;//楼号
-		private String buildUnit;//单元号
-		private String buildRoom;//门牌号   哪一室
-		private  Date contractStartDate;//合同开工日期
-		private Date contractEndDate;//合同结束日期
-		private Date actualStartDate;//实际开工日期
-		private Integer contractTime;//合同工期
-		private String orderStatus;//订单状态
-		private String mapAddress;//用户坐标
-		private String signFlag;//是否签到
-		private Integer count;//签到数量
+		private Integer  itemManagerId;
+		private String  customerName;
+		private String communityName;
+		private String buildNumber;
+		private String buildUnit;
+		private String buildRoom;
+		private  Date contractStartDate;
+		private Date contractEndDate;
+		private Date actualStartDate;
+		private Integer contractTime;
+		private String orderStatus;
+		private String mapAddress;
+		private String signFlag;
+		private Integer count;
 		private Date signDate;
 		private String lat;
 		private String lon;
 		private Integer inspectorId;
-		private Date jzCheckTime; 			//基装验收时间
-		private Date jgCheckTime; 			//竣工验收时间
-		private String jzShouldSignDays;   //基装应签到天数
-		private String jgShouldSignDays;   //竣工应签到天数
-		private String jzShouldSignTimes;  //基装应签到次数
-		private String jgShouldSignTimes;  //竣工应签到次数
-		private Integer jzAlreadySignTimes; //基装已签到次数
-		private Integer jgAlreadySignTimes; //竣工已签到次数
-		private String storeId; //门店
+		private Date jzCheckTime;
+		private Date jgCheckTime;
+		private String jzShouldSignDays;
+		private String jgShouldSignDays;
+		private String jzShouldSignTimes;
+		private String jgShouldSignTimes;
+		private Integer jzAlreadySignTimes;
+		private Integer jgAlreadySignTimes;
+		private String storeId;
 		
 		
 		public Date getJzCheckTime() {
@@ -245,7 +239,7 @@ public class OrderSignVo extends DataEntity2<OrderSignVo>{
 		}
 		public void setActualStartDate(Date actualStartDate) {
 			this.actualStartDate = actualStartDate;
-		} //实际开工日期
+		}
 		
 		
 	

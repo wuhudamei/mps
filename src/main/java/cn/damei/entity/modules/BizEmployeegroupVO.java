@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import java.util.ArrayList;
@@ -11,63 +9,58 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import cn.damei.common.persistence.DataEntity;
 
-/**
- * 工人组管理Entity
- * 
- * @author qhy
- * @version 2016-09-01
- */
+
 public class BizEmployeegroupVO extends DataEntity<BizEmployeegroupVO> {
 
 	private static final long serialVersionUID = 1L;
 
 	String id;
-	String storeId; // 门店Id
-	String storeName;// 门店名称
-	String elactricationId;// 工程部ID
-	String elactricationName;// 工程部名称
-	String empId;// 组长ID
-	String leaderRealName;// 组长姓名
-	String leaderRealNamezhen;// 组长姓名 供应商使用
-	String empCount;// 组员数量
-	String empIds;// 组员id逗号分隔
-	String empRealNames;// 组员名称逗号分隔
-	String taskPackageId;// 任务包
-	String leaderPhone;// 组长手机号
+	String storeId;
+	String storeName;
+	String elactricationId;
+	String elactricationName;
+	String empId;
+	String leaderRealName;
+	String leaderRealNamezhen;
+	String empCount;
+	String empIds;
+	String empRealNames;
+	String taskPackageId;
+	String leaderPhone;
 	Integer orderstop;
 	Integer state;
-	Integer star; // 星级
-	private Integer workType; // 工种
+	Integer star;
+	private Integer workType;
 	private List<Integer> enginDepartIds = new ArrayList<Integer>();
 	private Integer noInDepartment;
-	private String address;// 地址
+	private String address;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date freeBeginDate;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date freeEndDate;
 
-	private Date planStartDate;// 计划开工
-	private Date planEndDate;// 计划结束
+	private Date planStartDate;
+	private Date planEndDate;
 
 	private Integer workerGroupId;
 
-	private String recommendManagerName; // 推荐项目经的姓名
+	private String recommendManagerName;
 	
-	private String orderStopReason;       //停单原因
-	private String orderStopReasonType;       //停单原因类型
-	private String orderStopOperatorEmployeeId;//停单操作人
-	private Date orderStopOperateDatetime;  //停单操作时间;
+	private String orderStopReason;
+	private String orderStopReasonType;
+	private String orderStopOperatorEmployeeId;
+	private Date orderStopOperateDatetime;
 	
-	private Double gotScore;  //获取总分
-	private Integer ciShu;		//获取次数
-	private Integer groupLeaderEmployeeId;  //工人组ID
+	private Double gotScore;
+	private Integer ciShu;
+	private Integer groupLeaderEmployeeId;
 	
-	private Integer reason;    //工人组星级调整原因
-	private String changeDescribe;  //工人组星级调整修改说明
+	private Integer reason;
+	private String changeDescribe;
 	
-	private Integer starBefore;    //变更前星级
-	private Integer starAfter;     		//变更后星级
-	private Date starChangeDatetime;	//变更时间
+	private Integer starBefore;
+	private Integer starAfter;
+	private Date starChangeDatetime;
 	private Date startChangeDatetime;
 	private Date endChangeDatetime;
 	

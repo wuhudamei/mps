@@ -2,29 +2,19 @@ package cn.damei.entity.modules;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 订单交底图片
- * 
- * @author llp
- */
+
 @SuppressWarnings("serial")
 public class BizOrderDisclosePic extends DataEntity2<BizOrderDisclosePic> {
 
-	private Integer id;// 主键
+	private Integer id;
 
-	/**
-	 * 订单交底id
-	 */
+
 	private Integer orderDiscloseId;
 
-	/**
-	 * 交底图片类型
-	 */
+
 	private String orderDisclosePicType;
 
-	/**
-	 * 交底图片url
-	 */
+
 	private String picUrl;
 
 	public Integer getId() {

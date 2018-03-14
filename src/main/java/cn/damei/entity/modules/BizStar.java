@@ -1,29 +1,23 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import org.hibernate.validator.constraints.Length;
 
 import cn.damei.common.persistence.DataEntity;
 
-/**
- * 星级承接量Entity
- * @author wyb
- * @version 2016-09-05
- */
+
 public class BizStar extends DataEntity<BizStar> {
 	
 	private static final long serialVersionUID = 1L;
-	private String storeId;		// 门店id
-	private String star0;		// 试用
-	private String star1;		// 一星
-	private String description;		// 描述
-	private String star2;		// 二星
-	private String star3;		// 三星
-	private String star4;		// 四星
-	private String star5;		// 五星
-	private String projectMode;	//工程模式
+	private String storeId;
+	private String star0;
+	private String star1;
+	private String description;
+	private String star2;
+	private String star3;
+	private String star4;
+	private String star5;
+	private String projectMode;
 	
 	public BizStar() {
 		super();

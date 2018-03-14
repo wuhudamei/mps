@@ -1,32 +1,26 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import org.hibernate.validator.constraints.Length;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 材料自采表Entity
- * @author wyb
- * @version 2017-06-10
- */
+
 public class BizMaterialSelfbuy extends DataEntity2<BizMaterialSelfbuy> {
 	
 	private static final long serialVersionUID = 1L;
-	private Integer storeId;		// 门店
-	private String projectMode;		// 工程模式
-	private String materialName;		// 材料名称
-	private String materialCode;		// 材料编码
-	private Integer settleRate;		// 项目经理结算比例--页面展示
-	private String settleStage;		// 所属结算阶段
-	private String isEnabled;		// 是否启用
+	private Integer storeId;
+	private String projectMode;
+	private String materialName;
+	private String materialCode;
+	private Integer settleRate;
+	private String settleStage;
+	private String isEnabled;
 	
-	private Double settleRateTwo;		// 项目经理结算比例--数据库存储
-	private String storeName;		// 门店 名称
-	private String projectmodeName;		// 工程模式 名称
-	private String settleStageName;		// 所属结算阶段 名称
+	private Double settleRateTwo;
+	private String storeName;
+	private String projectmodeName;
+	private String settleStageName;
 
 	public BizMaterialSelfbuy() {
 		super();

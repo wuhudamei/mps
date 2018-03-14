@@ -2,31 +2,26 @@ package cn.damei.entity.mobile.Worker;
 
 import cn.damei.common.persistence.DataEntity;
 
-/**
- * @author 梅浩 meihao@zzhyun.cn:
- * @version 创建时间：2016年9月20日 下午5:30:31 类说明
- */
+
 
 public class WorkerPackProcedure extends DataEntity<WorkerPackProcedure> {
 
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
-	private Integer proceDureId;// 工序id
-	private String procedureName;// 工序名字
-	private Double synthesizePrice;// 综合价
-	private Integer budgetNumber;// 预估数量
-	private String reamrks;// 备注 工序内容
-	private Integer packageId;// 关联的任务包id
-	private Double laborPrice;// 人工价
-	private Double accessoriesPrice;// 辅料价
-	private Double laborBudgetAmount;//人工费预算金额
-	private Double auxiliaryMaterialsBudgetAmount; // 辅料费预算金额
-	private Double laborSettleAmount;//人工费结算金额
-	private Double auxiliaryMaterialsSettleAmount;// 辅料费结算金额
-	private Double laborAuxiliaryMaterialsBudgetAmount;// 工料预算金额
-	private Double laborAuxiliaryMaterialsSettleSmount;//工料结算金额
+	private Integer proceDureId;
+	private String procedureName;
+	private Double synthesizePrice;
+	private Integer budgetNumber;
+	private String reamrks;
+	private Integer packageId;
+	private Double laborPrice;
+	private Double accessoriesPrice;
+	private Double laborBudgetAmount;
+	private Double auxiliaryMaterialsBudgetAmount;
+	private Double laborSettleAmount;
+	private Double auxiliaryMaterialsSettleAmount;
+	private Double laborAuxiliaryMaterialsBudgetAmount;
+	private Double laborAuxiliaryMaterialsSettleSmount;
 	
 	public String getUnit() {
 		return unit;
@@ -36,7 +31,7 @@ public class WorkerPackProcedure extends DataEntity<WorkerPackProcedure> {
 		this.unit = unit;
 	}
 
-	private String unit; //计量单位
+	private String unit;
 	public Integer getBudgetNumber() {
 		return budgetNumber;
 	}

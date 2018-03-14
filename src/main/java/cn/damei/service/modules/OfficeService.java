@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.util.List;
@@ -13,11 +11,7 @@ import cn.damei.dao.modules.OfficeDao;
 import cn.damei.entity.modules.Office;
 import cn.damei.common.utils.UserUtils;
 
-/**
- * 机构Service
- * @author ThinkGem
- * @version 2014-05-16
- */
+
 @Service
 @Transactional(readOnly = true)
 public class OfficeService extends TreeService<OfficeDao, Office> {

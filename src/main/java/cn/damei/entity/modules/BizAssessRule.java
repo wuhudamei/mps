@@ -2,25 +2,20 @@ package cn.damei.entity.modules;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 考核条例细则实体类
- * 
- * @author hyh
- *
- */
+
 public class BizAssessRule extends DataEntity2<BizAssessRule> {
 
 	private static final long serialVersionUID = 1L;
-	private Integer storeId; // 门店Id
-	private String projectMode; // 工程模式
-	private Integer bizAssessRuleTypeId;// 考核条例分类Id
-	private String bizAssessRuleTypeName;// 考核条例分类名称
-	private String bizAssessRuleDescribe;// 考核条例说明
-	private Double rewardPunishAmount;// 奖惩金额
-	private Integer rewardPunishScore;// 奖惩分数
-	private String rewardPunishTargetEmployeeType;// 奖惩对象员工类型 1:项目经理  2：工人  3：质检员
-	private String[] rewardPunishTargetEmployeeTypeArr;//
-	private Integer isEnabled; // 是否启用 0：停用 1：启用
+	private Integer storeId;
+	private String projectMode;
+	private Integer bizAssessRuleTypeId;
+	private String bizAssessRuleTypeName;
+	private String bizAssessRuleDescribe;
+	private Double rewardPunishAmount;
+	private Integer rewardPunishScore;
+	private String rewardPunishTargetEmployeeType;
+	private String[] rewardPunishTargetEmployeeTypeArr;
+	private Integer isEnabled;
 
 	public String[] getRewardPunishTargetEmployeeTypeArr() {
 		if (rewardPunishTargetEmployeeType != null && !rewardPunishTargetEmployeeType.equals("")) {

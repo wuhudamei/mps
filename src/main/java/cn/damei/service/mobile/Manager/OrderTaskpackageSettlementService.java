@@ -53,10 +53,7 @@ import cn.damei.dao.modules.BizGuaranteeMoneyBalanceDao;
 import cn.damei.entity.modules.BizGuaranteeMoneyBalance;
 import cn.damei.service.modules.BizSeiralnumService;
 
-/**
- * @author 邱威威qww
- * @version 创建时间：2016年9月19日 下午5:00:04 类说明
- */
+
 @Service
 @Transactional(readOnly = true)
 public class OrderTaskpackageSettlementService
@@ -110,34 +107,17 @@ public class OrderTaskpackageSettlementService
 	@Autowired
 	private BizBizEmployeegroupVoDao bizBizEmployeegroupVoDao;
 
-	/**
-	 * 查询结算单确认验收信息
-	 * 
-	 * @param id
-	 *            任务包id
-	 * @return
-	 */
+
 	public OrderTaskpackageVo queryTaskpackageSettlement(Integer id) {
 		return dao.queryTaskpackageSettlement(id);
 	}
 
-	/**
-	 * 查询分配薪酬员工列表
-	 * 
-	 * @param groupId
-	 *            工人组id
-	 * @return
-	 */
+
 	public List<EmpTaskpackageSettlement> queryTaskpackageEmpDetail(Integer groupId) {
 		return dao.queryTaskpackageEmpDetail(groupId);
 	}
 
-	/**
-	 * 根据任务包id查询结算单
-	 * 
-	 * @param orderTaskpackageId
-	 * @return
-	 */
+
 	public OrderTaskpackageSettlement queryTaskpackageSettlementByOrderTaskpackageId(Integer orderTaskpackageId) {
 		return dao.queryTaskpackageSettlementByOrderTaskpackageId(orderTaskpackageId);
 	}
@@ -147,13 +127,7 @@ public class OrderTaskpackageSettlementService
 		dao.update(orderTaskpackageSettlement);
 	}
 
-	/**
-	 * 更新结算单时，查询分配薪酬员工列表
-	 * 
-	 * @param groupId
-	 *            工人组id
-	 * @return
-	 */
+
 	public List<EmpTaskpackageSettlement> queryUpdateTaskpackageEmpDetail(Integer groupId, Integer orderTaskpackageId,
 			Integer settlementId) {
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -163,37 +137,28 @@ public class OrderTaskpackageSettlementService
 		return dao.queryUpdateTaskpackageEmpDetail(map);
 	}
 
-	/**
-	 * 任务包验收时查询质检罚款金额
-	 * 
-	 * @param orderTaskpackageId
-	 * @return
-	 */
+
 	public Double queryQcWorkerPublishAmountTotal(Integer orderTaskpackageId) {
 		return dao.queryQcWorkerPublishAmountTotal(orderTaskpackageId);
 	}
 
-	/**
-	 * 结算单确认验收
-	 * 
-	 * @param settlement
-	 */
+
 	@Transactional(readOnly = false)
 	public String orderTaskpackageSettlementConfirm(OrderTaskpackageSettlement settlement, String isExist) {
-		/* try { */
+
 		
 		Date date = new Date();
 		OrderTaskpackageSettlement sett = dao
 				.queryTaskpackageSettlementByOrderTaskpackageId(settlement.getOrderTaskpackageId());
 		if (sett == null) {
-			// 1.更改订单任务状态为“100-已提交结算单且不超定额”
+
 			TaskPackage task = taskPackageDao.get(String.valueOf(settlement.getOrderTaskpackageId()));
 			task.setPackageStateId(ConstantUtils.ORDER_TASK_STATUS_100_VALUE);
 			task.setPackageStatename(ConstantUtils.ORDER_TASK_STATUS_100_VALUE_REMARK);
 			task.setUpdateDate(date);
 			taskPackageDao.update(task);
 
-			// 2.生成结算单
+
 			settlement.setSettlementNo(bizSeiralnumService.getDateSequence("JS"));
 			settlement.setStatus(ConstantUtils.SETTLEMENT_STATUS_50);
 			settlement.setStatusDate(date);
@@ -203,7 +168,7 @@ public class OrderTaskpackageSettlementService
 			settlement.setStoreId(task.getStoreId());
 			dao.insert(settlement);
 
-			// 3.修改工程清单
+
 			if (!Collections3.isEmpty(settlement.getOrderTaskProcedure())) {
 				for (BizOrderTaskpackageProcedure pro : settlement.getOrderTaskProcedure()) {
 					BizOrderTaskpackageProcedure procedure = orderTaskpackageProcedureDao.get(pro.getId());
@@ -218,7 +183,7 @@ public class OrderTaskpackageSettlementService
 				}
 			}
 
-			// 4.辅料实用量
+
 			if (!Collections3.isEmpty(settlement.getAuxiliaryMaterials())) {
 				for (OrderTaskpackageAuxiliaryMaterials auxiliary : settlement.getAuxiliaryMaterials()) {
 					Map<String, Object> map = new HashMap<String, Object>();
@@ -233,7 +198,7 @@ public class OrderTaskpackageSettlementService
 				}
 			}
 
-			// 5.沙子水泥使用量
+
 			if (!Collections3.isEmpty(settlement.getSandMaterials())) {
 				for (OrderTaskpackageAuxiliaryMaterials auxiliary : settlement.getSandMaterials()) {
 					Map<String, Object> map = new HashMap<String, Object>();
@@ -251,7 +216,7 @@ public class OrderTaskpackageSettlementService
 			OrderTaskpackageSettlement taskSettlement = dao
 					.queryTaskpackageSettlementByNo(settlement.getSettlementNo());
 
-			// 5.质保金
+
 			GuaranteeMoney guaranteeMoney = guaranteeMoneyDao
 					.queryGuarnteeMoneyByTaskId(settlement.getOrderTaskpackageId());
 			if (guaranteeMoney == null) {
@@ -301,7 +266,7 @@ public class OrderTaskpackageSettlementService
 
 			}
 
-			// 6.分配薪酬
+
 			if (!Collections3.isEmpty(settlement.getSettlementDetail())) {
 				for (BizOrderTaskpackageSettlementDetail detail : settlement.getSettlementDetail()) {
 					Map<String, Object> map = new HashMap<String, Object>();
@@ -321,17 +286,17 @@ public class OrderTaskpackageSettlementService
 				}
 			}
 
-			// 7.评价工人
+
 			if (CollectionUtils.isNotEmpty(settlement.getBizEvalActivityIndexList())) {
 				Map<String, Object> map = new HashMap<String, Object>();
 				map.put("relatedBusinessId", settlement.getOrderTaskpackageId());
 				map.put("evalType", "1");
 				map.put("groupLeaderEmployeeId", task.getGroupId());
 				map.put("evalStatus", ConstantUtils.EVAL_STATUS_1);
-				//查询评分总表中是否有数据
+
 				Integer count = bizEvalTaskpackScoreDao.queryByCondition(map);
 				if (count == 0) {
-					//插入 评分总表 biz_eval_score
+
 					EvalScore bizEvalTaskpackScore = new EvalScore();
 					bizEvalTaskpackScore.setRelatedBusinessId(settlement.getOrderTaskpackageId());
 					bizEvalTaskpackScore.setEvalType("1");
@@ -349,14 +314,14 @@ public class OrderTaskpackageSettlementService
 								* bizEvalActivityIndex.getSelectCount();
 					}
 
-					//判断是否评价结束
+
 					List<BizEvalActivityIndex> activityIndexList= inspectorEvaluateWorkerDao.queryEvalActivityIndexByPackageId(settlement.getOrderTaskpackageId());
 					String  managerType=null;
 					String  pqcType=null;
 					String  custemerType=null;
 					if(activityIndexList != null && activityIndexList.size()>0){
 						for(BizEvalActivityIndex activityIndex : activityIndexList){
-							if(activityIndex.getEvalRoleType().equals("1")){//项目经理评价
+							if(activityIndex.getEvalRoleType().equals("1")){
 								managerType="1";
 								EvalScoreRole bizEvalTaskpackRoleScore = new EvalScoreRole();
 								bizEvalTaskpackRoleScore.setEvalScoreId(bizEvalTaskpackScore.getId());
@@ -368,9 +333,9 @@ public class OrderTaskpackageSettlementService
 								bizEvalTaskpackRoleScore.setCreateDate(date);
 								bizEvalTaskpackRoleScore.setUpdateDate(date);
 								bizEvalTaskpackRoleScore.setEvalStatus(ConstantUtils.EVAL_ROLE_STATUS_1);
-								bizEvalTaskpackRoleScore.setEvalCycleHours(activityIndex.getEvalCycleHours());//插入系统评价间隔时间
+								bizEvalTaskpackRoleScore.setEvalCycleHours(activityIndex.getEvalCycleHours());
 								bizEvalTaskpackRoleScoreDao.insert(bizEvalTaskpackRoleScore);
-								//批量插入 活动指标表 biz_eval_score_role_index
+
 								List<EvalScoreRoleIndex> bizEvalTaskpackRoleIndexScoreList = new ArrayList<EvalScoreRoleIndex>();
 								for (BizEvalActivityIndex evalActivityIndex : settlement.getBizEvalActivityIndexList()) {
 									EvalScoreRoleIndex bizEvalTaskpackRoleIndexScore = new EvalScoreRoleIndex();
@@ -384,9 +349,9 @@ public class OrderTaskpackageSettlementService
 								}
 								bizEvalTaskpackRoleIndexScoreDao.insertBatch(bizEvalTaskpackRoleIndexScoreList);
 								
-							}else if(activityIndex.getEvalRoleType().equals("2")){//质检评价
+							}else if(activityIndex.getEvalRoleType().equals("2")){
 								pqcType="2";
-								if(pqcType!=null&&pqcType.equals("2")){//质检评价
+								if(pqcType!=null&&pqcType.equals("2")){
 									EvalScoreRole bizEvalTaskpackRoleScore = new EvalScoreRole();
 									bizEvalTaskpackRoleScore.setEvalScoreId(bizEvalTaskpackScore.getId());
 									bizEvalTaskpackRoleScore.setEvalRoleType(ConstantUtils.EVAL_ROLE_TYPE_201);
@@ -397,14 +362,14 @@ public class OrderTaskpackageSettlementService
 									bizEvalTaskpackRoleScore.setCreateDate(date);
 									bizEvalTaskpackRoleScore.setUpdateDate(date);
 									bizEvalTaskpackRoleScore.setEvalStatus(ConstantUtils.EVAL_ROLE_STATUS_0);
-									bizEvalTaskpackRoleScore.setEvalCycleHours(activityIndex.getEvalCycleHours());//插入系统评价间隔时间
+									bizEvalTaskpackRoleScore.setEvalCycleHours(activityIndex.getEvalCycleHours());
 									bizEvalTaskpackRoleScoreDao.insert(bizEvalTaskpackRoleScore);
 								}
 								
-							}else if(activityIndex.getEvalRoleType().equals("3")){//客户评价
+							}else if(activityIndex.getEvalRoleType().equals("3")){
 								custemerType="3";
 								EvalScoreRole bizEvalTaskpackRoleScore = new EvalScoreRole();
-								if(custemerType!=null&&custemerType.equals("3")){//客户评价
+								if(custemerType!=null&&custemerType.equals("3")){
 									bizEvalTaskpackRoleScore.setEvalScoreId(bizEvalTaskpackScore.getId());
 									bizEvalTaskpackRoleScore.setEvalRoleType(ConstantUtils.EVAL_ROLE_TYPE_301);
 									bizEvalTaskpackRoleScore.setEvalByEmployeeId(task.getItemManagerId());
@@ -414,7 +379,7 @@ public class OrderTaskpackageSettlementService
 									bizEvalTaskpackRoleScore.setCreateDate(date);
 									bizEvalTaskpackRoleScore.setUpdateDate(date);
 									bizEvalTaskpackRoleScore.setEvalStatus(ConstantUtils.EVAL_ROLE_STATUS_0);
-									bizEvalTaskpackRoleScore.setEvalCycleHours(activityIndex.getEvalCycleHours());//插入系统评价间隔时间
+									bizEvalTaskpackRoleScore.setEvalCycleHours(activityIndex.getEvalCycleHours());
 									bizEvalTaskpackRoleScoreDao.insert(bizEvalTaskpackRoleScore);
 								}
 							}
@@ -429,8 +394,8 @@ public class OrderTaskpackageSettlementService
 					scoreBean.setEvalStatus(ConstantUtils.EVAL_ROLE_STATUS_1);
 					BizEvalScoreRole  evalTaskpackRoleScore = inspectorEvaluateWorkerDao.isEndEvaluate(scoreBean);
 					if(null!=evalTaskpackRoleScore && null != evalTaskpackRoleScore.getGotScore() && evalTaskpackRoleScore.getGotScore()>0){
-						//评价结束
-						//更新评价任务包得分表
+
+
 						BizEvalScore evalTaskpackScore = new BizEvalScore();
 						evalTaskpackScore.setId(Integer.valueOf(bizEvalTaskpackScore.getId()));
 						evalTaskpackScore.setGotScore(evalTaskpackRoleScore.getGotScore());
@@ -440,7 +405,7 @@ public class OrderTaskpackageSettlementService
 						
 						bizEvalTaskpackScore.setGroupLeaderEmployeeId(task.getGroupId());
 						
-						//插入星级变化记录
+
 					
 						List<BizEmployeegroupVO>listqqq =bizBizEmployeegroupVoDao.getSumAvg(task.getGroupId());
               			
@@ -462,7 +427,7 @@ public class OrderTaskpackageSettlementService
               			inspectorEvaluateWorkerDao.updateEvalTaskpackScore(evalTaskpackScore);
               			bizBizEmployeegroupVoDao.updateStar(task.getGroupId());
               			bizBizEmployeegroupVoDao.updateStarGroup(task.getGroupId());
-						// 查询奖励金额
+
 		                Map<String, Object> rewardMap = new HashMap<String, Object>();
 		                rewardMap.put("orderTaskpackId", settlement.getOrderTaskpackageId());
 		                rewardMap.put("gotScore", evalTaskpackRoleScore.getGotScore());
@@ -479,7 +444,7 @@ public class OrderTaskpackageSettlementService
 				}
 			} else {
 				Integer evalCount = inspectorEvaluateWorkerDao.checkEvalActivityByOrderTaskpackage(settlement.getOrderTaskpackageId());
-				if(evalCount == null || evalCount == 0){//表示没有评价，评分设为0
+				if(evalCount == null || evalCount == 0){
 					Map<String, Object> map = new HashMap<String, Object>();
 					map.put("relatedBusinessId", settlement.getOrderTaskpackageId());
 					map.put("evalType", "1");
@@ -500,7 +465,7 @@ public class OrderTaskpackageSettlementService
 						bizEvalTaskpackScore.setUpdateDate(date);
 						bizEvalTaskpackScoreDao.insert(bizEvalTaskpackScore);
 
-						// 项目经理端
+
 						EvalScoreRole bizEvalTaskpackRoleScoreManager = new EvalScoreRole();
 						bizEvalTaskpackRoleScoreManager.setEvalScoreId(bizEvalTaskpackScore.getId());
 						bizEvalTaskpackRoleScoreManager.setEvalRoleType(ConstantUtils.EVAL_ROLE_TYPE_101);
@@ -514,7 +479,7 @@ public class OrderTaskpackageSettlementService
 
 						AppOrder appOrder = appOrderService
 								.queryOrderByOrderTaskpackageId(settlement.getOrderTaskpackageId());
-						// 质检端
+
 						EvalScoreRole bizEvalTaskpackRoleScoreInspector = new EvalScoreRole();
 						bizEvalTaskpackRoleScoreInspector.setEvalScoreId(bizEvalTaskpackScore.getId());
 						bizEvalTaskpackRoleScoreInspector.setEvalRoleType(ConstantUtils.EVAL_ROLE_TYPE_201);
@@ -526,7 +491,7 @@ public class OrderTaskpackageSettlementService
 						bizEvalTaskpackRoleScoreInspector.setEvalStatus(ConstantUtils.EVAL_ROLE_STATUS_1);
 						bizEvalTaskpackRoleScoreDao.insert(bizEvalTaskpackRoleScoreInspector);
 
-						// 客户端
+
 						EvalScoreRole bizEvalTaskpackRoleScoreCustomer = new EvalScoreRole();
 						bizEvalTaskpackRoleScoreCustomer.setEvalScoreId(bizEvalTaskpackScore.getId());
 						bizEvalTaskpackRoleScoreCustomer.setEvalRoleType(ConstantUtils.EVAL_ROLE_TYPE_301);
@@ -538,7 +503,7 @@ public class OrderTaskpackageSettlementService
 						bizEvalTaskpackRoleScoreCustomer.setEvalStatus(ConstantUtils.EVAL_ROLE_STATUS_1);
 						bizEvalTaskpackRoleScoreDao.insert(bizEvalTaskpackRoleScoreCustomer);
 					}
-				}else{//有评价活动，但是项目经理不用评价
+				}else{
 					EvalScore bizEvalTaskpackScore = new EvalScore();
 					bizEvalTaskpackScore.setRelatedBusinessId(settlement.getOrderTaskpackageId());
 					bizEvalTaskpackScore.setEvalType("1");
@@ -553,7 +518,7 @@ public class OrderTaskpackageSettlementService
 				
 			}
 
-			// 8.发短信
+
 			TaskPackage pack = taskPackageDao.querySmsMessageToGroup(settlement.getOrderTaskpackageId());
 			String content = "订单（" + pack.getCustomerMessage() + "-" + pack.getCustomerName() + "-"
 					+ pack.getCustomerPhone() + "）的任务包（" + pack.getPackageName() + "），项目经理（" + pack.getManagerName()
@@ -568,7 +533,7 @@ public class OrderTaskpackageSettlementService
 			msg.setRelatedBusinessIdInt(pack.getSettlementId());
 			bizPhoneMsgDao.insert(msg);
 
-			// 5.发送通知
+
 			BizMsg bizMsg = new BizMsg();
 			bizMsg.setMsgTitle("确认薪酬");
 			bizMsg.setMsgTime(date);
@@ -582,25 +547,19 @@ public class OrderTaskpackageSettlementService
 		} else {
 			return "repeat";
 		}
-		/*
-		 * } catch (Exception e) { e.printStackTrace(); return "error"; }
-		 */
+
 	}
 
-	/**
-	 * 结算单确认验收
-	 * 
-	 * @param settlement
-	 */
+
 	@Transactional(readOnly = false)
 	public String orderTaskpackageSettlementAgainConfirm(OrderTaskpackageSettlement settlement) {
-		/* try { */
+
 		Date date = new Date();
 		OrderTaskpackageSettlement taskpackageSettlement = dao.get(settlement.getId());
 		if (ConstantUtils.SETTLEMENT_STATUS_50.equals(taskpackageSettlement.getStatus())) {
 			return "repeat";
 		}
-		// 1.修改工程清单
+
 		if (!ConstantUtils.SETTLEMENT_IS_NEED_RECHECK_1.equals(settlement.getIsNeedRecheck())) {
 			if (!Collections3.isEmpty(settlement.getOrderTaskProcedure())) {
 				for (BizOrderTaskpackageProcedure pro : settlement.getOrderTaskProcedure()) {
@@ -617,7 +576,7 @@ public class OrderTaskpackageSettlementService
 			}
 		}
 
-		// 2.修改结算单
+
 
 		taskpackageSettlement.setCheckDate(settlement.getCheckDate());
 		taskpackageSettlement.setIsQualified(settlement.getIsQualified());
@@ -645,7 +604,7 @@ public class OrderTaskpackageSettlementService
 		taskpackageSettlement.setSandCementAmount(settlement.getSandCementAmount());
 		dao.update(taskpackageSettlement);
 
-		// 3.修改辅料实用量
+
 		if (!Collections3.isEmpty(settlement.getAuxiliaryMaterials())) {
 			for (OrderTaskpackageAuxiliaryMaterials auxiliary : settlement.getAuxiliaryMaterials()) {
 				if (auxiliary.getId() != null) {
@@ -664,7 +623,7 @@ public class OrderTaskpackageSettlementService
 			}
 		}
 
-		// 5.沙子水泥使用量
+
 		if (!Collections3.isEmpty(settlement.getSandMaterials())) {
 			for (OrderTaskpackageAuxiliaryMaterials auxiliary : settlement.getSandMaterials()) {
 				if (auxiliary.getId() != null) {
@@ -683,7 +642,7 @@ public class OrderTaskpackageSettlementService
 			}
 		}
 
-		// 4.修改质保金
+
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("orderTaskpackageId", settlement.getOrderTaskpackageId());
 		map.put("settlementId", settlement.getId());
@@ -736,7 +695,7 @@ public class OrderTaskpackageSettlementService
 			
 		}
 
-		// 5.修改薪酬
+
 		if (!Collections3.isEmpty(settlement.getSettlementDetail())) {
 			for (BizOrderTaskpackageSettlementDetail detail : settlement.getSettlementDetail()) {
 				detail.setUpdateDate(date);
@@ -746,7 +705,7 @@ public class OrderTaskpackageSettlementService
 			}
 		}
 
-		// 6.更改订单任务包状态为“100或105”
+
 		TaskPackage task = taskPackageDao.get(String.valueOf(settlement.getOrderTaskpackageId()));
 		if (ConstantUtils.SETTLEMENT_IS_NEED_RECHECK_1.equals(settlement.getIsNeedRecheck())) {
 			task.setPackageStateId(ConstantUtils.ORDER_TASK_STATUS_105_VALUE);
@@ -758,7 +717,7 @@ public class OrderTaskpackageSettlementService
 		task.setUpdateDate(date);
 		taskPackageDao.update(task);
 
-		// 7.发短信
+
 		TaskPackage pack = taskPackageDao.querySmsMessageToGroup(settlement.getOrderTaskpackageId());
 		String content = "订单（" + pack.getCustomerMessage() + "-" + pack.getCustomerName() + "-"
 				+ pack.getCustomerPhone() + "）的任务包（" + pack.getPackageName() + "），项目经理（" + pack.getManagerName() + "-"
@@ -773,7 +732,7 @@ public class OrderTaskpackageSettlementService
 		msg.setRelatedBusinessIdInt(pack.getSettlementId());
 		bizPhoneMsgDao.insert(msg);
 
-		// 5.发送通知
+
 		BizMsg bizMsg = new BizMsg();
 		bizMsg.setMsgTitle("确认薪酬");
 		bizMsg.setMsgTime(date);
@@ -784,23 +743,17 @@ public class OrderTaskpackageSettlementService
 		bizMsg.setEmployeeId(pack.getGroupId());
 		bizProjectChangeBillDao.saveBizMsg(bizMsg);
 		return "success";
-		/*
-		 * } catch (Exception e) { e.printStackTrace(); return "error"; }
-		 */
+
 	}
 
-	/**
-	 * 结算单确认验收
-	 * 
-	 * @param settlement
-	 */
+
 	@Transactional(readOnly = false)
 	public String orderTaskpackageSettlementRecheck(OrderTaskpackageSettlement settlement, String isExist) {
-		//--------------------------------------------------------------------------------------------------
+
 		String result = "success";
-		/* try { */
+
 		Date date = new Date();
-		// 1.修改结算单
+
 		OrderTaskpackageSettlement taskpackageSettlement = dao.get(settlement.getId());
 		if (ConstantUtils.SETTLEMENT_STATUS_50.equals(taskpackageSettlement.getStatus())) {
 			return "repeat";
@@ -833,7 +786,7 @@ public class OrderTaskpackageSettlementService
 			taskpackageSettlement.setSandCementAmount(settlement.getSandCementAmount());
 			dao.update(taskpackageSettlement);
 
-			// 2.新增或修改辅料实用量
+
 			if (!Collections3.isEmpty(settlement.getAuxiliaryMaterials())) {
 				for (OrderTaskpackageAuxiliaryMaterials auxiliary : settlement.getAuxiliaryMaterials()) {
 					if (auxiliary.getId() != null) {
@@ -870,7 +823,7 @@ public class OrderTaskpackageSettlementService
 				}
 			}
 
-			// 3.新增或修改质保金
+
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("orderTaskpackageId", settlement.getOrderTaskpackageId());
 			map.put("settlementId", settlement.getId());
@@ -963,7 +916,7 @@ public class OrderTaskpackageSettlementService
 				}
 			}
 
-			// 4.修改薪酬
+
 			if (!Collections3.isEmpty(settlement.getSettlementDetail())) {
 				for (BizOrderTaskpackageSettlementDetail detail : settlement.getSettlementDetail()) {
 					BizOrderTaskpackageSettlementDetail settlementDetail = settlementDetailDao.get(detail.getId());
@@ -991,24 +944,22 @@ public class OrderTaskpackageSettlementService
 				}
 			}
 
-			// 5.更改订单任务包状态为“105”
+
 			TaskPackage task = taskPackageDao.get(String.valueOf(settlement.getOrderTaskpackageId()));
 			task.setPackageStateId(ConstantUtils.ORDER_TASK_STATUS_105_VALUE);
 			task.setPackageStatename(ConstantUtils.ORDER_TASK_STATUS_105_VALUE_REMARK);
 			task.setUpdateDate(date);
 			taskPackageDao.update(task);
 
-			// 7.评价工人
+
 						if (CollectionUtils.isNotEmpty(settlement.getBizEvalActivityIndexList())) {
 							Map<String, Object> map1 = new HashMap<String, Object>();
 							map1.put("relatedBusinessId", settlement.getOrderTaskpackageId());
-							/*map1.put("evalType", "1");
-							map1.put("groupLeaderEmployeeId", task.getGroupId());
-							map1.put("evalStatus", ConstantUtils.EVAL_STATUS_1);*/
-							//查询评分总表中是否有数据
+
+
 							Integer count = bizEvalTaskpackScoreDao.queryByCondition(map1);
 							if (count == 0) {
-								//插入 评分总表 biz_eval_score
+
 								EvalScore bizEvalTaskpackScore = new EvalScore();
 								bizEvalTaskpackScore.setRelatedBusinessId(settlement.getOrderTaskpackageId());
 								bizEvalTaskpackScore.setEvalType("1");
@@ -1027,14 +978,14 @@ public class OrderTaskpackageSettlementService
 								}
 								
 								
-								//判断是否评价结束
+
 								List<BizEvalActivityIndex> activityIndexList= inspectorEvaluateWorkerDao.queryEvalActivityIndexByPackageId(settlement.getOrderTaskpackageId());
 								String  managerType=null;
 								String  pqcType=null;
 								String  custemerType=null;
 								if(activityIndexList != null && activityIndexList.size()>0){
 									for(BizEvalActivityIndex activityIndex : activityIndexList){
-										if(activityIndex.getEvalRoleType().equals("1")){//项目经理评价
+										if(activityIndex.getEvalRoleType().equals("1")){
 											managerType="1";
 											EvalScoreRole bizEvalTaskpackRoleScore = new EvalScoreRole();
 											bizEvalTaskpackRoleScore.setEvalScoreId(bizEvalTaskpackScore.getId());
@@ -1046,9 +997,9 @@ public class OrderTaskpackageSettlementService
 											bizEvalTaskpackRoleScore.setCreateDate(date);
 											bizEvalTaskpackRoleScore.setUpdateDate(date);
 											bizEvalTaskpackRoleScore.setEvalStatus(ConstantUtils.EVAL_ROLE_STATUS_1);
-											bizEvalTaskpackRoleScore.setEvalCycleHours(activityIndex.getEvalCycleHours());//插入系统评价间隔时间
+											bizEvalTaskpackRoleScore.setEvalCycleHours(activityIndex.getEvalCycleHours());
 											bizEvalTaskpackRoleScoreDao.insert(bizEvalTaskpackRoleScore);
-											//批量插入 活动指标表 biz_eval_score_role_index
+
 											List<EvalScoreRoleIndex> bizEvalTaskpackRoleIndexScoreList = new ArrayList<EvalScoreRoleIndex>();
 											for (BizEvalActivityIndex evalActivityIndex : settlement.getBizEvalActivityIndexList()) {
 												EvalScoreRoleIndex bizEvalTaskpackRoleIndexScore = new EvalScoreRoleIndex();
@@ -1062,9 +1013,9 @@ public class OrderTaskpackageSettlementService
 											}
 											bizEvalTaskpackRoleIndexScoreDao.insertBatch(bizEvalTaskpackRoleIndexScoreList);
 											
-										}else if(activityIndex.getEvalRoleType().equals("2")){//质检评价
+										}else if(activityIndex.getEvalRoleType().equals("2")){
 											pqcType="2";
-											if(pqcType!=null&&pqcType.equals("2")){//质检评价
+											if(pqcType!=null&&pqcType.equals("2")){
 												EvalScoreRole bizEvalTaskpackRoleScore = new EvalScoreRole();
 												bizEvalTaskpackRoleScore.setEvalScoreId(bizEvalTaskpackScore.getId());
 												bizEvalTaskpackRoleScore.setEvalRoleType(ConstantUtils.EVAL_ROLE_TYPE_201);
@@ -1075,14 +1026,14 @@ public class OrderTaskpackageSettlementService
 												bizEvalTaskpackRoleScore.setCreateDate(date);
 												bizEvalTaskpackRoleScore.setUpdateDate(date);
 												bizEvalTaskpackRoleScore.setEvalStatus(ConstantUtils.EVAL_ROLE_STATUS_0);
-												bizEvalTaskpackRoleScore.setEvalCycleHours(activityIndex.getEvalCycleHours());//插入系统评价间隔时间
+												bizEvalTaskpackRoleScore.setEvalCycleHours(activityIndex.getEvalCycleHours());
 												bizEvalTaskpackRoleScoreDao.insert(bizEvalTaskpackRoleScore);
 											}
 											
-										}else if(activityIndex.getEvalRoleType().equals("3")){//客户评价
+										}else if(activityIndex.getEvalRoleType().equals("3")){
 											custemerType="3";
 											EvalScoreRole bizEvalTaskpackRoleScore = new EvalScoreRole();
-											if(custemerType!=null&&custemerType.equals("3")){//客户评价
+											if(custemerType!=null&&custemerType.equals("3")){
 												bizEvalTaskpackRoleScore.setEvalScoreId(bizEvalTaskpackScore.getId());
 												bizEvalTaskpackRoleScore.setEvalRoleType(ConstantUtils.EVAL_ROLE_TYPE_301);
 												bizEvalTaskpackRoleScore.setEvalByEmployeeId(task.getItemManagerId());
@@ -1092,7 +1043,7 @@ public class OrderTaskpackageSettlementService
 												bizEvalTaskpackRoleScore.setCreateDate(date);
 												bizEvalTaskpackRoleScore.setUpdateDate(date);
 												bizEvalTaskpackRoleScore.setEvalStatus(ConstantUtils.EVAL_ROLE_STATUS_0);
-												bizEvalTaskpackRoleScore.setEvalCycleHours(activityIndex.getEvalCycleHours());//插入系统评价间隔时间
+												bizEvalTaskpackRoleScore.setEvalCycleHours(activityIndex.getEvalCycleHours());
 												bizEvalTaskpackRoleScoreDao.insert(bizEvalTaskpackRoleScore);
 											}
 										}
@@ -1107,8 +1058,8 @@ public class OrderTaskpackageSettlementService
 								scoreBean.setEvalStatus(ConstantUtils.EVAL_ROLE_STATUS_1);
 								BizEvalScoreRole  evalTaskpackRoleScore = inspectorEvaluateWorkerDao.isEndEvaluate(scoreBean);
 								if(null!=evalTaskpackRoleScore && !evalTaskpackRoleScore.getGotScore().equals("") && evalTaskpackRoleScore.getGotScore()>0){
-									//评价结束
-									//更新评价任务包得分表
+
+
 									
 									BizEvalScore evalTaskpackScore = new BizEvalScore();
 									evalTaskpackScore.setId(Integer.valueOf(bizEvalTaskpackScore.getId()));
@@ -1117,7 +1068,7 @@ public class OrderTaskpackageSettlementService
 									evalTaskpackScore.setUpdateDate(date);
 									evalTaskpackScore.setStatusDatetime(date);
 									
-									//插入星级变化记录
+
 									bizEvalTaskpackScore.setGroupLeaderEmployeeId(task.getGroupId());
 									
 									
@@ -1142,7 +1093,7 @@ public class OrderTaskpackageSettlementService
 			              			bizBizEmployeegroupVoDao.updateStar(task.getGroupId());
 			              			bizBizEmployeegroupVoDao.updateStarGroup(task.getGroupId());
 			              			
-			              			// 查询奖励金额
+
 					                Map<String, Object> rewardMap = new HashMap<String, Object>();
 					                rewardMap.put("orderTaskpackId", settlement.getOrderTaskpackageId());
 					                rewardMap.put("gotScore", evalTaskpackRoleScore.getGotScore());
@@ -1159,7 +1110,7 @@ public class OrderTaskpackageSettlementService
 							}
 						} else {
 							Integer evalCount = inspectorEvaluateWorkerDao.checkEvalActivityByOrderTaskpackage(settlement.getOrderTaskpackageId());
-							if(evalCount == null || evalCount == 0){//表示没有评价，评分设为0
+							if(evalCount == null || evalCount == 0){
 								Map<String, Object> map1 = new HashMap<String, Object>();
 								map1.put("relatedBusinessId", settlement.getOrderTaskpackageId());
 								map1.put("evalType", "1");
@@ -1179,7 +1130,7 @@ public class OrderTaskpackageSettlementService
 									bizEvalTaskpackScore.setUpdateDate(date);
 									bizEvalTaskpackScoreDao.insert(bizEvalTaskpackScore);
 
-									// 项目经理端
+
 									EvalScoreRole bizEvalTaskpackRoleScoreManager = new EvalScoreRole();
 									bizEvalTaskpackRoleScoreManager.setEvalScoreId(bizEvalTaskpackScore.getId());
 									bizEvalTaskpackRoleScoreManager.setEvalRoleType(ConstantUtils.EVAL_ROLE_TYPE_101);
@@ -1193,7 +1144,7 @@ public class OrderTaskpackageSettlementService
 
 									AppOrder appOrder = appOrderService
 											.queryOrderByOrderTaskpackageId(settlement.getOrderTaskpackageId());
-									// 质检端
+
 									EvalScoreRole bizEvalTaskpackRoleScoreInspector = new EvalScoreRole();
 									bizEvalTaskpackRoleScoreInspector.setEvalScoreId(bizEvalTaskpackScore.getId());
 									bizEvalTaskpackRoleScoreInspector.setEvalRoleType(ConstantUtils.EVAL_ROLE_TYPE_201);
@@ -1205,7 +1156,7 @@ public class OrderTaskpackageSettlementService
 									bizEvalTaskpackRoleScoreInspector.setEvalStatus(ConstantUtils.EVAL_ROLE_STATUS_1);
 									bizEvalTaskpackRoleScoreDao.insert(bizEvalTaskpackRoleScoreInspector);
 
-									// 客户端
+
 									EvalScoreRole bizEvalTaskpackRoleScoreCustomer = new EvalScoreRole();
 									bizEvalTaskpackRoleScoreCustomer.setEvalScoreId(bizEvalTaskpackScore.getId());
 									bizEvalTaskpackRoleScoreCustomer.setEvalRoleType(ConstantUtils.EVAL_ROLE_TYPE_301);
@@ -1217,7 +1168,7 @@ public class OrderTaskpackageSettlementService
 									bizEvalTaskpackRoleScoreCustomer.setEvalStatus(ConstantUtils.EVAL_ROLE_STATUS_1);
 									bizEvalTaskpackRoleScoreDao.insert(bizEvalTaskpackRoleScoreCustomer);
 								}
-						}else{//有评价活动，但是项目经理不用评价
+						}else{
 								Map<String, Object> map1 = new HashMap<String, Object>();
 								map1.put("relatedBusinessId", settlement.getOrderTaskpackageId());
 								map1.put("evalType", "1");
@@ -1255,7 +1206,7 @@ public class OrderTaskpackageSettlementService
 			msg.setRelatedBusinessIdInt(pack.getSettlementId());
 			bizPhoneMsgDao.insert(msg);
 
-			// 5.发送通知
+
 			BizMsg bizMsg = new BizMsg();
 			bizMsg.setMsgTitle("确认薪酬");
 			bizMsg.setMsgTime(date);
@@ -1268,32 +1219,26 @@ public class OrderTaskpackageSettlementService
 		} else {
 			result = "repeat";
 		}
-		/*
-		 * } catch (Exception e) { result = "error"; e.printStackTrace(); }
-		 */
+
 		return result;
 	}
 
-	/**
-	 * 提交工程量
-	 * 
-	 * @param settlement
-	 */
+
 	@Transactional(readOnly = false)
 	public String submitGongcheng(OrderTaskpackageSettlement settlement) {
-		/* try { */
+
 		Date date = new Date();
 		OrderTaskpackageSettlement sett = dao
 				.queryTaskpackageSettlementByOrderTaskpackageId(settlement.getOrderTaskpackageId());
 		if (sett == null) {
-			// 1.更新任务包
+
 			TaskPackage task = taskPackageDao.get(settlement.getOrderTaskpackageId() + "");
 			task.setPackageStateId(ConstantUtils.ORDER_TASK_STATUS_90_VALUE);
 			task.setPackageStatename(ConstantUtils.ORDER_TASK_STATUS_90_VALUE_REMARK);
 			task.setUpdateDate(date);
 			taskPackageDao.update(task);
 
-			// 2.新增结算单
+
 			OrderTaskpackageSettlement taskpackageSettlement = new OrderTaskpackageSettlement();
 			taskpackageSettlement.setSettlementNo(bizSeiralnumService.getDateSequence("JS"));
 			taskpackageSettlement.setOrderTaskpackageId(settlement.getOrderTaskpackageId());
@@ -1313,7 +1258,7 @@ public class OrderTaskpackageSettlementService
 			taskpackageSettlement.setStoreId(task.getStoreId());
 			dao.insert(taskpackageSettlement);
 
-			// 3.修改工程清单
+
 			if (!Collections3.isEmpty(settlement.getOrderTaskProcedure())) {
 				for (BizOrderTaskpackageProcedure pro : settlement.getOrderTaskProcedure()) {
 					BizOrderTaskpackageProcedure procedure = orderTaskpackageProcedureDao.get(pro.getId());
@@ -1328,7 +1273,7 @@ public class OrderTaskpackageSettlementService
 				}
 			}
 
-			// 4.发短信给质检员
+
 			TaskPackage taskPackage = taskPackageDao.querySmsMessage(settlement.getOrderTaskpackageId());
 			String content = "订单（" + taskPackage.getCustomerMessage() + "-" + taskPackage.getCustomerName() + "-"
 					+ taskPackage.getCustomerPhone() + "）的任务包（" + taskPackage.getPackageName() + "），项目经理（"
@@ -1346,21 +1291,15 @@ public class OrderTaskpackageSettlementService
 		} else {
 			return "repeat";
 		}
-		/*
-		 * } catch (Exception e) { return "error"; }
-		 */
+
 	}
 
-	/**
-	 * 提交工程量
-	 * 
-	 * @param settlement
-	 */
+
 	@Transactional(readOnly = false)
 	public void submitGongchengUpdate(OrderTaskpackageSettlement settlement) {
-		/* try { */
+
 		Date date = new Date();
-		// 1.修改工程清单
+
 		if (!Collections3.isEmpty(settlement.getOrderTaskProcedure())) {
 			for (BizOrderTaskpackageProcedure pro : settlement.getOrderTaskProcedure()) {
 				BizOrderTaskpackageProcedure procedure = orderTaskpackageProcedureDao.get(pro.getId());
@@ -1375,7 +1314,7 @@ public class OrderTaskpackageSettlementService
 			}
 		}
 
-		// 2.更新结算单
+
 		OrderTaskpackageSettlement taskpackageSettlement = dao.get(settlement.getId());
 		taskpackageSettlement.setCheckDate(settlement.getCheckDate());
 		taskpackageSettlement.setIsQualified(settlement.getIsQualified());
@@ -1391,14 +1330,14 @@ public class OrderTaskpackageSettlementService
 		taskpackageSettlement.setIsNeedRecheck(ConstantUtils.SETTLEMENT_IS_NEED_RECHECK_1);
 		dao.update(taskpackageSettlement);
 
-		// 3.更新任务包
+
 		TaskPackage task = taskPackageDao.get(settlement.getOrderTaskpackageId() + "");
 		task.setPackageStateId(ConstantUtils.ORDER_TASK_STATUS_90_VALUE);
 		task.setPackageStatename(ConstantUtils.ORDER_TASK_STATUS_90_VALUE_REMARK);
 		task.setUpdateDate(date);
 		taskPackageDao.update(task);
 
-		// 4.发短信给质检员
+
 		TaskPackage taskPackage = taskPackageDao.querySmsMessage(settlement.getOrderTaskpackageId());
 		String content = "订单（" + taskPackage.getCustomerMessage() + "-" + taskPackage.getCustomerName() + "-"
 				+ taskPackage.getCustomerPhone() + "）的任务包（" + taskPackage.getPackageName() + "），项目经理（"
@@ -1412,8 +1351,6 @@ public class OrderTaskpackageSettlementService
 		msg.setRelatedBusinessType(SendMsgBusinessType.SEND_MSG_BUSINESS_TYPE_200801);
 		msg.setRelatedBusinessIdInt(taskPackage.getSettlementId());
 		bizPhoneMsgDao.insert(msg);
-		/*
-		 * } catch (Exception e) { e.printStackTrace(); }
-		 */
+
 	}
 }

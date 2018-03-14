@@ -49,15 +49,15 @@ public class BizGuaranteeMoneyPaidUsedService extends CrudService2<BizGuaranteeM
 	@Transactional(readOnly = false)
 	public void save(BizGuaranteeMoneyPaidUsed bizGuaranteeMoneyPaidUsed){
 		BizGuaranteeMoneyBalance bizGuaranteeMoneyBalance = bizGuaranteeMoneyBalanceDao.findGuaranteeMoneyBalanceByEmployeeId(bizGuaranteeMoneyPaidUsed.getUsedEmployeeId());
-		if(bizGuaranteeMoneyPaidUsed.getId()!=null){//修改
+		if(bizGuaranteeMoneyPaidUsed.getId()!=null){
 			BizGuaranteeMoneyPaidUsed oldBizGuaranteeMoneyPaidUsed = super.get(bizGuaranteeMoneyPaidUsed);
-			if(bizGuaranteeMoneyPaidUsed.getGuaranteeMoneyType().equals(GuaranteeMoneyConstantUtil.guaranteeMoneyType_2)){//使用质保金
+			if(bizGuaranteeMoneyPaidUsed.getGuaranteeMoneyType().equals(GuaranteeMoneyConstantUtil.guaranteeMoneyType_2)){
 				bizGuaranteeMoneyPaidUsed.setGuaranteeMoneyTypeAmountTotal(bizGuaranteeMoneyBalance.getGuaranteeMoneyAmountPaidUsed()-oldBizGuaranteeMoneyPaidUsed.getGuaranteeMoneyAmount()+bizGuaranteeMoneyPaidUsed.getGuaranteeMoneyAmount());
 				bizGuaranteeMoneyPaidUsed.setGuaranteeMoneyBalance(bizGuaranteeMoneyBalance.getGuaranteeMoneyBalance()+oldBizGuaranteeMoneyPaidUsed.getGuaranteeMoneyAmount()-bizGuaranteeMoneyPaidUsed.getGuaranteeMoneyAmount());
 				
 				bizGuaranteeMoneyBalance.setGuaranteeMoneyBalance(bizGuaranteeMoneyPaidUsed.getGuaranteeMoneyBalance());
 				bizGuaranteeMoneyBalance.setGuaranteeMoneyAmountPaidUsed(bizGuaranteeMoneyPaidUsed.getGuaranteeMoneyTypeAmountTotal());
-			}else if(bizGuaranteeMoneyPaidUsed.getGuaranteeMoneyType().equals(GuaranteeMoneyConstantUtil.guaranteeMoneyType_1)){//上缴质保金
+			}else if(bizGuaranteeMoneyPaidUsed.getGuaranteeMoneyType().equals(GuaranteeMoneyConstantUtil.guaranteeMoneyType_1)){
 				bizGuaranteeMoneyPaidUsed.setGuaranteeMoneyTypeAmountTotal(bizGuaranteeMoneyBalance.getGuaranteMoneyAmountPaidOffline()-oldBizGuaranteeMoneyPaidUsed.getGuaranteeMoneyAmount()+bizGuaranteeMoneyPaidUsed.getGuaranteeMoneyAmount());
 				bizGuaranteeMoneyPaidUsed.setGuaranteeMoneyBalance(bizGuaranteeMoneyBalance.getGuaranteeMoneyBalance()-oldBizGuaranteeMoneyPaidUsed.getGuaranteeMoneyAmount()+bizGuaranteeMoneyPaidUsed.getGuaranteeMoneyAmount());
 			    
@@ -70,15 +70,15 @@ public class BizGuaranteeMoneyPaidUsedService extends CrudService2<BizGuaranteeM
 			bizGuaranteeMoneyBalance.preUpdate();
 			
 			bizGuaranteeMoneyBalanceDao.update(bizGuaranteeMoneyBalance);
-		}else{//新增
+		}else{
 			if(bizGuaranteeMoneyBalance != null && bizGuaranteeMoneyBalance.getId() != null){
-				if(bizGuaranteeMoneyPaidUsed.getGuaranteeMoneyType().equals(GuaranteeMoneyConstantUtil.guaranteeMoneyType_2)){//使用质保金
+				if(bizGuaranteeMoneyPaidUsed.getGuaranteeMoneyType().equals(GuaranteeMoneyConstantUtil.guaranteeMoneyType_2)){
 					bizGuaranteeMoneyPaidUsed.setGuaranteeMoneyTypeAmountTotal(bizGuaranteeMoneyBalance.getGuaranteeMoneyAmountPaidUsed()+bizGuaranteeMoneyPaidUsed.getGuaranteeMoneyAmount());
 					bizGuaranteeMoneyPaidUsed.setGuaranteeMoneyBalance(bizGuaranteeMoneyBalance.getGuaranteeMoneyBalance()-bizGuaranteeMoneyPaidUsed.getGuaranteeMoneyAmount());
 					
 					bizGuaranteeMoneyBalance.setGuaranteeMoneyBalance(bizGuaranteeMoneyPaidUsed.getGuaranteeMoneyBalance());
 					bizGuaranteeMoneyBalance.setGuaranteeMoneyAmountPaidUsed(bizGuaranteeMoneyPaidUsed.getGuaranteeMoneyTypeAmountTotal());
-				}else if(bizGuaranteeMoneyPaidUsed.getGuaranteeMoneyType().equals(GuaranteeMoneyConstantUtil.guaranteeMoneyType_1)){//上缴质保金
+				}else if(bizGuaranteeMoneyPaidUsed.getGuaranteeMoneyType().equals(GuaranteeMoneyConstantUtil.guaranteeMoneyType_1)){
 					bizGuaranteeMoneyPaidUsed.setGuaranteeMoneyTypeAmountTotal(bizGuaranteeMoneyBalance.getGuaranteMoneyAmountPaidOffline()+bizGuaranteeMoneyPaidUsed.getGuaranteeMoneyAmount());
 					bizGuaranteeMoneyPaidUsed.setGuaranteeMoneyBalance(bizGuaranteeMoneyBalance.getGuaranteeMoneyBalance()+bizGuaranteeMoneyPaidUsed.getGuaranteeMoneyAmount());
 				    
@@ -92,13 +92,13 @@ public class BizGuaranteeMoneyPaidUsedService extends CrudService2<BizGuaranteeM
 				bizGuaranteeMoneyBalanceDao.update(bizGuaranteeMoneyBalance);
 			}else{
 				bizGuaranteeMoneyBalance = new BizGuaranteeMoneyBalance();
-				if(bizGuaranteeMoneyPaidUsed.getGuaranteeMoneyType().equals(GuaranteeMoneyConstantUtil.guaranteeMoneyType_2)){//使用质保金
+				if(bizGuaranteeMoneyPaidUsed.getGuaranteeMoneyType().equals(GuaranteeMoneyConstantUtil.guaranteeMoneyType_2)){
 					bizGuaranteeMoneyPaidUsed.setGuaranteeMoneyTypeAmountTotal(0+bizGuaranteeMoneyPaidUsed.getGuaranteeMoneyAmount());
 					bizGuaranteeMoneyPaidUsed.setGuaranteeMoneyBalance(0-bizGuaranteeMoneyPaidUsed.getGuaranteeMoneyAmount());
 					
 					bizGuaranteeMoneyBalance.setGuaranteeMoneyBalance(bizGuaranteeMoneyPaidUsed.getGuaranteeMoneyBalance());
 					bizGuaranteeMoneyBalance.setGuaranteeMoneyAmountPaidUsed(bizGuaranteeMoneyPaidUsed.getGuaranteeMoneyTypeAmountTotal());
-				}else if(bizGuaranteeMoneyPaidUsed.getGuaranteeMoneyType().equals(GuaranteeMoneyConstantUtil.guaranteeMoneyType_1)){//上缴质保金
+				}else if(bizGuaranteeMoneyPaidUsed.getGuaranteeMoneyType().equals(GuaranteeMoneyConstantUtil.guaranteeMoneyType_1)){
 					bizGuaranteeMoneyPaidUsed.setGuaranteeMoneyTypeAmountTotal(0+bizGuaranteeMoneyPaidUsed.getGuaranteeMoneyAmount());
 					bizGuaranteeMoneyPaidUsed.setGuaranteeMoneyBalance(0+bizGuaranteeMoneyPaidUsed.getGuaranteeMoneyAmount());
 				    

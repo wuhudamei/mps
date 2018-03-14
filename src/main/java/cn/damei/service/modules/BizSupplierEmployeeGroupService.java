@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.util.ArrayList;
@@ -19,12 +17,7 @@ import cn.damei.dao.modules.BizSupplierEmployeeGroupDao;
 import cn.damei.entity.modules.BizSupplierEmployeeGroup;
 import cn.damei.common.utils.UserUtils;
 
-/**
- * 主材安装供应商和工人组Service
- * 
- * @author ztw
- * @version 2017-07-17
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizSupplierEmployeeGroupService extends CrudService<BizSupplierEmployeeGroupDao, BizSupplierEmployeeGroup> {

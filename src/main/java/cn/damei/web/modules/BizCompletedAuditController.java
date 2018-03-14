@@ -41,11 +41,7 @@ import cn.damei.entity.modules.QcBillCheckItemInfo;
 import cn.damei.service.modules.InspectorConfirmService;
 import cn.damei.entity.modules.User;
 import cn.damei.common.utils.UserUtils;
-/**
- *	订单
- *	确认竣工
- *	biz_order
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/bizcompletedaudit/bizCompletedAudit")
 public class BizCompletedAuditController extends BaseController{
@@ -106,7 +102,7 @@ public class BizCompletedAuditController extends BaseController{
 			list.add(bizCompletedAudit.getEnginDepartId());
 			bizCompletedAudit.setEnginDepartIds(list);
 		}
-		//过滤门店
+
 		if(null == bizCompletedAudit.getStoreId()){
 			if(null != user.getStoreId()){
 				bizCompletedAudit.setStoreId(Integer.valueOf(user.getStoreId()));
@@ -115,7 +111,7 @@ public class BizCompletedAuditController extends BaseController{
 		if(StringUtils.isBlank(user.getStoreId())){
 			model.addAttribute("storeDropEnable", true);
 		}
-		//过滤工程模式
+
 		if(StringUtils.isBlank(bizCompletedAudit.getProjectMode())){
 			if(null != user.getEmpId()){
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -172,7 +168,7 @@ public class BizCompletedAuditController extends BaseController{
 			list.add(bizCompletedAudit.getEnginDepartId());
 			bizCompletedAudit.setEnginDepartIds(list);
 		}
-		//过滤门店
+
 		if(null == bizCompletedAudit.getStoreId()){
 			if(null != user.getStoreId()){
 				bizCompletedAudit.setStoreId(Integer.valueOf(user.getStoreId()));
@@ -181,7 +177,7 @@ public class BizCompletedAuditController extends BaseController{
 		if(StringUtils.isBlank(user.getStoreId())){
 			model.addAttribute("storeDropEnable", true);
 		}
-		//过滤工程模式
+
 		if(StringUtils.isBlank(bizCompletedAudit.getProjectMode())){
 			if(null != user.getEmpId()){
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -231,17 +227,14 @@ public class BizCompletedAuditController extends BaseController{
 		model.addAttribute("bizCompletedAudit",bizCompletedAudit);
 		return "modules/bizcompleted/completedAuditList";
 	}
-	/**
-	 * 查询项目经理竣工提成明细
-	 * @return
-	 */
+
 	@RequestMapping(value = "queryManagerCompletedDetail")
 	public String queryManagerCompletedDetail(Integer orderId,Model model){
 		BizPmStarCommissionCnfgSnap bizPmStarCommissionCnfgSnap = inspectorConfirmService.queryManagerCommissionByOrderId(orderId);
-		//竣工提成
+
 		Double commissionAmount = bizPmStarCommissionCnfgSnap.getCommissionAmount()
 				* bizPmStarCommissionCnfgSnap.getCommissionRateComplete();
-		//质保金
+
 		Double pmGuaranteeMoney=0.0;
 		BizPmGuaranteeMoneyCnfgSnap gmcs = bizPmGuaranteeMoneyCnfgSnapService.findGmc(orderId);
 		if(gmcs != null){
@@ -260,7 +253,7 @@ public class BizCompletedAuditController extends BaseController{
             }			
 		}
 		
-		//竣工罚款
+
 		Map<String,Object> map =new HashMap<String,Object>();
 		map.put("orderId", orderId);
 		map.put("settleCategory", ConstantUtils.PM_SETTLE_CATEGORY_4);
@@ -271,7 +264,7 @@ public class BizCompletedAuditController extends BaseController{
 			managerPenalty = 0-managerPenalty;
 		}
 		List<QcBillCheckItemInfo> pmPunishList = inspectorConfirmService.queryPmPunishByParam(map);
-		//自采材料报销金额
+
 		Map<String,Object> map1 =new HashMap<String,Object>();
 		map1.put("orderId", orderId);
 		map1.put("settleCategory", ConstantUtils.PM_SETTLE_CATEGORY_11);
@@ -282,10 +275,10 @@ public class BizCompletedAuditController extends BaseController{
 		
 		Map<String,Object> param = new HashMap<String,Object>();
 		param.put("orderId", orderId);
-//		param.put("pmEmployeeId",bizPmStarCommissionCnfgSnap.getPmEmployeeId());
+
 		List<BizMaterialSelfbuyVo> materialSelfbuyList = bizPmSettleBillService.querySelfbuyMaterial(param);
 		
-		//竣工任务包材料结算总金额
+
 		double pmMaterialsSettleAmount = 0.00;
 		List<PmMaterialsSettleInfo> pmMaterials = pmMaterialsSettleInfoService.queryPmMaterialsByOrderId(orderId);
 		if(pmMaterials != null && pmMaterials.size()>0){
@@ -294,7 +287,7 @@ public class BizCompletedAuditController extends BaseController{
 			}
 		}
 		
-		//竣工奖励金额
+
 		double pmRewardAmount = 0.0;
 		BizAssessRewardPunish rewardPunish = new BizAssessRewardPunish();
 		rewardPunish.setRelatedBusinessIdInt(orderId);
@@ -305,23 +298,23 @@ public class BizCompletedAuditController extends BaseController{
 		rewardPunish.setIsMonthInspection("0");
 		rewardPunish.setRewardPunishStatus("1");
 		pmRewardAmount = bizAssessRewardPunishService.queryTotalAmountByParam(rewardPunish);
-		//竣工扣款金额
+
 		double pmPunishAmount = 0.0;
 		rewardPunish.setIsRewardOrPunish("2");
 		pmPunishAmount = bizAssessRewardPunishService.queryTotalAmountByParam(rewardPunish);
 
-		//巡检
+
 		rewardPunish.setIsMonthInspection("1");
-		//竣工巡检奖励金额
+
 		double pmInspectionRewardAmount = 0.0;
 		rewardPunish.setIsRewardOrPunish("1");
 		pmInspectionRewardAmount = bizAssessRewardPunishService.queryTotalAmountByParam(rewardPunish);
-		//竣工巡检罚款金额
+
 		double pmInspectionPunishAmount = 0.0;
 		rewardPunish.setIsRewardOrPunish("2");
 		pmInspectionPunishAmount = bizAssessRewardPunishService.queryTotalAmountByParam(rewardPunish);
 
-		//竣工提成合计金额
+
 		Double settleAmount = commissionAmount+sinceMaterials-pmGuaranteeMoney-managerPenalty+pmMaterialsSettleAmount+pmRewardAmount-pmPunishAmount+pmInspectionRewardAmount-pmInspectionPunishAmount;
 		model.addAttribute("pmMaterialsSettleAmount",pmMaterialsSettleAmount);
 		model.addAttribute("pmMaterials",pmMaterials);
@@ -343,11 +336,7 @@ public class BizCompletedAuditController extends BaseController{
 		return "modules/bizcompleted/managerCompletedDetail";
 	}
 	
-	/**
-	 * list主页面
-	 * 驳回
-	 * 修改订单状态为330-结算员竣工审核不通过
-	 */
+
 	@RequestMapping(value = {"auditFail", ""})
 	public String auditFail(BizCompletedAudit bizCompletedAudit, HttpServletRequest request, HttpServletResponse response, Model model,
 			String id) {

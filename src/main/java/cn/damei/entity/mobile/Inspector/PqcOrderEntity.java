@@ -3,20 +3,18 @@ package cn.damei.entity.mobile.Inspector;
 import java.io.Serializable;
 import java.util.Objects;
 
-/**
- * Created by joseph on 2017/6/13.
- */
+
 public class PqcOrderEntity  implements Serializable{
 
     private static final long serialVersionUID = 1L;
 
-    private Integer orderId; //订单id
-    private String customerAddressInfo;//客户地址信息  :小区:楼:单元:门牌号
+    private Integer orderId;
+    private String customerAddressInfo;
     private String customerName;
     private String customerPhone;
     private String managerName;
     private String managerPhone;
-    private String actualStartDate; //订单实际开工日期 (在mysql format)
+    private String actualStartDate;
 
 
 

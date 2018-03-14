@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import java.util.Date;
@@ -15,34 +13,30 @@ import com.google.common.collect.Lists;
 import cn.damei.common.persistence.DataEntity;
 import cn.damei.common.utils.CmsUtils;
 
-/**
- * 文章Entity
- * @author ThinkGem
- * @version 2013-05-15
- */
+
 public class Article extends DataEntity<Article> {
 
     public static final String DEFAULT_TEMPLATE = "frontViewArticle";
 	
 	private static final long serialVersionUID = 1L;
-	private Category category;// 分类编号
-	private String title;	// 标题
-    private String link;	// 外部链接
-	private String color;	// 标题颜色（red：红色；green：绿色；blue：蓝色；yellow：黄色；orange：橙色）
-	private String image;	// 文章图片
-	private String keywords;// 关键字
-	private String description;// 描述、摘要
-	private Integer weight;	// 权重，越大越靠前
-	private Date weightDate;// 权重期限，超过期限，将weight设置为0
-	private Integer hits;	// 点击数
-	private String posid;	// 推荐位，多选（1：首页焦点图；2：栏目页文章推荐；）
-    private String customContentView;	// 自定义内容视图
-   	private String viewConfig;	// 视图参数
+	private Category category;
+	private String title;
+    private String link;
+	private String color;
+	private String image;
+	private String keywords;
+	private String description;
+	private Integer weight;
+	private Date weightDate;
+	private Integer hits;
+	private String posid;
+    private String customContentView;
+   	private String viewConfig;
 
-	private ArticleData articleData;	//文章副表
+	private ArticleData articleData;
 	
-	private Date beginDate;	// 开始时间
-	private Date endDate;	// 结束时间
+	private Date beginDate;
+	private Date endDate;
 	
 	private User user;
     
@@ -64,8 +58,8 @@ public class Article extends DataEntity<Article> {
 	}
 
 	public void prePersist(){
-		//TODO 后续处理，暂不知有何用处
-		//super.prePersist();
+
+
 		articleData.setId(this.id);
 	}
 	
@@ -109,7 +103,7 @@ public class Article extends DataEntity<Article> {
 	}
 
 	public void setImage(String image) {
-        this.image = image;//CmsUtils.formatImageSrcToDb(image);
+        this.image = image;
 	}
 
 	@Length(min=0, max=255)

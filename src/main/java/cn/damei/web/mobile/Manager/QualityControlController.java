@@ -36,11 +36,7 @@ import cn.damei.entity.mobile.Manager.BizQcCheckNode;
 import cn.damei.entity.mobile.Manager.QualityControl;
 import cn.damei.service.mobile.Manager.QualityControlService;
 
-/**
- * 质量管理,申请约检
- *
- * @author Administrator
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/app/manager")
 public class QualityControlController {
@@ -49,9 +45,9 @@ public class QualityControlController {
     private QualityControlService qualityControlService;
     @Autowired
     private PhoneMessageDao messageDao;
-    private static Logger logger = LoggerFactory.getLogger(PackTimeChangeController.class);//日志
+    private static Logger logger = LoggerFactory.getLogger(PackTimeChangeController.class);
 
-    //质量管理页面
+
     @RequestMapping(value = {"qualityControlList", ""})
     public String qualityControlList(HttpServletRequest request, Model model) {
         request.getSession().removeAttribute("reportManagerText");
@@ -59,14 +55,14 @@ public class QualityControlController {
     }
 
 
-    //申请约检页面
+
     @RequestMapping(value = {"qualityApply"})
     public String qualityApply(QualityControl qualityControl, HttpServletRequest request, Model model) {
-        //获得项目经理
+
         Manager manager = (Manager) request.getSession().getAttribute("manager");
         qualityControl.setItemManagerId(manager.getId());
 
-        //通过项目经理id查询项目经理下所有的订单
+
         List<QualityControl> order = qualityControlService.findOrderByItemManagerId(qualityControl.getItemManagerId());
 
 
@@ -74,10 +70,10 @@ public class QualityControlController {
         return "mobile/modules/Manager/quality_apply";
     }
 
-    //申请约检页
+
     @RequestMapping(value = {"qualityCheck"})
     public String qualityCheck(Integer id, HttpServletRequest request, Model model) {
-        //获得项目经理的  姓名和电话--作为备注
+
         Manager manager = (Manager) request.getSession().getAttribute("manager");
         String managerInfo = manager.getRealname() + ":" + manager.getPhone();
         String orderInfo = "";
@@ -86,31 +82,31 @@ public class QualityControlController {
         String qcBillStatus = "";
         List<BizQcCheckNode> traditionalNodeList = null;
         Date planCheckDate = null;
-        //查询订单相关信息---工程模式
+
         QualityControl order = qualityControlService.findOrderById(id);
 
 
-        //一、 订单   产业 准产业(2017-08-03 加入) 直接不等于传统
+
         if (null != order && null != order.getProjectMode()) {
         	if(!order.getProjectMode().equals("2")){
         		
-        		//1.根据订单id，查询约检单biz_qc_bill中（约检节点最大）的一条记录
+
         		BizQcBill bizQcBill = new BizQcBill();
         		bizQcBill.setOrderId(id);
         		bizQcBill.setQcBillType(ConstantUtils.QC_BILL_TYPE_1);
         		bizQcBill.setIsRecheck(ConstantUtils.IS_RECHECK_0);
         		BizQcBill max = qualityControlService.findMax(bizQcBill);
-        		//顾客信息
+
         		orderInfo = order.getCustomerName()+"-"+order.getCommunityName() + "-" + order.getBuildNumber() + "-" + order.getBuildUnit() + "-" + order.getBuildRoom() + "-" + order.getCustomerName();
         		
         		
-        		//2.根据门店查询所有约检节点
+
         		QualityControl quality = new QualityControl();
         		quality.setStoreId(order.getStoreId());
         		quality.setOrderId(id);
         		List<BizQcCheckNode> bizQcCheckNodeList = qualityControlService.findBizQcCheckNodeByStoreId(quality);
         		
-        		//3.获取 按顺序 下一个节点
+
         		if (null != bizQcCheckNodeList && bizQcCheckNodeList.size() > 0) {
         			for (BizQcCheckNode list : bizQcCheckNodeList) {
         				if (null != max && null != max.getQcCheckNodeId()) {
@@ -133,17 +129,17 @@ public class QualityControlController {
         		}
         	}else{
         		
-        		//二、订单  传统
+
         		
-        		//1.根据订单ID 查询所有传统未约检的节点
+
         		traditionalNodeList = qualityControlService.findTraditionalNode(id);
-        		//2.根据订单查询是否有未验收的节点
+
         		Integer count = qualityControlService.findNumber(id);
         		if (null != count && count > 0) {
-        			//3.不允许申请
+
         			qcBillStatus = "5";
         		} else {
-        			//3.允许申请
+
         			qcBillStatus = "100";
         		}
         	}
@@ -158,7 +154,7 @@ public class QualityControlController {
         model.addAttribute("planCheckDate", planCheckDate);
 
 
-        //备注   订单id  订单详细地址
+
         model.addAttribute("managerInfo", managerInfo);
         model.addAttribute("orderId", id);
         model.addAttribute("info", orderInfo);
@@ -166,21 +162,19 @@ public class QualityControlController {
     }
 
 
-    /**
-     * 查看待办service
-     */
+
     @Autowired
     private ToDoItemService toDoItemService;
 
 
-    //确认申请---约检
+
     @RequestMapping(value = "qualityCheckSubmit", method = RequestMethod.POST)
     public @ResponseBody
     String qualityCheckSubmit(String planCheckDate, String delayReasonPm, String checkId, String selectCheck, String input_date, String remarks, String orderId, String[] photo, HttpServletRequest request, Model model) {
 
         Date date = new Date();
         String result = "0";
-        //通过订单id查询订单详情
+
         QualityControl qualityControl = qualityControlService.findOrderById(Integer.valueOf(orderId));
 
         BizQcBill bizQcBill = new BizQcBill();
@@ -200,26 +194,26 @@ public class QualityControlController {
         	
         }
 
-        //距离上次申请的时间是否已超过5分钟
-//		Integer countTime = qualityControlService.isOverTime(bizQcBill);
-//		if(null!=countTime && countTime>0){
-//			//该订单距离上次申请时间没有超过5分钟
-//			return "1";
-//		}
-        //判断这个节点是否已经申请过
+
+
+
+
+
+
+
         Integer countExists = qualityControlService.checkIdIsExists(bizQcBill);
         if (null != countExists && countExists > 0) {
-            //该订单本节点已申请
+
             return "2";
         }
-        //根据订单查询是否有未验收的节点
+
         Integer count = qualityControlService.findNumber(Integer.valueOf(orderId));
         if (null != count && count > 0) {
-            //有未验收的节点
+
             return "3";
         }
 
-        //获取项目经理
+
         Manager manager = (Manager) request.getSession().getAttribute("manager");
 
         bizQcBill.setQcBillCode(qualityControlService.qcBillCode());
@@ -240,15 +234,15 @@ public class QualityControlController {
         bizQcBill.setUpdateDate(date);
         bizQcBill.setDelayReasonPm(delayReasonPm);
         Integer qcBillId = qualityControlService.insertQcBill(bizQcBill);
-        //插入日志记录
+
         qualityControlService.insertQcBillLog(bizQcBill,input_date);
 
-        //orderId  qcNodeId  type 查看是否是待办
+
 
         String id = toDoItemService.selectId(ApplyCheckToDoConstatntUtil.APPLY_CHECK_TO_DO_BUSINESS_TYPE, String.valueOf(bizQcBill.getQcCheckNodeId()), orderId);
         if (null != id) {
 
-            //是待办 就更新待办为已查看  (0:已查看 1:已处理)
+
 
             toDoItemService.updateViewdOrSolvedByObj(id, "1");
 
@@ -256,9 +250,9 @@ public class QualityControlController {
 
 
         if (null != qcBillId && qcBillId > 0) {
-            //约检单保存成功
-            //===================短信发送=====================================
-            //亲，订单（东晨小区-10-4-202-王维-13333333333），项目经理（王毅-13212341234），项目经理已申请约检，请及时登录APP查看详情。
+
+
+
             PhoneMessageEntity entity = new PhoneMessageEntity();
 
             entity.setReceiveEmployeeId(qualityControl.getOrderInspectorId());
@@ -271,17 +265,17 @@ public class QualityControlController {
             messageDao.saveMessageContent(entity);
 
         } else {
-            //约检单保存失败
+
             result = "4";
         }
         if (null != photo && photo.length > 0) {
             List<BusinessPic> pList = new ArrayList<BusinessPic>();
             for (String p : photo) {
                 String uuid = UUID.randomUUID().toString().replaceAll("-", "");
-//				String rootPath = RootName.SystemEnvironment(request);
+
                 String rootPath = request.getSession().getServletContext().getRealPath("");
                 File filePath = new File(rootPath + ConstantUtils.UPLOAD_CHECKITEM + DateUtils.getDate1());
-                //判断该文件是否存在
+
                 if (!filePath.exists() && !filePath.isDirectory()) {
                     filePath.mkdirs();
                 }
@@ -294,7 +288,7 @@ public class QualityControlController {
                 businessPic.setPicUrl(picpath);
                 businessPic.setBusinessType(PictureTypeContantUtil.PICTURE_TYPE_2);
                 businessPic.setPicDatetime(date);
-                //	businessPic.set
+
                 pList.add(businessPic);
             }
             qualityControlService.saveCheckitemPicAll(pList);
@@ -303,23 +297,16 @@ public class QualityControlController {
     }
 
 
-    /**
-     * 申请约检记录
-     *
-     * @param id
-     * @param id
-     * @param model
-     * @return
-     */
+
     @RequestMapping(value = {"qualityCheckRecord", ""})
     public String qualityCheckRecord(Integer id, Model model) {
-        //根据订单查询所有的约检记录
+
         List<BizQcBill> list = qualityControlService.findBizQcBillRecordByOrderId(id);
         for (BizQcBill b : list) {
             int picCount = qualityControlService.fingdPicNum(b.getId());
             b.setPicCount(picCount);
         }
-        //int count =
+
         model.addAttribute("list", list);
 
 
@@ -327,12 +314,7 @@ public class QualityControlController {
     }
 
 
-    /**
-     * 该日期该门店是否约满(订单id查询门店)
-     *
-     * @param date
-     * @return
-     */
+
     @RequestMapping(value = {"comparePqcDateIsAllowed", ""})
     public @ResponseBody
     String comparePqcDateIsAllowed(String date, Integer orderId) {
@@ -347,37 +329,28 @@ public class QualityControlController {
         }
     }
 
-    /**
-     * 查看约检图片
-     *
-     * @param
-     * @return
-     */
+
     @RequestMapping(value = "viewPic")
     private String viewPic(int qcBillId, HttpServletRequest request, Model model) throws Exception {
 
-        //通过质检单id查询图片
+
         List<BusinessPic> picList = qualityControlService.findPic(qcBillId);
 
         String baseUrl = PicRootName.picPrefixName();
-        //String baseUrl = "http://localhost:8080/mdn";
+
         model.addAttribute("picList", picList);
         model.addAttribute("baseUrl", baseUrl);
         return "mobile/modules/pqc/qualityCheck/managercheckdetail/photo";
     }
 
 
-    /**
-     * //准产业检查当前节点是否为基装节点, 如果是 查询是否申请了开关面板
-     *
-     * @return
-     */
+
     @RequestMapping(value = "checkOrderApply")
     @ResponseBody
     public String checkOrderApply(@RequestParam String orderId) {
 
         Map<String, String> map = new HashMap<>(12);
-        //1:根据订单查询 该申请的约检节点并查看 该节点是否为基装节点
+
         String maxNodeId = qualityControlService.findMaxNodeIdByOrderId(orderId);
 
        
@@ -394,14 +367,14 @@ public class QualityControlController {
 
             if (null != isBasic && "1".equals( isBasic)) {
 
-                //2: 如果成立 , 查询该订单是否申请了开关面板
+
 
                 Integer isApply = qualityControlService.checkIsApplyPanelByOrderId(Integer.valueOf(orderId));
 
                 if (null == isApply || isApply == 0) {
 
 
-                    //如果返回1  则为 准产业+该申请节点为基装节点+没有申请开关面板
+
                     return "1-"+qcName;
 
 
@@ -421,7 +394,7 @@ public class QualityControlController {
         	
         	
 
-//            return "2";
+
        
 
 

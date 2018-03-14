@@ -4,10 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreType;
 
 import java.util.Date;
 
-/**
- * Created by joseph on 2017/4/14.
- *  传统经理结算-结算单对象  (一个订单对应该订单对应门店下的结算节点和结算单数据)
- */
+
 @JsonIgnoreType
 public class ManagerNormalSettle {
 
@@ -15,25 +12,25 @@ public class ManagerNormalSettle {
 
     private Integer applyEmpId;
     private Date applyTime;
-    private Date statusDateTime;//状态生成时间
-    private Integer settleId;//结算单id
-    private Integer settleNodeId;//结算节点外键
-    private ManagerTraditionSettleEntity orderEntity;//订单信息类
-    private String receiveMoneyType;//二期款1 尾款2
-    private Integer settleIndex;//结算节点顺序
-    private String settleNodeName;//结算节点名称
-    private String qcCheckNodeId;//结算节点对应验收节点id
-    private String isRequired;//是否必选  1:必选 0:非必选
-    private String isCheckNodeDone;//节点是否验收  1:验收 0:没有验收
-    private String isMoneyReceive;//对应的款项是否已经收到 (二期款 尾款是否已确认收款)
-    private String settleStatus;//目前的结算单状态id
-    private String settleStatusName;//目前的结算单状态名称
-    private Date createDate;//创建时间
-    private String createBy;//创建人
-    private String checkReply;//检查人回复
-    private Date checkTime;//检查时间
-    private String checkManName;//检查人名称
-    private Double settleAmount;//结算金额
+    private Date statusDateTime;
+    private Integer settleId;
+    private Integer settleNodeId;
+    private ManagerTraditionSettleEntity orderEntity;
+    private String receiveMoneyType;
+    private Integer settleIndex;
+    private String settleNodeName;
+    private String qcCheckNodeId;
+    private String isRequired;
+    private String isCheckNodeDone;
+    private String isMoneyReceive;
+    private String settleStatus;
+    private String settleStatusName;
+    private Date createDate;
+    private String createBy;
+    private String checkReply;
+    private Date checkTime;
+    private String checkManName;
+    private Double settleAmount;
     private String picUrl;
     private Integer nodeIndex;
 

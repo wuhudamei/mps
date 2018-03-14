@@ -11,11 +11,7 @@ import cn.damei.common.service.CrudService2;
 import cn.damei.dao.modules.BizStarSettingDao;
 import cn.damei.entity.modules.BizStarSetting;
 
-/**
- * 工人星级设置Service
- * @author ws
- * @version 2017-09-05
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizStarSettingService extends CrudService2<BizStarSettingDao, BizStarSetting> {

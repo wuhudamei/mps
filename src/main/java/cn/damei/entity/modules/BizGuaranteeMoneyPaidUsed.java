@@ -4,67 +4,62 @@ import java.util.Date;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 质保金上缴使用实体类
- * 
- * @author hyh
- *
- */
+
 public class BizGuaranteeMoneyPaidUsed extends DataEntity2<BizGuaranteeMoneyPaidUsed> {
 
 	private static final long serialVersionUID = 1L;
 
-	private String orderId;// 订单ID
+	private String orderId;
 
-	private String guaranteeMoneyType;// 质保金类型 1:线下上缴质保金 2：使用质保金
+	private String guaranteeMoneyType;
 
-	private String usedEmployeeType;// 使用质保金人员类型 1：项目经理 2：工人
+	private String usedEmployeeType;
 
-	private Integer usedEmployeeId;// 使用人Id
+	private Integer usedEmployeeId;
 	
-	private String usedEmpName;//使用人姓名
+	private String usedEmpName;
 	
-	private String usedEmpPhone;//使用人手机号
+	private String usedEmpPhone;
 
-	private String guaranteeMoneyFor;// 质保金用途 1：开裂 2：漏水
+	private String guaranteeMoneyFor;
 
-	private Double guaranteeMoneyAmount;// 本次质保金金额
+	private Double guaranteeMoneyAmount;
 
-	private Double guaranteeMoneyTypeAmountTotal;// 该类型质保金的总金额
+	private Double guaranteeMoneyTypeAmountTotal;
 
-	private Double guaranteeMoneyBalance;// 质保金余额
+	private Double guaranteeMoneyBalance;
 	
-	private Date guaranteeMoneyDateTime;// 质保金日期
+	private Date guaranteeMoneyDateTime;
 
-	private String guaranteeMoneyReason;// 质保金原因
+	private String guaranteeMoneyReason;
 
-	private String storeId;// 门店Id
+	private String storeId;
 
-	private String projectMode;// 工程模式
+	private String projectMode;
 
-	private Integer engineDepartId;// 区域
+	private Integer engineDepartId;
 	
-	private String communityName;//小区
+	private String communityName;
 	
-	private String buildNumber;//楼号
+	private String buildNumber;
 	
-	private String buildUnit;//单元门
+	private String buildUnit;
 	
-	private String buildRoom;//门牌号
+	private String buildRoom;
 	
-	private String worktype;//工种
+	private String worktype;
 	
 	private Date start;
 	
 	private Date end;
 	
-	private String customerName;//客户姓名
+	private String customerName;
 	
-	private String customerPhone;//客户手机号
+	private String customerPhone;
 	
-	private String customerAddress;//客户地址
+	private String customerAddress;
 	
-	private String packageName;//任务包名称
+	private String packageName;
 	
 	
 	public String getPackageName() {

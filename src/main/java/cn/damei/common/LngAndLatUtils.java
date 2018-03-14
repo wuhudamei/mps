@@ -8,13 +8,7 @@ import java.net.URLConnection;
 import java.util.HashMap;
 import java.util.Map;
 import net.sf.json.JSONObject;
-/** 
-* @author 梅浩   meihao@zzhyun.cn: 
-* @version 创建时间：2016年9月23日 上午11:31:36 
-* 根据地址得到经纬度
-* 	Map<String,Double> map=LngAndLatUtil.getLngAndLat("北京市丰台区莲花池南里27号");
-	System.out.println("经度："+map.get("lng")+"---纬度："+map.get("lat"));
-*/
+
 
 public class LngAndLatUtils {
 	public static Map<String,Double> getLngAndLat(String address){
@@ -28,9 +22,9 @@ public class LngAndLatUtils {
 	       	double lat=obj.getJSONObject("result").getJSONObject("location").getDouble("lat");
 	       	map.put("lng", lng);
 	       	map.put("lat", lat);
-	       	//System.out.println("经度："+lng+"---纬度："+lat);
+
 	       }else{
-	       	//System.out.println("未找到相匹配的经纬度！");
+
 	       }
 		return map;
 	}

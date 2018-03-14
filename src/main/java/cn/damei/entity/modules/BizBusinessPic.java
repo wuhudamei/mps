@@ -8,69 +8,40 @@ import cn.damei.common.persistence.DataEntity2;
 public class BizBusinessPic extends DataEntity2<BizBusinessPic> {
 	private static final long serialVersionUID = 3599577989786988780L;
 
-	/**
-	 * 主键
-	 */
+
 	private Integer id;
 	
-	/**
-	 *  业务类型
-	 * '1.申请质检上传的照片；
-	 * 2.检查时上传的照片；
-	 * 3.质检验收上传的照片；
-	 */
+
 	private String businessType;
 	
-	/**
-	 * 业务id整型 
-	 */
+
 	private Integer businessIdInt;
 	
-	/**
-	 * 业务id字符型
-	 */
+
 	private String businessIdVarchar;
 	
-	/**
-	 * 图片类型
-	 * 1.缩略图
-	 * 2.大图
-	 */
+
 	private String picType;
 	
-	/**
-	 * 图片序号
-	 */
+
 	private Integer picIndex;
 	
-	/**
-	 * 图片文件路径 
-	 */
+
 	private String picUrl;
 	
-	/**
-	 * 图片上传日期时间
-	 */
+
 	private Date picDatetime;
 	
-	/**
-	 * 备注
-	 */
+
 	private String remarks;
 	
-	/**
-	 * 创建日期时间
-	 */
+
 	private Date createDate;
 	
-	/**
-	 * 更新日期时间
-	 */
+
 	private Date updateDate;
 	
-	/**
-	 * 是否删除
-	 */
+
 	private String delFlag;
 
 	public Integer getId() {

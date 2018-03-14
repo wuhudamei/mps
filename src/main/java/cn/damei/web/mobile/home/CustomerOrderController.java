@@ -42,7 +42,7 @@ public class CustomerOrderController{
 	}
 	
 	
-	//施工团队
+
 	@RequestMapping(value="orderTeam")
 	public String orderTeam(Integer orderId ,Model model,HttpServletRequest request){
 		
@@ -50,10 +50,10 @@ public class CustomerOrderController{
 		List<CustomerOrder> orders = customerOrderService.findOrderByPhone(username);
 		if(orders != null && orders.size()>0){
 			CustomerOrder order = customerOrderService.findByOrderId(orders.get(0).getId());
-			//List<OrderTeam> teams = customerOrderService.findTeamByOrderId(orders.get(0).getId());
+
 			model.addAttribute("order1", order);
 			model.addAttribute("orders", orders);
-			//model.addAttribute("teams", teams);
+
 			model.addAttribute("ordersLength", orders.size());
 			return "mobile/modules/home/team2";
 		}else{

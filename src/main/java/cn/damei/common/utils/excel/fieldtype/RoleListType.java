@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.common.utils.excel.fieldtype;
 
 import java.util.List;
@@ -12,18 +10,12 @@ import cn.damei.common.utils.SpringContextHolder;
 import cn.damei.entity.modules.Role;
 import cn.damei.service.modules.SystemService;
 
-/**
- * 字段类型转换
- * @author ThinkGem
- * @version 2013-5-29
- */
+
 public class RoleListType {
 
 	private static SystemService systemService = SpringContextHolder.getBean(SystemService.class);
 	
-	/**
-	 * 获取对象值（导入）
-	 */
+
 	public static Object getValue(String val) {
 		List<Role> roleList = Lists.newArrayList();
 		List<Role> allRoleList = systemService.findAllRole();
@@ -37,9 +29,7 @@ public class RoleListType {
 		return roleList.size()>0?roleList:null;
 	}
 
-	/**
-	 * 设置对象值（导出）
-	 */
+
 	public static String setValue(Object val) {
 		if (val != null){
 			@SuppressWarnings("unchecked")

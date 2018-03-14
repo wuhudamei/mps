@@ -7,53 +7,47 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/** 
-* @ClassName: DetailOfCostAccounting 
-* @Description: TODO(成本核算明细实体类) 
-* @author zkj  
-* @date 2017年10月18日 上午11:44:46 
-* @version V1.0 
-*/
+
 public class DetailOfCostAccounting extends DataEntity2<DetailOfCostAccounting>{
 	private static final long serialVersionUID = 1L;
 	private String orderId;
 	private String projectMode;
 	private String storeId;
-	//项目经理提成金额
+
 	private double managerAmount;
-	//门店名称
+
 	private String storeName;
-	//区域ID
+
 	private String engineDepartId;
-	//区域名称
+
 	private String departmentName; 
-	//工程模式
+
 	private String projectModeName;
-	//订单编号
+
 	private String orderNumber;
-	//房屋类型
+
 	private String buildName;
-	//合同面积
+
 	private String contractArea;
-	//合同开工时间
+
 	private Date contractStartDate;
-	//合同竣工时间
+
 	private Date contractEndDate;
-	//项目经理名称
+
 	private String itemManager;
-	//客户姓名
+
 	private String customerName;
-	//合同金额
+
 	private double contractAmount;
-	//订单状态
+
 	private String orderStatusNumber;
-	//订单状态说明
+
 	private String orderStatusDescription;
-	//实际开工时间
+
 	private Date startActualStartDate;
 	private Date actualStartDate;
 	private Date endActualStartDate;
-	//人工成本费用
+
 	private double shuidian;
 	private double chaichu;
 	private double yingxiao;
@@ -62,9 +56,9 @@ public class DetailOfCostAccounting extends DataEntity2<DetailOfCostAccounting>{
 	private double mugong;
 	private double yougong;
 	private double anzhuang;
-	//沙子水泥
+
 	private double sandCement;
-	//辅料费用
+
 	private double fuliaoshuidian;
 	private double fuliaochaichu;
 	private double fuliaoyingxiao;

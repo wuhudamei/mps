@@ -1,26 +1,20 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import org.hibernate.validator.constraints.Length;
 
 import cn.damei.common.persistence.DataEntity;
 
-/**
- * 短信组Entity
- * @author 汪文文
- * @version 2016-09-06
- */
+
 public class BizMessagegroup extends DataEntity<BizMessagegroup> {
 	
 	private static final long serialVersionUID = 1L;
-	private String storeId;		// 门店
-	private String messageGroupType;		// 短信组类型
-	private String employees;		// 人员
-	private String isEnable;		// 启用标记
-	private String description;		// 描述
-	private String employeesNo; // 人员
+	private String storeId;
+	private String messageGroupType;
+	private String employees;
+	private String isEnable;
+	private String description;
+	private String employeesNo;
 	private String empName;
 	private String empId;
 	

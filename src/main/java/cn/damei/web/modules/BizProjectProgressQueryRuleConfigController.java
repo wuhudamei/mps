@@ -17,10 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
 
-/**
- * 大看板查询基础规则配置Controller
- * Created by hyh on 2017/12/8.
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/projectprogressboning/bizProjectProgressQueryRuleConfig")
 public class BizProjectProgressQueryRuleConfigController extends BaseController {
@@ -28,12 +25,7 @@ public class BizProjectProgressQueryRuleConfigController extends BaseController 
     @Autowired
     private BizProjectProgressQueryRuleConfigService bizProjectProgressQueryRuleConfigService;
 
-    /**
-     * 大看板基础规则列表
-     * @param bizProjectProgressQueryRuleConfig
-     * @param model
-     * @return
-     */
+
     @RequestMapping(value = "/configList")
     public  String configList(BizProjectProgressQueryRuleConfig bizProjectProgressQueryRuleConfig, Model model){
         List<BizProjectProgressQueryRuleConfig> list = Lists.newArrayList();
@@ -43,12 +35,7 @@ public class BizProjectProgressQueryRuleConfigController extends BaseController 
         return "modules/projectprogressboning/bizProjectProgressQueryRuleConfigList";
     }
 
-    /**
-     *大看板基础规则添加
-     * @param bizProjectProgressQueryRuleConfig
-     * @param model
-     * @return
-     */
+
     @RequestMapping(value = "/form")
     public String form(BizProjectProgressQueryRuleConfig bizProjectProgressQueryRuleConfig,Model model){
         if(bizProjectProgressQueryRuleConfig.getId() != null){
@@ -60,13 +47,7 @@ public class BizProjectProgressQueryRuleConfigController extends BaseController 
         return "modules/projectprogressboning/bizProjectProgressQueryRuleConfigForm";
     }
 
-    /**
-     * 大看板基础规则保存
-     * @param bizProjectProgressQueryRuleConfig
-     * @param model
-     * @param redirectAttributes
-     * @return
-     */
+
     @RequestMapping(value = "/save")
     public String save(BizProjectProgressQueryRuleConfig bizProjectProgressQueryRuleConfig, Model model, RedirectAttributes redirectAttributes) {
         bizProjectProgressQueryRuleConfigService.save(bizProjectProgressQueryRuleConfig);
@@ -74,11 +55,7 @@ public class BizProjectProgressQueryRuleConfigController extends BaseController 
     }
 
 
-    /**
-     * 获取大看板基础规则的树数据
-     * @param response
-     * @return
-     */
+
     @ResponseBody
     @RequestMapping(value = "/treeData")
     public List<Map<String, Object>> treeData(HttpServletResponse response) {
@@ -96,13 +73,7 @@ public class BizProjectProgressQueryRuleConfigController extends BaseController 
         return mapList;
     }
 
-    /**
-     * 删除节点，同时删除子节点
-     * @param bizProjectProgressQueryRuleConfig
-     * @param model
-     * @param redirectAttributes
-     * @return
-     */
+
     @RequestMapping(value = "/delete")
     public  String delete(BizProjectProgressQueryRuleConfig bizProjectProgressQueryRuleConfig, Model model, RedirectAttributes redirectAttributes){
         bizProjectProgressQueryRuleConfigService.deleteConfig(bizProjectProgressQueryRuleConfig);

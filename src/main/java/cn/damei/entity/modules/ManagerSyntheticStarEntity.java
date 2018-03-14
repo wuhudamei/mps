@@ -4,9 +4,7 @@ package cn.damei.entity.modules;
 
 import java.io.Serializable;
 
-/**
- * Created by joseph on 2017/8/17.
- */
+
 
 
 public class ManagerSyntheticStarEntity  implements Serializable,Comparable<ManagerSyntheticStarEntity>{

@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -9,83 +7,79 @@ import org.hibernate.validator.constraints.Length;
 
 import java.util.Date;
 
-/**
- * 考勤月度表Entity
- * @author wl
- * @version 2017-08-02
- */
+
 public class BizPmAttendMonth extends DataEntity<BizPmAttendMonth> {
 	
 	private static final long serialVersionUID = 1L;
-	private String attendMonth;		// 考勤月份
-	private String pmEmployeeId;		// 员工id
-	private Date attendStartDate;		// 考勤开始日期
-	private Date attendEndDate;		// 考勤结束日期
-	private String mustSignTimes;		// 应签到次数
-	private String realSignTimes;		// 实际签到次数
-	private String owedSignTimes;		// 欠缺签到次数
-	private Double attendRate;		// 考勤率
-	private String status; //考勤状态
-	private Date statusDatetime; //状态时间
-	private String statusEmployeeId; //状态修改人
+	private String attendMonth;
+	private String pmEmployeeId;
+	private Date attendStartDate;
+	private Date attendEndDate;
+	private String mustSignTimes;
+	private String realSignTimes;
+	private String owedSignTimes;
+	private Double attendRate;
+	private String status;
+	private Date statusDatetime;
+	private String statusEmployeeId;
 	private String statusDescribe;
-	private String pmAttendMonthId; //考勤月份ID
+	private String pmAttendMonthId;
 	
 	private String naturalDay;
 	
-	private Integer itemManagerStar; //项目经理星级
+	private Integer itemManagerStar;
 	
-	private String attendMonthCode; //考勤code
+	private String attendMonthCode;
 	
-	private String attendRateStart; //考勤率开始
-	private String attendRateEnd; //考勤率结束
+	private String attendRateStart;
+	private String attendRateEnd;
 	
-	private String storeId; //门店ID
+	private String storeId;
 	
-	private String enginDepartId; //区域ID
+	private String enginDepartId;
 	
-	private String departmentName; //区域名称
+	private String departmentName;
 	
-	private String itemManager; //项目经理名称
+	private String itemManager;
 	
-	private String itemManagerId;//项目经理ID
+	private String itemManagerId;
 	
-	private String phone;//项目经理手机号
+	private String phone;
 	
-	private String customerName; //客户姓名
+	private String customerName;
 	
-	private String customerAddress; //客户地址
+	private String customerAddress;
 	
-	private String orderStatusNumber; //订单状态
+	private String orderStatusNumber;
 	
-	private String countDay; //应签到天数
+	private String countDay;
 	
-	private String sjCountDay; //实际签到天数
+	private String sjCountDay;
 	
-	private String wcDay; //误差天数
+	private String wcDay;
 	
-	private double starSalaryAllAttend;  //星级全勤底薪
+	private double starSalaryAllAttend;
 	
-	private double starSalaryMin;  //星级最低底薪
+	private double starSalaryMin;
 	
-	private double starSalaryReal; //实际薪水
+	private double starSalaryReal;
 	
-	private Integer signCycleDaysBasicwork; //基装签到周期数
+	private Integer signCycleDaysBasicwork;
 	
-	private Integer signCycleDaysComplete;//竣工签到周期数
+	private Integer signCycleDaysComplete;
 	
-	private Date actualStartDate; //开工时间
+	private Date actualStartDate;
 	
-	private String orderId; //订单ID
+	private String orderId;
 	
 	private String mustSignTimes2;
 	
 	private String realSignTimes2;
-	//实际取值
+
 	private String actualValue;
 	private String actualValue2;
 	private String actualValueInput;
-	//实际取值总和
+
 	private String actualvalCount;
 
 	private String orderId2;
@@ -93,22 +87,22 @@ public class BizPmAttendMonth extends DataEntity<BizPmAttendMonth> {
 	
 	private String owedSginTime;
 	private String owedSginTime2;
-	//更换项目经理日期
+
 	private Date changeUpdateDate;
-	//更换之前的项目经理ID
+
 	private String oldEmployeeId;
-	//欠缺的总签到次数
+
 	private Integer allOwedSignTimes;
-	//插入时间
+
 	private Date insertCreateDate;
-//    开始时间
+
     private Date startDate;
-//    结束时间
+
     private Date endDate;
-//    1基桩 2考勤
+
     private String type;
 
-    private double pmStarSalaryAttendss;//实际考勤底薪
+    private double pmStarSalaryAttendss;
 
 	public double getPmStarSalaryAttendss() {
 		return pmStarSalaryAttendss;

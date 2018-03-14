@@ -45,9 +45,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/*
- *	带货安装申请
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/bizengininstall/bizEnginInstall")
 public class BizEnginInstallController extends BaseController {
@@ -83,7 +81,7 @@ public class BizEnginInstallController extends BaseController {
 	@RequiresPermissions("bizengininstall:bizEnginInstall:view")
 	@RequestMapping(value = { "preList", "" })
 	public String preList(BizEnginInstall bizEnginInstall, HttpServletRequest request, HttpServletResponse response, Model model) {
-		// bizEnginInstall.setIsUrgeReply(InstallPlanConstantUtil.URGE_REPLY_1);
+
 		bizEnginInstall.setInstallStatus(InstallPlanConstantUtil.INSTALL_PLAN_STATUS_2);
 		return "modules/bizEnginInstall/preBizEnginList";
 	}
@@ -108,58 +106,48 @@ public class BizEnginInstallController extends BaseController {
 		return "modules/bizEnginInstall/preBizEnginList";
 	}
 
-	/**
-	 * 下达供应商
-	 * 
-	 * @param installId
-	 * @param orderId
-	 * @param supplierConfirmIntoDate
-	 * @param supplierConfirmRemarks
-	 * @param request
-	 * @param response
-	 * @return
-	 */
+
 	@RequestMapping(value = { "updateByStatus", "" })
 	public @ResponseBody String updateByStatus(String installId, String orderId, String supplierConfirmIntoDate, String supplierConfirmRemarks, HttpServletRequest request, HttpServletResponse response) {
 
 		String result = "0";
-		// 1.安装项ID为空
+
 		if (null == installId || installId.equals("")) {
 			result = "1";
 			return result;
 		}
-		// 2.订单ID为空
+
 		if (null == orderId || orderId.equals("")) {
 			result = "2";
 			return result;
 		}
-		// 3.供应商确认日期为空
+
 		if (null == supplierConfirmIntoDate || supplierConfirmIntoDate.equals("")) {
 			result = "3";
 			return result;
 		}
-		// 4.当前登录人
+
 		User user = UserUtils.getUser();
 		Integer empId = null;
 		if (null != user && null != user.getEmpId() && !user.getEmpId().equals("")) {
 			empId = Integer.valueOf(user.getEmpId());
 		}
-		// 5.更新状态
+
 		String flag = bizOrderInstallPlanService.updateByIdAndStatus(Integer.valueOf(installId), InstallPlanConstantUtil.INSTALL_PLAN_STATUS_3, supplierConfirmIntoDate, supplierConfirmRemarks);
 		if (flag == "1") {
 			result = "4";
 			return result;
 		}
 
-		// 6.保存状态日志
+
 		Integer logId = bizBusinessStatusLogService.saveBusinessStatusLog(empId, Integer.valueOf(installId), BusinessLogConstantUtil.BUSINESS_TYPE_901, InstallPlanConstantUtil.INSTALL_PLAN_STATUS_3, "安装项" + InstallPlanConstantUtil.INSTALL_PLAN_STATUS_NAME_3);
 		if (null == logId || logId < 1) {
 			result = "5";
 			return result;
 		}
 
-		// 7.保存短信
-		// 订单（小区名称-楼号-单元号-门牌号-客户姓名-带货安装项名称）材料员已转单给供应商，供应商确认进场日期为（2017-02-20），请您知晓。”
+
+
 		BizEnginInstall enginInstall = new BizEnginInstall();
 		enginInstall.setInstallID(Integer.parseInt(installId));
 
@@ -177,7 +165,7 @@ public class BizEnginInstallController extends BaseController {
 
 		messageDao.saveMessageContent(entity);
 
-		// 8.站内消息
+
 		BizMsg bizMsg = new BizMsg();
 		bizMsg.setMsgTitle("下达供应商");
 		bizMsg.setMsgTime(new Date());
@@ -192,51 +180,44 @@ public class BizEnginInstallController extends BaseController {
 		return result;
 	}
 
-	/**
-	 * 回复
-	 * 
-	 * @param installPlanId
-	 * @param urgeReply
-	 * @param request
-	 * @return
-	 */
+
 	@RequestMapping(value = "save_install_reply")
 	public @ResponseBody String saveInstallReply(String installPlanId, String urgeReply, HttpServletRequest request) {
 
 		String result = "0";
 
-		// 1.安装申请回复 安装项ID为空
+
 		if (null == installPlanId || installPlanId.equals("")) {
 			result = "1";
 			return result;
 		}
-		// 2.获取材料部
+
 		User user = UserUtils.getUser();
 		Integer managerId = null;
 		if (null != user && null != user.getEmpId() && !user.getEmpId().equals("")) {
 			managerId = Integer.valueOf(user.getEmpId());
 		}
-		// 3.安装申请回复--5分钟校验
+
 		Integer count = bizBusinessUrgeService.findCountByfiveTime(Integer.valueOf(installPlanId), managerId, BusinessUrgeConstantUtil.BUSINESS_URGE_BUSINESS_TYPE_1, BusinessUrgeConstantUtil.BUSINESS_URGE_OPERATE_TYPE_2, BusinessUrgeConstantUtil.BUSINESS_URGE_OPERATOR_TYPE_2);
 		if ( null == count || count > 0 ) {
 			result = "3";
 			return result;
 		}
-		// 4.安装申请回复内容为空
+
 		if (null == urgeReply || urgeReply.equals("")) {
 			result = "4";
 			return result;
 		}
-		// 5.保存安装申请回复
+
 		Integer urgeId = bizBusinessUrgeService.saveBusinessUrge(managerId, urgeReply, Integer.valueOf(installPlanId), BusinessUrgeConstantUtil.BUSINESS_URGE_BUSINESS_TYPE_1, BusinessUrgeConstantUtil.BUSINESS_URGE_OPERATE_TYPE_2, BusinessUrgeConstantUtil.BUSINESS_URGE_OPERATOR_TYPE_2);
 		if ( null == urgeId ) {
 			result = "5";
 			return result;
 		}
-		// 6.保存安装申请回复图片
-		// List<ReportCheckDetailsPic> pList = new
-		// ArrayList<ReportCheckDetailsPic>();
-		// checkConfirmService.savePicAll(pList);
+
+
+
+
 		return result;
 
 	}
@@ -257,11 +238,7 @@ public class BizEnginInstallController extends BaseController {
 		return "modules/bizEnginInstall/supplierIntoDate";
 	}
 
-	/**
-	 * 查看详情
-	 * 
-	 * @return list
-	 */
+
 	@RequiresPermissions("bizengininstall:bizEnginInstall:view")
 	@RequestMapping(value = { "selectByInstallID", "" })
 	public String selectByInstallID(BizOrderInstallPlan bizOrderInstallPlan, HttpServletRequest request, HttpServletResponse response, Model model, String id, String orderID, String supplierDate) {
@@ -294,31 +271,22 @@ public class BizEnginInstallController extends BaseController {
 
 	}
 
-	/**
-	 * 查看日志
-	 * 
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @param id
-	 * @param orderID
-	 * @return
-	 */
+
 	@RequiresPermissions("bizengininstall:bizEnginInstall:view")
 	@RequestMapping(value = { "urgeLog", "" })
 	public String urgeLog(HttpServletRequest request, HttpServletResponse response, Model model, String id, String orderID) {
 
-		// 订单
+
 		BizEnginInstall order = null;
 		if (null != orderID && !orderID.equals("")) {
 			order = bizEnginInstallService.get(Integer.valueOf(orderID));
 		}
 
-		// 安装项
+
 		BizOrderInstallPlan plan = null;
-		// 安装项催促回复
+
 		List<BizBusinessUrge> businessUrgeList = null;
-		// 安装项催促回复
+
 		List<BizBusinessStatusLog> businessStatusLogList = null;
 
 		if (!id.equals("") && !orderID.equals("")) {
@@ -328,16 +296,16 @@ public class BizEnginInstallController extends BaseController {
 			businessStatusLogList = bizBusinessStatusLogService.findInstallStatusLog(Integer.valueOf(id), BusinessLogConstantUtil.BUSINESS_TYPE_901, InstallPlanConstantUtil.INSTALL_PLAN_STATUS_1);
 
 			BizBusinessUrge bizBusinessUrge = new BizBusinessUrge();
-			// 业务唯一标识整形
+
 			bizBusinessUrge.setBusinessOnlyMarkInt(Integer.valueOf(id));
-			// 业务类型
+
 			bizBusinessUrge.setBusinesType(BusinessUrgeConstantUtil.BUSINESS_URGE_BUSINESS_TYPE_1);
 
 			businessUrgeList = bizBusinessUrgeService.findList(bizBusinessUrge);
-			//查询项目经里验收日志
+
             Map<String,String> map = new HashMap<>();
             map.put("id",id);
-            /*map.put("accepType",BusinessUrgeConstantUtil.BUSINESS_URGE_ACCEPT_TYPE_2);*/
+
             List<BizBusinessUrge> list = bizBusinessUrgeService.findUnqualifiedAcceptLog(map);
             model.addAttribute("unqualifiedList", list);
 		}

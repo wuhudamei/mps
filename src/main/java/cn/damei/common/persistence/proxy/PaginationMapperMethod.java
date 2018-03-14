@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.common.persistence.proxy;
 
 import org.apache.ibatis.annotations.Param;
@@ -19,15 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * <p>
- * 执行代理类，扩展Mybatis的方式来让其Mapper接口来支持.
- * </p>
- *
- * @author poplar.yfyang
- * @version 1.0 2012-05-13 上午10:09
- * @since JDK 1.5
- */
+
 public class PaginationMapperMethod {
 
     private final SqlSession sqlSession;
@@ -63,12 +53,7 @@ public class PaginationMapperMethod {
         validateStatement();
     }
 
-    /**
-     * 代理执行方法。
-     *
-     * @param args 参数信息
-     * @return 执行结果
-     */
+
     @SuppressWarnings("unchecked")
     public Object execute(Object[] args) {
         final Object param = getParam(args);
@@ -88,34 +73,18 @@ public class PaginationMapperMethod {
         return page;
     }
 
-    /**
-     * 执行总数的方法，调用方法执行计算总数，取得总结果
-     *
-     * @param param 参数信息
-     * @return 查询的总记录数
-     */
+
     private long executeForCount(Object param) {
         Number result = (Number) sqlSession.selectOne(commandCountName, param);
         return result.longValue();
     }
 
-    /**
-     * 取得分页的执行结果，返回的是纪录信息
-     *
-     * @param param     参数
-     * @param rowBounds row
-     * @return 纪录列表
-     */
+
     private List<Object> executeForList(Object param, RowBounds rowBounds) {
         return sqlSession.selectList(commandName, param, rowBounds);
     }
 
-    /**
-     * 取得当前执行的参数信息
-     *
-     * @param args 参数
-     * @return 参数信息
-     */
+
     private Object getParam(Object[] args) {
         final int paramCount = paramPositions.size();
         if (args == null || paramCount == 0) {
@@ -158,17 +127,13 @@ public class PaginationMapperMethod {
         return paramName;
     }
 
-    /**
-     * 设置当前的查询总记录数的ID
-     */
+
     private void setupFields() {
         commandName = declaringInterface.getName() + "." + method.getName();
-        commandCountName = commandName + "Count"; // 命名约定
+        commandCountName = commandName + "Count";
     }
 
-    /**
-     * 设置当前的参数的类型信息
-     */
+
     private void setupCommandType() {
         MappedStatement ms = config.getMappedStatement(commandName);
         type = ms.getSqlCommandType();
@@ -177,9 +142,7 @@ public class PaginationMapperMethod {
         }
     }
 
-    /**
-     * 验证Statement
-     */
+
     private void validateStatement() {
         if (!config.hasStatement(commandName)) {
             throw new BindingException("Invalid bound statement (not found): " + commandName);

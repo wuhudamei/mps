@@ -7,11 +7,7 @@ import cn.damei.common.utils.UserUtils;
 
 import java.util.Date;
 
-/**
- * Created by joseph on 2017/5/15.
- *
- * 客户进店未签单
- */
+
 public class OrderReportLogCustomerInStoreImpl implements OrderReportLogStatePolicyInterface{
 
 

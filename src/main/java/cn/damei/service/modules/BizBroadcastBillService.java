@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.io.File;
@@ -28,11 +26,7 @@ import cn.damei.entity.modules.BizBroadcastBill;
 import cn.damei.common.utils.UserUtils;
 import cn.damei.dao.modules.BizBroadcastBillDao;
 
-/**
- * 播报信息类Service
- * @author meihao
- * @version 2017-01-10
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizBroadcastBillService extends CrudService<BizBroadcastBillDao, BizBroadcastBill> {
@@ -94,9 +88,9 @@ ArrayList<ManagerBroadCastEntity> list = new ArrayList<ManagerBroadCastEntity>()
 
 			
 		}
-		// 1:批量更新播报图片是否展示 picids isShow
+
 		broadcastDao.updateCurrentPicStatus(list);
-					// 2:如果项目经理再次上传图片 , 进行批量保存 photos isShow[picIds.length]
+
 
 					ArrayList<ManagerBroadCastEntity> list2 = new ArrayList<ManagerBroadCastEntity>();
 					if (null != photos && photos.length > 0) {
@@ -105,10 +99,10 @@ ArrayList<ManagerBroadCastEntity> list = new ArrayList<ManagerBroadCastEntity>()
 
 							String uuid = UUID.randomUUID().toString().replaceAll("-", "");
 
-							// String rootPath = RootName.SystemEnvironment(request);
+
 							String rootPath = request.getSession().getServletContext().getRealPath("");
 							File filePath = new File(rootPath + ConstantUtils.UPLOAD_BROADCAST_MANAGER + DateUtils.getDate1());
-							// 判断该文件是否存在
+
 							if (!filePath.exists() && !filePath.isDirectory()) {
 								filePath.mkdirs();
 							}
@@ -117,10 +111,10 @@ ArrayList<ManagerBroadCastEntity> list = new ArrayList<ManagerBroadCastEntity>()
 
 							String picpath = ConstantUtils.UPLOAD_BROADCAST_MANAGER + DateUtils.getDate1() + filePath.separator + uuid
 									+ ".jpeg";
-							// 保存图片到数据库
-							// 图片主键(自动生成),图片类型:501 播报图片 图片关联id : broadcastId
-							// pucUrl : picpath pic_datetime : new Date()
-							// remarks : isShow
+
+
+
+
 
 							entity = new ManagerBroadCastEntity();
 							entity.setPicDateTime(new Date());
@@ -139,14 +133,14 @@ ArrayList<ManagerBroadCastEntity> list = new ArrayList<ManagerBroadCastEntity>()
 								return false;
 							}
 
-							// 添加图片到集合中
+
 							list2.add(entity);
 			}
-						// 如果有图片
+
 						broadcastDao.savePicAndIsShow(list2);
 			
 		}
-					// 3: 更新播报单状态 为20 项目经理已播报 ---> broadcastId
+
 					ManagerBroadCastEntity entity2 = new ManagerBroadCastEntity();
 					entity2.setBroadcastId(Integer.parseInt(broadcastId == null ? "0" : broadcastId));
 					entity2.setCheckEmployeeId(Integer.parseInt(UserUtils.getUser().getId()));

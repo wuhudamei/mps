@@ -6,27 +6,25 @@ import cn.damei.common.persistence.DataEntity;
 
 public class ProblemItemReport extends DataEntity<ProblemItemReport> {
 
-	/**
-	 * @Fields serialVersionUID : TODO
-	 */
+
 	private static final long serialVersionUID = 1L;
 
-	private Integer storeId;// 门店ID
-	private String projectMode;// 工程模式
-	private String acceptArea; // 区域
-	private String workType; // 工种
-	private String itemName; // 事项名称
-	private Double itemCount; // 事项的数量
-	private Double workTypeSubtotal; // 小计
-	private Integer workTypeSuflag; // 小计标示
-	private Double itemProportion; // 事项占比
+	private Integer storeId;
+	private String projectMode;
+	private String acceptArea;
+	private String workType;
+	private String itemName;
+	private Double itemCount;
+	private Double workTypeSubtotal;
+	private Integer workTypeSuflag;
+	private Double itemProportion;
 
-	private Double acceptAreaPro; // 分区总计
-	private Integer accAreaProflag; // 分区总计标示
-	private Double workTypePro; // 工种占比
-	private Integer workTypeProflag; // 工种占比标示
-	private Date itemStartDate; // 事项开始时间
-	private Date itemEndDate; // 事项结束时间
+	private Double acceptAreaPro;
+	private Integer accAreaProflag;
+	private Double workTypePro;
+	private Integer workTypeProflag;
+	private Date itemStartDate;
+	private Date itemEndDate;
 
 	public Integer getStoreId() {
 		return storeId;

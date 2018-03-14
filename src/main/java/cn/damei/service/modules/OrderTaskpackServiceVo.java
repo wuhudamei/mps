@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.util.List;
@@ -13,11 +11,7 @@ import cn.damei.common.service.CrudService;
 import cn.damei.dao.modules.OrderTaskpackDaoVo;
 import cn.damei.entity.modules.OrderTaskpackVo;
 
-/**
- * 订单管理Service
- * @author llp
- * @version 2016-09-20
- */
+
 @Service
 @Transactional(readOnly = true)
 public class OrderTaskpackServiceVo extends CrudService<OrderTaskpackDaoVo, OrderTaskpackVo> {
@@ -29,7 +23,7 @@ public class OrderTaskpackServiceVo extends CrudService<OrderTaskpackDaoVo, Orde
         return super.get(id);
     }
 	
-	//生成任务包后"查看详情"
+
 	public List<OrderTaskpackVo> getByOrderIdAndTaskpacksgeId1(String id,String procedureNo) {
 		List<OrderTaskpackVo> list = orderTaskpackDaoVo.getByOrderIdAndTaskpacksgeId1(id,procedureNo);
 		if(list.size() == 0){
@@ -39,7 +33,7 @@ public class OrderTaskpackServiceVo extends CrudService<OrderTaskpackDaoVo, Orde
 		}
 	}
 	
-	//生成任务包后"查看详情"
+
 	public List<OrderTaskpackVo> getByOrderIdAndTaskpacksgeId(String id) {
 		List<OrderTaskpackVo> list = orderTaskpackDaoVo.getByOrderIdAndTaskpacksgeId(id);
 		if(list.size() == 0){

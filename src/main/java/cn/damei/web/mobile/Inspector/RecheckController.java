@@ -22,13 +22,7 @@ import cn.damei.entity.mobile.Manager.OrderSignVo;
 
 import net.sf.json.JSONArray;
 
-/**
- * 
- * @author 梅浩
- * @2016年11月9日
- * @mdn大美装饰管理平台
- * @author_phone : 18610507472
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/app/pqc/recheck")
 public class RecheckController {
@@ -52,9 +46,7 @@ public class RecheckController {
 		return "mobile/modules/pqc/recheck/repeat_check";
 	}
 
-	/**
-	 * 到场签到
-	 */
+
 	@RequestMapping(value = { "signByGPS", "" })
 	public String signByGPS(HttpServletRequest request, Model model) {
 		String orderId = request.getParameter("orderId");
@@ -70,14 +62,7 @@ public class RecheckController {
 		return "mobile/modules/pqc/recheck/map";
 	}
 
-	/**
-	 * 获取订单地址 经纬度
-	 * 
-	 * @param order
-	 * @param request
-	 * @param model
-	 * @return
-	 */
+
 	@RequestMapping(value = { "getAddress", "" })
 	public @ResponseBody JSONArray getAddress(OrderSignVo order, HttpServletRequest request, Model model) {
 
@@ -87,60 +72,54 @@ public class RecheckController {
 		return JSONArray.fromObject(split);
 	}
 
-//	/**
-//	 * 质检员签到
-//	 * 
-//	 * @param request
-//	 * @param sign
-//	 * @param model
-//	 * @param inspectId
-//	 * @return
-//	 */
-//	@RequestMapping(value = "pqcsign", method = RequestMethod.POST)
-//	public @ResponseBody String pqcsign(HttpServletRequest request, InspectSign inspectSign, Model model,
-//			String recheckId) {
-//		// 0:先存储好数据
-//		// 签到时间
-//		inspectSign.setSignDateTime(new Date());
-//		// 质检员信息id
-//		inspectSign.setSignEmployeeId(SessionUtils.getInspectorSession(request).getId());
-//		// 复检单id
-//		inspectSign.setRelatedBusinessId(Integer.parseInt(recheckId));
-//		// 登录人类型 (复检)
-//		inspectSign.setSignType("303");
-//		// 经纬度
-//		Double x = LngAndLatUtils.getLngAndLat(inspectSign.getSignAddress()).get("lng");
-//		Double y = LngAndLatUtils.getLngAndLat(inspectSign.getSignAddress()).get("lat");
-//		inspectSign.setSignXy(x + "," + y);
-//		// 1:根据复检单id,节点查询签到表
-//		Integer record = service.findInspectSignRecord(Integer.parseInt(recheckId));
-//		// 2:如果该复检单已经签到过 只更新签到时间, 否则 保存该签到
-//		if (null != record && record != 0) {
-//			// 已经签到过
-//			service.updateInspectRecord(inspectSign);
-//
-//			return "OK";
-//		} else {
-//			// 没有签到
-//			service.inspectorSign(inspectSign);
-//			return "OK";
-//
-//		}
-//	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	
 	
-	/**
-	 * 
-	 * @param detail
-	 * @param model
-	 * @param request
-	 * @return
-	 */
+
 	@RequestMapping(value = "pqcsign")
 	public @ResponseBody String pqcsign(InspectSign detail, Model model, HttpServletRequest request) {
 		String flag = "error";
 		try{
-			// 获取项目经理id
+
 			Inspector inspector = SessionUtils.getInspectorSession(request);
 			Date date = new Date();
 			
@@ -158,14 +137,14 @@ public class RecheckController {
 			inspectSign.setUpdateBy(inspector.getId());
 			inspectSign.setUpdateDate(date);
 			
-			// 1:根据复检单id,节点查询签到表
+
 			Integer record = service.findInspectSignRecord(detail.getRelatedBusinessId());
-			//2:如果该质检单已经签到过  只更新签到时间, 否则 保存该签到
+
 			if(null!=record&&record!=0){
-				//已经签到过	
+
 				service.updateInspectRecord(inspectSign);
 			}else{
-				//没有签到
+
 				service.inspectorSign(inspectSign);
 			}
 			flag = "success";
@@ -178,16 +157,10 @@ public class RecheckController {
 	
 	
 
-	/**
-	 * 复检单的不合格检查项,照片
-	 * 
-	 * @return
-	 * @throws IOException
-	 * @throws NumberFormatException
-	 */
+
 	@RequestMapping(value = "checkRecheckCheckItem")
 	public String checkRecheckCheckItem(String recheckId, Model model,String customerInfo) throws NumberFormatException, IOException {
-		// 根据复检单 查询不合格的检查项
+
 model.addAttribute("customerInfo",customerInfo);
 		if (null != recheckId && !"".equals(recheckId)) {
 			service.getCheckItemByRecheckId(Integer.parseInt(recheckId), model);
@@ -197,14 +170,12 @@ model.addAttribute("customerInfo",customerInfo);
 	}
 
 	
-	/**
-	 * 保存质检员审核的复检信息 (检查项合格与否, 图片,次数+1)
-	 */
-	@RequestMapping(value = "saveRecheck") // 复检单id 图片 检查项id 是否合格
+
+	@RequestMapping(value = "saveRecheck")
 	public @ResponseBody String saveRecheck(String recheckId, String[] photo, String []checkItemId, String[] isPassed,HttpServletRequest request) {
 
 
-		//检查质检单是否重复
+
 		RecheckEntity recheck=service.findRecheckById(Integer.parseInt(recheckId==null?"0":recheckId));
 	if(null!=recheck){
 
@@ -214,9 +185,9 @@ model.addAttribute("customerInfo",customerInfo);
 	}
 
 }
-		//保存图片,如果新增了的话
-		//保存检查项的检查结果,是否合格, 
-		//更改复检单的状态,复检次数+1
+
+
+
 		
 				boolean b = service.recheckManRecheckedRecheckCheckItemAndPhoto(recheckId, photo, checkItemId, isPassed,request);
 		if(b){
@@ -230,11 +201,7 @@ model.addAttribute("customerInfo",customerInfo);
 		
 	}	
 	
-	/**
-	 * 删除复检单照片
-	 * @param picId
-	 * @return
-	 */
+
 	@RequestMapping(value = "deletePic")
 	public @ResponseBody String deletePic(String picId) {
 

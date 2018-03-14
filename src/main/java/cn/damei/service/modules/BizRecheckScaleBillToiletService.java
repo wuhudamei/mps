@@ -10,11 +10,7 @@ import cn.damei.common.service.CrudService2;
 import cn.damei.dao.modules.BizRecheckScaleBillToiletDao;
 import cn.damei.entity.modules.BizRecheckScaleBillToilet;
 
-/**
- * 上报复尺(20161107-20161113)
- * @author llp
- * 2016-11-15
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizRecheckScaleBillToiletService extends CrudService2<BizRecheckScaleBillToiletDao,BizRecheckScaleBillToilet>{

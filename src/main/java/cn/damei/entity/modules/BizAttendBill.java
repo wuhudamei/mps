@@ -5,74 +5,70 @@ import java.util.Date;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import cn.damei.common.persistence.DataEntity2;
-/**
- * 考勤单
- * @author 
- *
- */
+
 public class BizAttendBill extends DataEntity2<BizAttendBill> {
 
 	private static final long serialVersionUID = 1L;
-	//考勤单批次id
+
 	private Integer attendBatchId;
-	//考勤单编号
+
 	private String attendBillCode;
-	//考勤人角色 1 经理
+
 	private String attendEmployeeRole;
-	//考勤人id
+
 	private Integer attendEmployeeId;
-	//考勤月份
+
 	@DateTimeFormat(pattern = "yyyy-MM")
 	private Date attendMonth;
 	
-	//考勤月份
+
 	@DateTimeFormat(pattern = "yyyy-MM")
 	private Date attendMonth2;
 	
-	//实际出勤天数
+
 	private Integer attendDaysTotal;
-	//全勤天数
+
 	private Integer attendDaysWhole;
-	//半勤天数
+
 	private Integer attendDaysHalf;
-	//底薪
+
 	private Double basicSalary;
-	//考勤备注
+
 	private String attendRemarks;
-	//应出勤天数
+
 	private Double attendDaysMust;
-	//事假天数
+
 	private Double leaveDaysThing;
-	//病假天数
+
 	private Double leaveDaysSick;
-	//年假天数
+
 	private Double leaveDaysAnnual;
-	//补休天数
+
 	private Double restDays;
-	//状态 20 以生成考勤单，30 以生成考勤批次
+
 	private String status;
-	//状态日期时间
+
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date statusDatetime;
-	//状态备注
+
 	private String statusRemarks;
 	
-	//区域id
+
 	private Integer enginDepartId;
-	//区域名字
+
 	private String departmentName;
 	
-	//项目经理名字
+
 	private String managerName;
-	//手机号
+
 	private String phone;
-	//门店id
+
 	private String storeId;
-	//工程模式
+
 	private String projectMode;
-	//星级
+
 	private String starLevel;
-	//性别
+
 	private Integer sex;
 	
 	private String no;

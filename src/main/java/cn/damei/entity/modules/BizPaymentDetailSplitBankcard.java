@@ -1,15 +1,9 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 付款单明细拆分Entity
- * @author www
- * @version 2016-10-31
- */
+
 public class BizPaymentDetailSplitBankcard extends DataEntity2<BizPaymentDetailSplitBankcard> {
 
 	private static final long serialVersionUID = 1L;

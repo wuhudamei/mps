@@ -25,11 +25,7 @@ import cn.damei.dao.modules.BizGuaranteeMoneyBalanceDao;
 import cn.damei.entity.modules.BizGuaranteeMoneyBalance;
 import cn.damei.dao.modules.InspectorConfirmDao;
 
-/**
- * 项目经理订单结算金额预览Service
- * @author hyh
- *
- */
+
 @Service
 @Transactional(readOnly = false)
 public class PmSettlementBudgetService extends CrudService2<PmSettlementBudgetDao, PmSettlementBudget> {
@@ -61,22 +57,18 @@ public class PmSettlementBudgetService extends CrudService2<PmSettlementBudgetDa
 		return list;
 	}
 
-	/**
-	 * 中期预计结算
-	 * 
-	 * @param budget
-	 */
+
 	public void getMidwaySettlementBudgetAmount(PmSettlementBudget budget) {
 		Integer orderId = budget.getOrderId();
 		BizPmStarCommissionCnfgSnap bizPmStarCommissionCnfgSnap = inspectorConfirmDao
 				.queryManagerCommissionByOrderId(orderId);
-		// 中期提成
+
 		Double commissionAmount = 0.0;
 		if(bizPmStarCommissionCnfgSnap != null){
 			commissionAmount = bizPmStarCommissionCnfgSnap.getCommissionAmount()
 					* bizPmStarCommissionCnfgSnap.getCommissionRateMidway();
 		}
-		// 标化材料扣款金额
+
 		List<BizMaterialsStandardReceiveBill> list = inspectorConfirmDao.findThree(orderId);
 		BizMaterialsStandardReceiveBill details3 = new BizMaterialsStandardReceiveBill();
 		details3.setReceiveBillAmount(0.0);
@@ -89,9 +81,9 @@ public class PmSettlementBudgetService extends CrudService2<PmSettlementBudgetDa
 		if (details3.getReceiveBillAmount() < 0) {
 			details3.setReceiveBillAmount((0 - details3.getReceiveBillAmount()));
 		}
-		// 自主支配金额
+
 		Double managerOwnpay = inspectorConfirmDao.queryManagerOwnpay(orderId);
-		// 中期罚款
+
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("orderId", orderId);
 		map.put("settleCategory", ConstantUtils.PM_SETTLE_CATEGORY_4);
@@ -102,7 +94,7 @@ public class PmSettlementBudgetService extends CrudService2<PmSettlementBudgetDa
 		if (managerPenalty < 0) {
 			managerPenalty = 0 - managerPenalty;
 		}
-		// 中期任务包材料结算总金额
+
 		double pmMaterialsSettleAmount = 0.00;
 		Map<String,Object> pmMaterialsParam = new HashMap<String,Object>();
 		pmMaterialsParam.put("orderId", orderId);
@@ -117,7 +109,7 @@ public class PmSettlementBudgetService extends CrudService2<PmSettlementBudgetDa
 			}
 		}
 
-		// 中期奖励金额
+
 		double pmRewardAmount = 0.0;
 		BizAssessRewardPunish rewardPunish = new BizAssessRewardPunish();
 		rewardPunish.setRelatedBusinessIdInt(orderId);
@@ -128,18 +120,18 @@ public class PmSettlementBudgetService extends CrudService2<PmSettlementBudgetDa
 		rewardPunish.setIsMonthInspection("0");
 		rewardPunish.setRewardPunishStatus("1");
 		pmRewardAmount = bizAssessRewardPunishDao.queryTotalAmountByParam(rewardPunish);
-		// 中期扣款金额
+
 		double pmPunishAmount = 0.0;
 		rewardPunish.setIsRewardOrPunish("2");
 		pmPunishAmount = bizAssessRewardPunishDao.queryTotalAmountByParam(rewardPunish);
 
-		//巡检
+
 		rewardPunish.setIsMonthInspection("1");
-		// 中期巡检奖励金额
+
 		double pmInspectionRewardAmount = 0.0;
 		rewardPunish.setIsRewardOrPunish("1");
 		pmInspectionRewardAmount = bizAssessRewardPunishDao.queryTotalAmountByParam(rewardPunish);
-		// 中期巡检罚款金额
+
 		double pmInspectionPunishAmount = 0.0;
 		rewardPunish.setIsRewardOrPunish("2");
 		pmInspectionPunishAmount = bizAssessRewardPunishDao.queryTotalAmountByParam(rewardPunish);
@@ -158,22 +150,18 @@ public class PmSettlementBudgetService extends CrudService2<PmSettlementBudgetDa
 		budget.setSettlementBudgetAmount(settleAmount);
 	}
 
-	/**
-	 * 竣工预计结算
-	 * 
-	 * @param budget
-	 */
+
 	public void getCompleteSettlementBudgetAmount(PmSettlementBudget budget) {
 		Integer orderId = budget.getOrderId();
 		BizPmStarCommissionCnfgSnap bizPmStarCommissionCnfgSnap = inspectorConfirmDao
 				.queryManagerCommissionByOrderId(orderId);
-		// 竣工提成
+
 		Double commissionAmount = 0.0;
 		if(bizPmStarCommissionCnfgSnap != null){
 			commissionAmount = bizPmStarCommissionCnfgSnap.getCommissionAmount()
 					* bizPmStarCommissionCnfgSnap.getCommissionRateComplete();
 		}
-		// 质保金
+
 		Double pmGuaranteeMoney = 0.0;
 		BizPmGuaranteeMoneyCnfgSnap gmcs = bizPmGuaranteeMoneyCnfgSnapDao.findGmc(orderId);
 		if (gmcs != null) {
@@ -193,7 +181,7 @@ public class PmSettlementBudgetService extends CrudService2<PmSettlementBudgetDa
 			}
 		}
 
-		// 自采材料报销金额
+
 		Map<String, Object> map1 = new HashMap<String, Object>();
 		map1.put("orderId", orderId);
 		map1.put("settleCategory", ConstantUtils.PM_SETTLE_CATEGORY_11);
@@ -210,9 +198,9 @@ public class PmSettlementBudgetService extends CrudService2<PmSettlementBudgetDa
 		double pmInspectionRewardAmount = 0.0;
 		double pmInspectionPunishAmount = 0.0;
 		int count = dao.checkQcBillByOrderId(orderId);
-		// 中期结算的约检节点已通过
+
 		if (count > 0) {
-			// 竣工罚款
+
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("orderId", orderId);
 			map.put("settleCategory", ConstantUtils.PM_SETTLE_CATEGORY_4);
@@ -224,7 +212,7 @@ public class PmSettlementBudgetService extends CrudService2<PmSettlementBudgetDa
 				managerPenalty = 0 - managerPenalty;
 			}
 
-			// 竣工任务包材料结算总金额
+
 			Map<String,Object> pmMaterialsParam = new HashMap<String,Object>();
 			pmMaterialsParam.put("orderId", orderId);
 			pmMaterialsParam.put("pmEmployeeId", budget.getPmEmployeeId());
@@ -235,7 +223,7 @@ public class PmSettlementBudgetService extends CrudService2<PmSettlementBudgetDa
 				}
 			}
 
-			// 竣工奖励金额
+
 			BizAssessRewardPunish rewardPunish = new BizAssessRewardPunish();
 			rewardPunish.setRelatedBusinessIdInt(orderId);
 			rewardPunish.setRewardPunishTargetEmployeeId(bizPmStarCommissionCnfgSnap.getPmEmployeeId());
@@ -247,21 +235,21 @@ public class PmSettlementBudgetService extends CrudService2<PmSettlementBudgetDa
 			rewardPunish.setRewardPunishTargetEmployeeId(budget.getPmEmployeeId());
 			pmRewardAmount = bizAssessRewardPunishDao.queryTotalAmountByParam(rewardPunish);
 
-			// 竣工扣款金额
+
 			rewardPunish.setIsRewardOrPunish("2");
 			pmPunishAmount = bizAssessRewardPunishDao.queryTotalAmountByParam(rewardPunish);
 
-			// 巡检
+
 			rewardPunish.setIsMonthInspection("1");
-			// 竣工巡检奖励金额
+
 			rewardPunish.setIsRewardOrPunish("1");
 			pmInspectionRewardAmount = bizAssessRewardPunishDao.queryTotalAmountByParam(rewardPunish);
-			// 竣工巡检罚款金额
+
 			rewardPunish.setIsRewardOrPunish("2");
 			pmInspectionPunishAmount = bizAssessRewardPunishDao.queryTotalAmountByParam(rewardPunish);
 		}
 
-		// 竣工提成合计金额
+
 		Double settleAmount = commissionAmount + sinceMaterials - pmGuaranteeMoney - managerPenalty
 				+ pmMaterialsSettleAmount + pmRewardAmount - pmPunishAmount + pmInspectionRewardAmount - pmInspectionPunishAmount;
 

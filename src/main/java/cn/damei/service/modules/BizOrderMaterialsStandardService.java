@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.util.Date;
@@ -14,11 +12,7 @@ import cn.damei.common.service.CrudService2;
 import cn.damei.dao.modules.BizOrderMaterialsStandardDao;
 import cn.damei.entity.modules.BizOrderMaterialsStandard;
 
-/**
- * 标化辅料（筒灯灯带）订单Service
- * @author lft
- * @version 2017-05-12
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizOrderMaterialsStandardService extends CrudService2<BizOrderMaterialsStandardDao, BizOrderMaterialsStandard> {

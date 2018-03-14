@@ -4,73 +4,45 @@ import java.util.Date;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 上报复尺新版(20161107-20161113)
- * @author llp 
- * 2016-11-16
- */
+
 @SuppressWarnings("serial")
 public class RecheckScaleBillTaokou extends DataEntity2<RecheckScaleBillTaokou> {
 	private Integer id;
 
-	/**
-	 * 复尺单id
-	 */
+
 	private Integer recheckScaleBillId;
 
-	/**
-	 * 位置
-	 */
+
 	private String position;
 
-	/**
-	 * 包套
-	 */
+
 	private String packageCover;
 
-	/**
-	 * 洞口宽度
-	 */
+
 	private String holeWidth;
 
-	/**
-	 * 洞口高度
-	 */
+
 	private String holeHeight;
 
-	/**
-	 * 洞口厚度
-	 */
+
 	private String holeThickness;
 	
-	/**
-	 * 备注
-	 */
+
 	private String remarks;
 	
-	/**
-	 * 创建人
-	 */
+
 	private String createPeo;
 	
-	/**
-	 * 创建日期时间
-	 */
+
 	private Date createDate;
 
-	/**
-	 * 更新日期时间
-	 */
+
 	private Date updateDate;
 	
-	/**
-	 * 更新人
-	 */
+
 	private String updatePeo;
 
-	/**
-	 * 是否删除
-	 */
+
 	private String delFlag;
 
 	public Integer getId() {

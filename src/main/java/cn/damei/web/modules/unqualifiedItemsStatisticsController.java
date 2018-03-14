@@ -18,14 +18,7 @@ import cn.damei.entity.modules.unqualifiedItemsStatisticsEntity;
 import cn.damei.service.modules.unqualifiedItemsStatisticsService;
 import cn.damei.common.utils.UserUtils;
 
-/**
- * 
- * @author 梅浩
- * @2016年12月7日
- * @mdn大美装饰管理平台
- * @author_phone : 18610507472
- * @ClassInfo:不合格项统计
- */
+
 @Controller
 @RequestMapping(value="${adminPath}/unqualifiedItemsStatistics")
 public class unqualifiedItemsStatisticsController extends BaseController {
@@ -61,9 +54,9 @@ public class unqualifiedItemsStatisticsController extends BaseController {
 			model.addAttribute("endDate", sign.getEndDate());
 		}
 		int x = 0;
-		// 不是管理员就不能查全部门店
+
 		if (!UserUtils.getUser().getOffice().getId().equals("1")) {
-			// 安心查自己门店吧
+
 			sign.setStoreId(Integer.parseInt(UserUtils.getUser().getStoreId()));
 			x++;
 		}	

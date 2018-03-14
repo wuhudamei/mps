@@ -1,29 +1,23 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import java.util.Date;
 
 import cn.damei.common.persistence.DataEntity;
 
-/**
- * 消息推送Entity
- * @author wyb
- * @version 2016-11-16
- */
+
 public class BizMsg extends DataEntity<BizMsg> {
 	
 	private static final long serialVersionUID = 1L;
-	private Integer msgTd;		//id
-	private String msgTitle;		//消息标题
-	private Date msgTime;		// 消息时间
-	private String msgContent;		//消息内容
-	private String msgType;		//消息类型
-	private String busiType;		//业务类型
-	private String busiId;		//业务id
-	private Integer busiIdInt;		//业务id
-	private Integer employeeId;		//用户id
+	private Integer msgTd;
+	private String msgTitle;
+	private Date msgTime;
+	private String msgContent;
+	private String msgType;
+	private String busiType;
+	private String busiId;
+	private Integer busiIdInt;
+	private Integer employeeId;
 	
 	public Integer getMsgTd() {
 		return msgTd;

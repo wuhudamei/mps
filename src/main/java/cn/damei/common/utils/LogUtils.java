@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.common.utils;
 
 import java.lang.reflect.Method;
@@ -21,11 +19,7 @@ import cn.damei.entity.modules.Log;
 import cn.damei.entity.modules.Menu;
 import cn.damei.entity.modules.User;
 
-/**
- * 字典工具类
- * @author ThinkGem
- * @version 2014-11-7
- */
+
 public class LogUtils {
 	
 	public static final String CACHE_MENU_NAME_PATH_MAP = "menuNamePathMap";
@@ -33,16 +27,12 @@ public class LogUtils {
 	private static LogDao logDao = SpringContextHolder.getBean(LogDao.class);
 	private static MenuDao menuDao = SpringContextHolder.getBean(MenuDao.class);
 	
-	/**
-	 * 保存日志
-	 */
+
 	public static void saveLog(HttpServletRequest request, String title){
 		saveLog(request, null, null, title);
 	}
 	
-	/**
-	 * 保存日志
-	 */
+
 	public static void saveLog(HttpServletRequest request, Object handler, Exception ex, String title){
 		User user = UserUtils.getUser();
 		if (user != null && user.getId() != null){
@@ -54,14 +44,12 @@ public class LogUtils {
 			log.setRequestUri(request.getRequestURI());
 			log.setParams(request.getParameterMap());
 			log.setMethod(request.getMethod());
-			// 异步保存日志
+
 			new SaveLogThread(log, handler, ex).start();
 		}
 	}
 
-	/**
-	 * 保存日志线程
-	 */
+
 	public static class SaveLogThread extends Thread{
 		
 		private Log log;
@@ -77,7 +65,7 @@ public class LogUtils {
 		
 		@Override
 		public void run() {
-			// 获取日志标题
+
 			if (StringUtils.isBlank(log.getTitle())){
 				String permission = "";
 				if (handler instanceof HandlerMethod){
@@ -87,21 +75,19 @@ public class LogUtils {
 				}
 				log.setTitle(getMenuNamePath(log.getRequestUri(), permission));
 			}
-			// 如果有异常，设置异常信息
+
 			log.setException(Exceptions.getStackTraceAsString(ex));
-			// 如果无标题并无异常日志，则不保存信息
+
 			if (StringUtils.isBlank(log.getTitle()) && StringUtils.isBlank(log.getException())){
 				return;
 			}
-			// 保存日志信息
+
 			log.preInsert();
 			logDao.insert(log);
 		}
 	}
 
-	/**
-	 * 获取菜单名称路径（如：系统设置-机构用户-用户管理-编辑）
-	 */
+
 	public static String getMenuNamePath(String requestUri, String permission){
 		String href = StringUtils.substringAfter(requestUri, Global.getAdminPath());
 		@SuppressWarnings("unchecked")
@@ -110,13 +96,13 @@ public class LogUtils {
 			menuMap = Maps.newHashMap();
 			List<Menu> menuList = menuDao.findAllList(new Menu());
 			for (Menu menu : menuList){
-				// 获取菜单名称路径（如：系统设置-机构用户-用户管理-编辑）
+
 				String namePath = "";
 				if (menu.getParentIds() != null){
 					List<String> namePathList = Lists.newArrayList();
 					for (String id : StringUtils.split(menu.getParentIds(), ",")){
 						if (Menu.getRootId().equals(id)){
-							continue; // 过滤跟节点
+							continue;
 						}
 						for (Menu m : menuList){
 							if (m.getId().equals(id)){
@@ -128,7 +114,7 @@ public class LogUtils {
 					namePathList.add(menu.getName());
 					namePath = StringUtils.join(namePathList, "-");
 				}
-				// 设置菜单名称路径
+
 				if (StringUtils.isNotBlank(menu.getHref())){
 					menuMap.put(menu.getHref(), namePath);
 				}else if (StringUtils.isNotBlank(menu.getPermission())){

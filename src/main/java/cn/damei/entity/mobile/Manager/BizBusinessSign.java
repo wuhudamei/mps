@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.mobile.Manager;
 
 import org.hibernate.validator.constraints.Length;
@@ -10,26 +8,22 @@ import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 人员签到Entity
- * @author qww
- * @version 2016-11-03
- */
+
 public class BizBusinessSign extends DataEntity2<BizBusinessSign> {
 	
 	private static final long serialVersionUID = 1L;
-	private String signType;		// 签到类型 -- '101.项目经理任务包验收签到;102.项目经理日常签到；201.工人确认开工签到；301.质检约检签到；302.质检抽检签到；303.质检复检签到
-	private Integer relatedBusinessIdInt;		// 关联业务id整型 -- '
-	private String relatedBusinessIdVarchar;		// 关联业务id字符型 -- '
-	private Integer signEmployeeId;		// 签到人员工id -- '
-	private Date signDatetime;		// 签到日期时间 -- '
-	private String signAddress;		// 签到地址 -- '
-	private String signXy;		// 签到坐标 -- '
-	private Double signErrorDistance;		// 签到坐标误差 -- '
+	private String signType;
+	private Integer relatedBusinessIdInt;
+	private String relatedBusinessIdVarchar;
+	private Integer signEmployeeId;
+	private Date signDatetime;
+	private String signAddress;
+	private String signXy;
+	private Double signErrorDistance;
 	private String lat;
 	private String lon;
-	private String signStep;//签到阶段   10-基装，20-竣工
-	private String isValid; //是否合格：0否，1是
+	private String signStep;
+	private String isValid;
 	private String orderId;
 	
 	

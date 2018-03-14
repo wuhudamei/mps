@@ -13,11 +13,7 @@ import cn.damei.dao.modules.BizOrderTaskpackagePaymentFreezeDao;
 import cn.damei.entity.modules.BizOrderTaskpackagePayment;
 import cn.damei.entity.modules.BizOrderTaskpackagePaymentFreeze;
 
-/**
- * 付款单冻结/解冻Service
- * @author hyh
- *
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizOrderTaskpackagePaymentFreezeService extends CrudService2<BizOrderTaskpackagePaymentFreezeDao,BizOrderTaskpackagePaymentFreeze>{
@@ -34,26 +30,21 @@ public class BizOrderTaskpackagePaymentFreezeService extends CrudService2<BizOrd
 		super.save(bizOrderTaskpackagePaymentFreeze);
 	}
 	
-	/**
-	 * 冻结/解冻付款单
-	 * @param id
-	 * @param status
-	 * @return
-	 */
+
 	@Transactional(readOnly = false)
 	public String freezePayment(Integer id,String status,String frozenRemarks,int isFrozenType){
 		String result = "success";
 		String frozenType=null;
-		//修改付款单状态
+
 		BizOrderTaskpackagePayment bizOrderTaskpackagePayment = bizOrderTaskpackagePaymentDao.get(id);
-		if(status.equals("18")){//冻结
-			if(bizOrderTaskpackagePayment.getStatus().equals("18")){//已冻结
+		if(status.equals("18")){
+			if(bizOrderTaskpackagePayment.getStatus().equals("18")){
 				return "repeat";
 			}else{
 				frozenType="1";
 			}
-		}else if(status.equals("15")){//解冻
-            if(!bizOrderTaskpackagePayment.getStatus().equals("18")){//已解冻
+		}else if(status.equals("15")){
+            if(!bizOrderTaskpackagePayment.getStatus().equals("18")){
             	return "repeat";
 			}else{
 				frozenType="2";
@@ -63,7 +54,7 @@ public class BizOrderTaskpackagePaymentFreezeService extends CrudService2<BizOrd
 		bizOrderTaskpackagePayment.setStatusDatetime(new Date());
 		bizOrderTaskpackagePayment.preUpdate();
 		bizOrderTaskpackagePaymentDao.update(bizOrderTaskpackagePayment);
-		//添加冻结解冻信息
+
 		BizOrderTaskpackagePaymentFreeze  bizOrderTaskpackagePaymentFreeze = new BizOrderTaskpackagePaymentFreeze();
 		bizOrderTaskpackagePaymentFreeze.setBizOrderTaskpackagePaymentId(id);
 		bizOrderTaskpackagePaymentFreeze.setFrozenRemarks(frozenRemarks);

@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.common.security.shiro.cache;
 
 import java.util.Collection;
@@ -23,11 +21,7 @@ import org.slf4j.LoggerFactory;
 import com.google.common.collect.Sets;
 import cn.damei.common.web.Servlets;
 
-/**
- * 自定义授权缓存管理类
- * @author ThinkGem
- * @version 2014-7-21
- */
+
 public class SessionCacheManager implements CacheManager {
 
 	@Override
@@ -35,9 +29,7 @@ public class SessionCacheManager implements CacheManager {
 		return new SessionCache<K, V>(name);
 	}
 
-	/**
-	 * SESSION缓存管理类
-	 */
+
 	public class SessionCache<K, V> implements Cache<K, V> {
 
 		private Logger logger = LoggerFactory.getLogger(getClass());

@@ -9,11 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import cn.damei.common.service.CrudService2;
 import cn.damei.dao.modules.BizOrderContractSettleDao;
 
-/**
- * 订单承包结算Service
- * @author hyh
- *
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizOrderContractSettleService extends CrudService2<BizOrderContractSettleDao, BizOrderContractSettle>{

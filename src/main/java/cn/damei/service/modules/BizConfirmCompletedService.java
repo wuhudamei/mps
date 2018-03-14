@@ -11,11 +11,7 @@ import cn.damei.common.service.CrudService2;
 import cn.damei.dao.modules.BizConfirmCompletedDao;
 import cn.damei.entity.modules.BizConfirmCompleted;
 
-/**
- * 订单交底
- * 确认竣工
- * @author llp
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizConfirmCompletedService extends CrudService2<BizConfirmCompletedDao, BizConfirmCompleted>{
@@ -35,13 +31,7 @@ public class BizConfirmCompletedService extends CrudService2<BizConfirmCompleted
 		return super.findPage(page, bizEnginInstall);
 	}
 
-	/**
-	 * 订单状态修改为400
-	 * @param orderID
-	 * @param orderstatus400Value
-	 * @param orderstatus400ValueRemark
-	 * @return
-	 */
+
 	@Transactional(readOnly = false)
 	public String updateByOrderStatusOrCompleted( String orderstatus400Value,
 			String orderstatus400ValueRemark, Integer orderID) {
@@ -50,7 +40,7 @@ public class BizConfirmCompletedService extends CrudService2<BizConfirmCompleted
 	}
 
 	public BizConfirmCompleted getByID(Integer id) {
-		// TODO Auto-generated method stub
+
 		return bizConfirmCompletedDao.getByID(id);
 	}
 

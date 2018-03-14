@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.math.BigDecimal;
@@ -28,11 +26,7 @@ import cn.damei.dao.modules.OrderTaskpackageDao;
 import cn.damei.entity.modules.OrderTaskpackage;
 import cn.damei.common.utils.UserUtils;
 
-/**
- * 订单任务包工序Service
- * @author llp
- * @version 2016-09-23
- */
+
 @Service
 @Transactional(readOnly = true)
 public class OrderTaskpackageProcedureService extends CrudService<OrderTaskpackageProcedureDao, OrderTaskpackageProcedure> {
@@ -118,7 +112,7 @@ public class OrderTaskpackageProcedureService extends CrudService<OrderTaskpacka
 			opt.setLaborBudgetAmount(Double.valueOf(0.00));
 			opt.setAuxiliaryMaterialsBudgetAmount(Double.valueOf(0.00));
 		}
-		//opt.setRemarks(tp.getRemarks());
+
 		opt.setCreateBy(UserUtils.getUser().getCreateBy());
 		opt.setCreateDate(new Date());
 		opt.setUpdateBy(UserUtils.getUser().getCreateBy());
@@ -127,23 +121,13 @@ public class OrderTaskpackageProcedureService extends CrudService<OrderTaskpacka
     	return bz;
 	}
 
-	/**
-	 * 根据任务包编号查询任务包
-	 * 工序下面关联的任务包工序
-	 * @param valueOf
-	 * @return
-	 */
+
 	public List<OrderTaskpackageProcedure> getByTaskpackageId(Integer taskpackageId) {
-		// TODO Auto-generated method stub
+
 		return orderTaskpackageProcedureDao.getByTaskpackageId(taskpackageId);
 	}
 
-	/**
-	 * 任务包审核
-	 * 修改任务包
-	 * @param orderTaskpackGenVo
-	 * @return boolean
-	 */
+
 	@Transactional(readOnly = false)
 	public boolean insertProcedure(OrderTaskpackGenVo orderTaskpackGenVo,String taskPackageTemplatId) {
 		OrderTaskpackageProcedure p = new OrderTaskpackageProcedure();
@@ -153,7 +137,7 @@ public class OrderTaskpackageProcedureService extends CrudService<OrderTaskpacka
 		p.setPackageName(orderTaskpackGenVo.getTemplatName().trim());
 		p.setProcedureNo(orderTaskpackGenVo.getProcedureNo().trim());
 		p.setProcedureName(orderTaskpackGenVo.getProcedureName().trim());
-		//p.setMeasurementUnit("0");//orderTaskpackGenVo.getMeasurementUnit()
+
 		p.setMeasurementUnit(orderTaskpackGenVo.getMeasurementUnit());
 		p.setLaborPrice(Double.valueOf(orderTaskpackGenVo.getLaborPrice().trim()));
 		p.setAccessoriesPrice(Double.valueOf(orderTaskpackGenVo.getAccessoriesPrice().trim()));
@@ -173,14 +157,7 @@ public class OrderTaskpackageProcedureService extends CrudService<OrderTaskpacka
 		return (orderTaskpackageProcedureDao.insertProcedure(p)) ? true :false;
 	}
 
-	/**
-	 * 任务包审核
-	 * 修改任务包
-	 * @param procedureID
-	 * @param budgetNumber
-	 * @param total
-	 * @return 
-	 */
+
 	@Transactional(readOnly = false)
 	public boolean updateById(Double budgetNumber,Double total,String procedureID,String remarks,Double laborBudgetAmount, Double auxiliaryMaterialsBudgetAmount) {
 		return (orderTaskpackageProcedureDao.updateById(budgetNumber,total,procedureID,remarks,laborBudgetAmount,auxiliaryMaterialsBudgetAmount)) ? true : false;

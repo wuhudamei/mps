@@ -1,28 +1,22 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 墙地砖订单统计表Entity
- * @author wyb
- * @version 2017-08-01
- */
+
 public class BizWallFloorTileOrderCount extends DataEntity2<BizWallFloorTileOrderCount> {
 	
 	private static final long serialVersionUID = 1L;
-	private Integer orderId;		// 订单id
-	private Double squareBudget;		// 预算面积
-	private Double squarePurchaseTotal;		// 采购合计面积
-	private Double squareReturn;		// 退货面积
-	private Double squarePurchaseReal;		// 采购实际面积
-	private Double squareSettle;		// 结算面积
-	private Double squareMeasure;		// 实测面积
+	private Integer orderId;
+	private Double squareBudget;
+	private Double squarePurchaseTotal;
+	private Double squareReturn;
+	private Double squarePurchaseReal;
+	private Double squareSettle;
+	private Double squareMeasure;
 	
-	private String projectMode; //订单工程模式
+	private String projectMode;
 	
 	public BizWallFloorTileOrderCount() {
 		super();

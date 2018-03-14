@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import java.util.Date;
@@ -8,23 +6,19 @@ import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import cn.damei.common.persistence.DataEntity;
 
-/**
- * 顾客投诉Entity
- * @author lwc
- * @version 2017-04-12
- */
+
 public class ScorebizCustomerComplaint extends DataEntity<ScorebizCustomerComplaint> {
 	
 	private static final long serialVersionUID = 1L;
 
-	private Integer orderId;		// 订单id
-	private String complainCode;	// 投诉编号
-	private String complainType;	// 投诉类型
-	private String complainContent;	// 投诉内容
-	private Date complainTime;		// 投诉时间
-	private Integer employeeId;		// 员工id
-	private String employeeName;	// 员工姓名
-	private String employeePhone;	// 员工电话
+	private Integer orderId;
+	private String complainCode;
+	private String complainType;
+	private String complainContent;
+	private Date complainTime;
+	private Integer employeeId;
+	private String employeeName;
+	private String employeePhone;
 	
 	public ScorebizCustomerComplaint() {
 		super();

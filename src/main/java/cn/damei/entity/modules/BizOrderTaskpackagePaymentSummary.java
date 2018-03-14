@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import org.hibernate.validator.constraints.Length;
@@ -13,34 +11,30 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 付款单批次Entity
- * @author 汪文文
- * @version 2016-10-26
- */
+
 public class BizOrderTaskpackagePaymentSummary extends DataEntity2<BizOrderTaskpackagePaymentSummary> {
 	
 	private static final long serialVersionUID = 1L;
 	private Integer id;
 	private Integer storeId;
 	private String projectMode;
-	private String orderTaskpackagePaymentSummaryCode;		// 订单任务包付款汇总单编号 -- '
-	private Integer orderTaskpackagePaymentCount;		// 付款单数量 -- '
-	private Date generatedDatetime;		// 生成日期时间 -- '
-	private Integer applyEmployeeId;		// 申请人员工id -- '
+	private String orderTaskpackagePaymentSummaryCode;
+	private Integer orderTaskpackagePaymentCount;
+	private Date generatedDatetime;
+	private Integer applyEmployeeId;
 	private String applyEmployeeName;
-	private String status;		// 状态 -- '
-	private Integer examineEmployeeId;		// 审核人员工id -- '
+	private String status;
+	private Integer examineEmployeeId;
 	private String examineEmployeeName;
-	private Date examineDatetime;		// 审核日期时间 -- '
-	private String examineWords;		// 审核意见 -- '
-	private String cancleReason;		// 撤回原因 -- '
-	private Date beginGeneratedDatetime;		// 开始 生成日期时间 -- '
-	private Date endGeneratedDatetime;		// 结束 生成日期时间 -- '
+	private Date examineDatetime;
+	private String examineWords;
+	private String cancleReason;
+	private Date beginGeneratedDatetime;
+	private Date endGeneratedDatetime;
 
-	private Double amount; // 本批次累计总金额
-	private String realName; // 员工姓名
-	private String phone; // 手机号
+	private Double amount;
+	private String realName;
+	private String phone;
 	private List<String> summaryStatus;
 	private String orderTaskpackagePaymentCode;
 	private String paymentStatus;

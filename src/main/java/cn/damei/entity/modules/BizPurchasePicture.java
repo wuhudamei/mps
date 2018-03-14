@@ -4,9 +4,7 @@ import cn.damei.common.persistence.DataEntity2;
 
 public class BizPurchasePicture extends DataEntity2<BizPurchasePicture>{
 
-	/**
-	 * @author wang
-	 */
+
 	private static final long serialVersionUID = 1L;
 	private Integer id;
 	private Integer purchaseId;

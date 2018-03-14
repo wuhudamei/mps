@@ -6,57 +6,53 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 墙地砖催促Entity
- * @author wyb
- * @version 2017-05-03
- */
+
 public class WallAndFloorBusinessUrge extends DataEntity2<WallAndFloorBusinessUrge> {
 	
 	private static final long serialVersionUID = 1L;
-	private Integer businessId;	//业务id
-	private Integer businessOnlyMarkInt;		// 业务唯一标识整型
-	private String businessOnlyMarkVarchar;		// 业务唯一标识字符型
-	private String businesType;		// 业务类型
-	private String businesTypeName;		// 业务类型 名称
-	private String operateType;		// 操作类型
-	private String operateTypeName;		// 操作类型 名称
-	private String operateContent;		// 操作内容
-	private Integer operatorEmployeeId;		// 操作人员工id
-	private String operatorEmployeeName;		// 操作人员工id 名称
-	private String operatorType;		// 操作人类型
-	private String operatorTypeName;		// 操作人类型 名称
-	private Date operateDatetime;		// 操作日期时间
-	private Date beginOperateDatetime;		// 操作日期时间 开始
-	private Date endOperateDatetime;		// 操作日期时间 结束
+	private Integer businessId;
+	private Integer businessOnlyMarkInt;
+	private String businessOnlyMarkVarchar;
+	private String businesType;
+	private String businesTypeName;
+	private String operateType;
+	private String operateTypeName;
+	private String operateContent;
+	private Integer operatorEmployeeId;
+	private String operatorEmployeeName;
+	private String operatorType;
+	private String operatorTypeName;
+	private Date operateDatetime;
+	private Date beginOperateDatetime;
+	private Date endOperateDatetime;
 	
-	private Integer purchaseId;	//采购单id
-	private String purchaseCode;//采购单编号
-	private String purchaseStatus;//采购单状态
-	private String purchaseStatusName;//采购单状态 名称
+	private Integer purchaseId;
+	private String purchaseCode;
+	private String purchaseStatus;
+	private String purchaseStatusName;
 	
-	private Integer orderId; //订单id
-	private String communityName;//小区
-	private String buildNumber;//楼
-	private String buildUnit; //单元
-	private String buildRoom; //室
+	private Integer orderId;
+	private String communityName;
+	private String buildNumber;
+	private String buildUnit;
+	private String buildRoom;
 	
-	private String customerName; //客户姓名
-	private String customerPhone; //客户电话
+	private String customerName;
+	private String customerPhone;
 	
-	private Integer itemManagerId;//项目经理id
-	private String itemManagerName;//项目经理姓名
-	private String itemManagerPhone; //项目经理电话
+	private Integer itemManagerId;
+	private String itemManagerName;
+	private String itemManagerPhone;
 	
-	private Integer storeId; //门店
-	private String storeName; //门店名称
+	private Integer storeId;
+	private String storeName;
 	
-	private String projectMode; //工程模式
-	private String projectModeName; //工程模式名称
+	private String projectMode;
+	private String projectModeName;
 	
-	private Integer enginDepartId; //区域id
-	private String enginDepartName;//区域名称
-	private Integer urgeCount;	//催促次数
+	private Integer enginDepartId;
+	private String enginDepartName;
+	private Integer urgeCount;
 	
 	
 

@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import java.util.List;
@@ -31,11 +29,7 @@ import cn.damei.service.modules.BizEmployeeService2;
 import cn.damei.entity.modules.User;
 import cn.damei.common.utils.UserUtils;
 
-/**
- * 检查项Controller
- * @author wyb
- * @version 2016-10-27
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/bizqccheckitem/bizQcCheckItem")
 public class BizQcCheckItemController extends BaseController {
@@ -62,7 +56,7 @@ public class BizQcCheckItemController extends BaseController {
 	public String list(BizQcCheckItem bizQcCheckItem, HttpServletRequest request, HttpServletResponse response, Model model) {
 		
 		User user = UserUtils.getUser();
-		//过滤门店
+
 		if(null==bizQcCheckItem.getStoreId()){
 			if(null!=user.getStoreId()){
 				bizQcCheckItem.setStoreId(Integer.valueOf(user.getStoreId()));
@@ -71,7 +65,7 @@ public class BizQcCheckItemController extends BaseController {
 		if(StringUtils.isBlank(user.getStoreId())){
 			model.addAttribute("storeDropEnable", true);
 		}
-		//过滤工程模式
+
 		if(StringUtils.isBlank(bizQcCheckItem.getProjectMode())){
 			if(null != user.getEmpId()){
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -120,7 +114,7 @@ public class BizQcCheckItemController extends BaseController {
 	public String itemList(BizQcCheckItem bizQcCheckItem, HttpServletRequest request, HttpServletResponse response, Model model) {
 		
 		User user = UserUtils.getUser();
-		//过滤门店
+
 		if(null==bizQcCheckItem.getStoreId()){
 			if(null!=user.getStoreId()){
 				bizQcCheckItem.setStoreId(Integer.valueOf(user.getStoreId()));
@@ -129,7 +123,7 @@ public class BizQcCheckItemController extends BaseController {
 		if(StringUtils.isBlank(user.getStoreId())){
 			model.addAttribute("storeDropEnable", true);
 		}
-		//过滤工程模式
+
 		if(StringUtils.isBlank(bizQcCheckItem.getProjectMode())){
 			if(null != user.getEmpId()){
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -216,13 +210,7 @@ public class BizQcCheckItemController extends BaseController {
 	}
 
 
-	/**
-	 * 根据安装项分类查询安装项
-	 * @param bizQcCheckItem
-	 * @param model
-	 * @param redirectAttributes
-	 * @return
-	 */
+
 	@RequestMapping(value = "/ajaxQcCheckKindAll")
 	@ResponseBody
 	public Object ajaxQcCheckKindAll(BizQcCheckItem bizQcCheckItem, Model model, RedirectAttributes redirectAttributes) {
@@ -230,13 +218,7 @@ public class BizQcCheckItemController extends BaseController {
 		List<Map<String,String>> list=	bizQcCheckItemService.ueryQcCheckKindAll(bizQcCheckItem);
 		return  list;
 	}
-	/**
-	 * 根据安装项分类查询安装项
-	 * @param bizQcCheckItem
-	 * @param model
-	 * @param redirectAttributes
-	 * @return
-	 */
+
 	@RequestMapping(value = "/ajaxUpdatecheckItem")
 	@ResponseBody
 	public Object ajaxUpdatecheckItem(BizQcCheckItem bizQcCheckItem, Model model, RedirectAttributes redirectAttributes) {

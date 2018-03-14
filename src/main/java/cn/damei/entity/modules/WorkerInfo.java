@@ -1,15 +1,9 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 任务包详情
- * @author 张康健
- * @version 2017-3-25
- */
+
 public class WorkerInfo extends DataEntity2<WorkerInfo> {
 	
 	private static final long serialVersionUID = 1L;

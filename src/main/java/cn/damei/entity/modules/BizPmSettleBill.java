@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import cn.damei.common.persistence.DataEntity2;
@@ -12,65 +10,61 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-/**
- * 结算单Entity
- * @author qww
- * @version 2016-12-26
- */
+
 public class BizPmSettleBill extends DataEntity2<BizPmSettleBill> {
 	
 	private static final long serialVersionUID = 1L;
-	private String bizPmSettleBillCode;		// 项目经理结算单编号 -- '
-	private Integer orderId;		// 订单id -- '
-	private Integer pmEmployeeId;		// 项目经理员工id -- '
-	private String projectMode;		// 工程模式 -- '
-	private String settleMonth; // 月度
-	private Date settleDatetime;		// 结算日期时间 -- '
-	private Double midwayCommissionAmount;		// 中期提成金额 -- '
-	private Double completeCommissionAmount;		// 竣工提成金额 -- '
-	private Double ownpayAmount;		// 自主支配项金额 -- '
-	private Double materialsStandardAmount;		// 标化辅材金额 -- '
-	private Double midwayQcCheckPunishAmount;		// 中期质检罚款金额 -- '
-	private Double completQcCheckPunishAmount;		// 竣工质检罚款金额 -- '
-	private Double materialSelfbuyReimburseAmount;//自采材料报销金额
-	private Double midwayAuxiliaryMaterialsSettleAmount; //中期辅料结算金额
-	private Double completeAuxiliaryMaterialsSettleAmount;//竣工辅料结算金额
-	private Double midwayRewardAmount;//中期奖励金额
-	private Double midwayPunishAmount;//中期罚款金额
-	private Double completeRewardAmount;//竣工奖励金额
-	private Double completePunishAmount;//竣工罚款金额
+	private String bizPmSettleBillCode;
+	private Integer orderId;
+	private Integer pmEmployeeId;
+	private String projectMode;
+	private String settleMonth;
+	private Date settleDatetime;
+	private Double midwayCommissionAmount;
+	private Double completeCommissionAmount;
+	private Double ownpayAmount;
+	private Double materialsStandardAmount;
+	private Double midwayQcCheckPunishAmount;
+	private Double completQcCheckPunishAmount;
+	private Double materialSelfbuyReimburseAmount;
+	private Double midwayAuxiliaryMaterialsSettleAmount;
+	private Double completeAuxiliaryMaterialsSettleAmount;
+	private Double midwayRewardAmount;
+	private Double midwayPunishAmount;
+	private Double completeRewardAmount;
+	private Double completePunishAmount;
 
-	private Double midwayInspectionRewardAmount;//中期巡检奖励金额
-	private Double midwayInspectionPunishAmount;//中期巡检罚款金额
-	private Double completeInspectionRewardAmount;//竣工巡检奖励金额
-	private Double completeInspectionPunishAmount;//竣工巡检罚款金额
+	private Double midwayInspectionRewardAmount;
+	private Double midwayInspectionPunishAmount;
+	private Double completeInspectionRewardAmount;
+	private Double completeInspectionPunishAmount;
 
-	private Double guaranteeMoneyAmount;		// 质保金金额 -- '
-	private Double totalAmount;		// 合计金额 -- '
-	private String status; // 状态 30,50
-	private String settleBillType; // 结算单类型 -- '1.中期结算单；2.竣工结算单
-	private String settleRole; // 结算角色 1-项目经理 2-质检员
+	private Double guaranteeMoneyAmount;
+	private Double totalAmount;
+	private String status;
+	private String settleBillType;
+	private String settleRole;
 	private Double qcMidwayCommissionAmount;
 	private Double qcCompleteCommissionAmount;
 	private Double qcMidwayLongwayAmount;
 	private Double qcCompleteLongwayAmount;
 	private Integer pmSettleSummaryBillId;
 
-	private Integer storeId; // 门店
-	private String customerName; // 客户
-	private String itemManager; // 项目经理
-	private String itemManagerPhone;//项目经理手机号
-	private String orderInspector; // 质检员
-	private String orderNumber; // 订单编号
+	private Integer storeId;
+	private String customerName;
+	private String itemManager;
+	private String itemManagerPhone;
+	private String orderInspector;
+	private String orderNumber;
 	private String newStatus;
 	private Date beginSettleDatetime;
 	private Date endSettleDatetime;
-	private String customerPhone; // 客户电话
-	private String customerMessage; // 客户信息
+	private String customerPhone;
+	private String customerMessage;
 	private String settleBillId;
 	private List<Integer> enginDepartIds = new ArrayList<Integer>();
-	private Integer enginDepartId; // 区域
-	private String enginDepartName; // 区域名称
+	private Integer enginDepartId;
+	private String enginDepartName;
 
 	private List<String> list = new ArrayList<String>();
 

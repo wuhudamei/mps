@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.util.List;
@@ -15,11 +13,7 @@ import cn.damei.entity.modules.BizPmAttendSalarySummaryBill;
 import cn.damei.entity.modules.BizPmAttendSalarySummaryBillRel;
 import cn.damei.dao.modules.BizPmAttendSalarySummaryBillDao;
 
-/**
- * 月度工资单批次Service
- * @author wl
- * @version 2017-08-10
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizPmAttendSalarySummaryBillService extends CrudService<BizPmAttendSalarySummaryBillDao, BizPmAttendSalarySummaryBill> {

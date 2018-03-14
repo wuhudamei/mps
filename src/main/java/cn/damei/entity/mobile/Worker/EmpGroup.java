@@ -4,19 +4,17 @@ import cn.damei.common.persistence.DataEntity2;
 
 public class EmpGroup extends DataEntity2<EmpGroup>{
 
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	
-	private Integer id; //工人组id
-	private Integer star;//星级
+	private Integer id;
+	private Integer star;
 	private String nps;
-	private Integer sort; //排名
-	private String address; //地址
-	private Integer orderStop;//是否停单
-	private Integer state; //是否删除 1删除 0未删除
-	private String groupId;//组长id
+	private Integer sort;
+	private String address;
+	private Integer orderStop;
+	private Integer state;
+	private String groupId;
 	
 	
 	public Integer getId() {

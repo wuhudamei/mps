@@ -10,9 +10,9 @@ public interface BroadCastDao {
 	
 	
 	
-	//保存播报单
+
 	public void saveBroadCastRecord(BroadCastPicEntity entity);
-	//保存播报图片
+
 	public void saveBroadCastPic(BroadCastPicEntity entity);
 	
 	

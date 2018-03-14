@@ -1,31 +1,25 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 标化辅材Entity
- * @author 汪文文
- * @version 2016-12-24
- */
+
 public class BizMaterialsStandardRecords extends DataEntity2<BizMaterialsStandardRecords> {
 	
 	private static final long serialVersionUID = 1L;
-	private Integer storeId;		// 门店id -- '
-	private String materialsType;		// 物料类别 -- '
-	private String materialsName;		// 物料名称 -- '
-	private String materialsUnit;		// 物料单位 -- '
-	private Double materialsPrice;		// 物料单价 -- '
-	private String isEnabled;		// 是否启用 -- '1.启用；0.停用
+	private Integer storeId;
+	private String materialsType;
+	private String materialsName;
+	private String materialsUnit;
+	private Double materialsPrice;
+	private String isEnabled;
 	private Double receiveNumber = 0.0;
-	private Double maxReceiveNumberSnap;//领取上限快照
-	private Double applyNumberTotalSnap;//已申请总数快照
-	private Double receiveNumberTotalSnap;//已领取总数快照
-	private Double applyNumberSuggest; //建议申请数量
+	private Double maxReceiveNumberSnap;
+	private Double applyNumberTotalSnap;
+	private Double receiveNumberTotalSnap;
+	private Double applyNumberSuggest;
 	
 	public Double getApplyNumberSuggest() {
 		return applyNumberSuggest;
@@ -117,7 +111,7 @@ public class BizMaterialsStandardRecords extends DataEntity2<BizMaterialsStandar
 	}
 	
 	public Double getMaterialsPrice() {
-		//保留两位小数
+
 		return (double)Math.round(materialsPrice*100)/100;
 		 
 	}

@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import java.util.Date;
@@ -9,28 +7,24 @@ import org.hibernate.validator.constraints.Length;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 标化辅料（筒灯灯带）订单Entity
- * @author lft
- * @version 2017-05-12
- */
+
 public class BizOrderMaterialsStandard extends DataEntity2<BizOrderMaterialsStandard> {
 	
 	private static final long serialVersionUID = 1L;
-	private Integer orderId;		// 订单主键id
-	private Integer materialsStandardId;		// 辅料表主键id
-	private String materialsType;		// 类型
-	private String materialsName;		// 名称
-	private String materialsUnit;		// 单位
-	private Double materialsPrice;		// 单价
-	private Double materialsAmount;		// 金额
-	private Double applyNumberTotal;		// 申请总数
-	private Double receiveNumberTotal;		// 领取总数
-	private Double maxReceiveNumber;		// 上限
-	private Double applyNumberSuggest;		// 建议申请
-	private String materialsStandardReceiveBillCode;//申请单号
-	private String applyEm;  //申请人
-	private Date applyDatetime;  //申请时间
+	private Integer orderId;
+	private Integer materialsStandardId;
+	private String materialsType;
+	private String materialsName;
+	private String materialsUnit;
+	private Double materialsPrice;
+	private Double materialsAmount;
+	private Double applyNumberTotal;
+	private Double receiveNumberTotal;
+	private Double maxReceiveNumber;
+	private Double applyNumberSuggest;
+	private String materialsStandardReceiveBillCode;
+	private String applyEm;
+	private Date applyDatetime;
 	
 	
 	public String getApplyEm() {

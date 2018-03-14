@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import java.io.IOException;
@@ -30,11 +28,7 @@ import cn.damei.common.utils.StringUtils;
 import cn.damei.common.web.BaseController;
 import cn.damei.service.modules.ActProcessService;
 
-/**
- * 流程定义相关Controller
- * @author ThinkGem
- * @version 2013-11-03
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/act/process")
 public class ActProcessController extends BaseController {
@@ -42,24 +36,18 @@ public class ActProcessController extends BaseController {
 	@Autowired
 	private ActProcessService actProcessService;
 
-	/**
-	 * 流程定义列表
-	 */
+
 	@RequiresPermissions("act:process:edit")
 	@RequestMapping(value = {"list", ""})
 	public String processList(String category, HttpServletRequest request, HttpServletResponse response, Model model) {
-		/*
-		 * 保存两个对象，一个是ProcessDefinition（流程定义），一个是Deployment（流程部署）
-		 */
+
 	    Page<Object[]> page = actProcessService.processList(new Page<Object[]>(request, response), category);
 		model.addAttribute("page", page);
 		model.addAttribute("category", category);
 		return "modules/act/actProcessList";
 	}
 	
-	/**
-	 * 运行中的实例列表
-	 */
+
 	@RequiresPermissions("act:process:edit")
 	@RequestMapping(value = "running")
 	public String runningList(String procInsId, String procDefKey, HttpServletRequest request, HttpServletResponse response, Model model) {
@@ -70,14 +58,7 @@ public class ActProcessController extends BaseController {
 		return "modules/act/actProcessRunningList";
 	}
 
-	/**
-	 * 读取资源，通过部署ID
-	 * @param processDefinitionId  流程定义ID
-	 * @param processInstanceId 流程实例ID
-	 * @param resourceType 资源类型(xml|image)
-	 * @param response
-	 * @throws Exception
-	 */
+
 	@RequiresPermissions("act:process:edit")
 	@RequestMapping(value = "resource/read")
 	public void resourceRead(String procDefId, String proInsId, String resType, HttpServletResponse response) throws Exception {
@@ -89,20 +70,14 @@ public class ActProcessController extends BaseController {
 		}
 	}
 
-	/**
-	 * 部署流程
-	 */
+
 	@RequiresPermissions("act:process:edit")
 	@RequestMapping(value = "/deploy", method=RequestMethod.GET)
 	public String deploy(Model model) {
 		return "modules/act/actProcessDeploy";
 	}
 	
-	/**
-	 * 部署流程 - 保存
-	 * @param file
-	 * @return
-	 */
+
 	@RequiresPermissions("act:process:edit")
 	@RequestMapping(value = "/deploy", method=RequestMethod.POST)
 	public String deploy(@Value("#{APP_PROP['activiti.export.diagram.path']}") String exportDir, 
@@ -120,9 +95,7 @@ public class ActProcessController extends BaseController {
 		return "redirect:" + adminPath + "/act/process";
 	}
 	
-	/**
-	 * 设置流程分类
-	 */
+
 	@RequiresPermissions("act:process:edit")
 	@RequestMapping(value = "updateCategory")
 	public String updateCategory(String procDefId, String category, RedirectAttributes redirectAttributes) {
@@ -130,9 +103,7 @@ public class ActProcessController extends BaseController {
 		return "redirect:" + adminPath + "/act/process";
 	}
 
-	/**
-	 * 挂起、激活流程实例
-	 */
+
 	@RequiresPermissions("act:process:edit")
 	@RequestMapping(value = "update/{state}")
 	public String updateState(@PathVariable("state") String state, String procDefId, RedirectAttributes redirectAttributes) {
@@ -141,14 +112,7 @@ public class ActProcessController extends BaseController {
 		return "redirect:" + adminPath + "/act/process";
 	}
 	
-	/**
-	 * 将部署的流程转换为模型
-	 * @param procDefId
-	 * @param redirectAttributes
-	 * @return
-	 * @throws UnsupportedEncodingException
-	 * @throws XMLStreamException
-	 */
+
 	@RequiresPermissions("act:process:edit")
 	@RequestMapping(value = "convert/toModel")
 	public String convertToModel(String procDefId, RedirectAttributes redirectAttributes) throws UnsupportedEncodingException, XMLStreamException {
@@ -157,9 +121,7 @@ public class ActProcessController extends BaseController {
 		return "redirect:" + adminPath + "/act/model";
 	}
 	
-	/**
-	 * 导出图片文件到硬盘
-	 */
+
 	@RequiresPermissions("act:process:edit")
 	@RequestMapping(value = "export/diagrams")
 	@ResponseBody
@@ -168,10 +130,7 @@ public class ActProcessController extends BaseController {
 		return files;
 	}
 
-	/**
-	 * 删除部署的流程，级联删除流程实例
-	 * @param deploymentId 流程部署ID
-	 */
+
 	@RequiresPermissions("act:process:edit")
 	@RequestMapping(value = "delete")
 	public String delete(String deploymentId) {
@@ -179,11 +138,7 @@ public class ActProcessController extends BaseController {
 		return "redirect:" + adminPath + "/act/process";
 	}
 	
-	/**
-	 * 删除流程实例
-	 * @param procInsId 流程实例ID
-	 * @param reason 删除原因
-	 */
+
 	@RequiresPermissions("act:process:edit")
 	@RequestMapping(value = "deleteProcIns")
 	public String deleteProcIns(String procInsId, String reason, RedirectAttributes redirectAttributes) {

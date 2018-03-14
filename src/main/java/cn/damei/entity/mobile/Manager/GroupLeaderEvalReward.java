@@ -8,14 +8,14 @@ public class GroupLeaderEvalReward extends DataEntity2<GroupLeaderEvalReward>{
 
 	private static final long serialVersionUID = 1L;
 
-	private Double rewardAmount; // 奖励金额
-	private Date rewardDatetime; // 奖励生成时间
-	private String itemCustomer; // 项目经理
-	private String communityName; // 小区名称
-	private String buildNumber; // 几号楼
-	private String buildUnit; // 几单元
-	private String buildRoom; // 哪一室
-	private String customerName; // 客户名称
+	private Double rewardAmount;
+	private Date rewardDatetime;
+	private String itemCustomer;
+	private String communityName;
+	private String buildNumber;
+	private String buildUnit;
+	private String buildRoom;
+	private String customerName;
 
 	public Double getRewardAmount() {
 		return rewardAmount;

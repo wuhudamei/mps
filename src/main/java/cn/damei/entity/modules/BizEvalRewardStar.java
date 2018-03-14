@@ -1,24 +1,18 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 评价奖励星级Entity
- * @author qww
- * @version 2017-02-24
- */
+
 public class BizEvalRewardStar extends DataEntity2<BizEvalRewardStar> {
 	
 	private static final long serialVersionUID = 1L;
-	private Integer evalRewardCfgId;		// 评价奖励设置id
-	private Integer starLevel;		// 星级级别
-	private Double minScore;		// 最小分数
-	private Double maxScore;		// 最大分数
-	private Double rewardAmount;		// 奖励金额
-	private String isEnabled;		// 是否启用
+	private Integer evalRewardCfgId;
+	private Integer starLevel;
+	private Double minScore;
+	private Double maxScore;
+	private Double rewardAmount;
+	private String isEnabled;
 	
 	public BizEvalRewardStar() {
 		super();

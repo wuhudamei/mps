@@ -17,11 +17,7 @@ import cn.damei.dao.modules.BizOrderInstallDetailDao;
 import cn.damei.entity.modules.BizOrderInstallDetail;
 import org.springframework.ui.Model;
 
-/**
- * 订单交底
- * 
- * @author llp
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizOrderInstallDetailService extends CrudService2<BizOrderInstallDetailDao, BizOrderInstallDetail> {
@@ -45,16 +41,10 @@ public class BizOrderInstallDetailService extends CrudService2<BizOrderInstallDe
 		page.setList(findList);
 		return page;
 	}
-    /**
-    * @Description: 过滤门店和工程模式
-    * @Author zhangkangjian
-    * @param
-    * @return
-    * @Date 2017/12/4 15:37
-    */
+
     public void projectModeAndStore(BizOrderInstallDetail bizOrderInstallDetail, Model model, BizOrderInstallDetailController bizOrderInstallDetailController) {
         User user = UserUtils.getUser();
-        // 过滤门店
+
         if (null == bizOrderInstallDetail.getStoreId()) {
             if (null != user.getStoreId()) {
                 bizOrderInstallDetail.setStoreId(Integer.valueOf(user.getStoreId()));
@@ -63,7 +53,7 @@ public class BizOrderInstallDetailService extends CrudService2<BizOrderInstallDe
         if (StringUtils.isBlank(user.getStoreId())) {
             model.addAttribute("storeDropEnable", true);
         }
-        // 过滤工程模式
+
         if (null != user.getEmpId()) {
             BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
             if (StringUtils.isBlank(be.getProjectMode())) {

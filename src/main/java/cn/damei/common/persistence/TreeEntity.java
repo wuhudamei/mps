@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.common.persistence;
 
 import javax.validation.constraints.NotNull;
@@ -11,19 +9,15 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import cn.damei.common.utils.Reflections;
 import cn.damei.common.utils.StringUtils;
 
-/**
- * 数据Entity类
- * @author ThinkGem
- * @version 2014-05-16
- */
+
 public abstract class TreeEntity<T> extends DataEntity<T> {
 
 	private static final long serialVersionUID = 1L;
 
-	protected T parent;	// 父级编号
-	protected String parentIds; // 所有父级编号
-	protected String name; 	// 机构名称
-	protected Integer sort;		// 排序
+	protected T parent;
+	protected String parentIds;
+	protected String name;
+	protected Integer sort;
 	
 	public TreeEntity() {
 		super();
@@ -34,18 +28,12 @@ public abstract class TreeEntity<T> extends DataEntity<T> {
 		super(id);
 	}
 	
-	/**
-	 * 父对象，只能通过子类实现，父类实现mybatis无法读取
-	 * @return
-	 */
+
 	@JsonBackReference
 	@NotNull
 	public abstract T getParent();
 
-	/**
-	 * 父对象，只能通过子类实现，父类实现mybatis无法读取
-	 * @return
-	 */
+
 	public abstract void setParent(T parent);
 
 	@Length(min=1, max=2000)

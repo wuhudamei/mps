@@ -8,68 +8,68 @@ import cn.damei.common.persistence.DataEntity2;
 public class OrderInstallPlan extends DataEntity2<OrderInstallPlan> {
 
 	private Integer id;
-	private Integer orderId; //订单id
-	private Integer orderInstallItemId;//订单安装项id
-	private String installItemName; //安装项名称
-	private String shigongId; //點單項ID
-	private Integer installItemSequence;//安装项顺序
-	private Date planIntoDate;//计划进场日期
-	private Date applyIntoDate;//申请进场日期
-	private Date realIntoDate;//实际进场日期
-	private Date realCompleteDate;//实际完工日期
-	private Date realAcceptDate;//实际验收日期
-	private String status;//状态 1.已生成计划；2.已申请计划；3.已验收 4:已转给供应商 5：已驳回 6：驳回后申请
-	private String statusName;//状态名称 1.已生成计划；2.已申请计划；3.已验收
-	private String applyIntoRemarks;//申请进场备注
-	private String isCompleteDelay;//是否完工延期 0.否；1.是
-	private String completeDelayReason;//完工延期原因 1.发生变更；2.材料未送到；3.工人不够；4.物业不让施工；5.其他
-	private String completeDelayReasonName; //完工延期原因 名称
-	private String completeDelayRemarks;//完工延期描述
-	private String remarks;//备注
-	private String createByAuthor;//创建人
-	private Date createDate;//创建日期时间
-	private String updateByAuthor;//更新人
-	private Date updateDate; //更新日期时间
-	private String delFlag; //是否删除
-	private Date applyIntoCreateDatetime; //申请进场创建期时间
-	private String installMode; //安装模式
-	private String installModeName;//安装模式 名称
-	private Date planCompleteDate;//计划完成日期
-	private String status1; //安装项状态
-	private Integer delayDays;// 延期天数
-	private Date supplierIntoDate;// 供应商确认时间
+	private Integer orderId;
+	private Integer orderInstallItemId;
+	private String installItemName;
+	private String shigongId;
+	private Integer installItemSequence;
+	private Date planIntoDate;
+	private Date applyIntoDate;
+	private Date realIntoDate;
+	private Date realCompleteDate;
+	private Date realAcceptDate;
+	private String status;
+	private String statusName;
+	private String applyIntoRemarks;
+	private String isCompleteDelay;
+	private String completeDelayReason;
+	private String completeDelayReasonName;
+	private String completeDelayRemarks;
+	private String remarks;
+	private String createByAuthor;
+	private Date createDate;
+	private String updateByAuthor;
+	private Date updateDate;
+	private String delFlag;
+	private Date applyIntoCreateDatetime;
+	private String installMode;
+	private String installModeName;
+	private Date planCompleteDate;
+	private String status1;
+	private Integer delayDays;
+	private Date supplierIntoDate;
 
-	private String installRequire;// 安装要求
+	private String installRequire;
 
-	private String isQualified;// 是否合格
+	private String isQualified;
 
-	private Date unqualifiedAcceptTime;// 不合格验收时间
-	private String unqualifiedReason;// 不合格原因
-	private Integer unqualifiedReasonId;// 不合格原因id
-	private String unqualifiedRemarks;// 不合格备注
-	private Double firstPassRate;// 一次合格率
-	private Integer unqualifiedTimes;// 不合格次数
+	private Date unqualifiedAcceptTime;
+	private String unqualifiedReason;
+	private Integer unqualifiedReasonId;
+	private String unqualifiedRemarks;
+	private Double firstPassRate;
+	private Integer unqualifiedTimes;
 
-	// 订单交款类型 1二期 2尾款
+
 	private String secondPhaseMoneyType;
-	private String communityName;// 小区名称
-	private String buildNumber;// 几号楼
-	private String buildUnit;// 几单元
-	private String buildRoom;// 哪一室
-	private String customerName;// 客户姓名
+	private String communityName;
+	private String buildNumber;
+	private String buildUnit;
+	private String buildRoom;
+	private String customerName;
 
-	private Date rejectStatusDatetime;// 驳回时间
-	private String rejectBusinessRemarks;// 驳回原因
-	private String rejectRemarks;// 驳回类型
-	private String rejectRemarksName;// 驳回类型 名称
+	private Date rejectStatusDatetime;
+	private String rejectBusinessRemarks;
+	private String rejectRemarks;
+	private String rejectRemarksName;
 
-	private String isShowInstallDescription;// 是否展示安装说明
-	private String installDescription;// 安装说明描述
+	private String isShowInstallDescription;
+	private String installDescription;
 
 	
-	private String workApplyDayString; //开工第几天申请 字符串类型
-	private String orderConfirmStartWorkDateString;//订单开工日期 字符串类型
-	private Date allowApplyChecksizeDate; //可申请复尺日期
+	private String workApplyDayString;
+	private String orderConfirmStartWorkDateString;
+	private Date allowApplyChecksizeDate;
 
 	public String getCompleteDelayReasonName() {
 		return completeDelayReasonName;

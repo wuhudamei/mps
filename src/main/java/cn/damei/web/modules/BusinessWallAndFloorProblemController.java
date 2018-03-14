@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 
@@ -26,9 +24,7 @@ import cn.damei.service.modules.BusinessWallAndFloorProblemService;
 import cn.damei.entity.modules.User;
 import cn.damei.common.utils.UserUtils;
 
-/**
- * 墙地砖问题上报
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/bizorderinstallitemproblem/wallAndFloor/problem")
 public class BusinessWallAndFloorProblemController extends BaseController {
@@ -42,20 +38,13 @@ public class BusinessWallAndFloorProblemController extends BaseController {
 	@Autowired
 	private WallAndFloorProblemService wallAndFloorProblemService;
 	
-	/**
-	 * 墙地砖问题上报处理
-	 * @param bizOrderInstallItemProblemVo
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @return
-	 */
+
 	@RequiresPermissions("wallAndFloorproblem:wallAndFloorproblem:view")
 	@RequestMapping(value = { "preDealList", "" })
 	public String preDealList(BizOrderInstallItemProblemVo bizOrderInstallItemProblemVo, HttpServletRequest request, HttpServletResponse response, Model model){
 		
 		User user = UserUtils.getUser();
-		//过滤门店
+
 		if(null==bizOrderInstallItemProblemVo.getStoreId()){
 			if(null!=user.getStoreId()){
 				bizOrderInstallItemProblemVo.setStoreId(Integer.valueOf(user.getStoreId()));
@@ -64,7 +53,7 @@ public class BusinessWallAndFloorProblemController extends BaseController {
 		if(StringUtils.isBlank(user.getStoreId())){
 			model.addAttribute("storeDropEnable", true);
 		}
-		//过滤工程模式
+
 		if(StringUtils.isBlank(bizOrderInstallItemProblemVo.getProjectMode())){
 			if(StringUtils.isBlank(user.getProjectMode())||user.getProjectMode().equals("3")){
 				model.addAttribute("gongcheng", true);
@@ -78,13 +67,13 @@ public class BusinessWallAndFloorProblemController extends BaseController {
 				bizOrderInstallItemProblemVo.setProjectMode(user.getProjectMode());
 			}
 		}
-		//状态
+
 		bizOrderInstallItemProblemVo.setStatus(BusinessProblemConstantUtil.BUSINESS_PROBLEM_STATUS_10);
-		//业务类型
+
 		bizOrderInstallItemProblemVo.setBusinessType(BusinessProblemConstantUtil.BUSINESS_PROBLEM_BUSINESS_TYPE_2);
-		//材料部处理角色
+
 		bizOrderInstallItemProblemVo.setProblemSolveRole(BusinessProblemConstantUtil.BUSINESS_PROBLEM_SOLVE_ROLE_3);
-		//材料部处理状态
+
 		bizOrderInstallItemProblemVo.setLogStatus(BusinessProblemConstantUtil.BUSINESS_PROBLEM_STATUS_50);
 			
 		Page<BizOrderInstallItemProblemVo> page = businessWallAndFloorProblemService.findPage(new Page<BizOrderInstallItemProblemVo>(request, response), bizOrderInstallItemProblemVo);
@@ -93,20 +82,13 @@ public class BusinessWallAndFloorProblemController extends BaseController {
 		return "modules/bizorderinstallitemproblem/wallAndFloorDealProblemList";
 	}
 	
-	/**
-	 * 墙地砖问题上报处理
-	 * @param bizOrderInstallItemProblemVo
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @return
-	 */
+
 	@RequiresPermissions("wallAndFloorproblem:wallAndFloorproblem:view")
 	@RequestMapping(value = { "dealList", "" })
 	public String dealList(BizOrderInstallItemProblemVo bizOrderInstallItemProblemVo, HttpServletRequest request, HttpServletResponse response, Model model){
 		
 		User user = UserUtils.getUser();
-		//过滤门店
+
 		if(null==bizOrderInstallItemProblemVo.getStoreId()){
 			if(null!=user.getStoreId()){
 				bizOrderInstallItemProblemVo.setStoreId(Integer.valueOf(user.getStoreId()));
@@ -115,7 +97,7 @@ public class BusinessWallAndFloorProblemController extends BaseController {
 		if(StringUtils.isBlank(user.getStoreId())){
 			model.addAttribute("storeDropEnable", true);
 		}
-		//过滤工程模式
+
 		if(StringUtils.isBlank(bizOrderInstallItemProblemVo.getProjectMode())){
 			if(StringUtils.isBlank(user.getProjectMode())||user.getProjectMode().equals("3")){
 				model.addAttribute("gongcheng", true);
@@ -130,11 +112,11 @@ public class BusinessWallAndFloorProblemController extends BaseController {
 			}
 		}
 		
-		//业务类型
+
 		bizOrderInstallItemProblemVo.setBusinessType(BusinessProblemConstantUtil.BUSINESS_PROBLEM_BUSINESS_TYPE_2);
-		//材料部处理角色
+
 		bizOrderInstallItemProblemVo.setProblemSolveRole(BusinessProblemConstantUtil.BUSINESS_PROBLEM_SOLVE_ROLE_3);
-		//材料部处理状态
+
 		bizOrderInstallItemProblemVo.setLogStatus(BusinessProblemConstantUtil.BUSINESS_PROBLEM_STATUS_50);
 		
 		Page<BizOrderInstallItemProblemVo> page = businessWallAndFloorProblemService.findPage(new Page<BizOrderInstallItemProblemVo>(request, response), bizOrderInstallItemProblemVo);
@@ -148,37 +130,32 @@ public class BusinessWallAndFloorProblemController extends BaseController {
 	
 	
 	
-	/**
-	 * 问题上报处理
-	 * @param problemId
-	 * @param problemSolveNotes
-	 * @return
-	 */
+
 	@RequestMapping(value = "update_problem_ajax")
 	public @ResponseBody String updateProblemAjax(String problemId ,String problemSolveNotes){
 		
 		String result = "0";
 		
-		//1.问题上报id为空
+
 		if(null==problemId || problemId.equals("")){
 			result = "1";
 			return result;
 		}
 		
-		//2.问题上报处理回复内容为空
+
 		if(null==problemSolveNotes ||problemSolveNotes.equals("")){
 			result = "2";
 			return result;
 		}
 		
-		//3.问题是否已处理
+
 		BizOrderInstallItemProblem bizOrderInstallItemProblem = bizOrderInstallItemProblemService.get(Integer.valueOf(problemId));
 		if(null!=bizOrderInstallItemProblem && bizOrderInstallItemProblem.getStatus().equals(BusinessProblemConstantUtil.BUSINESS_PROBLEM_STATUS_50)){
 			result = "3";
 			return result;
 		}
 		
-		//4.当前登录人
+
 		User user = UserUtils.getUser();
 		Integer managerId = null;
 		if(null==user){
@@ -188,14 +165,14 @@ public class BusinessWallAndFloorProblemController extends BaseController {
 			managerId = Integer.parseInt(user.getEmpId());
 		}
 		
-		//5.更新问题上报状态
+
 		boolean flag = businessWallAndFloorProblemService.updateProblem(bizOrderInstallItemProblem,Integer.valueOf(problemId),BusinessProblemConstantUtil.BUSINESS_PROBLEM_STATUS_50);
 		if(!flag){
 			result = "5";
 			return result;
 		}
 				
-		//6.保存问题上报日志
+
 		Integer problemLogId = wallAndFloorProblemService.saveProblemLog(Integer.valueOf(problemId),managerId,BusinessProblemConstantUtil.BUSINESS_PROBLEM_SOLVE_ROLE_3,BusinessProblemConstantUtil.BUSINESS_PROBLEM_STATUS_50,problemSolveNotes);
 		if(null==problemLogId || problemLogId<1){
 			result = "6";
@@ -209,20 +186,13 @@ public class BusinessWallAndFloorProblemController extends BaseController {
 	
 	
 	
-	/**
-	 * 墙地砖问题查询
-	 * @param bizOrderInstallItemProblemVo
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @return
-	 */
+
 	@RequiresPermissions("wallAndFloorproblem:wallAndFloorproblem:view")
 	@RequestMapping(value = { "preList", "" })
 	public String preList(BizOrderInstallItemProblemVo bizOrderInstallItemProblemVo, HttpServletRequest request, HttpServletResponse response, Model model){
 		
 		User user = UserUtils.getUser();
-		//过滤门店
+
 		if(null==bizOrderInstallItemProblemVo.getStoreId()){
 			if(null!=user.getStoreId()){
 				bizOrderInstallItemProblemVo.setStoreId(Integer.valueOf(user.getStoreId()));
@@ -231,7 +201,7 @@ public class BusinessWallAndFloorProblemController extends BaseController {
 		if(StringUtils.isBlank(user.getStoreId())){
 			model.addAttribute("storeDropEnable", true);
 		}
-		//过滤工程模式
+
 		if(StringUtils.isBlank(bizOrderInstallItemProblemVo.getProjectMode())){
 			if(StringUtils.isBlank(user.getProjectMode())||user.getProjectMode().equals("3")){
 				model.addAttribute("gongcheng", true);
@@ -246,30 +216,23 @@ public class BusinessWallAndFloorProblemController extends BaseController {
 			}
 		}
 		
-		//业务类型
+
 		bizOrderInstallItemProblemVo.setBusinessType(BusinessProblemConstantUtil.BUSINESS_PROBLEM_BUSINESS_TYPE_2);
-		//材料部处理角色
+
 		bizOrderInstallItemProblemVo.setProblemSolveRole(BusinessProblemConstantUtil.BUSINESS_PROBLEM_SOLVE_ROLE_3);
-		//材料部处理状态
+
 		bizOrderInstallItemProblemVo.setLogStatus(BusinessProblemConstantUtil.BUSINESS_PROBLEM_STATUS_50);
 				
 		return "modules/bizorderinstallitemproblem/wallAndFloorSelectProblemList";
 	}
 	
-	/**
-	 * 墙地砖问题查询
-	 * @param bizOrderInstallItemProblemVo
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @return
-	 */
+
 	@RequiresPermissions("wallAndFloorproblem:wallAndFloorproblem:view")
 	@RequestMapping(value = { "list", "" })
 	public String list(BizOrderInstallItemProblemVo bizOrderInstallItemProblemVo, HttpServletRequest request, HttpServletResponse response, Model model){
 		
 		User user = UserUtils.getUser();
-		//过滤门店
+
 		if(null==bizOrderInstallItemProblemVo.getStoreId()){
 			if(null!=user.getStoreId()){
 				bizOrderInstallItemProblemVo.setStoreId(Integer.valueOf(user.getStoreId()));
@@ -278,7 +241,7 @@ public class BusinessWallAndFloorProblemController extends BaseController {
 		if(StringUtils.isBlank(user.getStoreId())){
 			model.addAttribute("storeDropEnable", true);
 		}
-		//过滤工程模式
+
 		if(StringUtils.isBlank(bizOrderInstallItemProblemVo.getProjectMode())){
 			if(StringUtils.isBlank(user.getProjectMode())||user.getProjectMode().equals("3")){
 				model.addAttribute("gongcheng", true);
@@ -293,11 +256,11 @@ public class BusinessWallAndFloorProblemController extends BaseController {
 			}
 		}
 		
-		//业务类型
+
 		bizOrderInstallItemProblemVo.setBusinessType(BusinessProblemConstantUtil.BUSINESS_PROBLEM_BUSINESS_TYPE_2);
-		//材料部处理角色
+
 		bizOrderInstallItemProblemVo.setProblemSolveRole(BusinessProblemConstantUtil.BUSINESS_PROBLEM_SOLVE_ROLE_3);
-		//材料部处理状态
+
 		bizOrderInstallItemProblemVo.setLogStatus(BusinessProblemConstantUtil.BUSINESS_PROBLEM_STATUS_50);
 		
 		Page<BizOrderInstallItemProblemVo> page = businessWallAndFloorProblemService.findPage(new Page<BizOrderInstallItemProblemVo>(request, response), bizOrderInstallItemProblemVo);
@@ -307,12 +270,7 @@ public class BusinessWallAndFloorProblemController extends BaseController {
 		return "modules/bizorderinstallitemproblem/wallAndFloorSelectProblemList";
 	}
 	
-	/**
-	 * 墙地砖问题上报详情
-	 * @param problemId
-	 * @param model
-	 * @return
-	 */
+
 	@RequestMapping(value = { "details", "" })
 	public String details(String problemId,Model model) {
 		

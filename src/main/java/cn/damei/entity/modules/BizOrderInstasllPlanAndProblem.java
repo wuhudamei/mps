@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import java.util.Date;
@@ -8,22 +6,20 @@ import java.util.Date;
 import cn.damei.common.persistence.DataEntity2;
 
 
-/**
- * 工程部主材工期统计表--主材安装及问题上报
- */
+
 public class BizOrderInstasllPlanAndProblem extends DataEntity2<BizOrderInstasllPlanAndProblem> {
 	
 	private static final long serialVersionUID = 1L;
-	private Integer orderId;		// 订单id
-	private Integer orderInstallPlanId;		// 主材安装计划id
-	private String installItemSequence;		// 安装项顺序
-	private Date applyIntoCreateDatetime;		// 安装申请  提报时间
-	private Date applyIntoDate;		// 安装申请  期望进场时间
-	private Date realIntoDate;		// 安装申请	实际进场日期
-	private Date realCompleteDate;		// 安装申请	实际完工日期
-	private Integer problemCount;		// 主材安装 问题上报次数	
-	private String problemDescribe;		// 主材安装 最早的  问题上报描述
-	private Date problemDateTime;		// 主材安装 最早的  问题上报提交时间
+	private Integer orderId;
+	private Integer orderInstallPlanId;
+	private String installItemSequence;
+	private Date applyIntoCreateDatetime;
+	private Date applyIntoDate;
+	private Date realIntoDate;
+	private Date realCompleteDate;
+	private Integer problemCount;
+	private String problemDescribe;
+	private Date problemDateTime;
 	
 	
 

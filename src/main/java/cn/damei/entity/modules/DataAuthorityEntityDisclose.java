@@ -8,7 +8,7 @@ public class DataAuthorityEntityDisclose extends DataEntity2<BizOrderDisclose>{
 	private String officeId;
 	private String userId;
 	private String parentId;
-	private String designerPhone;//设计师电话
+	private String designerPhone;
 	private String name;
 	
 	

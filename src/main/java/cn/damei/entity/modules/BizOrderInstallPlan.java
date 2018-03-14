@@ -12,157 +12,119 @@ public class BizOrderInstallPlan extends DataEntity2<BizOrderInstallPlan> {
 
     private Integer id;
 
-    /**
-     * 订单id
-     */
+
     private Integer orderId;
 
-    /**
-     * 订单安装项id
-     */
+
     private Integer orderInstallItemId;
 
-    /**
-     * 安装项名称
-     */
+
     private String installItemName;
 
-    /**
-     * 安装项顺序
-     */
+
     private Integer installItemSequence;
 
-    /**
-     * 计划进场日期
-     */
+
     private Date planIntoDate;
 
-    /**
-     * 申请进场日期
-     */
+
     private Date applyIntoDate;
 
-    /**
-     * 实际进场日期
-     */
+
     private Date realIntoDate;
 
-    /**
-     * 实际完工日期
-     */
+
     private Date realCompleteDate;
 
-    /**
-     * 实际验收日期
-     */
+
     private Date realAcceptDate;
 
-    /**
-     * 状态 1.已生成计划；2.已申请计划；3.已验收
-     */
+
     private String status;
 
-    /**
-     * 申请进场备注
-     */
+
     private String applyIntoRemarks;
 
-    /**
-     * 是否完工延期 0.否；1.是
-     */
+
     private String isCompleteDelay;
 
-    /**
-     * 完工延期原因 1.发生变更；2.材料未送到；3.工人不够；4.物业不让施工；5.其他
-     */
+
     private String completeDelayReason;
 
-    /**
-     * 完工延期描述
-     */
+
     private String completeDelayRemarks;
 
-    /**
-     * 备注
-     */
+
     private String remarks;
 
-    private String gongyingshagnDate; // 供应商操作事件
-    private String gongyingshagnperson; // 供应商操作事件
-    private String gongyingshagngroup; // 工人组
-    private String gongrendata; // 工人签到时间
-    private String gongrenPerson; // 工人操作人
-    private String gongrensuccessdate; // 工人完工时间
-    private String gongrensuccessPerson; // 工人操完工操作人
-    private String gongrensuccessPicUrl; // 工人图片地址
+    private String gongyingshagnDate;
+    private String gongyingshagnperson;
+    private String gongyingshagngroup;
+    private String gongrendata;
+    private String gongrenPerson;
+    private String gongrensuccessdate;
+    private String gongrensuccessPerson;
+    private String gongrensuccessPicUrl;
 
-    /**
-     * 创建日期时间
-     */
+
     private Date createDate;
 
-    /**
-     * 更新日期时间
-     */
+
     private Date updateDate;
 
-    /**
-     * 是否删除
-     */
+
     private String delFlag;
 
-    /**
-     * 申请进场创建期时间
-     */
+
     private Date applyIntoCreateDatetime;
     private Date supplierConfirmIntoDate;
     private String supplierConfirmRemarks;
-    /*2017-12-04*/
-    /*不合格原因*/
+
+
     private String unqualifiedReason;
-    /*不合格原因id*/
+
     private String unqualifiedReasonId;
-    /*不合格原因名称*/
+
     private String unqualifiedReasonConfigure;
-    /*不合格备注*/
+
     private String unqualifiedRemarks;
-    /*一次合格率*/
+
     private String firstPassRate;
-    /*不合格次数*/
+
     private Integer unqualifiedTimes;
-    /*工程模式*/
+
     private String projectMode;
-    /*订单编号*/
+
     private String orderNumber;
-    /*门店*/
+
     private String storeId;
 
 
 
-    /*项目经理*/
+
     private String itemManager;
-    /*原因*/
+
     private String acceptRemarks;
-    /*客户地址*/
+
     private String customerAddressDetaill;
-    /*客户姓名*/
+
     private String customerName;
-    /*最近验收不合格提交日期*/
+
     private Date unqualifiedAcceptTime;
-    /*最近验收不合格提交日期*/
+
     private Date beginUnqualifiedAcceptTime;
 
-    /*最近验收不合格提交日期*/
+
     private Date endUnqualifiedAcceptTime;
 
 
-    /*区域*/
+
     private String enginDepartId;
-    /*区域*/
+
     private String enginDepartName;
-    /*停用安装项*/
+
     private String orderInstallItemIdStop;
-    /*安装项次数*/
+
     private String unqualifiedInstallItemCount;
 
     private String storeName;

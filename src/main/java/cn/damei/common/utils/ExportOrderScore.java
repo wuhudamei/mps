@@ -16,16 +16,16 @@ import cn.damei.entity.modules.ScoreOrderQuery;
 public class ExportOrderScore {
 	
 	public static HSSFWorkbook exportOrderScore(List<ScoreOrderQuery> list){
-            HSSFWorkbook wb = new HSSFWorkbook();// 创建一个Excel文件
-    		HSSFSheet sheet = wb.createSheet("订单评分统计表");// 创建一个Excel的Sheet
-    		// 定义样式
-    		HSSFCellStyle cellStyleCenter = ExportFileNameUtils.initColumnHeadStyle(wb);// 表头样工
-    		HSSFCellStyle cellStyleRight = ExportFileNameUtils.initColumnCenterstyle(wb);// 单元格样式
-    		HSSFCellStyle cellStyleLeft = ExportFileNameUtils.initColumnCenterstyle(wb);
-    		cellStyleRight.setAlignment(HSSFCellStyle.ALIGN_RIGHT);// 右对齐
-    		cellStyleLeft.setAlignment(HSSFCellStyle.ALIGN_LEFT);// 左对齐
+            HSSFWorkbook wb = new HSSFWorkbook();
+    		HSSFSheet sheet = wb.createSheet("订单评分统计表");
 
-    		// 设置列宽
+    		HSSFCellStyle cellStyleCenter = ExportFileNameUtils.initColumnHeadStyle(wb);
+    		HSSFCellStyle cellStyleRight = ExportFileNameUtils.initColumnCenterstyle(wb);
+    		HSSFCellStyle cellStyleLeft = ExportFileNameUtils.initColumnCenterstyle(wb);
+    		cellStyleRight.setAlignment(HSSFCellStyle.ALIGN_RIGHT);
+    		cellStyleLeft.setAlignment(HSSFCellStyle.ALIGN_LEFT);
+
+
     		sheet.setColumnWidth(0, 3000);
     		sheet.setColumnWidth(1, 3000);
     		sheet.setColumnWidth(2, 3000);
@@ -41,7 +41,7 @@ public class ExportOrderScore {
     		try {  
                 HSSFRow row = null;
                 HSSFCell cell = null; 
-                // ---------------------------1.初始化带边框的表头------------------------------  
+
                 for (int i = 0; i < 3; i++) {
                     row = sheet.createRow(i);  
                     for (int j = 0; j < 11; j++) {  
@@ -49,7 +49,7 @@ public class ExportOrderScore {
                         cell.setCellStyle(cellStyleCenter);  
                     }  
                 }  
-                // ---------------------------2.指定单元格填充数据------------------------------
+
                 sheet.getRow(0).setHeight((short) 600);
                 cell = sheet.getRow(0).getCell(0);  
                 cell.setCellValue(new HSSFRichTextString("订单评分统计")); 
@@ -75,8 +75,8 @@ public class ExportOrderScore {
                 cell.setCellValue(new HSSFRichTextString("评价内容"));
                 cell = sheet.getRow(1).getCell(10);  
                 cell.setCellValue(new HSSFRichTextString("评价时间"));
-            // ---------------------------3.合并单元格------------------------------  
-            sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 10));// 开始行，结束行，开始列，结束列  
+
+            sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 10));
             sheet.addMergedRegion(new CellRangeAddress(1, 2, 0, 0));  
             sheet.addMergedRegion(new CellRangeAddress(1, 2, 1, 1));  
             sheet.addMergedRegion(new CellRangeAddress(1, 2, 2, 2));  

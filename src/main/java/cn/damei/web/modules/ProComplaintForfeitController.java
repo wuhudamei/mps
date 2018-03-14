@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,12 +20,7 @@ import cn.damei.common.web.BaseController;
 import cn.damei.entity.modules.ProComplaintForfeit;
 import cn.damei.service.modules.ProComplaintForfeitService;
 
-/**
- * 客诉罚款Controller
- * 
- * @author ZTW
- * @version 2017-10-27
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/ordercomplan/proComplaintForfeit")
 public class ProComplaintForfeitController extends BaseController {
@@ -62,18 +55,7 @@ public class ProComplaintForfeitController extends BaseController {
 		return "modules/ordercomplan/proComplaintForfeitForm";
 	}
 
-	/**
-	 * 同意
-	 * 
-	 * @Title: refuse
-	 * @Description: TODO TODO
-	 * @param @param proComplaintForfeit
-	 * @param @param model
-	 * @param @return
-	 * @return String
-	 * @author ZhangTongWei
-	 * @throws
-	 */
+
 	@RequestMapping(value = "/agree")
 	public String agree(ProComplaintForfeit proComplaintForfeit, Model model, RedirectAttributes redirectAttributes) {
 		proComplaintForfeitService.updateAgreeForfeit(proComplaintForfeit);
@@ -82,18 +64,7 @@ public class ProComplaintForfeitController extends BaseController {
 		return "redirect:" + Global.getAdminPath() + "/ordercomplan/proComplaintForfeit/?repage";
 	}
 
-	/**
-	 * 拒绝
-	 * 
-	 * @Title: refuse
-	 * @Description: TODO
-	 * @param @param proComplaintForfeit
-	 * @param @param model
-	 * @param @return
-	 * @return String
-	 * @author ZhangTongWei
-	 * @throws
-	 */
+
 	@RequestMapping(value = "/refuse")
 	public String refuse(ProComplaintForfeit proComplaintForfeit, Model model, RedirectAttributes redirectAttributes) {
 		model.addAttribute("proComplaintForfeit", proComplaintForfeit);

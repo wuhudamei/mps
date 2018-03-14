@@ -28,19 +28,13 @@ public class ProjectManagerSettlementController {
 
 	@Autowired
 	private BizPmPreIndustrySettleBillService bizPmPreIndustrySettleBillService;
-	/**
-	 * 结算标题
-	 * @return
-	 */
+
 	@RequestMapping(value="managerBudget")
 	public String list(){
 		
 		return "/mobile/modules/Manager/projectmanagersettlement/managerBudget";
 	}
-	/**
-	 * 结算单金额确认列表
-	 * @return
-	 */
+
 	@RequestMapping(value="budgetSureList")
 	public String list2(ProjectManagerSettlement projectManagerSettlement,String myflag,Model model,HttpServletRequest request){
 		Manager manager = (Manager)request.getSession().getAttribute("manager");
@@ -50,20 +44,17 @@ public class ProjectManagerSettlementController {
 		model.addAttribute("myflag", myflag);
 		return "/mobile/modules/Manager/projectmanagersettlement/budgetSureList";
 	}
-	/**
-	 * 确认结算单
-	 * @return
-	 */
+
 	@RequestMapping(value="confirmAccountEnd")
 	public String list3(ProjectManagerSettlement projectManagerSettlement,Model model,HttpServletRequest request){
 		List<ProjectManagerSettlement> findList = projectManagerSettlementService.findList(projectManagerSettlement);
 		if(findList == null || findList.size() == 0){
 			return "redirect:"+Global.getAdminPath()+"/app/manager/projectManagerSettlement/budgetSureList";
 		}
-		//判断是否是竣工数据
+
 		ProjectManagerSettlement projectManagerSettlement1 = findList.get(0);
 		if(projectManagerSettlement.getSettleBillType().equals("2")){
-			//查询中期数据
+
 			Map<String,Object> midwaySettleBillParam = new HashMap<String,Object>();
 			midwaySettleBillParam.put("orderId", findList.get(0).getOrderId());
 			midwaySettleBillParam.put("settleBillType", 1);
@@ -73,17 +64,14 @@ public class ProjectManagerSettlementController {
 		}
 		model.addAttribute("settleBill", findList.get(0));
         if(projectManagerSettlement1.getIsNewSettleBill().equals("0")){
-          /*  return "/mobile/modules/Manager/projectmanagersettlement/confirmAccountMid";*/
+
 
             return "/mobile/modules/Manager/projectmanagersettlement/confirmAccountMid";
         }else {
             return "/mobile/modules/Manager/projectmanagersettlement/newConfirmAccountMid";
         }
 	}
-	/**
-	 * 订单结算列表
-	 * @return
-	 */
+
 	@RequestMapping(value="orderBudgetList")
 	public String list4(Model model,ProjectManagerSettlement projectManagerSettlement,HttpServletRequest request){
 		Manager manager = (Manager)request.getSession().getAttribute("manager");
@@ -94,19 +82,15 @@ public class ProjectManagerSettlementController {
 		return "/mobile/modules/Manager/projectmanagersettlement/orderBudgetList";
 	}
 	
-	/**
-	 * 中期结算明细
-	 * @return
-	 */
+
 	@RequestMapping(value="detailsAccountMid")
 	public String list5(ProjectManagerSettlement projectManagerSettlement,Model model){
 		
 		ProjectManagerSettlement detail = projectManagerSettlementService.findSettlementEndDetails(projectManagerSettlement);
 		
 		if(detail.getSettleBillType().equals("2")){
-			//查询中期数据
-			/*ProjectManagerSettlement settlement= projectManagerSettlementService.findSettlement(detail.getOrderId(),1);
-			model.addAttribute("contractSettleAmount", settlement);*/
+
+
 			Map<String,Object> midwaySettleBillParam = new HashMap<String,Object>();
 			midwaySettleBillParam.put("orderId", detail.getOrderId());
 			midwaySettleBillParam.put("settleBillType", 1);
@@ -122,20 +106,12 @@ public class ProjectManagerSettlementController {
         }
 
 	}
-	/**
-	 * 竣工结算列表
-	 * @return
-	 */
+
 	@RequestMapping(value="detailsAccountEnd")
 	public String list6(){
 		return "/mobile/modules/Manager/projectmanagersettlement/detailsAccountEnd";
 	}
-	/**
-	 * 同意操作
-	 * @param projectManagerSettlement
-	 * @return
-	 * @throws UnsupportedEncodingException
-	 */
+
 	@RequestMapping(value="agree")
 	public String agree(ProjectManagerSettlement projectManagerSettlement,HttpServletRequest request,Model model) throws UnsupportedEncodingException{
 		Manager manager = (Manager)request.getSession().getAttribute("manager");

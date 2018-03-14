@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.util.Date;
@@ -18,11 +16,7 @@ import cn.damei.entity.modules.Category;
 import cn.damei.entity.modules.Site;
 import cn.damei.entity.modules.Office;
 
-/**
- * 统计Service
- * @author ThinkGem
- * @version 2013-05-21
- */
+
 @Service
 @Transactional(readOnly = true)
 public class StatsService extends BaseService {

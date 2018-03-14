@@ -41,7 +41,7 @@ public class TaskpackageRecheckController {
 		model.addAttribute("vo", vo);
 		model.addAttribute("list", list);
 
-		//梅浩加入返回url
+
 		if(null!=backUrl &&!"".equals(backUrl)){
 
 			model.addAttribute("backUrl",backUrl);

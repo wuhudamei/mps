@@ -22,11 +22,7 @@ import cn.damei.service.mobile.Manager.WallAndFloorProblemService;
 import cn.damei.entity.modules.BizProjectInstallItemProblemType;
 import cn.damei.service.modules.BizProjectInstallItemProblemTypeService;
 
-/**
- * 墙地砖问题上报Controller
- * @author Administrator
- *
- */
+
 
 @Controller
 @RequestMapping(value="${adminPath}/app/manager/problem/wallAndFloor")
@@ -39,12 +35,7 @@ public class WallAndFloorProblemController {
 	
 	private Logger  logger =  LoggerFactory.getLogger(AuxiliaryApplyController.class);
 
-	/**
-	 * 墙地砖问题上报--返回
-	 * @param request
-	 * @param model
-	 * @return
-	 */
+
 	@RequestMapping(value={"wallAndFloor_problem_back",""})
 	public String wallAndFloorProblemBack(HttpServletRequest request, Model model){
 		
@@ -53,10 +44,10 @@ public class WallAndFloorProblemController {
 		
 		if(StringUtils.isNotBlank(wallAndFloorProblem)){
 			if("1".equals(wallAndFloorProblem)){
-				//下面的
+
 				return "mobile/modules/Manager/materialManagement/materialManagement";	
 			}else if("0".equals(wallAndFloorProblem)){
-				//上面的
+
 				return "mobile/modules/Manager/project-build/problem_up";
 			}else{
 				
@@ -73,13 +64,7 @@ public class WallAndFloorProblemController {
 	}
 	
 	
-	/**
-	 * 墙地砖问题上报--订单列表 
-	 * @param text
-	 * @param request
-	 * @param model
-	 * @return
-	 */
+
 	@RequestMapping(value={"list",""})
 	public String list(String wallAndFloorProblem,HttpServletRequest request, Model model){
 		
@@ -89,7 +74,7 @@ public class WallAndFloorProblemController {
 			logger.warn("墙地砖问题上报访问参数有误 ,无法识别路径参数: wallAndFloorProblem :"+wallAndFloorProblem);
 		}
 		
-		// 获取项目经理sesseion
+
 		Manager manager = (Manager) request.getSession().getAttribute("manager");
 		if(null!=manager){
 			model.addAttribute("managerId", manager.getId());
@@ -97,12 +82,7 @@ public class WallAndFloorProblemController {
 		return "mobile/modules/Manager/project-build/wallAndFloorProblem/quesUp";
 	}
 	
-	/**
-	 * 动态加载墙地砖问题上报列表
-	 * @param managerId
-	 * @param text
-	 * @return
-	 */
+
 	@RequestMapping(value="problem_wallAndFloor_ajax_list")
 	public @ResponseBody  List<MaterialManagement> problemWallAndFloorAjaxList(String managerId,String text){
 		
@@ -115,12 +95,7 @@ public class WallAndFloorProblemController {
 	}
 	
 	
-	/**
-	 * 动态加载墙地砖问题上报列表
-	 * @param managerId
-	 * @param text
-	 * @return
-	 */
+
 	@RequestMapping(value="problem_wallAndFloor_ajax_time")
 	public @ResponseBody String problemWallAndFloorAjaxTime(String orderId,String businessType){
 		
@@ -130,7 +105,7 @@ public class WallAndFloorProblemController {
 			result = "1";
 			return result;
 		}
-		//查询该订单5分钟内提交问题上报的数量
+
 		Integer count = wallAndFloorProblemService.findProblemCount(Integer.valueOf(orderId),businessType);
 		
 		if(null!=count && count>0){
@@ -140,22 +115,16 @@ public class WallAndFloorProblemController {
 		return result;
 	}
 
-	/**
-	 * 墙地砖问题上报页
-	 * @param text
-	 * @param request
-	 * @param model
-	 * @return
-	 */
+
 	@RequestMapping(value={"problem_wallAndFloor",""})
 	public String problemWallAndFloor(String orderId,HttpServletRequest request, Model model){
 		
 		MaterialManagement materialManagement = null;
 		List<BizProjectInstallItemProblemType> problemList = null;
 		if(null!=orderId && !orderId.equals("")){
-			//订单详情
+
 			materialManagement = wallAndFloorProblemService.findOrder(Integer.valueOf(orderId));
-			//问题分类
+
 			BizProjectInstallItemProblemType problemType = new BizProjectInstallItemProblemType();
 			problemType.setStoreId(materialManagement.getStoreId());
 			problemType.setIsEnabled(BusinessProblemConstantUtil.BUSINESS_PROBLEM_IS_ENABLE_1);
@@ -174,36 +143,27 @@ public class WallAndFloorProblemController {
 		
 	}	
 	
-	/**
-	 * 墙地砖问题上报提交
-	 * @param orderId
-	 * @param problemTypeId
-	 * @param quality
-	 * @param delayDays
-	 * @param problemDescribe
-	 * @param request
-	 * @return
-	 */
+
 	@RequestMapping(value="wallAndFloor_problem_submit" ,method=RequestMethod.POST)
 	public @ResponseBody String wallAndFloorProblemSubmit(String orderId,String problemTypeId,String quality,String delayDays,String problemDescribe,HttpServletRequest request){
 		String result = "0";
 		
-		//1.订单id为空
+
 		if(null==orderId || orderId.equals("")){
 			result = "1";
 			return result;
 		}
-		//2.问题分类为空
+
 		if(null==problemTypeId || problemTypeId.equals("")){
 			result = "2";
 			return result;
 		}
-		//3.是否影响工期为空
+
 		if(null==quality || quality.equals("")){
 			result = "3";
 			return result;
 		}
-		//4.延期天数为空
+
 		String isDelay = null;
 		if(quality.equals("yes1")){
 			isDelay = BusinessProblemConstantUtil.BUSINESS_PROBLEM_IS_DELAY_1;
@@ -214,33 +174,33 @@ public class WallAndFloorProblemController {
 		}else{
 			isDelay = BusinessProblemConstantUtil.BUSINESS_PROBLEM_IS_DELAY_0;
 		}
-		//5.上报问题描述为空
+
 		if(null==problemDescribe || problemDescribe.equals("")){
 			result = "5";
 			return result;
 		}
-		//6.获取项目经理
+
 		Manager manager = (Manager)request.getSession().getAttribute("manager");
 		if(null==manager || null==manager.getId()){
 			result = "6";
 			return result;
 		}
 		
-		//7.查询问题分类内容
+
 		BizProjectInstallItemProblemType bizProjectInstallItemProblemType = bizProjectInstallItemProblemTypeService.get(Integer.valueOf(problemTypeId));
 		if(null==bizProjectInstallItemProblemType){
 			result = "7";
 			return result;
 		}
 				
-		//8.保存上报问题
+
 		Integer problemId = wallAndFloorProblemService.saveProblem(Integer.valueOf(orderId),Integer.valueOf(problemTypeId),isDelay,Double.valueOf(delayDays),problemDescribe,BusinessProblemConstantUtil.BUSINESS_PROBLEM_STATUS_10,BusinessProblemConstantUtil.BUSINESS_PROBLEM_BUSINESS_TYPE_2,null,null,bizProjectInstallItemProblemType);
 		if(null==problemId || problemId<1){
 			result = "8";
 			return result;
 		}
 		
-		//9.保存上报问题日志
+
 		Integer problemLogId = wallAndFloorProblemService.saveProblemLog(problemId,manager.getId(),BusinessProblemConstantUtil.BUSINESS_PROBLEM_SOLVE_ROLE_1,BusinessProblemConstantUtil.BUSINESS_PROBLEM_STATUS_10,problemDescribe);
 		if(null==problemLogId || problemLogId<1){
 			wallAndFloorProblemService.deleteProblem(problemId);
@@ -252,19 +212,13 @@ public class WallAndFloorProblemController {
 	}
 	
 		
-	/**
-	 * 墙地砖问题上报详情页
-	 * @param text
-	 * @param request
-	 * @param model
-	 * @return
-	 */
+
 	@RequestMapping(value={"problemRecord",""})
 	public String problemRecord(String orderId,HttpServletRequest request, Model model){
 		
 		MaterialManagement materialManagement = null;
 		if(null!=orderId && !orderId.equals("")){
-			//订单详情
+
 			materialManagement = wallAndFloorProblemService.findOrder(Integer.valueOf(orderId));
 		}
 		
@@ -275,12 +229,7 @@ public class WallAndFloorProblemController {
 		return "mobile/modules/Manager/project-build/wallAndFloorProblem/quesUpDetails";
 	}
 	
-	/**
-	 * 动态加载墙地砖问题上报记录页面
-	 * @param managerId
-	 * @param text
-	 * @return
-	 */
+
 	@RequestMapping(value="problem_log_ajax_list")
 	public @ResponseBody  List<BizOrderInstallItemProblem> problemLogAjaxList(String orderId){
 		

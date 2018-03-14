@@ -4,19 +4,15 @@ import cn.damei.common.persistence.DataEntity2;
 
 import java.util.Date;
 
-/**
- * 返单上报关联订单
- * @author hyh
- *
- */
+
 public class BizOrderReportRelatedOrder extends DataEntity2<BizOrderReportRelatedOrder>{
 	private static final long serialVersionUID = 1L;
 	
-	private Integer orderReportId; //返单上报Id
+	private Integer orderReportId;
 	
-	private Integer orderId;//关联订单Id
+	private Integer orderId;
 	
-	private String orderNumber;//关联订单号
+	private String orderNumber;
 	private Date signContractDate;
 
 	public Date getSignContractDate() {

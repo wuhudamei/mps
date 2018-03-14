@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 
@@ -23,10 +21,7 @@ import cn.damei.common.utils.StringUtils;
 import cn.damei.entity.modules.BizOrderInstallPlanAdvanceApply;
 import cn.damei.service.modules.BizOrderInstallPlanAdvanceApplyService;
 
-/**
- * 主材安装项提前申请记录Controller
- * @author wyb
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/modules/orderinstallplanadvanceapply/web/bizOrderInstallPlanAdvanceApply")
 public class BizOrderInstallPlanAdvanceApplyController extends BaseController {
@@ -47,14 +42,7 @@ public class BizOrderInstallPlanAdvanceApplyController extends BaseController {
 		return entity;
 	}
 	
-	/**
-	 * 主材可申请安装日期处理页面【列表页-前】【安装】
-	 * @param bizOrderInstallPlanAdvanceApply
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @return
-	 */
+
 	@RequiresPermissions("orderinstallplanadvanceapply:bizOrderInstallPlanAdvanceApply:view")
 	@RequestMapping(value = {"preInstallPlanAdvanceApplyList", ""})
 	public String preInstallPlanAdvanceApplyList(BizOrderInstallPlanAdvanceApply bizOrderInstallPlanAdvanceApply, HttpServletRequest request, HttpServletResponse response, Model model) {
@@ -64,20 +52,13 @@ public class BizOrderInstallPlanAdvanceApplyController extends BaseController {
 		return "modules/orderinstallplanadvanceapply/bizOrderInstallPlanAdvanceApplyList";
 	}
 	
-	/**
-	 * 主材可申请安装日期处理页面【列表页】【安装】
-	 * @param bizOrderInstallPlanAdvanceApply
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @return
-	 */
+
 	@RequiresPermissions("orderinstallplanadvanceapply:bizOrderInstallPlanAdvanceApply:view")
 	@RequestMapping(value = {"installPlanAdvanceApplyList", ""})
 	public String installPlanAdvanceApplyList(BizOrderInstallPlanAdvanceApply bizOrderInstallPlanAdvanceApply, HttpServletRequest request, HttpServletResponse response, Model model) {
 		
 		bizOrderInstallPlanAdvanceApplyService.storeIdAndProjectMode(bizOrderInstallPlanAdvanceApply, model);
-		//申请类型【安装】
+
 		bizOrderInstallPlanAdvanceApply.setApplyType(OrderInstallPlanAdvanceApplyConstantUtil.INSTALL_PLAN_ADVANCE_APPLY_TYPE_1);
 		
 		Page<BizOrderInstallPlanAdvanceApply> page = bizOrderInstallPlanAdvanceApplyService.findPage(new Page<BizOrderInstallPlanAdvanceApply>(request, response), bizOrderInstallPlanAdvanceApply); 
@@ -85,14 +66,7 @@ public class BizOrderInstallPlanAdvanceApplyController extends BaseController {
 		return "modules/orderinstallplanadvanceapply/bizOrderInstallPlanAdvanceApplyList";
 	}
 	
-	/**
-	 * 主材可申请复尺日期处理页面【列表页-前】【复尺】
-	 * @param bizOrderInstallPlanAdvanceApply
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @return
-	 */
+
 	@RequiresPermissions("orderinstallplanadvanceapply:bizOrderInstallPlanAdvanceApply:view")
 	@RequestMapping(value = {"preChecksizeAdvanceApplyList", ""})
 	public String preChecksizeAdvanceApplyList(BizOrderInstallPlanAdvanceApply bizOrderInstallPlanAdvanceApply, HttpServletRequest request, HttpServletResponse response, Model model) {
@@ -103,20 +77,13 @@ public class BizOrderInstallPlanAdvanceApplyController extends BaseController {
 	}
 	
 
-	/**
-	 * 主材可申请复尺日期处理页面【列表页】【复尺】
-	 * @param bizOrderInstallPlanAdvanceApply
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @return
-	 */
+
 	@RequiresPermissions("orderinstallplanadvanceapply:bizOrderInstallPlanAdvanceApply:view")
 	@RequestMapping(value = {"checksizeAdvanceApplyList", ""})
 	public String checksizeAdvanceApplyList(BizOrderInstallPlanAdvanceApply bizOrderInstallPlanAdvanceApply, HttpServletRequest request, HttpServletResponse response, Model model) {
 		
 		bizOrderInstallPlanAdvanceApplyService.storeIdAndProjectMode(bizOrderInstallPlanAdvanceApply, model);
-		//申请类型【复尺】
+
 		bizOrderInstallPlanAdvanceApply.setApplyType(OrderInstallPlanAdvanceApplyConstantUtil.INSTALL_PLAN_ADVANCE_APPLY_TYPE_2);
 		
 		Page<BizOrderInstallPlanAdvanceApply> page = bizOrderInstallPlanAdvanceApplyService.findPage(new Page<BizOrderInstallPlanAdvanceApply>(request, response), bizOrderInstallPlanAdvanceApply); 
@@ -126,48 +93,28 @@ public class BizOrderInstallPlanAdvanceApplyController extends BaseController {
 	
 	
 	
-	/**
-	 * 主材可申请安装日期处理【拒绝】【安装】
-	 * @param bizOrderInstallPlanAdvanceApply
-	 * @param request
-	 * @return
-	 */
+
 	@RequiresPermissions("orderinstallplanadvanceapply:bizOrderInstallPlanAdvanceApply:edit")
 	@RequestMapping(value = { "save_install_advance_apply_refuse", "" })
 	public @ResponseBody String saveInstallAdvanceApplyRefuse(BizOrderInstallPlanAdvanceApply bizOrderInstallPlanAdvanceApply,HttpServletRequest request) {
 		return bizOrderInstallPlanAdvanceApplyService.saveInstallAdvanceApplyRefuse(bizOrderInstallPlanAdvanceApply);
 	}
 	
-	/**
-	 * 主材可申请安装日期处理【同意】【安装】
-	 * @param bizOrderInstallPlanAdvanceApply
-	 * @param request
-	 * @return
-	 */
+
 	@RequiresPermissions("orderinstallplanadvanceapply:bizOrderInstallPlanAdvanceApply:edit")
 	@RequestMapping(value = { "save_install_advance_apply_agree", "" })
 	public @ResponseBody String saveInstallAdvanceApplyAgree(BizOrderInstallPlanAdvanceApply bizOrderInstallPlanAdvanceApply,HttpServletRequest request) {
 		return bizOrderInstallPlanAdvanceApplyService.saveInstallAdvanceApplyAgree(bizOrderInstallPlanAdvanceApply);
 	}
 	
-	/**
-	 * 主材可申请复尺日期处理【拒绝】【复尺】
-	 * @param bizOrderInstallPlanAdvanceApply
-	 * @param request
-	 * @return
-	 */
+
 	@RequiresPermissions("orderinstallplanadvanceapply:bizOrderInstallPlanAdvanceApply:edit")
 	@RequestMapping(value = { "save_checksize_advance_apply_refuse", "" })
 	public @ResponseBody String saveChecksizeAdvanceApplyRefuse(BizOrderInstallPlanAdvanceApply bizOrderInstallPlanAdvanceApply,HttpServletRequest request) {
 		return bizOrderInstallPlanAdvanceApplyService.saveChecksizeAdvanceApplyRefuse(bizOrderInstallPlanAdvanceApply);
 	}
 	
-	/**
-	 * 主材可申请复尺日期处理【同意】【复尺】
-	 * @param bizOrderInstallPlanAdvanceApply
-	 * @param request
-	 * @return
-	 */
+
 	@RequiresPermissions("orderinstallplanadvanceapply:bizOrderInstallPlanAdvanceApply:edit")
 	@RequestMapping(value = { "save_checksize_advance_apply_agree", "" })
 	public @ResponseBody String saveChecksizeAdvanceApplyAgree(BizOrderInstallPlanAdvanceApply bizOrderInstallPlanAdvanceApply,HttpServletRequest request) {

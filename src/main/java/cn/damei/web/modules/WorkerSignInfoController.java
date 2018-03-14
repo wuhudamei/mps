@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,11 +22,7 @@ import cn.damei.common.utils.UserUtils;
 import cn.damei.entity.modules.WorkerSign;
 import cn.damei.service.modules.WorkerSignInfoService;
 
-/**
- * 项目经理签到查询Controller
- * @author 梅浩
- * @version 2016-09-26
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/workersign/workerSign")
 public class WorkerSignInfoController extends BaseController {
@@ -103,7 +97,7 @@ public class WorkerSignInfoController extends BaseController {
 		Page<WorkerSign> page = workerSignService.findPage(new Page<WorkerSign>(request, response), WorkerSign); 
 	
 		User user = UserUtils.getUser();
-		//过滤门店
+
 		if(null == WorkerSign.getStoreId()){
 			if(null != user.getStoreId()){
 				WorkerSign.setStoreId(Integer.parseInt(user.getStoreId()));
@@ -112,7 +106,7 @@ public class WorkerSignInfoController extends BaseController {
 		if(StringUtils.isBlank(user.getStoreId())){
 			model.addAttribute("storeDropEnable", true);
 		}
-		//过滤工程模式
+
 		if(StringUtils.isBlank(WorkerSign.getProjectMode())){
 			if(null != user.getEmpId()){
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));

@@ -5,8 +5,8 @@ import cn.damei.common.persistence.DataEntity2;
 public class ReceivedPanel extends DataEntity2<ReceivedPanel>{
 	
 	private static final long serialVersionUID = 1L;
-	//private Integer id;//采购单主材id
-	private Integer purchaseId;//采购单id
+
+	private Integer purchaseId;
 	private Integer orderId;
 	private String mateCode;
 	private Double count;
@@ -21,8 +21,8 @@ public class ReceivedPanel extends DataEntity2<ReceivedPanel>{
 	private String picUrl;
 	private Double receivedCount;
 	private Double owedCount;
-	private Double receivedNumber;//本次收货的数量
-	private String model; //型号
+	private Double receivedNumber;
+	private String model;
 	
 	public String getModel() {
 		return model;

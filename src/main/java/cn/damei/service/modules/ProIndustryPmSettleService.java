@@ -14,22 +14,13 @@ import cn.damei.dao.modules.ProIndustryPmSettleDao;
 import cn.damei.entity.modules.ProIndustryPmSettleInfo;
 import cn.damei.entity.modules.MainPanel;
 
-/**
- * 准产业订单项目经理结算信息Service
- * @author hyh
- *
- */
+
 
 @Service
 @Transactional(readOnly = true)
 public class ProIndustryPmSettleService extends CrudService2<ProIndustryPmSettleDao,ProIndustryPmSettleInfo>{
 
-	/**
-	 * 项目经理中期结算信息
-	 * @param page
-	 * @param proIndustryPmSettleInfo
-	 * @return
-	 */
+
 	public Page<ProIndustryPmSettleInfo> queryProIndustryPmMidwaySettle(Page<ProIndustryPmSettleInfo> page,
 			ProIndustryPmSettleInfo proIndustryPmSettleInfo) {
 		proIndustryPmSettleInfo.setPage(page);
@@ -37,12 +28,7 @@ public class ProIndustryPmSettleService extends CrudService2<ProIndustryPmSettle
 		return page;
 	}
 	
-	/**
-	 * 项目经理竣工结算信息
-	 * @param page
-	 * @param proIndustryPmSettleInfo
-	 * @return
-	 */
+
 	public Page<ProIndustryPmSettleInfo> queryProIndustryPmCompleteSettle(Page<ProIndustryPmSettleInfo> page,
 			ProIndustryPmSettleInfo proIndustryPmSettleInfo){
 		proIndustryPmSettleInfo.setPage(page);

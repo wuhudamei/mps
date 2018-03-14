@@ -11,10 +11,7 @@ import cn.damei.common.service.CrudService2;
 import cn.damei.dao.modules.BizEnginInstallDao;
 import cn.damei.entity.modules.BizEnginInstall;
 
-/**
- * 订单交底
- * @author llp
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizEnginInstallService extends CrudService2<BizEnginInstallDao, BizEnginInstall>{
@@ -34,9 +31,7 @@ public class BizEnginInstallService extends CrudService2<BizEnginInstallDao, Biz
 		return super.findPage(page, bizEnginInstall);
 	}
 
-	/**
-	 * @return List<bizOrderInstallPlan>
-	 */
+
 	public List<BizEnginInstall> getByList() {
 		return bizEnginInstallDao.getByList();
 	}

@@ -8,37 +8,37 @@ public class InstallItem extends DataEntity2<InstallItem>{
 	
 	private static final long serialVersionUID = 1L;
 	
-	private Integer constructBillId; //施工单id
-	private String constructBillCode;//施工单编号
-	private String constructBillStatus;//施工单状态
-	private String constructBillStatusName;//施工单状态 名称
-	private Integer employeeGroupId;//工人组id
+	private Integer constructBillId;
+	private String constructBillCode;
+	private String constructBillStatus;
+	private String constructBillStatusName;
+	private Integer employeeGroupId;
 	
-	private Integer installBillId; //安装单id
-	private String supplierConfirmIntoDateString; //确定开始日期
-	private String supplierConfirmCompleteDateString; //确认结束日期
+	private Integer installBillId;
+	private String supplierConfirmIntoDateString;
+	private String supplierConfirmCompleteDateString;
 	
-	private Integer orderInstallPlanId; //安装项计划id
-	private String installItemName; //安装项名称
+	private Integer orderInstallPlanId;
+	private String installItemName;
 	
-	private Integer orderId; //订单id
-	private Integer storeId; //门店id
-	private String projectMode;//工程模式
-	private String communityName; //小区
-	private String buildNumber; //楼
-	private String buildUnit; //单元
-	private String buildRoom; //室
-	private String detailAddress; //施工地址
-	private Integer itemManagerId; //项目经理id
-	private String itemManagerName; //项目经理名称
-	private String itemManagerPhone; //项目经理手机号
+	private Integer orderId;
+	private Integer storeId;
+	private String projectMode;
+	private String communityName;
+	private String buildNumber;
+	private String buildUnit;
+	private String buildRoom;
+	private String detailAddress;
+	private Integer itemManagerId;
+	private String itemManagerName;
+	private String itemManagerPhone;
 	
-	private String text; //查询条件
+	private String text;
 	
 	private String lat;
 	private String lon;
 	
-	private	List<String> constructBillStatusList = null; //施工单状态集合
+	private	List<String> constructBillStatusList = null;
 
 
 	public Integer getConstructBillId() {

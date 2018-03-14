@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import java.util.List;
@@ -37,12 +35,7 @@ import cn.damei.common.utils.BizDictUtils;
 import cn.damei.common.utils.DropUtils;
 import cn.damei.common.utils.UserUtils;
 
-/**
- * 区域管理Controller
- * 
- * @author qhy
- * @version 2016-09-08
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/bizarea/bizArea")
 public class BizAreaController extends BaseController {
@@ -74,14 +67,14 @@ public class BizAreaController extends BaseController {
 	@RequiresPermissions("bizarea:bizArea:view")
 	@RequestMapping(value = { "list", "" })
 	public String list(BizArea bizArea, HttpServletRequest request, HttpServletResponse response, Model model) {
-		// 过虑门店
+
 		if (StringUtils.isBlank(bizArea.getStoreId())) {
 			bizArea.setStoreId(UserUtils.getUser().getStoreId());
 		}
 		if (StringUtils.isBlank(UserUtils.getUser().getStoreId())) {
 			model.addAttribute("storeDropEnable", true);
 		}
-		// 过滤工程模式
+
 		if (StringUtils.isBlank(bizArea.getProjectMode())) {
 			User user = UserUtils.getUser();
 			if (StringUtils.isNoneBlank(user.getEmpId())) {
@@ -96,12 +89,12 @@ public class BizAreaController extends BaseController {
 				bizArea.setProjectMode(null);
 			}
 		}
-		User user = UserUtils.getUser(); // 查询当前用户信息
-		String storeId = UserUtils.getUser().getStoreId(); // 查询当前用户的门店
-		List<BizEmpStore> allStoreList = BizDictUtils.getStoreList(); // 查询当前用户的所在区域
-		List<DropModel> engineListWithUserConditions = DropUtils.getEngineListWithUserConditions(); // 查询当前用户的所在区域
-		List<Role> roleList = UserUtils.getUser().getRoleList();// 查询当前用户是否为预算员
-		String isflag = ""; // 是否是预算员
+		User user = UserUtils.getUser();
+		String storeId = UserUtils.getUser().getStoreId();
+		List<BizEmpStore> allStoreList = BizDictUtils.getStoreList();
+		List<DropModel> engineListWithUserConditions = DropUtils.getEngineListWithUserConditions();
+		List<Role> roleList = UserUtils.getUser().getRoleList();
+		String isflag = "";
 		BizMaterialsChoiceBill findChoiceBillCount = null;
 		if (null != storeId && null != engineListWithUserConditions && null != allStoreList) {
 			BizMaterialsChoiceBill bizMaterialsChoiceBill = new BizMaterialsChoiceBill();
@@ -129,14 +122,14 @@ public class BizAreaController extends BaseController {
 	@RequiresPermissions("bizarea:bizArea:view")
 	@RequestMapping(value = "form")
 	public String form(BizArea bizArea, Model model) {
-		// 过滤门店
+
 		if (StringUtils.isBlank(bizArea.getStoreId())) {
 			bizArea.setStoreId(UserUtils.getUser().getStoreId());
 		}
 		if (StringUtils.isBlank(UserUtils.getUser().getStoreId())) {
 			model.addAttribute("storeDropEnable", true);
 		}
-		// 过滤工程模式
+
 		User user = UserUtils.getUser();
 		if (StringUtils.isNoneBlank(user.getEmpId())) {
 			BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));

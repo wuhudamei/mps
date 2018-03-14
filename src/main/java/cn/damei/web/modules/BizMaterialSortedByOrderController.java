@@ -27,11 +27,7 @@ import cn.damei.service.modules.BizMaterialsSortedByOrderService;
 import cn.damei.entity.modules.User;
 import cn.damei.common.utils.UserUtils;
 
-/**
- * 材料类按订单汇总查询辅料Controller
- * @author 王硕
- * @version 2017-10-20
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/bizMaterialSortedByOrder/materialSortedByOrder")
 public class BizMaterialSortedByOrderController extends BaseController {
@@ -51,11 +47,11 @@ public class BizMaterialSortedByOrderController extends BaseController {
 		}
 		return entity;
 	}
-	//辅料列表页
+
 	@RequestMapping(value = "/AccessoriesList")
 	public String listPage(BizMaterialsSortedByOrder bizMaterialsSortedByOrder, HttpServletRequest request, HttpServletResponse response, Model model){
 		User user = UserUtils.getUser();
-		//过滤门店
+
 		if(null==bizMaterialsSortedByOrder.getStoreId()){
 			if(null!=user.getStoreId()){
 				bizMaterialsSortedByOrder.setStoreId(Integer.valueOf(user.getStoreId()));
@@ -78,23 +74,23 @@ public class BizMaterialSortedByOrderController extends BaseController {
 		
 	}
 	
-	//辅料详情页
+
 	@RequestMapping(value = "/detail")
 	public String detail(BizMaterialsSortedByOrder bizMaterialsSortedByOrder, HttpServletRequest request, HttpServletResponse response, Model model,String key){
-		//查询基本信息
+
 		BizMaterialsSortedByOrder list=bizMaterialsSortedByOrderService.findByOrderId(bizMaterialsSortedByOrder.getOrderId());
 		model.addAttribute("bizMaterialsSortedByOrder",list);
-		//查询辅料合计信息
+
 		List<BizMaterialsSortedByOrder> findHejiByOrderId = bizMaterialsSortedByOrderService.findHejiByOrderId(bizMaterialsSortedByOrder.getOrderId()); 
 		model.addAttribute("findHejiByOrderId", findHejiByOrderId); 
-		//查询辅料明细信息
+
 		List<BizMaterialsSortedByOrder> findMingxiByOrderId = bizMaterialsSortedByOrderService.findMingxiByOrderId(bizMaterialsSortedByOrder.getOrderId()); 
 		model.addAttribute("findMingxiByOrderId", findMingxiByOrderId); 
 		return "modules/mateialSortedByOrder/bizPurchaseAccessoriesDetails";
 		
 	}
 	
-	//辅料导出
+
 	@RequestMapping(value = "/export")
 	public void export(HttpServletResponse response, BizMaterialsSortedByOrder bizMaterialsSortedByOrder, HttpServletRequest request) {
 

@@ -1,28 +1,22 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import org.hibernate.validator.constraints.Length;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 标化筒灯约检节点配置Entity
- * @author lft
- * @version 2017-05-25
- */
+
 public class BizMaterialsStandardQcCheckNode extends DataEntity2<BizMaterialsStandardQcCheckNode> {
 	
 	private static final long serialVersionUID = 1L;
-	private Integer storeId;		// 门店
-	private String storeName;  //门店名字
-	private String projectMode;		// 工程模式
-	private String projectModeName;		// 工程模式名字
-	private String materialType;		// 材料类型
-	private String materialName;		// 材料类型 名字
-	private Integer qcCheckNodeId;		// 约检节点
-	private String qcCheckNodeIdName;		// 约检节点名字
+	private Integer storeId;
+	private String storeName;
+	private String projectMode;
+	private String projectModeName;
+	private String materialType;
+	private String materialName;
+	private Integer qcCheckNodeId;
+	private String qcCheckNodeIdName;
 	
 	
 	public String getStoreName() {

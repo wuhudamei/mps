@@ -8,22 +8,22 @@ import cn.damei.entity.modules.ToDoItemEntity;
 public class Backlog extends DataEntity2<Backlog>{
 
 	private static final long serialVersionUID = 1L;
-	private String taskPackageName; //任务报名
+	private String taskPackageName;
 	private String remindTitle;
-	private String communityName;//小区名字
-	private String buildNumber;//楼号
-	private String buildUnit;//几单元
-	private String buildRoom;//那一室
-	private String settlementId;//结算单ID
+	private String communityName;
+	private String buildNumber;
+	private String buildUnit;
+	private String buildRoom;
+	private String settlementId;
 	private String taskPackageId;
 	private String status;
-	private String customerName;//客户姓名
-	private String customerPhone;//客户电话
+	private String customerName;
+	private String customerPhone;
 	
-	private String designerName;//设计师名称
-	private String designerPhone;//设计师电话
-	private String managerName ;//项目经理姓名
-	private String purchaseType;//采购单类型
+	private String designerName;
+	private String designerPhone;
+	private String managerName ;
+	private String purchaseType;
 	
 	private String orderId;
 	
@@ -58,10 +58,10 @@ public class Backlog extends DataEntity2<Backlog>{
 	public void setDesignerPhone(String designerPhone) {
 		this.designerPhone = designerPhone;
 	}
-	private List<ToDoItemEntity> todayToDoList;//今日待办
-	private Integer todayToDoListCount; //今日待办条数
-	private List<ToDoItemEntity> otherToDoList; //其他待办
-	private Integer otherToDoListCount; //其他待办条数
+	private List<ToDoItemEntity> todayToDoList;
+	private Integer todayToDoListCount;
+	private List<ToDoItemEntity> otherToDoList;
+	private Integer otherToDoListCount;
 	
 	public List<ToDoItemEntity> getTodayToDoList() {
 		return todayToDoList;

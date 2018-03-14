@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,11 +19,7 @@ import cn.damei.common.persistence.Page;
 import cn.damei.common.web.BaseController;
 import cn.damei.service.modules.BizOrderInstallItemProblemLogService;
 
-/**
- * 订单安装项问题日志Controller
- * @author 汪文
- * @version 2017-02-20
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/bizorderinstallitemproblemlog/bizOrderInstallItemProblemLog")
 public class BizOrderInstallItemProblemLogController extends BaseController {

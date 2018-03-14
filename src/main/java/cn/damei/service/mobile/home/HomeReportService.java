@@ -18,11 +18,7 @@ import cn.damei.entity.mobile.home.CheckItem;
 import cn.damei.entity.mobile.home.Order;
 import cn.damei.entity.mobile.home.Report;
 import cn.damei.entity.mobile.home.ViewLog;
-/**
- * 客户端  质检报告
- * @author Administrator
- *
- */
+
 @Service
 @Transactional(readOnly=true)
 public class HomeReportService {
@@ -33,11 +29,7 @@ public class HomeReportService {
 	@Autowired
 	private ReportCheckDao reportCheckDao;
 
-	/**
-	 * 查询顾客所有的订单列表
-	 * @param customerPhone
-	 * @return
-	 */
+
 	public List<Order> findOrderList(String customerPhone) {
 		Order order = new Order();
 		order.setCustomerPhone(customerPhone);
@@ -50,11 +42,7 @@ public class HomeReportService {
 	}
 	
 	
-	/**
-	 * 查询质检报告列表
-	 * @param orderId 
-	 * @return
-	 */
+
 	public Order findQcBill(String customerPhone, Integer orderId) {
 
 		Order order = new Order();
@@ -70,11 +58,7 @@ public class HomeReportService {
 	}
 
 
-	/**
-	 * 质检报告详情
-	 * @param qcBillId
-	 * @return
-	 */
+
 	public Report reportDetail(Integer qcBillId) {
 
 		Report report = dao.reportDetail(qcBillId);
@@ -87,11 +71,7 @@ public class HomeReportService {
 	}
 
 
-	/**
-	 * 质检报告图片
-	 * @param qcBillId
-	 * @return
-	 */
+
 	public List<ReportCheckDetailsPic> findPic(Integer qcBillId) {
 		List<ReportCheckDetailsPic> picList = reportCheckDao.findPic(qcBillId);
 		
@@ -102,11 +82,7 @@ public class HomeReportService {
 		}
 		
 	}
-	/**
-	 * 图片前缀
-	 * @param qcBillId
-	 * @return
-	 */
+
 	public String findPicBefore() {
 		String baseUrl = null;
 		try {
@@ -123,11 +99,7 @@ public class HomeReportService {
 	}
 
 
-	/**
-	 * 违规形式及处理方式
-	 * @param qcBillItemId
-	 * @return
-	 */
+
 	public CheckItem findCheckBreak(Integer qcBillItemId) {
 		
 		CheckItem checkItem = dao.findCheckBreak(qcBillItemId);
@@ -162,12 +134,7 @@ public class HomeReportService {
 	}
 
 
-	/**
-	 * 查看消息是否已读
-	 * @param qcBillId
-	 * @param customerPhone 
-	 * @return
-	 */
+
 	public Integer findView(Integer qcBillId, String customerPhone) {
 		
 		ViewLog viewLog = new ViewLog();
@@ -179,11 +146,7 @@ public class HomeReportService {
 	}
 
 
-	/**
-	 * 如果未读则插入已读信息
-	 * @param qcBillId
-	 * @param customerPhone 
-	 */
+
 	@Transactional(readOnly=false)
 	public void insertView(Integer qcBillId, String customerPhone) {
 
@@ -203,13 +166,13 @@ public class HomeReportService {
 
 
 	public List<Report> queryQcBillList(Integer id) {
-		// TODO Auto-generated method stub
+
 		return dao.queryQcBillList(id);
 	}
 
 
 	public List<CheckBreak> queryCheckBreaks(Integer qcBillItemId) {
-		// TODO Auto-generated method stub
+
 		return dao.queryCheckBreaks(qcBillItemId);
 	}
 

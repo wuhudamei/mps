@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import java.util.List;
@@ -13,11 +11,7 @@ import cn.damei.common.service.CrudService;
 import cn.damei.entity.modules.BizArea;
 import cn.damei.dao.modules.BizAreaDao;
 
-/**
- * 区域管理Service
- * @author qhy
- * @version 2016-09-08
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizAreaService extends CrudService<BizAreaDao, BizArea> {

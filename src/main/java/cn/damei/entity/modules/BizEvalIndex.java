@@ -1,24 +1,18 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import org.hibernate.validator.constraints.Length;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 评价指标设置Entity
- * @author wyb
- * @version 2017-02-24
- */
+
 public class BizEvalIndex extends DataEntity2<BizEvalIndex> {
 	
 	private static final long serialVersionUID = 1L;
-	private Integer storeId;		// 门店
-	private String projectMode;		// 工程模式
-	private String indexName;		// 评价指标
-	private String isEnabled; 		//是否启用
+	private Integer storeId;
+	private String projectMode;
+	private String indexName;
+	private String isEnabled;
 	public BizEvalIndex() {
 		super();
 	}

@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import javax.servlet.http.HttpServletRequest;
@@ -35,12 +33,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-/**
- * 评价奖励设置Controller
- * 
- * @author qww
- * @version 2017-02-24
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/bizevalrewardcfg/bizEvalRewardCfg")
 public class BizEvalRewardCfgController extends BaseController {
@@ -74,7 +67,7 @@ public class BizEvalRewardCfgController extends BaseController {
 	public String list(BizEvalRewardCfg bizEvalRewardCfg, HttpServletRequest request, HttpServletResponse response,
 			Model model) {
 		User user = UserUtils.getUser();
-		// 过滤门店
+
 		if (bizEvalRewardCfg.getStoreId() == null) {
 			String storeId = UserUtils.getUser().getStoreId();
 			if (StringUtils.isBlank(storeId)) {
@@ -87,7 +80,7 @@ public class BizEvalRewardCfgController extends BaseController {
 			model.addAttribute("storeDropEnable", true);
 		}
 
-		// 过滤工程模式
+
 		if (StringUtils.isBlank(bizEvalRewardCfg.getProjectMode())) {
 			if (null != user.getEmpId()) {
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -127,7 +120,7 @@ public class BizEvalRewardCfgController extends BaseController {
 	public String loadList(BizEvalRewardCfg bizEvalRewardCfg, HttpServletRequest request, HttpServletResponse response,
 			Model model) {
 		User user = UserUtils.getUser();
-		// 过滤门店
+
 		if (bizEvalRewardCfg.getStoreId() == null) {
 			String storeId = UserUtils.getUser().getStoreId();
 			if (StringUtils.isBlank(storeId)) {
@@ -140,7 +133,7 @@ public class BizEvalRewardCfgController extends BaseController {
 			model.addAttribute("storeDropEnable", true);
 		}
 
-		// 过滤工程模式
+
 		if (StringUtils.isBlank(bizEvalRewardCfg.getProjectMode())) {
 			if (null != user.getEmpId()) {
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -183,7 +176,7 @@ public class BizEvalRewardCfgController extends BaseController {
 	@RequestMapping(value = "form")
 	public String form(BizEvalRewardCfg bizEvalRewardCfg, Model model) {
 		User user = UserUtils.getUser();
-		// 过滤门店
+
 		if (bizEvalRewardCfg.getStoreId() == null) {
 			String storeId = UserUtils.getUser().getStoreId();
 			if (StringUtils.isNoneBlank(storeId)) {
@@ -194,7 +187,7 @@ public class BizEvalRewardCfgController extends BaseController {
 			model.addAttribute("storeDropEnable", true);
 		}
 
-		// 过滤工程模式
+
 		if (StringUtils.isBlank(bizEvalRewardCfg.getProjectMode())) {
 			if (null != user.getEmpId()) {
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -234,11 +227,11 @@ public class BizEvalRewardCfgController extends BaseController {
 	@RequiresPermissions("bizevalrewardcfg:bizEvalRewardCfg:view")
 	@RequestMapping(value = "detail")
 	public String detail(Integer id, Model model) {
-		// 奖励基础设置
+
 		BizEvalRewardCfg bizEvalRewardCfg = bizEvalRewardCfgService.get(id);
-		// 关联任务包模板
+
 		List<String> templatNameList = bizEvalRewardTaskpackTempService.queryEvalRewardTaskpackTempByRewardCfgId(id);
-		// 关联星级
+
 		List<BizEvalRewardStar> bizEvalRewardStarList = bizEvalRewardStarService
 				.queryEvalRewardStarByEvalRewardCfgId(id);
 

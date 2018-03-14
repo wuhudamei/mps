@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.util.List;
@@ -14,11 +12,7 @@ import cn.damei.common.service.CrudService;
 import cn.damei.entity.modules.BizMessagegroup;
 import cn.damei.dao.modules.BizMessagegroupDao;
 
-/**
- * 短信组Service
- * @author 汪文文
- * @version 2016-09-06
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizMessagegroupService extends CrudService<BizMessagegroupDao, BizMessagegroup> {
@@ -54,11 +48,7 @@ public class BizMessagegroupService extends CrudService<BizMessagegroupDao, BizM
 		super.delete(bizMessagegroup);
 	}
 
-	/**
-	 * 获取短信组list
-	 * @param storeId
-	 * @return List<BizMessagegroup>
-	 */
+
 	public BizMessagegroup getByStoreId(String storeId,String messageGroupType) {
 		BizMessagegroup bizMessagegroup = bizMessagegroupDao.getByStoreId(storeId,messageGroupType);
 		return bizMessagegroup;

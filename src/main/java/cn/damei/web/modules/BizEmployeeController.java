@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import java.util.ArrayList;
@@ -47,12 +45,7 @@ import cn.damei.common.utils.UserUtils;
 import cn.damei.entity.modules.BizTaskPackageTemplat;
 import cn.damei.service.modules.BizTaskPackageTemplatService;
 
-/**
- * 员工信息Controller
- * 
- * @author qhy
- * @version 2016-08-24
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/employee/bizEmployee")
 public class BizEmployeeController extends BaseController {
@@ -71,7 +64,7 @@ public class BizEmployeeController extends BaseController {
 	private SystemService systemService;
 	private List<BizEmpArea> areas_manager;
 
-	// private List<BizEmpArea> areas_inspector;
+
 	@ModelAttribute
 	public BizEmployee get(@RequestParam(required = false) String id) {
 		BizEmployee entity = null;
@@ -91,16 +84,16 @@ public class BizEmployeeController extends BaseController {
 	public String listPage(BizEmployee bizEmployee, HttpServletRequest request, HttpServletResponse response, Model model) {
 
 		if (UserUtils.getUser().getStoreId() != null) {
-			// 当前登录用户门店
+
 			bizEmployee.setStoreid(UserUtils.getUser().getStoreId());
 		} else {
-			// 门店是总部的查询所有部门信息
+
 			if (bizEmployee.getStoreid() != null && bizEmployee.getStoreid().equals("1")) {
-				// 总部
+
 				bizEmployee.setStoreid(null);
 			}
 		}
-		// 过滤工程模式
+
 		if (bizEmployee.getProjectMode() == null || "".equals(bizEmployee.getProjectMode())) {
 			User user = UserUtils.getUser();
 			if (null != user.getEmpId()) {
@@ -133,16 +126,16 @@ public class BizEmployeeController extends BaseController {
 			ischecked = "checked=\"checked\"";
 		}
 		if (UserUtils.getUser().getStoreId() != null) {
-			// 当前登录用户门店
+
 			bizEmployee.setStoreid(UserUtils.getUser().getStoreId());
 		} else {
-			// 门店是总部的查询所有部门信息
+
 			if (bizEmployee.getStoreid() != null && bizEmployee.getStoreid().equals("1")) {
-				// 总部
+
 				bizEmployee.setStoreid(null);
 			}
 		}
-		// 过滤工程模式
+
 		User user = UserUtils.getUser();
 		if (bizEmployee.getProjectMode() == null || "".equals(bizEmployee.getProjectMode())) {
 			
@@ -158,18 +151,8 @@ public class BizEmployeeController extends BaseController {
 				bizEmployee.setProjectMode(null);
 			}
 		}
-		//工程模式控制
-	/*	if(bizEmployee.getProjectMode() == null || "".equals(bizEmployee.getProjectMode())){
-			
-			String projectMode = user.getProjectMode();
-			if(projectMode.equals("3")){
-				bizEmployee.setProjectMode(null);
-			}else{
-				bizEmployee.setProjectMode(projectMode);
-			}
-			
-			
-		}*/
+
+
 		Page<BizEmployee> page = bizEmployeeService.findPage(new Page<BizEmployee>(request, response), bizEmployee);
 		model.addAttribute("page", page);
 		
@@ -225,13 +208,13 @@ public class BizEmployeeController extends BaseController {
 			return form(bizEmployee, model);
 		}
 		if (bizEmployee.getId() == null || "".equals(bizEmployee.getId())) {
-			bizEmployee.setNo(sysSequenceService.getSequence("YG")); // 说明是添加
-			// bizEmployeeService.insert(bizEmployee);
+			bizEmployee.setNo(sysSequenceService.getSequence("YG"));
+
 		}
 
 		Date date = new Date();
 		User user = UserUtils.getUser();
-		// bizEmployeeService.update(bizEmployee);
+
 		bizEmployee.setUpdateBy(user);
 		bizEmployee.setUpdateDate(date);
 		bizEmployee.setCreateBy(user);
@@ -253,19 +236,17 @@ public class BizEmployeeController extends BaseController {
 		return "redirect:" + Global.getAdminPath() + "/employee/bizEmployee/?repage";
 	}
 
-	/**
-	 * 项目经理信息
-	 */
+
 	@RequiresPermissions("manager:bizManager:view")
 	@RequestMapping(value = "manager_list_page")
 	public String managerListPage(BizEmployee bizEmployee, HttpServletRequest request, HttpServletResponse response, Model model) {
 		if (UserUtils.getUser().getStoreId() != null) {
-			// 当前登录用户门店
+
 			bizEmployee.setStoreid(UserUtils.getUser().getStoreId());
 		} else {
-			// 门店是总部的查询所有部门信息
+
 			if (bizEmployee.getStoreid() != null && bizEmployee.getStoreid().equals("1")) {
-				// 总部
+
 				bizEmployee.setStoreid(null);
 			}
 		}
@@ -292,11 +273,7 @@ public class BizEmployeeController extends BaseController {
 		String ischecked = "";
 		if (bizEmployee.getNoInDepartment() != null) {
 			bizEmployee.setNoInDepartment(" id NOT IN (SELECT employee_id FROM biz_engin_depart_employee_position ) ");
-			/*
-			 * bizEmployee.setNo(""); bizEmployee.setLoginname("");
-			 * bizEmployee.setRealname(""); bizEmployee.setPhone("");
-			 * bizEmployee.setWorktype(null);
-			 */
+
 			bizEmployee.setEmpType(3);
 			ischecked = "checked=\"checked\"";
 		}
@@ -318,12 +295,12 @@ public class BizEmployeeController extends BaseController {
 		}
 
 		if (UserUtils.getUser().getStoreId() != null) {
-			// 当前登录用户门店
+
 			bizEmployee.setStoreid(UserUtils.getUser().getStoreId());
 		} else {
-			// 门店是总部的查询所有部门信息
+
 			if (bizEmployee.getStoreid() != null && bizEmployee.getStoreid().equals("1")) {
-				// 总部
+
 				bizEmployee.setStoreid(null);
 			}
 		}
@@ -407,7 +384,7 @@ public class BizEmployeeController extends BaseController {
 		if (bizEmployee.getId() == null || "".equals(bizEmployee.getId())) {
 			bizEmployee.setNo(sysSequenceService.getSequence("YG"));
 		}
-		// 页面无法取值，写死。
+
 		bizEmployee.setEmpType(3);
 		bizEmployeeService.save(bizEmployee);
 		addMessage(redirectAttributes, "保存项目经理成功");
@@ -426,19 +403,17 @@ public class BizEmployeeController extends BaseController {
 		return "redirect:" + Global.getAdminPath() + "/employee/bizEmployee/manager_list?repage&empType=3";
 	}
 
-	/**
-	 * 工人信息
-	 */
+
 	@RequiresPermissions("worker:bizWorker:view")
 	@RequestMapping(value = "worker_list_page")
 	public String workerListPage(BizEmployee bizEmployee, HttpServletRequest request, HttpServletResponse response, Model model) {
 		if (UserUtils.getUser().getStoreId() != null) {
-			// 当前登录用户门店
+
 			bizEmployee.setStoreid(UserUtils.getUser().getStoreId());
 		} else {
-			// 门店是总部的查询所有部门信息
+
 			if (bizEmployee.getStoreid() != null && bizEmployee.getStoreid().equals("1")) {
-				// 总部
+
 				bizEmployee.setStoreid(null);
 			}
 		}
@@ -463,12 +438,12 @@ public class BizEmployeeController extends BaseController {
 	@RequestMapping(value = { "worker_list", "worker_list1" })
 	public String workerList(BizEmployee bizEmployee, HttpServletRequest request, HttpServletResponse response, Model model) {
 		if (UserUtils.getUser().getStoreId() != null) {
-			// 当前登录用户门店
+
 			bizEmployee.setStoreid(UserUtils.getUser().getStoreId());
 		} else {
-			// 门店是总部的查询所有部门信息
+
 			if (bizEmployee.getStoreid() != null && bizEmployee.getStoreid().equals("1")) {
-				// 总部
+
 				bizEmployee.setStoreid(null);
 			}
 		}
@@ -572,9 +547,7 @@ public class BizEmployeeController extends BaseController {
 		return "redirect:" + Global.getAdminPath() + "/employee/bizEmployee/worker_list?repage&empType=" + bizEmployee.getEmpType();
 	}
 
-	/**
-	 * 表单验证
-	 */
+
 	@RequestMapping(value = { "validatNo", "validatNo" })
 	@ResponseBody
 	public String validat(BizEmployee entity) {
@@ -584,7 +557,7 @@ public class BizEmployeeController extends BaseController {
 			state = "true";
 		}
 
-		// 如果是修改操作，相同的编号和登录名不做验证，如果不是相同的则验证。
+
 		if (entity.getId() != null) {
 			if (entity.getNoValid() != null && entity.getNoValid().equalsIgnoreCase(entity.getNo())) {
 				state = "true";
@@ -601,7 +574,7 @@ public class BizEmployeeController extends BaseController {
 		if (isCount == 0) {
 			state = "true";
 		}
-		// 如果是修改操作，相同的编号和登录名不做验证，如果不是相同的则验证。
+
 		if (entity.getId() != null) {
 			if (entity.getLoginNameValid() != null && entity.getLoginNameValid().equalsIgnoreCase(entity.getLoginname())) {
 				state = "true";
@@ -618,7 +591,7 @@ public class BizEmployeeController extends BaseController {
 		if (isCount == 0) {
 			state = "true";
 		}
-		// 如果是修改操作，相同的编号和登录名不做验证，如果不是相同的则验证。
+
 		if (entity.getId() != null) {
 			if (entity.getPhoneValid() != null && entity.getPhoneValid().equalsIgnoreCase(entity.getPhone())) {
 				state = "true";
@@ -635,7 +608,7 @@ public class BizEmployeeController extends BaseController {
 		if (isCount == 0) {
 			state = "true";
 		}
-		// 如果是修改操作，相同的身份证不做验证，如果不是相同的则验证。
+
 		if (entity.getId() != null) {
 			if (entity.getIdcardnoValid() != null && entity.getIdcardnoValid().equalsIgnoreCase(entity.getIdcardno())) {
 				state = "true";
@@ -644,39 +617,31 @@ public class BizEmployeeController extends BaseController {
 		return state;
 	}
 
-	/**
-	 * 门店下拉框事件
-	 */
+
 	@RequiresPermissions("manager:bizManager:view")
 	@ResponseBody
 	@RequestMapping(value = "manager_store_form")
 	public String manager_StoreForm(BizEmployee bizEmployee, Model model, HttpServletRequest request) {
 		String storeId = request.getParameter("storeId");
 		String projectMode = request.getParameter("projectMode");
-		/*
-		 * BizEmpStore store=new BizEmpStore(); store.setId(storeId);
-		 */
+
 		areas_manager = bizEmployeeService.findAreaByStoreId(storeId, projectMode);
 		return JsonMapper.getInstance().toJson(areas_manager);
 	}
 
-	/**
-	 * 加载员工编号
-	 */
 
-	/**
-	 * 质检员信息
-	 */
+
+
 	@RequiresPermissions("inspector:bizInspector:view")
 	@RequestMapping(value = "inspector_list_page")
 	public String inspectorListPage(BizEmployee bizEmployee, HttpServletRequest request, HttpServletResponse response, Model model) {
 		if (UserUtils.getUser().getStoreId() != null) {
-			// 当前登录用户门店
+
 			bizEmployee.setStoreid(UserUtils.getUser().getStoreId());
 		} else {
-			// 门店是总部的查询所有部门信息
+
 			if (bizEmployee.getStoreid() != null && bizEmployee.getStoreid().equals("1")) {
-				// 总部
+
 				bizEmployee.setStoreid(null);
 			}
 		}
@@ -717,12 +682,12 @@ public class BizEmployeeController extends BaseController {
 			bizEmployee.setEnginDepartIds(list);
 		}
 		if (UserUtils.getUser().getStoreId() != null) {
-			// 当前登录用户门店
+
 			bizEmployee.setStoreid(UserUtils.getUser().getStoreId());
 		} else {
-			// 门店是总部的查询所有部门信息
+
 			if (bizEmployee.getStoreid() != null && bizEmployee.getStoreid().equals("1")) {
-				// 总部
+
 				bizEmployee.setStoreid(null);
 			}
 		}
@@ -814,9 +779,7 @@ public class BizEmployeeController extends BaseController {
 		return "redirect:" + Global.getAdminPath() + "/employee/bizEmployee/inspector_list?repage&empType=1";
 	}
 
-	/**
-	 * 根据门店查询员工信息
-	 */
+
 	@ResponseBody
 	@RequestMapping(value = { "employee_list_byStoreId", "employee_list_byStoreId" })
 	public String employeeList(String storeid, HttpServletRequest request, HttpServletResponse response, Model model) {
@@ -828,7 +791,7 @@ public class BizEmployeeController extends BaseController {
 		return JsonMapper.getInstance().toJson(list);
 	}
 
-	// 项目经理
+
 	@ResponseBody
 	@RequestMapping(value = { "manager_list_byStoreId", "manager_list_byStoreId" })
 	public String managerList(String storeId, HttpServletRequest request, HttpServletResponse response, Model model) {
@@ -837,17 +800,15 @@ public class BizEmployeeController extends BaseController {
 		map.put("officeIds", storeId);
 		map.put("empTypes", 3);
 		List<DropModel> list1 = bizEmployeeService.findEmployeeListByCondition(map);
-		// List<DropModel> list2 =
-		// bizMaterialsStandardService.findMaterialsByStroeId(storeId);
+
+
 		List<BizMaterialsStandard> list2 = bizMaterialsStandardService.queryMaterialsByStoreId(storeId);
 		list.add(list1);
 		list.add(list2);
 		return JsonMapper.getInstance().toJson(list);
 	}
 
-	/**
-	 * 根据门店查询员工信息 类型为99其他类型
-	 */
+
 	@ResponseBody
 	@RequestMapping(value = "other_employee_list_byStoreId")
 	public String otherEmployeeList(String storeid, HttpServletRequest request, HttpServletResponse response, Model model) {
@@ -859,9 +820,7 @@ public class BizEmployeeController extends BaseController {
 		return JsonMapper.getInstance().toJson(list);
 	}
 
-	/**
-	 * 根据门店查询组长信息
-	 */
+
 	@Autowired
 	private BizTaskPackageTemplatService bizTaskPackageTemplatService;
 	@Autowired
@@ -872,36 +831,36 @@ public class BizEmployeeController extends BaseController {
 	public String leaderList(String storeid, HttpServletRequest request, HttpServletResponse response, Model model) {
 		List<List> list0 = new ArrayList<List>();
 		if (!"".equals(storeid)) {
-			// 根据门店查询组长
+
 			Map map = new HashMap();
 			map.put("officeIds", storeid);
 			map.put("empTypes", 2);
 			List<DropModel> list1 = bizEmployeeService.findLeaderListByCondition(map);
-			// 根据门店查询任务包
+
 			BizTaskPackageTemplat param = new BizTaskPackageTemplat();
 			param.setStatus("1");
 			param.setStoreId(storeid);
 			List<DropModel> list2 = bizTaskPackageTemplatService.findtaskpackageByStroeId(Integer.parseInt(storeid), ConstantUtils.IS_ENABLE_1);
 
-			// 根据门店查询工程部
+
 			List<DropModel> list3 = bizEngineeringDepartmentService.findEngDepListByStoreId(storeid);
 			list0.add(list1);
 			list0.add(list2);
 			list0.add(list3);
 			return JsonMapper.getInstance().toJson(list0);
 		} else {
-			// 根据门店查询组长
+
 			Map map = new HashMap();
 			map.put("officeIds", storeid);
 			map.put("empTypes", 2);
 			List<DropModel> list1 = bizEmployeeService.findLeaderListByCondition(map);
-			// 根据门店查询任务包
+
 			BizTaskPackageTemplat param = new BizTaskPackageTemplat();
 			param.setStatus("1");
 			param.setStoreId(storeid);
 			List<DropModel> list2 = bizTaskPackageTemplatService.findtaskpackageByStroeId1(ConstantUtils.IS_ENABLE_1);
 
-			// 根据门店查询工程部
+
 			List<DropModel> list3 = bizEngineeringDepartmentService.findEngDepListByStoreId1();
 			list0.add(list1);
 			list0.add(list2);
@@ -910,9 +869,7 @@ public class BizEmployeeController extends BaseController {
 		}
 	}
 
-	/**
-	 * 根据条件(门店\员工类型\工种)查询员工信息
-	 */
+
 	@ResponseBody
 	@RequestMapping(value = { "employeeListByCondition" })
 	public List<DropModel> employeeListByCondition(HttpServletRequest request, HttpServletResponse response, Model model) {
@@ -940,9 +897,7 @@ public class BizEmployeeController extends BaseController {
 		return bizEmployeeService.findEmployeeListByEmpType(storeId, projectMode);
 	}
 
-	/**
-	 * 没有加入工人组的员工信息
-	 */
+
 	@RequiresPermissions("empNoInGroup:bizEmployee:noGroupView")
 	@RequestMapping(value = { "empNoInGroup", "empNoInGroup" })
 	public String empNoInGroup(BizEmployee bizEmployee, HttpServletRequest request, HttpServletResponse response, Model model) {
@@ -960,9 +915,7 @@ public class BizEmployeeController extends BaseController {
 		return "modules/employee/bizEmployeeList";
 	}
 
-	/**
-	 * 获取发送短信人员 根据门店编号(storeId)
-	 */
+
 	@ResponseBody
 	@RequestMapping(value = { "listPhone" })
 	public List<BizEmployee2> listPhone(BizEmployee2 bizEmployee2, HttpServletRequest request) {
@@ -972,7 +925,7 @@ public class BizEmployeeController extends BaseController {
 
 		logger.info("BizMessagegroupController listPhone storeId=" + storeId + "\t messageGroupType=" + messageGroupType);
 
-		// 获取短信组list
+
 		BizMessagegroup bizMessagegroup = bizMessagegroupService.getByStoreId(storeId, messageGroupType);
 		List<BizEmployee2> employeelist = null;
 		if (null != bizMessagegroup) {
@@ -983,10 +936,7 @@ public class BizEmployeeController extends BaseController {
 			employeelist = bizEmployeeService2.getById(list);
 		}
 
-		/*
-		 * for(BizEmployee2 d:employeelist){
-		 * logger.info("phone===="+d.getPhone()); }
-		 */
+
 
 		return employeelist;
 	}

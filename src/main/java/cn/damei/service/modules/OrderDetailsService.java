@@ -15,19 +15,19 @@ public class OrderDetailsService extends CrudService2<OrderDetailsDao,OrderDetai
 @Autowired
 private OrderDetailsDao dao;
 	public OrderDetails findOrderDtailsById(String id) {
-		// TODO Auto-generated method stub
+
 		return dao.findOrderDtailsById(id);
 	}
 	public List<OrderDetailsInstallPlan> findIntallPlanByOrderId(String orderId) {
-		// TODO Auto-generated method stub
+
 		return dao.findIntallPlanByOrderId(orderId);
 	}
 	public List<OrderDtailsEmployee> findEmployeeByOrderId(String orderId) {
-		// TODO Auto-generated method stub
+
 		return dao.findEmployeeByOrderId(orderId);
 	}
 	public String findInspector(String orderId) {
-		// TODO Auto-generated method stub
+
 		return dao.findInspector(orderId);
 	}
 

@@ -17,19 +17,19 @@ public class BizPrePmSettleFin extends DataEntity2<BizPrePmSettleFin> {
 
 	private String orderNumber;
 
-	private String receiveMoneyType;//1:二期款 2：尾款
+	private String receiveMoneyType;
 
 	private Double receiveMoneyAmount;
 
 	private Date receiveMoneyDatetime;
 	
-	private Date deptMoneyDate;//催款时间
+	private Date deptMoneyDate;
 
 	private String remarks;
 	
 	private String receiveMoneyTime;
 
-	private String collectionStatus;//收款状态
+	private String collectionStatus;
 	
 
 	public String getCollectionStatus() {

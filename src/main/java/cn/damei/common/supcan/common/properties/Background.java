@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.common.supcan.common.properties;
 
 import cn.damei.common.supcan.annotation.common.properties.SupBackground;
@@ -8,17 +6,11 @@ import cn.damei.common.utils.ObjectUtils;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 
-/**
- * 硕正TreeList Properties Background
- * @author WangZhen
- * @version 2013-11-04
- */
+
 @XStreamAlias("Background")
 public class Background {
 	
-	/**
-	 * 背景颜色
-	 */
+
 	@XStreamAsAttribute
 	private String bgColor = "#FDFDFD";
 	

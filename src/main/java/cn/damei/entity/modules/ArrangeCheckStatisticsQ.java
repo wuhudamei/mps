@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import java.util.Date;
@@ -10,53 +8,48 @@ import org.hibernate.validator.constraints.Length;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import cn.damei.common.persistence.DataEntity;
 
-/**
- * 约检节点验收统计Entity
- * 
- * @author 张同维
- * @version 2017-06-22
- */
+
 public class ArrangeCheckStatisticsQ extends DataEntity<ArrangeCheckStatisticsQ> {
 
 	private static final long serialVersionUID = 1L;
-	private String qcBillCode; // 质检单编号 -- '
-	private String qcBillType; // 门店
-	private String isRecheck; // 是否复检 -- '0.否；1.是；默认0
-	private String relatedQcBillId; // 关联质检单id -- '
-	private String orderId; // 订单id -- '
-	private String qcCheckNodeId; // 检查节点id -- '
-	private String applyRemarks; // 申请备注 -- '
-	private String status; // 状态 --
-							// '复检单状态：1.创建；2.项目经理已申请；3.复检不合格；4.复检合格；约检单抽检单状态：0.暂存；2.项目经理已申请；5.已检查完成；6.已确认验收；
-							// 抽检单: -1 :只签到 0:暂存 5:检查完成
-	private String applyEmployeeId; // 质检申请人员工id -- '
-	private String checkEmployeeId; // 实际质检人员工id -- '
-	private Date checkDatetime; // 质检日期时间 -- '
-	private Date expectCheckDatetime; // 期望质检日期时间 -- '
-	private Date acceptCheckDatetime; // 验收日期时间 -- '
-	private String acceptCheckDatetimeString; // 验收日期时间 -- '
-	private String totalScore; // 总分 -- '
-	private String gotScore; // 实际得分 -- '
-	private String recheckTimes; // recheck_times
-	private String checkWords; // check_words
-	private String reviewStatus; // &Eacute;&oacute;&ordm;&Euml;&times;&acute;&Igrave;&not;&pound;&uml;&Igrave;&iacute;&frac14;&Oacute;&pound;&copy;
-									// -- '
-	private String reviewRemark; // &Eacute;&oacute;&ordm;&Euml;&Ograve;&acirc;&frac14;&ucirc;&pound;&uml;&Igrave;&iacute;&frac14;&Oacute;&pound;&copy;
-									// -- '
-	private Date reviewDatetime; // &Eacute;&oacute;&ordm;&Euml;&Egrave;&Otilde;&AElig;&Uacute;&Ecirc;&plusmn;&frac14;&auml;&pound;&uml;&Igrave;&iacute;&frac14;&Oacute;&pound;&copy;
-									// -- '
-	private Date planCheckDatetime; // plan_check_datetime
-	private String delayReasonPm; // delay_reason_pm
-	private String delayReasonQc; // delay_reason_qc
-	private String cotid; // 序号
-	private String storeId; // 门店
-	private String datetime; // 验收时间
-	private String storeName; // 门店名称
-	private String checknodename; // 约检节点名称
-	private String industry; // 产业
-	private String tradition; // 传统
-	private String total; // 合计
-	private String qcchecknodeindex; //
+	private String qcBillCode;
+	private String qcBillType;
+	private String isRecheck;
+	private String relatedQcBillId;
+	private String orderId;
+	private String qcCheckNodeId;
+	private String applyRemarks;
+	private String status;
+
+
+	private String applyEmployeeId;
+	private String checkEmployeeId;
+	private Date checkDatetime;
+	private Date expectCheckDatetime;
+	private Date acceptCheckDatetime;
+	private String acceptCheckDatetimeString;
+	private String totalScore;
+	private String gotScore;
+	private String recheckTimes;
+	private String checkWords;
+	private String reviewStatus;
+
+	private String reviewRemark;
+
+	private Date reviewDatetime;
+
+	private Date planCheckDatetime;
+	private String delayReasonPm;
+	private String delayReasonQc;
+	private String cotid;
+	private String storeId;
+	private String datetime;
+	private String storeName;
+	private String checknodename;
+	private String industry;
+	private String tradition;
+	private String total;
+	private String qcchecknodeindex;
 	private Date acceptCheckDatetimeStart;
 	private Date acceptCheckDatetimeEnd;
 	

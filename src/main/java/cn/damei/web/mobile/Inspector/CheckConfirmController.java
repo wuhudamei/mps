@@ -34,11 +34,7 @@ import cn.damei.service.mobile.Manager.QualityControlService;
 import cn.damei.entity.mobile.Manager.SettlementEvalStore;
 import cn.damei.entity.modules.BizEvalActivityIndex;
 
-/**
- * 约检列表确认验收
- *
- * @author Administrator
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/app/pqc/confirm")
 public class CheckConfirmController {
@@ -60,31 +56,24 @@ public class CheckConfirmController {
     private QualityControlService qualityControlService;
 
 
-    private static Logger logger = LoggerFactory.getLogger(PackTimeChangeController.class);// 日志
+    private static Logger logger = LoggerFactory.getLogger(PackTimeChangeController.class);
 
-    /**
-     * 确认验收页面
-     *
-     * @param request
-     * @param model
-     * @return
-     * @throws IOException
-     */
+
     @RequestMapping(value = "checkConfirmList")
     private String reportList(HttpServletRequest request, Model model) throws IOException {
 
         int id = Integer.valueOf(request.getParameter("id"));
-        // 通过质检单id查询质检单
+
         CheckConfirm checkConfirm = checkConfirmService.findQcBillById(id);
 
-        // 查询该约检单是否已确认验收
+
         if (null != checkConfirm) {
             if (!checkConfirm.getStatus().equals("5") && !checkConfirm.getStatus().equals("20")) {
                 return "redirect:" + Global.getAdminPath() + "/app/pqc/checkList/list?timeForbidden=1";
             }
         }
 
-        // 判断是否已评价
+
         Map<String, Object> scoreMap = new HashMap<String, Object>();
         scoreMap.put("relatedBusinessId", id);
         scoreMap.put("evalType", "2");
@@ -104,7 +93,7 @@ public class CheckConfirmController {
             }
             model.addAttribute("evalStoreList", evalStoreList);
         } else {
-            // 评价项目经理(根据约检节点判断该节点是否存在评价项目经理)
+
             Map<String, Object> map = new HashMap<String, Object>();
             map.put("checkNodeId", checkConfirm.getQcCheckNodeId());
             map.put("expectCheckDatetime", checkConfirm.getExpectCheckDatetime());
@@ -127,20 +116,7 @@ public class CheckConfirmController {
     }
 
 
-    /**
-     * 确认验收
-     * @param delayReasonQc
-     * @param id
-     * @param input_date
-     * @param photo
-     * @param bizEvalActivityId
-     * @param bizEvalActivityIndexId
-     * @param bizEvalActivityIndexEvalTotalScore
-     * @param bizEvalActivityIndexSelectCount
-     * @param request
-     * @return
-     * @throws UnsupportedEncodingException
-     */
+
     @RequestMapping(value = "checkConfirm", method = RequestMethod.POST)
     public @ResponseBody
     String checkConfirm(String delayReasonQc, String id, String input_date, String[] photo,
@@ -148,31 +124,24 @@ public class CheckConfirmController {
                         String[] bizEvalActivityIndexSelectCount, HttpServletRequest request) throws UnsupportedEncodingException {
 
 
-        /**
-         * 更新质检单 ,并插入材料线信息,更新评价信息,并有发送短信
-         */
+
        String result = checkConfirmService.updateInform(delayReasonQc, id, photo,
                 bizEvalActivityId, bizEvalActivityIndexId, bizEvalActivityIndexEvalTotalScore,
                 bizEvalActivityIndexSelectCount, request);
 
-//result 0 正常 其他异常
+
         return result;
     }
 
-    /**
-     * 查看约检图片
-     *
-     * @param
-     * @return
-     */
+
     @RequestMapping(value = "viewPic")
     private String viewPic(int qcBillId, HttpServletRequest request, Model model) throws Exception {
 
-        //通过质检单id查询图片
+
         List<BusinessPic> picList = qualityControlService.findPic(qcBillId);
 
         String baseUrl = PicRootName.picPrefixName();
-        //String baseUrl = "http://localhost:8080/mdn";
+
         model.addAttribute("picList", picList);
         model.addAttribute("baseUrl", baseUrl);
         return "mobile/modules/pqc/check/confirm/photo";

@@ -2,37 +2,33 @@ package cn.damei.entity.mobile.Inspector;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 任务包结算Entity
- * @author qww
- * @version 2016-10-15
- */
+
 
 public class PqcOrderTaskpackageProcedure extends DataEntity2<PqcOrderTaskpackageProcedure>{
 
 	private static final long serialVersionUID = 1L;
 	
-	private Integer taskpackageId; // 任务包id
-	private String packageName; // 任务包名称
-	private String procedureNo; // 工序编号
-	private String procedureName; // 工序名称
-	private String measurementUnit; // 计量单位
-	private String measurementUnitLabel; // 计量单位
-	private Double laborPrice; // 人工价
-	private Double accessoriesPrice; // 辅料价格
-	private Double synthesizePrice; // 综合价
-	private Double budgetNumber; // 预算数量
-	private Double realNumber; // 真实数量
-	private Double recheckNumber; // 复核数量
-	private Double settlementNumber; // 结算数量
-	private String recheckRemarks; // 复核说明
-	private String remarks; // 备注信息
-	private Double laborDudgetAmount; //人工预算金额
-	private Double laborSettleAmount;//人工费结算金额
-	private Double auxiliaryMaterialsBudgetAmount;//辅料费预算金额
-	private Double auxiliaryMaterialsSettleAmount;//辅料费结算金额
-	private Double laborAuxiliaryMaterialsBudgetAmount;//工料费预算金额
-	private Double laborAuxiliaryMaterialsSettleAmount;//工料费结算金额
+	private Integer taskpackageId;
+	private String packageName;
+	private String procedureNo;
+	private String procedureName;
+	private String measurementUnit;
+	private String measurementUnitLabel;
+	private Double laborPrice;
+	private Double accessoriesPrice;
+	private Double synthesizePrice;
+	private Double budgetNumber;
+	private Double realNumber;
+	private Double recheckNumber;
+	private Double settlementNumber;
+	private String recheckRemarks;
+	private String remarks;
+	private Double laborDudgetAmount;
+	private Double laborSettleAmount;
+	private Double auxiliaryMaterialsBudgetAmount;
+	private Double auxiliaryMaterialsSettleAmount;
+	private Double laborAuxiliaryMaterialsBudgetAmount;
+	private Double laborAuxiliaryMaterialsSettleAmount;
 	
 	
 	public Double getLaborDudgetAmount() {

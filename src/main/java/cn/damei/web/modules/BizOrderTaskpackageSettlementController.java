@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import java.util.ArrayList;
@@ -32,12 +30,7 @@ import cn.damei.service.modules.SettlementForDetailService;
 import cn.damei.entity.modules.User;
 import cn.damei.common.utils.UserUtils;
 
-/**
- * 结算单Controller
- * 
- * @author 汪文文
- * @version 2016-10-14
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/ordertaskpackagesettlement/bizOrderTaskpackageSettlement")
 public class BizOrderTaskpackageSettlementController extends BaseController {
@@ -103,7 +96,7 @@ public class BizOrderTaskpackageSettlementController extends BaseController {
 	@RequestMapping(value = "settlementListPage")
 	public String settlementListPage(SettlementForDetail settlementForDetail, Model model) {
 		User user = UserUtils.getUser();
-		// 过滤区域
+
 		if (null == settlementForDetail.getEnginDepartId()) {
 			if (null != UserUtils.getUser().getEmpId()) {
 				List<Integer> list = bizEmployeeService2
@@ -122,7 +115,7 @@ public class BizOrderTaskpackageSettlementController extends BaseController {
 			settlementForDetail.setEnginDepartIds(list);
 		}
 
-		// 过滤门店
+
 		if (settlementForDetail.getStoreId() == null) {
 			String storeId = UserUtils.getUser().getStoreId();
 			if (StringUtils.isBlank(storeId)) {
@@ -135,7 +128,7 @@ public class BizOrderTaskpackageSettlementController extends BaseController {
 			model.addAttribute("storeDropEnable", true);
 		}
 
-		// 过滤工程模式
+
 		if (StringUtils.isBlank(settlementForDetail.getProjectMode())) {
 			if (null != user.getEmpId()) {
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -178,7 +171,7 @@ public class BizOrderTaskpackageSettlementController extends BaseController {
 	public String settlementList(SettlementForDetail settlementForDetail, Model model, HttpServletRequest request,
 			HttpServletResponse response) {
 		User user = UserUtils.getUser();
-		// 过滤区域
+
 		if (null == settlementForDetail.getEnginDepartId()) {
 			if (null != UserUtils.getUser().getEmpId()) {
 				List<Integer> list = bizEmployeeService2
@@ -197,7 +190,7 @@ public class BizOrderTaskpackageSettlementController extends BaseController {
 			settlementForDetail.setEnginDepartIds(list);
 		}
 
-		// 过滤门店
+
 		if (settlementForDetail.getStoreId() == null) {
 			String storeId = UserUtils.getUser().getStoreId();
 			if (StringUtils.isBlank(storeId)) {
@@ -210,7 +203,7 @@ public class BizOrderTaskpackageSettlementController extends BaseController {
 			model.addAttribute("storeDropEnable", true);
 		}
 
-		// 过滤工程模式
+
 		if (StringUtils.isBlank(settlementForDetail.getProjectMode())) {
 			if (null != user.getEmpId()) {
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));

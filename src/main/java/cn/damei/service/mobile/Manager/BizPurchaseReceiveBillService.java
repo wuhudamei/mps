@@ -74,7 +74,7 @@ public class BizPurchaseReceiveBillService extends CrudService2<BizPurchaseRecei
 		
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		Date date = new Date();
-		//保存到收货单
+
 		BizPurchaseReceiveBill bill = new BizPurchaseReceiveBill();
 		bill.setPurchaseId(Integer.parseInt(purchaseId));
 		String code = bizSeiralnumService.getDateSequence("SH");
@@ -86,7 +86,7 @@ public class BizPurchaseReceiveBillService extends CrudService2<BizPurchaseRecei
 		bill.setUpdateDate(date);
 		bizPurchaseReceiveBillDao.insert(bill);
 		BizPurchaseReceiveBill bill2 =  bizPurchaseReceiveBillDao.findByCode(code);
-		//保存到收货单对应的商品表  //材料采购单中的数量
+
 		for(int i =0; i<ids.length; i++){
 			BizPurchaseReceiveBillProduct product = new BizPurchaseReceiveBillProduct();
 			product.setPurchaseProductId(Integer.parseInt(ids[i]));
@@ -96,123 +96,123 @@ public class BizPurchaseReceiveBillService extends CrudService2<BizPurchaseRecei
 			product.setUpdateDate(date);
 			product.setDelFlag("0");
 			bizPurchaseReceiveBillProductDao.insert(product);
-			if(PurchaseConstantUtil.PURCHASE_TYPE_1.equals(purchaseType)){//辅料
+			if(PurchaseConstantUtil.PURCHASE_TYPE_1.equals(purchaseType)){
 				ReceivedAuxiliary auxiliary = receivedAuxiliaryDao.queryAuxiliaryById(Integer.parseInt(ids[i]));
 				receivedAuxiliaryDao.updateCount(Integer.parseInt(ids[i]),auxiliary.getReceivedCount()+Double.valueOf(receivingCounts[i]),auxiliary.getOwedCount()-Double.valueOf(receivingCounts[i]));
 				
-			}else if(PurchaseConstantUtil.PURCHASE_TYPE_5.equals(purchaseType)){//墙地砖
+			}else if(PurchaseConstantUtil.PURCHASE_TYPE_5.equals(purchaseType)){
 				ReceivedTile tile = receivedTileDao.queryTileById(Integer.parseInt(ids[i]));
 				receivedTileDao.updateCount(Integer.parseInt(ids[i]),tile.getReceivedCount()+Double.valueOf(receivingCounts[i]),tile.getOwedCount()-Double.valueOf(receivingCounts[i]));
 				
-			}else if(PurchaseConstantUtil.PURCHASE_TYPE_2.equals(purchaseType)){//开关面板
+			}else if(PurchaseConstantUtil.PURCHASE_TYPE_2.equals(purchaseType)){
 				ReceivedPanel panel = receivedPanelDao.queryPanelById(Integer.parseInt(ids[i]));
 				receivedPanelDao.updateCount(Integer.parseInt(ids[i]),panel.getReceivedCount()+Double.valueOf(receivingCounts[i]),panel.getOwedCount()-Double.valueOf(receivingCounts[i]));
-			}else{//沙子水泥
+			}else{
 				ReceivedAuxiliary auxiliary = receivedAuxiliaryDao.queryAuxiliaryById(Integer.parseInt(ids[i]));
 				receivedAuxiliaryDao.updateCount(Integer.parseInt(ids[i]),auxiliary.getReceivedCount()+Double.valueOf(receivingCounts[i]),auxiliary.getOwedCount()-Double.valueOf(receivingCounts[i]));
 			}
 		}
-	//	根据采购单id查询所有的商品
+
 		List<ReceivedAuxiliary> list1 = receivedAuxiliaryDao.queryAuxiliaryByPurchase(Integer.parseInt(purchaseId));
 		List<ReceivedTile> list2 = receivedTileDao.queryTileByPurchaseId(Integer.parseInt(purchaseId));
 		List<ReceivedPanel> list3 = receivedPanelDao.queryPanelByPurchaseId(Integer.parseInt(purchaseId));
 		
 		if(list1.size() == 0 && list2.size() == 0 && list3.size() == 0){
-			//修改采购单的状态为已完成
+
 			BizPurchase bizPurchase = bizPurchaseDao.get(Integer.parseInt(purchaseId));
 			Order2 order = orderService2.findOrderById(bizPurchase.getOrderId());
 			BizEmployee2 manager1 = bizEmployeeService2.get(order.getItemManagerId());
 			bizPurchaseDao.updateStatus1ById(Integer.parseInt(purchaseId),ConstantUtils.PURCHASE_STATUS_90,new Date());
-			//同时发短信
-//			if(purchaseType.equals(ConstantUtils.AUXILIARY_NUMBER)){//订单（小区名-楼号-单元号-门牌号-客户姓名-手机号），项目经理（姓名-手机号），申请辅料项目经理已全部收货。
-//				BizMessagegroup bizMessagegroup = bizMessagegroupService.getByStoreId(order.getStoreId(),"5");
-//				List<Integer> list = new ArrayList<Integer>();
-//				List<BizEmployee2> employeelist = null;
-//				if(null != bizMessagegroup ){
-//					String[] str = bizMessagegroup.getEmployees().split(",");
-//					for(String id1: str){
-//						list.add(Integer.valueOf(id1));
-//					}
-//					employeelist = bizEmployeeService2.getById(list);
-//					if(employeelist != null && employeelist.size()>0){
-//						String content = "订单（"+order.getCommunityName()+"-"+order.getBuildNumber()+"-"+order.getBuildUnit()+"-"+order.getBuildRoom()+"-"+order.getCustomerName()+"-"+order.getCustomerPhone()+",项目经理（"+manager1.getRealname()+"-"+manager1.getPhone()+"），申请辅料项目经理已全部收货。";
-//						for (int i=0;i<employeelist.size();i++) {
-//							BizPhoneMsg message = new BizPhoneMsg();
-//							message.setMsgContent(content);
-//							message.setMsgStatus(ConstantUtils.SEND_MSG_STATUS_0);
-//							message.setReceiveEmployeeId(employeelist.get(i).getId());
-//							message.setReceivePhone(employeelist.get(i).getPhone());
-//							message.setMsgGenerateDatetime(new Date());
-//							message.setRelatedBusinessIdInt(bizPurchase.getId());
-//							message.setRelatedBusinessType(SendMsgBusinessType.RELATED_BUSINESS_TYPE_700301);
-//							bizPhoneMsgService.insert(message);
-//						}
-//					}
-//				}
-//			}else if(ConstantUtils.WALL_FLOOR_BRICK_NUMBER.equals(purchaseType)){//订单（小区名-楼号-单元号-门牌号-客户姓名-手机号），项目经理（姓名-手机号），申请墙地砖项目经理已全部收货。
-//				BizMessagegroup bizMessagegroup = bizMessagegroupService.getByStoreId(order.getStoreId(),"4");
-//				List<Integer> list = new ArrayList<Integer>();
-//				List<BizEmployee2> employeelist = null;
-//				if(null != bizMessagegroup ){
-//					String[] str = bizMessagegroup.getEmployees().split(",");
-//					for(String id1: str){
-//						list.add(Integer.valueOf(id1));
-//					}
-//					employeelist = bizEmployeeService2.getById(list);
-//					if(employeelist != null && employeelist.size()>0){
-//						String content = "订单（"+order.getCommunityName()+"-"+order.getBuildNumber()+"-"+order.getBuildUnit()+"-"+order.getBuildRoom()+"-"+order.getCustomerName()+"-"+order.getCustomerPhone()+",项目经理（"+manager1.getRealname()+"-"+manager1.getPhone()+"），申请墙地砖项目经理已全部收货。";
-//						for (int i=0;i<employeelist.size();i++) {
-//							BizPhoneMsg message = new BizPhoneMsg();
-//							message.setMsgContent(content);
-//							message.setMsgStatus(ConstantUtils.SEND_MSG_STATUS_0);
-//							message.setReceiveEmployeeId(employeelist.get(i).getId());
-//							message.setReceivePhone(employeelist.get(i).getPhone());
-//							message.setMsgGenerateDatetime(new Date());
-//							message.setRelatedBusinessIdInt(bizPurchase.getId());
-//							message.setRelatedBusinessType(SendMsgBusinessType.RELATED_BUSINESS_TYPE_800301);
-//							bizPhoneMsgService.insert(message);
-//						}
-//					}
-//				}
-//			}else{//订单（小区名-楼号-单元号-门牌号-客户姓名-手机号），项目经理（姓名-手机号），申请开关面板项目经理已全部收货。
-//				BizMessagegroup bizMessagegroup = bizMessagegroupService.getByStoreId(order.getStoreId(),"8");
-//				List<Integer> list = new ArrayList<Integer>();
-//				List<BizEmployee2> employeelist = null;
-//				if(null != bizMessagegroup ){
-//					String[] str = bizMessagegroup.getEmployees().split(",");
-//					for(String id1: str){
-//						list.add(Integer.valueOf(id1));
-//					}
-//					employeelist = bizEmployeeService2.getById(list);
-//					if(employeelist != null && employeelist.size()>0){
-//						String content = "订单（"+order.getCommunityName()+"-"+order.getBuildNumber()+"-"+order.getBuildUnit()+"-"+order.getBuildRoom()+"-"+order.getCustomerName()+"-"+order.getCustomerPhone()+",项目经理（"+manager1.getRealname()+"-"+manager1.getPhone()+"），申请开关面板项目经理已全部收货。";
-//						for (int i=0;i<employeelist.size();i++) {
-//							BizPhoneMsg message = new BizPhoneMsg();
-//							message.setMsgContent(content);
-//							message.setMsgStatus(ConstantUtils.SEND_MSG_STATUS_0);
-//							message.setReceiveEmployeeId(employeelist.get(i).getId());
-//							message.setReceivePhone(employeelist.get(i).getPhone());
-//							message.setMsgGenerateDatetime(new Date());
-//							message.setRelatedBusinessIdInt(bizPurchase.getId());
-//							message.setRelatedBusinessType(SendMsgBusinessType.RELATED_BUSINESS_TYPE_900301);
-//							bizPhoneMsgService.insert(message);
-//						}
-//					}
-//				}
-//			}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 		}else{
-			//部分收货
+
 			bizPurchaseDao.updateStatus2ById(Integer.parseInt(purchaseId),ConstantUtils.PURCHASE_STATUS_70);
 		}
 		
-		//保存图片
+
 		if(photo!=null){
 			if(photo.length>0){
 				for(String p:photo){
 					String uuid = UUID.randomUUID().toString().replaceAll("-", "");
 					String rootPath = request.getSession().getServletContext().getRealPath("");
 					File filePath = new File(rootPath + ConstantUtils.UPLOAD_PURCHASE_RECEIVE + DateUtils.getDate1());
-					//判断该文件是否存在
+
 					if(!filePath.exists() && !filePath.isDirectory()){
 						filePath.mkdirs();
 					}
@@ -220,7 +220,7 @@ public class BizPurchaseReceiveBillService extends CrudService2<BizPurchaseRecei
 					Base64Util.generateImage(p, filepath);
 					
 					String picpath = ConstantUtils.UPLOAD_PURCHASE_RECEIVE + DateUtils.getDate1()+filePath.separator + uuid + ".jpeg";
-					//保存图片到数据库
+
 					BusinessPicture picture = new BusinessPicture();
 					picture.setBusinessIdInt(bill2.getId());
 					picture.setBusinessType(ConstantUtils.PICTURE_BUSINESS_TYPE_5);
@@ -242,12 +242,7 @@ public class BizPurchaseReceiveBillService extends CrudService2<BizPurchaseRecei
 		return dao.queryById(id);
 	}
 
-	/**
-	 * 根据采购单ID查询最新的一条收货记录
-	 * @param id
-	 * @param valueOf
-	 * @return
-	 */
+
 	public BizPurchaseReceiveBillVo findNewReceiveBill(Integer purchaseId) {
 		return dao.findNewReceiveBill(purchaseId);
 	}

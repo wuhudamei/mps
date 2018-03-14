@@ -4,11 +4,9 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class ReCheckCode implements Serializable {
-	/**
-		 * 
-		 */
+
 	private static final long serialVersionUID = 1L;
-	private Integer serialId;//流水号id
+	private Integer serialId;
 
 	public Integer getSerialId() {
 		return serialId;
@@ -18,9 +16,9 @@ public class ReCheckCode implements Serializable {
 		this.serialId = serialId;
 	}
 
-	private String bussinessType;// 类型
-	private Integer lastSeiralnum;// 数
-	private Date generateTime;// 时间
+	private String bussinessType;
+	private Integer lastSeiralnum;
+	private Date generateTime;
 
 	public String getBussinessType() {
 		return bussinessType;

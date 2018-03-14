@@ -2,24 +2,20 @@ package cn.damei.entity.mobile.home;
 
 import java.io.Serializable;
 
-/**
- * 施工变更单  变更项Entity
- * @author wyb
- * @version 2016-11-16
- */
+
 public class BizChangeItem implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
-	private String projectIntemName;//施工项name
-	private String projectIntemUnit;//施工项计量单位
-	private String projectIntemMold;//增减项
-	private Double projectIntemPrice;//单价
-	private Integer projectIntemAmount;//数量
-	private Double  everyPrice;//总价
-	private String explainWords;//说明
+	private String projectIntemName;
+	private String projectIntemUnit;
+	private String projectIntemMold;
+	private Double projectIntemPrice;
+	private Integer projectIntemAmount;
+	private Double  everyPrice;
+	private String explainWords;
 	
-	private BizProjectChangeBill bizProjectChangeBill; //变更单
+	private BizProjectChangeBill bizProjectChangeBill;
 
 	public String getProjectIntemName() {
 		return projectIntemName;

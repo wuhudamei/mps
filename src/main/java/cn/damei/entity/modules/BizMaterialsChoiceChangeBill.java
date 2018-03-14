@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import org.hibernate.validator.constraints.Length;
@@ -9,38 +7,34 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 选材变更单表Entity
- * @author wyb
- * @version 2017-06-14
- */
+
 public class BizMaterialsChoiceChangeBill extends DataEntity2<BizMaterialsChoiceChangeBill> {
 	
 	private static final long serialVersionUID = 1L;
-	private Integer orderId;		// 订单id
-	private String orderNumber;		// 订单编号
-	private String changeBillCode;		// 变更单编号
-	private String changeReason;		// 变更原因
-	private Date changeApplyDate;		// 设计师申请变更原因
-	private String designerName;		// 设计师姓名
-	private Date changeCheckedDate;		// 变更单审核通过日期
-	private String checkerName;		// 审计员姓名
-	private Double addItemTotalAmount;		// 增项合计金额
-	private Double reduceItemTotalAmount;		// 减项合计金额
-	private Double changeBillTotalAmount;		// 变更单总金额
+	private Integer orderId;
+	private String orderNumber;
+	private String changeBillCode;
+	private String changeReason;
+	private Date changeApplyDate;
+	private String designerName;
+	private Date changeCheckedDate;
+	private String checkerName;
+	private Double addItemTotalAmount;
+	private Double reduceItemTotalAmount;
+	private Double changeBillTotalAmount;
 	
-	private Integer storeId;		// 门店id
-	private String customerName;		// 客户姓名
-	private String customerPhone;		// 客户手机号
-	private String communityName;		// 小区
-	private String buildNumber;		// 楼
-	private String buildUnit;		// 单元
-	private String buildRoom;		// 室
-	private String orderDesignerName;		// 订单设计师
-	private String orderDesignerPhone;		// 订单设计师电话
-	private String itemManager;		// 项目经理姓名
-	private String storeName;		// 门店名称
-	private String contractNumber;		// 合同编号
+	private Integer storeId;
+	private String customerName;
+	private String customerPhone;
+	private String communityName;
+	private String buildNumber;
+	private String buildUnit;
+	private String buildRoom;
+	private String orderDesignerName;
+	private String orderDesignerPhone;
+	private String itemManager;
+	private String storeName;
+	private String contractNumber;
 	
 	
 	public BizMaterialsChoiceChangeBill() {

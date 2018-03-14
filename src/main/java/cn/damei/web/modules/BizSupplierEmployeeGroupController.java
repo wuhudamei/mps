@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import java.util.List;
@@ -25,12 +23,7 @@ import cn.damei.entity.modules.BizEmployeegroupVO;
 import cn.damei.entity.modules.BizSupplierEmployeeGroup;
 import cn.damei.service.modules.BizSupplierEmployeeGroupService;
 
-/**
- * 主材安装供应商和工人组Controller
- * 
- * @author ztw
- * @version 2017-07-17
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/supplieremgroup/bizSupplierEmployeeGroup")
 public class BizSupplierEmployeeGroupController extends BaseController {
@@ -65,18 +58,7 @@ public class BizSupplierEmployeeGroupController extends BaseController {
 		return "modules/supplieremgroup/bizSupplierEmployeeGroupForm";
 	}
 
-	/**
-	 * 修改回显
-	 * 
-	 * @Title: formUpdate
-	 * @Description: TODO
-	 * @param @param bizSupplierEmployeeGroup
-	 * @param @param model
-	 * @param @return
-	 * @return String
-	 * @author ZhangTongWei
-	 * @throws
-	 */
+
 	@RequestMapping(value = "formUpdate")
 	public String formUpdate(BizSupplierEmployeeGroup bizSupplierEmployeeGroup, Model model) {
 		List<BizSupplierEmployeeGroup> bizSupplierEmployeeGroupList = bizSupplierEmployeeGroupService.findBizSupplierEmployeeGroup(bizSupplierEmployeeGroup);
@@ -90,18 +72,7 @@ public class BizSupplierEmployeeGroupController extends BaseController {
 		return "modules/supplieremgroup/bizSupplierEmployeeGroupUpdate";
 	}
 
-	/**
-	 * 根据供应商id查询 供应商的ID集合
-	 * 
-	 * @Title: queryEmployeeGroupList
-	 * @Description: TODO
-	 * @param @param bizSupplierEmployeeGroup
-	 * @param @param model
-	 * @param @return
-	 * @return String
-	 * @author ZhangTongWei
-	 * @throws
-	 */
+
 	@RequestMapping(value = "queryEmployeeGroupList")
 	public String queryEmployeeGroupList(BizSupplierEmployeeGroup bizSupplierEmployeeGroup, Model model) {
 		List<BizEmployeegroupVO> bizEmployeegroupVOList = bizSupplierEmployeeGroupService.queryEmployeeGroupList(bizSupplierEmployeeGroup);
@@ -129,7 +100,7 @@ public class BizSupplierEmployeeGroupController extends BaseController {
 
 		bizSupplierEmployeeGroup.setSupplierName(bizSupplierEmployeeGroup.getId());
 		bizSupplierEmployeeGroup.setDelFlag("1");
-		bizSupplierEmployeeGroupService.deleteSupplier(bizSupplierEmployeeGroup); // delfle置为1的方法
+		bizSupplierEmployeeGroupService.deleteSupplier(bizSupplierEmployeeGroup);
 
 		bizSupplierEmployeeGroup.setDelFlag("0");
 		bizSupplierEmployeeGroupService.insert(bizSupplierEmployeeGroup);

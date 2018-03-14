@@ -4,35 +4,31 @@ import java.util.Date;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 质检报告vo
- * @author Administrator
- *
- */
+
 public class ReportCheck extends DataEntity2<ReportCheck>{
 
 	private static final long serialVersionUID = 1L;
-	private String communityName; //小区名称
-	private String buildNumber; //几号楼
-	private String buildUnit; //几单元
-	private String buildRoom; //几室
-	private String customerName; //客户姓名
-	private String customerPhone; //客户电话
-	private Integer itemManagerId; //项目经理id
-	private String managerRealName; //项目经理
-	private Integer orderId; //订单id
-	private String actualStartDateString; //实际开工日期字符串
-	private String orderStatusNumber; //订单状态
-	private String orderStatusDescription; //订单状态描述
-	private String qcCheckNodeName; //检查内容
-	private Date checkDatetime; //检查时间
-	private Integer checkEmployeeId; //质检员id
-	private String inspectorRealName;//质检员
-	private Double totalScore; //总分
-	private Double gotScore;//实际得分
-	private String isRecheck;	//是否复检  1复检
-	private String qcBillType;	//1约检  2抽检
-	private String text; //搜索框
+	private String communityName;
+	private String buildNumber;
+	private String buildUnit;
+	private String buildRoom;
+	private String customerName;
+	private String customerPhone;
+	private Integer itemManagerId;
+	private String managerRealName;
+	private Integer orderId;
+	private String actualStartDateString;
+	private String orderStatusNumber;
+	private String orderStatusDescription;
+	private String qcCheckNodeName;
+	private Date checkDatetime;
+	private Integer checkEmployeeId;
+	private String inspectorRealName;
+	private Double totalScore;
+	private Double gotScore;
+	private String isRecheck;
+	private String qcBillType;
+	private String text;
 
 
 	 

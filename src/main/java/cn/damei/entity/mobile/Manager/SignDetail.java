@@ -6,56 +6,50 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/** 
-* @author 梅浩   meihao@zzhyun.cn: 
-* @version 创建时间：2016年9月24日 上午10:12:44 
-* 经理和工人组长的共用签到详情实例 
-*/
+
 
 public class SignDetail extends DataEntity2<SignDetail>{
 
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
-	private Integer id;//id
-	private Integer orderId;//签到相关订单表id
-	private Integer packId; // 任务包id
-	private String signPic;//签到照片
-	private Date signDate;//签到时间
-	private String signAddress;//签到地址
-	private String signXy;//签到经纬度
-	private Double signDistance;//误差距离 (米)
-	private String signType;//签到人类型  项目经理还是工人组长
-	private String  signName;//签到人名称
-	private Integer managerId;//经理id
-	private String managerName;//经理名称
-	private Integer workerLeaderId;//工人组长id
-	private String workerLeaderName;//工人组长名称
-	private Integer inspectorId;//质检员id
-	private Integer inspectId;//质检单id
+	private Integer id;
+	private Integer orderId;
+	private Integer packId;
+	private String signPic;
+	private Date signDate;
+	private String signAddress;
+	private String signXy;
+	private Double signDistance;
+	private String signType;
+	private String  signName;
+	private Integer managerId;
+	private String managerName;
+	private Integer workerLeaderId;
+	private String workerLeaderName;
+	private Integer inspectorId;
+	private Integer inspectId;
 	private String customerAddress;
 	private String lat;
 	private String lon;
-	private String signStep;//签到阶段   10-基装，20-竣工
-	private String isValid; //是否合格：0否，1是
-	private String[] photo;//图片
+	private String signStep;
+	private String isValid;
+	private String[] photo;
 	private String storeId;
 	private String storeName;
-	//工程模式
+
 	private String projectMode;
 	private String projectModeName;
-	//客户姓名
+
 	private String customerName;
 	
 	private String enginDepartName;
-	//区域ID
+
 	private String enginDepartId;
-	//延期天数
+
 	private String delayDays;
-	//订单编号
+
 	private String orderNumber;
-	//交底时间
+
 	private Date demolitionBuildDate;
 	private Date startDemolitionBuildDate;
 	private Date endDemolitionBuildDate;
@@ -227,8 +221,8 @@ public class SignDetail extends DataEntity2<SignDetail>{
 	public void setInspectorName(String inspectorName) {
 		this.inspectorName = inspectorName;
 	}
-	private String inspectorName;//质检员名称
-	private String customerInfo;//客户信息 (住址加姓名)
+	private String inspectorName;
+	private String customerInfo;
 	public Integer getId() {
 		return id;
 	}

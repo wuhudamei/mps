@@ -11,10 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Map;
 
-/**
- * 订单地板地砖面积Service
- * Created by hyh on 2017/11/6.
- */
+
 @Service
 @Transactional(readOnly = true)
 public class OrderFloorService  extends CrudService2<OrderFloorDao,OrderFloor2>{

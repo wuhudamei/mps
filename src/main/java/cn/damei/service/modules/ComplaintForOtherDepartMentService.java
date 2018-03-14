@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.util.*;
@@ -23,12 +21,7 @@ import cn.damei.dao.modules.ComplaintForOtherDepartMentDao;
 
 import javax.servlet.http.HttpServletRequest;
 
-/**
- * 其他部门投诉Service
- *
- * @author mh
- * @version 2017-07-24
- */
+
 @Service
 @Transactional(readOnly = true)
 public class ComplaintForOtherDepartMentService extends CrudService<ComplaintForOtherDepartMentDao, ComplaintForOtherDepartMent> {
@@ -80,7 +73,7 @@ public class ComplaintForOtherDepartMentService extends CrudService<ComplaintFor
         Map<String, Object> complaintPreMap = new HashMap<>(24);
 
 
-        //保存投诉数据
+
         complaintPreMap.put("orderId", orderId);
         String empId = UserUtils.getUser().getEmpId();
 
@@ -97,14 +90,14 @@ public class ComplaintForOtherDepartMentService extends CrudService<ComplaintFor
         complaintPreMap.put("statusDateTime", date);
         complaintPreMap.put("createDate", date);
 
-        //保存预投诉问题
+
         dao.insert(complaintPreMap);
 
         Integer complaintPreId = (Integer) complaintPreMap.get("complaintPreId");
-  //保存图片
+
 
         if (null != photos && photos.length > 0) {
-            //保存图片
+
 
 
             List<Map<String, Object>> picMapList = new ArrayList<>();

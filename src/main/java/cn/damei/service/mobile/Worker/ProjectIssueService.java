@@ -12,9 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by joseph on 2017/7/3.
- */
+
 
 @Service
 @Transactional(readOnly = true)
@@ -40,7 +38,7 @@ public class ProjectIssueService {
         handleMap.put("handleId",String.valueOf(handleId));
         handleMap.put("handleStatus", ProjectProblemConstantUtil.PROJECT_PROBLEM_STATUS_10);
         handleMap.put("itemStatus", ProjectProblemConstantUtil.PROJECT_PROBLEM_ITEM_STATUS_20);
-        //更新处理问题状态
+
         util.updateHandleStatusDataById(handleMap);
         Map<String,Object> map =  new HashMap<>();
 
@@ -51,7 +49,7 @@ public class ProjectIssueService {
         map.put("dealDateTime",new Date());
         map.put("dealDescribe","");
 
-        //save log
+
         util.saveHandleLog(map);
 
     }

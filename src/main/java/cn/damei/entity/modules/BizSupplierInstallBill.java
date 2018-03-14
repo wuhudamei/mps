@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import org.hibernate.validator.constraints.Length;
@@ -10,59 +8,55 @@ import java.util.List;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 供应商安装单表Entity
- * @author wyb
- * @version 2017-07-13
- */
+
 public class BizSupplierInstallBill extends DataEntity2<BizSupplierInstallBill> {
 	
 	private static final long serialVersionUID = 1L;
-	private String installBillCode;		// 安装单号
-	private Integer orderInstallPlanId;		// 订单安装计划id
-	private Integer supplierId;		// 供应商id
-	private Date supplierConfirmIntoDate;		// 供应商确认进场日期时间
-	private Date supplierConfirmCompleteDate;		// 供应商确认完工日期时间
-	private String status;		// 状态
-	private String statusName;		// 状态名称
-	private Date statusDatetime;		// 状态日期时间
-	private Date realIntoDate;		// 实际进场日期时间
-	private Date realCompleteDate;		// 实际完工日期时间
-	private Date realAcceptDate;		// 确认验收日期时间
+	private String installBillCode;
+	private Integer orderInstallPlanId;
+	private Integer supplierId;
+	private Date supplierConfirmIntoDate;
+	private Date supplierConfirmCompleteDate;
+	private String status;
+	private String statusName;
+	private Date statusDatetime;
+	private Date realIntoDate;
+	private Date realCompleteDate;
+	private Date realAcceptDate;
 	
-	private Integer installPlanId; //安装项计划id
-	private Integer installBillId;		// 安装单id
-	private Integer installConstructBillId;		// 施工单id
-	
-	
-	private Date beginCreateDate;//供应商接收时间  开始
-	private Date endCreateDate; //供应商接收时间  结束
+	private Integer installPlanId;
+	private Integer installBillId;
+	private Integer installConstructBillId;
 	
 	
+	private Date beginCreateDate;
+	private Date endCreateDate;
 	
-	private Integer storeId; //门店id
-	private String storeName; //门店名称
-	private String detailAddress; //客户地址
-	private String communityName; //小区
-	private String buildNumber; //楼
-	private String buildUnit; //单元
-	private String buildRoom; //室
-	private String customerName; //客户姓名
-	private String customerPhone; //客户电话
-	private Integer itemManagerId; //项目经理id
-	private String itemManagerName; //项目经理名称
-	private String itemManagerPhone; //项目经理电话
-	private String installItemName; //安装项名称
-	private String supplierConfirmRemarks; //材料部说明
-	private Date planIntoDate; //计划开始日期
-	private Date planCompleteDate; //计划结束日期
-	private Integer employeeGroupId; //工人组id
-	private String employeeGroupName; //工人组长 名称
-	private String employeeGroupPhone; //工人组长 电话
-	private Integer projectInstallItemId; //安装项id
 	
-	private	List<String> installBillStatusList = null; //安装单状态集合
-	private List<Integer> supplierIdList = null; //供应商id集合
+	
+	private Integer storeId;
+	private String storeName;
+	private String detailAddress;
+	private String communityName;
+	private String buildNumber;
+	private String buildUnit;
+	private String buildRoom;
+	private String customerName;
+	private String customerPhone;
+	private Integer itemManagerId;
+	private String itemManagerName;
+	private String itemManagerPhone;
+	private String installItemName;
+	private String supplierConfirmRemarks;
+	private Date planIntoDate;
+	private Date planCompleteDate;
+	private Integer employeeGroupId;
+	private String employeeGroupName;
+	private String employeeGroupPhone;
+	private Integer projectInstallItemId;
+	
+	private	List<String> installBillStatusList = null;
+	private List<Integer> supplierIdList = null;
 	
 	
 	public BizSupplierInstallBill() {

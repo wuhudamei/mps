@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.util.List;
@@ -13,11 +11,7 @@ import cn.damei.common.service.CrudService;
 import cn.damei.entity.modules.ProjectItemType;
 import cn.damei.dao.modules.ProjectItemTypeDao;
 
-/**
- * 施工项类型Service
- * @author 梅浩
- * @version 2016-11-15
- */
+
 @Service
 @Transactional(readOnly = true)
 public class ProjectItemTypeService extends CrudService<ProjectItemTypeDao, ProjectItemType> {

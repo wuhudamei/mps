@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import java.util.List;
@@ -11,39 +9,35 @@ import org.hibernate.validator.constraints.Length;
 
 import cn.damei.common.persistence.TreeEntity;
 
-/**
- * 机构Entity
- * @author ThinkGem
- * @version 2013-05-15
- */
+
 public class Office extends TreeEntity<Office> {
 
 	private static final long serialVersionUID = 1L;
-//	private Office parent;	// 父级编号
-//	private String parentIds; // 所有父级编号
-	private Area area;		// 归属区域
-	private String code; 	// 机构编码
-//	private String name; 	// 机构名称
-//	private Integer sort;		// 排序
-	private String type; 	// 机构类型（1：公司；2：部门；3：小组）
-	private String grade; 	// 机构等级（1：一级；2：二级；3：三级；4：四级）
-	private String address; // 联系地址
-	private String zipCode; // 邮政编码
-	private String master; 	// 负责人
-	private String phone; 	// 电话
-	private String fax; 	// 传真
-	private String email; 	// 邮箱
-	private String useable;//是否可用
-	private User primaryPerson;//主负责人
-	private User deputyPerson;//副负责人
-	private List<String> childDeptList;//快速添加子部门
+
+
+	private Area area;
+	private String code;
+
+
+	private String type;
+	private String grade;
+	private String address;
+	private String zipCode;
+	private String master;
+	private String phone;
+	private String fax;
+	private String email;
+	private String useable;
+	private User primaryPerson;
+	private User deputyPerson;
+	private List<String> childDeptList;
 	
 	private String label;
 	private String value;
 
 	public Office(){
 		super();
-//		this.sort = 30;
+
 		this.type = "2";
 	}
 
@@ -97,8 +91,8 @@ public class Office extends TreeEntity<Office> {
 		return master;
 	}
 
-	//	@JsonBackReference
-//	@NotNull
+
+
 	public Office getParent() {
 		return parent;
 	}
@@ -137,23 +131,23 @@ public User getPrimaryPerson() {
 	public void setArea(Area area) {
 		this.area = area;
 	}
-//
-//	@Length(min=1, max=100)
-//	public String getName() {
-//		return name;
-//	}
-//
-//	public void setName(String name) {
-//		this.name = name;
-//	}
-//
-//	public Integer getSort() {
-//		return sort;
-//	}
-//
-//	public void setSort(Integer sort) {
-//		this.sort = sort;
-//	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	public void setChildDeptList(List<String> childDeptList) {
 		this.childDeptList = childDeptList;
@@ -190,15 +184,15 @@ public User getPrimaryPerson() {
 	public void setParent(Office parent) {
 		this.parent = parent;
 	}
-//
-//	@Length(min=1, max=2000)
-//	public String getParentIds() {
-//		return parentIds;
-//	}
-//
-//	public void setParentIds(String parentIds) {
-//		this.parentIds = parentIds;
-//	}
+
+
+
+
+
+
+
+
+
 
 	public void setPhone(String phone) {
 		this.phone = phone;
@@ -224,9 +218,9 @@ public User getPrimaryPerson() {
 		this.zipCode = zipCode;
 	}
 
-//	public String getParentId() {
-//		return parent != null && parent.getId() != null ? parent.getId() : "0";
-//	}
+
+
+
 	
 	@Override
 	public String toString() {

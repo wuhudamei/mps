@@ -28,12 +28,7 @@ import cn.damei.common.web.BaseController;
 import cn.damei.entity.modules.ScorOrderEmployee;
 import cn.damei.service.modules.ScoreOrderService;
 
-/**
- * 员工评分Controller
- * 
- * @author lft
- * @version 2017-04-14
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/score/employee")
 public class ScoreOrderEmployeeController extends BaseController {
@@ -49,14 +44,11 @@ public class ScoreOrderEmployeeController extends BaseController {
 		}
 		return entity;
 	}
-	/**
-	 * 
-	 * 员工评分统计查询
-	 */
+
 	@RequiresPermissions("scoreOrderEmployeeList:view")
 	@RequestMapping(value = { "scoreOrderEmployeelist2", "" })
 	public String  ScoreOrderEmployeelist2(Model model,ScorOrderEmployee scorOrderEmployee,HttpServletRequest request,HttpServletResponse  response) {
-        //过滤门店
+
             User user = UserUtils.getUser();
             if(null==scorOrderEmployee.getStoreId()){
                 if(null!=user.getStoreId()){
@@ -80,11 +72,7 @@ public class ScoreOrderEmployeeController extends BaseController {
 		 model.addAttribute("page", page);
 		return "modules/score/scoreOrderEmployeeList";
 	}
-	/**
-	 * 
-	 * 员工评分统计导出
-	 * @return 
-	 */
+
 	@RequiresPermissions("scoreOrderEmployeeList:view")
 	@RequestMapping(value = { "export", "" })
 	public void  export(ScorOrderEmployee scorOrderEmployee,HttpServletRequest request,HttpServletResponse  response) {
@@ -102,11 +90,11 @@ public class ScoreOrderEmployeeController extends BaseController {
 		List<ScorOrderEmployee> selectScorOrderEmployee =  
 		scoreOrderService.selectScorOrderEmployeeQuery(null,scorOrderEmployee);
 		HSSFWorkbook problemDetail = ExportScoreOrderEmployee.exportScoreOrderEmployee(selectScorOrderEmployee);
-		ServletOutputStream ouputStream= null;//创建一个输出流对象
+		ServletOutputStream ouputStream= null;
 		try {  
 			response.setContentType("application/binary;charset=utf-8"); 
-			String headerStr =new String(("员工评分统计表"+sf.format(new Date())).getBytes("utf-8"), "ISO8859-1");//headerString为中文时转码  
-			response.setHeader("Content-disposition","attachment; filename="+headerStr+".xls");//filename是下载的xls的名
+			String headerStr =new String(("员工评分统计表"+sf.format(new Date())).getBytes("utf-8"), "ISO8859-1");
+			response.setHeader("Content-disposition","attachment; filename="+headerStr+".xls");
 			ouputStream = response.getOutputStream();    
 			problemDetail.write(ouputStream);  
 			ouputStream.flush();    
@@ -116,11 +104,7 @@ public class ScoreOrderEmployeeController extends BaseController {
         }
 	}
 	
-	/**
-	 * 
-	 * 
-	 * @return 根据公司查询 岗位
-	 */
+
 	@RequestMapping(value = { "selectPositionTypeByStoreId", "" })
 	public @ResponseBody  List<Map<String,Object>> selectPositionTypeByStoreId(String storeId) {
 		return scoreOrderService.selectPositionTypeByStoreId(storeId);

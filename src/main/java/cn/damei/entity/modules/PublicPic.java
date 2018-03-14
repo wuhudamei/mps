@@ -4,13 +4,11 @@ import cn.damei.common.persistence.DataEntity2;
 
 public class PublicPic extends DataEntity2<PublicPic> {
 
-	/**
-	 * @Fields serialVersionUID : TODO
-	 */
+
 	private static final long serialVersionUID = 1L;
-	private Integer purchaseId; // 公共ID
-	private String picUrl; // 图片路径
-	private String picType; // 图片类型
+	private Integer purchaseId;
+	private String picUrl;
+	private String picType;
 
 	public Integer getPurchaseId() {
 		return purchaseId;

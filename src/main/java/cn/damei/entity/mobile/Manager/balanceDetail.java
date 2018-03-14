@@ -7,9 +7,7 @@ import java.util.Date;
 
 public class balanceDetail implements Serializable{
 
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 
 	
@@ -43,20 +41,20 @@ public class balanceDetail implements Serializable{
 	private Date createDate;
 	private Date updateDate;
 	private String delFlag;
-	private Double midwayAuxiliaryMaterialsDeductAmount;// 中期辅料扣除金额
-	private Double completeAuxiliaryMaterialsDeductAmount;// 竣工辅料扣除金额
+	private Double midwayAuxiliaryMaterialsDeductAmount;
+	private Double completeAuxiliaryMaterialsDeductAmount;
 	private Double midwayRewardAmount;
 	private Double midwayPunishAmount;
 	private Double completeRewardAmount;
 	private Double completePunishAmount;
 	private String settleMonth;
-	private Integer settleBillId;  //项目经理结算单Id
-	private String customerName;		// 客户姓名
-	private String communityName;		// 小区名称
-	private String buildNumber;		// 几号楼
-	private String buildUnit;		// 几单元
-	private String buildRoom;		// 哪一室  
-	private String settleBillType;// 结算单类型
+	private Integer settleBillId;
+	private String customerName;
+	private String communityName;
+	private String buildNumber;
+	private String buildUnit;
+	private String buildRoom;
+	private String settleBillType;
 	private Date settleMonthDate;
 	private String summaryBillIds;
 	

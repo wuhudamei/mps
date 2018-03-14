@@ -14,11 +14,7 @@ import cn.damei.entity.mobile.Manager.Manager;
 import cn.damei.service.mobile.Manager.ManagerBizOrderReportService;
 import cn.damei.entity.modules.BizOrderReport;
 
-/**
- * 项目经理返单上报
- * @author hyh
- *
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/app/manager/orderReport")
 public class ManagerOrderReportController {
@@ -42,7 +38,7 @@ public class ManagerOrderReportController {
 		BizOrderReport bizOrderReport = new BizOrderReport();
 		Manager manager = (Manager)request.getSession().getAttribute("manager");
 		bizOrderReport.setReporterEmployeeId(manager.getId());
-		bizOrderReport.setReporterType("1");//项目经理
+		bizOrderReport.setReporterType("1");
 		List<BizOrderReport> list = managerBizOrderReportService.findList(bizOrderReport);
 		if(null!=list&&list.size()>0){
 			model.addAttribute("list",list);
@@ -54,13 +50,7 @@ public class ManagerOrderReportController {
 		
 	}
 
-	/**
-	 * 保存返单
-	 * @param bizOrderReport
-	 * @param request
-	 * @param model
-	 * @return
-	 */
+
 	@RequestMapping(value = "orderReportSave")
 	public @ResponseBody String orderReportSave(BizOrderReport bizOrderReport,HttpServletRequest request, Model model){
 		Manager manager = (Manager)request.getSession().getAttribute("manager");
@@ -78,19 +68,14 @@ public class ManagerOrderReportController {
 
 	}
 
-	/**
-	 * 检查返单客户手机号是否存在
-	 * 
-	 * @param customerPhone
-	 * @return
-	 */
+
 	@RequestMapping(value = "checkCustomerPhone")
 	public @ResponseBody String checkCustomerPhone(String customerPhone) {
 		String result;
 		Integer count = managerBizOrderReportService.getPhoneCountByCustomerPhone(customerPhone);
-		if (null==count ||count==0) {// 客户手机号不存在
+		if (null==count ||count==0) {
 			result = "0";
-		} else {// 已存在
+		} else {
 			result = "1";
 		}
 		return result;

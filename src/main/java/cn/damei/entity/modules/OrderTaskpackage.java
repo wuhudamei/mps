@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import org.hibernate.validator.constraints.Length;
@@ -11,65 +9,61 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import cn.damei.common.persistence.DataEntity;
 
-/**
- * dingdan管理Entity
- * @author wyb
- * @version 2016-09-12
- */
+
 public class OrderTaskpackage extends DataEntity<OrderTaskpackage> {
 
-	private Double lng;//经度
-	private Double lat;//纬度
+	private Double lng;
+	private Double lat;
 	private Integer engineDepartId;
 	private String engineDepartName;
-	private String isScrap;//是否作废
+	private String isScrap;
 	private static final long serialVersionUID = 1L;
-	private String storeId;		// 门店Id
-	private String projectMode; //工程模式
-	private String orderId;		// 订单Id
-	private String orderNumber;  //订单编号
-	private String packageCode;		// 任务包编号
-	private String packageName;		// 任务包名称
-	private Date planStartdate;		// 计划开工日期
-	private Date planEnddate;		// 计划完工日期
-	private Date actualStartdate;		// 实际开工日期
-	private Date actualEnddate;		// 实际完工日期
-	private String packageStateId;		// 任务包状态Id
-	private String packageStatename;		// 任务包状态名称
-	private String empGroupid;		// 工人组ID
-	private String groupId;		// 组长ID
-	private String groupRealname;		// 组长真实姓名
-	private String itemCustomer;		// 项目经理
-	private String taskPackageType;		// 任务包类型
-	private String customerName;		// 客户姓名
-	private String dispatcher;			//调度员
-	private String customerCenter;//总地址
+	private String storeId;
+	private String projectMode;
+	private String orderId;
+	private String orderNumber;
+	private String packageCode;
+	private String packageName;
+	private Date planStartdate;
+	private Date planEnddate;
+	private Date actualStartdate;
+	private Date actualEnddate;
+	private String packageStateId;
+	private String packageStatename;
+	private String empGroupid;
+	private String groupId;
+	private String groupRealname;
+	private String itemCustomer;
+	private String taskPackageType;
+	private String customerName;
+	private String dispatcher;
+	private String customerCenter;
 	private String  xiaoqu;
 	private String lou;
 	private String danyuan;
 	private String shi;
 	private String customerPhone;
-	private String isZero; //任务包总金额是否为零 1不是0
-	private String isSpecialPack;//是否是特殊任务包   返回的是storeOrder   为0时 是特殊任务包
-	private String orderTaskpackageCode;//任务包编号
+	private String isZero;
+	private String isSpecialPack;
+	private String orderTaskpackageCode;
 	
-	private String  leaflet;//派单人
-	private Date leafletDate;//派单时间
+	private String  leaflet;
+	private Date leafletDate;
 	
-	private Date beginleafletdate;//开始派单时间
-	private Date endleafletdate;//结束派单时间
+	private Date beginleafletdate;
+	private Date endleafletdate;
 	
-	private String customerMessage;     //客户信息
-	private Date dispatchTime;        //派工时间
-	private Double laborAuxiliaryMaterialsBudgetAmount;	//工料费预算总金额
-	private Double laborBudgetAmount;// 人工费预算总金额
-	private Double auxiliaryMaterialsBudgetAmount;// 辅料费预算总金额
-	private String isOvertime;    //是否超时
-	private String itemManagerId;	//项目经理id
-	private String managerPhone; //项目经理手机
-	private int taskTackageTempId;	//订单任务包模板ID
-	private String orderTaskPackageCode; //订单任务包编号
-	private String time;    //派工时间多少分钟后
+	private String customerMessage;
+	private Date dispatchTime;
+	private Double laborAuxiliaryMaterialsBudgetAmount;
+	private Double laborBudgetAmount;
+	private Double auxiliaryMaterialsBudgetAmount;
+	private String isOvertime;
+	private String itemManagerId;
+	private String managerPhone;
+	private int taskTackageTempId;
+	private String orderTaskPackageCode;
+	private String time;
 	private String settleStyle;
 
 	public String getIsScrap() {

@@ -39,83 +39,77 @@ public class ExportExcelOrderFullActionService{
 	@Autowired
 	private OrderFullActionService orderFullActionService;
 	
-	/**
-	 * 导出
-	 * @param orderId
-	 * @return
-	 */
+
 	public HSSFWorkbook exportExcel(String orderId) {
 		
-		//一、创建excel文件
-		HSSFWorkbook wb = new HSSFWorkbook();// 创建一个Excel文件
+
+		HSSFWorkbook wb = new HSSFWorkbook();
 		
-		//二、创建excel的sheet
-		HSSFSheet sheet1 = wb.createSheet("1.订单基本信息");// 创建一个Excel的Sheet
-		HSSFSheet sheet2 = wb.createSheet("2.接单派单做预算");// 创建一个Excel的Sheet
-		HSSFSheet sheet3 = wb.createSheet("3.交底开工");// 创建一个Excel的Sheet
-		HSSFSheet sheet4 = wb.createSheet("4.基装阶段：材料部分");// 创建一个Excel的Sheet
-		HSSFSheet sheet5 = wb.createSheet("5.基装阶段：质检");// 创建一个Excel的Sheet
-		HSSFSheet sheet6 = wb.createSheet("6.基装阶段：变更");// 创建一个Excel的Sheet
-		HSSFSheet sheet7 = wb.createSheet("7.基装阶段：款项");// 创建一个Excel的Sheet
-		HSSFSheet sheet8 = wb.createSheet("8.安装阶段");// 创建一个Excel的Sheet
+
+		HSSFSheet sheet1 = wb.createSheet("1.订单基本信息");
+		HSSFSheet sheet2 = wb.createSheet("2.接单派单做预算");
+		HSSFSheet sheet3 = wb.createSheet("3.交底开工");
+		HSSFSheet sheet4 = wb.createSheet("4.基装阶段：材料部分");
+		HSSFSheet sheet5 = wb.createSheet("5.基装阶段：质检");
+		HSSFSheet sheet6 = wb.createSheet("6.基装阶段：变更");
+		HSSFSheet sheet7 = wb.createSheet("7.基装阶段：款项");
+		HSSFSheet sheet8 = wb.createSheet("8.安装阶段");
 		
-		//三、单元格样式
-		//1.设置字体
+
+
 		HSSFFont font = wb.createFont();
-		font.setColor(HSSFFont.COLOR_NORMAL);//字体颜色
-		font.setFontName("黑体");//字体
-		font.setFontHeightInPoints((short)10);//字体高度
-		font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);//宽度
-		//2.单元格样式--标题
+		font.setColor(HSSFFont.COLOR_NORMAL);
+		font.setFontName("黑体");
+		font.setFontHeightInPoints((short)10);
+		font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
+
 		HSSFCellStyle columnHeadStyle = wb.createCellStyle();
 		columnHeadStyle.setFont(font);
-		columnHeadStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);// 左右居中
-		columnHeadStyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);// 上下居中
+		columnHeadStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+		columnHeadStyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
 		columnHeadStyle.setLocked(true);
 		columnHeadStyle.setWrapText(true);
-		columnHeadStyle.setLeftBorderColor(HSSFColor.BLACK.index);// 左边框的颜色
-		columnHeadStyle.setBorderLeft((short) 1);// 边框的大小
-		columnHeadStyle.setRightBorderColor(HSSFColor.BLACK.index);// 右边框的颜色
-		columnHeadStyle.setBorderRight((short) 1);// 边框的大小
-		columnHeadStyle.setTopBorderColor(HSSFColor.BLACK.index);// 上边框的颜色
-		columnHeadStyle.setBorderTop((short) 1);// 边框的大小
-		columnHeadStyle.setBottomBorderColor(HSSFColor.BLACK.index);// 下边框的颜色
-		columnHeadStyle.setBorderBottom((short) 1);// 边框的大小
-		columnHeadStyle.setBorderBottom(HSSFCellStyle.BORDER_THIN); // 设置单元格的边框为粗体
-		columnHeadStyle.setBottomBorderColor(HSSFColor.BLACK.index); // 设置单元格的边框颜色
-		columnHeadStyle.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);// 设置单元格的背景颜色（单元格的样式会覆盖列或行的样式）
+		columnHeadStyle.setLeftBorderColor(HSSFColor.BLACK.index);
+		columnHeadStyle.setBorderLeft((short) 1);
+		columnHeadStyle.setRightBorderColor(HSSFColor.BLACK.index);
+		columnHeadStyle.setBorderRight((short) 1);
+		columnHeadStyle.setTopBorderColor(HSSFColor.BLACK.index);
+		columnHeadStyle.setBorderTop((short) 1);
+		columnHeadStyle.setBottomBorderColor(HSSFColor.BLACK.index);
+		columnHeadStyle.setBorderBottom((short) 1);
+		columnHeadStyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+		columnHeadStyle.setBottomBorderColor(HSSFColor.BLACK.index);
+		columnHeadStyle.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
 		columnHeadStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);		
-		//3.单元格样式
+
 		HSSFCellStyle columnStyle = wb.createCellStyle();
-		columnStyle.setLeftBorderColor(HSSFColor.BLACK.index); // 左边框线的颜色
-		columnStyle.setBorderLeft((short) 1);// 左边框线的大小
-		columnStyle.setRightBorderColor(HSSFColor.BLACK.index); // 右边框线的颜色
-		columnStyle.setBorderRight((short) 1);// 右边框线的大小
-		columnStyle.setTopBorderColor(HSSFColor.BLACK.index); // 上边框线的颜色
-		columnStyle.setBorderTop((short) 1);// 上边框线的大小
-		columnStyle.setBottomBorderColor(HSSFColor.BLACK.index); // 下边框线的颜色
-		columnStyle.setBorderBottom((short) 1);// 下边框线的大小
+		columnStyle.setLeftBorderColor(HSSFColor.BLACK.index);
+		columnStyle.setBorderLeft((short) 1);
+		columnStyle.setRightBorderColor(HSSFColor.BLACK.index);
+		columnStyle.setBorderRight((short) 1);
+		columnStyle.setTopBorderColor(HSSFColor.BLACK.index);
+		columnStyle.setBorderTop((short) 1);
+		columnStyle.setBottomBorderColor(HSSFColor.BLACK.index);
+		columnStyle.setBorderBottom((short) 1);
 		columnStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
 				
 				
-		//四、数据内容
+
 		
 		
-		/**
-		 * 1.订单基本信息
-		 */
+
 		
 		
-		//1-1.查询订单基本信息  数据
+
 		Map<String,Object> map = new HashMap<String,Object>();
 		map.put("orderId",orderId);
 		Map<String, Object> orderDetail = orderFullActionDao.orderDetail(map);
-		//1-2.设置单元格宽度
+
 		sheet1.setColumnWidth(0, 6000);
 		sheet1.setColumnWidth(1, 6000);
 		sheet1.setColumnWidth(2, 6000);
 		sheet1.setColumnWidth(3, 6000);
-		//1-3.大标题
+
 		HSSFRow orderRow0 = sheet1.createRow(0);
 		orderRow0.setHeightInPoints(30);
 		HSSFCell orderCell00 = orderRow0.createCell(0);
@@ -125,8 +119,8 @@ public class ExportExcelOrderFullActionService{
 			HSSFCell orderCell = orderRow0.createCell(i+1);
 			orderCell.setCellStyle(columnHeadStyle);
 		}
-		//1-4.小标题及数据内容
-		//1-4-1.第一行 4列
+
+
 		HSSFRow orderRow1 = sheet1.createRow(1);
 		HSSFCell orderCell10 = orderRow1.createCell(0);
 		orderCell10.setCellStyle(columnStyle);
@@ -149,7 +143,7 @@ public class ExportExcelOrderFullActionService{
 			orderCell13.setCellValue(orderNumber);
 		}
 		
-		//1-4-2.第二行 4列
+
 		HSSFRow orderRow2 = sheet1.createRow(2);
 		HSSFCell orderCell20 = orderRow2.createCell(0);
 		orderCell20.setCellStyle(columnStyle);
@@ -173,7 +167,7 @@ public class ExportExcelOrderFullActionService{
 			orderCell23.setCellValue(customerPhone);
 		}
 		
-		//1-4-3.第三行 4列
+
 		HSSFRow orderRow3 = sheet1.createRow(3);
 		HSSFCell orderCell30 = orderRow3.createCell(0);
 		orderCell30.setCellStyle(columnStyle);
@@ -195,7 +189,7 @@ public class ExportExcelOrderFullActionService{
 		HSSFCell orderCell33 = orderRow3.createCell(3);
 		orderCell33.setCellStyle(columnStyle);
 		
-		//1-4-4.第四行 4列
+
 		HSSFRow orderRow4 = sheet1.createRow(4);
 		HSSFCell orderCell40 = orderRow4.createCell(0);
 		orderCell40.setCellStyle(columnStyle);
@@ -218,7 +212,7 @@ public class ExportExcelOrderFullActionService{
 		if(StringUtils.isNoneBlank(itemManagerPhone)){
 			orderCell43.setCellValue(itemManagerPhone);
 		}
-		//1-4-5.第五行 4列
+
 		HSSFRow orderRow5 = sheet1.createRow(5);
 		HSSFCell orderCell50 = orderRow5.createCell(0);
 		orderCell50.setCellStyle(columnStyle);
@@ -241,7 +235,7 @@ public class ExportExcelOrderFullActionService{
 		if(StringUtils.isNoneBlank(orderInspectorPhone)){
 			orderCell53.setCellValue(orderInspectorPhone);
 		}
-		//1-4-6.第六行 4列
+
 		HSSFRow orderRow6 = sheet1.createRow(6);
 		HSSFCell orderCell60 = orderRow6.createCell(0);
 		orderCell60.setCellStyle(columnStyle);
@@ -264,7 +258,7 @@ public class ExportExcelOrderFullActionService{
 		if(StringUtils.isNoneBlank(designerPhone)){
 			orderCell63.setCellValue(designerPhone);
 		}
-		//1-4-7.第七行 4列
+
 		HSSFRow orderRow7 = sheet1.createRow(7);
 		HSSFCell orderCell70 = orderRow7.createCell(0);
 		orderCell70.setCellStyle(columnStyle);
@@ -287,24 +281,22 @@ public class ExportExcelOrderFullActionService{
 		if(StringUtils.isNoneBlank(servicePhone)){
 			orderCell73.setCellValue(servicePhone);
 		}
-		//1-5.合并单元格
-		//合并单元格--开始行，结束行，开始列，结束列  
-		sheet1.addMergedRegion(new CellRangeAddress(0, 0, 0, 3));// 
-		sheet1.addMergedRegion(new CellRangeAddress(3, 3, 1, 3));// 
+
+
+		sheet1.addMergedRegion(new CellRangeAddress(0, 0, 0, 3));
+		sheet1.addMergedRegion(new CellRangeAddress(3, 3, 1, 3));
 		
-		/**
-		 * 2.接单派单做预算
-		 */
+
 		
 		
-		//2-1.查询订单交底开工信息  数据
+
 		OrderFullAction orderGet = orderFullActionService.getBudget(orderId);
-		//2-2.设置单元格宽度
+
 		sheet2.setColumnWidth(0, 6000);
 		sheet2.setColumnWidth(1, 6000);
 		sheet2.setColumnWidth(2, 6000);
 		sheet2.setColumnWidth(3, 6000);
-		//2-3.大标题
+
 		HSSFRow orderGetRow0 = sheet2.createRow(0);
 		orderGetRow0.setHeightInPoints(30);
 		HSSFCell orderGetCell00 = orderGetRow0.createCell(0);
@@ -314,8 +306,8 @@ public class ExportExcelOrderFullActionService{
 			HSSFCell orderGetCell = orderGetRow0.createCell(i+1);
 			orderGetCell.setCellStyle(columnHeadStyle);
 		}
-		//2-4.小标题及数据内容
-		//2-4-1.第一行 4列
+
+
 		HSSFRow orderGetRow1 = sheet2.createRow(1);
 		HSSFCell orderGetCell10 = orderGetRow1.createCell(0);
 		orderGetCell10.setCellStyle(columnStyle);
@@ -336,7 +328,7 @@ public class ExportExcelOrderFullActionService{
 			orderGetCell13.setCellValue(orderGet.getKeyboarder());
 		}
 		
-		//2-4-2.第二行 4列
+
 		HSSFRow orderGetRow2 = sheet2.createRow(2);
 		HSSFCell orderGetCell20 = orderGetRow2.createCell(0);
 		orderGetCell20.setCellStyle(columnStyle);
@@ -354,7 +346,7 @@ public class ExportExcelOrderFullActionService{
 		HSSFCell orderGetCell23 = orderGetRow2.createCell(3);
 		orderGetCell23.setCellStyle(columnStyle);
 		
-		//2-4-3.第三行 4列
+
 		HSSFRow orderGetRow3 = sheet2.createRow(3);
 		HSSFCell orderGetCell30 = orderGetRow3.createCell(0);
 		orderGetCell30.setCellStyle(columnStyle);
@@ -376,7 +368,7 @@ public class ExportExcelOrderFullActionService{
 			orderGetCell33.setCellValue(orderGet.getPackageBy());
 		}
 		
-		//2-4-4.第四行 4列
+
 		HSSFRow orderGetRow4 = sheet2.createRow(4);
 		HSSFCell orderGetCell40 = orderGetRow4.createCell(0);
 		orderGetCell40.setCellStyle(columnStyle);
@@ -398,7 +390,7 @@ public class ExportExcelOrderFullActionService{
 			orderGetCell43.setCellValue(orderGet.getAssignedManagerBy());
 		}
 		
-		//2-4-5.第五行 4列
+
 		HSSFRow orderGetRow5 = sheet2.createRow(5);
 		HSSFCell orderGetCell50 = orderGetRow5.createCell(0);
 		orderGetCell50.setCellStyle(columnStyle);
@@ -420,25 +412,23 @@ public class ExportExcelOrderFullActionService{
 			orderGetCell53.setCellValue(orderGet.getAssignedInspectorBy());
 		}
 		
-		//2-5.合并单元格
-		//合并单元格--开始行，结束行，开始列，结束列  
-		sheet2.addMergedRegion(new CellRangeAddress(0, 0, 0, 3));// 
+
+
+		sheet2.addMergedRegion(new CellRangeAddress(0, 0, 0, 3));
 		
-		/**
-		 * 3.交底开工
-		 */
+
 		
 		
-		//3-1.查询订单交底开工信息  数据
+
 		Map<String,Object> map3 = new HashMap<String,Object>();
 		map3.put("orderId",orderId);
 		Map<String, Object> disclosureStarts = orderFullActionDao.disclosureStartsQuery(map3);
-		//3-2.设置单元格宽度
+
 		sheet3.setColumnWidth(0, 6000);
 		sheet3.setColumnWidth(1, 6000);
 		sheet3.setColumnWidth(2, 6000);
 		sheet3.setColumnWidth(3, 6000);
-		//3-3.大标题
+
 		HSSFRow disclosureStartsRow0 = sheet3.createRow(0);
 		disclosureStartsRow0.setHeightInPoints(30);
 		HSSFCell disclosureStartsCell00 = disclosureStartsRow0.createCell(0);
@@ -448,8 +438,8 @@ public class ExportExcelOrderFullActionService{
 			HSSFCell disclosureStartsCell = disclosureStartsRow0.createCell(i+1);
 			disclosureStartsCell.setCellStyle(columnHeadStyle);
 		}
-		//3-4.小标题及数据内容
-		//3-4-1.第一行 4列
+
+
 		HSSFRow disclosureStartsRow1 = sheet3.createRow(1);
 		HSSFCell disclosureStartsCell10 = disclosureStartsRow1.createCell(0);
 		disclosureStartsCell10.setCellStyle(columnStyle);
@@ -472,7 +462,7 @@ public class ExportExcelOrderFullActionService{
 			disclosureStartsCell13.setCellValue(DateFormatUtils.format(actualStartDate, "yyyy-MM-dd"));
 		}
 		
-		//3-4-2.第二行 4列
+
 		HSSFRow disclosureStartsRow2 = sheet3.createRow(2);
 		HSSFCell disclosureStartsCell20 = disclosureStartsRow2.createCell(0);
 		disclosureStartsCell20.setCellStyle(columnStyle);
@@ -496,7 +486,7 @@ public class ExportExcelOrderFullActionService{
 			disclosureStartsCell23.setCellValue(DateFormatUtils.format(contractStartDate, "yyyy-MM-dd"));
 		}
 		
-		//3-4-3.第三行 4列
+
 		HSSFRow disclosureStartsRow3 = sheet3.createRow(3);
 		HSSFCell disclosureStartsCell30 = disclosureStartsRow3.createCell(0);
 		disclosureStartsCell30.setCellStyle(columnStyle);
@@ -517,38 +507,36 @@ public class ExportExcelOrderFullActionService{
 		HSSFCell disclosureStartsCell33 = disclosureStartsRow3.createCell(3);
 		disclosureStartsCell33.setCellStyle(columnStyle);
 		
-		//3-5.合并单元格
-		//合并单元格--开始行，结束行，开始列，结束列  
-		sheet3.addMergedRegion(new CellRangeAddress(0, 0, 0, 3));// 
+
+
+		sheet3.addMergedRegion(new CellRangeAddress(0, 0, 0, 3));
 		
 		
-		/**
-		 * 4.基装阶段：材料部分
-		 */
+
 		
 		
-		//4-1.查询订单材料采购单信息  数据
+
 		Map<String,Object> map4 = new HashMap<String,Object>();
-		//订单id
+
 		map4.put("orderId",orderId);
-		//采购单状态  字典表类型
+
 		map4.put("purchaseStatus","purchase_auxiliary_status");
-		//是否删除 标记
+
 		map4.put("delFlag",PurchaseConstantUtil.PURCHASE_DEL_FLAG_NO_0);
-		//催促信息  墙地砖催促
+
 		map4.put("businesType",BusinessUrgeConstantUtil.BUSINESS_URGE_BUSINESS_TYPE_2);
-		//催促信息  催促
+
 		map4.put("operateType",BusinessUrgeConstantUtil.BUSINESS_URGE_OPERATE_TYPE_1);
 
 		List<Map<String, Object>> purchaseList = orderFullActionDao.purchaseDetail(map4);
-		//4-2.设置单元格宽度
+
 		sheet4.setColumnWidth(0, 6000);
 		sheet4.setColumnWidth(1, 6000);
 		sheet4.setColumnWidth(2, 6000);
 		sheet4.setColumnWidth(3, 6000);
 		sheet4.setColumnWidth(4, 6000);
 		sheet4.setColumnWidth(5, 6000);
-		//4-3.大标题
+
 		HSSFRow purchaseRow0 = sheet4.createRow(0);
 		purchaseRow0.setHeightInPoints(30);
 		HSSFCell purchaseCell00 = purchaseRow0.createCell(0);
@@ -558,8 +546,8 @@ public class ExportExcelOrderFullActionService{
 			HSSFCell purchaseCell = purchaseRow0.createCell(i+1);
 			purchaseCell.setCellStyle(columnHeadStyle);
 		}
-		//4-4.小标题及数据内容
-		//4-4-1-1.辅料--小标题--【辅料】
+
+
 		HSSFRow purchaseMaterialRow1 = sheet4.createRow(1);
 		purchaseMaterialRow1.setHeightInPoints(30);
 		HSSFCell purchaseMaterialCell10 = purchaseMaterialRow1.createCell(0);
@@ -570,7 +558,7 @@ public class ExportExcelOrderFullActionService{
 			purchaseMaterialCell.setCellStyle(columnHeadStyle);
 		}
 		
-		//4-4-1-2.辅料--小标题--标题
+
 		
 		HSSFRow purchaseMaterialRow2 = sheet4.createRow(2);
 		HSSFCell purchaseMaterialCell20 = purchaseMaterialRow2.createCell(0);
@@ -593,7 +581,7 @@ public class ExportExcelOrderFullActionService{
 		purchaseMaterialCell24.setCellStyle(columnHeadStyle);
 		purchaseMaterialCell24.setCellValue("收货日期");
 		
-		//4-4-1-3.数据内容
+
 		int purchaseMaterialCount = 0;
 		if(CollectionUtils.isNotEmpty(purchaseList)){
 			for(int i=0;i<purchaseList.size();i++){
@@ -645,7 +633,7 @@ public class ExportExcelOrderFullActionService{
 		}
 		
 		
-		//4-4-2-1.墙地砖--小标题--【墙地砖】
+
 		HSSFRow purchaseWallAndFloorRow1 = sheet4.createRow(purchaseMaterialCount+4);
 		purchaseWallAndFloorRow1.setHeightInPoints(30);
 		HSSFCell purchaseWallAndFloorCell10 = purchaseWallAndFloorRow1.createCell(0);
@@ -656,7 +644,7 @@ public class ExportExcelOrderFullActionService{
 			purchaseWallAndFloorCell.setCellStyle(columnHeadStyle);
 		}
 		
-		//4-4-2-2.墙地砖--小标题--标题
+
 		
 		HSSFRow purchaseWallAndFloorRow2 = sheet4.createRow(purchaseMaterialCount+5);
 		HSSFCell purchaseWallAndFloorCell20 = purchaseWallAndFloorRow2.createCell(0);
@@ -683,7 +671,7 @@ public class ExportExcelOrderFullActionService{
 		purchaseWallAndFloorCell25.setCellStyle(columnHeadStyle);
 		purchaseWallAndFloorCell25.setCellValue("催单次数");
 		
-		//4-4-2-3.数据内容
+
 		int purchaseWallAndFloorCount = 0;
 		if(CollectionUtils.isNotEmpty(purchaseList)){
 			for(int i=0;i<purchaseList.size();i++){
@@ -740,7 +728,7 @@ public class ExportExcelOrderFullActionService{
 			}
 		}
 		
-		//4-4-3-1.开关面板--小标题--【开关面板】
+
 		HSSFRow purchaseSwitchPanelRow1 = sheet4.createRow(purchaseWallAndFloorCount+purchaseMaterialCount+7);
 		purchaseSwitchPanelRow1.setHeightInPoints(30);
 		HSSFCell purchaseSwitchPanelCell10 = purchaseSwitchPanelRow1.createCell(0);
@@ -751,7 +739,7 @@ public class ExportExcelOrderFullActionService{
 			purchaseSwitchPanelCell.setCellStyle(columnHeadStyle);
 		}
 		
-		//4-4-3-2.开关面板--小标题--标题
+
 				
 		HSSFRow purchaseSwitchPanelRow2 = sheet4.createRow(purchaseWallAndFloorCount+purchaseMaterialCount+8);
 		HSSFCell purchaseSwitchPanelCell20 = purchaseSwitchPanelRow2.createCell(0);
@@ -774,7 +762,7 @@ public class ExportExcelOrderFullActionService{
 		purchaseSwitchPanelCell24.setCellStyle(columnHeadStyle);
 		purchaseSwitchPanelCell24.setCellValue("收货日期");
 		
-		//4-4-3-3.数据内容
+
 		int purchaseSwitchPanelCount = 0;
 		if(CollectionUtils.isNotEmpty(purchaseList)){
 			for(int i=0;i<purchaseList.size();i++){
@@ -825,31 +813,29 @@ public class ExportExcelOrderFullActionService{
 			}
 		}		
 		
-		//4-5.合并单元格
-		//合并单元格--开始行，结束行，开始列，结束列  
-		sheet4.addMergedRegion(new CellRangeAddress(0, 0, 0, 5));// 
-		sheet4.addMergedRegion(new CellRangeAddress(1, 1, 0, 4));// 
-		sheet4.addMergedRegion(new CellRangeAddress(purchaseMaterialCount+4, purchaseMaterialCount+4, 0, 5));// 
-		sheet4.addMergedRegion(new CellRangeAddress(purchaseWallAndFloorCount+purchaseMaterialCount+7, purchaseWallAndFloorCount+purchaseMaterialCount+7, 0, 4));// 
+
+
+		sheet4.addMergedRegion(new CellRangeAddress(0, 0, 0, 5));
+		sheet4.addMergedRegion(new CellRangeAddress(1, 1, 0, 4));
+		sheet4.addMergedRegion(new CellRangeAddress(purchaseMaterialCount+4, purchaseMaterialCount+4, 0, 5));
+		sheet4.addMergedRegion(new CellRangeAddress(purchaseWallAndFloorCount+purchaseMaterialCount+7, purchaseWallAndFloorCount+purchaseMaterialCount+7, 0, 4));
 				
 		
 		
-		/**
-		 * 5.基装阶段：质检
-		 */
+
 		
 		
-		//5-1.查询订单质检信息  数据
+
 		Map<String,Object> map5 = new HashMap<>();
 		map5.put("orderId",orderId);
 		List<Map<String, Object>> pqcList = orderFullActionDao.pqcOrderFullQuery(map5);
-		//5-2.设置单元格宽度
+
 		sheet5.setColumnWidth(0, 8000);
 		sheet5.setColumnWidth(1, 6000);
 		sheet5.setColumnWidth(2, 6000);
 		sheet5.setColumnWidth(3, 6000);
 		sheet5.setColumnWidth(4, 6000);
-		//5-3.大标题
+
 		HSSFRow pqcRow0 = sheet5.createRow(0);
 		pqcRow0.setHeightInPoints(30);
 		HSSFCell pqcCell00 = pqcRow0.createCell(0);
@@ -859,8 +845,8 @@ public class ExportExcelOrderFullActionService{
 			HSSFCell pqcCell = pqcRow0.createCell(i+1);
 			pqcCell.setCellStyle(columnHeadStyle);
 		}
-		//5-4.小标题及数据内容
-		//5-4-1.小标题
+
+
 		HSSFRow pqcRow1 = sheet5.createRow(1);
 		HSSFCell pqcCell10 = pqcRow1.createCell(0);
 		pqcCell10.setCellStyle(columnHeadStyle);
@@ -883,7 +869,7 @@ public class ExportExcelOrderFullActionService{
 		pqcCell14.setCellValue("质检员确认节点验收通过日期");
 		
 		
-		//5-4-2.数据内容
+
 		if(CollectionUtils.isNotEmpty(pqcList)){
 			for(int i=0;i<pqcList.size();i++){
 				
@@ -932,28 +918,26 @@ public class ExportExcelOrderFullActionService{
 		}
 		
 		
-		//5-5.合并单元格
-		//合并单元格--开始行，结束行，开始列，结束列  
-		sheet5.addMergedRegion(new CellRangeAddress(0, 0, 0, 4));// 
+
+
+		sheet5.addMergedRegion(new CellRangeAddress(0, 0, 0, 4));
 		
 		
 		
-		/**
-		 * 6.基装阶段：变更
-		 */
+
 		
 		
-		//6-1.查询订单变更信息  数据
+
 		Map<String,Object> map6 = new HashMap<>();
 		map6.put("orderId",orderId);
 		List<Map<String, Object>> projectChangeList = orderFullActionDao.projectChangeBillQuery(map6);
-		//6-2.设置单元格宽度
+
 		sheet6.setColumnWidth(0, 6000);
 		sheet6.setColumnWidth(1, 6000);
 		sheet6.setColumnWidth(2, 6000);
 		sheet6.setColumnWidth(3, 6000);
 		sheet6.setColumnWidth(4, 6000);
-		//6-3.大标题
+
 		HSSFRow projectChangeRow0 = sheet6.createRow(0);
 		projectChangeRow0.setHeightInPoints(30);
 		HSSFCell projectChangeCell00 = projectChangeRow0.createCell(0);
@@ -963,8 +947,8 @@ public class ExportExcelOrderFullActionService{
 			HSSFCell projectChangeCell = projectChangeRow0.createCell(i+1);
 			projectChangeCell.setCellStyle(columnHeadStyle);
 		}
-		//6-4.小标题及数据内容
-		//6-4-1.小标题
+
+
 		HSSFRow projectChangeRow1 = sheet6.createRow(1);
 		HSSFCell projectChangeCell10 = projectChangeRow1.createCell(0);
 		projectChangeCell10.setCellStyle(columnHeadStyle);
@@ -987,7 +971,7 @@ public class ExportExcelOrderFullActionService{
 		projectChangeCell14.setCellValue("财务确认时间");
 		
 		
-		//6-4-2.数据内容
+
 		if(CollectionUtils.isNotEmpty(projectChangeList)){
 			for(int i=0;i<projectChangeList.size();i++){
 				
@@ -1036,24 +1020,22 @@ public class ExportExcelOrderFullActionService{
 		}
 		
 		
-		//6-5.合并单元格
-		//合并单元格--开始行，结束行，开始列，结束列  
-		sheet6.addMergedRegion(new CellRangeAddress(0, 0, 0, 4));// 
+
+
+		sheet6.addMergedRegion(new CellRangeAddress(0, 0, 0, 4));
 		
 		
 		
 		
-		/**
-		 * 7.基装阶段：款项
-		 */
+
 		
-		//7-1.查询订单款项信息  数据
+
 		List<BizPrePmSettleFin> PmSettleList = orderFullActionDao.queryPrePmSettleFinance(orderId);
-		//7-2.设置单元格宽度
+
 		sheet7.setColumnWidth(0, 6000);
 		sheet7.setColumnWidth(1, 6000);
 		sheet7.setColumnWidth(2, 6000);
-		//7-3.大标题
+
 		HSSFRow PmSettleRow0 = sheet7.createRow(0);
 		PmSettleRow0.setHeightInPoints(30);
 		HSSFCell PmSettleCell00 = PmSettleRow0.createCell(0);
@@ -1063,8 +1045,8 @@ public class ExportExcelOrderFullActionService{
 			HSSFCell PmSettleCell = PmSettleRow0.createCell(i+1);
 			PmSettleCell.setCellStyle(columnHeadStyle);
 		}
-		//7-4.小标题及数据内容
-		//7-4-1.小标题
+
+
 		HSSFRow PmSettleRow1 = sheet7.createRow(1);
 		HSSFCell PmSettleCell10 = PmSettleRow1.createCell(0);
 		PmSettleCell10.setCellStyle(columnHeadStyle);
@@ -1078,7 +1060,7 @@ public class ExportExcelOrderFullActionService{
 		PmSettleCell12.setCellStyle(columnHeadStyle);
 		PmSettleCell12.setCellValue("客户交款日期");
 		
-		//7-4-2.数据内容
+
 		if(CollectionUtils.isNotEmpty(PmSettleList)){
 			for(int i=0;i<PmSettleList.size();i++){
 				
@@ -1110,22 +1092,20 @@ public class ExportExcelOrderFullActionService{
 		}
 		
 		
-		//7-5.合并单元格
-		//合并单元格--开始行，结束行，开始列，结束列  
-		sheet7.addMergedRegion(new CellRangeAddress(0, 0, 0, 2));// 
+
+
+		sheet7.addMergedRegion(new CellRangeAddress(0, 0, 0, 2));
 		
 		
-		/**
-		 * 8.安装阶段
-		 */
+
 		
 		
-		//8-1.查询订单安装项信息  数据
+
 		Map<String,Object> map8 = new HashMap<String,Object>();
 		map8.put("orderId",orderId);
 		map8.put("businessType",BusinessProblemConstantUtil.BUSINESS_PROBLEM_BUSINESS_TYPE_1);
 		List<Map<String, Object>> installList = orderFullActionDao.installDetail(map8);
-		//8-2.设置单元格宽度
+
 		sheet8.setColumnWidth(0, 6000);
 		sheet8.setColumnWidth(1, 6000);
 		sheet8.setColumnWidth(2, 6000);
@@ -1135,7 +1115,7 @@ public class ExportExcelOrderFullActionService{
 		sheet8.setColumnWidth(6, 6000);
 		sheet8.setColumnWidth(7, 6000);
 		sheet8.setColumnWidth(8, 6000);
-		//8-3.大标题
+
 		HSSFRow installRow0 = sheet8.createRow(0);
 		installRow0.setHeightInPoints(30);
 		HSSFCell installCell00 = installRow0.createCell(0);
@@ -1145,8 +1125,8 @@ public class ExportExcelOrderFullActionService{
 			HSSFCell installCell = installRow0.createCell(i+1);
 			installCell.setCellStyle(columnHeadStyle);
 		}
-		//8-4.小标题及数据内容
-		//8-4-1.小标题
+
+
 		HSSFRow installRow1 = sheet8.createRow(1);
 		HSSFCell installCell10 = installRow1.createCell(0);
 		installCell10.setCellStyle(columnHeadStyle);
@@ -1184,7 +1164,7 @@ public class ExportExcelOrderFullActionService{
 		installCell18.setCellStyle(columnHeadStyle);
 		installCell18.setCellValue("项目经理问题反馈影响工期");
 		
-		//8-4-2.数据内容
+
 		if(CollectionUtils.isNotEmpty(installList)){
 			for(int i=0;i<installList.size();i++){
 				
@@ -1262,9 +1242,9 @@ public class ExportExcelOrderFullActionService{
 		}
 		
 		
-		//8-5.合并单元格
-		//合并单元格--开始行，结束行，开始列，结束列  
-		sheet8.addMergedRegion(new CellRangeAddress(0, 0, 0, 8));// 
+
+
+		sheet8.addMergedRegion(new CellRangeAddress(0, 0, 0, 8));
 		
 		
 		

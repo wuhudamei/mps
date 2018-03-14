@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.util.List;
@@ -14,11 +12,7 @@ import cn.damei.common.service.CrudService;
 import cn.damei.entity.modules.BizStar;
 import cn.damei.dao.modules.BizStarDao;
 
-/**
- * 星级承接量Service
- * @author wyb
- * @version 2016-09-05
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizStarService extends CrudService<BizStarDao, BizStar> {
@@ -33,7 +27,7 @@ public class BizStarService extends CrudService<BizStarDao, BizStar> {
 		return super.findList(bizStar);
 	}
 	
-	//通过门店id查询星级
+
 	public List<BizStar> findStarByStoreId(String storeId){
 		return bizStarDao.findStarByStoreId(storeId);
 	}

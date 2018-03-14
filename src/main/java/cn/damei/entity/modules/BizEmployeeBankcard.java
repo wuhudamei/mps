@@ -1,30 +1,24 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import org.hibernate.validator.constraints.Length;
 
 import cn.damei.common.persistence.DataEntity;
 
-/**
- * 工人银行卡Entity
- * @author haven
- * @version 2016-09-03
- */
+
 public class BizEmployeeBankcard extends DataEntity<BizEmployeeBankcard> {
 	
 	private static final long serialVersionUID = 1L;
-	private String storeId;		// 门店
-	private String empId;		// 员工
-	private String idCardNo;		// 身份证号
-	private String bankId;		// 开户行
-	private String branchBank;		// 支行地址
-	private String bankCardNo;		// 银行卡号
-	private String empRealName;//员工姓名
-	private String bankName; //开户行名称
-	private String bankNo; //行号
-	private String provinceName; //省份
+	private String storeId;
+	private String empId;
+	private String idCardNo;
+	private String bankId;
+	private String branchBank;
+	private String bankCardNo;
+	private String empRealName;
+	private String bankName;
+	private String bankNo;
+	private String provinceName;
 	public String getEmpRealName() {
 		return empRealName;
 	}

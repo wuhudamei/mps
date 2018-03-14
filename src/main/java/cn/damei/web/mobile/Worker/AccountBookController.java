@@ -28,10 +28,10 @@ public class AccountBookController{
 		
 		Worker worker = SessionUtils.getWorkerSession(request);
 		
-		//已付
+
 		List<PaymentDetailForBook> payed = bizOrderTaskpackagePaymentDetailService.queryPayedByEmployeeId(worker.getId(),ConstantUtils.PAYMENT_DETAIL_STATUS_1);
 		double payedMoney = bizOrderTaskpackagePaymentDetailService.queryPayedAmountByEmployeeId(worker.getId(),ConstantUtils.PAYMENT_DETAIL_STATUS_1);
-		//未付
+
 		List<PaymentDetailForBook> paying = bizOrderTaskpackagePaymentDetailService.queryPayingByEmployeeId(worker.getId(),ConstantUtils.PAYMENT_DETAIL_STATUS_0);
 		double payingMoney = bizOrderTaskpackagePaymentDetailService.queryPayingAmountByEmployeeId(worker.getId(),ConstantUtils.PAYMENT_DETAIL_STATUS_0);
 		

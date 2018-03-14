@@ -1,22 +1,16 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import org.hibernate.validator.constraints.Length;
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 员工身份证关联Entity
- * @author qww
- * @version 2016-10-31
- */
+
 public class BizEmployeeBankcardRelatedIdcard extends DataEntity2<BizEmployeeBankcardRelatedIdcard> {
 	
 	private static final long serialVersionUID = 1L;
-	private Integer employeeBankcardId;		// 员工银行卡id -- '
-	private String relatedIdcardNo;		// 关联身份证号 -- '
-	private String relatedName;		// 关联身份证姓名 -- '
+	private Integer employeeBankcardId;
+	private String relatedIdcardNo;
+	private String relatedName;
 	
 	public BizEmployeeBankcardRelatedIdcard() {
 		super();

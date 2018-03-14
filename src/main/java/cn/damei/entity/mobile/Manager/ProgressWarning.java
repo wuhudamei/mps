@@ -8,17 +8,17 @@ import cn.damei.common.persistence.DataEntity2;
 public class ProgressWarning extends DataEntity2<ProgressWarning>{
 
 	private static final long serialVersionUID = 1L;
-	private String taskPackageName; //任务报名
-	private String communityName;//小区名字
-	private String buildNumber;//楼号
-	private String buildUnit;//几单元
-	private String buildRoom;//那一室
-	private String settlementId;//结算单ID
+	private String taskPackageName;
+	private String communityName;
+	private String buildNumber;
+	private String buildUnit;
+	private String buildRoom;
+	private String settlementId;
 	private String taskPackageId;
 	private String status;
-	private String customerName;//客户姓名
+	private String customerName;
 	
-	private String purchaseType;//采购单类型
+	private String purchaseType;
 	
 	private String orderId;
 	
@@ -26,7 +26,7 @@ public class ProgressWarning extends DataEntity2<ProgressWarning>{
 	
 	private List<String> list;
 	
-	private Date planDoneDate;//计划完成 天数
+	private Date planDoneDate;
 	
 	public Date getPlanDoneDate() {
 		return planDoneDate;

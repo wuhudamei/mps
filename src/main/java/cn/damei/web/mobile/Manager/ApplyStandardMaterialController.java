@@ -33,7 +33,7 @@ import cn.damei.service.modules.BizSeiralnumService;
 @RequestMapping(value="${adminPath}/app/manager/applyStandardMaterial")
 @Controller
 public class ApplyStandardMaterialController {
-	private static Logger logger = LoggerFactory.getLogger(ApplyProjectChangeController.class);// 日志
+	private static Logger logger = LoggerFactory.getLogger(ApplyProjectChangeController.class);
 	
 	@Autowired
 	private ApplyStandardMaterialService applyStandardMaterialService;
@@ -56,15 +56,15 @@ public class ApplyStandardMaterialController {
 	
 	@RequestMapping(value="applyStandarMaterialList/{orderId}")
 	public String applyStandarMaterialList(@PathVariable String orderId,HttpServletRequest request, Model model){
-		//查看是否竣工 1 竣工  0 未竣工 null 无状态
+
 		String orderStatusByMaterislType = appOrderService.getOrderStatusByMaterislType(orderId, "1");
 		if(!"0".equals(orderStatusByMaterislType)){
 			model.addAttribute("applyFlag", false);
 			return "mobile/modules/Manager/materialManagement/standarList";
 		}
-		//查询该订单下的没有查看的bill
+
 		String materialIsView = bizOrderMaterialsStandardService.getMaterialIsView(orderId);
-		//沒有未被查看的
+
 		if(materialIsView!=null){
 			model.addAttribute("isView", false);
 			model.addAttribute("billId", materialIsView);
@@ -73,7 +73,7 @@ public class ApplyStandardMaterialController {
 		}else{
 		Manager manager =(Manager) request.getSession().getAttribute("manager");
 		String storeid = manager.getStoreid();
-		//List<BizMaterialsStandardRecords> standardlist = applyStandardMaterialService.findBizMaterialsStandardList(storeid,orderId);
+
 		 List<BizOrderMaterialsStandard> standardlist = bizOrderMaterialsStandardService.getList(storeid, orderId,"1");
 		 model.addAttribute("standardlist", standardlist);
 		model.addAttribute("orderId", orderId);
@@ -83,15 +83,15 @@ public class ApplyStandardMaterialController {
 	@Transactional
 	@RequestMapping(value="saveStandardBill")
 	public String saveStandardBill(Integer shippingType,Double shippingFee,String random,String orderId,String[] id,String[] number,HttpServletRequest request, Model model ){
-		//查看是否竣工 1 竣工  0 未竣工 null 无状态
+
 				String orderStatusByMaterislType = appOrderService.getOrderStatusByMaterislType(orderId, "1");
 				if(!"0".equals(orderStatusByMaterislType)){
 					model.addAttribute("applyFlag", false);
 					return "mobile/modules/Manager/materialManagement/standarList";
 				}
-				//查询该订单下的没有查看的bill
+
 				String materialIsView = bizOrderMaterialsStandardService.getMaterialIsView(orderId);
-				//沒有未被查看的
+
 				if(materialIsView!=null){
 					model.addAttribute("isView", false);
 					model.addAttribute("billId", materialIsView);
@@ -102,23 +102,23 @@ public class ApplyStandardMaterialController {
 					bsr.setShippingFee(shippingFee);
 					bsr.setShippingType(shippingType);
 		Integer managerId = SessionUtils.getManagerSession(request).getId();
-		//根据经理的id查询门店的id
+
 		String storeId = applyStandardMaterialService.findStoreIdByEmployeeId(managerId);
 		bsr.setStoreId(Integer.valueOf(storeId));
 		bsr.setApplyEmployeeId(managerId);
 		bsr.setApplyDatetime(new Date());
 		bsr.setOrderId(Integer.valueOf(orderId));
-		//生成订单的编号
+
 		String dateSequence = bizSeiralnumService.getDateSequence("BH");
-		//设置订单的编号
+
 		bsr.setMaterialsStandardReceiveBillCode(dateSequence);
-		//订单的总金额
+
 		Double count = 0.0;
 		List<BizMaterialsStandard> list = new ArrayList<>();
 		for (int i = 0; i < number.length; i++) {
-			//在商品的数量大于0的时候在计算金额
+
 			if(Integer.valueOf(number[i])>0){
-				//根据id查询商品的单价
+
 				BizMaterialsStandard temp = new BizMaterialsStandard();
 				temp = applyStandardMaterialService.findStandardPriceById(id[i]);
 				temp.setReceiveNumber(Double.valueOf(number[i]));
@@ -130,7 +130,7 @@ public class ApplyStandardMaterialController {
 			}
 		}
 		Integer f=1;
-		//配送加配送费
+
 		if(f.equals(shippingType)) {
 			if(shippingFee!=null) {
 				count += shippingFee;
@@ -139,25 +139,25 @@ public class ApplyStandardMaterialController {
 		DecimalFormat decimalFormat = new DecimalFormat(".#");
 		double c =Double.parseDouble(decimalFormat.format(count)) ;
 		bsr.setReceiveBillAmount(c);
-		//设置为未查看
+
 		bsr.setIsView("0");
-		//设置状态
+
 		bsr.setStatus(10);
-		//设置 为标化1
+
 		bsr.setReceiveBillType("1");
-		//插入标化表
+
 		Integer standardId = applyStandardMaterialService.saveMaterialsStandardReceiveBill(bsr);
-		//插入成功后返回主键ID
+
 		Integer receiveBillId = bsr.getId();
-		//插入详情表
+
 		List<ApplyMaterialsStandardReceiveDetail> listBD = new ArrayList<ApplyMaterialsStandardReceiveDetail>();
 		
 		int i = 0;
-		//交易表對象
+
 		ArrayList<BizOrderMaterialsStandard> bizOrderMaterialsStandardList = new ArrayList<BizOrderMaterialsStandard>();
 		
 		for (BizMaterialsStandard ms : list) {
-			//交易表对象
+
 			BizOrderMaterialsStandard bizOrderMaterialsStandard=new BizOrderMaterialsStandard();
 			bizOrderMaterialsStandard.setMaterialsStandardId(ms.getId());
 			bizOrderMaterialsStandard.setOrderId(Integer.valueOf(orderId));
@@ -165,13 +165,13 @@ public class ApplyStandardMaterialController {
 			bizOrderMaterialsStandard.setMaterialsName(ms.getMaterialsName());
 			bizOrderMaterialsStandard.setMaterialsUnit(ms.getMaterialsUnit());
 			bizOrderMaterialsStandard.setMaterialsPrice(ms.getMaterialsPrice());
-			//交易金額 為0
+
 			bizOrderMaterialsStandard.setMaterialsAmount(0d);;
 			bizOrderMaterialsStandard.setApplyNumberTotal(ms.getReceiveNumber());
 			bizOrderMaterialsStandard.setReceiveNumberTotal(0d);
 			bizOrderMaterialsStandard.setMaxReceiveNumber(ms.getMaxReceiveNumber());
 			bizOrderMaterialsStandardList.add(bizOrderMaterialsStandard);
-			//标化详情表对象
+
 			ApplyMaterialsStandardReceiveDetail bd = new ApplyMaterialsStandardReceiveDetail();
 			bd.setMaterialsStandardReceiveBillId(receiveBillId);
 			bd.setMaterialsId(ms.getId());
@@ -189,15 +189,15 @@ public class ApplyStandardMaterialController {
 			applyStandardMaterialService.insertMaterialBillVO(listBD);
 		}
 		
-		//插入或者修改交易表
+
 		for (BizOrderMaterialsStandard bizOrderMaterialsStandard : bizOrderMaterialsStandardList) {
 			BizOrderMaterialsStandard bizOrderMaterialsStandard2 = bizOrderMaterialsStandardService.getBizOrderMaterialsStandard(String.valueOf(bizOrderMaterialsStandard.getMaterialsStandardId()), orderId);
-			//沒有則 添加
+
 			if(bizOrderMaterialsStandard2==null){
 				bizOrderMaterialsStandardService.save(bizOrderMaterialsStandard);
-			//有则 修改	
+
 			}else{
-				//字段修改
+
 				bizOrderMaterialsStandard.setId(bizOrderMaterialsStandard2.getId());
 				bizOrderMaterialsStandard.setApplyNumberTotal(bizOrderMaterialsStandard2.getApplyNumberTotal()+bizOrderMaterialsStandard.getApplyNumberTotal());
 				bizOrderMaterialsStandard.setMaterialsAmount(bizOrderMaterialsStandard2.getMaterialsAmount()+bizOrderMaterialsStandard.getMaterialsAmount());
@@ -205,7 +205,7 @@ public class ApplyStandardMaterialController {
 				bizOrderMaterialsStandardService.update(bizOrderMaterialsStandard);;
 			}
 		}
-		//查询申请详情记录
+
 		ApplyStandardMaterial asm = applyStandardMaterialService.findApplyStandardMaterialByOrderId(orderId);
 		model.addAttribute("customerInfo",asm);
 		BizMaterialsStandardReceiveBillApply bms = applyStandardMaterialService.findBizMaterialsStandardReceiveBillApplyByid(String.valueOf(receiveBillId));
@@ -237,7 +237,7 @@ public class ApplyStandardMaterialController {
 	}
 	@RequestMapping(value="record")
 	public String record(String orderId,HttpServletRequest request, Model model){
-		//查询申请记录
+
 		ApplyStandardMaterial asm = applyStandardMaterialService.findApplyStandardMaterialByOrderId(orderId);
 		model.addAttribute("customerInfo",asm);
 		List<BizMaterialsStandardReceiveBillApply> fso = applyStandardMaterialService.findMaterialStandardBillByOrderId(orderId,"1");
@@ -247,12 +247,12 @@ public class ApplyStandardMaterialController {
 	@RequestMapping(value="updateView")
 	public @ResponseBody void updateBill(String billId){
 		
-			//先去查看
+
 			String selectBillVile = bizOrderMaterialsStandardService.selectBillVile(billId);
 			if(selectBillVile!=null&&selectBillVile.equals("1")){
-				//已经查看过
+
 			}else{
-			//1 已經查看
+
 			bizOrderMaterialsStandardService.updateBill("1", new Date(), billId);
 				}
 		}

@@ -4,11 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 
-/**
- * 业务查看日志表Entity
- * @author wyb
- * @version 2016-11-16
- */
+
 public class ViewLog implements Serializable {
 	
 	private static final long serialVersionUID = 1L;

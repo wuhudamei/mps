@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.util.List;
@@ -14,11 +12,7 @@ import cn.damei.common.persistence.Page;
 import cn.damei.common.service.CrudService2;
 import cn.damei.dao.modules.BizNodePlanDao;
 
-/**
- * 进度节点Service
- * @author llp
- * @version 2016-10-10
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizNodePlanService extends CrudService2<BizNodePlanDao, BizNodePlan> {
@@ -52,9 +46,9 @@ public class BizNodePlanService extends CrudService2<BizNodePlanDao, BizNodePlan
 		return BizNodePlanDao.getByOrderIdListInIndex(list);
 	}
 
-	/***获取所有订单的节点**/
+
 	public List<BizNodePlan> getbyOrderIDList() {
-		// TODO Auto-generated method stub
+
 		return BizNodePlanDao.getbyOrderIDList();
 	}
 

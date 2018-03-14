@@ -12,12 +12,7 @@ import cn.damei.common.utils.DateUtils;
 import cn.damei.dao.mobile.Manager.OrderDiscloseDao;
 import cn.damei.entity.mobile.Manager.OrderDisclose;
 
-/**
- * 项目经理端
- * 现场交底
- * @author llp
- * 2016/10/17
- */
+
 @Service
 @Transactional(readOnly = true)
 public class OrderDiscloseService extends CrudService2<OrderDiscloseDao, OrderDisclose>{
@@ -25,15 +20,7 @@ public class OrderDiscloseService extends CrudService2<OrderDiscloseDao, OrderDi
 	@Autowired
 	private OrderDiscloseDao orderCadfileDao;
 
-	/**
-	 * 现场交底 提交按钮
-	 * biz_order_disclose写数据
-	 * @param disCloseDate
-	 * @param orderID
-	 * @param measureSquare 
-	 * @return boolean
-	 * @throws ParseException 
-	 */
+
 	@Transactional(readOnly = false)
 	public int insertByDisclose(String orderID,String disCloseDate,Integer managerID, double measureSquare) throws ParseException {
 		SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
@@ -52,7 +39,7 @@ public class OrderDiscloseService extends CrudService2<OrderDiscloseDao, OrderDi
 		orderCadfileDao.insertByDisclose(dis);
 		
 		logger.info("返回的主键ID："+dis.getId());
-		return dis.getId();//返回biz_order_disclose主键ID
+		return dis.getId();
 	}
 
 	public Integer findByOrderId(Integer orderId) {

@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.dao.modules;
 
 import java.util.List;
@@ -14,11 +12,7 @@ import cn.damei.entity.modules.BizEmpStore;
 import cn.damei.entity.modules.BizEmployee;
 import cn.damei.entity.modules.Office;
 
-/**
- * 员工信息DAO接口
- * @author qhy
- * @version 2016-08-24
- */
+
 @MyBatisDao
 public interface BizEmployeeDao extends CrudDao<BizEmployee> {
 
@@ -56,45 +50,24 @@ public interface BizEmployeeDao extends CrudDao<BizEmployee> {
 	
 	public List<BizEmployee> findItemManagerInfoByOrderId(Integer orderId);
 	
-	/**
-	 * 查询员工被换单次数
-	 * @param id
-	 * @return
-	 */
+
 	public BizEmployee selectExchangeOrderTimesById(Integer id);
 	
-	/**
-	 * 更新被换单次数
-	 */
+
 	public void updateExchangeOrderTimes(BizEmployee bizEmployee);
 	
-	/**
-	 * 工人list
-	 * @param bizEmployee
-	 * @return
-	 */
+
 	public List<BizEmployee> findLeadList(BizEmployee bizEmployee);
 	
-	/**
-	 * 项目经理 list 换单查询使用
-	 * @param bizEmployee
-	 * @return
-	 */
+
 	public List<BizEmployee> findExCahangeManagerList(BizEmployee bizEmployee);
-	/**
-	 * 质检员 换单查询使用
-	 * @param bizEmployee
-	 * @return
-	 */
+
 	public List<BizEmployee> findExCahangeInspectorList(BizEmployee bizEmployee);
 
 	public List<BizEmployee> getEmployeeListByEmpType(Map<String, String> paramaterMap);
 
 	public int getEmployeeCount(Map<String, String> paramaterMap);
-	/**
-	 * 更新员工信息
-	 * @param emp
-	 */
+
 	public void updateEmployee(BizEmployee emp);
 
     Office findStoreLabel(String empId);

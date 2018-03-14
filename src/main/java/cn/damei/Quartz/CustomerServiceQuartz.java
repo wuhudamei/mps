@@ -19,21 +19,17 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.*;
 
-/**
- * Created by joseph on 2017/3/29.
- */
+
 
 
 public class CustomerServiceQuartz {
 
-    // private final static String RemoteUrl = "http://kgb.mdni.net.cn/service/orderList";
     private final String RemoteUrl = "http://cm.mdni.net.cn/service/orderList";
     private final static String key = "7b5df6aq2we4r3t6y1vxnmhjklpewd23";
     private final static String dateFormatPattern = "yyyy-MM-dd HH:mm:ss";
     private Logger log = LoggerFactory.getLogger(CustomerServiceQuartz.class);
     private final static String liableDepartments = "103,120,107";
     private final static String liableCompanys = "100001,100002,100003,100004,100005";
-    //private final static String serverUrl = "http://kgb.mdni.net.cn";
     private final static String serverUrl = "http://cm.mdni.net.cn";
 
 
@@ -133,25 +129,25 @@ public class CustomerServiceQuartz {
                         }
 
 
-                    }//for Each 结束
+                    }
 
                     if (insertMapList.size() > 0) {
                         saveCustomerServiceData(insertMapList);
 
 
                     }
-//
-//                 if(updateMapList.size()>0){
-//
-//                    updateCustomerServiceData(updateMapList);
-//                 }
+
+
+
+
+
 
                     log.info("本次抓取售后数据完毕: 更新条数: ================" + updateMapList.size() + "============ 插入条数: ================" + insertMapList.size());
                     log.info("本次抓取售后数据完毕: 更新条数: ================" + updateMapList.size() + "============ 插入条数: ================" + insertMapList.size());
                     log.info("本次抓取售后数据完毕: 更新条数: ================" + updateMapList.size() + "============ 插入条数: ================" + insertMapList.size());
 
 
-                    //  response.getWriter().write("\"本次抓取售后数据完毕: 更新条数: ================\" + updateMapList.size() + \"============ 插入条数: ================\" + insertMapList.size()");
+
 
 
                 }
@@ -161,34 +157,26 @@ public class CustomerServiceQuartz {
         } else {
             log.info("本次没有抓取到售后数据:  ===============  开始时间:  " + start + "      结束时间:" + end);
 
-            //  response.getWriter().write("本次没有抓取到售后数据:  ===============  开始时间:  " + startDate +"      结束时间:"+endDate);
+
 
         }
 
     }
 
 
-    /**
-     * 保存售后问题
-     *
-     * @param mapList
-     */
+
     public void saveCustomerServiceData(List<Map<String, Object>> mapList) {
 
         customerServiceForQuartzService.saveCustomerServiceData(mapList);
     }
 
-    /**
-     * 更新售后问题
-     */
+
     public void updateCustomerServiceData(List<Map<String, Object>> mapList) {
         customerServiceForQuartzService.updateCustomerServiceData(mapList);
 
     }
 
-    /**
-     * 更新售后问题
-     */
+
     public void update(Map<String, Object> map) {
 
         customerServiceForQuartzService.update(map);
@@ -199,8 +187,8 @@ public class CustomerServiceQuartz {
     public List<String> customerServiceDataIsExist(List<String> dataList) {
 
 
-        //根据code查询是否存在
-        //用标识符 , code  的map映射 返回List
+
+
         return customerServiceForQuartzService.customerServiceDataIsExist(dataList);
 
     }
@@ -257,12 +245,12 @@ public class CustomerServiceQuartz {
             Object customerAddress = objectMap.get("customerAddress") == null ? "" : objectMap.get("customerAddress");
             ;
 
-            //Object contractorName = objectMap.get("contractorName").equals(null) ? "" : objectMap.get("contractorName");
-            //Object contractorMobile = objectMap.get("contractorMobile").equals(null) ? "" : objectMap.get("contractorMobile");
-            //
-            //
-            //Object supervisorName = objectMap.get("supervisorName").equals(null) ? "" : objectMap.get("supervisorName");
-            //Object supervisorMobile = objectMap.get("supervisorMobile").equals(null) ? "" : objectMap.get("supervisorMobile");
+
+
+
+
+
+
 
 
             Object problemCreateDate = objectMap.get("createDate") == null ? "" : objectMap.get("createDate");
@@ -280,24 +268,24 @@ public class CustomerServiceQuartz {
             }
 
 
-            //Object liableType1Object = objectMap.get("liableType1");
-            //Object liableTypeId = null;
-            //if (!liableType1Object.equals(null)) {
-            //
-            //    Map<String, Object> liableType1Map = (Map) liableType1Object;
-            //    liableTypeId = String.valueOf(liableType1Map.get("id"));
-            //}
 
 
 
 
 
-            //
-            //Object liableType2Object = objectMap.get("liableType2");
-            //
-            //Map<String, Object> liableType2Map = (Map) liableType2Object;
-            //Object liableType2Id = String.valueOf((Integer) liableType2Map.get("id"));
-            //String liableType2Name = (String) liableType2Map.get("name");
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
             Object importantDegree1Object = objectMap.get("importantDegree1");
@@ -312,16 +300,14 @@ public class CustomerServiceQuartz {
             }
 
 
-            //Object importantDegree2Object = objectMap.get("importantDegree2");
-            //
-            //Map<String, Object> importantDegree2Map = (Map) importantDegree2Object;
-            //Object importantDegree2Id =  importantDegree2Map.get("id");
-            //String importantDegree2Name = (String) importantDegree2Map.get("name");
 
 
-            /**
-             * 2017-07-25 接口调整添加字段
-             */
+
+
+
+
+
+
 
 
             Object complaintTypeObject = objectMap.get("complaintType");
@@ -416,11 +402,11 @@ public class CustomerServiceQuartz {
 
             mapInfo.put("customerAddress", customerAddress);
 
-            //mapInfo.put("contractorName", contractorName);
-            //mapInfo.put("contractorMobile", contractorMobile);
-            //
-            //mapInfo.put("supervisorName", supervisorName);
-            //mapInfo.put("supervisorMobile", supervisorMobile);
+
+
+
+
+
 
 
             mapInfo.put("problemCreateDate", problemCreateDate);
@@ -428,20 +414,20 @@ public class CustomerServiceQuartz {
 
 
             mapInfo.put("departId", departId);
-//                mapInfo.put("departName", departName);
 
 
-            //mapInfo.put("liableTypeId", liableTypeId);
-//                mapInfo.put("liableTypeName", liableTypeName);
 
 
-            //mapInfo.put("liableType2Id", liableType2Id);
-//                mapInfo.put("liableType2Name", liableType2Name);
+
+
+
+
+
 
 
             mapInfo.put("importantDegree1Id", importantDegree1Id);
             mapInfo.put("complaintTypeName", complaintTypeName);
-//                mapInfo.put("importantDegree1Name", importantDegree1Name);
+
 
             mapInfo.put("questionType1ObjectMapName", questionType1ObjectMapName);
             mapInfo.put("questionType2ObjectMapName", questionType2ObjectMapName);
@@ -449,8 +435,8 @@ public class CustomerServiceQuartz {
             mapInfo.put("orderNo", orderNo);
 
 
-            //mapInfo.put("importantDegree2Id", importantDegree2Id);
-//                mapInfo.put("importantDegree2Name", importantDegree2Name);
+
+
             mapInfo.put("photo", photo);
 
         }
@@ -553,18 +539,18 @@ public class CustomerServiceQuartz {
                         }
 
 
-                    }//for Each 结束
+                    }
 
                      if (insertMapList.size() > 0) {
                         saveCustomerServiceData(insertMapList);
 
 
                     }
-//
-//                 if(updateMapList.size()>0){
-//
-//                    updateCustomerServiceData(updateMapList);
-//                 }
+
+
+
+
+
                     response.setHeader("Content-type", "text/html;charset=UTF-8");
                     response.setCharacterEncoding("UTF-8");
                     response.getWriter().write("本次抓取售后数据完毕: 更新条数: ================" + updateMapList.size() + "============ 插入条数: ================" + insertMapList.size());
@@ -573,7 +559,7 @@ public class CustomerServiceQuartz {
                     log.info("本次抓取售后数据完毕: 更新条数: ================" + updateMapList.size() + "============ 插入条数: ================" + insertMapList.size());
 
 
-                    //  response.getWriter().write("\"本次抓取售后数据完毕: 更新条数: ================\" + updateMapList.size() + \"============ 插入条数: ================\" + insertMapList.size()");
+
 
 
                 }

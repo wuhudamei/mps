@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.dao.modules;
 
 import cn.damei.common.persistence.CrudDao;
@@ -10,11 +8,7 @@ import cn.damei.entity.modules.BizPmAttendMonth;
 import java.util.Date;
 import java.util.List;
 
-/**
- * 考勤月度表DAO接口
- * @author wl
- * @version 2017-08-02
- */
+
 @MyBatisDao
 public interface BizPmAttendMonthDao extends CrudDao<BizPmAttendMonth> {
 	
@@ -59,20 +53,20 @@ public interface BizPmAttendMonthDao extends CrudDao<BizPmAttendMonth> {
 	
 	BizPmAttendMonth findAttendMonthOrder(BizPmAttendMonth bizPmAttendMonth);
 	
-	//更换项目经理查询日期
+
 	String changeManager(String orderId, String itemManagerId, String attendMonth);
 	
 	int getSignDateTimesChangeManager(Date date, String orderId, Date changeUpdateDate,String signDateTimesChangeManager);
 	
-	//查询该项目经理对应的换项目经理信息
+
 	List<BizPmAttendMonth> findOldManagerOrder( String oldEmployeeId);
-	//查询换项目经理之前的订单信息
+
 	BizPmAttendMonth getOldOrder(String orderId);
 	
 	String changeManagerOld(String orderId, String itemManagerId,String attendMonth);
-	//获取插入表中的最近一次时间
+
 	String getOrderInsertDate(BizPmAttendMonth bizPmAttendMonth);
-//    TODU
+
     List<BizPmAttendMonth> findOrderByManagerId(String managerId, String kqMonth);
 
     Date getOrderStartDate(String orderId);

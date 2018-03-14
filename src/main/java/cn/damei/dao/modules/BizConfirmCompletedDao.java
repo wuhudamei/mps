@@ -4,11 +4,7 @@ import cn.damei.common.persistence.CrudDao2;
 import cn.damei.common.persistence.annotation.MyBatisDao;
 import cn.damei.entity.modules.BizConfirmCompleted;
 
-/**
- *	订单
- *	biz_order
- *	确认竣工
- */
+
 @MyBatisDao
 public interface BizConfirmCompletedDao extends CrudDao2<BizConfirmCompleted>{
 

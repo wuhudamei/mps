@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import org.hibernate.validator.constraints.Length;
@@ -10,21 +8,17 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 评价奖励设置Entity
- * @author qww
- * @version 2017-02-24
- */
+
 public class BizEvalRewardCfg extends DataEntity2<BizEvalRewardCfg> {
 	
 	private static final long serialVersionUID = 1L;
-	private Integer storeId;		// 门店id
-	private String projectMode;		// 工程模式
-	private String rewardTargetType;		// 奖励对象类型
-	private String rewardName;		// 奖励名称
-	private Date rewardStartDatetime;		// 奖励起始时间
-	private Date rewardEndDatetime;		// 奖励结束时间
-	private String isEnabled;		// 是否启用
+	private Integer storeId;
+	private String projectMode;
+	private String rewardTargetType;
+	private String rewardName;
+	private Date rewardStartDatetime;
+	private Date rewardEndDatetime;
+	private String isEnabled;
 
 	private List<BizEvalRewardStar> list;
 	

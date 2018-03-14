@@ -39,14 +39,7 @@ public class ExchangeOrderDetailsController extends BaseController{
 	@Autowired
 	private BizEmployeeService2 bizEmployeeService2;
 	
-	/**
-	 * 工人组长换单列表
-	 * @param bizEmployee
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @return
-	 */
+
 	@RequiresPermissions("worker:bizWorkerExchange:view")
 	@RequestMapping(value = "worker_list")
 	public String workerList(@ModelAttribute BizEmployee bizEmployee,
@@ -68,7 +61,7 @@ public class ExchangeOrderDetailsController extends BaseController{
 				bizEmployee.setStoreid(storeId);
 			}
 		}
-		// 过滤工程模式
+
 		if (StringUtils.isBlank(bizEmployee.getProjectMode())) {
 			if (null != user.getEmpId()) {
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -106,15 +99,7 @@ public class ExchangeOrderDetailsController extends BaseController{
 		return "modules/exchangeOrderDetails/bizWorkerExchangeList";
 	}
 	
-	/**
-	 * 被换详情
-	 * @param id
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @return
-	 * @throws ParseException 
-	 */
+
 	@RequiresPermissions("worker:bizWorkerExchange:view")
 	@RequestMapping(value="details")
 	public String workerDetails(Integer id,String startExChangeDate,String endExChangeDate,HttpServletRequest request, HttpServletResponse response,Model model) throws ParseException{
@@ -135,14 +120,7 @@ public class ExchangeOrderDetailsController extends BaseController{
 		return "modules/exchangeOrderDetails/bizWorkerExchangeListDetails";
 	}
 	
-	/**
-	 * 项目经理换单查询
-	 * @param bizEmployee
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @return
-	 */
+
 	@RequiresPermissions("manager:bizManagerExchange:view")
 	@RequestMapping(value="manager_list")
 	public String managerList(BizEmployee bizEmployee,HttpServletRequest request, HttpServletResponse response,
@@ -166,15 +144,7 @@ public class ExchangeOrderDetailsController extends BaseController{
         return "modules/exchangeOrderDetails/bizManagerExchangeList";
     }
 	
-	/**
-	 * 项目经理换单详情
-	 * @param id
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @return
-	 * @throws ParseException 
-	 */
+
 	@RequiresPermissions("manager:bizManagerExchange:view")
 	@RequestMapping(value="managerDetails")
 	public String manageDetails(Integer id,String startExChangeDate,String endExChangeDate,HttpServletRequest request, HttpServletResponse response,Model model) throws ParseException{
@@ -193,7 +163,7 @@ public class ExchangeOrderDetailsController extends BaseController{
 		model.addAttribute("id", id);
 		return "modules/exchangeOrderDetails/bizManagerExchangeListDetails";
 	}
-	//判断字符串是否能转为日期
+
 	public static boolean stringToDate(String s){
 		SimpleDateFormat sdf =   new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss" );
 		try {
@@ -203,14 +173,7 @@ public class ExchangeOrderDetailsController extends BaseController{
 		}
 		return true;
 	}
-	/**
-	 * 质检员换单查询
-	 * @param bizEmployee
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @return
-	 */
+
 	@RequiresPermissions("inspector:bizInspectorExchange:view")
 	@RequestMapping(value="inspector_list")
 	public String inspectorList(@ModelAttribute BizEmployee bizEmployee,HttpServletRequest request, HttpServletResponse response,
@@ -228,14 +191,7 @@ public class ExchangeOrderDetailsController extends BaseController{
         return "modules/exchangeOrderDetails/bizInspectorExchangeList";
     }
 	
-	/**
-	 * 质检员换单详情
-	 * @param id
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @return
-	 */
+
 	@RequiresPermissions("inspector:bizInspectorExchange:view")
 	@RequestMapping(value="inspectorDetails")
 	public String inspectorDetails(Integer id,HttpServletRequest request, HttpServletResponse response,Model model){

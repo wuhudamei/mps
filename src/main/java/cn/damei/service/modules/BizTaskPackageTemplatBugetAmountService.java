@@ -11,11 +11,7 @@ import cn.damei.common.service.CrudService2;
 import cn.damei.dao.modules.BizTaskPackageTemplatBugetAmountDao;
 import cn.damei.entity.modules.BizTaskPackageTemplatBugetAmount;
 
-/**
- * 任务包模板预算金额Service
- * @author hyh
- *
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizTaskPackageTemplatBugetAmountService extends CrudService2<BizTaskPackageTemplatBugetAmountDao, BizTaskPackageTemplatBugetAmount>{

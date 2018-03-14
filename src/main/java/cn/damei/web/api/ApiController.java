@@ -77,21 +77,12 @@ public class ApiController{
 	private HomeLoginLogoutLogService homeLoginLogoutLogService;
 	@Autowired
 	private BizPhoneMsgService bizPhoneMsgService;
-	//业主APP登录类型(登录)
+
 	private static String DEAL_TYPE_IN = "in";
-	//业主APP登录模式(app)
+
 	private static String DEAL_TYPE_MODE = "app";
 	
-	/**
-	 * 1&18869096849&xxxxxxx e3453b6350ff91e9566775b957d0e6fc
-	 * @param mobilePhone 手机号
-	 * @param sign 秘钥
-	 * @return
-	 * @throws IOException 
-	 * @throws JsonMappingException 
-	 * @throws JsonParseException 
-	 * @throws NoSuchAlgorithmException 
-	 */
+
 	@RequestMapping(value="sendCode",method=RequestMethod.POST)
 	@ResponseBody
 	public String sendCode(String appType,String mobilePhone,String sign) throws JsonParseException, JsonMappingException, IOException, NoSuchAlgorithmException{
@@ -105,31 +96,31 @@ public class ApiController{
 		mymap.put("mobilePhone", mobilePhone);
 		mymap.put("appType", appType);
 		String md5 = MD5Utils.MD5(mymap);
-		if(!md5.equalsIgnoreCase(sign)){ //签名认证失败
+		if(!md5.equalsIgnoreCase(sign)){
 			Map<String,Object> map = new HashMap<String,Object>();
-			//Map<String,String> map1 = new HashMap<String,String>(); 
+
 			map.put("code", "406");
 			map.put("message", "签名认证失败");
 			return JSONObject.fromObject(map).toString(); 
-			//map.put("data", "");
+
 		}
 		if(ConstantUtils.EMP_TYPE_4.equals(appType)){
 			List<Order2> customer = orderService.findOrderByPhone(mobilePhone);
 			if(customer == null || customer.size() ==0){
 				Map<String,Object> map = new HashMap<String,Object>();
 				Map<String,String> map1 = new HashMap<String,String>();
-				map1.put("result", "2");//手机号未注册
+				map1.put("result", "2");
 				map.put("code", "200");
 				map.put("message", "成功");
 				map.put("data", map1);
 				return JSONObject.fromObject(map).toString();
 			} 
-			//新加代码，如果是业主端，不用发送短信，直接返回发送成功
+
 			else{
-					//如果appType==4，不用发送短信，直接返回
+
 					Map<String,Object> map = new HashMap<String,Object>();
 		    		Map<String,String> map1 = new HashMap<String,String>();
-		    		map1.put("result", "1");//发送成功
+		    		map1.put("result", "1");
 		    		map.put("code", "200");
 		    		map.put("message", "成功");
 		    		map.put("data", map1);
@@ -140,19 +131,19 @@ public class ApiController{
 			if(employee == null){ 
 				Map<String,Object> map = new HashMap<String,Object>();
 				Map<String,String> map1 = new HashMap<String,String>();
-				map1.put("result", "2");//手机号未注册
+				map1.put("result", "2");
 				map.put("code", "200");
 				map.put("message", "成功");
 				map.put("data", map1);
 				return JSONObject.fromObject(map).toString(); 
 			}
 		} else {
-			//根据手机号和员工类型查询 --判断是都存在
+
 			BizEmployee2 employee = bizEmployeeService.queryEmployeeByPhoneAndEmployeeType(mobilePhone,appType);
 			if(employee == null){ 
 				Map<String,Object> map = new HashMap<String,Object>();
 				Map<String,String> map1 = new HashMap<String,String>();
-				map1.put("result", "2");//手机号未注册
+				map1.put("result", "2");
 				map.put("code", "200");
 				map.put("message", "成功");
 				map.put("data", map1);
@@ -161,8 +152,8 @@ public class ApiController{
 		}
 		String messageCode = "";
         Random random = new Random();
-        for(int i=0; i<6; i++){    //表示生成六位验证码
-        	messageCode += String.valueOf(random.nextInt(10));//采用随机码生成0-10（包括0，不包括10）的验证码，生成六次，构成六位数验证码；
+        for(int i=0; i<6; i++){
+        	messageCode += String.valueOf(random.nextInt(10));
         }
 
 		String msgContent = "尊敬的用户，验证码为:"+messageCode;
@@ -174,7 +165,7 @@ public class ApiController{
     	if(!"1".equals(status)){
     		Map<String,Object> map = new HashMap<String,Object>();
 			Map<String,String> map1 = new HashMap<String,String>();
-			map1.put("result", "3");//短信网关发送失败
+			map1.put("result", "3");
 			map.put("code", "200");
 			map.put("message", "成功");
 			map.put("data", map1);
@@ -182,11 +173,11 @@ public class ApiController{
     	}else{
     		Map<String,Object> map = new HashMap<String,Object>();
     		Map<String,String> map1 = new HashMap<String,String>();
-    		map1.put("result", "1");//发送成功
+    		map1.put("result", "1");
     		map.put("code", "200");
     		map.put("message", "成功");
     		map.put("data", map1);
-    		//保存验证码到数据库表 
+
     		PhoneCode phoneCode = new PhoneCode();
     		phoneCode.setAppType(appType);
     		phoneCode.setPhoneNumber(mobilePhone);
@@ -196,15 +187,7 @@ public class ApiController{
     		return JSONObject.fromObject(map).toString(); 
     	}
 	}
-	/**
-	 * 
-	 * @param mobilePhone 手机号
-	 * @param code 验证码
-	 * @param sign 秘钥
-	 * @return
-	 * @throws NoSuchAlgorithmException 
-	 * @throws UnsupportedEncodingException 
-	 */
+
 	@RequestMapping(value="login",method=RequestMethod.POST)
 	@ResponseBody
 	public String login(String appType,String mobilePhone, String code, String sign,HttpServletRequest request) throws UnsupportedEncodingException, NoSuchAlgorithmException{
@@ -214,13 +197,13 @@ public class ApiController{
 			map.put("message", "必填参数为空");
 			return JSONObject.fromObject(map).toString(); 
 		}
-		//新加代码，如果是业主端登录，不用校验验证码，只验证手机号是否注册，直接登录
+
 		if(ConstantUtils.EMP_TYPE_4.equals(appType)){
 			List<Order2> customer = orderService.findOrderByPhone(mobilePhone);
 			if(customer == null || customer.size() ==0){
 				Map<String,Object> map = new HashMap<String,Object>();
 				Map<String,String> map1 = new HashMap<String,String>();
-				map1.put("result", "2");//手机号未注册
+				map1.put("result", "2");
 				map.put("code", "200");
 				map.put("message", "成功");
 				map.put("data", map1);
@@ -229,12 +212,12 @@ public class ApiController{
 				String tokenid = UUIDUtils.getTokenid();
 				Map<String,Object> map = new HashMap<String,Object>();
 	    		Map<String,String> map1 = new HashMap<String,String>();
-	    		map1.put("result", "1");//登录成功
+	    		map1.put("result", "1");
 	    		map1.put("tokenid", tokenid);
 	    		map.put("code", "200");
 	    		map.put("message", "成功");
 	    		map.put("data", map1);
-	    		//登录成功生成tokenid 保存到数据库中
+
 	    		SysToken sysToken = new SysToken();
 	    		sysToken.setAppType(appType);
 	    		sysToken.setPhoneNumber(mobilePhone);
@@ -242,7 +225,7 @@ public class ApiController{
 	    		sysToken.setValidityDatetime(new Date());
 	    		sysTokenService.add(sysToken);
 	    		
-	    		//登录成功，记录登录日志
+
 				HomeLoginLogoutLog homeLoginLogoutLog = new HomeLoginLogoutLog();
 				homeLoginLogoutLog.setDealMode(DEAL_TYPE_MODE);
 				homeLoginLogoutLog.setDealType(DEAL_TYPE_IN);
@@ -261,7 +244,7 @@ public class ApiController{
 		mymap.put("appType", appType);
 		String md5 = MD5Utils.MD5(mymap);
 		
-		if(!md5.equalsIgnoreCase(sign)){ //签名认证失败
+		if(!md5.equalsIgnoreCase(sign)){
 			Map<String,Object> map = new HashMap<String,Object>();
 			map.put("code", "406");
 			map.put("message", "签名认证失败");
@@ -269,7 +252,7 @@ public class ApiController{
 		}
 
 		System.out.println("=======login appType:"+appType+",mobilePhone:"+mobilePhone+",code:"+code);
-		//注释001：配合苹果上线，给出固定的手机号和验证码登录，不用发手机短信
+
 		if((ConstantUtils.USER_NAME_18810656468.equals(mobilePhone) && ConstantUtils.PASS_WORD_888888.equals(code) && appType.equals("1")) ||
 				(ConstantUtils.USER_NAME_13393163996.equals(mobilePhone) && ConstantUtils.PASS_WORD_888888.equals(code) && appType.equals("2")) ||
 			(ConstantUtils.USER_NAME_18519377253.equals(mobilePhone) && ConstantUtils.PASS_WORD_888888.equals(code) && appType.equals("3")) ||
@@ -277,12 +260,12 @@ public class ApiController{
 			String tokenid = UUIDUtils.getTokenid();
 			Map<String,Object> map = new HashMap<String,Object>();
 			Map<String,String> map1 = new HashMap<String,String>();
-			map1.put("result", "1");//登录成功
+			map1.put("result", "1");
 			map1.put("tokenid", tokenid);
 			map.put("code", "200");
 			map.put("message", "成功");
 			map.put("data", map1);
-			//登录成功生成tokenid 保存到数据库中
+
 			SysToken sysToken = new SysToken();
 			sysToken.setAppType(appType);
 			sysToken.setPhoneNumber(mobilePhone);
@@ -291,14 +274,14 @@ public class ApiController{
 			sysTokenService.add(sysToken);
 			return JSONObject.fromObject(map).toString();
 		}
-		//注释001：结束
 
-		//根据手机号和验证码查询 在有效期内登录成功 否则登录失败
+
+
 		PhoneCode phoneCode = phoneCodeService.findByUsernameAndCode(mobilePhone,code,appType);
 		if(null == phoneCode){
 			Map<String,Object> map = new HashMap<String,Object>();
     		Map<String,String> map1 = new HashMap<String,String>();
-    		map1.put("result", "2");//验证码校验失败
+    		map1.put("result", "2");
     		map.put("code", "200");
     		map.put("message", "成功");
     		map.put("data", map1);
@@ -307,12 +290,12 @@ public class ApiController{
 			String tokenid = UUIDUtils.getTokenid();
 			Map<String,Object> map = new HashMap<String,Object>();
     		Map<String,String> map1 = new HashMap<String,String>();
-    		map1.put("result", "1");//登录成功
+    		map1.put("result", "1");
     		map1.put("tokenid", tokenid);
     		map.put("code", "200");
     		map.put("message", "成功");
     		map.put("data", map1);
-    		//登录成功生成tokenid 保存到数据库中
+
     		SysToken sysToken = new SysToken();
     		sysToken.setAppType(appType);
     		sysToken.setPhoneNumber(mobilePhone);
@@ -323,16 +306,8 @@ public class ApiController{
 		}
 	}
 	
-	/**
-	 * 自动登录
-	 * @param tokenid
-	 * @param sign
-	 * @param request
-	 * @return
-	 * @throws UnsupportedEncodingException
-	 * @throws NoSuchAlgorithmException
-	 */
-	@RequestMapping(value="checkTokenId",method=RequestMethod.POST)//,method=RequestMethod.POST
+
+	@RequestMapping(value="checkTokenId",method=RequestMethod.POST)
 	public String checkTokenId(String appType ,String tokenid,String sign,HttpServletRequest request,Model model) throws UnsupportedEncodingException, NoSuchAlgorithmException{
 		if(appType == null || tokenid==null || sign==null ){
 			return "mobile/modules/api/loginFailed";
@@ -341,54 +316,52 @@ public class ApiController{
 		mymap.put("tokenid", tokenid);
 		mymap.put("appType", appType);
 		String md5 = MD5Utils.MD5(mymap);
-		if(!md5.equalsIgnoreCase(sign)){ //签名认证失败
+		if(!md5.equalsIgnoreCase(sign)){
 			Map<String,Object> map = new HashMap<String,Object>();
 			map.put("code", "406");
 			map.put("message", "签名认证失败");
-			//return JSONObject.fromObject(map).toString(); //跳转到错误页面
+
 			return "mobile/modules/api/loginFailed";
 		}
 		SysToken token = sysTokenService.findByTokenId(tokenid,appType);
 		if(null != token){
 			Map<String,Object> map = new HashMap<String,Object>();
     		Map<String,String> map1 = new HashMap<String,String>();
-    		map1.put("result", "1");//登录成功
+    		map1.put("result", "1");
     		map1.put("tokenid", tokenid);
     		map.put("code", "200");
     		map.put("message", "成功");
     		map.put("data", map1);
-    		//登录成功 更新数据库表中的有效期
-    		//SysToken sysToken = new SysToken();
-    		//sysToken.setPhoneNumber(token.getPhoneNumber());
-    		//sysToken.setTokenid(tokenid);
+
+
+
+
     		token.setValidityDatetime(new Date());
     		sysTokenService.add(token); 
-    		//根据手机号查询项目经理--保存到session
+
     		HttpSession session = request.getSession();
-    		if(ConstantUtils.EMP_TYPE_3.equals(appType)){ //跳转到项目经理首页
+    		if(ConstantUtils.EMP_TYPE_3.equals(appType)){
     			Manager manager = managerService.selectManagerByPhone(token.getPhoneNumber());
     			session.setAttribute("manager", manager);
     			return "redirect:"+Global.getAdminPath()+"/app/manager/toindex";
-    		}else if(ConstantUtils.EMP_TYPE_1.equals(appType)){//跳转到质检首页
+    		}else if(ConstantUtils.EMP_TYPE_1.equals(appType)){
     			Inspector inspector= inspectorService.selectInspectorByPhone(token.getPhoneNumber());
     			session.setAttribute("inspector", inspector);
     			return "redirect:"+Global.getAdminPath()+"/app/pqc/pqcIndex";
-    		}else if(ConstantUtils.EMP_TYPE_2.equals(appType)){//跳转到工人首页
+    		}else if(ConstantUtils.EMP_TYPE_2.equals(appType)){
     			Worker worker = workerService.selectWorkerByPhone(token.getPhoneNumber());
     			session.setAttribute("worker", worker);
     			EmployeeGroup employeeGroup = employeeGroupService.selectEmployeeGroupByGroupId(worker.getId());
-    			if(employeeGroup != null){//组长
+    			if(employeeGroup != null){
     				return "redirect:"+Global.getAdminPath()+"/app/worker/toindex";
-    			}else{//工人
+    			}else{
     				return "redirect:"+Global.getAdminPath()+"/app/worker/toindex1";
     			}
-    		}else{//客户端
+    		}else{
     			session.setAttribute("customerPhone", token.getPhoneNumber());
-    			/*Count count = service.viewCount(token.getPhoneNumber());
-    			model.addAttribute("count", count);
-    			return "mobile/modules/home/myHome";*/
+
     			
-    			//登录成功，记录登录日志
+
 				HomeLoginLogoutLog homeLoginLogoutLog = new HomeLoginLogoutLog();
 				homeLoginLogoutLog.setDealMode(DEAL_TYPE_MODE);
 				homeLoginLogoutLog.setDealType(DEAL_TYPE_IN);
@@ -399,13 +372,13 @@ public class ApiController{
     			
     			return "redirect:"+Global.getAdminPath()+"/app/home/isLogin";
     		}
-    		//return JSONObject.fromObject(map).toString(); 
-		}else{ //tokenid失效
+
+		}else{
 			Map<String,Object> map = new HashMap<String,Object>();
     		map.put("code", "409");
     		map.put("message", "成功");
-    		//map.put("data", map1);
-    		//return JSONObject.fromObject(map).toString(); //跳转到错误页面
+
+
     		return "mobile/modules/api/loginFailed";
 		}
 	}

@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import org.hibernate.validator.constraints.Length;
@@ -9,53 +7,49 @@ import java.util.List;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 材料自采报销单Entity
- * @author wyb
- * @version 2017-06-22
- */
+
 public class BizMaterialSelfbuyReimburse extends DataEntity2<BizMaterialSelfbuyReimburse> {
 	
 	private static final long serialVersionUID = 1L;
-	private String reimburseType;		// 报销类型
-	private Integer relatedReimburseId;		// 关联报销id
-	private Integer orderId;		// 订单id
-	private Integer materialSelfbuyId;		// 材料自采id
-	private Double customerPayAmount;		// 客户交费金额
-	private String settleStage;		// 所属结算阶段
-	private Double settleAmount;		// 实际结算金额
-	private String reimburseRemarks;		// 报销说明
-	private String reimburseStatus;		// 报销状态
-	private Date reimburseStatusDatetime;		// 报销状态日期时间
-	private String reimburseStatusRemarks;		// 报销状态说明
+	private String reimburseType;
+	private Integer relatedReimburseId;
+	private Integer orderId;
+	private Integer materialSelfbuyId;
+	private Double customerPayAmount;
+	private String settleStage;
+	private Double settleAmount;
+	private String reimburseRemarks;
+	private String reimburseStatus;
+	private Date reimburseStatusDatetime;
+	private String reimburseStatusRemarks;
 	
-	private Integer settleRate;		// 结算比例--页面展示
-	private Double settleRateTwo;		// 结算比例--数据库存储
-	private String materialName; //材料自采名称
-	private String statusName; //状态名称
+	private Integer settleRate;
+	private Double settleRateTwo;
+	private String materialName;
+	private String statusName;
 	
-	private Integer picCount; //图片数量
-	private Date beginCreateDate;	// 开始   创建日期
-	private Date endCreateDate;		//结束   创建日期
+	private Integer picCount;
+	private Date beginCreateDate;
+	private Date endCreateDate;
 	
-	private String storeId;		// 门店id
-	private String storeName;		// 门店名称
-	private String projectMode;		//工程模式   1-产业模式；2-传统模式
-	private Integer engineDepartId;	//区域id
-	private String engineDepartName;	//区域名称
+	private String storeId;
+	private String storeName;
+	private String projectMode;
+	private Integer engineDepartId;
+	private String engineDepartName;
 	
-	private	List<String> reimburseStatusList = null; //状态集合
-	private String communityName;		// 小区名称
-	private String buildNumber;		// 几号楼
-	private String buildUnit;		// 几单元
-	private String buildRoom;		// 哪一室
+	private	List<String> reimburseStatusList = null;
+	private String communityName;
+	private String buildNumber;
+	private String buildUnit;
+	private String buildRoom;
 	
-	private String customerName;		// 客户姓名
-	private String customerPhone;		// 客户电话
+	private String customerName;
+	private String customerPhone;
 	
-	private Integer itemManagerId;	//项目经理id
-	private String itemManager;		// 项目经理
-	private String itemManagerPhone;// 项目经理手机号
+	private Integer itemManagerId;
+	private String itemManager;
+	private String itemManagerPhone;
 	
 	
 	

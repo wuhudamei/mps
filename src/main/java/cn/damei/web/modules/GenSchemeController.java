@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,11 +23,7 @@ import cn.damei.service.modules.GenSchemeService;
 import cn.damei.service.modules.GenTableService;
 import cn.damei.common.utils.GenUtils;
 
-/**
- * 生成方案Controller
- * @author ThinkGem
- * @version 2013-10-15
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/gen/genScheme")
 public class GenSchemeController extends BaseController {
@@ -68,9 +62,9 @@ public class GenSchemeController extends BaseController {
 		if (StringUtils.isBlank(genScheme.getPackageName())){
 			genScheme.setPackageName("cn.damei.modules");
 		}
-//		if (StringUtils.isBlank(genScheme.getFunctionAuthor())){
-//			genScheme.setFunctionAuthor(UserUtils.getUser().getName());
-//		}
+
+
+
 		model.addAttribute("genScheme", genScheme);
 		model.addAttribute("config", GenUtils.getConfig());
 		model.addAttribute("tableList", genTableService.findAll());

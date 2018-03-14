@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import java.util.Date;
@@ -9,36 +7,32 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 考勤日次表
- * @author cgh
- *
- */
+
 public class BizAttendDay extends DataEntity2<BizAttendDay> {
 	
 	private static final long serialVersionUID = 1L;
-	//考勤人角色 1 项目经理
+
 	private String attendEmployeeRole;
-	//考勤人员id
+
 	private Integer attendEmployeeId;
-	//考勤日期
+
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date attendDate;
-	//签到次数
+
 	private Integer signTimes;
-	//最早签到日期
+
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date earlySignDate;
-	//最早签到误差
+
 	private Double earlySignReeorDistance;
-	//最晚签到日期
+
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date lateSignDate;
-	//最晚签到误差
+
 	private Double lateSignErrorDistance;
-	//考勤类型 1.全 2.半 3 缺
+
 	private String attendType;
-	//是否以生成考勤单
+
 	private String isGeneratedAttendBill; 
 	
 	private Date zaoDate;
@@ -56,7 +50,7 @@ public class BizAttendDay extends DataEntity2<BizAttendDay> {
 	public void setWanDate(Date wanDate) {
 		this.wanDate = wanDate;
 	}
-	//项目经理名字
+
 	private String managerName;
 	
 	public String getAttendEmployeeRole() {

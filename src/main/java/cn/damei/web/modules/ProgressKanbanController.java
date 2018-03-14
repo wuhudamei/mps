@@ -36,11 +36,7 @@ import cn.damei.service.modules.ProgressKanbanService;
 import cn.damei.entity.modules.User;
 import cn.damei.common.utils.UserUtils;
 
-/**
- * 进度看板
- * @author llp 
- * 2016/10/18
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/progresskanban/progressKanban")
 public class ProgressKanbanController extends BaseController {
@@ -72,7 +68,7 @@ public class ProgressKanbanController extends BaseController {
 	public String preList(ProgressKanban progressKanban, HttpServletRequest request, HttpServletResponse response,
 			Model model) {
 		User user = UserUtils.getUser();
-		//过滤门店
+
 		if(null == progressKanban.getStoreId()){
 			if(null != user.getStoreId()){
 				progressKanban.setStoreId(Integer.valueOf(user.getStoreId()));
@@ -81,7 +77,7 @@ public class ProgressKanbanController extends BaseController {
 		if(StringUtils.isBlank(user.getStoreId())){
 			model.addAttribute("storeDropEnable", true);
 		}
-		//过滤工程模式
+
 		if(StringUtils.isBlank(progressKanban.getProjectMode())){
 			if(null != user.getEmpId()){
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -117,20 +113,13 @@ public class ProgressKanbanController extends BaseController {
 		return "modules/progressKanban/kanbanList";
 	}
 	
-	/**
-	 * 主页list页面
-	 * @param progressKanban
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @return list
-	 */
+
 	@RequiresPermissions("progresskanban:progressKanban:view")
 	@RequestMapping(value = { "list", "" })
 	public String list(ProgressKanban progressKanban, HttpServletRequest request, HttpServletResponse response,
 			Model model) {
 		User user = UserUtils.getUser();
-		//过滤门店
+
 		if(null == progressKanban.getStoreId()){
 			if(null != user.getStoreId()){
 				progressKanban.setStoreId(Integer.valueOf(user.getStoreId()));
@@ -139,7 +128,7 @@ public class ProgressKanbanController extends BaseController {
 		if(StringUtils.isBlank(user.getStoreId())){
 			model.addAttribute("storeDropEnable", true);
 		}
-		//过滤工程模式
+
 		if(StringUtils.isBlank(progressKanban.getProjectMode())){
 			if(null != user.getEmpId()){
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -176,11 +165,11 @@ public class ProgressKanbanController extends BaseController {
 		Page<ProgressKanban> page = progressKanbanService.findPage(new Page<ProgressKanban>(request, response),
 				progressKanban);
 		
-		Integer stroeID = Integer.valueOf(progressKanban.getStoreId());//获取当前门店编号
-		String isOldHouse = progressKanban.getHouseIsNew();//新牢房
+		Integer stroeID = Integer.valueOf(progressKanban.getStoreId());
+		String isOldHouse = progressKanban.getHouseIsNew();
 		logger.info("选取的门店编号：" + stroeID+"新老房："+isOldHouse);
 		
-		//获取所有的节点
+
 		List<BizConstructionSchedule> csList = bizConstructionScheduleService.getByStoreIdAndDelflag(stroeID,isOldHouse);
 		for(BizConstructionSchedule bcs:csList){
 			logger.info("获得所有节点名称：" + bcs.getConstructionScheduleName());
@@ -197,20 +186,17 @@ public class ProgressKanbanController extends BaseController {
 		return "modules/progressKanban/kanbanList";
 	}
 	
-	/**
-	 * 导出excel
-	 * @throws IOException 
-	 */
+
 	@RequestMapping(value = "export", method=RequestMethod.POST)
 	public void KanbanExport(ProgressKanban progressKanban, BizNodePlan bizNodePlan, HttpServletRequest request, HttpServletResponse response,
 							 RedirectAttributes redirectAttributes, String storeID) throws IOException{
 		SimpleDateFormat sf = new SimpleDateFormat("yyyyMMddHHmmss");
-		ServletOutputStream ouputStream= null;//创建一个输出流对象
+		ServletOutputStream ouputStream= null;
 		logger.info("门店编号："+progressKanban.getStoreId()+"\t新老房："+progressKanban.getHouseIsNew());
 		List<Integer> list = new ArrayList<Integer>();
 		List<ProgressKanban> listKan = progressKanbanService.findOrderByStoreId(Integer.valueOf(storeID));
 
-		//获取所有的节点
+
 		List<BizConstructionSchedule> csList = bizConstructionScheduleService.getByStoreIdAndDelflag(Integer.valueOf(storeID),progressKanban.getHouseIsNew());
 		for(BizConstructionSchedule bcs:csList){
 			logger.info("获得所有节点名称：" + bcs.getConstructionScheduleName());
@@ -223,8 +209,8 @@ public class ProgressKanbanController extends BaseController {
 		
 		try {  
 			response.setContentType("application/binary;charset=utf-8"); 
-			String headerStr =new String(("工程进度看板模板"+sf.format(new Date())).getBytes("utf-8"), "ISO8859-1");//headerString为中文时转码  
-			response.setHeader("Content-disposition","attachment; filename="+headerStr+".xls");//filename是下载的xls的名
+			String headerStr =new String(("工程进度看板模板"+sf.format(new Date())).getBytes("utf-8"), "ISO8859-1");
+			response.setHeader("Content-disposition","attachment; filename="+headerStr+".xls");
 			ouputStream = response.getOutputStream();    
 			exportKanban.write(ouputStream);  
 			ouputStream.flush();    

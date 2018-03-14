@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import java.util.HashMap;
@@ -25,12 +23,7 @@ import cn.damei.common.web.BaseController;
 import cn.damei.entity.modules.ArrangeCheckDoneDetailQuery;
 import cn.damei.service.modules.ArrangeCheckDoneDetailQueryService;
 
-/**
- * 约检节点验收明细查询Controller
- * 
- * @author mh
- * @version 2017-06-06
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/arrangecheckdonedetailquery/arrangeCheckDoneDetailQuery")
 public class ArrangeCheckDoneDetailQueryController extends BaseController {

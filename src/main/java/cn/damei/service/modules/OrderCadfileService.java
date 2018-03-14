@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.util.List;
@@ -13,11 +11,7 @@ import cn.damei.common.service.CrudService2;
 import cn.damei.entity.modules.OrderCadfile;
 import cn.damei.dao.modules.OrderCadfileDao;
 
-/**
- * 订单图片Service
- * @author mh
- * @version 2016-09-08
- */
+
 @Service
 @Transactional(readOnly = true)
 public class OrderCadfileService extends CrudService2<OrderCadfileDao, OrderCadfile> {
@@ -43,13 +37,13 @@ public class OrderCadfileService extends CrudService2<OrderCadfileDao, OrderCadf
 	public void delete(OrderCadfile orderCadfile) {
 		super.delete(orderCadfile);
 	}
-	//更新图片
+
 	@Transactional(readOnly = false)
 	public void saveCadfile(OrderCadfile orderCadfile) {
 		dao.saveCadfile(orderCadfile);
 		
 	}
-	//插入图片
+
 	@Transactional(readOnly = false)
 	public void insertCadfile(OrderCadfile orderCadfile) {
 		dao.insertCadfile(orderCadfile);
@@ -57,7 +51,7 @@ public class OrderCadfileService extends CrudService2<OrderCadfileDao, OrderCadf
 	}
 
 	public OrderCadfile findDetail(OrderCadfile orderCadfile) {
-		// TODO Auto-generated method stub
+
 		return dao.findDtail(orderCadfile);
 	}
 	

@@ -8,44 +8,28 @@ import cn.damei.common.persistence.DataEntity2;
 public class BizOrderConfirmStartworkPic extends DataEntity2<BizOrderConfirmStartworkPic> {
 	private Integer id;
 
-	/**
-	 * 订单确认开工id
-	 */
+
 	private Integer orderConfirmStartworkId;
 
-	/**
-	 * 图片路径
-	 */
+
 	private String picUrl;
 
-	/**
-	 * 备注
-	 */
+
 	private String remarks;
 
-	/**
-	 * 创建人员工id
-	 */
-//	private String createBy;
 
-	/**
-	 * 创建日期时间
-	 */
+
+
+
 	private Date createDate;
 
-	/**
-	 * 更新人员工id
-	 */
-	/*private String updateBy;*/
 
-	/**
-	 * 更新日期时间
-	 */
+
+
+
 	private Date updateDate;
 
-	/**
-	 * 删除标识
-	 */
+
 	private String delFlag;
 
 	public Integer getId() {

@@ -20,28 +20,16 @@ import com.google.zxing.common.BitMatrix;
 import com.google.zxing.common.HybridBinarizer;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 
-/**
- * 条形码和二维码编码解码
- * 
- * @author ThinkGem
- * @version 2014-02-28
- */
+
 public class ZxingHandler {
 
-	/**
-	 * 条形码编码
-	 * 
-	 * @param contents
-	 * @param width
-	 * @param height
-	 * @param imgPath
-	 */
+
 	public static void encode(String contents, int width, int height, String imgPath) {
-		int codeWidth = 3 + // start guard
-				(7 * 6) + // left bars
-				5 + // middle guard
-				(7 * 6) + // right bars
-				3; // end guard
+		int codeWidth = 3 +
+				(7 * 6) +
+				5 +
+				(7 * 6) +
+				3;
 		codeWidth = Math.max(codeWidth, width);
 		try {
 			BitMatrix bitMatrix = new MultiFormatWriter().encode(contents,
@@ -55,12 +43,7 @@ public class ZxingHandler {
 		}
 	}
 
-	/**
-	 * 条形码解码
-	 * 
-	 * @param imgPath
-	 * @return String
-	 */
+
 	public static String decode(String imgPath) {
 		BufferedImage image = null;
 		Result result = null;
@@ -80,19 +63,12 @@ public class ZxingHandler {
 		return null;
 	}
 	
-	/**
-	 * 二维码编码
-	 * 
-	 * @param contents
-	 * @param width
-	 * @param height
-	 * @param imgPath
-	 */
+
 	public static void encode2(String contents, int width, int height, String imgPath) {
 		Hashtable<EncodeHintType, Object> hints = new Hashtable<EncodeHintType, Object>();
-		// 指定纠错等级
+
 		hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.L);
-		// 指定编码格式
+
 		hints.put(EncodeHintType.CHARACTER_SET, "GBK");
 		try {
 			BitMatrix bitMatrix = new MultiFormatWriter().encode(contents,
@@ -106,12 +82,7 @@ public class ZxingHandler {
 		}
 	}
 
-	/**
-	 * 二维码解码
-	 * 
-	 * @param imgPath
-	 * @return String
-	 */
+
 	public static String decode2(String imgPath) {
 		BufferedImage image = null;
 		Result result = null;
@@ -134,12 +105,10 @@ public class ZxingHandler {
 		return null;
 	}
 
-	/**
-	 * @param args
-	 */
+
 	public static void main(String[] args) {
 
-		// 条形码
+
 		String imgPath = "target\\zxing_EAN13.png";
 		String contents = "6923450657713";
 		int width = 105, height = 50;
@@ -151,7 +120,7 @@ public class ZxingHandler {
 		System.out.println("解码内容如下：" + decodeContent);
 		System.out.println("finished zxing EAN-13 decode.");
 		
-		// 二维码
+
 		String imgPath2 = "target\\zxing.png";
 		String contents2 = "Hello Gem, welcome to Zxing!"
 				+ "\nBlog [ http://thinkgem.iteye.com ]"

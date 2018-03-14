@@ -8,9 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-/**
- * Created by joseph on 2017/8/3.
- */
+
 
 @Controller
 @RequestMapping(value="${adminPath}/test666")

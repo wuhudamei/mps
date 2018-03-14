@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import java.util.Date;
@@ -11,27 +9,23 @@ import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import cn.damei.common.persistence.DataEntity;
 import cn.damei.common.utils.StringUtils;
 
-/**
- * 日志Entity
- * @author ThinkGem
- * @version 2014-8-19
- */
+
 public class Log extends DataEntity<Log> {
 
 	private static final long serialVersionUID = 1L;
-	private String type; 		// 日志类型（1：接入日志；2：错误日志）
-	private String title;		// 日志标题
-	private String remoteAddr; 	// 操作用户的IP地址
-	private String requestUri; 	// 操作的URI
-	private String method; 		// 操作的方式
-	private String params; 		// 操作提交的数据
-	private String userAgent;	// 操作用户代理信息
-	private String exception; 	// 异常信息
+	private String type;
+	private String title;
+	private String remoteAddr;
+	private String requestUri;
+	private String method;
+	private String params;
+	private String userAgent;
+	private String exception;
 	
-	private Date beginDate;		// 开始日期
-	private Date endDate;		// 结束日期
+	private Date beginDate;
+	private Date endDate;
 	
-	// 日志类型（1：接入日志；2：错误日志）
+
 	public static final String TYPE_ACCESS = "1";
 	public static final String TYPE_EXCEPTION = "2";
 	
@@ -123,10 +117,7 @@ public class Log extends DataEntity<Log> {
 		this.endDate = endDate;
 	}
 	
-	/**
-	 * 设置请求参数
-	 * @param paramMap
-	 */
+
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void setParams(Map paramMap){
 		if (paramMap == null){

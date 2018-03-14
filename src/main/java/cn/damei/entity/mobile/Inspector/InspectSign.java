@@ -3,28 +3,22 @@ package cn.damei.entity.mobile.Inspector;
 import java.io.Serializable;
 import java.util.Date;
 
-/**
- * 质检员签到
- * @author 93173
- *
- */
+
 public class InspectSign  implements  Serializable{
 
 	
 	
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
-	private Integer id; //签到id
-	private String signType;//签到类型      质检员签到 301
-	private Integer relatedBusinessId;//关联业务表id   质检单id
-	private Integer signEmployeeId;//签到人id   质检员id
-	private Date signDateTime;//签到时间
-	private String signAddress;//签到地址
-	private String signXy;//签到坐标
-	private Double signErrorDistance;//签到误差
-	private String remarks;//备注
+	private Integer id;
+	private String signType;
+	private Integer relatedBusinessId;
+	private Integer signEmployeeId;
+	private Date signDateTime;
+	private String signAddress;
+	private String signXy;
+	private Double signErrorDistance;
+	private String remarks;
 	private Integer createBy;
 	private Date createDate;
 	private Integer updateBy;

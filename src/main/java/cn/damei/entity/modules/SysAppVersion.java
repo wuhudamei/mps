@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import org.hibernate.validator.constraints.Length;
@@ -8,21 +6,17 @@ import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 手机app版本Entity
- * @author qww
- * @version 2016-12-27
- */
+
 public class SysAppVersion extends DataEntity2<SysAppVersion> {
 	
 	private static final long serialVersionUID = 1L;
-	private String appType;		// app类型 -- '
-	private String phoneType;		// 手机类型 -- '
-	private String version;		// 版本号 -- '
-	private String downloadUrl;		// 下载url -- '
-	private Integer uploadEmployeeId;		// 上传人 -- '
-	private Date uploadDatetime;		// 上传日期时间 -- '
-	private String isEnabled;		// 是否可用 -- '
+	private String appType;
+	private String phoneType;
+	private String version;
+	private String downloadUrl;
+	private Integer uploadEmployeeId;
+	private Date uploadDatetime;
+	private String isEnabled;
 
 	private String appName;
 	private String type;

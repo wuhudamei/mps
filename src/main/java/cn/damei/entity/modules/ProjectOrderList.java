@@ -6,33 +6,31 @@ import cn.damei.common.persistence.DataEntity;
 
 public class ProjectOrderList extends DataEntity<ProjectOrderList> {
 
-	/**
-	 * 工程订单列表
-	 */
+
 	private static final long serialVersionUID = 1L;
-	private Integer orderId;// 订单id
-	private List<String> flag;// 订单id
+	private Integer orderId;
+	private List<String> flag;
 	private Integer storeId;
-	private String projectMode;// 工程模式
-	private String orderNumber; // 订单编号
-	private String customerName; // 客户姓名
-	private String customerPhone; // 客户电话
-	private String status;// 订单状态
-	private String designerName; // 设计师姓名
-	private String designerPhone; // 设计师电话
-	private String beginCreateDate; // 开始 创建时间
-	private String endCreateDate; // 结束 创建时间
-	private String engineDepartId;// 区域ID
-	private List<String> orderIds;// 订单id
-	private String choiceBillId;// 选材系统ID
-	private String drawingFlag; // 图纸标识
-	private String attachedFlag;// 附件标识
-	private String wallAndFloorFlag;// 墙地砖标识
-	private String MaterialFlag;// 主材标识
-	private String orderStatusNumber;// 订单状态
-	private String isScrap; // 是否作废
-	private String engindepartid; // 是否作废
-	private String isMaterial; // 是否有选材清单
+	private String projectMode;
+	private String orderNumber;
+	private String customerName;
+	private String customerPhone;
+	private String status;
+	private String designerName;
+	private String designerPhone;
+	private String beginCreateDate;
+	private String endCreateDate;
+	private String engineDepartId;
+	private List<String> orderIds;
+	private String choiceBillId;
+	private String drawingFlag;
+	private String attachedFlag;
+	private String wallAndFloorFlag;
+	private String MaterialFlag;
+	private String orderStatusNumber;
+	private String isScrap;
+	private String engindepartid;
+	private String isMaterial;
 
 	public String getOrderStatusNumber() {
 		return orderStatusNumber;

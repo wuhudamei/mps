@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import java.util.ArrayList;
@@ -43,12 +41,7 @@ import cn.damei.entity.modules.User;
 import cn.damei.common.utils.DropUtils;
 import cn.damei.common.utils.UserUtils;
 
-/**
- * 工人组管理Controller（修改权限）
- * 
- * @author ws
- * @version 2017-09-13
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/empStar/empStarAdjustment")
 public class BizEmpStarAdjustmentController extends BaseController {
@@ -77,7 +70,7 @@ public class BizEmpStarAdjustmentController extends BaseController {
 		BizEmployeegroup entity = null;
 		if (StringUtils.isNotBlank(id)) {
 			entity = bizEmployeegroupService.get(id);
-			// 关联数据
+
 			BizEmgrouprelation relation = new BizEmgrouprelation();
 			relation.setGroupId(id);
 			List<BizEmgrouprelation> empGropRelation = bizEmGroupRelationService.findList(relation);
@@ -99,28 +92,26 @@ public class BizEmpStarAdjustmentController extends BaseController {
 	public String list(BizEmployeegroupVO bizEmployeegroup, HttpServletRequest request, HttpServletResponse response, Model model) {
 
 		if (UserUtils.getUser().getStoreId() != null) {
-			// 当前登录用户门店
+
 			bizEmployeegroup.setStoreId(UserUtils.getUser().getStoreId());
 		} else {
-			// 门店是总部的查询所有部门信息
+
 			if (bizEmployeegroup.getStoreId() == null || bizEmployeegroup.getStoreId().equals("1")) {
 				bizEmployeegroup.setStoreId("2");
 			}
 		}
-		/**
-		 * 工程模式控制
-		 */
+
 		User user = UserUtils.getUser();
 		String projectMode = user.getProjectMode();
 		if(projectMode.equals("3") || projectMode.equals("2")){
-			/*bizEmployeegroup.setProjectMode(null);*/
+
 		}else{
 			bizEmployeegroup.setProjectMode(projectMode);
 			model.addAttribute("projectModeEnable", true);
 		}
 		
 
-		// 区域
+
 		if (StringUtils.isBlank(bizEmployeegroup.getElactricationId())) {
 			if (StringUtils.isNoneBlank(UserUtils.getUser().getEmpId())) {
 				List<Integer> list = bizEmployeeService2.findEngineIdsByEmpId(Integer.parseInt(UserUtils.getUser().getEmpId()));
@@ -154,16 +145,16 @@ public class BizEmpStarAdjustmentController extends BaseController {
 			BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
 			if (null != be.getProjectMode()) {
 				if (be.getProjectMode().equals(ConstantUtils.EMPLOYEE_PROJECT_MODE_3)) {
-					// bizEmployee.setProjectMode(ConstantUtils.EMPLOYEE_PROJECT_MODE_1);
+
 					model.addAttribute("projectMode", ConstantUtils.EMPLOYEE_PROJECT_MODE_1);
 				} else {
-					// bizEmployee.setProjectMode(be.getProjectMode());
-					// model.addAttribute("projectModeEnable",true);
+
+
 					model.addAttribute("projectMode", be.getProjectMode());
 				}
 			}
 		} else {
-			// bizEmployee.setProjectMode(ConstantUtils.EMPLOYEE_PROJECT_MODE_1);
+
 			model.addAttribute("projectMode", ConstantUtils.EMPLOYEE_PROJECT_MODE_1);
 		}
 		if (bizEmployeegroup.getOrderstop() == null) {
@@ -196,24 +187,12 @@ public class BizEmpStarAdjustmentController extends BaseController {
 		return "redirect:"+Global.getAdminPath()+"/empStar/empStarAdjustment/list";
 	}
 
-	/**
-	 * 根据门店 和工种
-	 * 
-	 * @Title: ajaxemployeegroup
-	 * @Description: TODO
-	 * @param @param bizEmployeegroup
-	 * @param @param model
-	 * @param @param request
-	 * @param @return
-	 * @return String
-	 * @author ZhangTongWei
-	 * @throws
-	 */
+
 	@ResponseBody
 	@RequestMapping(value = "ajaxemployeegroup")
 	public Map<String, Object> ajaxemployeegroup(BizEmployeegroupVO bizEmployeegroupVO, Model model, HttpServletRequest request) {
-		// List<BizEmgrouprelation> bizEmgrouprelationlist =
-		// bizEmGroupRelationService.queryemployeegroup(bizEmployeegroup);
+
+
 		List<BizEmployeegroupVO> bizEmployeegroupVOList = bizEmployeegroupVoService.queryemployeegroup(bizEmployeegroupVO);
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		resultMap.put("resultMap", bizEmployeegroupVOList);

@@ -8,9 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import java.util.*;
 
-/**
- * Created by qww on 2016/12/1.
- */
+
 public class ProjectProgressBoningQuartz {
 
     private static Logger logger = LoggerFactory.getLogger(ProjectProgressBoningQuartz.class);
@@ -24,11 +22,11 @@ public class ProjectProgressBoningQuartz {
             for(BizProjectProgressBoning boning:list){
                 try{
                     BizProjectProgressBoning projectProgressBoning = bizProjectProgressBoningService.queryByOrderId(boning.getOrderId());
-                    if(projectProgressBoning != null){ // 不为空，更新
+                    if(projectProgressBoning != null){
                         bizProjectProgressBoningService.queryOrderAllNode(boning);
                         boning.setUpdateDate(new Date());
                         bizProjectProgressBoningService.updateByOrderId(boning);
-                    }else{ // 为空，新增
+                    }else{
                         bizProjectProgressBoningService.queryOrderAllNode(boning);
                         boning.setCreateDate(new Date());
                         boning.setUpdateDate(new Date());
@@ -36,16 +34,11 @@ public class ProjectProgressBoningQuartz {
                     }
                 }catch (Exception e){
                     logger.info(e.getMessage());
-                   // throw e;
+
                 }
             }
         }
     }
 
-   /* public static void main(String[] arg) throws Exception{
-        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
-        Date smdate=sdf.parse("2016-12-12");
-        Date bdate=sdf.parse("2016-12-31");
-        System.out.println(daysBetween(smdate, bdate));
-    }*/
+
 }

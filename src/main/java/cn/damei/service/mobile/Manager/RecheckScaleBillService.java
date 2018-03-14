@@ -14,11 +14,7 @@ import cn.damei.common.utils.DateUtils;
 import cn.damei.dao.mobile.Manager.RecheckScaleBillDao;
 import cn.damei.entity.mobile.Manager.RecheckScaleBill;
 
-/**
- * 上报复尺(20161107-20161113)
- * @author llp
- * 2016-11-15
- */
+
 @Service
 @Transactional(readOnly = true)
 public class RecheckScaleBillService extends CrudService2<RecheckScaleBillDao,RecheckScaleBill>{
@@ -47,7 +43,7 @@ public class RecheckScaleBillService extends CrudService2<RecheckScaleBillDao,Re
 			scaleBill.setType(ConstantUtils.COMPLEX_CONTENT_MAP_6);
 		}
 		scaleBill.setPlanInstallDate(DateUtils.parseDate(planInstallDate));
-		scaleBill.setStatus("0");//0：项目经理已申请、1：材料部已接收
+		scaleBill.setStatus("0");
 		scaleBill.setRemarks("项目经理已申请");
 		scaleBill.setCreateDate(DateUtils.addDate(new Date(), 0));
 		scaleBill.setCreatePeo(managerID.toString());;
@@ -61,23 +57,15 @@ public class RecheckScaleBillService extends CrudService2<RecheckScaleBillDao,Re
 		return idKey;
 	}
 
-	/**
-	 * 根据订单编号获取所有数据
-	 * @param orderID
-	 * @return List
-	 */
+
 	public List<RecheckScaleBill> queryListByOrderID(Integer orderID) {
-		// TODO Auto-generated method stub
+
 		return recheckScaleBillDao.queryListByOrderID(orderID);
 	}
 
-	/**
-	 * 根据主键获取完整信息
-	 * @param recheckIDs
-	 * @return bean
-	 */
+
 	public RecheckScaleBill getByID(Integer recheckIDs) {
-		// TODO Auto-generated method stub
+
 		return recheckScaleBillDao.getByID(recheckIDs);
 	}
 	

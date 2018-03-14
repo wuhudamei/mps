@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.util.List;
@@ -13,11 +11,7 @@ import cn.damei.common.service.CrudService2;
 import cn.damei.entity.modules.BizMainMaterials;
 import cn.damei.dao.modules.BizMainMaterialsDao;
 
-/**
- * 主材管理Service
- * @author qww
- * @version 2016-10-10
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizMainMaterialsService extends CrudService2<BizMainMaterialsDao, BizMainMaterials> {

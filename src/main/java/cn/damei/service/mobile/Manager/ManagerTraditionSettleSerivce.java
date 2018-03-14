@@ -19,9 +19,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-/**
- * Created by joseph on 2017/4/14.
- */
+
 @Service
 @Transactional(readOnly = true)
 public class ManagerTraditionSettleSerivce {
@@ -29,33 +27,21 @@ public class ManagerTraditionSettleSerivce {
     private ManagerTraditionSettleDao dao;
 
 
-    /**
-     * 根据经理id查询该经理下的所有订单
-     * @param request
-     * @return ManagerTraditionSettleEntity
-     */
+
     public List<ManagerTraditionSettleEntity> findSettleOrderList(HttpServletRequest request,ManagerTraditionSettleEntity entity){
        Integer managerId= SessionUtils.getManagerSession(request).getId();
     entity.setItemManagerId(managerId);
         return dao.findSettleOrderList(entity);
     }
 
-    /**
-     * 根据订单id,查询结算模板节点及对应结算状态 和一些限制条件
-     * @param orderId
-     * @return ManagerTraditionSettleEntity
-     */
+
     public ManagerTraditionSettleEntity findSettleInfoByOrderId(Integer orderId){
 
 
         return dao.findSettleInfoByOrderId(orderId);
 
     }
-    /**
-     * 第一次申请
-     * @param orderId
-     * @return
-     */
+
 
     public ManagerTraditionSettleEntity findSettleInfoDetailByIndexAndOrderId(String orderId,String index){
 
@@ -63,9 +49,7 @@ public class ManagerTraditionSettleSerivce {
         return dao.findSettleInfoDetailByIndexAndOrderId(orderId,index);
     }
 
-    /**
-     * 重新业务梳理, 验收bug修复sql
-     */
+
     public  List<Integer> findIsCheckDoneInfoByOrderId(Integer orderId){
 
 
@@ -83,17 +67,17 @@ public class ManagerTraditionSettleSerivce {
       Manager manager = (SessionUtils.getManagerSession(request));
         ManagerNormalSettle settle=null;
         if(null!=entity ){
-//防止重复提交
+
             Integer count =dao.checkIsSettleExist(entity.getOrderId(),entity.getSettleNodeId());
 
             if(count>0){
-                //防止重复提交
+
                 return "3";
 
             }
 
          settle= new ManagerNormalSettle();
-            //有了orderId,settleNodeId ,remarks,storeId
+
             settle.setOrderEntity(entity);
             settle.setApplyEmpId(manager.getId());
             settle.setApplyTime(date);
@@ -121,10 +105,10 @@ public class ManagerTraditionSettleSerivce {
 
                 String uuid = UUID.randomUUID().toString().replaceAll("-", "");
 
-                // String rootPath = RootName.SystemEnvironment(request);
+
                 String rootPath = request.getSession().getServletContext().getRealPath("");
                 File filePath = new File(rootPath + PicturePathContantUtil.UPLOAD_MANAGER_SETTLE_APPLY_UPLOAD_PHOTO + DateUtils.getDate1());
-                // 判断该文件是否存在
+
                 if (!filePath.exists() && !filePath.isDirectory()) {
                     filePath.mkdirs();
                 }
@@ -133,7 +117,7 @@ public class ManagerTraditionSettleSerivce {
 
                 String picpath = PicturePathContantUtil.UPLOAD_MANAGER_SETTLE_APPLY_UPLOAD_PHOTO + DateUtils.getDate1() + filePath.separator + uuid
                         + ".jpeg";
-                // 保存图片到数据库
+
 
                 businessPicService.insertPhotos(photos[vr],SettleStatusConstantUtil.SETTLE_PIC_TYPE_666,settle==null?0:settle.getSettleId(),picpath);
 
@@ -149,11 +133,7 @@ public class ManagerTraditionSettleSerivce {
 
 
 
-    /**
-     * 之后状态查看结算单的详情
-     * @param settleId
-     * @return 子类映射
-     */
+
     public List<ManagerNormalSettle> findSettleInfoDetailBySettleId(String settleId){
 
 

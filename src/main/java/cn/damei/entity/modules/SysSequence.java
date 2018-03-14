@@ -1,25 +1,19 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import org.hibernate.validator.constraints.Length;
 
 import cn.damei.common.persistence.DataEntity;
 
-/**
- * 编号序列管理Entity
- * @author 魏建勇
- * @version 2016-08-21
- */
+
 public class SysSequence extends DataEntity<SysSequence> {
 	
 	private static final long serialVersionUID = 1L;
-	private String name;		// name
-	private String prefix;		// prefix
-	private String currentValue;		// current_value
-	private String increment;		// increment
-	private String maxlength;		// maxlength
+	private String name;
+	private String prefix;
+	private String currentValue;
+	private String increment;
+	private String maxlength;
 	
 	public SysSequence() {
 		super();

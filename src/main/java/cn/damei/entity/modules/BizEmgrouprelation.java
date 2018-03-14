@@ -1,31 +1,23 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import cn.damei.common.persistence.DataEntity;
 
-/**
- * 工人组关联表Entity
- * @author qhy
- * @version 2016-08-28
- */
+
 public class BizEmgrouprelation extends DataEntity<BizEmgrouprelation> {
 	
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
-	private String empId;//工人ID
-	private String groupId;		// 组ID
+	private String empId;
+	private String groupId;
 	private String isLeader;  
 	private String salaryRatio;
-	private String empName; //姓名
-	private String managerName;//项目经理姓名
-	private String managerId;//
-	private String no;//工人编号
-	private String workType;//工种
-	private String groupName;//
+	private String empName;
+	private String managerName;
+	private String managerId;
+	private String no;
+	private String workType;
+	private String groupName;
 	public BizEmgrouprelation() {
 		super();
 	}

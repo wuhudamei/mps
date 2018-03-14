@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import org.hibernate.validator.constraints.Length;
@@ -13,65 +11,61 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import cn.damei.common.persistence.DataEntity;
 
-/**
- * 订单任务包审核Entity
- * @author llp
- * @version 2016-09-24
- */
+
 public class OrderTaskpackageAudit extends DataEntity<OrderTaskpackageAudit> {
 	
 	private static final long serialVersionUID = 1L;
-	private String storeId;		// 门店Id
-	private String orderId;		// 订单Id
-	private String isScrap;//是否作废
+	private String storeId;
+	private String orderId;
+	private String isScrap;
 
-	private String picId;		// 任务包图片id
-	private String packageCode;		// 任务包编号
-	private String packageName;		// 任务包名称
-	private Date planStartdate;		// 计划开工日期
-	private Date planEnddate;		// 计划完工日期
-	private Date actualStartdate;		// 实际开工日期
-	private Date actualEnddate;		// 实际完工日期
-	private String packageStateid;		// 任务包状态Id
-	private String packageStatename;		// 任务包状态名称
-	private String empGroupid;		// 工人组ID
-	private String groupId;		// 组长ID
-	private String groupRealname;		// 组长真实姓名
-	private String itemCustomer;		// 项目经理
-	private String taskPackageType;		// 任务包类型
-	private String dispatcher;		// 调度员
-	private String customerName;		// 客户姓名
-	private String customerPhone;		// 客户姓名
-	private String customerMessage;		// 客户信息
-	private Date dispatchTime;		// 派工时间
-	private String isOvertime;		// 是否超时 0未超时 1超时
-	private String total;		// 任务包下工序的总价
-	private String itemManagerId;		// 项目经理id
+	private String picId;
+	private String packageCode;
+	private String packageName;
+	private Date planStartdate;
+	private Date planEnddate;
+	private Date actualStartdate;
+	private Date actualEnddate;
+	private String packageStateid;
+	private String packageStatename;
+	private String empGroupid;
+	private String groupId;
+	private String groupRealname;
+	private String itemCustomer;
+	private String taskPackageType;
+	private String dispatcher;
+	private String customerName;
+	private String customerPhone;
+	private String customerMessage;
+	private Date dispatchTime;
+	private String isOvertime;
+	private String total;
+	private String itemManagerId;
 	
-	private String orderTaskPackageCode;//
+	private String orderTaskPackageCode;
 	
-	private String orderNumber;//订单编号
-	private String communityName;		// 小区名称
-	private String buildNumber;		// 几号楼
-	private String buildUnit;		// 几单元
-	private String buildRoom;		// 哪一室 
-	private String projectMode;//工程模式 -- '1-产业模式；4-准产业
+	private String orderNumber;
+	private String communityName;
+	private String buildNumber;
+	private String buildUnit;
+	private String buildRoom;
+	private String projectMode;
 	
-	private String empRealName;//员工姓名
-	private String empPhone;//员工姓名
-	private Integer empId;//员工编号
+	private String empRealName;
+	private String empPhone;
+	private Integer empId;
 	private Integer engineDepartId;
 	private String departmentName;
 	private List<Integer> enginDepartIds = new ArrayList<Integer>();
 	
-	private String customerAddress;// 客户地址
+	private String customerAddress;
 	private List<String> packageStateids = null;
 	private String startPackageStateId;
 	private String endPackageStateId;
-	private Date packCreateTime;//生成任务包时间
-	private String packCreateBy;//生成任务包操作人
-	private Date packAuditTime;// 任务包审核通过时间
-	private String packAuditName;// 任务包审核通过操作人
+	private Date packCreateTime;
+	private String packCreateBy;
+	private Date packAuditTime;
+	private String packAuditName;
 
 	private Date createStartDate;
 

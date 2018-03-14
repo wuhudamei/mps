@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,11 +19,7 @@ import cn.damei.common.web.BaseController;
 import cn.damei.entity.modules.BizQcLongwayCommissionCnfgSnap;
 import cn.damei.service.modules.BizQcLongwayCommissionCnfgSnapService;
 
-/**
- * 质检员远程费快照Controller
- * @author 汪文文
- * @version 2017-02-13
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/bizqclongwaycommissioncnfgsnap/bizQcLongwayCommissionCnfgSnap")
 public class BizQcLongwayCommissionCnfgSnapController extends BaseController {

@@ -1,18 +1,4 @@
-/*
- *    Copyright 2009-2013 the original author or authors.
- *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
- *
- *       http://www.apache.org/licenses/LICENSE-2.0
- *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
- */
+
 package org.apache.ibatis.builder.xml;
 
 import java.io.InputStream;
@@ -47,10 +33,7 @@ import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.TypeHandler;
 
-/**
- * @author Clinton Begin
- * @description 增加解析方法，原方法不解析相同的resource
- */
+
 public class XMLMapperBuilder extends BaseBuilder {
 
 	private XPathParser parser;
@@ -110,13 +93,13 @@ public class XMLMapperBuilder extends BaseBuilder {
 		parsePendingStatements();
 	}
 
-	// TODO 增加解析方法，原方法不解析相同的resource
+
 	public void parse1() {
-		// if (!configuration.isResourceLoaded(resource)) {
+
 		configurationElement(parser.evalNode("/mapper"));
 		configuration.addLoadedResource(resource);
 		bindMapperForNamespace();
-		// }
+
 
 		parsePendingResultMaps();
 		parsePendingChacheRefs();
@@ -178,7 +161,7 @@ public class XMLMapperBuilder extends BaseBuilder {
 					iter.next().resolve();
 					iter.remove();
 				} catch (IncompleteElementException e) {
-					// ResultMap is still missing a resource...
+
 				}
 			}
 		}
@@ -194,7 +177,7 @@ public class XMLMapperBuilder extends BaseBuilder {
 					iter.next().resolveCacheRef();
 					iter.remove();
 				} catch (IncompleteElementException e) {
-					// Cache ref is still missing a resource...
+
 				}
 			}
 		}
@@ -211,7 +194,7 @@ public class XMLMapperBuilder extends BaseBuilder {
 					iter.next().parseStatementNode();
 					iter.remove();
 				} catch (IncompleteElementException e) {
-					// Statement is still missing a resource...
+
 				}
 			}
 		}
@@ -288,7 +271,7 @@ public class XMLMapperBuilder extends BaseBuilder {
 			try {
 				resultMapElement(resultMapNode);
 			} catch (IncompleteElementException e) {
-				// ignore, it will be retried
+
 			}
 		}
 	}
@@ -408,8 +391,8 @@ public class XMLMapperBuilder extends BaseBuilder {
 			if (databaseId != null) {
 				return false;
 			}
-			// skip this fragment if there is a previous one with a not null
-			// databaseId
+
+
 			if (this.sqlFragments.containsKey(id)) {
 				XNode context = this.sqlFragments.get(id);
 				if (context.getStringAttribute("databaseId") != null) {
@@ -468,15 +451,15 @@ public class XMLMapperBuilder extends BaseBuilder {
 			try {
 				boundType = Resources.classForName(namespace);
 			} catch (ClassNotFoundException e) {
-				// ignore, bound type is not required
+
 			}
 			if (boundType != null) {
 				if (!configuration.hasMapper(boundType)) {
-					// Spring may not know the real resource name so we set a
-					// flag
-					// to prevent loading again this resource from the mapper
-					// interface
-					// look at MapperAnnotationBuilder#loadXmlResource
+
+
+
+
+
 					configuration.addLoadedResource("namespace:" + namespace);
 					configuration.addMapper(boundType);
 				}

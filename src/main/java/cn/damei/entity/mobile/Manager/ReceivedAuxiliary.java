@@ -5,19 +5,19 @@ import cn.damei.common.persistence.DataEntity2;
 public class ReceivedAuxiliary extends DataEntity2<ReceivedAuxiliary>{
 	
 	private static final long serialVersionUID = 1L;
-	//private Integer id; //辅料采购单id
-	private Integer purchaseId; //采购单id
-	private String mateCode; //辅材编号
-	private Double count; //申请数量
-	private Double receivedCount; //收货数量
-	private Double owedCount; //欠货数量
-	private String name; //辅材名称
+
+	private Integer purchaseId;
+	private String mateCode;
+	private Double count;
+	private Double receivedCount;
+	private Double owedCount;
+	private String name;
 	private String specifications;
-	private String brands; //品牌
-	private String picUrl; //图片
-	private String unit; //单位
-	private Double receivedNumber;//本次收货的数量
-	private String model; //型号
+	private String brands;
+	private String picUrl;
+	private String unit;
+	private Double receivedNumber;
+	private String model;
 	
 	public String getModel() {
 		return model;

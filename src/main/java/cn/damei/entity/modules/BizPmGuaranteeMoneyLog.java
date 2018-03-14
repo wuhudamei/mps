@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import java.util.Date;
@@ -8,20 +6,16 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 质保金日志Entity
- * @author 汪文文
- * @version 2017-01-05
- */
+
 public class BizPmGuaranteeMoneyLog extends DataEntity2<BizPmGuaranteeMoneyLog> {
 	
 	private static final long serialVersionUID = 1L;
-	private Integer pmEmployeeId;		// 项目经理员工id -- '
-	private Integer orderId;		// 订单id -- '
-	private Double takeoffAmount;		// 质保金上缴金额 -- '
-	private Date takeoffDatetime;		// 质保金上缴日期时间 -- '
-	private Double takeoffAmountTotal;		// 质保金累积上缴金额 -- '
-	private Double guaranteeMoneyBalance;//质保金余额
+	private Integer pmEmployeeId;
+	private Integer orderId;
+	private Double takeoffAmount;
+	private Date takeoffDatetime;
+	private Double takeoffAmountTotal;
+	private Double guaranteeMoneyBalance;
 	
 	public BizPmGuaranteeMoneyLog() {
 		super();

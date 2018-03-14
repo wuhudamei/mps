@@ -18,11 +18,7 @@ import cn.damei.entity.mobile.home.Order;
 import cn.damei.entity.mobile.home.Report;
 import cn.damei.service.mobile.home.HomeReportService;
 
-/**
- * 客户端 质检报告
- * @author Administrator
- *
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/app/home/report")
 public class HomeReportController {
@@ -32,18 +28,13 @@ public class HomeReportController {
 
 	
 
-	/**
-	 * 质检报告列表页
-	 * @param request
-	 * @param model
-	 * @return
-	 */
+
 	@RequestMapping(value = "list")
 	public String list(Integer orderId,HttpServletRequest request, Model model) {
 		
 		String customerPhone = (String) request.getSession().getAttribute("customerPhone");
 		
-		//查询质检报告
+
 		Order order = reportService.findQcBill(customerPhone,orderId);
 		
 		if(null!=order){
@@ -60,7 +51,7 @@ public class HomeReportController {
 			model.addAttribute("order", order);
 		}
 		
-		//查询订单列表
+
 		List<Order> list = reportService.findOrderList(customerPhone);
 		if(null!=list && list.size()>0){
 			if(list.size()>1){
@@ -76,26 +67,20 @@ public class HomeReportController {
 	
 
 
-	/**
-	 * 根据质检报告详情
-	 * 
-	 * @param model
-	 * @param qcBillId
-	 * @return
-	 */
+
 	@RequestMapping(value = "details")
 	public String details(Model model,HttpServletRequest request, Integer qcBillId) {
 
 		String customerPhone = (String) request.getSession().getAttribute("customerPhone");
 		
-		//查看消息是否已读
+
 		Integer count = reportService.findView(qcBillId,customerPhone);
 		if(count==0){
-			//如果未读则插入已读信息
+
 			reportService.insertView(qcBillId,customerPhone);
 		}
 		
-		//质检报告详情
+
 		Report report = reportService.reportDetail(qcBillId);
 		if(null!=report){
 			model.addAttribute("report", report);
@@ -106,18 +91,13 @@ public class HomeReportController {
 		return "mobile/modules/home/report/reportDetails";
 	}
 	
-	/**
-	 * 质检图片
-	 * @param model
-	 * @param qcBillId
-	 * @return
-	 */
+
 	@RequestMapping(value = "reportPic")
 	public String reportPic(Model model, Integer qcBillId) {
 
-		//质检图片
+
 		List<ReportCheckDetailsPic> picList = reportService.findPic(qcBillId);
-		//图片前缀
+
 		String baseUrl = reportService.findPicBefore();
 		
 		if(null!=picList && picList.size()>0 && null != baseUrl && !baseUrl.equals("")){
@@ -127,17 +107,11 @@ public class HomeReportController {
 		return "mobile/modules/home/report/pic";
 	}
 	
-	/**
-	 * 违规形式及处理方式
-	 * @param qcBillItemId
-	 * @param request
-	 * @param model
-	 * @return
-	 */
+
 	@RequestMapping(value = "checkBreak",method=RequestMethod.GET)
 	public @ResponseBody CheckItem checkBreak(Integer qcBillItemId,HttpServletRequest request, Model model) {
 		
-		//违规形式及处理方式
+
 		CheckItem checkItem = reportService.findCheckBreak(qcBillItemId);
 			return checkItem;
 	}

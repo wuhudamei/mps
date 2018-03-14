@@ -2,40 +2,36 @@ package cn.damei.entity.modules;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 质保金余额实体类
- * @author hyh
- *
- */
+
 public class BizGuaranteeMoneyBalance extends DataEntity2<BizGuaranteeMoneyBalance>{
 
 	private static final long serialVersionUID = 1L;
 	
-    private Integer employeeId;//员工Id
+    private Integer employeeId;
     
-    private Double guaranteeMoneyBalance; //质保金余额
+    private Double guaranteeMoneyBalance;
     
-    private Double guaranteeMoneyAmountPaidSettle;//质保金结算上缴总额
+    private Double guaranteeMoneyAmountPaidSettle;
     
-    private Double guaranteMoneyAmountPaidOffline;//质保金线下上缴总额
+    private Double guaranteMoneyAmountPaidOffline;
     
-    private Double guaranteeMoneyAmountPaidUsed;//质保金使用总额
+    private Double guaranteeMoneyAmountPaidUsed;
     
-    private String storeId;// 门店Id
+    private String storeId;
 
-	private String projectMode;// 工程模式
+	private String projectMode;
 
-	private Integer engineDepartId;// 区域
+	private Integer engineDepartId;
 	
-	private String empType;//人员类型 1：项目经理 2：工人 
+	private String empType;
 	
-    private String empName;//员工姓名
+    private String empName;
 	
-	private String empPhone;//员工手机号 
+	private String empPhone;
 	
-	private String workType;//工种
+	private String workType;
 	
-	private String star;//星级
+	private String star;
 
 	
 	public String getWorkType() {

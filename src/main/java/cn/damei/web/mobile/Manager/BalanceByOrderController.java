@@ -25,7 +25,7 @@ public class BalanceByOrderController {
 
 	@RequestMapping(value = { "list", "" })
 	public String list(PmSettlementBudget pmSettlementBudget, Model model, HttpServletRequest request) {
-		// 根据登录查询订单
+
 		pmSettlementBudget.setPmEmployeeId(SessionUtils.getManagerSession(request).getId());
 		List<PmSettlementBudget> list = service.orderByManagerId(pmSettlementBudget);
 		model.addAttribute("list", list);
@@ -42,7 +42,7 @@ public class BalanceByOrderController {
 
 		if (StringUtils.isNotBlank(id)) {
 			OrderSignVo orderVo = new OrderSignVo();
-			// 根据经理id 订单id查询 结算单
+
 			orderVo.setId(Integer.parseInt(id));
 			orderVo.setItemManagerId(Integer.parseInt(managerId));
 			List<balanceDetail> list = service.findBalanceDetailByOrderId(orderVo);

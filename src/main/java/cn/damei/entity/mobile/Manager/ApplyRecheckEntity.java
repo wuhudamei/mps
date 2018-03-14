@@ -3,32 +3,26 @@ package cn.damei.entity.mobile.Manager;
 import java.io.Serializable;
 import java.util.Date;
 
-/**
- * 复检单VO
- * @author 93173
- *
- */
+
 public class ApplyRecheckEntity implements Serializable{
 
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	
-	private  String orderCustomerName;//顾客名字
-	private String orderCustomerAddress;//顾客地址
-	private Date actualContractStartDate;//实际开工日期
-	private Integer contractDays;////工期
-	private Integer recheckId;//复检单id
-	private String recheckType;//复检单类型(约检, 抽检)
-	private String recheckStatus;//复检单当前状态
-	private Integer relatedBillId;//关联的(约检)质检单
-	private Integer managerId;//订单项目经理id
-	private Integer checkItemId;//检查项id
-	private String isPassed;//是否合格
-	private String checkItemName;//检查项名称
-	private String changeWay;//检查方式, 线上还是线下
-	private Date hopeApplyDate; //期望验收日期
+	private  String orderCustomerName;
+	private String orderCustomerAddress;
+	private Date actualContractStartDate;
+	private Integer contractDays;
+	private Integer recheckId;
+	private String recheckType;
+	private String recheckStatus;
+	private Integer relatedBillId;
+	private Integer managerId;
+	private Integer checkItemId;
+	private String isPassed;
+	private String checkItemName;
+	private String changeWay;
+	private Date hopeApplyDate;
 	
 	public Date getHopeApplyDate() {
 		return hopeApplyDate;

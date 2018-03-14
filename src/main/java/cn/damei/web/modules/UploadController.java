@@ -12,25 +12,12 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.util.*;
 
-/**
- * 文件上传工具类
- * 
- * @author yangdc
- * @date Apr 18, 2012
- * 
- * <pre>
- * </pre>
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/upload")
 public class UploadController {
 
-	/**
-	 * 文件上传
-	 * 
-	 * @param request
-	 * @return infos info[0] 验证文件域返回错误信息 info[1] 上传文件错误信息 info[2] savePath info[3] saveUrl info[4] fileUrl
-	 */
+
 	@RequestMapping(value = "/uploadFile")
 	public void uploadFile(HttpServletRequest request, HttpServletResponse response) {
 		BufferedOutputStream bos = null;

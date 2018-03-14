@@ -1,22 +1,16 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import org.hibernate.validator.constraints.Length;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * llpEntity
- * @author llp
- * @version 2016-10-11
- */
+
 public class BizNodePlanPic extends DataEntity2<BizNodePlanPic> {
 	
 	private static final long serialVersionUID = 1L;
-	private String nodePlanId;		// 节点计划id -- '
-	private String picUrl;		// 图片url -- '
+	private String nodePlanId;
+	private String picUrl;
 	
 	public BizNodePlanPic() {
 		super();

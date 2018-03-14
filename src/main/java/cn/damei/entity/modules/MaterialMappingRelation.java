@@ -7,18 +7,18 @@ import cn.damei.common.persistence.DataEntity;
 public class MaterialMappingRelation extends DataEntity<MaterialMappingRelation>{
 	
 	private String storeId;
-	private String categoryOne;//一级类目
+	private String categoryOne;
 	private String categoryOneName;
-	private String categoryTwo;//二级类目
+	private String categoryTwo;
 	private String categoryTwoName;
-	private String installItemId;//安装项
+	private String installItemId;
 	private String installItemName;
-	private String userName; //修改人姓名
-	private Date mtime; //修改时间
+	private String userName;
+	private Date mtime;
 	private String id;
-	private String projectMode;//工程模式
-	private String storeName; //门店 名称
-	private String projectModeName;//工程模式 名称
+	private String projectMode;
+	private String storeName;
+	private String projectModeName;
 
 	public String getStoreName() {
 		return storeName;

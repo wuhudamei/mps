@@ -4,28 +4,22 @@ import java.util.Date;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/** 
-* @author 梅浩   meihao@zzhyun.cn: 
-* @version 创建时间：2016年10月10日 下午2:58:20 
-* 开关面板Vo
-*/
+
 
 public class SwitchPanelVo extends DataEntity2<SwitchPanelVo> {
 
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 
 	
 
 	
-	private Integer id; //主材商品表id
-	private Integer orderId;//订单id
-	private Integer purchaseId;//采购单id
+	private Integer id;
+	private Integer orderId;
+	private Integer purchaseId;
 	private Integer receivedCount;
 	private Integer owedCount;
-	private String isCount;//是否计算 数量限制  1:计算 0:不计算
+	private String isCount;
 	
 	public String getIsCount() {
 		return isCount;
@@ -51,19 +45,19 @@ public class SwitchPanelVo extends DataEntity2<SwitchPanelVo> {
 	public void setPurchaseId(Integer purchaseId) {
 		this.purchaseId = purchaseId;
 	}
-	private String switchPanelType;//开关面板类型  2 是开关面板
-	private String switchPanelCode; //开关面板编号
-	private String switchPanelName; //开关面板名称
-	private String specification ;// 规格
-	private String measurementUnit;//计量单位  都是个
-	private String  status;//状态 0 停用 1:启用
-	private String  picUrl; // 图片路径
-	private Integer storeId;//门店id
-	private Integer Count;//数量
-	private Double  price;//价格
-	private Integer categoryId;//分类id
-	private String brands; //品牌
-	private Date effectiveDate;//生效日期
+	private String switchPanelType;
+	private String switchPanelCode;
+	private String switchPanelName;
+	private String specification ;
+	private String measurementUnit;
+	private String  status;
+	private String  picUrl;
+	private Integer storeId;
+	private Integer Count;
+	private Double  price;
+	private Integer categoryId;
+	private String brands;
+	private Date effectiveDate;
 	
 	public Date getEffectiveDate() {
 		return effectiveDate;
@@ -83,9 +77,9 @@ public class SwitchPanelVo extends DataEntity2<SwitchPanelVo> {
 	public void setBrands(String brands) {
 		this.brands = brands;
 	}
-	private Integer totalCount;//总数
+	private Integer totalCount;
 	
-	private Double totalPrice;//总价
+	private Double totalPrice;
 	
 	
 	private Integer managerId;

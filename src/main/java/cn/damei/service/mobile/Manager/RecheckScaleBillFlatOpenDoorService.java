@@ -12,13 +12,7 @@ import cn.damei.common.utils.DateUtils;
 import cn.damei.dao.mobile.Manager.RecheckScaleBillFlatOpenDoorDao;
 import cn.damei.entity.mobile.Manager.RecheckScaleBillFlatOpenDoor;
 
-/**
- * 上报复尺(20161107-20161113)
- * 推拉门
- * @author 
- * llp 
- * 2016-11-15
- */
+
 @Service
 @Transactional(readOnly = true)
 public class RecheckScaleBillFlatOpenDoorService
@@ -52,7 +46,7 @@ public class RecheckScaleBillFlatOpenDoorService
 	}
 
 	public List<RecheckScaleBillFlatOpenDoor> getByRecheckID(Integer recheckIDs) {
-		// TODO Auto-generated method stub
+
 		return recheckScaleBillFlatOpenDoorDao.getByRecheckID(recheckIDs);
 	}
 

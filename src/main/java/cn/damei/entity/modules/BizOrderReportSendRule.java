@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import java.util.Date;
@@ -8,19 +6,15 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import cn.damei.common.persistence.DataEntity;
 
-/**
- * 返单客服轮训规则业务处理Entity
- * @author Liwancai
- * @version 2017-05-06
- */
+
 public class BizOrderReportSendRule extends DataEntity<BizOrderReportSendRule> {
 	
 	private static final long serialVersionUID = 1L;
-	private Date startDatetime;		// 开始时间
-	private Date endDatetime;		// 结束时间
-	private String status;		// 规则状态
+	private Date startDatetime;
+	private Date endDatetime;
+	private String status;
 	
-	private String createName;	//创建人姓名
+	private String createName;
 	
 	public BizOrderReportSendRule() {
 		super();

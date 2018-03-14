@@ -9,20 +9,20 @@ public class BizMaterialsStandardReceiveBillVo extends DataEntity2<BizMaterialsS
 
 	private static final long serialVersionUID = 1L;
 	
-	private Integer storeId;		// 门店id
-	private Integer orderId;		// 订单id
-	private String materialsStandardReceiveBillCode;		// 申请单号
-	private Date receiveDatetime;		// 领取日期
-	private Integer receiveEmployeeId;		// 领取人员工id -- '
+	private Integer storeId;
+	private Integer orderId;
+	private String materialsStandardReceiveBillCode;
+	private Date receiveDatetime;
+	private Integer receiveEmployeeId;
 	private String receiveEmployeeName;
 	private String employeeNo;
-	private String orderNo;//订单编号
-	private String customerName;//客户姓名
-	private Double detailAmount;//每项金额
-	private Double receiveBillAmount;		// 领取单总金额 -- '
-	private String isSettled;		// 是否已作项目经理结算 -- '1.是；0.否
-	private Date beginReceiveDatetime;		// 开始 领取日期
-	private Date endReceiveDatetime;		// 结束 领取日期
+	private String orderNo;
+	private String customerName;
+	private Double detailAmount;
+	private Double receiveBillAmount;
+	private String isSettled;
+	private Date beginReceiveDatetime;
+	private Date endReceiveDatetime;
 	
 	private List<BizMaterialsStandardReceiveDetail> details;
 	private Integer materialId;

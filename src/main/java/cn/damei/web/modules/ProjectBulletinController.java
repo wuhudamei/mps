@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import java.util.List;
@@ -28,11 +26,7 @@ import cn.damei.service.modules.ProjectBulletinService;
 import cn.damei.entity.modules.User;
 import cn.damei.common.utils.UserUtils;
 
-/**
- * 订单管理Controller
- * @author llp
- * @version 2016-10-09
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/projectbulletin/projectBulletin")
 public class ProjectBulletinController extends BaseController {
@@ -58,7 +52,7 @@ public class ProjectBulletinController extends BaseController {
 	@RequestMapping(value = {"list", ""})
 	public String list(ProjectBulletin projectBulletin, HttpServletRequest request, HttpServletResponse response, Model model) {
 		User user = UserUtils.getUser();
-		//过滤门店
+
 		if(null == projectBulletin.getStoreId()){
 			System.out.println(user.getStoreId());
 			if(null != user.getStoreId()){
@@ -68,7 +62,7 @@ public class ProjectBulletinController extends BaseController {
 		if(StringUtils.isBlank(user.getStoreId())){
 			model.addAttribute("storeDropEnable", true);
 		}
-		//过滤工程模式
+
 		if(StringUtils.isBlank(projectBulletin.getProjectMode())){
 			if(null != user.getEmpId()){
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -107,19 +101,12 @@ public class ProjectBulletinController extends BaseController {
 		return "modules/projectbulletin/projectBulletinList";
 	}
 
-	/**
-	 * 进入主页面不进行sql查询
-	 * @param projectBulletin
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @return
-	 */
+
 	@RequiresPermissions("projectbulletin:projectBulletin:view")
 	@RequestMapping(value = {"preList", ""})
 	public String preList(ProjectBulletin projectBulletin, HttpServletRequest request, HttpServletResponse response, Model model) {
 		User user = UserUtils.getUser();
-		//过滤门店
+
 		if(null == projectBulletin.getStoreId()){
 			System.out.println(user.getStoreId());
 			if(null != user.getStoreId()){
@@ -129,7 +116,7 @@ public class ProjectBulletinController extends BaseController {
 		if(StringUtils.isBlank(user.getStoreId())){
 			model.addAttribute("storeDropEnable", true);
 		}
-		//过滤工程模式
+
 		if(StringUtils.isBlank(projectBulletin.getProjectMode())){
 			if(null != user.getEmpId()){
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -197,7 +184,7 @@ public class ProjectBulletinController extends BaseController {
 		Integer id = Integer.valueOf(request.getParameter("id"));
 		logger.info("orderId==" + id);
 		
-		//List<BizNodePlanProject> npList = bizNodePlanService.getByOrderId(orderId);
+
 		List<ProjectBulletin> pbList = projectBulletinService.getByIdAndNodePlanOrderId(id);
 		for(ProjectBulletin p : pbList){
 			logger.info("进度节点对象循环输出节点ID：" + p.getNodeIndex() + "\t 节点名称：" + p.getNodeName() + "id编号：" + p.getNodeId());
@@ -208,16 +195,13 @@ public class ProjectBulletinController extends BaseController {
 		return "modules/projectbulletin/projectBulletinShow";
 	}
 
-	/**
-	 * 查看
-	 * @return
-	 */
+
 	@RequestMapping(value = "showViewNode")
 	public String showViewNode(ProjectBulletin projectBulletin, Model model, HttpServletRequest request) {
 		Integer orderId = Integer.valueOf(request.getParameter("id"));
 		logger.info("orderId==" + orderId);
 		
-		//List<BizNodePlanProject> npList = bizNodePlanService.getByOrderId(orderId);
+
 		ProjectBulletin projectBull = projectBulletinService.getById(orderId);
 		List<ProjectBulletin> pbList = projectBulletinService.getByShowViewOrderId(orderId);
 		if(pbList.size() > 0){

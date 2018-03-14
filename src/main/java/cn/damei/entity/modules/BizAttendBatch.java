@@ -4,38 +4,34 @@ import java.util.Date;
 
 
 import cn.damei.common.persistence.DataEntity2;
-/**
- * 考勤单批次表
- * @author 
- *	cgh
- */
+
 public class BizAttendBatch extends DataEntity2<BizAttendBatch> {
 
 	private static final long serialVersionUID = 1L;
-	//考勤批次编号
+
 	private String attendBatchCode;
-	//门店id
+
 	private Integer storeId;
 	
-	//考勤批次月份
+
 	private String attendBatchMonth;
-	//考勤单数量
+
 	private Integer attendBillCount;
-	//状态 1 待审核 2. 审核通过 3 作废
+
 	private String status;
-	//状态日期时间
+
 	private Date statusDatetime;
-	//生成批次日期
+
 	private Date batchDatetime;
-	//生成批次操作员工id
+
 	private Integer batchOperatorEmployeeId;
 	
-	//区域id
+
 	private Integer enginDepartId;
-	//区域名字
+
 	private String departmentName;
 	
-	//工程模式
+
 	private String projectMode;
 	
 	private String createName;

@@ -1,24 +1,18 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import org.hibernate.validator.constraints.Length;
 
 import cn.damei.common.persistence.DataEntity;
 
-/**
- * 区域管理Entity
- * @author qhy
- * @version 2016-09-08
- */
+
 public class BizArea extends DataEntity<BizArea> {
 	
 	private static final long serialVersionUID = 1L;
-	private String code;		// 描述
-	private String name;		// 区域名称
-	private String storeId;		// 门店
-	private String projectMode; // 工程模式 -- '1-产业模式；2-传统模式；3-全部
+	private String code;
+	private String name;
+	private String storeId;
+	private String projectMode;
 	
 	public BizArea() {
 		super();

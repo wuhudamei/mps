@@ -4,24 +4,21 @@ import cn.damei.common.persistence.DataEntity2;
 
 public class MainTile extends DataEntity2<MainTile>{
 
-	/**
-	 * @author wang
-	 * @version 2016-9-29
-	 */
+
 	private static final long serialVersionUID = 1L;
 	
 	private Integer id;
 	private Integer purchaseId;
-	private String 	mainMateType; //主材类型 墙砖 地砖 开关面板
+	private String 	mainMateType;
 	private String position;
-	private String brandCombo; //品牌套餐
-	private String model; //型号
+	private String brandCombo;
+	private String model;
 	private String specification;
 	private String unit;
-	private double mainMateCount;//数量
-	private double includLossCount;//含损耗数量
-	private double applyCount;//实发数量
-	private String remarks; //备注
+	private double mainMateCount;
+	private double includLossCount;
+	private double applyCount;
+	private String remarks;
 	private Double receivedCount;
 	private Double owedCount;
 	

@@ -8,8 +8,8 @@ public class ChecksizePic extends DataEntity2<ChecksizePic>{
 	private static final long serialVersionUID = 1L;
 	
 
-	private int orderChecksizeId;     //订单复尺id
-	private String picUrl;		// 复尺图片路径
+	private int orderChecksizeId;
+	private String picUrl;
 	public int getOrderChecksizeId() {
 		return orderChecksizeId;
 	}

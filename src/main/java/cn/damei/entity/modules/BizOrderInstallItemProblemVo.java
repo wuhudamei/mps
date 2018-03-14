@@ -5,84 +5,80 @@ import java.util.List;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 安装问题展示entity
- * @author wang
- *
- */
+
 public class BizOrderInstallItemProblemVo extends DataEntity2<BizOrderInstallItemProblemVo>{
 	
 	private static final long serialVersionUID = 1L;
 	
-	private Integer orderId; //订单id
-	private String orderNumber; //订单编号
-	private Integer storeId; //门店id
-	private String storeName; //门店名称
-	private String communityName;		// 小区名称
-	private String buildNumber;		// 几号楼
-	private String buildUnit;		// 几单元
-	private String buildRoom;		// 哪一室
-	private String customerName;		// 客户姓名
-	private String customerPhone;		// 客户电话
-	private String itemManager;		// 项目经理
+	private Integer orderId;
+	private String orderNumber;
+	private Integer storeId;
+	private String storeName;
+	private String communityName;
+	private String buildNumber;
+	private String buildUnit;
+	private String buildRoom;
+	private String customerName;
+	private String customerPhone;
+	private String itemManager;
 	private String itemManagerPhone;
-	private Date contractStartDate; //计划开工时间
-	private Date contractEndDate; // 计划竣工时间
-	private String designerName; //设计师
-	private String designerPhone; //设计师电话
-	private String orderInspector; //质检员
-	private String inspectorPhone; // 质检员电话
-	private Integer engineDepartId;	//区域
-	private String engineDepartName;	//区域名称
-	private Integer problemId;	//上报问题id
-	private Integer businessOnlyMarkInt;	// 唯一标识id
-	private Integer problemTypeId;		// 工程安装项问题分类id
-	private String isDelay;		// 是否延期
-	private Double delayDays;		// 延期天数
-	private String problemDescribe;		// 问题描述
-	private String status;		// 状态
-	private String statusName; 	//状态名称
-	private String businessType;//业务类型
+	private Date contractStartDate;
+	private Date contractEndDate;
+	private String designerName;
+	private String designerPhone;
+	private String orderInspector;
+	private String inspectorPhone;
+	private Integer engineDepartId;
+	private String engineDepartName;
+	private Integer problemId;
+	private Integer businessOnlyMarkInt;
+	private Integer problemTypeId;
+	private String isDelay;
+	private Double delayDays;
+	private String problemDescribe;
+	private String status;
+	private String statusName;
+	private String businessType;
 	
-	private String installItemName; //安装项名称
-	private Integer picturesCount; //照片
-	private String pictureType; //照片类型
-	private String problemTypeName; //问题分类名称
-	private String projectMode; //工程模式
-	private String projectModeName;	//工程模式名称
-	private String logStatus; //状态日志   --导出
-	private String problemSolveRole;	//角色处理
-	private String projectNote; //工程部处理说明
-	private String materialNote; //材料部处理说明
+	private String installItemName;
+	private Integer picturesCount;
+	private String pictureType;
+	private String problemTypeName;
+	private String projectMode;
+	private String projectModeName;
+	private String logStatus;
+	private String problemSolveRole;
+	private String projectNote;
+	private String materialNote;
 	
-	private Date beginCreateDate; //提交开始时间   
-	private Date endCreateDate; //提交结束时间
-	private Date beginProjectCreateDate; //工程部处理时间开始
-	private Date endProjectCreateDate; //工程部处理时间结束
-	private Date beginMaterialCreateDate; //材料部处理时间开始
-	private Date endMaterialCreateDate; //材料部处理时间结束
-	private String problemSolveNotes; //问题处理说明
+	private Date beginCreateDate;
+	private Date endCreateDate;
+	private Date beginProjectCreateDate;
+	private Date endProjectCreateDate;
+	private Date beginMaterialCreateDate;
+	private Date endMaterialCreateDate;
+	private String problemSolveNotes;
 	private List<String> paramStatus;
-	private Date projectCreateDate; //工程部处理时间 
-	private Date materialCreateDate; //材料部处理时间
+	private Date projectCreateDate;
+	private Date materialCreateDate;
 	
-	private Integer materialApplyEmployeeId; //材料部申请人
-	private String materialApplyEmployeeName; //材料部申请人
-	private String materialApplyEmployeePhone; //材料部申请人 电话
-	private String materialCreateBy; //系统申请人
-	private Integer problemApplyEmployeeId; //问题上报申请人
-	private String problemApplyEmployeeName; //问题上报申请人
-	private String problemApplyEmployeePhone; //问题上报申请人 电话
+	private Integer materialApplyEmployeeId;
+	private String materialApplyEmployeeName;
+	private String materialApplyEmployeePhone;
+	private String materialCreateBy;
+	private Integer problemApplyEmployeeId;
+	private String problemApplyEmployeeName;
+	private String problemApplyEmployeePhone;
 	
 	
-	private Integer supplierId;//供应商id
-	private String supplierName;//供应商名称
-	private Integer projectInstallItemId; //主材安装项基础配置id
-	private String isOn;//安装项是否停用
-	private Integer projectInstallItemIdStop; // 安装项模板id(停用的)
-	private	List<Integer> projectInstallItemIdList = null; //安装项id集合
+	private Integer supplierId;
+	private String supplierName;
+	private Integer projectInstallItemId;
+	private String isOn;
+	private Integer projectInstallItemIdStop;
+	private	List<Integer> projectInstallItemIdList = null;
 	
-	//权限控制
+
 	private String officeId;
 	private String userId;
 	private String parentId;

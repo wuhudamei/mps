@@ -28,10 +28,7 @@ import java.io.File;
 import java.util.List;
 import java.util.Map;
 
-/**
- * 订单工程进度大看板Controller
- * Created by hyh on 2017/12/8.
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/projectprogressboning/bizProjectProgressSummaryData")
 public class BizProjectProgressSummaryDataController extends BaseController {
@@ -39,54 +36,38 @@ public class BizProjectProgressSummaryDataController extends BaseController {
     @Autowired
     private BizProjectProgressSummaryDataService bizProjectProgressSummaryDataService;
 
-    /**
-     * 订单工程进度大看板
-     * @param bizProjectProgressSummaryData
-     * @param model
-     * @return
-     */
+
     @RequiresPermissions("bizProjectProgressSummaryData:bizProjectProgressSummaryData:view")
     @RequestMapping(value = "/preList")
     public  String preList(BizProjectProgressSummaryData bizProjectProgressSummaryData, Model model){
-        //门店和工程模式权限控制
+
         bizProjectProgressSummaryDataService.queryStoreIdAndProjectMode(bizProjectProgressSummaryData,model);
-        //获取表头配置
+
         List<BizProjectProgressQueryRuleConfig> list = bizProjectProgressSummaryDataService.queryRuleConfig();
-        //获取table的表头和数据配置对象
+
         Map<String,Object> map = bizProjectProgressSummaryDataService.queryTableConfig(list);
         model.addAttribute("map",map);
         return "modules/projectprogressboning/bizProjectProgressSummaryDataList";
     }
 
-    /**
-     * 订单工程进度大看板
-     * @param bizProjectProgressSummaryData
-     * @param model
-     * @return
-     */
+
     @RequiresPermissions("bizProjectProgressSummaryData:bizProjectProgressSummaryData:view")
     @RequestMapping(value = "/list")
     public  String list(BizProjectProgressSummaryData bizProjectProgressSummaryData, HttpServletRequest request, HttpServletResponse response, Model model){
-        //门店和工程模式权限控制
+
         bizProjectProgressSummaryDataService.queryStoreIdAndProjectMode(bizProjectProgressSummaryData,model);
-        //获取表头配置
+
         List<BizProjectProgressQueryRuleConfig> list = bizProjectProgressSummaryDataService.queryRuleConfig();
-        //获取table的表头和数据配置对象
+
         Map<String,Object> map = bizProjectProgressSummaryDataService.queryTableConfig(list);
-        //订单工程进度大看板数据
+
         Page<BizProjectProgressSummaryData> page = bizProjectProgressSummaryDataService.findPage(new Page<BizProjectProgressSummaryData>(request, response), bizProjectProgressSummaryData);
         model.addAttribute("map",map);
         model.addAttribute("page",page);
         return "modules/projectprogressboning/bizProjectProgressSummaryDataList";
     }
 
-    /**
-     * 订单工程进度大看板--导出
-     * @param bizProjectProgressSummaryData
-     * @param request
-     * @return
-     * @throws Exception
-     */
+
     @RequiresPermissions("bizProjectProgressSummaryData:bizProjectProgressSummaryData:edit")
     @RequestMapping(value = "/export")
     public ModelAndView exportBudgetCost(BizProjectProgressSummaryData bizProjectProgressSummaryData, HttpServletRequest request) throws Exception{
@@ -103,12 +84,7 @@ public class BizProjectProgressSummaryDataController extends BaseController {
     }
 
 
-    /**
-     * 根据订单Id更新大看板数据
-     * @param orderId
-     * @param
-     * @return
-     */
+
     @RequestMapping(value = "editOrderNode")
     public @ResponseBody String editOrderNode(Integer orderId) {
         String result = "0";

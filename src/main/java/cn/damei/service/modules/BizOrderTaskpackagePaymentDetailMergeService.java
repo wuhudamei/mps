@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.util.*;
@@ -47,12 +45,7 @@ import cn.damei.dao.modules.BizOrderTaskpackagePaymentSummaryDao;
 import cn.damei.entity.modules.BizOrderTaskpackagePaymentSummary;
 import cn.damei.dao.modules.BizOrderTaskpackagePaymentDetailMergeDao;
 
-/**
- * 付款单明细合并Service
- * 
- * @author qww
- * @version 2016-10-27
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizOrderTaskpackagePaymentDetailMergeService
@@ -119,33 +112,18 @@ public class BizOrderTaskpackagePaymentDetailMergeService
 		super.delete(bizOrderTaskpackagePaymentDetailMerge);
 	}
 
-	/**
-	 * 根据批次id查询
-	 * 
-	 * @param summaryId
-	 * @return
-	 */
+
 	public List<BizOrderTaskpackagePaymentDetailMerge> queryTaskpackagePaymentDetailMergeBySummaryId(
 			Integer summaryId) {
 		return dao.queryTaskpackagePaymentDetailMergeBySummaryId(summaryId);
 	}
 
-	/**
-	 * 查询本次付款
-	 * 
-	 * @param summaryId
-	 * @return
-	 */
+
 	public List<BizOrderTaskpackagePaymentDetailMergeVo> queryPaymentDetailMergeBySummaryId(Integer summaryId) {
 		return dao.queryPaymentDetailMergeBySummaryId(summaryId);
 	}
 
-	/**
-	 * 徽商银行导出数据
-	 * 
-	 * @param summaryId
-	 * @return
-	 */
+
 	public String queryPaymentDetailMergeForTxt(Integer summaryId) {
 		List<BizOrderTaskpackagePaymentDetailMergeTxtVo> list = dao.queryPaymentDetailMergeForTxtAndExcel(summaryId);
 		StringBuffer strb = new StringBuffer();
@@ -157,36 +135,28 @@ public class BizOrderTaskpackagePaymentDetailMergeService
 		return strb.toString();
 	}
 	
-	/**导出中信银行
-	 * @param summaryId
-	 * @return
-	 */
+
 	public List<BizOrderTaskpackagePaymentDetailMergeTxtVo> exportChinaCiticBank(Integer summaryId){
 		
 		return dao.exportChinaCiticBank(summaryId);
 	}
 	
 
-	/**
-	 * 中国银行导出数据
-	 * 
-	 * @param summaryId
-	 * @return
-	 */
+
 	public HSSFWorkbook queryPaymentDetailMergeForExcel(Integer summaryId) {
 		List<BizOrderTaskpackagePaymentDetailMergeTxtVo> list = dao.queryPaymentDetailMergeForTxtAndExcel(summaryId);
 
-		HSSFWorkbook wb = new HSSFWorkbook();// 创建一个Excel文件
-		HSSFSheet sheet = wb.createSheet("中国银行");// 创建一个Excel的Sheet
+		HSSFWorkbook wb = new HSSFWorkbook();
+		HSSFSheet sheet = wb.createSheet("中国银行");
 
-		// 宽度
+
 		sheet.setColumnWidth(0, 8000);
 		sheet.setColumnWidth(1, 4000);
 		sheet.setColumnWidth(2, 2500);
 		sheet.setColumnWidth(3, 3000);
 		sheet.setColumnWidth(4, 5000);
 
-		// 标题
+
 		HSSFRow rowTitle = sheet.createRow(0);
 		rowTitle.createCell(0).setCellValue("账号");
 		rowTitle.createCell(1).setCellValue("户名");
@@ -198,7 +168,7 @@ public class BizOrderTaskpackagePaymentDetailMergeService
 		rowTitle.createCell(7).setCellValue("用途");
 		rowTitle.createCell(8).setCellValue("附言");
 
-		// 数据
+
 		for (int i = 0; i < list.size(); i++) {
 			BizOrderTaskpackagePaymentDetailMergeTxtVo vo = list.get(i);
 			HSSFRow row = sheet.createRow(i + 1);
@@ -216,7 +186,7 @@ public class BizOrderTaskpackagePaymentDetailMergeService
 		Date date = new Date();
 		User user = UserUtils.getUser();
 
-		// 1.更新付款明细合并
+
 		for (Integer id : ids) {
 			BizOrderTaskpackagePaymentDetailMerge merge = dao.get(id);
 			merge.setStatus(ConstantUtils.PAYMENT_DETAIL_MERGE_STATUS_1);
@@ -226,7 +196,7 @@ public class BizOrderTaskpackagePaymentDetailMergeService
 			merge.setUpdateDate(date);
 			dao.update(merge);
 
-			// 2.更新付款单明细
+
 			List<BizOrderTaskpackagePaymentDetail> detailList = bizOrderTaskpackagePaymentDetailDao
 					.queryPaymentDetailByMergeId(id);
 			for (BizOrderTaskpackagePaymentDetail detail : detailList) {
@@ -239,7 +209,7 @@ public class BizOrderTaskpackagePaymentDetailMergeService
 			}
 		}
 
-		// 3.更新付款单状态
+
 		List<BizOrderTaskpackagePaymentDetaiVo> paymentDetailList = bizOrderTaskpackagePaymentDetailDao
 				.queryPaymentDetailCountBySummaryId(summaryId);
 		for (BizOrderTaskpackagePaymentDetaiVo paymentDetail : paymentDetailList) {
@@ -262,7 +232,7 @@ public class BizOrderTaskpackagePaymentDetailMergeService
 			bizOrderTaskpackagePaymentDao.update(payment);
 		}
 
-		// 4.更新批次状态
+
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("summaryId", summaryId);
 		Integer allCount = dao.queryPaymentDetailMergeCountByMap(map);
@@ -278,7 +248,7 @@ public class BizOrderTaskpackagePaymentDetailMergeService
 		}
 		bizOrderTaskpackagePaymentSummaryDao.update(summary);
 
-		// 5.更新任务包状态
+
 		List<BizOrderTaskpackagePaymentVo> paymentList = bizOrderTaskpackagePaymentDao
 				.queryPaymentSettlementBySummaryId(summaryId);
 		for (BizOrderTaskpackagePaymentVo payment : paymentList) {

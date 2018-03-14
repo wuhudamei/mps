@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.util.Date;
@@ -18,11 +16,7 @@ import cn.damei.common.service.CrudService2;
 import cn.damei.entity.modules.SysAppVersion;
 import cn.damei.dao.modules.SysAppVersionDao;
 
-/**
- * 手机app版本Service
- * @author qww
- * @version 2016-12-27
- */
+
 @Service
 @Transactional(readOnly = true)
 public class SysAppVersionService extends CrudService2<SysAppVersionDao, SysAppVersion> {
@@ -53,20 +47,12 @@ public class SysAppVersionService extends CrudService2<SysAppVersionDao, SysAppV
 		super.delete(sysAppVersion);
 	}
 
-	/**
-	 * 查询最大版本号
-	 * @param appType
-	 * @return
-	 */
+
 	public String queryMaxVersion(String appType) {
 		return dao.queryMaxVersion(appType);
 	}
 
-	/**
-	 * 查询最大版本号
-	 * @param sysAppVersion
-	 * @return
-	 */
+
 	public String checkVersionIsExits(SysAppVersion sysAppVersion) {
 		String flag = "0";
 		if(sysAppVersion.getId() != null){

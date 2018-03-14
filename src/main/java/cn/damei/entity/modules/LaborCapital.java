@@ -4,58 +4,54 @@ import java.util.Date;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 
- * @author chenguanhua
- *
- */
+
 public class LaborCapital extends DataEntity2<LaborCapital> {
 
 	private static final long serialVersionUID = 1L;
-	//门店
+
 	private String storeId;
-	//工程模式
+
 	private String projectMode;
-	//区域id
+
 	private Integer enginDepartId;
-	//区域名字
+
 	private String departmentName;
-	//客户姓名
+
 	private String custumer;
-	//客户地址
+
 	private String customerAddress;
-	//订单状态
+
 	private String orderStatusNumber;
-	//项目经理
+
 	private String itemManager;
-	//任务包类型
+
 	private String taskPackageType;
-	//任务包状态
+
 	private String packageStateId;
-	//工人组长手机号
+
 	private String groupLeaderPhone;
 	
-	//质检员姓名
+
 	private String inspectorName;
-	//订单接单时间
+
 	private Date getOrderDatetime;
-	//任务包名称
+
 	private String packageName;
-	//工人组长
+
 	private String groupLeaderName;
-	//任务包开始时间
+
 	private Date actualStartdate;
-	//任务包结束时间
+
 	private Date actualEnddate;
-	//管理扣款
+
 	private Double punishAmerce;
-	//延期扣款	
+
 	private Double delayAmerce;
-	//公司扣款	
+
 	private Double companyDeductAmount;
-	//订单状态详情
+
 	private String orderStatusDescription;
-	//任务包状态详情
+
 	private String packageStatename;
 	
 	public String getPackageStatename() {

@@ -1,22 +1,16 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import org.hibernate.validator.constraints.Length;
 
 import cn.damei.common.persistence.DataEntity;
 
-/**
- * 约检数量配置Entity
- * @author 梅浩
- * @version 2017-04-20
- */
+
 public class BizQcMaxCount extends DataEntity<BizQcMaxCount> {
 	
 	private static final long serialVersionUID = 1L;
-	private String storeId;		// 门店
-	private String qcMaxCount;		// 最大约检数量
+	private String storeId;
+	private String qcMaxCount;
 	
 	public BizQcMaxCount() {
 		super();

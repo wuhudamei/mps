@@ -48,11 +48,7 @@ import cn.damei.service.modules.BizMessagegroupService;
 import cn.damei.entity.modules.Order2;
 import cn.damei.service.modules.OrderService2;
 
-/**
- * 材料管理Controller
- * @author Administrator
- *
- */
+
 
 @Controller
 @RequestMapping(value="${adminPath}/app/manager")
@@ -70,17 +66,17 @@ public class MaterialManagementController {
 	private BizPhoneMsgService bizPhoneMsgService;
 
 	private Logger logger  = org.slf4j.LoggerFactory.getLogger(MaterialManagementController.class);
-	//材料管理页面
+
 	@RequestMapping(value={"meterialManagementList",""})
 	public String appOrderList(MaterialManagement materialManagement,HttpServletRequest request, Model model){
 	String index = (String)request.getSession().getAttribute("index");
 	request.getSession().removeAttribute("index");
 				if(null!=index){
 					if("0".equals(index)){
-						//下面的
+
 						return "mobile/modules/Manager/materialManagement/materialManagement";	
 					}else if("1".equals(index)){
-						//上面的
+
 						return "mobile/modules/Manager/manager_index";
 					}else{
 						
@@ -97,14 +93,14 @@ public class MaterialManagementController {
 		
 	}
 	
-	//申请墙地砖页面
+
 	@RequestMapping(value={"applyMainIngredient",""})
 	public String applyMainIngredient(MaterialManagement materialManagement,String timeForbidden,String isRead, HttpServletRequest request, Model model){
-		//获得项目经理
+
 		Manager manager = (Manager)request.getSession().getAttribute("manager");
 		materialManagement.setItemManagerId(manager.getId());
 		
-		//通过项目经理id查询项目经理下所有的订单
+
 		List<MaterialManagement> order = materialManagementService.findOrderByItemManagerId(materialManagement.getItemManagerId());
 		
 		
@@ -117,36 +113,36 @@ public class MaterialManagementController {
 	
 
 	
-	//墙地砖申请
+
 	@RequestMapping(value={"wallAndFloorBrick",""})
 	public String wallAndFloorBrick(int id, HttpServletRequest request, Model model){
 		
 		Manager manager = (Manager)request.getSession().getAttribute("manager");
 		Integer purchaseCount = 0;
-		//查询该订单最新一次申请墙地砖的时间是否间隔有5分钟 并且是否已读
+
 		Purchase purchase = materialManagementService.findViewAndTime(id,manager.getId(),manager.getPhone());
 		if(null!=purchase){
 			if(purchase.getApplyTime().getTime()+300*1000 > new Date().getTime()){
-				//如果小于5分钟 则不允许申请墙地砖,并给出提示
+
 				return "redirect:"+Global.getAdminPath()+"/app/manager/applyMainIngredient?timeForbidden=1";
 			}
 			
 			if(purchase.getCount()==0){
-				//如果没有查看详情 则不允许申请墙地砖,并给出提示
+
 				return "redirect:"+Global.getAdminPath()+"/app/manager/applyMainIngredient?isRead=0";
 			}
 			purchaseCount = purchase.getPurchaseCount();
 		}
 		
-		//通过订单id查询订单
+
 		MaterialManagement materialManagement = materialManagementService.findOrderById(id);
 		
 		materialManagement.setPhone(manager.getPhone());
 		materialManagement.setItemManager(manager.getRealname());
 		
-		//通过订单id查询订单主材表的墙砖
+
 		List<OrderMainMate> wall = materialManagementService.findWallByOrderId(id);
-		//通过订单id查询订单主材表的地砖
+
 		List<OrderMainMate> floor = materialManagementService.findFloorByOrderId(id);
 		
 		int wallLength = wall.size();
@@ -171,26 +167,26 @@ public class MaterialManagementController {
 	private BizEmployeeService2 bizEmployeeService2;
 	
 	
-	//确认申请---墙地砖
+
 	@RequestMapping(value="applyWallAndFloor" ,method=RequestMethod.POST)
 	public @ResponseBody String applyWallAndFloor(String[] id,String[] applyCounta,String[] remarks,String orderId,String inputDate,String getInfo,String[] photo, HttpServletRequest request) throws UnsupportedEncodingException{
 		
 		Date date = new Date();
 		Manager manager = (Manager)request.getSession().getAttribute("manager");
-		//查询该订单最新一次申请墙地砖的时间是否间隔有5分钟 并且是否已读
+
 		Purchase purchase2 = materialManagementService.findViewAndTime(Integer.valueOf(orderId),manager.getId(),manager.getPhone());
 		if(null!=purchase2){
 			if(purchase2.getApplyTime().getTime()+300*1000 > new Date().getTime()){
-				//如果小于5分钟 则不允许申请墙地砖,并给出提示
+
 				return "lessTime";
 			}
 			if(purchase2.getCount()==0){
-				//如果没有查看详情 则不允许申请墙地砖,并给出提示
+
 				return "missingDetails";
 			}
 		}
 		
-		//保存采购单
+
 		Purchase purchase = new Purchase();
 		purchase.setOrderId(Integer.valueOf(orderId));
 		purchase.setPurchaseCode(purchaseCode());
@@ -205,30 +201,17 @@ public class MaterialManagementController {
 		purchase.setDelFlag("0");
 		materialManagementService.savePurchase(purchase);
 		
-		/*System.out.println("--------applyCounta----------");
-		if(null != applyCounta && applyCounta.length>0){
-			for(int v=0;v<applyCounta.length;v++){
-				System.out.println("applyCounta["+ v +"]:"+applyCounta[v]);
-			}
-			
-		}
-		System.out.println("--------remarks----------");
-		if(null != remarks && remarks.length>0){
-			for(int v=0;v<remarks.length;v++){
-				System.out.println("remarks["+ v +"]:"+remarks[v]);
-			}
-			
-		}*/
+
 		
 		List<PurchaseMainMate> purchaseMainMateList = new ArrayList<PurchaseMainMate>();
 		
-		//保存采购单主材表
+
 		if(null != applyCounta && applyCounta.length>0){
 			
 			for(int v=0;v<applyCounta.length;v++){
 				if(applyCounta[v].length()!=0 && applyCounta[v] != null && applyCounta[v] !="" && applyCounta[v] != "," && !applyCounta[v].equals("0") && !applyCounta[v].equals("0.0") && !applyCounta[v].equals(".")){
 					
-					//通过订单主材表的id查询订单主材表
+
 					int pid = Integer.valueOf(id[v]);
 					OrderMainMate orderMainMate = materialManagementService.findOrderMainMateById(pid);
 					
@@ -258,12 +241,12 @@ public class MaterialManagementController {
 					
 					purchaseMainMateList.add(purchaseMainMate);
 					
-//					materialManagementService.savePurchaseMainMate(purchaseMainMate);
+
 					
 				}
 			}
 			if(null!=purchaseMainMateList && purchaseMainMateList.size()>0){
-				//批量更新采购单主材表
+
 				materialManagementService.savePurchaseMainMateAll(purchaseMainMateList);
 			}
 			
@@ -271,17 +254,17 @@ public class MaterialManagementController {
 		}
 		
 		List<PurchasePic> pList = new ArrayList<PurchasePic>();
-		//保存图片
+
 		if (null != photo && photo.length>0) {
 			
 			for(String p : photo){
 				
 				String uuid = UUID.randomUUID().toString().replaceAll("-", "");
 				
-//				String rootPath = RootName.SystemEnvironment(request);
+
 				String rootPath = request.getSession().getServletContext().getRealPath("");
 				File filePath = new File(rootPath + ConstantUtils.UPLOAD_WALLAPPLY + DateUtils.getDate1());
-				//判断该文件是否存在
+
 				if(!filePath.exists() && !filePath.isDirectory()){
 					filePath.mkdirs();
 				}
@@ -299,9 +282,9 @@ public class MaterialManagementController {
 				purchasePic.setCreateDate(date);
 				purchasePic.setUpdateDate(date);
 				pList.add(purchasePic);
-//				materialManagementService.saveMainPic(purchasePic);
+
 			}
-			//批量插入申请墙地砖图片
+
 			materialManagementService.saveMainPicAll(pList);
 		}
 		
@@ -310,7 +293,7 @@ public class MaterialManagementController {
 		String managerPhone = SessionUtils.getManagerSession(request).getPhone();
 		String storeId = SessionUtils.getManagerSession(request).getStoreid();
 		
-		//根据门店和短信组类型查找  messageGroupType : '4';
+
 		BizMessagegroup bizMessagegroup = bizMessagegroupService.getByStoreId(storeId,"4");
 		List<Integer> list = new ArrayList<Integer>();
 		List<BizEmployee2> employeelist = null;
@@ -322,7 +305,7 @@ public class MaterialManagementController {
 				list.add(Integer.valueOf(id1));
 			}
 			employeelist = bizEmployeeService2.getById(list);
-			//订单（小区名-楼号-单元号-门牌号-客户姓名-手机号），项目经理（姓名-手机号），项目经理已申请墙地砖，请尽快登录系统查看详情。
+
 			String content = "订单（"+order.getOrderNumber()+","+order.getCommunityName()+"-"+order.getBuildNumber()+"-"+order.getBuildUnit()+"-"+order.getBuildRoom()+"-"+order.getCustomerName()+"-"+order.getCustomerPhone()+",项目经理（"+managerName+"-"+managerPhone+"），项目经理已申请墙地砖，请尽快登录系统查看详情。";
 			if(null != employeelist && employeelist.size()>0){
 				for (BizEmployee2 bizEmployee2 : employeelist) {
@@ -334,34 +317,34 @@ public class MaterialManagementController {
 		return String.valueOf(purchase.getId());
 	}
 	
-	//采购单编号生成方法
+
 	public String  purchaseCode(){
-		//以PO开头
+
 		String purchaseCode = ConstantUtils.PURCHASE_NUMBER;
 	
 		
 		StringBuilder builder = new StringBuilder();
 		
-		//num和date
+
 		PurchaseTwoCode purchaseObj = materialManagementService.getCode();
-		//流水号+1
+
 		purchaseObj.setPurchaseCode(String.valueOf(Integer.parseInt(purchaseObj.getPurchaseCode())+1));
-		//更新数据库
+
 		materialManagementService.updateCode(purchaseObj);
 		
-		//格式后的时间戳
+
 		String format = new SimpleDateFormat("yyyyMMdd").format( purchaseObj.getAuxiliaryDate());
-		//得到的流水号
+
 		String code = purchaseObj.getPurchaseCode();
 	
 		builder.append(purchaseCode).append(format);
-		//判断长度
+
 		if(code.length()==1){
 			
 			builder.append("000").append(code);
 			
 		}else if(code.length()==2){
-			//拼接采购单编号
+
 			builder.append("00").append(code);
 		}else if(code.length()==3){
 			builder.append("0").append(code);
@@ -369,23 +352,23 @@ public class MaterialManagementController {
 			builder.append(code);
 		}
 		
-		//返回采购单编号
+
 		return builder.toString();
 	}
 	
-	//上传图片
+
 	@RequestMapping(value="savePic",method=RequestMethod.POST)
 	public @ResponseBody List<String> savePic(HttpServletRequest request,@RequestParam(value="pic",required=false) MultipartFile[] pic) throws IllegalStateException,IOException {
 		MultipartHttpServletRequest req = (MultipartHttpServletRequest) request;
-		//获得物理路径webapp所在路径
+
 		String pathRoot = req.getSession().getServletContext().getRealPath("");
 		String path="";
 		List<String> picPath = new ArrayList<String>();
 		for(MultipartFile mf : pic){
 			if(!mf.isEmpty()){
-				//生成uuid作为文件名称
+
 				String uuid = UUID.randomUUID().toString().replaceAll("-", "");
-				//获得文件类型（可以判断如果不是图片，禁止上传）
+
 				String contentType = mf.getContentType();
 				String picName = contentType.substring(contentType.indexOf("/")+1);
 				path = "/static/mobile/modules/Manager/css/savePhoto/"+uuid+"."+picName;
@@ -400,10 +383,10 @@ public class MaterialManagementController {
 	
 	
 	
-	//申请记录
+
 	@RequestMapping(value={"wallAndFloorBrickRecord",""})
 	public String wallAndFloorBrickRecord(int id, HttpServletRequest request, Model model){
-		//通过订单id查询订单
+
 		MaterialManagement materialManagement = materialManagementService.findOrderById(id);
 		
 		model.addAttribute("materialManagement", materialManagement);
@@ -411,15 +394,11 @@ public class MaterialManagementController {
 		return "mobile/modules/Manager/materialManagement/wall_record";
 	}
 	
-	/**
-	 * 根据订单id查询采购单
-	 * @param orderId
-	 * @return
-	 */
+
 	@RequestMapping(value="search_wallandFloor_list_ajax")
 	public @ResponseBody List<Purchase> searchWallandFloorListAjax(String orderId){
 		
-		//通过订单id查询采购单
+
 		List<Purchase> purchaseList = null;
 		if(null!=orderId && !orderId.equals("")){
 			purchaseList = materialManagementService.findPurchaseByOrderId(Integer.valueOf(orderId));
@@ -431,24 +410,24 @@ public class MaterialManagementController {
 	
 	
 	
-	//申请详情
+
 	@RequestMapping(value={"wallAndFloorBrickDetails",""})
 	public String wallAndFloorBrickDetails(String id,String purchaseId,Model model,HttpServletRequest request) throws Exception{
 		
 		Manager manager = (Manager)request.getSession().getAttribute("manager");
 		
-		//根据订单id查询订单
+
 		MaterialManagement materialManagement = materialManagementService.findOrderById(Integer.valueOf(id));
-		//根据采购单编码查询采购单
+
 		Purchase purchase = materialManagementService.findPurchaseByPurchaseCode(Integer.valueOf(purchaseId));
-		//查询采购单状态
-//		String status = materialManagementService.findStatus(purchase.getStatus());
-//		purchase.setStatus(status);
-		//根据采购单id查询采购单主材表的墙砖
+
+
+
+
 		List<PurchaseMainMate> wall = materialManagementService.findWallByPurchaseId(purchase.getId());
-		//根据采购单id查询采购单主材表的地砖
+
 		List<PurchaseMainMate> floor = materialManagementService.findfloorByPurchaseId(purchase.getId());
-		//根据采购单id查询采购单图片
+
 		List<PurchasePic> purchasePic = materialManagementService.findPurchasePicByPurchaseId(purchase.getId());
 		
 		String baseUrl = PicRootName.picPrefixName();
@@ -460,29 +439,21 @@ public class MaterialManagementController {
 		model.addAttribute("purchasePic", purchasePic);
 		model.addAttribute("baseUrl", baseUrl);
 		
-		//查看墙地砖申请是否已查看
+
 		Integer count = materialManagementService.findView(purchase.getId(),ConstantUtils.VIEW_lOG_MANAGER_WALLANDFLOOR,manager.getPhone(),manager.getId());
 		if(count==0){
-			//如果未查看则插入已读信息
+
 			materialManagementService.insertView(purchase.getId(),ConstantUtils.VIEW_lOG_MANAGER_WALLANDFLOOR,manager.getPhone(),manager.getId());
 		}
 		
 		return "mobile/modules/Manager/materialManagement/wall_apply_details";
 	}
 	
-	/**
-	 * 催促送货
-	 * @param orderId
-	 * @param purchaseId
-	 * @param model
-	 * @param request
-	 * @return
-	 * @throws Exception
-	 */
+
 	@RequestMapping(value={"urgeWallAndFloorList",""})
 	public String urgeWallAndFloorList(String orderId,String purchaseId,Model model,HttpServletRequest request) throws Exception{
 		
-		//根据采购单id查询订单以及采购单状态
+
 		MaterialManagement materialManagement = null;
 		if(null!=purchaseId && !purchaseId.equals("")){
 			materialManagement = materialManagementService.findOrderByPurchaseId(Integer.valueOf(purchaseId));
@@ -494,11 +465,7 @@ public class MaterialManagementController {
 		return "mobile/modules/Manager/materialManagement/wallQuickList";
 	}
 	
-	/**
-	 * 动态加载  进度日志
-	 * @param purchaseId 采购单id
-	 * @return
-	 */
+
 	@RequestMapping(value="wallAndFloor_urgeLogList_ajax_list")
     public @ResponseBody  List<BizBusinessUrge> wallAndFloorUrgeLogListAjaxList(String purchaseId ){
 
@@ -506,9 +473,9 @@ public class MaterialManagementController {
 		if(null!=purchaseId && !("").equals(purchaseId)){
 			
 			BizBusinessUrge bizBusinessUrge = new BizBusinessUrge();
-			//业务唯一标识整形
+
 			bizBusinessUrge.setBusinessOnlyMarkInt(Integer.valueOf(purchaseId));
-			//业务类型
+
 			bizBusinessUrge.setBusinesType(BusinessUrgeConstantUtil.BUSINESS_URGE_BUSINESS_TYPE_2);
 			
 			businessUrgeList = bizBusinessUrgeService.findList(bizBusinessUrge);
@@ -518,11 +485,7 @@ public class MaterialManagementController {
 
     }
 	
-	/**
-	 * ajax 催促送货，一天最多允许催促1次
-	 * @param purchaseId 采购单id
-	 * @return
-	 */
+
 	@RequestMapping(value="wallAndFloor_push_installation_ajax")
     public @ResponseBody  String wallAndFloorPushInstallationAjax(String purchaseId,HttpServletRequest request){
 		
@@ -540,14 +503,7 @@ public class MaterialManagementController {
 
     }
 	
-	/**
-	 * 催促送货页面
-	 * @param purchaseId
-	 * @param orderId
-	 * @param request
-	 * @param model
-	 * @return
-	 */
+
 	@RequestMapping(value = { "wallAndFloor_push_installation", "" })
 	public String wallAndFloorPushInstallation(String purchaseId,String orderId, HttpServletRequest request, Model model) {
 
@@ -558,48 +514,41 @@ public class MaterialManagementController {
 		return "mobile/modules/Manager/materialManagement/wallQuick";
 	}
 
-	/**
-	 * ajax 催促送货
-	 * @param purchaseId
-	 * @param orderId
-	 * @param operateContent
-	 * @param request
-	 * @return
-	 */
+
 	@RequestMapping(value="save_wallAndFloor_push_installation_ajax")
     public @ResponseBody  String saveWallAndFloorPushInstallationAjax(String purchaseId,String orderId,String operateContent,HttpServletRequest request){
 		
 		String result  = "0";
 		
-		//1.催促送货采购单ID为空
+
 		if(null==purchaseId || purchaseId.equals("")){
 			result = "1";
 			return result;
 		}
-		//2.获取项目经理
+
 		Manager manager = (Manager) request.getSession().getAttribute("manager");
 		if(null==manager || null==manager.getId()){
 			result = "2";
 			return result;
 		}
-		//3.催促送货内容--5分钟校验
+
 		Integer count = bizBusinessUrgeService.findCountByfiveTime(Integer.valueOf(purchaseId),manager.getId(),BusinessUrgeConstantUtil.BUSINESS_URGE_BUSINESS_TYPE_2,BusinessUrgeConstantUtil.BUSINESS_URGE_OPERATE_TYPE_1,BusinessUrgeConstantUtil.BUSINESS_URGE_OPERATOR_TYPE_1 );
 		if(null!=count && count>0){
 			result = "3";
 			return result;
 		}
-		//4.催促送货内容为空
+
 		if(null==operateContent || operateContent.equals("")){
 			result = "4";
 			return result;
 		}
-		//5.保存催促送货
+
 		Integer urgeId = bizBusinessUrgeService.saveBusinessUrge(manager.getId(),operateContent,Integer.valueOf(purchaseId),BusinessUrgeConstantUtil.BUSINESS_URGE_BUSINESS_TYPE_2,BusinessUrgeConstantUtil.BUSINESS_URGE_OPERATE_TYPE_1,BusinessUrgeConstantUtil.BUSINESS_URGE_OPERATOR_TYPE_1);
 		if(null==urgeId){
 			result = "5";
 			return result;
 		}
-		//6.保存催促送货图片
+
 		
 		return result;
 
@@ -607,48 +556,43 @@ public class MaterialManagementController {
 	
 	
 	
-	//项目经理端工艺工法
+
 	@RequestMapping(value = { "method", "" })
 	public String method() {
 		return "mobile/modules/Manager/method";
 	}
-	//项目经理端工艺工法--水电工程
+
 	@RequestMapping(value = { "waterPower", "" })
 	public String waterPower() {
 		return "mobile/modules/Manager/waterPower";
 	}
-	//项目经理端工艺工法--泥瓦工程
+
 	@RequestMapping(value = { "mud", "" })
 	public String mud() {
 		return "mobile/modules/Manager/mud";
 	}
-	//项目经理端工艺工法--木土工程
+
 	@RequestMapping(value = { "wood", "" })
 	public String wood() {
 		return "mobile/modules/Manager/wood";
 	}
-	//项目经理端工艺工法--油工工程
+
 	@RequestMapping(value = { "paint", "" })
 	public String paint() {
 		return "mobile/modules/Manager/paint";
 	}
-	//项目经理端工艺工法--木作安装
+
 	@RequestMapping(value = { "funiture", "" })
 	public String funiture() {
 		return "mobile/modules/Manager/funiture";
 	}
-	//项目经理端工艺工法--服务规范
+
 	@RequestMapping(value = { "service", "" })
 	public String service() {
 		return "mobile/modules/Manager/service";
 	}
 
-	/**
-	 * ajax 获取门店和材料对应的配送费
-	 * @param bizMaterialsStandardType
-	 * @param request
-	 * @return
-	 */
+
 	@RequestMapping(value="/getShippingFee")
 	public @ResponseBody
 	BizMaterialsStandardShippingFees getShippingFee( Integer bizMaterialsStandardType, HttpServletRequest request) {

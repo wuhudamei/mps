@@ -5,33 +5,29 @@ import java.util.List;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 质检报告vo
- * @author Administrator
- *
- */
+
 public class ReportCheckDetails extends DataEntity2<ReportCheckDetails>{
 
 	private static final long serialVersionUID = 1L;
 	
-	private Integer id; //id
-	private String qcCheckItemName; //检查项名称
-	private String isPassed; //是否合格
-	private String isWarned; //是否警告
-	private String mnagerPerson; //项目经理名称
-	private String workGroupPerson; //工人组名称
-	private String taskName; //任务包名称
-	private String isLocaleRepaire; //是否现场整改
-	private String isLimitDateRepaire; //是否限期整改
-	private Date limitDate; //整改期限
-	private String limitDateRepaireCheckStyle; //限期整改  整改方式
-	private String isPunishMoney; //是否罚款
-	private Double punishMoneyAmountReal; //项目经理罚款金额
-	private Integer pmPunishScore; //罚款分数
-	private Double workerPunishAmount; //工人罚款金额
-	private Integer workerPunishScore; //罚款分数
-	private Double qcPunishAmount; //质检罚款金额
-	private Integer qcPunishScore; //罚款分数
+	private Integer id;
+	private String qcCheckItemName;
+	private String isPassed;
+	private String isWarned;
+	private String mnagerPerson;
+	private String workGroupPerson;
+	private String taskName;
+	private String isLocaleRepaire;
+	private String isLimitDateRepaire;
+	private Date limitDate;
+	private String limitDateRepaireCheckStyle;
+	private String isPunishMoney;
+	private Double punishMoneyAmountReal;
+	private Integer pmPunishScore;
+	private Double workerPunishAmount;
+	private Integer workerPunishScore;
+	private Double qcPunishAmount;
+	private Integer qcPunishScore;
 	private List<ReportCheckBreak> reportCheckBreakList;
 	
 	

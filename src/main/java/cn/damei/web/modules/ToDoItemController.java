@@ -17,11 +17,7 @@ import cn.damei.entity.modules.ToDoItemEntity;
 import cn.damei.service.modules.ToDoItemService;
 import cn.damei.common.utils.UserUtils;
 
-/**
- * 待办事项controller
- * @author lzm
- * @version 2017-7-14
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/toDoItemController")
 public class ToDoItemController {
@@ -47,7 +43,7 @@ public class ToDoItemController {
 		return "modules/PQC/toDoItem/toDoItemList";
 	}
 	
-	//今日待办查询
+
 	@RequiresPermissions("toDoItem:toDoItem:view")
 	@RequestMapping(value = {"toDoItemListToday", ""})
 	public String todaylist(ToDoItemEntity toDoItemEntity, HttpServletRequest request, HttpServletResponse response, Model model) {
@@ -62,27 +58,16 @@ public class ToDoItemController {
 			HttpServletResponse response, Model model) {
 		
 		int x = 0;
-		// 不是管理员就不能查全部门店
+
 		if (!UserUtils.getUser().getOffice().getId().equals("1")) {
-			// 安心查自己门店吧
+
 			toDoItemEntity.setStoreId(Integer.parseInt(UserUtils.getUser().getStoreId()));
 			x++;
 		}
 
 		Page<ToDoItemEntity> page = toDoItemService
 				.findPage(new Page<ToDoItemEntity>(request, response), toDoItemEntity);
-		/*for (QualityControlFineUpdateEntity item : page.getList()) {
-			StringBuilder sb = new StringBuilder();
-			List<QualityControlFineUpdateEntity> name = qualityControlFineUpdateService.findName(item.getCheckItemId());
 
-			for (QualityControlFineUpdateEntity qualityControlFineUpdateEntity : name) {
-				sb.append(qualityControlFineUpdateEntity.getIllegalName());
-				sb.append(",");
-			}
-			item.setIllegalName(sb.toString());
-
-		}
-*/
 		if (x > 0) {
 			toDoItemEntity.setStoreId(null);
 
@@ -97,9 +82,7 @@ public class ToDoItemController {
 		toDoItemService.save(toDoItemEntity);
 		return "modules/PQC/toDoItem/toDoItemList";
 	}
-	/*
-	 * 更新是否查看或处理，type:表示查看或处理，0表示更新查看，1表示更新处理,2表示都更新
-	 */
+
 	@RequestMapping(value = {"updateViewdOrSolvedByObj", ""})
 	public String updateViewdOrSolvedByObj(String id,String type){
 		toDoItemService.updateViewdOrSolvedByObj(id,type);

@@ -20,18 +20,11 @@ import cn.damei.common.web.BaseController;
 import cn.damei.entity.modules.MaterialScheduleQueryEntity;
 import cn.damei.service.modules.MaterialScheduleQueryService;
 import cn.damei.common.utils.UserUtils;
-/**
- * 
- * @author 梅浩
- * @2016年12月7日
- * @mdn大美装饰管理平台
- * @author_phone : 18610507472
- * @ClassInfo:材料进度看板
- */
+
 @Controller
 @RequestMapping(value="${adminPath}/materialScheduleQuery")
 public class MaterialScheduleQueryController  extends BaseController{
-	private static Logger logger = LoggerFactory.getLogger(MaterialScheduleQueryController.class);//日志
+	private static Logger logger = LoggerFactory.getLogger(MaterialScheduleQueryController.class);
 	
 	@Autowired
 	private MaterialScheduleQueryService service;
@@ -64,9 +57,9 @@ public class MaterialScheduleQueryController  extends BaseController{
 			}
 		}
 		int x = 0;
-		//不是管理员就不能查全部门店
+
 		if(!UserUtils.getUser().getOffice().getId().equals("1")){
-			//安心查自己门店吧
+
 			checkEntity.setStoreId(Integer.parseInt(UserUtils.getUser().getStoreId()));
 			x++;
 		}
@@ -83,45 +76,7 @@ public class MaterialScheduleQueryController  extends BaseController{
 		return "modules/materialScheduleQuery/list";
 	}
 	
-	/*@RequiresPermissions("materialScheduleQuery:materialScheduleQuery:view")
-	@RequestMapping(value="details")
-	public String    purchaseDetails(String type,String id,HttpServletRequest request, HttpServletResponse response, Model model,RedirectAttributes redirectAttributes){
-	
-		
-		//1:辅材
-			if(null!=id&&null!=type){
-				if("1".equals(type)){
-					return "redirect:" + Global.getAdminPath() + "	/purchase/bizPurchase/details?id="+id;	
-				
-			//2:开关面板		
-				}else if("2".equals(type)){
-					return "redirect:" + Global.getAdminPath() + "	/purchase/bizPurchaseMainPanel/mainPanelDetails?id="+id;		
-				//5 墙地砖
-				}else if("5".equals(type)){
-					return "redirect:" + Global.getAdminPath() + "/purchase/bizPurchaseMainTile/mainTileDetails?id="+id;	
-					
-					
-				}else{
-					
-					logger.warn("PC端采购单进度面板的点击详情中: id或者type数据异常  id为: "+id +"type为: "+type);
-					addMessage(redirectAttributes, "您的数据格式不正确,请联系开发人员");
-					return "modules/materialScheduleQuery/list";	
-					
-					
-				}
-				
-				
-			}else{
-				
-				logger.warn("PC端采购单进度面板的点击详情中: id或者type为空  id为: "+id +"type为: "+type);
-				addMessage(redirectAttributes, "您的数据有误,请联系开发人员");
-				return "modules/materialScheduleQuery/list";
-				
-			}
-		
-		
-	
-	}*/
+
 	
 	
 }

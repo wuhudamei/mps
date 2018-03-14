@@ -1,45 +1,38 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import org.hibernate.validator.constraints.Length;
 
 import cn.damei.common.persistence.DataEntity;
 
-/**
- * 工程部管理Entity
- * 
- * @author haven
- * @version 2016-09-05
- */
+
 public class BizEngineeringDepartment extends DataEntity<BizEngineeringDepartment> {
 
     private static final long serialVersionUID = 1L;
-    private String name; // 工程部名称
-    private String groupId; // 工人组
-    private String leader; // 负责人
-    private String jobDispatcher; // 派工调度员
-    private String materialDispatcher; // 材料调度员
-    private String inspector; // 质检员
-    private String manager; // 项目经理
+    private String name;
+    private String groupId;
+    private String leader;
+    private String jobDispatcher;
+    private String materialDispatcher;
+    private String inspector;
+    private String manager;
     private String orderDispatcher;
     private String settlementClerk;
     private String receptionist;
     private String budgeteer;
     
-    private String jobDispatcherNon; // 派工调度员
-    private String materialDispatcherNon; // 材料调度员
-    private String inspectorNon; // 质检员
-    private String managerNon; // 项目经理
-    private String projectMode; // 工程模式 -- '1-产业模式；2-传统模式；3-全部
+    private String jobDispatcherNon;
+    private String materialDispatcherNon;
+    private String inspectorNon;
+    private String managerNon;
+    private String projectMode;
 
-    private String orderDispatcherNon;      //派单员  
-    private String settlementClerkNon;      //结算员 
-    private String receptionistNon;         //接单员
-    private String budgeteerNon;			//预算员
+    private String orderDispatcherNon;
+    private String settlementClerkNon;
+    private String receptionistNon;
+    private String budgeteerNon;
     
-    private String storeId; // 门店
+    private String storeId;
 
     public BizEngineeringDepartment() {
         super();
@@ -103,7 +96,7 @@ public class BizEngineeringDepartment extends DataEntity<BizEngineeringDepartmen
         this.inspector = inspector;
     }
 
-   // @Length(min = 0, max = 255, message = "项目经理长度必须介于 0 和 255 之间")
+
     public String getManager() {
         return manager;
     }

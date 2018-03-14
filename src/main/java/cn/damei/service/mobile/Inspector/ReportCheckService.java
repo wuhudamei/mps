@@ -12,21 +12,12 @@ import cn.damei.entity.mobile.Inspector.ReportCheck;
 import cn.damei.entity.mobile.Inspector.ReportCheckDetails;
 import cn.damei.entity.mobile.Inspector.ReportCheckDetailsPic;
 
-/**
- * 质检报告
- * @author Administrator
- *
- */
+
 @Service
 @Transactional(readOnly=true)
 public class ReportCheckService extends CrudService2<ReportCheckDao,ReportCheck>{
 
-	/**
-	 * 查询质检单订单列表
-	 * @param inspectorId
-	 * @param text
-	 * @return
-	 */
+
 	public List<ReportCheck> queryOrderList(Integer inspectorId,String text){
 		ReportCheck reportCheck  = new ReportCheck();
 		reportCheck.setCheckEmployeeId(inspectorId);
@@ -34,29 +25,17 @@ public class ReportCheckService extends CrudService2<ReportCheckDao,ReportCheck>
 		return dao.queryOrderList(reportCheck);
 	}
 
-	/**
-	 * 查询该订单所有的质检报告
-	 * @param id
-	 * @return
-	 */
+
 	public List<ReportCheck> findReportByInspectorId(Integer id) {
 		return dao.findReportByInspectorId(id);
 	}
 
-	/**
-	 * 根据质检单id查询质检报告详情
-	 * @param id
-	 * @return
-	 */
+
 	public ReportCheck findReportDetailsById(Integer id) {
 		return dao.findReportDetailsById(id);
 	}
 
-	/**
-	 * 查询质检详情
-	 * @param id
-	 * @return
-	 */
+
 	public List<ReportCheckDetails> findItemById(Integer id) {
         List<ReportCheckDetails> itemById = dao.findItemById(id);
         for (ReportCheckDetails reportCheckDetails : itemById) {
@@ -71,20 +50,12 @@ public class ReportCheckService extends CrudService2<ReportCheckDao,ReportCheck>
         return itemById;
 	}
 
-	/**
-	 * 通过质检单id查询图片数量
-	 * @param id
-	 * @return
-	 */
+
 	public Integer findPicNum(Integer id) {
 		return dao.findPicNum(id);
 	}
 
-	/**
-	 * 通过质检单id查询图片
-	 * @param qcBillId
-	 * @return
-	 */
+
 	public List<ReportCheckDetailsPic> findPic(Integer qcBillId) {
 		return dao.findPic(qcBillId);
 	}

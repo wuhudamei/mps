@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import java.util.List;
@@ -25,11 +23,7 @@ import cn.damei.entity.modules.BizProcedurePrice;
 import cn.damei.service.modules.BizProcedurePriceService;
 import cn.damei.common.utils.UserUtils;
 
-/**
- * 工序价格管理Controller
- * @author 魏建勇
- * @version 2016-09-03
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/procedureprice/bizProcedurePrice")
 public class BizProcedurePriceController extends BaseController {
@@ -49,7 +43,7 @@ public class BizProcedurePriceController extends BaseController {
 		return entity;
 	}
 	
-	//@RequiresPermissions("procedureprice:bizProcedurePrice:view")
+
 	@RequestMapping(value = {"list", ""})
 	public String list(BizProcedurePrice bizProcedurePrice, HttpServletRequest request, HttpServletResponse response, Model model) {
         if(StringUtils.isBlank(bizProcedurePrice.getStoreId())){
@@ -63,7 +57,7 @@ public class BizProcedurePriceController extends BaseController {
 		return "modules/procedureprice/bizProcedurePriceList";
 	}
 
-	//@RequiresPermissions("procedureprice:bizProcedurePrice:view")
+
 	@RequestMapping(value = "form")
 	public String form(BizProcedurePrice bizProcedurePrice, Model model) {
 	    if(StringUtils.isBlank(bizProcedurePrice.getStoreId())){
@@ -83,7 +77,7 @@ public class BizProcedurePriceController extends BaseController {
 		return "modules/procedureprice/bizProcedurePriceForm";
 	}
 
-	//@RequiresPermissions("procedureprice:bizProcedurePrice:edit")
+
 	@RequestMapping(value = "save")
 	public String save(BizProcedurePrice bizProcedurePrice, Model model, RedirectAttributes redirectAttributes) {
 		if (!beanValidator(model, bizProcedurePrice)){
@@ -98,8 +92,8 @@ public class BizProcedurePriceController extends BaseController {
     		List<BizProcedurePrice> entityList =  bizProcedurePriceService.findList(entity);
     		 int maxVersion = 0;
     		if(entityList!=null && entityList.size()>0){
-    		    //addMessage(redirectAttributes, "工序价格成功");
-    		   // return form(bizProcedurePrice, model);
+
+
     		   
     		    for(BizProcedurePrice bpp :entityList){
     		        if(bpp.getVersion()>maxVersion){

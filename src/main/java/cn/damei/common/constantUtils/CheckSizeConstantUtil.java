@@ -1,16 +1,10 @@
 package cn.damei.common.constantUtils;
 
 
-/**
- * 复尺
- * @author cgh
- *
- */
+
 public class CheckSizeConstantUtil {
 	
-	/**
-	 * 厂家复尺类型
-	 */
+
 	public static final String CHECK_SCALE_1_VALUE = "1";
 	public static final String CHECK_SCALE_1_VALUE_REMARK = "防盗门";
 	public static final String CHECK_SCALE_2_VALUE = "2";

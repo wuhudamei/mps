@@ -4,23 +4,21 @@ import cn.damei.common.persistence.DataEntity2;
 
 public class BizOrderTaskpackagePaymentDetailSplitVo extends DataEntity2<BizOrderTaskpackagePaymentDetailSplitVo>{
 
-	/**
-	 * @author wang
-	 */
+
 	private static final long serialVersionUID = 1L;
-	private Integer orderTaskpackagePaymentDetailId;		// 付款单明细id -- '
-	private Integer salaryEmployeeId;		// 收款员工id -- '
-	private Integer employeeBankcardId;		// 员工银行卡id -- '
-	private Integer employeeBankcardRelatedIdcardId;		// 员工银行卡关联身份证id -- '
-	private String salaryEmployeeName;		// 收款员工姓名 -- '
-	private String salaryEmployeeIdcardNo;		// 收款员工身份证号 -- '
-	private String salaryEmployeeBankcard;		// 收款员工银行卡号 -- '
-	private double payAmountTotal;		// 付款总金额 -- '
-	private String relatedName;		// 关联人姓名 -- '
-	private String relatedIdcardNo;		// 关联人身份证号 -- '
-	private double payAmountSplit;		// 打款金额 -- '
-	private String paymentCode; //付款单编号
-	private double restMoney; //本月剩余可打款余额
+	private Integer orderTaskpackagePaymentDetailId;
+	private Integer salaryEmployeeId;
+	private Integer employeeBankcardId;
+	private Integer employeeBankcardRelatedIdcardId;
+	private String salaryEmployeeName;
+	private String salaryEmployeeIdcardNo;
+	private String salaryEmployeeBankcard;
+	private double payAmountTotal;
+	private String relatedName;
+	private String relatedIdcardNo;
+	private double payAmountSplit;
+	private String paymentCode;
+	private double restMoney;
 	public Integer getId() {
 		return id;
 	}

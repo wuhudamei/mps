@@ -1,26 +1,20 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import org.hibernate.validator.constraints.Length;
 
 import cn.damei.common.persistence.DataEntity;
 
-/**
- * 任务包派工计划模板Entity
- * @author chy
- * @version 2016-09-03
- */
+
 public class BizTaskPackageWorkPlanTemplatRel extends DataEntity<BizTaskPackageWorkPlanTemplatRel> {
 	
 	private static final long serialVersionUID = 1L;
-	private BizTaskPackageWorkPlanTemplat bizTaskPackageWorkPlanTemplat;		// 任务包派工计划模板id 父类
-	private String storeId;		// 门店id
-	private String packageOrder;		// 顺序
-	private String taskPackageId;		// 任务包名称
-	private String beginDay;		// 开工第几天开始
-	private String endDay;		// 开工第几天结束
+	private BizTaskPackageWorkPlanTemplat bizTaskPackageWorkPlanTemplat;
+	private String storeId;
+	private String packageOrder;
+	private String taskPackageId;
+	private String beginDay;
+	private String endDay;
 	
 	public BizTaskPackageWorkPlanTemplatRel() {
 		super();

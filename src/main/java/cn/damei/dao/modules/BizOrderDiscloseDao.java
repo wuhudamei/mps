@@ -6,10 +6,7 @@ import cn.damei.entity.modules.BizOrderDisclose;
 
 import java.util.List;
 
-/**
- * 订单交底
- * @author llp
- */
+
 @MyBatisDao
 public interface BizOrderDiscloseDao extends CrudDao2<BizOrderDisclose>{
 

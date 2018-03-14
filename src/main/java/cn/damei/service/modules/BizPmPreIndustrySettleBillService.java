@@ -42,12 +42,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-/**
- * 项目经理准产业结算单Service
- * 
- * @author hyh
- *
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizPmPreIndustrySettleBillService
@@ -100,13 +95,7 @@ public class BizPmPreIndustrySettleBillService
 
 
 
-	/**
-	* @Description: 准产业中期结算单实体数据封装
-	* @Author zhangkangjian
-	* @param
-	* @return
-	* @Date 2018/1/25 17:14
-	*/
+
 	public BizPmPreIndustrySettleBill midDataEncapsulation(BizPmPreIndustrySettleBill settleBill){
         if(settleBill.getIsNewSettleBill().equals("0")){
             Double contractSettleAmount = (settleBill.getContractAmount()+settleBill.getMidwayBasicworkAddAmount()
@@ -145,13 +134,7 @@ public class BizPmPreIndustrySettleBillService
         return settleBill;
     }
 
-    /**
-    * @Description: 准产业竣工结算单实体数据封装
-    * @Author zhangkangjian
-    * @param
-    * @return
-    * @Date 2018/1/25 17:23
-    */
+
     public BizPmPreIndustrySettleBill completedDataEncapsulation(BizPmPreIndustrySettleBill settleBill,Integer orderId){
         Map<String,Object> midwaySettleBillParam = new HashMap<String,Object>();
         midwaySettleBillParam.put("orderId", orderId);
@@ -185,11 +168,7 @@ public class BizPmPreIndustrySettleBillService
 
 
 
-	/**
-	 * 创建中期结算单
-	 * 
-	 * @return
-	 */
+
 	@Transactional(readOnly = false)
 	public String createMidwaySettleBille(BizPmPreIndustrySettleBill bizPmPreIndustrySettleBill) {
 		Integer orderId = bizPmPreIndustrySettleBill.getOrderId();
@@ -201,13 +180,13 @@ public class BizPmPreIndustrySettleBillService
 		param.put("orderId", orderId);
 		param.put("settleBillType", 1);
 		int count = dao.queryCountPmPreIndustrySettleBillByParam(param);
-		if (count > 0) {// 已存在
+		if (count > 0) {
 			result = "1";
 			return result;
 		}
-		// 插入结算类目明细
+
 		List<BizPmSettleCategoryDetail> detailList = new ArrayList<BizPmSettleCategoryDetail>();
-		// 1.插入中期承包总价
+
 		Map<String, Object> settParam = new HashMap<String, Object>();
 		settParam.put("orderId", orderId);
 		settParam.put("settleStage", 10);
@@ -229,7 +208,7 @@ public class BizPmPreIndustrySettleBillService
 			detail.setSettleRole(ConstantUtils.SETTLE_ROLE_1);
 			detailList.add(detail);
 		}
-		// 2.插入基装增项
+
 		Map<String, Object> bizOrderChangeParam = new HashMap<String, Object>();
 		bizOrderChangeParam.put("orderId", orderId);
 		bizOrderChangeParam.put("changeType", ConstantUtils.change_type_10);
@@ -252,7 +231,7 @@ public class BizPmPreIndustrySettleBillService
 			detailList.add(detail);
 		}
 
-		// 3.插入辅料用量
+
 		Map<String, Object> auMaterParam = new HashMap<String, Object>();
 		auMaterParam.put("orderId", orderId);
 		auMaterParam.put("isSandCement", 0);
@@ -288,7 +267,7 @@ public class BizPmPreIndustrySettleBillService
 			detailList.add(detail);
 		}
 
-		// 4.插入沙子水泥
+
 		Map<String, Object> sandMaterParam = new HashMap<String, Object>();
 		sandMaterParam.put("orderId", orderId);
 		sandMaterParam.put("isSandCement", 1);
@@ -324,7 +303,7 @@ public class BizPmPreIndustrySettleBillService
 			detailList.add(detail);
 		}
 
-		// 5.插入标化材料
+
 		List<BizOrderMaterialsStandard> materialsStandardList = inspectorConfirmDao
 				.queryMaterialsStandardByOrderId(orderId);
 		if (materialsStandardList != null && materialsStandardList.size() > 0) {
@@ -358,7 +337,7 @@ public class BizPmPreIndustrySettleBillService
 			detailList.add(detail);
 		}
 
-		// 6.插入开关面板
+
 		List<MainPanel> mainPanelList = proIndustryPmSettleDao.queryMainPanelListByOrderId(orderId);
 		if (mainPanelList != null && mainPanelList.size() > 0) {
 			Double auMaterAmount = 0.00;
@@ -391,7 +370,7 @@ public class BizPmPreIndustrySettleBillService
 			detailList.add(detail);
 		}
 
-		// 7.插入工人人工费
+
 		List<BizOrderTaskpackagePaymentVo> paymentList = bizOrderTaskpackagePaymentDao.findPaymentVoByOrderId(orderId);
 		if (paymentList != null && paymentList.size() > 0) {
 			Double auMaterAmount = 0.00;
@@ -424,7 +403,7 @@ public class BizPmPreIndustrySettleBillService
 			detailList.add(detail);
 		}
 
-		// 8.插入中期奖励
+
 		Map<String, Object> rewardParam = new HashMap<String, Object>();
 		rewardParam.put("orderId", orderId);
 		rewardParam.put("employeeType", 2);
@@ -450,7 +429,7 @@ public class BizPmPreIndustrySettleBillService
 			detailList.add(detail);
 		}
 
-		// 9.插入中期扣款
+
 		Map<String, Object> punishParam = new HashMap<String, Object>();
 		punishParam.put("orderId", orderId);
 		punishParam.put("employeeType", 2);
@@ -476,7 +455,7 @@ public class BizPmPreIndustrySettleBillService
 			detailList.add(detail);
 		}
 
-		// 10.插入材料搬运及运输费
+
 		BizOrderMaterialCarryCost bizOrderMaterialCarryCost = bizOrderMaterialCarryCostDao
 				.queryOrderMaterialCarryCostByOrderId(orderId);
 		if (bizOrderMaterialCarryCost != null) {
@@ -497,7 +476,7 @@ public class BizPmPreIndustrySettleBillService
 			detailList.add(detail);
 		}
 
-		// 11.插入中期变更增项
+
 		Map<String, Object> changeAddParam = new HashMap<String, Object>();
 		changeAddParam.put("orderId", orderId);
 		changeAddParam.put("changeType", ConstantUtils.change_type_20);
@@ -520,7 +499,7 @@ public class BizPmPreIndustrySettleBillService
 			detailList.add(detail);
 		}
 
-		// 12.插入中期变更减项
+
 		Map<String, Object> changeRecuteParam = new HashMap<String, Object>();
 		changeRecuteParam.put("orderId", orderId);
 		changeRecuteParam.put("changeType", ConstantUtils.change_type_30);
@@ -545,7 +524,7 @@ public class BizPmPreIndustrySettleBillService
 
 		bizPmSettleCategoryDetailDao.insertBatch(detailList);
 
-		// 插入结算类目明细汇总
+
 		Map<String, Object> map1 = new HashMap<String, Object>();
 		map1.put("orderId", orderId);
 		map1.put("settleStatus", ConstantUtils.PM_SETTLE_STATUS_10);
@@ -611,7 +590,7 @@ public class BizPmPreIndustrySettleBillService
 		updateMap.put("settleCategoryList", settleCategoryListUpdateMap);
 		bizPmSettleCategoryDetailDao.updateRelateSummary(updateMap);
 
-		// 3.新增结算单
+
 		SimpleDateFormat format = new SimpleDateFormat("yyyyMM");
 		bizPmPreIndustrySettleBill.setPmPreIndustrySettleBillCode(bizSeiralnumService.getDateSequence("GJ"));
 		bizPmPreIndustrySettleBill.setSettleMonth(format.format(date));
@@ -650,11 +629,7 @@ public class BizPmPreIndustrySettleBillService
 
 	}
 
-	/**
-	 * 创建竣工结算单
-	 * 
-	 * @return
-	 */
+
 	@Transactional(readOnly = false)
 	public String createCompleteSettleBille(BizPmPreIndustrySettleBill bizPmPreIndustrySettleBill) {
 		Integer orderId = bizPmPreIndustrySettleBill.getOrderId();
@@ -666,13 +641,13 @@ public class BizPmPreIndustrySettleBillService
 		param.put("orderId", orderId);
 		param.put("settleBillType", 2);
 		int count = dao.queryCountPmPreIndustrySettleBillByParam(param);
-		if (count > 0) {// 已存在
+		if (count > 0) {
 			result = "1";
 			return result;
 		}
-		// 插入结算类目明细
+
 		List<BizPmSettleCategoryDetail> detailList = new ArrayList<BizPmSettleCategoryDetail>();
-		// 1.插入竣工承包总价
+
 		Map<String, Object> settParam = new HashMap<String, Object>();
 		settParam.put("orderId", orderId);
 		settParam.put("settleStage", 20);
@@ -694,7 +669,7 @@ public class BizPmPreIndustrySettleBillService
 			detail.setSettleRole(ConstantUtils.SETTLE_ROLE_1);
 			detailList.add(detail);
 		}
-		// 2.插入质保金
+
 		Map<String, Object> logParam = new HashMap<String, Object>();
 		logParam.put("orderId", orderId);
 		logParam.put("pmEmPloyeeId", pmEmployeeId);
@@ -718,7 +693,7 @@ public class BizPmPreIndustrySettleBillService
 			detail.setSettleRole(ConstantUtils.SETTLE_ROLE_1);
 			detailList.add(detail);
 		}
-		// 3.插入远程费
+
 		BizQcLongwayCommissionLog bizQcLongwayCommissionLog = new BizQcLongwayCommissionLog();
 		bizQcLongwayCommissionLog.setOrderId(orderId);
 		bizQcLongwayCommissionLog.setLongwayCommissionType("10");
@@ -742,7 +717,7 @@ public class BizPmPreIndustrySettleBillService
 			detail.setSettleRole(ConstantUtils.SETTLE_ROLE_1);
 			detailList.add(detail);
 		}
-		// 4.插入竣工变更增项
+
 		Map<String, Object> changeAddParam = new HashMap<String, Object>();
 		changeAddParam.put("orderId", orderId);
 		changeAddParam.put("changeType", ConstantUtils.change_type_40);
@@ -765,7 +740,7 @@ public class BizPmPreIndustrySettleBillService
 			detailList.add(detail);
 		}
 
-		// 5.插入竣工变更减项
+
 		Map<String, Object> changeRecuteParam = new HashMap<String, Object>();
 		changeRecuteParam.put("orderId", orderId);
 		changeRecuteParam.put("changeType", ConstantUtils.change_type_50);
@@ -788,7 +763,7 @@ public class BizPmPreIndustrySettleBillService
 			detailList.add(detail);
 		}
 
-		// 8.插入竣工奖励
+
 		Map<String, Object> rewardParam = new HashMap<String, Object>();
 		rewardParam.put("orderId", orderId);
 		rewardParam.put("employeeType", 2);
@@ -814,7 +789,7 @@ public class BizPmPreIndustrySettleBillService
 			detailList.add(detail);
 		}
 
-		// 9.插入竣工扣款
+
 		Map<String, Object> punishParam = new HashMap<String, Object>();
 		punishParam.put("orderId", orderId);
 		punishParam.put("employeeType", 2);
@@ -841,7 +816,7 @@ public class BizPmPreIndustrySettleBillService
 		}
 		bizPmSettleCategoryDetailDao.insertBatch(detailList);
 
-		// 插入结算类目明细汇总
+
 		Map<String, Object> map1 = new HashMap<String, Object>();
 		map1.put("orderId", orderId);
 		map1.put("settleStatus", ConstantUtils.PM_SETTLE_STATUS_10);
@@ -897,7 +872,7 @@ public class BizPmPreIndustrySettleBillService
 		updateMap.put("settleCategoryList", settleCategoryListUpdateMap);
 		bizPmSettleCategoryDetailDao.updateRelateSummary(updateMap);
 
-		// 3.新增结算单
+
 		SimpleDateFormat format = new SimpleDateFormat("yyyyMM");
 		bizPmPreIndustrySettleBill.setPmPreIndustrySettleBillCode(bizSeiralnumService.getDateSequence("GJ"));
 		bizPmPreIndustrySettleBill.setSettleMonth(format.format(date));
@@ -1009,14 +984,12 @@ public class BizPmPreIndustrySettleBillService
 		return dao.querySummaryBillCountByParam(param);
 	}
 
-	/**
-	 * 准产业项目经理生成月度结算
-	 */
+
 	@Transactional(readOnly = false)
 	public void createMonthlySettle(String ids, String settleMonth, String storeId) {
 		Date date = new Date();
 		User user = UserUtils.getUser();
-		// 1.新增结算汇总单
+
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("status", ConstantUtils.PM_SETTLE_STATUS_40);
 		map.put("storeId", storeId);
@@ -1061,10 +1034,10 @@ public class BizPmPreIndustrySettleBillService
 				bizBusinessStatusLogDao.insert(statusLog);
 			}
 		}
-		// 2.更新关联字段
+
 		dao.updateBatchByRelate(settleBillList);
 
-		// 更新结算单状态
+
 		Map<String, Object> updateSettleBillParam = new HashMap<String, Object>();
 		updateSettleBillParam.put("status", ConstantUtils.PM_SETTLE_STATUS_50);
 		updateSettleBillParam.put("updateSettleBilllist", list);
@@ -1073,14 +1046,14 @@ public class BizPmPreIndustrySettleBillService
 		updateSettleBillParam.put("statusDescribe", "已生成结算单");
 		dao.updateBatchSettleBillStatus(updateSettleBillParam);
 
-		// 更新结算类目汇总状态
+
 		Map<String, Object> CateGorgSummaryMap = new HashMap<String, Object>();
 		CateGorgSummaryMap.put("status", ConstantUtils.PM_SETTLE_STATUS_50);
 		CateGorgSummaryMap.put("statusDatetime", date);
 		CateGorgSummaryMap.put("updateSettleBilllist", list);
 		dao.updateBatchCateGorgSummaryStatus(CateGorgSummaryMap);
 
-		// 更新结算类目明细状态
+
 		Map<String, Object> CateGorgMap = new HashMap<String, Object>();
 		CateGorgMap.put("status", ConstantUtils.PM_SETTLE_STATUS_50);
 		CateGorgMap.put("statusDatetime", date);
@@ -1092,34 +1065,34 @@ public class BizPmPreIndustrySettleBillService
 
 	public HSSFWorkbook exportPmSettleBill(BizPmPreIndustrySettleBill bizPmPreIndustrySettleBill) {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		HSSFWorkbook wb = new HSSFWorkbook();// 创建一个Excel文件
+		HSSFWorkbook wb = new HSSFWorkbook();
 
 		HSSFCellStyle columnStyle = wb.createCellStyle();
-		columnStyle.setLeftBorderColor(HSSFColor.BLACK.index); // 左边框线的颜色
-		columnStyle.setBorderLeft((short) 1);// 左边框线的大小
-		columnStyle.setRightBorderColor(HSSFColor.BLACK.index); // 右边框线的颜色
-		columnStyle.setBorderRight((short) 1);// 右边框线的大小
-		columnStyle.setTopBorderColor(HSSFColor.BLACK.index); // 上边框线的颜色
-		columnStyle.setBorderTop((short) 1);// 上边框线的大小
-		columnStyle.setBottomBorderColor(HSSFColor.BLACK.index); // 下边框线的颜色
-		columnStyle.setBorderBottom((short) 1);// 下边框线的大小
+		columnStyle.setLeftBorderColor(HSSFColor.BLACK.index);
+		columnStyle.setBorderLeft((short) 1);
+		columnStyle.setRightBorderColor(HSSFColor.BLACK.index);
+		columnStyle.setBorderRight((short) 1);
+		columnStyle.setTopBorderColor(HSSFColor.BLACK.index);
+		columnStyle.setBorderTop((short) 1);
+		columnStyle.setBottomBorderColor(HSSFColor.BLACK.index);
+		columnStyle.setBorderBottom((short) 1);
 		columnStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
 
 		HSSFCellStyle headStyle = wb.createCellStyle();
-		headStyle.setLeftBorderColor(HSSFColor.BLACK.index); // 左边框线的颜色
-		headStyle.setBorderLeft((short) 1);// 左边框线的大小
-		headStyle.setRightBorderColor(HSSFColor.BLACK.index); // 右边框线的颜色
-		headStyle.setBorderRight((short) 1);// 右边框线的大小
-		headStyle.setTopBorderColor(HSSFColor.BLACK.index); // 上边框线的颜色
-		headStyle.setBorderTop((short) 1);// 上边框线的大小
-		headStyle.setBottomBorderColor(HSSFColor.BLACK.index); // 下边框线的颜色
-		headStyle.setBorderBottom((short) 1);// 下边框线的大小
-		headStyle.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);// 设置背景色
+		headStyle.setLeftBorderColor(HSSFColor.BLACK.index);
+		headStyle.setBorderLeft((short) 1);
+		headStyle.setRightBorderColor(HSSFColor.BLACK.index);
+		headStyle.setBorderRight((short) 1);
+		headStyle.setTopBorderColor(HSSFColor.BLACK.index);
+		headStyle.setBorderTop((short) 1);
+		headStyle.setBottomBorderColor(HSSFColor.BLACK.index);
+		headStyle.setBorderBottom((short) 1);
+		headStyle.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
 		headStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
 		headStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
 
-		HSSFSheet sheet = wb.createSheet("中期结算单");// 创建一个Excel的Sheet
-		// 单元格宽度
+		HSSFSheet sheet = wb.createSheet("中期结算单");
+
 		sheet.setColumnWidth(0, 2000);
 		sheet.setColumnWidth(1, 2000);
 		sheet.setColumnWidth(2, 3000);
@@ -1146,7 +1119,7 @@ public class BizPmPreIndustrySettleBillService
 		sheet.setColumnWidth(23, 3000);
 		sheet.setColumnWidth(24, 3000);
 
-		// 标题
+
 		HSSFRow rowTitle = sheet.createRow(0);
 		HSSFCell headCell0 = rowTitle.createCell(0);
 		headCell0.setCellStyle(headStyle);
@@ -1248,8 +1221,8 @@ public class BizPmPreIndustrySettleBillService
 		headCell23.setCellStyle(headStyle);
 		headCell23.setCellValue("中期实际结算金额");
 
-		HSSFSheet sheet2 = wb.createSheet("竣工结算单");// 创建一个Excel的Sheet
-		// 单元格宽度
+		HSSFSheet sheet2 = wb.createSheet("竣工结算单");
+
 		sheet2.setColumnWidth(0, 2000);
 		sheet2.setColumnWidth(1, 2000);
 		sheet2.setColumnWidth(2, 3000);
@@ -1271,7 +1244,7 @@ public class BizPmPreIndustrySettleBillService
 		sheet2.setColumnWidth(18, 3000);
 		sheet2.setColumnWidth(19, 3000);
 
-		// 标题
+
 		HSSFRow rowTitle2 = sheet2.createRow(0);
 		HSSFCell head2Cell0 = rowTitle2.createCell(0);
 		head2Cell0.setCellStyle(headStyle);

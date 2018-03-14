@@ -10,9 +10,9 @@ public class WeiChatOpenId extends DataEntity2<WeiChatOpenId>{
 	
 	private String openid;
 	private String phone;
-	private Date bindDatetime;//绑定时间
-	private Date unbindDatetime;//解绑时间
-	private String bindStatus; //绑定状态  1--绑定   0--注销绑定
+	private Date bindDatetime;
+	private Date unbindDatetime;
+	private String bindStatus;
 	
 	public String getOpenid() {
 		return openid;

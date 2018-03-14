@@ -4,19 +4,13 @@ import java.util.Date;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/** 
-* @author 梅浩   meihao@zzhyun.cn: 
-* @version 创建时间：2016年9月29日 下午8:42:43 
-* 采购单表,  有 主材和辅材     我是开关面板 和辅材
-*/
+
 
 public class PurchaseVo    extends DataEntity2<PurchaseVo> {
 
 	
 	
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	
 	
@@ -27,25 +21,25 @@ public class PurchaseVo    extends DataEntity2<PurchaseVo> {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	private Integer orderId;//订单id
-	private String purchaseCode;//采购单编码
-	private String remarks; //收货人姓名加上手机号
-	private Date applyTime; //申请时间   当前时间
-	private Integer applyPerson;//申请人
+	private Integer orderId;
+	private String purchaseCode;
+	private String remarks;
+	private Date applyTime;
+	private Integer applyPerson;
 	
-	private Double AuxiliaryAllMoney; //辅料总价
-	private Date hopeForTime; //期望送货日期
-	private String  status;  //采购单状态    10-项目经理已提交辅料申请
-	private String purchaseType; //采购单类别   开关面板 :2
-	private Integer  totalCount; //总数
-	//12-28加入超定额
+	private Double AuxiliaryAllMoney;
+	private Date hopeForTime;
+	private String  status;
+	private String purchaseType;
+	private Integer  totalCount;
+
 	
-	private Integer overCount;//超出多少
-	private String  overReasonType;//超出类型
-	private String overWords;//超出原因说明
-	private Double purchaseCountTotal; //采购商品总数
-	private String statusDescribe;//废弃原因
-	private String statusId; //状态id
+	private Integer overCount;
+	private String  overReasonType;
+	private String overWords;
+	private Double purchaseCountTotal;
+	private String statusDescribe;
+	private String statusId;
 	
 	
 	

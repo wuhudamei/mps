@@ -45,16 +45,16 @@ public class NodePlanPicController {
 		String nodePlanId = req.getParameter("nodePlanId");
 		logger.info("节点编号：" + nodePlanId);
 		
-		// 获得物理路径webapp所在路径
+
 		String pathRoot = request.getSession().getServletContext().getRealPath("");
 		String path = "";
-		File file = new File(ConstantUtils.UPLOAD_PROGRESS);//进度通报图片路径
+		File file = new File(ConstantUtils.UPLOAD_PROGRESS);
 		List<String> listImagePath = new ArrayList<String>();
 		for (MultipartFile mf : pic) {
 			if (!mf.isEmpty()) {
-				// 生成uuid作为文件名称
+
 				String uuid = UUID.randomUUID().toString().replaceAll("-", "");
-				// 获得文件类型（可以判断如果不是图片，禁止上传）
+
 				String contentType = mf.getContentType();
 				String picName = contentType.substring(contentType.indexOf("/") + 1);
 				path = (file + file.separator + uuid + "." + picName).trim();
@@ -68,17 +68,14 @@ public class NodePlanPicController {
 		return listImagePath;
 	}
 	
-	/**
-	 * 上传图片以及页面中的数据
-	 * 提交数据到后台
-	 */
+
 	@RequestMapping(value = "submitData", method = RequestMethod.POST)
 	public String submitData(HttpServletRequest request,NodePlanPic nodePlanPic , String pics, String nodePlanId) {
-		String realDoneDate = request.getParameter("realDoneDate");//实际完成日期
+		String realDoneDate = request.getParameter("realDoneDate");
 		String nodeIndex = request.getParameter("nodeIndex");
-		String delayReason = request.getParameter("delayReason");//延期原因描述
-		String delayType = request.getParameter("delayType");//延期类型
-		String picsValue1 = request.getParameter("picsValue1");//
+		String delayReason = request.getParameter("delayReason");
+		String delayType = request.getParameter("delayType");
+		String picsValue1 = request.getParameter("picsValue1");
 		String picsValue2 = request.getParameter("picsValue2");
 		
 		logger.info("实际完成日期：" + realDoneDate + "\t 延迟原因说明：" + delayReason +"\t 序列编号：" + nodeIndex);
@@ -94,17 +91,17 @@ public class NodePlanPicController {
 			list.add(st.nextToken());
 		}
 		
-		//把图片信息写入biz_node_plan_pic
+
 		for(String donePic : list){
 			logger.info("图片完整路径："+donePic);
 			nodePlanPic.setNodePlanId(Integer.valueOf(nodePlanId));
 			nodePlanPic.setPicUrl(donePic);
-			//picflag = nodePlanPicService.insertNodePlanPic(nodePlanPic);
+
 			logger.info("insert node_plan_pic flag(true:success;false:false)："+flag);
 		}
 		
-		//NodePlan = node = nodePlanService.getByMaxId(nodePlanId);
-		//flag = nodePlanService.updateByDate(realDoneDate,nodePlanId,delayType,delayReason);
+
+
 
 		return "redirect:" + Global.getAdminPath() + "/app/manager/progressBuiletin";
 	}

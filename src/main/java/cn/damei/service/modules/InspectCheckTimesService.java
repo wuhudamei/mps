@@ -17,14 +17,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class InspectCheckTimesService extends CrudService<InspectCheckTimesDao, InspectCheckTimesEntity> {
 
 
-    /**
-     * 重写查询分页
-     *
-     * @param page   startDate ,endDate ,storeId projectMode pqcName
-     *               分页对象
-     * @param entity
-     * @return
-     */
+
     @Override
     @Transactional(readOnly = false)
     public Page<InspectCheckTimesEntity> findPage(Page<InspectCheckTimesEntity> page, InspectCheckTimesEntity entity) {
@@ -36,7 +29,7 @@ public class InspectCheckTimesService extends CrudService<InspectCheckTimesDao, 
 
         if (pqcListSize > 0) {
 
-            //下面的sql的查询条件
+
             Map<String, Object> queryMap = new ConcurrentHashMap<>(pqcListSize + 12);
 
             if (null != entity.getCheckStartDate()) {
@@ -53,7 +46,7 @@ public class InspectCheckTimesService extends CrudService<InspectCheckTimesDao, 
             queryMap.put("list", allPqcId);
 
 
-            //检查工地次数
+
             List<InspectCheckTimesEntity> allCheckTimeList = dao.findCheckTimesByPqcId(queryMap);
             int checkTimesSize = allCheckTimeList.size();
 
@@ -78,7 +71,7 @@ public class InspectCheckTimesService extends CrudService<InspectCheckTimesDao, 
             }
 
 
-            //签到次数
+
             List<InspectCheckTimesEntity> allSignInfo = dao.findSignInfoByEmpId(queryMap);
 
 
@@ -109,14 +102,14 @@ public class InspectCheckTimesService extends CrudService<InspectCheckTimesDao, 
             }
 
 
-            //所有的质检单
+
             List<InspectCheckTimesEntity> allQcBillList = dao.findAllPqcBillByEmpId(queryMap);
             int qcBillListSize = allQcBillList.size();
 
 
             if (qcBillListSize > 0) {
 
-                //所有的罚款项
+
                 List<InspectCheckTimesEntity> itemList = dao.findPqcItemInfoByBillId(allQcBillList);
                 int itemListSize = itemList.size();
 

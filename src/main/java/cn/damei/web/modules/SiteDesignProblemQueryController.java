@@ -49,13 +49,13 @@ public class SiteDesignProblemQueryController {
 	@RequestMapping(value="list")
 	public String query(SiteDesignProblem siteDesignProblem,Model model,HttpServletRequest request,HttpServletResponse response){
 		
-		//权限控制
+
 		User user = UserUtils.getUser();
 		List<String> orderdPhones = dataAuthorityService.orderdPhones(DataAuthorityConstantUtils.Biz_Business_Type_GDSJ);
 		siteDesignProblem.setPhones(orderdPhones);
 		String userId = user.getId();
 		siteDesignProblem.setUserId(userId);
-		//过滤工程模式
+
 		if(StringUtils.isBlank(siteDesignProblem.getProjectMode())){
 			if(StringUtils.isBlank(user.getProjectMode())||user.getProjectMode().equals("3")){
 				model.addAttribute("gongcheng", true);
@@ -70,13 +70,13 @@ public class SiteDesignProblemQueryController {
 			}
 		}
 	
-		//业务类型
+
 		siteDesignProblem.setBusinessType(BusinessProblemConstantUtil.BUSINESS_PROBLEM_BUSINESS_TYPE_4);
-		//照片类型
+
 		siteDesignProblem.setPictureType(PictureTypeContantUtil.PICTURE_TYPE_2081);
-		//材料部处理角色
+
 		siteDesignProblem.setProblemSolveRole(BusinessProblemConstantUtil.BUSINESS_PROBLEM_SOLVE_ROLE_5);
-		//材料部处理状态
+
 		siteDesignProblem.setLogStatus(BusinessProblemConstantUtil.BUSINESS_PROBLEM_STATUS_70);
 		Page<SiteDesignProblem> page = siteDesignProblemService.findVoPage(new Page<SiteDesignProblem>(request, response), siteDesignProblem);
 		model.addAttribute("page", page);

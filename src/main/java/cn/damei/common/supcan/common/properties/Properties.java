@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.common.supcan.common.properties;
 
 import java.util.List;
@@ -12,161 +10,99 @@ import cn.damei.common.utils.ObjectUtils;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 
-/**
- * 硕正TreeList Properties
- * @author WangZhen
- * @version 2013-11-04
- */
+
 @XStreamAlias("Properties")
 public class Properties {
 	
-	/**
-	 * Treelist的ID	串
-	 */
+
 	@XStreamAsAttribute
 	private String id;
 
-	/**
-	 * 主键	串, 下面<col>的列名，复合主键须以逗号分隔
-	 */
+
 	@XStreamAsAttribute
 	private String key;
 
-	/**
-	 * 是否以树展现	true/false
-	 */
+
 	@XStreamAsAttribute
 	private String isTree = "false";
 	
-	/**
-	 * 是否显示左标尺	true/false
-	 * 	editAble=true时，isShowRuler的默认值是true，否则是false;
-	 */
+
 	@XStreamAsAttribute
 	private String isShowRuler = "false";
 
-	/**
-	 * 合计行是否固定在底部、始终显示	true/false
-	 */
+
 	@XStreamAsAttribute
 	private String isFixTotalRow = "false";
 
-	/**
-	 * 合计行的背景色	颜色串
-	 */
+
 	@XStreamAsAttribute
 	private String totalBgColor = "#FFFFCC";
 
-	/**
-	 * 小计行的背景色	颜色串
-	 */
+
 	@XStreamAsAttribute
 	private String subTotalBgColor = "#FFFFCC";
 
-	/**
-	 * 是否允许增删改操作	true/false
-	 * editAble=true时，isShowRuler的默认值是true，否则是false;
-	 */
+
 	@XStreamAsAttribute
 	private String editAble = "false";
 	
-	/**
-	 * 是否允许用户增行操作	true/false
-	 * 注1: 仅在editAble=true时生效; 注2: 不影响增删改的API;
-	 */
+
 	@XStreamAsAttribute
 	private String addRowAble = "true";
 	
-	/**
-	 * 分屏方式	
-	 * 		true - 始终显示分隔条;
-	 * 		false - 始终不显示分隔条;
-	 * 		auto - 自动(超宽时会在左侧浮现分隔条);
-	 */
+
 	@XStreamAsAttribute
 	private String separateBarStyle = "false";
 
-	/**
-	 * 点击列标题是否执行排序	true/false
-	 */
+
 	@XStreamAsAttribute
 	private String sortAble = "true";
 
-	/**
-	 * 是否允许多层表头	true/false
-	 */
+
 	@XStreamAsAttribute
 	private String multiLayerAble = "false";
 
-	/**
-	 * 执行 Load() 函数时的淡入淡出效果	0 - 255, 数值越小效果越明显, 而 0 表示关闭此效果
-	 */
+
 	@XStreamAsAttribute
 	private String fadeInStep = "0";
 
-	/**
-	 * 顶部标题条的背景色	颜色串，可以是以逗号分隔的多个颜色(渐变)
-	 */
+
 	@XStreamAsAttribute
 	private String headerBgColor = "#FDFDFD,#F0F1EF";
 
-	/**
-	 * 顶部标题条的高度	像素数
-	 */
+
 	@XStreamAsAttribute
 	private String headerHeight = "28";
 
-	/**
-	 * 左标尺的背景色，颜色串，可以是以逗号分隔的多个颜色(渐变)
-	 */
+
 	@XStreamAsAttribute
 	private String leftColor = "#F0F1EF,#FDFDFD";
 
-	/**
-	 * 行高像素数
-	 */
+
 	@XStreamAsAttribute
 	private String rowHeight = "28";
 
-	/**
-	 * 当前行的颜色，允许多个颜色渐变
-	 * 颜色串, 支持ARGB格式，例如: "#10C0D0E0", 其中 "10" 是 alpha(透明度), "C0D0E0" 是 RGB, 此外, 还支持包含如下边框属性：
-	   * 　　	borderWidth - 边框线宽
-	 * 	　　borderColor - 边框线色
-	 * 	　　borderRound - 边框线的圆角直径
-	 * 	示例: "#12FFFFFF,#22EEFFEE; borderWidth=1; borderColor=red; borderRound=8"
-	 */
+
 	@XStreamAsAttribute
-	private String curSelBgColor = "#F5F5F5,#EDEDED"; // #F5F5F5 #FFE88D
+	private String curSelBgColor = "#F5F5F5,#EDEDED";
 	
-	/**
-	 * 整行的背景色、文字色表达式 表达式, 如:
-	 * 		displayMask = "bgColor=if(price=0, red, transparent); textColor=if(price>2,#000022, blue)" 
-	 */
+
 	@XStreamAsAttribute
 	private String displayMask;
 	
-	/**
-	 * 指定标题栏默认字体	<Fonts>中的字体顺序号
-	 */
+
 	@XStreamAsAttribute
 	private String headerFontIndex;
 	
-	/**
-	 * 设置背景
-	 */
+
 	@XStreamAlias("Background")
 	private Background packground = new Background();
 
-	/**
-	 * 计算列表达式
-	 */
+
 	@XStreamAlias("Expresses")
 	private List<Express> expresses;
 	
-	/**
-	 * 打印简易配置 标题
-	 */
+
 	@XStreamAsAttribute
 	private String title;
 	

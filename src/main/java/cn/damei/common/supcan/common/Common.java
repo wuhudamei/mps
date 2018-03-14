@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.common.supcan.common;
 
 import java.util.List;
@@ -11,22 +9,14 @@ import cn.damei.common.supcan.common.properties.Properties;
 import cn.damei.common.utils.IdGen;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
-/**
- * 硕正Common
- * @author WangZhen
- * @version 2013-11-04
- */
+
 public class Common {
 
-	/**
-	 * 属性对象
-	 */
+
 	@XStreamAlias("Properties")
 	protected Properties properties;
 	
-	/**
-	 * 字体对象
-	 */
+
 	@XStreamAlias("Fonts")
 	protected List<Font> fonts;
 

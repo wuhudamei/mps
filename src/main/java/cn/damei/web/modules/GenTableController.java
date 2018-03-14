@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import java.util.List;
@@ -26,11 +24,7 @@ import cn.damei.entity.modules.GenTable;
 import cn.damei.service.modules.GenTableService;
 import cn.damei.common.utils.GenUtils;
 
-/**
- * 业务表Controller
- * @author ThinkGem
- * @version 2013-10-15
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/gen/genTable")
 public class GenTableController extends BaseController {
@@ -62,15 +56,15 @@ public class GenTableController extends BaseController {
 	@RequiresPermissions("gen:genTable:view")
 	@RequestMapping(value = "form")
 	public String form(GenTable genTable, Model model) {
-		// 获取物理表列表
+
 		List<GenTable> tableList = genTableService.findTableListFormDb(new GenTable());
 		model.addAttribute("tableList", tableList);
-		// 验证表是否存在
+
 		if (StringUtils.isBlank(genTable.getId()) && !genTableService.checkTableName(genTable.getName())){
 			addMessage(model, "下一步失败！" + genTable.getName() + " 表已经添加！");
 			genTable.setName("");
 		}
-		// 获取物理表字段
+
 		else{
 			genTable = genTableService.getTableFormDb(genTable);
 		}
@@ -85,7 +79,7 @@ public class GenTableController extends BaseController {
 		if (!beanValidator(model, genTable)){
 			return form(genTable, model);
 		}
-		// 验证表是否已经存在
+
 		if (StringUtils.isBlank(genTable.getId()) && !genTableService.checkTableName(genTable.getName())){
 			addMessage(model, "保存失败！" + genTable.getName() + " 表已经存在！");
 			genTable.setName("");

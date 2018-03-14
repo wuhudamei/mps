@@ -4,17 +4,15 @@ import cn.damei.common.persistence.DataEntity2;
 
 public class EmployeeGroup extends DataEntity2<EmployeeGroup>{
 	
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
-	private Integer id; //工人组id
-	private Integer star;//星级
+	private Integer id;
+	private Integer star;
 	private String nps;
-	private Integer sort; //排名
-	private String address; //地址
-	private Integer orderStop;//是否停单
-	private Integer state; //是否删除 1表示删除 0表示未删除
+	private Integer sort;
+	private String address;
+	private Integer orderStop;
+	private Integer state;
 	private String createArea; 
 	private Integer workType;
 	private Integer groupId;

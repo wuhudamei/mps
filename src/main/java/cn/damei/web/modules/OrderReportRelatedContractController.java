@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,11 +23,7 @@ import cn.damei.service.modules.OrderReportRelatedContractService;
 
 import java.util.List;
 
-/**
- * 返单关联合同信息Controller
- * @author mh
- * @version 2017-05-08
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/orderreportrelatedcontract/orderReportRelatedContract")
 public class OrderReportRelatedContractController extends BaseController {
@@ -52,7 +46,7 @@ public class OrderReportRelatedContractController extends BaseController {
 	@RequiresPermissions("orderreportrelatedcontract:orderReportRelatedContract:view")
 	@RequestMapping(value = {"list", ""})
 	public String list(OrderReportRelatedContract orderReportRelatedContract, HttpServletRequest request, HttpServletResponse response, Model model) {
-        //过滤门店
+
         User user = UserUtils.getUser();
         if(null==orderReportRelatedContract.getStoreId()){
             if(null!=user.getStoreId()){
@@ -65,9 +59,7 @@ public class OrderReportRelatedContractController extends BaseController {
 	}
 
 
-	/**
-	 * 通过返单查询关联合同   @param reportId
-	 */
+
 	@RequestMapping(value = {"findRelatedOrderInfoByReportId"})
 	public @ResponseBody
 	 List<OrderReportRelatedContract> findOrderInfoByReportId(OrderReportRelatedContract orderReportRelatedContract, HttpServletRequest request, HttpServletResponse response, Model model) {
@@ -77,9 +69,7 @@ public class OrderReportRelatedContractController extends BaseController {
 		return list;
 	}
 
-	/**
-	 * 删除关联合同信息  @param reportId  orderId
-	 */
+
 	@RequestMapping(value = {"deleteRelatedInfoByOrderId"})
 	public @ResponseBody
 	String deleteRelatedInfoByOrderId(OrderReportRelatedContract orderReportRelatedContract, HttpServletRequest request, HttpServletResponse response, Model model) {
@@ -97,15 +87,12 @@ public class OrderReportRelatedContractController extends BaseController {
 		return result;
 	}
 
-	/**
-	 * 确认关联合同,更新返单状态为已签施工合同 @param reportId orderIds
-	 *
-	 */
+
 	@RequestMapping(value ="updateOrderReportStatusById")
 	public @ResponseBody
 	String updateOrderReportStatusById(OrderReportRelatedContract orderReportRelatedContract,String[]orderIds,String []orderNums, HttpServletRequest request, HttpServletResponse response, Model model) {
 
-		//批量删除不是参数orderId的 关联信息  更新返单状态
+
 
 
 		String result="0";

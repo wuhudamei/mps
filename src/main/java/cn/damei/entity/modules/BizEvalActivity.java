@@ -8,27 +8,23 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 评价活动设置Entity
- * @author wyb
- * @version 2017-02-25
- */
+
 public class BizEvalActivity extends DataEntity2<BizEvalActivity> {
 	
 	private static final long serialVersionUID = 1L;
-	private Integer storeId;		// 门店
-	private String projectMode;		// 工程模式
-	private String evalTargetType;		// 评价对象
-	private String evalType;	//评价类别
-	private String interval;	//间隔时间
-	private Date evalStartDatetime;		// 有效时间开始
-	private Date evalEndDatetime;		// 有效时间结束
-	private String isEnabled;		// 是否启用
+	private Integer storeId;
+	private String projectMode;
+	private String evalTargetType;
+	private String evalType;
+	private String interval;
+	private Date evalStartDatetime;
+	private Date evalEndDatetime;
+	private String isEnabled;
 	private String taskpackTempId; 
-	private List<BizEvalActivityTaskpackTemp> evalActivityTaskpackTempList; //评价活动关联任务包
-	private List<BizEvalActivityIndex> evalActivityIndexList; //评价活动关联指标
-	private String evalStageCheckNodeList;//评价活动关联的约检节点
-	private String roleCycleId;//系统评价时间ID
+	private List<BizEvalActivityTaskpackTemp> evalActivityTaskpackTempList;
+	private List<BizEvalActivityIndex> evalActivityIndexList;
+	private String evalStageCheckNodeList;
+	private String roleCycleId;
 	
 	
 

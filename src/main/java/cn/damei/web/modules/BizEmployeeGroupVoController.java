@@ -37,7 +37,7 @@ public class BizEmployeeGroupVoController {
 	@RequiresPermissions("empgroup:bizEmployeegroup:view")
 	@RequestMapping(value = "toFindFreeLeader")
 	public String tofreeLeadl(@ModelAttribute BizEmployeegroupVO bizEmployeegroupVO,Model model) {
-		// 过滤门店
+
 		User user = UserUtils.getUser();
 		if (bizEmployeegroupVO.getStoreId() == null) {
 			String storeId = user.getStoreId();
@@ -47,7 +47,7 @@ public class BizEmployeeGroupVoController {
 				bizEmployeegroupVO.setStoreId(storeId);
 			}
 		}
-		// 过滤工程模式
+
 		if (StringUtils.isBlank(bizEmployeegroupVO.getProjectMode())) {
 			if (null != user.getEmpId()) {
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -86,7 +86,7 @@ public class BizEmployeeGroupVoController {
 	@RequestMapping(value = "findFreeLeader")
 	public String freeLeadl(@ModelAttribute BizEmployeegroupVO bizEmployeegroupVO, String taskPackageId, HttpServletRequest request,
 			HttpServletResponse response, Model model) {
-		// 过滤门店
+
 		User user = UserUtils.getUser();
 		if (bizEmployeegroupVO.getStoreId() == null) {
 			String storeId = user.getStoreId();
@@ -96,7 +96,7 @@ public class BizEmployeeGroupVoController {
 				bizEmployeegroupVO.setStoreId(storeId);
 			}
 		}
-		// 过滤工程模式
+
 		if (StringUtils.isBlank(bizEmployeegroupVO.getProjectMode())) {
 			if (null != user.getEmpId()) {
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));

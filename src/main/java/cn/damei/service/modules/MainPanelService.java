@@ -14,7 +14,7 @@ import cn.damei.entity.modules.MainPanel;
 public class MainPanelService extends CrudService2<MainPanelDao, MainPanel>{
 
 	public List<MainPanel> findListByPurchaseId(Integer id) {
-		// TODO Auto-generated method stub
+
 		return dao.findListByPurchaseId(id);
 	}
 

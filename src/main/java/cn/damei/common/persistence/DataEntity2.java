@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.common.persistence;
 
 import java.util.Date;
@@ -11,22 +9,18 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import cn.damei.entity.modules.User;
 import cn.damei.common.utils.UserUtils;
 
-/**
- * 数据Entity类
- * @author ThinkGem
- * @version 2014-05-16
- */
+
 public abstract class DataEntity2<T> extends BaseEntity2<T> {
 
 	private static final long serialVersionUID = 1L;
 	
-	protected String remarks;	// 备注
-	protected User createBy;	// 创建者
-	protected Date createDate;	// 创建日期
-	protected User updateBy;	// 更新者
-	protected Date updateDate;	// 更新日期
-	protected String delFlag; 	// 删除标记（0：正常；1：删除；2：审核）
-	protected String frontSort=""; 	//前端排序
+	protected String remarks;
+	protected User createBy;
+	protected Date createDate;
+	protected User updateBy;
+	protected Date updateDate;
+	protected String delFlag;
+	protected String frontSort="";
 	
 	public String getFrontSort() {
 		return frontSort;
@@ -45,14 +39,12 @@ public abstract class DataEntity2<T> extends BaseEntity2<T> {
 		super(id);
 	}
 	
-	/**
-	 * 插入之前执行方法，需要手动调用
-	 */
+
 	@Override
 	public void preInsert(){
-		// 不限制ID为UUID，调用setIsNewRecord()使用自定义ID
+
 		if (!this.isNewRecord){
-		//	setId(IdGen.uuid());
+
 		}
 		User user = UserUtils.getUser();
 		if (StringUtils.isNotBlank(user.getId())){
@@ -63,9 +55,7 @@ public abstract class DataEntity2<T> extends BaseEntity2<T> {
 		this.createDate = this.updateDate;
 	}
 	
-	/**
-	 * 更新之前执行方法，需要手动调用
-	 */
+
 	@Override
 	public void preUpdate(){
 		User user = UserUtils.getUser();

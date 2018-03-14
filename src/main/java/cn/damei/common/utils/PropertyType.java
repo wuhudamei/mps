@@ -1,15 +1,9 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.common.utils;
 
 import java.util.Date;
 
-/**
- * 属性数据类型
- * @author ThinkGem
- * @version 2013-11-03
- */
+
 public enum PropertyType {
 	
 	S(String.class), 

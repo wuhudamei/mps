@@ -42,9 +42,9 @@ public class BizGuaranteeMoneyBalanceService  extends CrudService2<BizGuaranteeM
 	
 	public Page<BizGuaranteeMoneyBalance> findGuaranteeMoneyBalanceByParam(Page<BizGuaranteeMoneyBalance> page, BizGuaranteeMoneyBalance bizGuaranteeMoneyBalance){
 		bizGuaranteeMoneyBalance.setPage(page);
-		if(bizGuaranteeMoneyBalance.getEmpType().equals("1")){//项目经理
+		if(bizGuaranteeMoneyBalance.getEmpType().equals("1")){
 			page.setList(dao.findManagerGuaranteeMoneyBalanceByParam(bizGuaranteeMoneyBalance));
-		}else if(bizGuaranteeMoneyBalance.getEmpType().equals("2")){//工人
+		}else if(bizGuaranteeMoneyBalance.getEmpType().equals("2")){
 			page.setList(dao.findWorkerGuaranteeMoneyBalanceByParam(bizGuaranteeMoneyBalance));
 		}
 		

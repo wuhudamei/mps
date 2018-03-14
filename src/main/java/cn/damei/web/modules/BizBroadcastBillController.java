@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import java.io.IOException;
@@ -26,11 +24,7 @@ import cn.damei.common.web.BaseController;
 import cn.damei.entity.modules.BizBroadcastBill;
 import cn.damei.service.modules.BizBroadcastBillService;
 
-/**
- * 播报信息类Controller
- * @author meihao
- * @version 2017-01-10
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/bizbroadcastbill/bizBroadcastBill")
 public class BizBroadcastBillController extends BaseController {
@@ -82,12 +76,12 @@ public class BizBroadcastBillController extends BaseController {
 	public  String  save(RedirectAttributes redirectAttributes,String broadcastId,HttpServletRequest request,Model model,String[] photos,String [] picIds,String [] isShow){
 		
 		
-		//根据id 和isShow  批量update状态
-		//当id结束时,判断是否新上传了图片
-		//如果有图片, 以picIds的length为isShow数组的角标开始
-		//保存图片并设置是否展示
-	//全有 isShow
-	//部分有id  那么当角标越界时, 就是新上传了图片 没有id 主键   这时就插入数据 并设置remarks 为1 也就是不展示
+
+
+
+
+
+
 	
 	if(bizBroadcastBillService.checkBroadcastPicAndStatus(broadcastId, request, model, photos, picIds, isShow)){
 		addMessage(redirectAttributes, "展示成功..");

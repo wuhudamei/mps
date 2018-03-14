@@ -8,18 +8,18 @@ public class ApplyMaterialSelfbuyReimburseStatusLog extends DataEntity2<ApplyMat
 
 	private static final long serialVersionUID = 1L;
 	
-	private String businessType;		// 业务类型
-	private Integer businessOnlyMarkInt;		// 业务唯一标识整形
-	private String businessOnlyMarkVarchar;		// 业务唯一标识字符型
-	private String businessStatus;		// 业务状态
-	private Date statusDatetime;		// 状态时间
-	private String businessRemarks;		// 业务备注
-	private Integer businessEmployeeId;		// 业务人员员工id
+	private String businessType;
+	private Integer businessOnlyMarkInt;
+	private String businessOnlyMarkVarchar;
+	private String businessStatus;
+	private Date statusDatetime;
+	private String businessRemarks;
+	private Integer businessEmployeeId;
 	private String businessEmployeeName;
 	private String businessEmployeePhone;
-	private String statusName;	//状态名称
-	private Integer relatedReimburseId;		// 关联报销id
-	private Integer orderId;		// 订单id
+	private String statusName;
+	private Integer relatedReimburseId;
+	private Integer orderId;
 	private String createById;
 	
 

@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import java.math.BigDecimal;
@@ -10,33 +8,29 @@ import org.hibernate.validator.constraints.Length;
 
 import cn.damei.common.persistence.DataEntity;
 
-/**
- * 订单任务包工序Entity
- * @author llp
- * @version 2016-09-23
- */
+
 public class OrderTaskpackageProcedure extends DataEntity<OrderTaskpackageProcedure> {
 	
 	private static final long serialVersionUID = 1L;
-	private Long taskpackageId;		// 所属订单任务包Id
-	private String packageName;		// 任务包名称
-	private String procedureNo;		// 工序编号
-	private String procedureName;		// 工序名称
-	private String measurementUnit;		// 计量单位
-	private Double laborPrice;		// 人工价
-	private Double accessoriesPrice;		// 辅料价格
-	private Double synthesizePrice;		// 综合价
-	private Double budgetNumber;		// 预算数量
-	private BigDecimal realNumber;//真实数量
-//	private Double total;		// 总价（预估数量*综合价）
+	private Long taskpackageId;
+	private String packageName;
+	private String procedureNo;
+	private String procedureName;
+	private String measurementUnit;
+	private Double laborPrice;
+	private Double accessoriesPrice;
+	private Double synthesizePrice;
+	private Double budgetNumber;
+	private BigDecimal realNumber;
+
 	
 	private String orderId;
 	private String projectMode;
 	private String taskpackageNumber;
 	
-	private Double laborBudgetAmount;// 人工费预算金额
-	private Double auxiliaryMaterialsBudgetAmount; // 辅料费预算金额
-	private Double laborAuxiliaryMaterialsBudgetAmount;// 工料费预算总金额
+	private Double laborBudgetAmount;
+	private Double auxiliaryMaterialsBudgetAmount;
+	private Double laborAuxiliaryMaterialsBudgetAmount;
 	
 	public OrderTaskpackageProcedure() {
 		super();
@@ -164,13 +158,13 @@ public class OrderTaskpackageProcedure extends DataEntity<OrderTaskpackageProced
 	}
 	
 	@NotNull(message="总价（预估数量*综合价）不能为空")
-//	public Double getTotal() {
-//		return total;
-//	}
-//
-//	public void setTotal(Double total) {
-//		this.total = total;
-//	}
+
+
+
+
+
+
+
 
 	public Double getLaborBudgetAmount() {
 		return laborBudgetAmount;

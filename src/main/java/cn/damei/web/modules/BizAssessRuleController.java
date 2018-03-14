@@ -24,11 +24,7 @@ import cn.damei.entity.modules.User;
 import cn.damei.common.utils.DictUtils;
 import cn.damei.common.utils.UserUtils;
 
-/**
- * 考核条例细则Controller
- * @author hyh
- *
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/bizAssessRule/bizAssessRule")
 public class BizAssessRuleController extends BaseController  {
@@ -44,7 +40,7 @@ public class BizAssessRuleController extends BaseController  {
 			HttpServletResponse response, Model model){
 		User user = UserUtils.getUser();
 
-		// 过滤门店
+
 		if (null == bizAssessRule.getStoreId()) {
 			if (null != user.getStoreId()) {
 				bizAssessRule.setStoreId(Integer.valueOf(user.getStoreId()));
@@ -54,7 +50,7 @@ public class BizAssessRuleController extends BaseController  {
 			model.addAttribute("storeDropEnable", true);
 		}
 
-		// 过滤工程模式
+
 		if (StringUtils.isBlank(bizAssessRule.getProjectMode())) {
 			if (null != user.getEmpId()) {
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -96,7 +92,7 @@ public class BizAssessRuleController extends BaseController  {
 	@RequestMapping(value = "openBizAssessRuleForm")
 	public String openBizAssessRuleForm(BizAssessRule bizAssessRule, Model model) {
 		User user = UserUtils.getUser();
-		// 过滤门店
+
 		if (null == bizAssessRule.getStoreId()) {
 			if (null != user.getStoreId()) {
 				bizAssessRule.setStoreId(Integer.valueOf(user.getStoreId()));
@@ -106,7 +102,7 @@ public class BizAssessRuleController extends BaseController  {
 			model.addAttribute("storeDropEnable", true);
 		}
 
-		// 过滤工程模式
+
 		if (StringUtils.isBlank(bizAssessRule.getProjectMode())) {
 			if (null != user.getEmpId()) {
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));

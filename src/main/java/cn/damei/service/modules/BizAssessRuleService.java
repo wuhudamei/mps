@@ -8,11 +8,7 @@ import cn.damei.common.service.CrudService2;
 import cn.damei.dao.modules.BizAssessRuleDao;
 import cn.damei.entity.modules.BizAssessRule;
 
-/**
- * 考核条例细则Service
- * @author hyh
- *
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizAssessRuleService extends CrudService2<BizAssessRuleDao, BizAssessRule>{

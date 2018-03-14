@@ -10,11 +10,7 @@ import cn.damei.common.service.CrudService2;
 import cn.damei.dao.modules.BizOrderConstructionDao;
 import cn.damei.entity.modules.BizOrderConstruction;
 
-/**
- * 大统计表-施工中
- * @author llp
- * @version 2016-11-28
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizOrderConstructionService extends CrudService2<BizOrderConstructionDao, BizOrderConstruction>{

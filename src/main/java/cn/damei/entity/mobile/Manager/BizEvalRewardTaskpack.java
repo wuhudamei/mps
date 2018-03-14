@@ -8,10 +8,10 @@ public class BizEvalRewardTaskpack extends DataEntity2<BizEvalRewardTaskpack>{
 
 	private static final long serialVersionUID = 1L;
 
-	private Integer orderTaskpackageId; // 订单任务包id
-	private Integer groupLeaderEmployeeId; // 工人组长员工id
-	private Double rewardAmount; // 奖励金额
-	private Date rewardDatetime; // 奖励日期时间
+	private Integer orderTaskpackageId;
+	private Integer groupLeaderEmployeeId;
+	private Double rewardAmount;
+	private Date rewardDatetime;
 
 	public Integer getOrderTaskpackageId() {
 		return orderTaskpackageId;

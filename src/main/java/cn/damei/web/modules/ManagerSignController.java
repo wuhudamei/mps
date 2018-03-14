@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,11 +22,7 @@ import cn.damei.entity.modules.ManagerSign;
 import cn.damei.service.modules.ManagerSignService;
 import cn.damei.common.utils.UserUtils;
 
-/**
- * 项目经理签到查询Controller
- * @author 梅浩
- * @version 2016-09-26
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/managersign/managerSign")
 public class ManagerSignController extends BaseController {
@@ -69,9 +63,9 @@ public class ManagerSignController extends BaseController {
 			model.addAttribute("signDate2", managerSign.getSignDate2());
 		}
 		int x = 0;
-		//不是管理员就不能查全部门店
+
 		if(!UserUtils.getUser().getOffice().getId().equals("1")){
-			//安心查自己门店吧
+
 			managerSign.setStoreId(Integer.parseInt(UserUtils.getUser().getStoreId()));
 			x++;
 		}
@@ -99,9 +93,9 @@ public class ManagerSignController extends BaseController {
 			model.addAttribute("signDate2", managerSign.getSignDate2());
 		}
 		int x = 0;
-		//不是管理员就不能查全部门店
+
 		if(!UserUtils.getUser().getOffice().getId().equals("1")){
-			//安心查自己门店吧
+
 			managerSign.setStoreId(Integer.parseInt(UserUtils.getUser().getStoreId()));
 			x++;
 		}
@@ -125,9 +119,9 @@ public class ManagerSignController extends BaseController {
 			model.addAttribute("signDate2", managerSign.getSignDate2());
 		}
 		int x = 0;
-		//不是管理员就不能查全部门店
+
 		if(!UserUtils.getUser().getOffice().getId().equals("1")){
-			//安心查自己门店吧
+
 			managerSign.setStoreId(Integer.parseInt(UserUtils.getUser().getStoreId()));
 			x++;
 		}
@@ -154,16 +148,10 @@ public class ManagerSignController extends BaseController {
 		model.addAttribute("page", page);
 		return "modules/managersign/bizPmAttendDayOrderList";
 	}
-	/**
-	* @Description: 校验是否可以修改考勤数据
-	* @Author zhangkangjian
-	* @param
-	* @return
-	* @Date 2017/11/23 10:55
-	*/
+
 	@RequestMapping(value = "updateIsEnabledById")
 	public @ResponseBody String updateIsValidById(String id,String isValid,String signId, RedirectAttributes redirectAttributes) {
-		//判断改员工是否生成月度考勤单 排除作废的考勤单
+
 		Boolean boo = managerSignService.isApplyAttendMonth(id);
 		if(boo){
 			return "fail";

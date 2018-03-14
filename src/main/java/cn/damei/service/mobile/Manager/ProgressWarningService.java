@@ -34,7 +34,7 @@ public class ProgressWarningService extends  CrudService2<ProgressWarningDao,Pro
 		return list1;
 	}
 	public List<ProgressWarning> findDelayMaterialInfo(Integer id, String purchaseType) {
-		//查询所有的订单ID
+
 		List<String> allOrderId = progressWarningDao.findAllDelayOrderId(id);
 		if(allOrderId.size() ==0){
 			return null;

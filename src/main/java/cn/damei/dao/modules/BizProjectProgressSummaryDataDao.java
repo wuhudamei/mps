@@ -7,10 +7,7 @@ import cn.damei.entity.modules.BizProjectProgressSummaryData;
 
 import java.util.List;
 
-/**
- * 订单工程进度大看板Dao
- * Created by hyh on 2017/12/8.
- */
+
 @MyBatisDao
 public interface BizProjectProgressSummaryDataDao extends CrudDao2<BizProjectProgressSummaryData> {
 

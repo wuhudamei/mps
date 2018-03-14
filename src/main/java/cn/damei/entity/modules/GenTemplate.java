@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import java.util.List;
@@ -14,20 +12,16 @@ import com.google.common.collect.Lists;
 import cn.damei.common.persistence.DataEntity;
 import cn.damei.common.utils.StringUtils;
 
-/**
- * 生成方案Entity
- * @author ThinkGem
- * @version 2013-10-15
- */
+
 @XmlRootElement(name="template")
 public class GenTemplate extends DataEntity<GenTemplate> {
 	
 	private static final long serialVersionUID = 1L;
-	private String name; 	// 名称
-	private String category;		// 分类
-	private String filePath;		// 生成文件路径
-	private String fileName;		// 文件名
-	private String content;		// 内容
+	private String name;
+	private String category;
+	private String filePath;
+	private String fileName;
+	private String content;
 
 	public GenTemplate() {
 		super();

@@ -43,22 +43,22 @@ public class JobSiteController {
 		List<CustomerOrderVo> list = service.findBroadCastWithOrderLimitByCustomerPhone(orderVo);
 		
 		if(null!=list&&list.size()>0){
-			//如果有播报单
+
 			CustomerOrderVo  Vo = null;
 			Integer x =0;
 			for (CustomerOrderVo customerOrderVo : list) {
-				//遍历
+
 				if(null!=customerOrderVo.getBroadcastList()&&customerOrderVo.getBroadcastList().size()>0){
 					for (CustomerBroadCastEntity broadcastEntity : customerOrderVo.getBroadcastList()) {
 					
-						//根据播报单id 查询是否已读
+
 						ViewLog  log = 	new ViewLog();
 						log.setBusinessIdInt(broadcastEntity.getBroadcastId());
 						log.setBusinessType("4");
 						log.setBusinessViewerOnlyMark(orderVo.getCustomerPhone());
 						Integer integer = logDao.findView(log);
 						if(null==integer||integer<1){
-							//未读
+
 							x++;
 							broadcastEntity.setReadStatus("1");
 							customerOrderVo.setCount(x);
@@ -76,12 +76,12 @@ public class JobSiteController {
 					model.addAttribute("order",Vo==null?customerOrderVo:Vo);
 					if((Vo==null?customerOrderVo.getBroadcastList():Vo.getBroadcastList()).size()>0){
 						model.addAttribute("broadcast",Vo==null?customerOrderVo.getBroadcastList():Vo.getBroadcastList());
-						// 
+
 					}else{
 						model.addAttribute("none", "1");
 					}
 				}else{
-					//如果是根据订单查询, 那就以订单为主
+
 					if(String.valueOf(customerOrderVo.getOrderId()).equals(orderId)){
 						model.addAttribute("order",customerOrderVo);
 						
@@ -105,7 +105,7 @@ public class JobSiteController {
 			return "mobile/modules/home/cusindex/jobsite/constructionSite";
 			
 		}else{
-		//没有订单
+
 			return "mobile/modules/home/cusindex/jobsite/none";
 			
 		}
@@ -118,8 +118,8 @@ public class JobSiteController {
 	@RequestMapping(value="save_log.php")
 	public  @ResponseBody String saveLog(HttpServletRequest request,Model model,String broadcastId){
 		
-		//进入施工现场, 插入log日志 表明已看过
-				//查询log日志, 是否看过
+
+
 			ViewLog  log = 	new ViewLog();
 			log.setBusinessType("4");
 			Date date = new Date();
@@ -131,7 +131,7 @@ public class JobSiteController {
 			log.setDelFlag("0");
 			log.setBusinessIdInt(Integer.parseInt(JobSiteController.isNum(broadcastId)?broadcastId:"0"));
 			if(log.getBusinessIdInt() == 0){
-				//参数不合法
+
 				logger.warn("客户查看播报图片时: 插入log 参数不合法   int类型是必须的 :broadcastId:  "+broadcastId);
 				return "0";
 			}

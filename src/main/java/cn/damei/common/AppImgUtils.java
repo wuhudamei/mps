@@ -15,12 +15,7 @@ import java.io.IOException;
 import java.util.UUID;
 
 
-/**
- * 图片ajax上传公共方法
- * 服务工具类
- * @author wtk
- * 2016/10/17
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/app/img")
 public class AppImgUtils {
@@ -33,14 +28,7 @@ public class AppImgUtils {
 		return "aaaa";
 	}
 
-	/**
-	 * 图片上传接口
-	 * @param request
-	 * @param baseImg base64的图片字符串
-	 * @param businessType 业务类型（交底／通报／**的code）
-	 * @return 图片上传完成后服务器上的路径
-	 * @throws IOException
-	 */
+
 	@RequestMapping("/method/upload")
 	@ResponseBody
 	public static String updataImgByBase(HttpServletRequest request, String baseImg, String businessType) throws IOException {
@@ -55,7 +43,7 @@ public class AppImgUtils {
 		logger.info("root=" + root);
 		File filePath = new File(root + imgUrl + DateUtils.getDate1());
 		logger.info("file 路径"+filePath);
-		//判断该文件是否存在
+
 		if(!filePath.exists()){
 			filePath.mkdirs();
 		}
@@ -63,18 +51,14 @@ public class AppImgUtils {
 		String picUrl = imgUrl + DateUtils.getDate1() + "/" + uuid + ".jpeg";
 		String fullPath = filePath + filePath.separator + uuid + ".jpeg";
 		logger.info("完整路径："+fullPath);
-		//base64解析成图片并放到指定文件夹
+
 		Base64Util.generateImage(baseImg, fullPath.toString());
 
 		return picUrl;
 
 	}
 
-	/**
-	 * 图片删除接口
-	 * @param oldUrl 图片在服务器上的路径
-	 * @return
-	 */
+
 	@RequestMapping("/method/removepic")
 	@ResponseBody
 	public String removePic(HttpServletRequest request,String oldUrl){

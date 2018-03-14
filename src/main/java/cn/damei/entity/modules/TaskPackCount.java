@@ -7,9 +7,7 @@ import cn.damei.common.persistence.DataEntity;
 public class TaskPackCount extends DataEntity<TaskPackCount>{
 
 	
-	/**
-	 * 任务包整体进度
-	 */
+
 	private static final long serialVersionUID = 1L;
 	private String storeId;
 	private String area;
@@ -25,18 +23,18 @@ public class TaskPackCount extends DataEntity<TaskPackCount>{
 	
 	private String packageName;
 	
-	private Date taskPackStatus10; //10-创建
-	private Date taskPackStatus20; //20-预算员审核通过
-	private Date taskPackStatus50; //50-已派单到工人
-	private Date taskPackStatus55; //55-工人拒绝任务包
-	private Date taskPackStatus60; //60-已确定工人组
-	private Date taskPackStatus70; //70-施工中（开工签到）
-	private Date taskPackStatus80; //80-工人申请完工
+	private Date taskPackStatus10;
+	private Date taskPackStatus20;
+	private Date taskPackStatus50;
+	private Date taskPackStatus55;
+	private Date taskPackStatus60;
+	private Date taskPackStatus70;
+	private Date taskPackStatus80;
 	
-	private String planStartdate; //开始时间
-	private String planEnddate;//结束时间
-	private String isScrap;//是否作废
-	private Date scrapDatetime;//作废日期
+	private String planStartdate;
+	private String planEnddate;
+	private String isScrap;
+	private Date scrapDatetime;
 	
 	
 	

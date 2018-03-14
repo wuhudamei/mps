@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import org.hibernate.validator.constraints.Length;
@@ -9,29 +7,25 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 供应商安装施工单表Entity
- * @author wyb
- * @version 2017-07-14
- */
+
 public class BizSupplierInstallConstructBill extends DataEntity2<BizSupplierInstallConstructBill> {
 	
 	private static final long serialVersionUID = 1L;
-	private String constructBillCode;		// 施工单号
-	private Integer supplierInstallBillId;		// 供应商安装单id
-	private Integer employeeGroupId;		// 工人组id
-	private String status;		// 状态
-	private Date statusDatetime;		// 状态日期时间
-	private Date realIntoDate;		// 实际进场日期时间
-	private Date realCompleteDate;		// 实际完工日期时间
-	private Date realAcceptDate;		// 确认验收日期时间
-	private Integer workerId;  // 组长id
-	private String workerName;		// 组长姓名
-	private String workerPhone;		// 组长电话
+	private String constructBillCode;
+	private Integer supplierInstallBillId;
+	private Integer employeeGroupId;
+	private String status;
+	private Date statusDatetime;
+	private Date realIntoDate;
+	private Date realCompleteDate;
+	private Date realAcceptDate;
+	private Integer workerId;
+	private String workerName;
+	private String workerPhone;
 	
-	private String realIntoDateString;		// 实际进场日期时间 字符串类型
-	private String realCompleteDateString;		// 实际完工日期时间 字符串类型
-	private String realAcceptDateString;		// 确认验收日期时间 字符串类型
+	private String realIntoDateString;
+	private String realCompleteDateString;
+	private String realAcceptDateString;
 	
 	public BizSupplierInstallConstructBill() {
 		super();

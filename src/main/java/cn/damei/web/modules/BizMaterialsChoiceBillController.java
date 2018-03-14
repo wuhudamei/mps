@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import java.util.List;
@@ -24,11 +22,7 @@ import cn.damei.service.modules.BizMaterialsChoiceBillService;
 import cn.damei.entity.modules.BizMaterialsChoiceBillItem;
 import cn.damei.service.modules.BizMaterialsChoiceBillItemService;
 
-/**
- * 选材单表Controller
- * @author wyb
- * @version 2017-06-13
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/bizmaterialchoicebill/bizMaterialsChoiceBill")
 public class BizMaterialsChoiceBillController extends BaseController {
@@ -64,20 +58,15 @@ public class BizMaterialsChoiceBillController extends BaseController {
 		return "modules/bizmaterialschoicebill/bizMaterialsChoiceBillList";
 	}
 	
-	/**
-	 * 选材清单详情
-	 * @param id
-	 * @param model
-	 * @return
-	 */
+
 	@RequestMapping(value = "materialsChoiceBillDetail")
 	public String materialsChoiceBillDetail(Integer id , Model model) {
 		
-		//1.根据选材清单基本信息详情
+
 		BizMaterialsChoiceBill bizMaterialsChoiceBill = bizMaterialsChoiceBillService.get(id);
 
 		
-		//2.选材清单
+
 		BizMaterialsChoiceBillItem bizMaterialsChoiceBillItem = new BizMaterialsChoiceBillItem();
 		bizMaterialsChoiceBillItem.setMaterialsChoiceBillId(id);
 		List<BizMaterialsChoiceBillItem> materialsChoiceList = bizMaterialsChoiceBillItemService.findList(bizMaterialsChoiceBillItem);
@@ -89,19 +78,14 @@ public class BizMaterialsChoiceBillController extends BaseController {
 		return "modules/bizmaterialschoicebill/bizMaterialsChoiceBillDetails";
 	}
 	
-	/**
-	 * 订单的选材清单详情
-	 * @param id
-	 * @param model
-	 * @return
-	 */
+
 	@RequestMapping(value = "order_materials_choice_bill_detail")
 	public String orderMaterialsChoiceBillDetail(Integer orderId , Model model) {
 		
-		//1.订单详情
+
 		BizMaterialsChoiceBill bizMaterialsChoiceBill = bizMaterialsChoiceBillService.findOrder(orderId);
 		
-		//2.选材清单
+
 		List<BizMaterialsChoiceBillItem> materialsChoiceList = null;
 		if(null!=bizMaterialsChoiceBill.getId()){
 			BizMaterialsChoiceBillItem bizMaterialsChoiceBillItem = new BizMaterialsChoiceBillItem();

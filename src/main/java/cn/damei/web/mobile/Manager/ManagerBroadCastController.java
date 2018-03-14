@@ -33,7 +33,7 @@ public class ManagerBroadCastController {
 		Manager manager = SessionUtils.getManagerSession(request);
 		ManagerBroadCastEntity entity = new ManagerBroadCastEntity();
 		entity.setApplyBroadCastId(manager.getId());
-		//根据登录的项目经理 查询名下订单并关联播报表查询相关信息
+
 		List<ManagerBroadCastEntity> list = service.findBroadCastList(entity);
 		
 		if(null!=list&&list.size()>0){
@@ -56,7 +56,7 @@ public class ManagerBroadCastController {
 		ManagerBroadCastEntity entity = new ManagerBroadCastEntity();
 		entity.setApplyBroadCastId(manager.getId());
 		entity.setText(text);
-		//根据登录的项目经理 查询名下订单并关联播报表查询相关信息 (模糊搜索)
+
 		List<ManagerBroadCastEntity> list = service.findBroadCastList(entity);
 		
 		if(null!=list&&list.size()>0){
@@ -90,12 +90,12 @@ public class ManagerBroadCastController {
 	public @ResponseBody String  checkBroadcastPicAndStatus(String broadcastId,HttpServletRequest request,Model model,String[] photos,String [] picIds,String [] isShow){
 	
 		
-			//根据id 和isShow  批量update状态
-			//当id结束时,判断是否新上传了图片
-			//如果有图片, 以picIds的length为isShow数组的角标开始
-			//保存图片并设置是否展示
-		//全有 isShow
-		//部分有id  那么当角标越界时, 就是新上传了图片 没有id 主键   这时就插入数据 并设置remarks 为1 也就是不展示
+
+
+
+
+
+
 		int x =isShow.length;
 		for (String string : isShow) {
 			if("1".equals(string)){
@@ -105,7 +105,7 @@ public class ManagerBroadCastController {
 				x--;
 				if(x==0){
 					
-					return "2"; //不能一张图片都不展示
+					return "2";
 				}
 				
 			}

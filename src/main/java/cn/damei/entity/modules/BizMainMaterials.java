@@ -1,35 +1,28 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import org.hibernate.validator.constraints.Length;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 主材管理Entity
- * 
- * @author qww
- * @version 2016-10-10
- */
+
 public class BizMainMaterials extends DataEntity2<BizMainMaterials>
 {
 
 	private static final long serialVersionUID = 1L;
-	private Integer storeId; // 门店id -- '
-	private String mainMaterialsNo; // 材料编号 -- '
-	private String mainMaterialsName; // 材料名称 -- '
-	private Integer empWorkType; // 常用工种 -- '
-	private Integer categoryId; // 材料类别id -- '
-	private String specifications; // 规格型号 -- '
-	private String measurementUnit; // 单位 -- ' value: 4 biz_material_unit 个
-									// sys_dict
-	private String status; // 状态;0:停用，1：启用 -- '
-	private String brands; // 品牌 -- '
-	private String picUrl; // 图片路径 -- '
-	private String isCounted; // 是否计算标准数量
-	private Integer sortIndex; // 排序值
+	private Integer storeId;
+	private String mainMaterialsNo;
+	private String mainMaterialsName;
+	private Integer empWorkType;
+	private Integer categoryId;
+	private String specifications;
+	private String measurementUnit;
+
+	private String status;
+	private String brands;
+	private String picUrl;
+	private String isCounted;
+	private Integer sortIndex;
 
 	public BizMainMaterials()
 	{

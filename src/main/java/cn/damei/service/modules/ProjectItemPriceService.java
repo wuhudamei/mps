@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.text.SimpleDateFormat;
@@ -14,11 +12,7 @@ import cn.damei.common.service.CrudService;
 import cn.damei.entity.modules.ProjectItemPrice;
 import cn.damei.dao.modules.ProjectItemPriceDao;
 
-/**
- * 施工项价格Service
- * @author 梅浩
- * @version 2016-11-16
- */
+
 @Service
 @Transactional(readOnly = true)
 public class ProjectItemPriceService extends CrudService<ProjectItemPriceDao, ProjectItemPrice> {
@@ -50,10 +44,9 @@ public class ProjectItemPriceService extends CrudService<ProjectItemPriceDao, Pr
 	}
 
 	public boolean checkedData(ProjectItemPrice projectItemPrice) {
-//		检验生效日期是否重复
+
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-	/*	sdf.format()
-*/
+
 
 		return dao.checkedDate(projectItemPrice);
 	}

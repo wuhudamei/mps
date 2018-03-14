@@ -4,25 +4,21 @@ import cn.damei.common.persistence.DataEntity2;
 
 import java.util.Date;
 
-/**
- * BizEvalTaskpackRoleScore
- * @author Administrator
- *
- */
+
 public class EvalScoreRole extends DataEntity2<EvalScoreRole>{
 
 	private static final long serialVersionUID = 1L;
 
-	private Integer evalScoreId; // 评价得分id
-	private String evalRoleType; // 评价角色类型 101-项目经理 102-项目经理自动 201-质检员 202-质检员自动 301-客户 302-客户自动
-	private Integer evalByEmployeeId; // 评价人员工id
-	private String evalByCusPhone; // 评价人业主手机号
-	private Double gotScore; // 得分
-	private String evalFeedback; // 评价反馈
-	private Date evalDatetime; // 评价日期时间
-	private String evalStatus;//评价状态 0：未评价  1:评价已完成
+	private Integer evalScoreId;
+	private String evalRoleType;
+	private Integer evalByEmployeeId;
+	private String evalByCusPhone;
+	private Double gotScore;
+	private String evalFeedback;
+	private Date evalDatetime;
+	private String evalStatus;
 	
-	private String evalCycleHours;//系统评价时间
+	private String evalCycleHours;
 	
 	
 	

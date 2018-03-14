@@ -46,13 +46,7 @@ public class BizAttendBatchController extends BaseController {
 		return "modules/attend/bizAttendBatchList";
 	}
 
-	/**
-	 * 更新批次作废 和批次审核等
-	 * 
-	 * @param status
-	 * @param id
-	 * @return
-	 */
+
 	@RequiresPermissions("bizAttend:bizAttendBatch:edit")
 	@RequestMapping(value = "updateStatus")
 	public String updateStatus(String status, Integer id, String remarks) {
@@ -76,7 +70,7 @@ public class BizAttendBatchController extends BaseController {
 	@ResponseBody
 	public String invalid(String status, Integer id, String remarks) {
 		if (id != null) {
-			// 作废
+
 			BizAttendBatch bizAttendBatch = bizAttendBatchService.get(id);
 
 			BizAttendBatch bizAttendBatch2 = new BizAttendBatch();
@@ -87,7 +81,7 @@ public class BizAttendBatchController extends BaseController {
 
 			bizAttendBatchService.save(bizAttendBatch2);
 
-			// 批量更新
+
 			List<BizAttendBill> list = bizAttendBillService.findBizAttendBillListByBatchId(id);
 			bizAttendBillService.updateBatchIds(list);
 			return "1";
@@ -95,13 +89,7 @@ public class BizAttendBatchController extends BaseController {
 		return "0";
 	}
 
-	/**
-	 * view
-	 * 
-	 * @param id
-	 * @param model
-	 * @return
-	 */
+
 	@RequiresPermissions("bizAttend:bizAttendBatch:edit")
 	@RequestMapping(value = "view")
 	public String view(Integer id, Model model) {
@@ -110,23 +98,18 @@ public class BizAttendBatchController extends BaseController {
 		return "modules/attend/bizAttendBatchView";
 	}
 
-	/**
-	 * 到处excel
-	 * 
-	 * @param id
-	 * @param response
-	 */
+
 	@RequiresPermissions("bizAttend:bizAttendBatch:edit")
 	@RequestMapping(value = "exportExcel")
 	public void exportExcel(Integer id, HttpServletResponse response) {
 
 		SimpleDateFormat sf = new SimpleDateFormat("yyyyMMddHHmmss");
 		HSSFWorkbook excel = bizAttendBatchService.exportExcel(id);
-		ServletOutputStream out = null;// 创建一个输出流对象
+		ServletOutputStream out = null;
 		try {
 			response.setContentType("application/binary;charset=utf-8");
-			String headerStr = new String(("项目经理考勤" + sf.format(new Date())).getBytes("utf-8"), "ISO8859-1");// headerString为中文时转码
-			response.setHeader("Content-disposition", "attachment; filename=" + headerStr + ".xls");// filename是下载的xls的名
+			String headerStr = new String(("项目经理考勤" + sf.format(new Date())).getBytes("utf-8"), "ISO8859-1");
+			response.setHeader("Content-disposition", "attachment; filename=" + headerStr + ".xls");
 			out = response.getOutputStream();
 			excel.write(out);
 		} catch (IOException ex) {

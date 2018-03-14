@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,11 +19,7 @@ import cn.damei.common.web.BaseController;
 import cn.damei.entity.modules.BizNoticeReceiver;
 import cn.damei.service.modules.BizNoticeReceiverService;
 
-/**
- * 消息公告接收人Controller
- * @author qww
- * @version 2017-01-14
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/noticereceiver/bizNoticeReceiver")
 public class BizNoticeReceiverController extends BaseController {

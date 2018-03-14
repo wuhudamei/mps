@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.util.List;
@@ -13,11 +11,7 @@ import cn.damei.common.service.CrudService2;
 import cn.damei.entity.modules.BizMaterialsChoiceChangeBill;
 import cn.damei.dao.modules.BizMaterialsChoiceChangeBillDao;
 
-/**
- * 选材变更单表Service
- * @author wyb
- * @version 2017-06-14
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizMaterialsChoiceChangeBillService extends CrudService2<BizMaterialsChoiceChangeBillDao, BizMaterialsChoiceChangeBill> {
@@ -44,11 +38,7 @@ public class BizMaterialsChoiceChangeBillService extends CrudService2<BizMateria
 		super.delete(bizMaterialsChoiceChangeBill);
 	}
 
-	/**
-	 * 根据订单编号查询该订单下所有的变更单
-	 * @param orderNumber
-	 * @return
-	 */
+
 	public List<BizMaterialsChoiceChangeBill> findChangeBillMessage(String orderNumber) {
 		return dao.findChangeBillMessage(orderNumber);
 	}

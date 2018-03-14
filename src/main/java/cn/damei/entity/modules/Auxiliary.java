@@ -4,15 +4,12 @@ import cn.damei.common.persistence.DataEntity2;
 
 public class Auxiliary extends DataEntity2<Auxiliary>{
 	
-	/**
-	 * @author wang
-	 * @version 2016-09-28
-	 */
+
 	private static final long serialVersionUID = 1L;
-	private Integer id;//辅材采购单id
+	private Integer id;
 	private Integer purchaseId;
-	private String auxiMateCode; //编号
-	private Double auxiMateCount; //shuliang
+	private String auxiMateCode;
+	private Double auxiMateCount;
 	private Integer categoryId;
 	private String  categoryName;
 	private String auxiliaryMaterialsName;
@@ -21,7 +18,7 @@ public class Auxiliary extends DataEntity2<Auxiliary>{
 	private Double receivedCount;
 	private Double owedCount;
 	private String brands;
-	private String laborPrice;//工人单价
+	private String laborPrice;
 	
 	public String getLaborPrice() {
 		return laborPrice;

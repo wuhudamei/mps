@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import cn.damei.common.config.Global;
@@ -21,12 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
 
-/**
- * 其他部门投诉Controller
- *
- * @author mh
- * @version 2017-07-24
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/complaintforotherdepartmentDeal/complaintForOtherDepartMentDeal")
 public class ComplaintForOtherDepartMentDealController extends BaseController {
@@ -53,15 +46,7 @@ public class ComplaintForOtherDepartMentDealController extends BaseController {
         return "modules/complaintForOtherDepartmentDeal/complaintForOtherDepartMentList";
     }
 
-    /**
-     * 其他部门上报, 有权限list
-     *
-     * @param complaintForOtherDepartMent
-     * @param request
-     * @param response
-     * @param model
-     * @return
-     */
+
     @RequiresPermissions("complaintforotherdepartmentDeal:complaintforotherdepartmentDeal:view")
     @RequestMapping(value = "list")
     public String list(ComplaintForOtherDepartMentDeal complaintForOtherDepartMent, HttpServletRequest request, HttpServletResponse response, Model model) {
@@ -95,15 +80,11 @@ public class ComplaintForOtherDepartMentDealController extends BaseController {
     }
 
 
-    /**
-     * 接收投诉信息
-     *
-     * @return
-     */
+
     @RequiresPermissions("complaintforotherdepartmentDeal:complaintForOtherDepartMentDeal:view")
     @RequestMapping(value = "add")
     public String add(@RequestParam String id, Model model) {
-        //根据预投诉id 查询订单信息,和投诉的来源 投诉人和手机号包括对应的照片问题等
+
 
 
         Map<String, Object> map = complaintForOtherDepartMentDealService.findOrderInfoByPreComplaintId(id);
@@ -115,11 +96,7 @@ public class ComplaintForOtherDepartMentDealController extends BaseController {
     }
 
 
-    /**
-     * 删除图片
-     *
-     * @return
-     */
+
     @RequiresPermissions("complaintforotherdepartmentDeal:complaintForOtherDepartMentDeal:edit")
     @RequestMapping(value = "deletePic")
     @ResponseBody
@@ -131,11 +108,7 @@ public class ComplaintForOtherDepartMentDealController extends BaseController {
     }
 
 
-    /**
-     * 根据门店查找投诉类型
-     *
-     * @return
-     */
+
     @RequiresPermissions("complaintforotherdepartmentDeal:complaintForOtherDepartMentDeal:view")
     @RequestMapping(value = "findComplaintTypeByStoreId")
     @ResponseBody
@@ -148,11 +121,7 @@ public class ComplaintForOtherDepartMentDealController extends BaseController {
 
     }
 
-    /**
-     * 根据投诉类型查找投诉项
-     *
-     * @return
-     */
+
     @RequiresPermissions("complaintforotherdepartmentDeal:complaintForOtherDepartMentDeal:view")
     @RequestMapping(value = "findComplaintItemByTypeId")
     @ResponseBody
@@ -166,11 +135,7 @@ public class ComplaintForOtherDepartMentDealController extends BaseController {
     }
 
 
-    /**
-     * 接收预投诉
-     *
-     * @return
-     */
+
     @RequiresPermissions("complaintforotherdepartmentDeal:complaintForOtherDepartMentDeal:edit")
     @RequestMapping(value = "savePreComplaintInfo")
     public String savePreComplaintInfo(ComplaintForOtherDepartMentDeal vo, HttpServletRequest request) {

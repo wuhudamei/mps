@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import java.util.ArrayList;
@@ -42,12 +40,7 @@ import cn.damei.service.modules.OrderService;
 import cn.damei.entity.modules.BizOrderComArae;
 import cn.damei.entity.modules.BizOrderComplaint;
 
-/**
- * 售后问题反馈详情Controller
- *
- * @author joseph
- * @version 2017-06-23
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/cusserviceproblem/bizCusServiceProblem")
 public class BizCusServiceProblemController extends BaseController {
@@ -75,24 +68,11 @@ public class BizCusServiceProblemController extends BaseController {
 		return entity;
 	}
 
-	/**
-	 * 查询售后投诉单
-	 *
-	 * @Title: list
-	 * @Description:
-	 * @param @param bizCusServiceProblem
-	 * @param @param request
-	 * @param @param response
-	 * @param @param model
-	 * @param @return
-	 * @return String
-	 * @author ZhangTongWei
-	 * @throws
-	 */
+
 	@RequiresPermissions("cusserviceproblem:bizCusServiceProblem:view")
 	@RequestMapping(value = { "list", "" })
 	public String list(BizCusServiceProblem bizCusServiceProblem, HttpServletRequest request, HttpServletResponse response, Model model) {
-        //过滤门店
+
         User user = UserUtils.getUser();
         if(null==bizCusServiceProblem.getStoreId()){
             if(null!=user.getStoreId()){
@@ -105,19 +85,7 @@ public class BizCusServiceProblemController extends BaseController {
 		return "modules/cusserviceproblem/bizCusServiceProblemList";
 	}
 
-	/**
-	 *
-	 * @Title: update 接收来自售后的投诉订单信息然后拆分
-	 * @Description:
-	 * @param @param bizCusServiceProblem
-	 * @param @param request
-	 * @param @param response
-	 * @param @param model
-	 * @param @return
-	 * @return String
-	 * @author ZhangTongWei
-	 * @throws
-	 */
+
 	@RequiresPermissions("cusserviceproblem:bizCusServiceProblem:edit")
 	@RequestMapping(value = "update")
 	public String update(BizCusServiceProblem bizCusServiceProblem,String customerNameNot, HttpServletRequest request, HttpServletResponse response, Model model) {
@@ -127,17 +95,7 @@ public class BizCusServiceProblemController extends BaseController {
 		BizCusServiceProblem bizCusServiceProblem2 = page.getList().get(0);
 		Order order = orderService.getProjectbyId(bizCusServiceProblem2.getOrderId());
 
-            /*List< Order> orderList = orderService.getProjectName(bizCusServiceProblem2.getCustomerName ());
-            if (null!=orderList&&orderList.size ()==1){
-                order=orderList.get (0);
-            }
-            else if(null!=orderList&&orderList.size ()>1){
-                for (Order order1 : orderList) {
-                    if (page.getList ().get (0).getCustomerAddress ().contains (order1.getCustomerAddress () )){
-                        order=order1;
-                    }
-                }
-            }*/
+
 		model.addAttribute("page", page);
 		model.addAttribute("entity", bizCusServiceProblem);
 		model.addAttribute("entity", order);
@@ -145,12 +103,12 @@ public class BizCusServiceProblemController extends BaseController {
 		bizOrderComplaint.setWorkOrderCode(bizCusServiceProblem.getWorkOrderCode());
 		bizOrderComplaint.setComplaintSource("4");
 		bizOrderComplaint.setOrder(order);
-		bizOrderComplaint.setAfterId(bizCusServiceProblem2.getId()); // 售后ID
-		bizOrderComplaint.setComplaintProblemNr(bizCusServiceProblem2.getProblemDescribe()); // 售后需要显示的字段
+		bizOrderComplaint.setAfterId(bizCusServiceProblem2.getId());
+		bizOrderComplaint.setComplaintProblemNr(bizCusServiceProblem2.getProblemDescribe());
 		model.addAttribute("bizOrderComplaint", bizOrderComplaint);
 		bizCusServiceProblem.setStatus("10");
 		bizCusServiceProblem.setStatusdatetime(new Date());
-		// bizCusServiceProblemService.update(bizCusServiceProblem);
+
 		}
 		String photo = bizCusServiceProblemService.findPicsById(Integer.parseInt(bizCusServiceProblem.getId()));
 		List<BizCusServiceProblem> list = new ArrayList<BizCusServiceProblem>();
@@ -190,20 +148,7 @@ public class BizCusServiceProblemController extends BaseController {
 		return "modules/ordercomplan/OrderComplaintFormCusService";
 	}
 
-	/**
-	 * 处理来自售后的投诉订单信息
-	 *
-	 * @Title: handle
-	 * @Description:
-	 * @param @param bizCusServiceProblem
-	 * @param @param request
-	 * @param @param response
-	 * @param @param model
-	 * @param @return
-	 * @return String
-	 * @author ZhangTongWei
-	 * @throws
-	 */
+
 	@RequiresPermissions("cusserviceproblem:bizCusServiceProblem:edit")
 	@RequestMapping(value = { "handle", "" })
 	public String handle(BizCusServiceProblem bizCusServiceProblem, HttpServletRequest request, HttpServletResponse response, Model model, RedirectAttributes redirectAttributes) {
@@ -230,7 +175,7 @@ public class BizCusServiceProblemController extends BaseController {
 			return "redirect:" + Global.getAdminPath() + "/cusserviceproblem/bizCusServiceProblem/list?repage";
 		}
 		if (sendHttp3.equals("SUCCESS")) {
-			bizCusServiceProblem.setStatus(ProjectProblemConstantUtil.PROJECT_PROBLEM_COMPLAINT_STATUS_20); // 已处理
+			bizCusServiceProblem.setStatus(ProjectProblemConstantUtil.PROJECT_PROBLEM_COMPLAINT_STATUS_20);
 			bizCusServiceProblem.setStatusdatetime(new Date());
 			bizCusServiceProblemService.update(bizCusServiceProblem);
 			logger.error("cn.damei.web.modules.BizCusServiceProblemController.handle:处理完成成功");
@@ -244,20 +189,7 @@ public class BizCusServiceProblemController extends BaseController {
 		return "redirect:" + Global.getAdminPath() + "/cusserviceproblem/bizCusServiceProblem/list?repage";
 	}
 
-	/**
-	 * 驳回售后投诉订单的信息
-	 *
-	 * @Title: reject
-	 * @Description:
-	 * @param @param bizCusServiceProblem
-	 * @param @param request
-	 * @param @param response
-	 * @param @param model
-	 * @param @return
-	 * @return String
-	 * @author ZhangTongWei
-	 * @throws
-	 */
+
 	@RequiresPermissions("cusserviceproblem:bizCusServiceProblem:edit")
 	@RequestMapping(value = { "reject", "" })
 	public String reject(BizCusServiceProblem bizCusServiceProblem, HttpServletRequest request, HttpServletResponse response, Model model, RedirectAttributes redirectAttributes) {
@@ -288,20 +220,7 @@ public class BizCusServiceProblemController extends BaseController {
 		return "redirect:" + Global.getAdminPath() + "/cusserviceproblem/bizCusServiceProblem/list?repage";
 	}
 
-	/**
-	 * 显示处理售后页面
-	 *
-	 * @Title: handleView
-	 * @Description:
-	 * @param @param bizCusServiceProblem
-	 * @param @param request
-	 * @param @param response
-	 * @param @param model
-	 * @param @return
-	 * @return String
-	 * @author ZhangTongWei
-	 * @throws
-	 */
+
 	@RequiresPermissions("cusserviceproblem:bizCusServiceProblem:edit")
 	@RequestMapping(value = { "handleView", "" })
 	public String handleView(BizCusServiceProblem bizCusServiceProblem, HttpServletRequest request, HttpServletResponse response, Model model) {
@@ -313,20 +232,7 @@ public class BizCusServiceProblemController extends BaseController {
 		return "modules/cusserviceproblem/bizCusServiceProblemHandle";
 	}
 
-	/**
-	 * 显示驳回售后页面
-	 *
-	 * @Title: rejectView
-	 * @Description:
-	 * @param @param bizCusServiceProblem
-	 * @param @param request
-	 * @param @param response
-	 * @param @param model
-	 * @param @return
-	 * @return String
-	 * @author ZhangTongWei
-	 * @throws
-	 */
+
 	@RequiresPermissions("cusserviceproblem:bizCusServiceProblem:edit")
 	@RequestMapping(value = { "rejectView", "" })
 	public String rejectView(BizCusServiceProblem bizCusServiceProblem, HttpServletRequest request, HttpServletResponse response, Model model) {
@@ -338,20 +244,7 @@ public class BizCusServiceProblemController extends BaseController {
 		return "modules/cusserviceproblem/bizCusServiceProblemReject";
 	}
 
-	/**
-	 * 显示项目售后页面
-	 *
-	 * @Title: rejectView
-	 * @Description: TODO
-	 * @param @param bizCusServiceProblem
-	 * @param @param request
-	 * @param @param response
-	 * @param @param model
-	 * @param @return
-	 * @return String
-	 * @author ZhangTongWei
-	 * @throws
-	 */
+
 	@RequiresPermissions("cusserviceproblem:bizCusServiceProblem:edit")
 	@RequestMapping(value = "ProjectView")
 	public String projectView(BizCusServiceProblem bizCusServiceProblem, HttpServletRequest request, HttpServletResponse response, Model model) {
@@ -366,44 +259,31 @@ public class BizCusServiceProblemController extends BaseController {
 		return "modules/cusserviceproblem/CusServicecalft";
 	}
 
-	/**
-	 * 订单ID查询所有的有关这个订单的信息
-	 *
-	 * @Title: ProjectbyId
-	 * @Description: TODO
-	 * @param @param bizCusServiceProblem
-	 * @param @param request
-	 * @param @param response
-	 * @param @param model
-	 * @param @return
-	 * @return String
-	 * @author ZhangTongWei
-	 * @throws
-	 */
+
 	@RequestMapping(value = { "ProjectbyId", "" })
 	public String projectbyId(BizCusServiceProblem bizCusServiceProblem, Order projectbyId, BizOrderComplaint bizOrderComplaint, HttpServletRequest request, HttpServletResponse response, Model model) {
 		Order order = null;
 		if (bizCusServiceProblem.getId() != null) {
 			order = orderService.getProjectbyId(bizCusServiceProblem.getId());
 		} else {
-			// if (projectbyId.getOrderId() == null)
-			// {
-			// model.addAttribute("message", "请先选择项目");
-			// return "modules/ordercomplan/bizOrderComplaintForm";
-			// }
+
+
+
+
+
 
 			order = orderService.getProjectbyId(projectbyId.getOrderId() + "");
-			// 查询分类信息的数据
-			BizComplaintProblemType bizComplaintProblemType = bizOrderComplaint.getBizComplaintProblemType(); // 前台通过另一个类传过来的值setBizComplaintProblemTyp中查询
+
+			BizComplaintProblemType bizComplaintProblemType = bizOrderComplaint.getBizComplaintProblemType();
 			bizComplaintProblemType.setTypeName(bizOrderComplaint.getTypeName());
-			// 根据分类任务包名称查询这条分类是否有任务包
+
 			BizComplaintProblemType bizComplaintProblemType3 = bizComplaintProblemTypeService.queryIsordertaskpackag(bizComplaintProblemType);
 			if (bizComplaintProblemType3.getPackName() != null) {
 				bizComplaintProblemType3 = bizComplaintProblemTypeService.queryComTypeName(bizComplaintProblemType);
 			}
 
 			bizOrderComplaint.setBizComplaintProblemType(bizComplaintProblemType3);
-			// 查询事项信息
+
 			if (bizComplaintProblemType3 != null) {
 				BizComplaintProblemItem bizComplaintProblemItem = new BizComplaintProblemItem();
 				bizComplaintProblemItem.setComplaintProblemTypeId(Integer.parseInt(bizComplaintProblemType3.getId()));
@@ -431,24 +311,24 @@ public class BizCusServiceProblemController extends BaseController {
 		if (bizCusServiceProblem.getId() != null) {
 			order = orderService.getProjectbyId(bizCusServiceProblem.getId());
 		} else {
-			// if (projectbyId.getOrderId() == null)
-			// {
-			// model.addAttribute("message", "请先选择项目");
-			// return "modules/ordercomplan/bizOrderComplaintForm";
-			// }
+
+
+
+
+
 
 			order = orderService.getProjectbyId(projectbyId.getOrderId() + "");
-			// 查询分类信息的数据
-			BizComplaintProblemType bizComplaintProblemType = bizOrderComplaint.getBizComplaintProblemType(); // 前台通过另一个类传过来的值setBizComplaintProblemTyp中查询
+
+			BizComplaintProblemType bizComplaintProblemType = bizOrderComplaint.getBizComplaintProblemType();
 			bizComplaintProblemType.setTypeName(bizOrderComplaint.getTypeName());
-			// 根据分类任务包名称查询这条分类是否有任务包
+
 			BizComplaintProblemType bizComplaintProblemType3 = bizComplaintProblemTypeService.queryIsordertaskpackag(bizComplaintProblemType);
 			if (bizComplaintProblemType3.getPackName() != null) {
 				bizComplaintProblemType3 = bizComplaintProblemTypeService.queryComTypeName(bizComplaintProblemType);
 			}
 
 			bizOrderComplaint.setBizComplaintProblemType(bizComplaintProblemType3);
-			// 查询事项信息
+
 			if (bizComplaintProblemType3 != null) {
 				BizComplaintProblemItem bizComplaintProblemItem = new BizComplaintProblemItem();
 				bizComplaintProblemItem.setComplaintProblemTypeId(Integer.parseInt(bizComplaintProblemType3.getId()));
@@ -471,44 +351,31 @@ public class BizCusServiceProblemController extends BaseController {
 		return "modules/ordercomplan/OrderComplaintFormCusService";
 	}
 
-	/**
-	 * 售后订单ID查询所有的有关这个订单的信息
-	 *
-	 * @Title: ProjectbyId
-	 * @Description: TODO
-	 * @param @param bizCusServiceProblem
-	 * @param @param request
-	 * @param @param response
-	 * @param @param model
-	 * @param @return
-	 * @return String
-	 * @author ZhangTongWei
-	 * @throws
-	 */
+
 	@RequestMapping(value = { "ProjectbyIdsall", "" })
 	public String ProjectbyIdsall(BizCusServiceProblem bizCusServiceProblem, Order projectbyId, BizOrderComplaint bizOrderComplaint, HttpServletRequest request, HttpServletResponse response, Model model) {
 		Order order = null;
 		if (bizCusServiceProblem.getId() != null) {
 			order = orderService.getProjectbyId(bizCusServiceProblem.getId());
 		} else {
-			// if (projectbyId.getOrderId() == null)
-			// {
-			// model.addAttribute("message", "请先选择项目");
-			// return "modules/ordercomplan/bizOrderComplaintForm";
-			// }
+
+
+
+
+
 
 			order = orderService.getProjectbyId(projectbyId.getOrderId() + "");
-			// 查询分类信息的数据
-			BizComplaintProblemType bizComplaintProblemType = bizOrderComplaint.getBizComplaintProblemType(); // 前台通过另一个类传过来的值setBizComplaintProblemTyp中查询
+
+			BizComplaintProblemType bizComplaintProblemType = bizOrderComplaint.getBizComplaintProblemType();
 			bizComplaintProblemType.setTypeName(bizOrderComplaint.getTypeName());
-			// 根据分类任务包名称查询这条分类是否有任务包
+
 			BizComplaintProblemType bizComplaintProblemType3 = bizComplaintProblemTypeService.queryIsordertaskpackag(bizComplaintProblemType);
 			if (bizComplaintProblemType3.getPackName() != null) {
 				bizComplaintProblemType3 = bizComplaintProblemTypeService.queryComTypeName(bizComplaintProblemType);
 			}
 
 			bizOrderComplaint.setBizComplaintProblemType(bizComplaintProblemType3);
-			// 查询事项信息
+
 			if (bizComplaintProblemType3 != null) {
 				BizComplaintProblemItem bizComplaintProblemItem = new BizComplaintProblemItem();
 				bizComplaintProblemItem.setComplaintProblemTypeId(Integer.parseInt(bizComplaintProblemType3.getId()));
@@ -533,8 +400,8 @@ public class BizCusServiceProblemController extends BaseController {
 	@RequestMapping(value = { "ajaxgetItem", "" })
 	@ResponseBody
 	public String ajaxgetItem(BizOrderComplaint bizOrderComplaint, HttpServletRequest request, HttpServletResponse response, Model model) {
-		// 查询分类信息
-		BizComplaintProblemType bizComplaintProblemType = bizOrderComplaint.getBizComplaintProblemType(); // 前台通过另一个类传过来的值setBizComplaintProblemTyp中查询
+
+		BizComplaintProblemType bizComplaintProblemType = bizOrderComplaint.getBizComplaintProblemType();
 		bizComplaintProblemType.setTypeName(bizOrderComplaint.getTypeName());
 		BizComplaintProblemType bizComplaintProblemType2 = bizComplaintProblemTypeService.queryComTypeName(bizComplaintProblemType);
 
@@ -555,20 +422,7 @@ public class BizCusServiceProblemController extends BaseController {
 
 	}
 
-	/**
-	 * 查看来自订单信息的详情
-	 *
-	 * @Title: details
-	 * @Description:
-	 * @param @param bizCusServiceProblem
-	 * @param @param request
-	 * @param @param response
-	 * @param @param model
-	 * @param @return
-	 * @return String
-	 * @author ZhangTongWei
-	 * @throws
-	 */
+
 	@RequiresPermissions("cusserviceproblem:bizCusServiceProblem:view")
 	@RequestMapping(value = { "details", "" })
 	public String details(BizCusServiceProblem bizCusServiceProblem, HttpServletRequest request, HttpServletResponse response, Model model) {
@@ -598,9 +452,7 @@ public class BizCusServiceProblemController extends BaseController {
 		return "modules/cusserviceproblem/photo";
 	}
 
-	/*
-	 * 查询图
-	 */
+
 	@RequestMapping(value = { "ajaxViewPicsById" })
 	@ResponseBody
 	public Map<Object, Object> ajaxViewPicsById(Integer id, HttpServletRequest request, HttpServletResponse response, Model model) {

@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.util.*;
@@ -35,11 +33,7 @@ import cn.damei.entity.modules.BizOrderTaskpackagePaymentDetail;
 import cn.damei.dao.modules.BizOrderTaskpackagePaymentSummaryDao;
 import cn.damei.dao.modules.BizOrderTaskpackagePaymentSummaryRelDao;
 
-/**
- * 付款单批次Service
- * @author 汪文文
- * @version 2016-10-26
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizOrderTaskpackagePaymentSummaryService extends CrudService2<BizOrderTaskpackagePaymentSummaryDao, BizOrderTaskpackagePaymentSummary> {
@@ -86,9 +80,7 @@ public class BizOrderTaskpackagePaymentSummaryService extends CrudService2<BizOr
 		return super.findPage(page, bizOrderTaskpackagePaymentSummary);
 	}
 	
-	/**
-	 *  财务人员使用批次列表
-	 */
+
 	public Page<BizOrderTaskpackagePaymentSummary> findSummaryPage(Page<BizOrderTaskpackagePaymentSummary> page, BizOrderTaskpackagePaymentSummary bizOrderTaskpackagePaymentSummary) {
 		bizOrderTaskpackagePaymentSummary.setPage(page);
 		page.setList(dao.findSummaryList(bizOrderTaskpackagePaymentSummary));
@@ -112,7 +104,7 @@ public class BizOrderTaskpackagePaymentSummaryService extends CrudService2<BizOr
 		Date date = new Date();
 
 		BizOrderTaskpackagePayment pay = bizOrderTaskpackagePaymentDao.get(Integer.parseInt(ids[0]));
-		//1.生成批次表
+
 		BizOrderTaskpackagePaymentSummary summary = new BizOrderTaskpackagePaymentSummary();
 		summary.setOrderTaskpackagePaymentSummaryCode(orderTaskpackagePaymentSummaryCode);
 		summary.setOrderTaskpackagePaymentCount(ids.length);
@@ -128,7 +120,7 @@ public class BizOrderTaskpackagePaymentSummaryService extends CrudService2<BizOr
 		summary.setProjectMode(pay.getProjectMode());
 		dao.insert(summary);
 		
-		//2.生成批次与付款单关系表
+
 		BizOrderTaskpackagePaymentSummary paymentSummary = dao.queryPaymentSummaryByNo(orderTaskpackagePaymentSummaryCode);
 		if(paymentSummary != null){
 			for(String id:ids){
@@ -137,7 +129,7 @@ public class BizOrderTaskpackagePaymentSummaryService extends CrudService2<BizOr
 				summaryRel.setOrderTaskpackagePaymentId(Integer.parseInt(id));
 				bizOrderTaskpackagePaymentSummaryRelDao.insert(summaryRel);
 				
-				//3.更新付款单状态
+
 				BizOrderTaskpackagePayment payment = bizOrderTaskpackagePaymentDao.get(Integer.parseInt(id));
 				if(payment != null){
 					payment.setStatus(ConstantUtils.PAYMENT_STATUS_20);
@@ -155,7 +147,7 @@ public class BizOrderTaskpackagePaymentSummaryService extends CrudService2<BizOr
 		User user = UserUtils.getUser();
 		Date date = new Date();
 		
-		//1.新增付款单明细合并
+
 		List<BizOrderTaskpackagePaymentDetaiVo> paymentDetailVoList =  bizOrderTaskpackagePaymentDetailDao.queryEmployeeAllAmount(id);
 		for(BizOrderTaskpackagePaymentDetaiVo paymentDetailVo:paymentDetailVoList){
 			BizOrderTaskpackagePaymentDetailMerge merge = new BizOrderTaskpackagePaymentDetailMerge();
@@ -170,7 +162,7 @@ public class BizOrderTaskpackagePaymentSummaryService extends CrudService2<BizOr
 			merge.setUpdateDate(date);
 			bizOrderTaskpackagePaymentDetailMergeDao.insert(merge);
 			
-			//2.新增付款单明细合并关系
+
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("summaryId", id);
 			map.put("employeeId", merge.getEmployeeId());
@@ -185,7 +177,7 @@ public class BizOrderTaskpackagePaymentSummaryService extends CrudService2<BizOr
 			}
 		}
 		
-		//3.更新批次状态
+
 		BizOrderTaskpackagePaymentSummary summary = dao.queryOrderTaskpackagePaymentSummaryById(id);
 		summary.setStatus(ConstantUtils.SUMMARY_STATUS_20);
 		summary.setExamineEmployeeId(Integer.parseInt(user.getId()));
@@ -194,7 +186,7 @@ public class BizOrderTaskpackagePaymentSummaryService extends CrudService2<BizOr
 		summary.setUpdateDate(date);
 		dao.update(summary);
 		
-		//4.更新付款单
+
 		List<BizOrderTaskpackagePayment> paymentList = bizOrderTaskpackagePaymentDao.queryPaymentBySummaryId(id);
 		for(BizOrderTaskpackagePayment payment:paymentList){
 			payment.setStatus(ConstantUtils.PAYMENT_STATUS_30);
@@ -204,7 +196,7 @@ public class BizOrderTaskpackagePaymentSummaryService extends CrudService2<BizOr
 			bizOrderTaskpackagePaymentDao.update(payment);
 		}
 
-		//5.发短信
+
 		BizMessagegroup bizMessagegroup = bizMessagegroupService.getByStoreId(summary.getStoreId()+"", ConstantUtils.MESSAGE_GROUP_TYPE_100);
 		List<Integer> list = new ArrayList<Integer>();
 		if(bizMessagegroup != null && StringUtils.isNoneBlank(bizMessagegroup.getEmployees())){
@@ -236,11 +228,11 @@ public class BizOrderTaskpackagePaymentSummaryService extends CrudService2<BizOr
 	
 	@Transactional(readOnly = false)
 	public String summaryAbolish(Integer id,String cancleReason) {
-		/*try{*/
+
 			User user = UserUtils.getUser();
 			Date date = new Date();
 
-			//1.更新付款批次
+
 			BizOrderTaskpackagePaymentSummary summary = dao.get(id);
 			if(ConstantUtils.SUMMARY_STATUS_90.equals(summary.getStatus())){
 				return "already";
@@ -253,7 +245,7 @@ public class BizOrderTaskpackagePaymentSummaryService extends CrudService2<BizOr
 			summary.setUpdateDate(date);
 			dao.update(summary);
 
-			//2.更新付款单
+
 			List<BizOrderTaskpackagePayment> paymentList = bizOrderTaskpackagePaymentDao.queryPaymentBySummaryId(id);
 			for(BizOrderTaskpackagePayment payment:paymentList){
 				payment.setStatus(ConstantUtils.PAYMENT_STATUS_90);
@@ -263,21 +255,19 @@ public class BizOrderTaskpackagePaymentSummaryService extends CrudService2<BizOr
 				bizOrderTaskpackagePaymentDao.update(payment);
 			}
 			
-			//3.删除明细合并拆分
+
 			List<Integer> list = bizOrderTaskpackagePaymentDetailSplitDao.queryPaymentDetailId(id);
 			for (int i = 0; i < list.size(); i++) {
 				bizOrderTaskpackagePaymentDetailSplitDao.deleteBySummaryId(list.get(i));
 			}
 			
-//			bizOrderTaskpackagePaymentDetailSplitDao.deleteBySummaryId(id);
+
 			return "success";
-		/*}catch (Exception e){
-			return "error";
-		}*/
+
 	}
 
 	public OrderInformation queryOrderByPaymentCode(String paymentCode) {
-		// TODO Auto-generated method stub
+
 		return dao.queryOrderByPaymentCode(paymentCode);
 	}
 

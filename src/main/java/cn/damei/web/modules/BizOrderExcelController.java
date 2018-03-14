@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import java.util.ArrayList;
@@ -25,11 +23,7 @@ import cn.damei.common.web.BaseController;
 import cn.damei.entity.modules.BizOrderExcel;
 import cn.damei.service.modules.BizOrderExcelService;
 
-/**
- * 材料文件上传Controller
- * @author wyb
- * @version 2016-09-08
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/orderexcel/bizOrderExcel")
 public class BizOrderExcelController extends BaseController {
@@ -77,7 +71,7 @@ public class BizOrderExcelController extends BaseController {
 			return form(bizOrderExcel, model);
 		}
 		
-		//上传材料清单的版本号问题
+
 		List<BizOrderExcel> list = bizOrderExcelService.findList(bizOrderExcel);
 		if(null!=list){
 			List<Integer> versions = new ArrayList<Integer>();

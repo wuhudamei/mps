@@ -30,7 +30,7 @@ public static String MD5(Map<String,String> map) throws UnsupportedEncodingExcep
 			}
 		}
 		sb.append(md5key);
-		//System.out.println(sb.toString()+"==========================");
+
 		MessageDigest md5 = MessageDigest.getInstance("MD5");  
 		md5.update((sb.toString()).getBytes("UTF-8"));  
 		byte b[] = md5.digest();  
@@ -47,7 +47,7 @@ public static String MD5(Map<String,String> map) throws UnsupportedEncodingExcep
 		    }  
 		    buf.append(Integer.toHexString(i));  
 		} 
-        //加密后的字符串
+
 		return buf.toString() ;
 	}
 	
@@ -63,11 +63,11 @@ public static String MD5Secret(Map<String,String> map) throws UnsupportedEncodin
 	JSONArray fromObject = JSONArray.fromObject(map);
 	String string = fromObject.toString();
 	
-	//String strings = string.substring(1, string.length()-1);
+
 	
-	//把截取字符串
+
 	String substring2 = string.substring(2, string.length()-2);
-	//把字符转换成list数组	
+
 	String[] split = substring2.split(",\"");
 	List<String> list = new ArrayList<>();
 	for (int i = 0; i < split.length; i++) {
@@ -76,12 +76,12 @@ public static String MD5Secret(Map<String,String> map) throws UnsupportedEncodin
 	}
 	String[] targetArr=new String[list.size()];
 	String[] array = list.toArray(targetArr);
-	//对数组进行排序
+
 	Arrays.sort(array);
-	//遍历数组
+
 	String count = "";
 	for (String sp : array) {
-		//截取字符串
+
 		int lastIndexOf = sp.lastIndexOf(':') +2;
 		String substring = sp.substring(lastIndexOf, sp.length()-1);
 		if(!substring.equals("")&&substring!=null){
@@ -89,7 +89,7 @@ public static String MD5Secret(Map<String,String> map) throws UnsupportedEncodin
 		}
 	}
 	count = count + key;
-	//MD5加密
+
 	return  MD5Utils.getMD5(count).toUpperCase();
 	}
 
@@ -98,13 +98,13 @@ public static String getMD5(String plainText) throws UnsupportedEncodingExceptio
 	byte[] secretBytes = null;
 	try {
 		secretBytes = MessageDigest.getInstance("md5").digest(
-				plainText.getBytes("UTF-8"));//对字符串进行编码
+				plainText.getBytes("UTF-8"));
 	} catch (NoSuchAlgorithmException e) {
 		throw new RuntimeException("没有md5这个算法！");
 	}
-	String md5code = new BigInteger(1, secretBytes).toString(16);// 16进制数字
+	String md5code = new BigInteger(1, secretBytes).toString(16);
 Integer md5Length =md5code.length();
-	// 如果生成数字未满32位，需要前面补0
+
 	for (int i = 0; i < 32 -md5Length ; i++) {
 		md5code = "0" + md5code;
 	}

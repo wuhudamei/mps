@@ -1,25 +1,19 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import cn.damei.common.persistence.DataEntity2;
 import org.hibernate.validator.constraints.Length;
 
-/**
- * 筒灯灯带标化辅料配送费Entity
- * @author Ryze
- * @version 2017-10-25
- */
+
 public class BizMaterialsStandardShippingFees extends DataEntity2<BizMaterialsStandardShippingFees> {
 	
-	private Integer storeId;		// store_id
-	private Integer bizMaterialsStandardType;		// biz_materials_standard_type
-	private Double shippingFees;		// shipping_fees
-	private Integer status;		// 0停用 1启用
-	private Integer createId;		// create_id
-	private String createName;		// create_name
-	//是否可以启用
+	private Integer storeId;
+	private Integer bizMaterialsStandardType;
+	private Double shippingFees;
+	private Integer status;
+	private Integer createId;
+	private String createName;
+
 	private Boolean flag;
 
 	public Boolean getFlag() {

@@ -4,23 +4,20 @@ import cn.damei.common.persistence.DataEntity2;
 
 public class WorkerVo extends DataEntity2<WorkerVo>{
 
-	/**
-	 * @author 汪文文
-	 * @version 2016-09-22
-	 */
+
 	private static final long serialVersionUID = 1L;
 	
-	private Integer id; //工人组id
-	private Integer star;//星级
+	private Integer id;
+	private Integer star;
 	private String nps;
-	private Integer sort; //排名
-	private String address; //地址
-	private Integer orderStop;//是否停单
-	private Integer state; //是否删除
-	private Worker worker; //组长id
-	private String realname;//真实姓名
-	private String phone; //手机号
-	private Integer groupId; //组长id
+	private Integer sort;
+	private String address;
+	private Integer orderStop;
+	private Integer state;
+	private Worker worker;
+	private String realname;
+	private String phone;
+	private Integer groupId;
 	
 	public Integer getId() {
 		return id;

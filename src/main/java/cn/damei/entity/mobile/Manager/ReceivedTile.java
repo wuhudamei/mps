@@ -5,23 +5,23 @@ import cn.damei.common.persistence.DataEntity2;
 public class ReceivedTile extends DataEntity2<ReceivedTile>{
 	
 	private static final long serialVersionUID = 1L;
-/*	private Integer id;*/
+
 	private Integer purchaseId;
-	private String mainMateType; //主材类型 墙砖 地砖 开关面板
+	private String mainMateType;
 	private String name;
 	private String position;
-	private String brands; //品牌套餐
-	private String model; //型号
-	private String specifications; //规格
-	private String unit; //单位
-	private Double mainMateCount;//数量
-	private Double includLossCount;//含损耗数量
-	private Double count;//实发数量
-	private String remarks; //备注
-	private Double receivedCount; //已收数量
-	private Double owedCount;  //欠货数量
+	private String brands;
+	private String model;
+	private String specifications;
+	private String unit;
+	private Double mainMateCount;
+	private Double includLossCount;
+	private Double count;
+	private String remarks;
+	private Double receivedCount;
+	private Double owedCount;
 	private String picUrl;
-	private Double receivedNumber;//本次收货的数量
+	private Double receivedNumber;
 	private String mateCode;
 	public String getPicUrl() {
 		return picUrl;

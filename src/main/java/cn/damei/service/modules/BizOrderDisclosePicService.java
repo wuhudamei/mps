@@ -11,10 +11,7 @@ import cn.damei.common.service.CrudService2;
 import cn.damei.dao.modules.BizOrderDisclosePicDao;
 import cn.damei.entity.modules.BizOrderDisclosePic;
 
-/**
- * 订单交底
- * @author llp
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizOrderDisclosePicService extends CrudService2<BizOrderDisclosePicDao, BizOrderDisclosePic>{

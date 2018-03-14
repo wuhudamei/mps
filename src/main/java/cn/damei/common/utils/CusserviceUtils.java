@@ -22,25 +22,11 @@ import cn.damei.common.mapper.JsonMapper;
 import cn.damei.entity.modules.BizCusServiceProblem;
 
 public class CusserviceUtils {
-	/**
-	 * 
-	 * @Title: sendHttp
-	 * @Description: TODO
-	 * @param @param cusId 售后系统的iD对应我们系统的 workOrderCode
-	 * @param @param Status 售后系统需要的挡住状态
-	 * @param @param url 售后的url
-	 * @param @param bizCusServiceProblem 需要传到售后的个别字段例如预执行时间 可以为空当为空
-	 * @param @return
-	 * @return String
-	 * @author ZhangTongWei
-	 * @throws
-	 */
+
 
 	@SuppressWarnings("static-access")
 	public static String sendHttp(String cusId, String Status, BizCusServiceProblem bizCusServiceProblem) {
 		HttpClient httpClient = new DefaultHttpClient();
-		// "http://192.168.1.90:8012/service/orderUpdate");
-		// 准生产59.110.170.55:48016
 		String smsUrl = "http://cm.mdni.net.cn/service/orderUpdate";
 		HttpPost httppost = new HttpPost(smsUrl);
 		String strResult = "";
@@ -58,7 +44,7 @@ public class CusserviceUtils {
 			HttpResponse response1 = httpClient.execute(httppost);
 			System.err.println(response1);
 			if (response1.getStatusLine().getStatusCode() == 200) {
-				/* 读返回数据 */
+
 				String conResult = EntityUtils.toString(response1.getEntity());
 				JSONObject sobj = new JSONObject();
 				sobj = sobj.fromObject(conResult);
@@ -93,16 +79,16 @@ public class CusserviceUtils {
 		String format = operationTime.format(date);
 		String[] parameterArr = new String[] { "status=" + Status, "operationUser=" + "73", "workorderId=" + cusId, "operationTime=" + format };
 		String key = KeyAuthenticateUtils2.getKey(parameterArr, "7b5df6aq2we4r3t6y1vxnmhjklpewd23");
-		bizCusServiceProblem2.setKey(key);// 密钥
-		bizCusServiceProblem2.setStatus(Status);// 状态
-		bizCusServiceProblem2.setOperationUser("73"); // 操作人
-		bizCusServiceProblem2.setWorkorderId(cusId); // 工单id/售后id
-		bizCusServiceProblem2.setOperationTime(format);// 操作时间
+		bizCusServiceProblem2.setKey(key);
+		bizCusServiceProblem2.setStatus(Status);
+		bizCusServiceProblem2.setOperationUser("73");
+		bizCusServiceProblem2.setWorkorderId(cusId);
+		bizCusServiceProblem2.setOperationTime(format);
 		if (bizCusServiceProblem != null) {
 			Date addDate = DateUtils.addDate(date, Integer.parseInt(bizCusServiceProblem.getBeforehandDatehou()));
 			String formatDateTime = DateUtils.formatDateTime(addDate);
-			bizCusServiceProblem2.setTreamentTime(formatDateTime);// 预处理时间
-			bizCusServiceProblem2.setRemarks(bizCusServiceProblem.getRemarks());// 备注
+			bizCusServiceProblem2.setTreamentTime(formatDateTime);
+			bizCusServiceProblem2.setRemarks(bizCusServiceProblem.getRemarks());
 		}
 
 		JsonMapper jsonMapper = new JsonMapper();

@@ -1,28 +1,22 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import org.hibernate.validator.constraints.Length;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 远程费提成金额设置Entity
- * @author wyb
- * @version 2017-02-13
- */
+
 public class BizQcLongwayCommissionCnfg extends DataEntity2<BizQcLongwayCommissionCnfg> {
 	
 	private static final long serialVersionUID = 1L;
-	private Integer storeId;		// 门店
-	private Double commissionAmount;		// 远程费金额
-	private Integer commissionRateMidway;		// 中期提成比例
-	private Integer commissionRateComplete;		// 竣工提成比例
-	private String isEnabled;		// 是否启用
+	private Integer storeId;
+	private Double commissionAmount;
+	private Integer commissionRateMidway;
+	private Integer commissionRateComplete;
+	private String isEnabled;
 	
-	private Double commissionRateMidwayTwo;		// 中期提成比例
-	private Double commissionRateCompleteTwo;		// 竣工提成比例
+	private Double commissionRateMidwayTwo;
+	private Double commissionRateCompleteTwo;
 
 	public BizQcLongwayCommissionCnfg() {
 		super();

@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import javax.validation.constraints.NotNull;
@@ -10,28 +8,24 @@ import cn.damei.common.persistence.DataEntity;
 
 import java.util.List;
 
-/**
- * 结算节点配置Entity
- * @author 梅浩
- * @version 2017-04-15
- */
+
 public class BizNormalPmSettleNode extends DataEntity<BizNormalPmSettleNode> {
 	
 	private static final long serialVersionUID = 1L;
 	private Integer storeSettleNodeCount;
-	private Integer storeId;		// 门店
-	private Integer settleIndex;		// 结算顺序
-	private String settleNodeName;		// 节点名称
-	private Integer qcCheckNodeId;		// 验收节点id
-	private String  qcCheckNodeName; //验收节点名称
-	private String settleType;		// 结算类型
-	private String settleRule;		// 具体结算占比
-	private String receiveMoneyType;		// 收款类型
-	private String isRequired;		// 是否必选
-	private String createMan;//创建人名称	
+	private Integer storeId;
+	private Integer settleIndex;
+	private String settleNodeName;
+	private Integer qcCheckNodeId;
+	private String  qcCheckNodeName;
+	private String settleType;
+	private String settleRule;
+	private String receiveMoneyType;
+	private String isRequired;
+	private String createMan;
 	private String projectMode;
-	private String settleStage;//结算阶段
-	private String settlePrice;//结算单价
+	private String settleStage;
+	private String settlePrice;
 	
 	
 	

@@ -5,9 +5,7 @@ import java.util.Date;
 
 public class InspectOrderVo  implements Serializable{
 
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	
 	private Integer orderId;

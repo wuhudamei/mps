@@ -1,31 +1,24 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import org.hibernate.validator.constraints.Length;
 
 import cn.damei.common.persistence.DataEntity;
 
-/**
- * 工程投诉Entity
- * 
- * @author mh
- * @version 2017-07-03
- */
+
 public class BizComplaintProblemType extends DataEntity<BizComplaintProblemType> {
 
 	private static final long serialVersionUID = 1L;
-	private Integer storeId; // 门店id
-	private String typeName; // 分类名称
-	private Integer taskPackageTemplatId; // 对应任务包(模板)id
-	private Integer packageId; // 对应任务包id
+	private Integer storeId;
+	private String typeName;
+	private Integer taskPackageTemplatId;
+	private Integer packageId;
 	private String packName;
-	private String dealPersonType; // 处理人类型(1:manager 2:m+w 3:p)
-	private String isEnabled; // 是否启用
-	private String packagetemplatname; // 任務包(模板)名字
-	private String ComplaintProblemTypeId; // 问题分类ID
-	private String orderId; // 订单ID
+	private String dealPersonType;
+	private String isEnabled;
+	private String packagetemplatname;
+	private String ComplaintProblemTypeId;
+	private String orderId;
 
 	public String getPackName() {
 		return packName;

@@ -38,7 +38,7 @@ public class UrgeEvaluationController {
 		List<UrgeEvaluation> list = urgeEvaluationService.findEvaluationTaskpageByGroupId(urgeEvaluation);
 		EmployeeGroup employeeGroup = employeeGroupService.selectEmployeeGroupByGroupId(worker.getId());
 		String isLeader="0";
-		if(employeeGroup != null){ // 组长
+		if(employeeGroup != null){
 			isLeader="0";
 		}else{
 			isLeader="1";
@@ -51,10 +51,7 @@ public class UrgeEvaluationController {
 		return "mobile/modules/Worker/urgeevaluation/pushComment";
 	}
 	
-	/**
-	 * 催促评价
-	 * @return
-	 */
+
 	@RequestMapping(value="urgeevaluation")
 	@ResponseBody
 	public Integer urgeevaluation(HttpServletRequest request,UrgeEvaluation urgeEvaluation){

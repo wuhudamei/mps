@@ -8,9 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.util.UUID;
 
-/**
- * Created by joseph on 2017/7/24.
- */
+
 @Service
 public class SavePhoto {
 
@@ -25,9 +23,9 @@ public class SavePhoto {
 
         String uuid = UUID.randomUUID().toString().replaceAll("-", "");
 
-        // String rootPath = RootName.SystemEnvironment(request);
 
-        // 判断该文件是否存在
+
+
         if (!filePath.exists() && !filePath.isDirectory()) {
             filePath.mkdirs();
         }

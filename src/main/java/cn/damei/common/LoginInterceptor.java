@@ -14,7 +14,7 @@ public class LoginInterceptor implements HandlerInterceptor{
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		String[] ignore_url = {"/login", "/toLogin","/get","/isExist","/method"};
-		//获取url
+
 		String requestURI = request.getRequestURI();
 		boolean flag = false;
 		for (String s : ignore_url) {
@@ -65,13 +65,13 @@ public class LoginInterceptor implements HandlerInterceptor{
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
-		// TODO Auto-generated method stub
+
 	}
 
 	@Override
 	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
 			throws Exception {
-		// TODO Auto-generated method stub	
+
 	}
 	
 }

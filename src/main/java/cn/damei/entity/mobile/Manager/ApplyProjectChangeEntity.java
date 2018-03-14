@@ -3,35 +3,26 @@ package cn.damei.entity.mobile.Manager;
 import java.io.Serializable;
 import java.util.Date;
 
-/**
- * 施工变更单
- * @author 梅浩
- * @2016年11月16日
- * @mdn大美装饰管理平台
- * @author_phone : 18610507472
- * @ClassInfo:变更单
- */
+
 public class ApplyProjectChangeEntity implements Serializable {
 
 	
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
-	private Integer projectChangeId;//变更单id
-	private String projectChangeCode;//变更单code
-	private String changeReason;//变更原因
-	private Date  applyDate;//提交日期
-	private Double addItemTotalPrice;//增项总价
-	private Double minusItemTotalPrice;//减项总价
-	private String status;//状态
-	private String statusName;//状态名字
-	private String statusShiro;//权限状态
-	private Integer orderCount;//是否有施工变更单
-	private Integer customerPhone;//客户手机
-	private int signaturePic;//施工图片
-	private String isScrap;//是否作废
-	private String storeId;//门店ID
+	private Integer projectChangeId;
+	private String projectChangeCode;
+	private String changeReason;
+	private Date  applyDate;
+	private Double addItemTotalPrice;
+	private Double minusItemTotalPrice;
+	private String status;
+	private String statusName;
+	private String statusShiro;
+	private Integer orderCount;
+	private Integer customerPhone;
+	private int signaturePic;
+	private String isScrap;
+	private String storeId;
 	private String id;
 
 	public String getId() {
@@ -80,17 +71,17 @@ public class ApplyProjectChangeEntity implements Serializable {
 	public void setStatusShiro(String statusShiro) {
 		this.statusShiro = statusShiro;
 	}
-	private Integer checkManId;//检查人id
-	private String checkManName;//检查人name
+	private Integer checkManId;
+	private String checkManName;
 	public String getCheckManName() {
 		return checkManName;
 	}
 	public void setCheckManName(String checkManName) {
 		this.checkManName = checkManName;
 	}
-	private Date checkDate;//检查日期
-	private Integer orderId;//订单id
-	private String customerName;//客户名字
+	private Date checkDate;
+	private Integer orderId;
+	private String customerName;
 	private String  xiaoqu;
 	private String lou;
 	private String danyuan;
@@ -119,9 +110,9 @@ public class ApplyProjectChangeEntity implements Serializable {
 		this.shi = shi;
 	}
 	private String shi;
-	private String orderStatus;//订单状态
-	private Date  contractStartDate;//合同开始日期
-	private String checkWords;//检查意见
+	private String orderStatus;
+	private Date  contractStartDate;
+	private String checkWords;
 	public String getCheckWords() {
 		return checkWords;
 	}

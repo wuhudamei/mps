@@ -1,16 +1,10 @@
 package cn.damei.entity.modules;
 
 import cn.damei.common.persistence.DataEntity;
-/**
- * 待办事项分类表
- * @author lzm
- * @version 2017-7-14
- */
+
 public class ToDoItemTypeEntity extends  DataEntity<ToDoItemTypeEntity>{
 	
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	private String rowNo;
 	private Integer storeId;

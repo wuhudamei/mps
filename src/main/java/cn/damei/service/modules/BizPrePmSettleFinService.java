@@ -9,11 +9,7 @@ import cn.damei.common.service.CrudService2;
 import cn.damei.dao.modules.BizPrePmSettleFinDao;
 import cn.damei.entity.modules.BizPrePmSettleFin;
 
-/**
- * 财务收款信息Service
- * @author hyh
- *
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizPrePmSettleFinService extends CrudService2<BizPrePmSettleFinDao,BizPrePmSettleFin>{

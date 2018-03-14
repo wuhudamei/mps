@@ -32,10 +32,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 
-/**
- * 订单交底
- * @author llp
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizOrderInstallPlanService extends CrudService2<BizOrderInstallPlanDao, BizOrderInstallPlan>{
@@ -55,29 +52,17 @@ public class BizOrderInstallPlanService extends CrudService2<BizOrderInstallPlan
 		return super.findPage(page, bizOrderInstallPlan);
 	}
 
-	/**
-	 * @return List<bizOrderInstallPlan>
-	 */
+
 	public List<BizOrderInstallPlan> getByList() {
 		return bizOrderInstallPlanDao.getByList();
 	}
 
-	/**
-	 * 根据ID查询整条数据
-	 * @param id
-	 * @return bean
-	 */
+
 	public BizOrderInstallPlan selectByInstallID(Integer id) {
 		return bizOrderInstallPlanDao.selectByInstallID(id);
 	}
 
-	/**
-	 * 根据主键修改安装项状态改为3
-	 * @param status 
-	 * @param id
-	 * @param supplierConfirmRemarks 
-	 * @return
-	 */
+
 	@Transactional(readOnly = false)
 	public String updateByIdAndStatus(Integer id, String status ,String date, String supplierConfirmRemarks) {
 		return bizOrderInstallPlanDao.updateByIdAndStatus(id,status, date,supplierConfirmRemarks) ? "0" : "1";
@@ -95,15 +80,9 @@ public class BizOrderInstallPlanService extends CrudService2<BizOrderInstallPlan
 		
 		
 }
-    /**
-    * @Description: 查询主材安装验收不合格明细查询列表(分页)
-    * @Author zhangkangjian
-    * @param
-    * @return
-    * @Date 2017/12/4 18:24
-    */
+
     public Page<BizOrderInstallPlan> findUnqualifiedLogPage(Page<BizOrderInstallPlan> bizOrderInstallPlanPage, BizOrderInstallPlan bizOrderInstallPlan,Model model) {
-        //安装项（启用+停用）
+
         List<String> projectInstallItemIdList = new ArrayList<String>();
         if(null != bizOrderInstallPlan.getOrderInstallItemId()){
             projectInstallItemIdList.add(String.valueOf(bizOrderInstallPlan.getOrderInstallItemId()));
@@ -114,20 +93,14 @@ public class BizOrderInstallPlanService extends CrudService2<BizOrderInstallPlan
         if(CollectionUtils.isNotEmpty(projectInstallItemIdList)){
             bizOrderInstallPlan.setProjectInstallItemIdList(projectInstallItemIdList);
         }
-//        过滤门店
+
         storeIdAndProjectMode(bizOrderInstallPlan,model);
 
         bizOrderInstallPlan.setPage(bizOrderInstallPlanPage);
         bizOrderInstallPlanPage.setList(dao.findUnqualifiedLogList(bizOrderInstallPlan));
         return bizOrderInstallPlanPage;
     }
-    /**
-    * @Description: 查询主材安装验收不合格明细查询（不分页）
-    * @Author zhangkangjian
-    * @param
-    * @return
-    * @Date 2017/12/8 11:21
-    */
+
     public List<BizOrderInstallPlan> findUnqualifiedLogList(BizOrderInstallPlan bizOrderInstallPlan){
         return dao.findUnqualifiedLogList(bizOrderInstallPlan);
     }
@@ -138,15 +111,9 @@ public class BizOrderInstallPlanService extends CrudService2<BizOrderInstallPlan
     public List<String> findPhone(String id) {
         return dao.findPhone(id);
     }
-    /**
-    * @Description: 询主材安装验收不合格查询列表
-    * @Author zhangkangjian
-    * @param
-    * @return
-    * @Date 2017/12/7 16:04
-    */
+
     public Page<BizOrderInstallPlan> findOrderInstallAccept(Page<BizOrderInstallPlan> bizOrderInstallPlanPage, BizOrderInstallPlan bizOrderInstallPlan,Model model) {
-        //安装项（启用+停用）
+
         List<String> projectInstallItemIdList = new ArrayList<String>();
         if(null != bizOrderInstallPlan.getOrderInstallItemId()){
             projectInstallItemIdList.add(String.valueOf(bizOrderInstallPlan.getOrderInstallItemId()));
@@ -166,13 +133,7 @@ public class BizOrderInstallPlanService extends CrudService2<BizOrderInstallPlan
         bizOrderInstallPlanPage.setList(dao.findOrderInstallAccept(bizOrderInstallPlan));
         return bizOrderInstallPlanPage;
     }
-    /**
-    * @Description: 查询订单的详细信息
-    * @Author zhangkangjian
-    * @param
-    * @return
-    * @Date 2017/12/7 16:22
-    */
+
     public BizOrderInstallPlan getOrderDetail(BizOrderInstallPlan bizOrderInstallPlan) {
         return dao.getOrderDetail(bizOrderInstallPlan);
     }
@@ -180,15 +141,9 @@ public class BizOrderInstallPlanService extends CrudService2<BizOrderInstallPlan
     public List<BizOrderInstallPlan> findItemPlanLog(BizOrderInstallPlan bizOrderInstallPlan) {
         return dao.findItemPlanLog(bizOrderInstallPlan);
     }
-    /**
-    * @Description: 不合格安装项统计
-    * @Author zhangkangjian
-    * @param
-    * @return 
-    * @Date 2017/12/7 18:21
-    */
+
     public Page<BizOrderInstallPlan> findUnqualifiedInstallItemCountPage(Page<BizOrderInstallPlan> bizOrderInstallPlanPage, BizOrderInstallPlan bizOrderInstallPlan,Model model) {
-        //安装项（启用+停用）
+
         List<String> projectInstallItemIdList = new ArrayList<String>();
         if(null != bizOrderInstallPlan.getOrderInstallItemId()){
             projectInstallItemIdList.add(String.valueOf(bizOrderInstallPlan.getOrderInstallItemId()));
@@ -204,15 +159,9 @@ public class BizOrderInstallPlanService extends CrudService2<BizOrderInstallPlan
         bizOrderInstallPlanPage.setList(dao.findUnqualifiedInstallItemCount(bizOrderInstallPlan));
         return bizOrderInstallPlanPage;
     }
-    /**
-    * @Description: 不合格安装项原因统计
-    * @Author zhangkangjian
-    * @param
-    * @return
-    * @Date 2017/12/8 10:29
-    */
+
     public Page<BizOrderInstallPlan> findUnqualifiedResonCount(Page<BizOrderInstallPlan> bizOrderInstallPlanPage, BizOrderInstallPlan bizOrderInstallPlan,Model model) {
-        //安装项（启用+停用）
+
         List<String> projectInstallItemIdList = new ArrayList<String>();
         if(null != bizOrderInstallPlan.getOrderInstallItemId()){
             projectInstallItemIdList.add(String.valueOf(bizOrderInstallPlan.getOrderInstallItemId()));
@@ -228,13 +177,7 @@ public class BizOrderInstallPlanService extends CrudService2<BizOrderInstallPlan
         bizOrderInstallPlanPage.setList(dao.findUnqualifiedResonCount(bizOrderInstallPlan));
         return bizOrderInstallPlanPage;
     }
-    /**
-    * @Description: 不合格安装项明细统计导出
-    * @Author zhangkangjian
-    * @param
-    * @return
-    * @Date 2017/12/8 11:39
-    */
+
     public ModelAndView exportList(BizOrderInstallPlan bizOrderInstallPlan, HttpServletRequest request) throws IOException {
         UploadCategory uploadCategory = UploadCategory.EXCLE;
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -242,7 +185,7 @@ public class BizOrderInstallPlanService extends CrudService2<BizOrderInstallPlan
         String root = request.getSession().getServletContext().getRealPath("/");
         String uploadUrl = root+ PicRootName.getConfigValue(ConstantUtils.UPLOAD);
         String filePath = cn.mdni.commons.file.FileUtils.saveFilePath(uploadCategory, uploadUrl, fileName);
-        //表头
+
         LinkedHashMap<String, String> headerMapper = Maps.newLinkedHashMap();
         headerMapper.put("storeName", "门店");
         headerMapper.put("projectModeName", "工程模式");
@@ -254,7 +197,7 @@ public class BizOrderInstallPlanService extends CrudService2<BizOrderInstallPlan
         headerMapper.put("createDate", "提交时间");
         headerMapper.put("unqualifiedReasonConfigure", "订单不合格原因");
         headerMapper.put("acceptRemarks", "备注");
-        //安装项（启用+停用）
+
         List<String> projectInstallItemIdList = new ArrayList<String>();
         if(null != bizOrderInstallPlan.getOrderInstallItemId()){
             projectInstallItemIdList.add(String.valueOf(bizOrderInstallPlan.getOrderInstallItemId()));
@@ -271,13 +214,7 @@ public class BizOrderInstallPlanService extends CrudService2<BizOrderInstallPlan
         ViewDownLoad viewDownLoad = new ViewDownLoad(new File(filePath),null);
         return new ModelAndView(viewDownLoad);
     }
-    /**
-    * @Description: 不合格安装项导出
-    * @Author zhangkangjian
-    * @param
-    * @return
-    * @Date 2017/12/8 14:45
-    */
+
     public ModelAndView exportOrderInstallAccept(BizOrderInstallPlan bizOrderInstallPlan, HttpServletRequest request) throws IOException {
         UploadCategory uploadCategory = UploadCategory.EXCLE;
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -285,7 +222,7 @@ public class BizOrderInstallPlanService extends CrudService2<BizOrderInstallPlan
         String root = request.getSession().getServletContext().getRealPath("/");
         String uploadUrl = root+ PicRootName.getConfigValue(ConstantUtils.UPLOAD);
         String filePath = cn.mdni.commons.file.FileUtils.saveFilePath(uploadCategory, uploadUrl, fileName);
-        //表头
+
         LinkedHashMap<String, String> headerMapper = Maps.newLinkedHashMap();
         headerMapper.put("storeName", "门店");
         headerMapper.put("orderNumber", "订单编号");
@@ -296,7 +233,7 @@ public class BizOrderInstallPlanService extends CrudService2<BizOrderInstallPlan
         headerMapper.put("status", "安装项状态");
         headerMapper.put("unqualifiedTimes", "安装不合格次数");
         headerMapper.put("firstPassRate", "一次合格率");
-        //安装项（启用+停用）
+
         List<String> projectInstallItemIdList = new ArrayList<String>();
         if(null != bizOrderInstallPlan.getOrderInstallItemId()){
             projectInstallItemIdList.add(String.valueOf(bizOrderInstallPlan.getOrderInstallItemId()));
@@ -316,25 +253,17 @@ public class BizOrderInstallPlanService extends CrudService2<BizOrderInstallPlan
         ViewDownLoad viewDownLoad = new ViewDownLoad(new File(filePath),null);
         return new ModelAndView(viewDownLoad);
     }
-/**
-* @Description: 过滤门店和工程模式
-* @Author zhangkangjian
-* @param
-* @return
-* @Date 2017/12/11 11:15
-*/
+
     private void storeIdAndProjectMode(BizOrderInstallPlan bizOrderInstallPlan, Model model) {
         User user = UserUtils.getUser();
-        //过滤门店
+
         if(null==bizOrderInstallPlan.getStoreId()){
             if(null!=user.getStoreId()){
                 bizOrderInstallPlan.setStoreId(user.getStoreId());
             }
         }
-       /* if(StringUtils.isBlank(user.getStoreId())){
-            model.addAttribute("storeDropEnable", true);
-        }*/
-        //过滤工程模式
+
+
         if(StringUtils.isBlank(user.getProjectMode())||user.getProjectMode().equals(ConstantUtils.EMPLOYEE_PROJECT_MODE_3)){
             model.addAttribute("gongcheng", true);
         }else{

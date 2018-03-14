@@ -1,28 +1,22 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import java.util.Date;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 同步数据Entity
- * @author 汪文
- * @version 2017-03-15
- */
+
 public class BizSynData extends DataEntity2<BizSynData> {
 	
 	private static final long serialVersionUID = 1L;
-	private String dataDirection;		// 
-	private String businessType;		// 
-	private Integer businessOnlyMarkInt;		// 
-	private String businessOnlyMarkVarchar;		// 
-	private String businessData;		//
-	private String synStatus;		// 
-	private Date synDatetime;		//
-	private String isAutoSyn;		//
+	private String dataDirection;
+	private String businessType;
+	private Integer businessOnlyMarkInt;
+	private String businessOnlyMarkVarchar;
+	private String businessData;
+	private String synStatus;
+	private Date synDatetime;
+	private String isAutoSyn;
 	
 	public BizSynData() {
 		super();

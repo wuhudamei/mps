@@ -2,23 +2,18 @@ package cn.damei.entity.mobile.Inspector;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 评价项目经理详情
- * 
- * @author hyh
- *
- */
+
 public class BizEvalManagerDetail extends DataEntity2<BizEvalManagerDetail> {
 	private static final long serialVersionUID = 1L;
-	private String customerName; // 客户姓名
-	private String customerPhone;// 客户手机号
-	private String communityName;//小区
-	private String buildNumber; // 几号楼
-	private String buildUnit; // 几单元
-	private String buildRoom; // 哪一室
-	private String itemManager; // 项目经理
-	private String itemPhone;// 项目经理手机号
-	private String checkNodeName;// 约检节点名称
+	private String customerName;
+	private String customerPhone;
+	private String communityName;
+	private String buildNumber;
+	private String buildUnit;
+	private String buildRoom;
+	private String itemManager;
+	private String itemPhone;
+	private String checkNodeName;
 	private Integer relatedBusinessId;
 	private Integer orderId;
 	

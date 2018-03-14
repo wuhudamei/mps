@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.util.ArrayList;
@@ -18,11 +16,7 @@ import cn.damei.entity.modules.BizQcCheckItem;
 import cn.damei.entity.modules.BizQcCheckKind;
 import cn.damei.dao.modules.BizQcCheckItemDao;
 
-/**
- * 检查项Service
- * @author wyb
- * @version 2016-10-27
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizQcCheckItemService extends CrudService2<BizQcCheckItemDao, BizQcCheckItem> {
@@ -55,7 +49,7 @@ public class BizQcCheckItemService extends CrudService2<BizQcCheckItemDao, BizQc
 	public List<BizQcCheckKind> findCheckKind(BizQcCheckKind kind) {
 		return dao.findCheckKind(kind);
 	}
-	//通过分类id查询分类
+
 	public String findName(int a) {
 		return dao.findName(a);
 	}

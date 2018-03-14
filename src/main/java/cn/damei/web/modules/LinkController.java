@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import java.util.List;
@@ -28,11 +26,7 @@ import cn.damei.entity.modules.Site;
 import cn.damei.service.modules.CategoryService;
 import cn.damei.service.modules.LinkService;
 
-/**
- * 链接Controller
- * @author ThinkGem
- * @version 2013-3-23
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/cms/link")
 public class LinkController extends BaseController {
@@ -54,10 +48,10 @@ public class LinkController extends BaseController {
 	@RequiresPermissions("cms:link:view")
 	@RequestMapping(value = {"list", ""})
 	public String list(Link link, HttpServletRequest request, HttpServletResponse response, Model model) {
-//		User user = UserUtils.getUser();
-//		if (!user.isAdmin() && !SecurityUtils.getSubject().isPermitted("cms:link:audit")){
-//			link.setUser(user);
-//		}
+
+
+
+
         Page<Link> page = linkService.findPage(new Page<Link>(request, response), link, true); 
         model.addAttribute("page", page);
 		return "modules/cms/linkList";
@@ -66,7 +60,7 @@ public class LinkController extends BaseController {
 	@RequiresPermissions("cms:link:view")
 	@RequestMapping(value = "form")
 	public String form(Link link, Model model) {
-		// 如果当前传参有子节点，则选择取消传参选择
+
 		if (link.getCategory()!=null && StringUtils.isNotBlank(link.getCategory().getId())){
 			List<Category> list = categoryService.findByParentId(link.getCategory().getId(), Site.getCurrentSiteId());
 			if (list.size() > 0){
@@ -98,9 +92,7 @@ public class LinkController extends BaseController {
 		return "redirect:" + adminPath + "/cms/link/?repage&category.id="+categoryId;
 	}
 
-	/**
-	 * 链接选择列表
-	 */
+
 	@RequiresPermissions("cms:link:view")
 	@RequestMapping(value = "selectList")
 	public String selectList(Link link, HttpServletRequest request, HttpServletResponse response, Model model) {
@@ -108,9 +100,7 @@ public class LinkController extends BaseController {
 		return "modules/cms/linkSelectList";
 	}
 	
-	/**
-	 * 通过编号获取链接名称
-	 */
+
 	@RequiresPermissions("cms:link:view")
 	@ResponseBody
 	@RequestMapping(value = "findByIds")

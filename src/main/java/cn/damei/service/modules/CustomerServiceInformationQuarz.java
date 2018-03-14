@@ -17,26 +17,15 @@ import cn.damei.common.utils.HttpConnection;
 import cn.damei.common.utils.JsonUtils;
 import cn.damei.common.utils.KeyAuthenticateUtils;
 import cn.damei.common.utils.PicRootName;
-/**
- * 
- * @author lft
- * @dete 2017-5-8 
- *     	 远程调用接口 用于客服同步。。 定时 
- */
+
 @Service
 public class CustomerServiceInformationQuarz {
-		/**
-		 * 
-		 * @param storeId  门店id
-		 * @param timeStamp	时间戳
-		 * @return
-		 * 	调用接口 用于接收客服信息
-		 */
+
 	Logger logger = Logger.getLogger(CustomerServiceInformationQuarz.class); 
 	
 	@Autowired
 	private CustomerServiceInformationDao customerServiceInformationDao;
-	//门店id 的数组
+
 	private String [] storeId;
 	@Transactional
 	public   void  execute(){
@@ -49,8 +38,8 @@ public class CustomerServiceInformationQuarz {
 		
 		logger.info("客服同步定时任务：执行......begin......");
 		for (int i = 0; i < storeId.length; i++) {
-			//远程调用
-			//测试
+
+
 			logger.info("客服同步定时任务：执行中............");
 			
 			Map<String,String> params=new HashMap<String,String>();
@@ -68,13 +57,13 @@ public class CustomerServiceInformationQuarz {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			//json 解析
+
 			Map<String, Object> parseJSON2Map = JsonUtils.parseJSON2Map(post);
-			//数据修改
+
 			if(1==((Integer)parseJSON2Map.get("code"))){
 				List<Map<String,Object>> o = (List<Map<String, Object>>) parseJSON2Map.get("data");
 				for (Map<String, Object> map : o) {
-					//未离职
+
 					if("0".equals(map.get("isLeave"))){
 						logger.info("客服同步定时任务：执行......更新......");
 						customerServiceInformationDao.updateOne(map);

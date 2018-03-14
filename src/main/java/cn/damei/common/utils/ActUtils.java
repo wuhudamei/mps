@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.common.utils;
 
 import java.lang.annotation.Annotation;
@@ -22,53 +20,46 @@ import cn.damei.entity.modules.Act;
 import cn.damei.entity.modules.Role;
 import cn.damei.entity.modules.User;
 
-/**
- * 流程工具
- * @author ThinkGem
- * @version 2013-11-03
- */
+
 public class ActUtils {
 
-//	private static Logger logger = LoggerFactory.getLogger(ActUtils.class);
+
 	
-	/**
-	 * 定义流程定义KEY，必须以“PD_”开头
-	 * 组成结构：string[]{"流程标识","业务主表表名"}
-	 */
+
 	public static final String[] PD_LEAVE = new String[]{"leave", "oa_leave"};
 	public static final String[] PD_TEST_AUDIT = new String[]{"test_audit", "oa_test_audit"};
 	
-//	/**
-//	 * 流程定义Map（自动初始化）
-//	 */
-//	private static Map<String, String> procDefMap = new HashMap<String, String>() {
-//		private static final long serialVersionUID = 1L;
-//		{
-//			for (Field field : ActUtils.class.getFields()){
-//				if(StringUtils.startsWith(field.getName(), "PD_")){
-//					try{
-//						String[] ss = (String[])field.get(null);
-//						put(ss[0], ss[1]);
-//					}catch (Exception e) {
-//						logger.debug("load pd error: {}", field.getName());
-//					}
-//				}
-//			}
-//		}
-//	};
-//	
-//	/**
-//	 * 获取流程执行（办理）URL
-//	 * @param procId
-//	 * @return
-//	 */
-//	public static String getProcExeUrl(String procId) {
-//		String url = procDefMap.get(StringUtils.split(procId, ":")[0]);
-//		if (StringUtils.isBlank(url)){
-//			return "404";
-//		}
-//		return url;
-//	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	
 	@SuppressWarnings({ "unused" })
 	public static Map<String, Object> getMobileEntity(Object entity,String spiltType){
@@ -112,12 +103,7 @@ public class ActUtils {
 		return map;
 	}
 	
-	/**
-	 * 获取流程表单URL
-	 * @param formKey
-	 * @param act 表单传递参数
-	 * @return
-	 */
+
 	public static String getFormUrl(String formKey, Act act){
 		
 		StringBuilder formUrl = new StringBuilder();
@@ -141,11 +127,7 @@ public class ActUtils {
 		return formUrl.toString();
 	}
 	
-	/**
-	 * 转换流程节点类型为中文说明
-	 * @param type 英文名称
-	 * @return 翻译后的中文名称
-	 */
+
 	public static String parseToZhType(String type) {
 		Map<String, String> types = new HashMap<String, String>();
 		types.put("userTask", "用户任务");

@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import java.util.Arrays;
@@ -36,11 +34,7 @@ import cn.damei.service.modules.SystemService;
 import cn.damei.common.utils.BizDictUtils;
 import cn.damei.common.utils.UserUtils;
 
-/**
- * 角色Controller
- * @author ThinkGem
- * @version 2013-12-05
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/sys/role")
 public class RoleController extends BaseController {
@@ -79,7 +73,7 @@ public class RoleController extends BaseController {
 		
 		BizEmpStore affiliation = systemService.findAffiliationByRoleId(role.getId());
 		model.addAttribute("affiliation", affiliation);
-		//根据角色id查询对应门店
+
 		List<String> list = systemService.findStoreId(role.getId());
 		model.addAttribute("list", list);
 		model.addAttribute("role", role);
@@ -87,34 +81,13 @@ public class RoleController extends BaseController {
 		
 		
 		
-		//获取所有门店(未选中)
+
 		List<BizEmpStore> allStoreList = BizDictUtils.getStoreList();
-		/*//选中的
-		List<BizEmpStore> storeList1 = new ArrayList<>();
-		if(list.size() == allStoreList.size()){
-			
-		}else{
-			if(list!=null&&list.size()>0){
-				for (int i = 0; i < allStoreList.size(); i++) {
-					String id = allStoreList.get(i).getValue();
-					for (int j = 0; j < list.size(); j++) {
-						if(id.equals(list.get(j))){
-							BizEmpStore bizEmpStore = allStoreList.get(i);
-							storeList1.add(bizEmpStore);
-							allStoreList.remove(i);
-							continue;
-						}
-					}
-					
-				}
-				
-			}
-		}*/
-		/*//未选中的
-		model.addAttribute("unStoreList", storeList1);*/
+
+
 		
 		
-		//未选中的
+
 		model.addAttribute("storeList", allStoreList);
 		
 		model.addAttribute("list", list);
@@ -144,12 +117,12 @@ public class RoleController extends BaseController {
 			return form(role, model);
 		}
 		systemService.saveRole(role);
-		//插入角色门店关系表
+
 		systemService.deleteSysRoleStoreRel(role.getId());
 		if(storeIds!=null){
 		String[] ids = storeIds.split(",");
 		List<String> list = Arrays.asList(ids);
-		//systemService.saveRoleStore(list);
+
 		SysRoleStoreRel srs = new SysRoleStoreRel();
 		for (String str : list) {
 			srs.setRoleId(role.getId());
@@ -175,23 +148,18 @@ public class RoleController extends BaseController {
 			addMessage(redirectAttributes, "演示模式，不允许操作！");
 			return "redirect:" + adminPath + "/sys/role/?repage";
 		}
-//		if (Role.isAdmin(id)){
-//			addMessage(redirectAttributes, "删除角色失败, 不允许内置角色或编号空");
-////		}else if (UserUtils.getUser().getRoleIdList().contains(id)){
-////			addMessage(redirectAttributes, "删除角色失败, 不能删除当前用户所在角色");
-//		}else{
+
+
+
+
+
 			systemService.deleteRole(role);
 			addMessage(redirectAttributes, "删除角色成功");
-//		}
+
 		return "redirect:" + adminPath + "/sys/role/?repage";
 	}
 	
-	/**
-	 * 角色分配页面
-	 * @param role
-	 * @param model
-	 * @return
-	 */
+
 	@RequiresPermissions("sys:role:edit")
 	@RequestMapping(value = "assign")
 	public String assign(Role role, Model model) {
@@ -200,12 +168,7 @@ public class RoleController extends BaseController {
 		return "modules/sys/roleAssign";
 	}
 	
-	/**
-	 * 角色分配 -- 打开角色分配对话框
-	 * @param role
-	 * @param model
-	 * @return
-	 */
+
 	@RequiresPermissions("sys:role:view")
 	@RequestMapping(value = "usertorole")
 	public String selectUserToRole(Role role, Model model) {
@@ -217,12 +180,7 @@ public class RoleController extends BaseController {
 		return "modules/sys/selectUserToRole";
 	}
 	
-	/**
-	 * 角色分配 -- 根据部门编号获取用户列表
-	 * @param officeId
-	 * @param response
-	 * @return
-	 */
+
 	@RequiresPermissions("sys:role:view")
 	@ResponseBody
 	@RequestMapping(value = "users")
@@ -241,13 +199,7 @@ public class RoleController extends BaseController {
 		return mapList;
 	}
 	
-	/**
-	 * 角色分配 -- 从角色中移除用户
-	 * @param userId
-	 * @param roleId
-	 * @param redirectAttributes
-	 * @return
-	 */
+
 	@RequiresPermissions("sys:role:edit")
 	@RequestMapping(value = "outrole")
 	public String outrole(String userId, String roleId, RedirectAttributes redirectAttributes) {
@@ -274,13 +226,7 @@ public class RoleController extends BaseController {
 		return "redirect:" + adminPath + "/sys/role/assign?id="+role.getId();
 	}
 	
-	/**
-	 * 角色分配
-	 * @param role
-	 * @param idsArr
-	 * @param redirectAttributes
-	 * @return
-	 */
+
 	@RequiresPermissions("sys:role:edit")
 	@RequestMapping(value = "assignrole")
 	public String assignRole(Role role, String[] idsArr, RedirectAttributes redirectAttributes) {
@@ -301,12 +247,7 @@ public class RoleController extends BaseController {
 		return "redirect:" + adminPath + "/sys/role/assign?id="+role.getId();
 	}
 
-	/**
-	 * 验证角色名是否有效
-	 * @param oldName
-	 * @param name
-	 * @return
-	 */
+
 	@RequiresPermissions("user")
 	@ResponseBody
 	@RequestMapping(value = "checkName")
@@ -319,12 +260,7 @@ public class RoleController extends BaseController {
 		return "false";
 	}
 
-	/**
-	 * 验证角色英文名是否有效
-	 * @param oldName
-	 * @param name
-	 * @return
-	 */
+
 	@RequiresPermissions("user")
 	@ResponseBody
 	@RequestMapping(value = "checkEnname")

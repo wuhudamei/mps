@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import java.util.Date;
@@ -9,34 +7,29 @@ import org.hibernate.validator.constraints.Length;
 
 import cn.damei.common.persistence.DataEntity;
 
-/**
- * 工程投诉分类项Entity
- * 
- * @author mh
- * @version 2017-07-03
- */
+
 public class BizComplaintProblemItem extends DataEntity<BizComplaintProblemItem> {
 
 	private static final long serialVersionUID = 1L;
-	private Integer storeId; // 门店id
-	private Integer itemId; // 事项id
-	private Integer complaintProblemTypeId; // 分类问题id
+	private Integer storeId;
+	private Integer itemId;
+	private Integer complaintProblemTypeId;
 	private String typeName;
-	private String itemid; // 分类问题项ID
-	private String itemName; // 分类项名称
-	private Double responseTime; // 响应时间
-	private Double executeTimeLimit; // ִ执行时限
-	private Double specialTimeLimit; // 特殊时间
-	private Double deductScore; // 扣分
-	private Double punishMoney; // 罚款
-	private String itemRemarks; // 事项备注
-	private String isEnabled; // 停启用
+	private String itemid;
+	private String itemName;
+	private Double responseTime;
+	private Double executeTimeLimit;
+	private Double specialTimeLimit;
+	private Double deductScore;
+	private Double punishMoney;
+	private String itemRemarks;
+	private String isEnabled;
 	private String packName;
 	private String dealPersonType;
-	private String complaintproblemid; // 投诉问题ID
-	private Date startCreateTime;  //查询日期段--开始创建时间
-	private Date endCreateTime;	 //查询时间段--截至创建时间	
-	private String complaintProblemTimes; //出现次数
+	private String complaintproblemid;
+	private Date startCreateTime;
+	private Date endCreateTime;
+	private String complaintProblemTimes;
 	
 	
 	public String getComplaintProblemTimes() {

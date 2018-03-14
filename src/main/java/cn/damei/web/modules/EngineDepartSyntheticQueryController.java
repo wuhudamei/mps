@@ -26,10 +26,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by joseph on 2017/4/7.
- * 后台工程部综合查询
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/engineDepartSyntheticQuery")
 public class EngineDepartSyntheticQueryController extends BaseController {
@@ -129,8 +126,8 @@ public class EngineDepartSyntheticQueryController extends BaseController {
     @RequiresPermissions("enginedepartsyntheticquery:enginedepartsyntheticquery:view")
     @RequestMapping(value = {"smallStatisticsList"})
     public String smallStatisticsList(EngineDepartSyntheticQueryEntity engineDepartSyntheticQueryEntity, HttpServletRequest request, HttpServletResponse response, Model model) throws ParseException {
-    	//把开始时间的时分秒初始化为 00：00：00 
-    	//接单的时间的时分秒都是00:00:00
+
+
     	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
     	String format = sdf.format(engineDepartSyntheticQueryEntity.getStart());
     	Date parse = sdf.parse(format);
@@ -198,12 +195,7 @@ public class EngineDepartSyntheticQueryController extends BaseController {
     }
 
 
-    /**
-     * 2017-08-17  质检各种数据查询
-     *
-     * @param storeId,projectMode,startDate,endDate
-     * @return 综合经理星级数据
-     */
+
 
 
     @SuppressWarnings("JavadocReference")
@@ -213,25 +205,16 @@ public class EngineDepartSyntheticQueryController extends BaseController {
 
         return "syntheticQueryAbove/pqcAboveSyntheticQuery/managerStarSyntheticQuery";
     }
-    /**
-     * 2017-08-17  质检各种数据查询
-     *
-     * @param storeId,projectMode,startDate,endDate
-     * @return 综合经理星级数据
-     */
 
 
-    /**
-     * @param engineDepartSyntheticQueryEntity
-     * @param model
-     * @return
-     */
+
+
     @SuppressWarnings("JavadocReference")
     @RequiresPermissions("managerStarSyntheticQueryPre:managerStarSyntheticQueryPre:view")
     @RequestMapping(value = "managerStarSyntheticQuery")
     public String managerStarSyntheticQuery(EngineDepartSyntheticQueryEntity engineDepartSyntheticQueryEntity, Model model) {
 
-        //根据门店+工程模式 和时间段 查询质检工作的统计数据
+
 
 
         List<EngineDepartEntity> engineDepartEntities = service.findManagerStarGroupByEngineDepartByStoreIdAndProjectMode(engineDepartSyntheticQueryEntity.getStoreId().toString(), engineDepartSyntheticQueryEntity.getProjectMode());
@@ -242,13 +225,7 @@ public class EngineDepartSyntheticQueryController extends BaseController {
     }
 
 
-    /**
-     * 根据门店和模式 查到大区及 大区下的工种信息
-     *
-     * @param engineDepartSyntheticQueryEntity
-     * @param model
-     * @return
-     */
+
     @SuppressWarnings("JavadocReference")
     @RequiresPermissions("workerTypeInfoPre:workerTypeInfoPre:view")
     @RequestMapping(value = "workerTypeInfoPre")
@@ -257,19 +234,13 @@ public class EngineDepartSyntheticQueryController extends BaseController {
         return "syntheticQueryAbove/pqcAboveSyntheticQuery/workerTypeCountSyntheticQuery";
     }
 
-    /**
-     * 根据门店和模式 查到大区及 大区下的工种信息
-     *
-     * @param engineDepartSyntheticQueryEntity
-     * @param model
-     * @return
-     */
+
     @SuppressWarnings("JavadocReference")
     @RequiresPermissions("workerTypeInfoPre:workerTypeInfoPre:view")
     @RequestMapping(value = "workerTypeInfo")
     public String workerTypeInfo(EngineDepartSyntheticQueryEntity engineDepartSyntheticQueryEntity, Model model) {
 
-        //根据门店+工程模式 和时间段 查询工人工种情况
+
 
 
         List<EngineDepartEntity> engineDepartEntities = service.findWorkerTypeGroupByEngineDepartByStoreIdAndProjectMode(engineDepartSyntheticQueryEntity.getStoreId().toString(), engineDepartSyntheticQueryEntity.getProjectMode());
@@ -280,13 +251,7 @@ public class EngineDepartSyntheticQueryController extends BaseController {
     }
 
 
-    /**
-     * 根据门店和模式 查到大区及 大区下的质检统计数据
-     *
-     * @param engineDepartSyntheticQueryEntity
-     * @param model
-     * @return
-     */
+
     @SuppressWarnings("JavadocReference")
     @RequiresPermissions("pqcAboveSyntheticQueryPre:pqcAboveSyntheticQueryPre:view")
     @RequestMapping(value = "pqcAboveSyntheticQueryPre")
@@ -295,19 +260,13 @@ public class EngineDepartSyntheticQueryController extends BaseController {
         return "syntheticQueryAbove/pqcAboveSyntheticQuery/pqcSyntheticAboveQuery";
     }
 
-    /**
-     * 根据门店和模式 查到大区及 大区下的质检统计数据
-     *
-     * @param engineDepartSyntheticQueryEntity
-     * @param model
-     * @return
-     */
+
     @SuppressWarnings("JavadocReference")
     @RequiresPermissions("pqcAboveSyntheticQueryPre:pqcAboveSyntheticQueryPre:view")
     @RequestMapping(value = "pqcAboveSyntheticQuery")
     public String pqcAboveSyntheticQueryPre(EngineDepartSyntheticQueryEntity engineDepartSyntheticQueryEntity, Model model) {
 
-        //根据门店+工程模式 和时间段 查询工人工种情况
+
 
 
        Map<String, Object> map = service.pqcSyntheticWorkQuery(engineDepartSyntheticQueryEntity);

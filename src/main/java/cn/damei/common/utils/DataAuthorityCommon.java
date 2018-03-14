@@ -20,11 +20,11 @@ public class DataAuthorityCommon {
 		
 		String string = role2.getId();
 		
-		//权限控制-权限规则，查找该业务（编码： SGBGD）的权限规则选项
-		//1.权限规则选项为"MYSELF"，本人数据
+
+
 		
 		
-		//根据角色id查询规则
+
 		String optionId = bizProjectChangeBillService.findDescribeByRoleId(string);
 		if(optionId==null){
 			optionId = "2";
@@ -37,7 +37,7 @@ public class DataAuthorityCommon {
 			String parentIds = office.getParentIds();
 			String id = office.getId();
 			String[] split = parentIds.split(",");
-			//如果是组长
+
 			if(split.length == 4){
 				bizOrderDisclose.setParentId(null);
 				bizOrderDisclose.setOfficeId(id);

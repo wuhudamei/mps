@@ -1,29 +1,22 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import org.hibernate.validator.constraints.Length;
 
 import cn.damei.common.persistence.DataEntity;
 
-/**
- * 供应商管理Entity
- * 
- * @author lc
- * @version 2016-09-08
- */
+
 public class BizSupplier extends DataEntity<BizSupplier> {
 
 	private static final long serialVersionUID = 1L;
-	private String installitemtype; // 安装项类别
-	private String projectInstallItemName; // 供应商业务分类
-	private String supplierNo; // 供应商编号
-	private String supplierName; // 供应商名称
-	private String contacts; // 联系人
-	private String contactsPhone; // 联系电话
-	private String email; // 邮箱
-	private String status; // 状态
+	private String installitemtype;
+	private String projectInstallItemName;
+	private String supplierNo;
+	private String supplierName;
+	private String contacts;
+	private String contactsPhone;
+	private String email;
+	private String status;
 
 	public BizSupplier() {
 		super();

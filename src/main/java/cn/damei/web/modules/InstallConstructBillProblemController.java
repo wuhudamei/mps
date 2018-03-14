@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import java.io.IOException;
@@ -36,9 +34,7 @@ import cn.damei.entity.modules.EnginInstallSupplier;
 import cn.damei.entity.modules.User;
 import cn.damei.common.utils.UserUtils;
 
-/**
- * 安装工主材问题上报Controller
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/installConstructBillProblem/installConstructBillProblem")
 public class InstallConstructBillProblemController extends BaseController {
@@ -68,14 +64,14 @@ public class InstallConstructBillProblemController extends BaseController {
 	public String preList(BizOrderInstallItemProblemVo bizOrderInstallItemProblemVo, HttpServletRequest request, HttpServletResponse response, Model model) {
 		
 		User user = UserUtils.getUser();
-		//过滤门店
+
 		if(null==bizOrderInstallItemProblemVo.getStoreId()){
 			if(null!=user.getStoreId()){
 				bizOrderInstallItemProblemVo.setStoreId(Integer.valueOf(user.getStoreId()));
 			}
 		}
 		
-		//过滤工程模式
+
 		if(StringUtils.isBlank(bizOrderInstallItemProblemVo.getProjectMode())){
 			if(StringUtils.isBlank(user.getProjectMode())||user.getProjectMode().equals("3")){
 				model.addAttribute("gongcheng", true);
@@ -89,12 +85,12 @@ public class InstallConstructBillProblemController extends BaseController {
 				bizOrderInstallItemProblemVo.setProjectMode(user.getProjectMode());
 			}
 		}
-		//状态
+
 		bizOrderInstallItemProblemVo.setStatus(BusinessProblemConstantUtil.BUSINESS_PROBLEM_STATUS_80);
-		//业务类型
+
 		bizOrderInstallItemProblemVo.setBusinessType(BusinessProblemConstantUtil.BUSINESS_PROBLEM_BUSINESS_TYPE_5);
 		
-		//供应商列表
+
 		List<EnginInstallSupplier> supplierList = bizSupplierInstallBillService.findSupplierList(user.getEmployeePhone());
 		
 		model.addAttribute("supplierList", supplierList);
@@ -108,14 +104,14 @@ public class InstallConstructBillProblemController extends BaseController {
 	public String list(BizOrderInstallItemProblemVo bizOrderInstallItemProblemVo, HttpServletRequest request, HttpServletResponse response, Model model) {
 		
 		User user = UserUtils.getUser();
-		//过滤门店
+
 		if(null==bizOrderInstallItemProblemVo.getStoreId()){
 			if(null!=user.getStoreId()){
 				bizOrderInstallItemProblemVo.setStoreId(Integer.valueOf(user.getStoreId()));
 			}
 		}
 		
-		//过滤工程模式
+
 		if(StringUtils.isBlank(bizOrderInstallItemProblemVo.getProjectMode())){
 			if(StringUtils.isBlank(user.getProjectMode())||user.getProjectMode().equals("3")){
 				model.addAttribute("gongcheng", true);
@@ -130,12 +126,12 @@ public class InstallConstructBillProblemController extends BaseController {
 			}
 		}
 		
-		//状态
+
 		bizOrderInstallItemProblemVo.setStatus(BusinessProblemConstantUtil.BUSINESS_PROBLEM_STATUS_80);
-		//业务类型
+
 		bizOrderInstallItemProblemVo.setBusinessType(BusinessProblemConstantUtil.BUSINESS_PROBLEM_BUSINESS_TYPE_5);
 		
-		//供应商列表
+
 		List<EnginInstallSupplier> supplierList = bizSupplierInstallBillService.findSupplierList(user.getEmployeePhone());
 				
 		Page<BizOrderInstallItemProblemVo> page = installConstructBillProblemService.findPage(new Page<BizOrderInstallItemProblemVo>(request, response), bizOrderInstallItemProblemVo); 
@@ -146,14 +142,7 @@ public class InstallConstructBillProblemController extends BaseController {
 	}
 
 	
-	/**
-	 * 问题上报记录--详情--图片
-	 * @param id
-	 * @param request
-	 * @param model
-	 * @return
-	 * @throws IOException 
-	 */
+
 	@RequestMapping(value="picture")
 	public String picture(String problemId, HttpServletRequest request, Model model) throws IOException{
 		
@@ -168,21 +157,16 @@ public class InstallConstructBillProblemController extends BaseController {
 		return "modules/bizorderinstallitemproblem/photo";
 	}
 	
-	/**
-	 * 导出excel--安装工主材问题上报查询
-	 * @param selectOrder
-	 * @param response
-	 * @throws Exception
-	 */
+
 	@RequestMapping(value="exportExcel")
 	public void exportExcel(BizOrderInstallItemProblemVo bizOrderInstallItemProblemVo, HttpServletResponse response) throws Exception{
 		SimpleDateFormat sf = new SimpleDateFormat("yyyyMMddHHmmss");
 		HSSFWorkbook excel = installConstructBillProblemService.exportExcel(bizOrderInstallItemProblemVo);
-		ServletOutputStream out= null;//创建一个输出流对象
+		ServletOutputStream out= null;
 		try {
 			response.setContentType("application/binary;charset=utf-8");
-			String headerStr =new String(("安装工主材问题上报信息-"+sf.format(new Date())).getBytes("utf-8"), "ISO8859-1");//headerString为中文时转码
-			response.setHeader("Content-disposition","attachment; filename="+headerStr+".xls");//filename是下载的xls的名
+			String headerStr =new String(("安装工主材问题上报信息-"+sf.format(new Date())).getBytes("utf-8"), "ISO8859-1");
+			response.setHeader("Content-disposition","attachment; filename="+headerStr+".xls");
 			out = response.getOutputStream();
 			excel.write(out);
 		} catch (IOException ex) {

@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import java.util.List;
@@ -9,11 +7,7 @@ import org.hibernate.validator.constraints.Length;
 
 import cn.damei.common.persistence.DataEntity;
 
-/**
- * 项目经理考勤基础设置Entity
- * @author lzm
- * @version 2017-08-02
- */
+
 public class BizPmAttendCnfg extends DataEntity<BizPmAttendCnfg> {
 	
 	private static final long serialVersionUID = 1L;

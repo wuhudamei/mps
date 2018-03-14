@@ -45,11 +45,7 @@ import cn.damei.entity.modules.BizPhoneMsg;
 import cn.damei.service.modules.BizPhoneMsgService;
 import cn.damei.service.modules.BizSeiralnumService;
 
-/**
- * 项目经理端APP
- * 申请竣工
- * BIZ_ORDER
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/app/manager")
 public class CompletedOrderController {
@@ -77,13 +73,10 @@ public class CompletedOrderController {
 
     @Autowired
     private BizBusinessStatusLogDao bizBusinessStatusLogDao;
-    /**
-     * 列出申请竣工列表
-     * 200-施工中至400-确认已竣工
-     */
+
     @RequestMapping(value = {"completedList", ""})
     public String packageList(CompletedOrder completedOrder, Model model, HttpServletRequest request) {
-        //已登录的项目经理
+
         Manager manager = (Manager) request.getSession().getAttribute("manager");
         logger.info("项目经理主键ID========" + manager.getId());
 
@@ -107,9 +100,7 @@ public class CompletedOrderController {
         return result;
     }
 
-    /**
-     * list主页面申请竣工功能
-     */
+
     @RequestMapping(value = {"applyCompleted", ""})
     public String applyCompleted(String orderID, Model model, HttpServletRequest request) {
         logger.info("订单编号：" + orderID);
@@ -118,11 +109,11 @@ public class CompletedOrderController {
         if (!orderID.equals("")) {
             order = completedOrderService.get(Integer.valueOf(orderID));
         }
-        if (null!=order && order.getProjectMode().equals("2")) {//传统订单
+        if (null!=order && order.getProjectMode().equals("2")) {
 
         }
         if (null != order) {
-            //如果订单是330(结算员竣工审核不通过)PC操作驳回
+
             if (order.getOrderStatusNumber().equals(ConstantUtils.ORDERSTATUS_330_VALUE)) {
                 logger.info("orderstatusNumber=" + order.getOrderStatusNumber());
                 proBill = OrderFinishProjectBillService.getByOrderID(order.getId());
@@ -134,12 +125,7 @@ public class CompletedOrderController {
         return "mobile/modules/Manager/progressMain/completed/applyCompleted";
     }
 
-    /**
-     * 主页面
-     * 查看详情功能
-     *
-     * @throws IOException
-     */
+
     @RequestMapping(value = {"completedtDetail"})
     public String completedtDetail(CompletedOrder completedOrder, HttpServletRequest request,
                                    Model model, String orderID) throws IOException {
@@ -162,10 +148,7 @@ public class CompletedOrderController {
         return "mobile/modules/Manager/progressMain/completed/completedtDetail";
     }
 
-    /**
-     * 申请竣工页面
-     * 确认申请功能
-     */
+
     @ResponseBody
     @RequestMapping(value = {"cofirmCompletedSubmit", ""})
     public String cofirmCompletedSubmit(String orderID, String photos1, String photos2, String photos3,
@@ -174,13 +157,13 @@ public class CompletedOrderController {
         logger.info("工程竣工验收单：" + photos1);
         logger.info("项目总结书：" + photos2);
         logger.info("工程竣工验收单：" + photos3);
-        //已登录的项目经理
+
         Manager manager = (Manager) request.getSession().getAttribute("manager");
         logger.info("项目经理主键ID========" + manager.getId());
 
         String result = "0";
         CompletedOrder order = null;
-        //获取当前订单数据
+
         if (!orderID.equals("")) {
             order = completedOrderService.getByID(Integer.valueOf(orderID));
         } else {
@@ -190,9 +173,9 @@ public class CompletedOrderController {
 
         OrderFinishProjectBill proBill = OrderFinishProjectBillService.getByOrderID(Integer.valueOf(orderID));
         if (proBill == null) {
-            //biz_order_finish_project_bill写数据
+
             if (!realFinishProjectDate.equals("")) {
-                //获取编号规则：竣工单的编号规则：“JG”+年月日（四位）+四位流水号；比如：JG201611090001。
+
                 String number = bizSeiralnumService.getDateSequence(ConstantUtils.APP_COMPLETED_STRING);
                 logger.info("确认竣工生成编号规则：" + number);
                 finshProjectBillId = OrderFinishProjectBillService.insert(realFinishProjectDate, orderID, number, manager.getId());
@@ -201,60 +184,60 @@ public class CompletedOrderController {
             }
         } else {
 
-            //如果不为空 则是 更新新的, 直接拿到id 即可  不更改 就是 初始化的0了, 而作为图片的外键 就 永远保存不了新的图片
+
             finshProjectBillId = proBill.getId();
             result = OrderFinishProjectBillService.updateByMore(realFinishProjectDate, orderID, manager.getId(), DateUtils.getDate1("yyyy-MM-dd HH:mm:ss"), String.valueOf(finshProjectBillId));
 
-            //如果不想看到之前的图片 删掉即可
+
         }
 
         if (finshProjectBillId > 0 || result.equals("0")) {
             String rootPath = request.getSession().getServletContext().getRealPath("/");
             String imgUrl = PicRootName.getConfigValue(ConstantUtils.UPLOAD_COMPLETED);
             if (null != photos1) {
-                //生成UUID
+
                 String uuid = UUID.randomUUID().toString().replaceAll("-", "");
                 File filePath = new File(rootPath + imgUrl + DateUtils.getDate1());
-                //判断该文件是否存在
+
                 if (!filePath.exists()) {
                     filePath.mkdirs();
                 }
                 String picUrl = imgUrl + DateUtils.getDate1() + "/" + uuid + ".jpeg";
                 String fullPath = filePath + filePath.separator + uuid + ".jpeg";
                 logger.info("完整路径：" + fullPath);
-                Base64Util.generateImage(photos1, fullPath.toString());//base64解析成图片
+                Base64Util.generateImage(photos1, fullPath.toString());
 
                 businessPicService.insertPic(photos1, ConstantUtils.COMPLETED_PIC_TYPE_101, finshProjectBillId, picUrl);
             }
 
             if (null != photos2) {
-                //生成UUID
+
                 String uuid = UUID.randomUUID().toString().replaceAll("-", "");
                 File filePath = new File(rootPath + imgUrl + DateUtils.getDate1());
-                //判断该文件是否存在
+
                 if (!filePath.exists()) {
                     filePath.mkdirs();
                 }
                 String picUrl = imgUrl + DateUtils.getDate1() + "/" + uuid + ".jpeg";
                 String fullPath = filePath + filePath.separator + uuid + ".jpeg";
                 logger.info("完整路径：" + fullPath);
-                Base64Util.generateImage(photos2, fullPath.toString());//base64解析成图片
+                Base64Util.generateImage(photos2, fullPath.toString());
 
                 businessPicService.insertPic(photos2, ConstantUtils.COMPLETED_PIC_TYPE_102, finshProjectBillId, picUrl);
             }
 
             if (null != photos3) {
-                //生成UUID
+
                 String uuid = UUID.randomUUID().toString().replaceAll("-", "");
                 File filePath = new File(rootPath + imgUrl + DateUtils.getDate1());
-                //判断该文件是否存在
+
                 if (!filePath.exists()) {
                     filePath.mkdirs();
                 }
                 String picUrl = imgUrl + DateUtils.getDate1() + "/" + uuid + ".jpeg";
                 String fullPath = filePath + filePath.separator + uuid + ".jpeg";
                 logger.info("完整路径：" + fullPath);
-                Base64Util.generateImage(photos3, fullPath.toString());//base64解析成图片
+                Base64Util.generateImage(photos3, fullPath.toString());
 
                 businessPicService.insertPic(photos3, ConstantUtils.COMPLETED_PIC_TYPE_103, finshProjectBillId, picUrl);
             }
@@ -263,11 +246,11 @@ public class CompletedOrderController {
         result = completedOrderService.updateByStatus(ConstantUtils.ORDERSTATUS_300_VALUE,
                 ConstantUtils.ORDERSTATUS_300_VALUE_REMARK, orderID);
         
-     // 添加状态日志信息
+
         BizBusinessStatusLog statusLog = new BizBusinessStatusLog();
-        statusLog.setBusinessType(BusinessLogConstantUtil.PRE_MANAGER_SETTLE_TYPE_4100);//项目经理申请竣工
+        statusLog.setBusinessType(BusinessLogConstantUtil.PRE_MANAGER_SETTLE_TYPE_4100);
         statusLog.setBusinessOnlyMarkInt(finshProjectBillId);
-        statusLog.setBusinessStatus(ConstantUtils.ORDERSTATUS_300_VALUE);//项目经理申请竣工
+        statusLog.setBusinessStatus(ConstantUtils.ORDERSTATUS_300_VALUE);
         statusLog.setStatusDatetime(new Date());
         statusLog.setBusinessEmployeeId(manager.getId());
         statusLog.setBusinessRemarks("项目经理申请竣工");
@@ -275,7 +258,7 @@ public class CompletedOrderController {
         bizBusinessStatusLogDao.insert(statusLog);
 
 
-        /***********************通知结算员-项目经理申请竣工***************************/
+
         List<Integer> list = new ArrayList<Integer>();
         BizMessagegroup bizMessagegroup = null;
         if(null!=order && null != order.getStoreId()){
@@ -291,7 +274,7 @@ public class CompletedOrderController {
             if (list.size() > 0 && employeelist.size() > 0) {
                 for (BizEmployee2 employee : employeelist) {
                     logger.info("结算员手机号：" + employee.getPhone());
-                    /**发送短信给结算员**/
+
                     BizPhoneMsg p = new BizPhoneMsg();
                     p.setId(null);
                     p.setReceivePhone(employee.getPhone().trim());

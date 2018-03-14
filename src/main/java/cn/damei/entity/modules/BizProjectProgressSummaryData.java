@@ -1,32 +1,27 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import cn.damei.common.persistence.DataEntity2;
 
 import java.util.*;
 
-/**
- * 工程进度大看板Entity
- * @author wyb
- */
+
 public class BizProjectProgressSummaryData extends DataEntity2<BizProjectProgressSummaryData> {
 
 	private static final long serialVersionUID = 1L;
 
-	private Integer orderId; // 订单id
-	private String orderNumber; //订单编号
-	private Integer storeId; // 门店id
-	private String projectMode; //工程模式
-	private Integer engineDepartId; // 区域id
-	private String customerName; // 客户姓名
-	private String itemManager; // 项目经理
-	private String houseIsNew; // 新房老房  1为新房  0为老房  默认老房
-	private Date beginActualStartDate; // 实际开工日期 开始
-	private Date endActualStartDate; // 实际竣工日期 结束
-	private String isScrap; //是否作废
-	private String updateStatus;//更新状态
+	private Integer orderId;
+	private String orderNumber;
+	private Integer storeId;
+	private String projectMode;
+	private Integer engineDepartId;
+	private String customerName;
+	private String itemManager;
+	private String houseIsNew;
+	private Date beginActualStartDate;
+	private Date endActualStartDate;
+	private String isScrap;
+	private String updateStatus;
 	private Map<String,Object> map = new HashMap<String,Object>();
 
 

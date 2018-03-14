@@ -12,53 +12,53 @@ public class BizAssessRewardPunish extends DataEntity2<BizAssessRewardPunish>{
 
 	private static final long serialVersionUID = 1L;
 	
-	private String relatedBusinessType; //关联业务类型  1:产业项目经理奖惩
+	private String relatedBusinessType;
 	
-	private Integer relatedBusinessIdInt; //关联业务id整型  订单Id
+	private Integer relatedBusinessIdInt;
 	
-	private String relatedBusinessIdVarchar;//关联业务id字符型
+	private String relatedBusinessIdVarchar;
 	
-	private Integer assessRuleTypeId;//考核条例分类Id
+	private Integer assessRuleTypeId;
 	
-	private String assessRuleType;//考核条例分类
+	private String assessRuleType;
 	
-	private Integer assessRuleId;//考核条例Id
+	private Integer assessRuleId;
 	
-	private String assessRuleDescribe;//考核条例细则说明
+	private String assessRuleDescribe;
 	
-	private String isRewardOrPunish;//奖励或惩罚 //1:奖励  2：惩罚
+	private String isRewardOrPunish;
 
-	private String isMonthInspection;//是否月度巡检  0：否 1：是
+	private String isMonthInspection;
 	
-	private String rewardPunishTargetType;//奖惩对象 10：订单 20：员工
+	private String rewardPunishTargetType;
 	
-	private String rewardPunishTargetEmployeeType;//奖惩对象员工类型  1：项目经理 2：工人 3：质检员
+	private String rewardPunishTargetEmployeeType;
 	
-	private Integer rewardPunishTargetEmployeeId;//奖惩对象员工Id
+	private Integer rewardPunishTargetEmployeeId;
 	
-	private Double rewardPunishAmount;//奖惩金额
+	private Double rewardPunishAmount;
 	
-	private Double rewardPunishScore;//奖惩分数
+	private Double rewardPunishScore;
 	
-	private String rewardPunishRemarks;//奖惩说明
+	private String rewardPunishRemarks;
 	
-	private Date rewardPunishDatetime;//奖惩日期时间
+	private Date rewardPunishDatetime;
 	
-	private String rewardPunishStatus;//奖惩状态 1：新建 (未关联结算) 2：已关联结算
+	private String rewardPunishStatus;
 	
-	private Date statusDatetime;//状态日期时间
+	private Date statusDatetime;
 	
-	private Integer statusOperator;//状态操作人
+	private Integer statusOperator;
 	
-	private String operatorName;//操作人姓名
+	private String operatorName;
 	
-	private String statusDescribe;//状态说明
+	private String statusDescribe;
 	
-	private String settleStage;//所属结算阶段  1:中期结算单  2：竣工结算单 
+	private String settleStage;
 	
-	private String settleType;// 结算单类型 1：工人结算单  2：项目经理结算单
+	private String settleType;
 	
-	private Integer settleId;//结算单id
+	private Integer settleId;
 
 	private Integer storeId;
 	
@@ -78,15 +78,15 @@ public class BizAssessRewardPunish extends DataEntity2<BizAssessRewardPunish>{
 	
 	private Date endDate;
 	
-	private String communityName;		// 小区名称
-	private String buildNumber;		// 几号楼
-	private String buildUnit;		// 几单元
-	private String buildRoom;		// 哪一室 
-	private String customerName;	// 客户姓名 
-	private String customerPhone;//客户手机号
-	private String orderNumber;//订单编号
-	private String generalRemarks;//主题备注
-	private String detailRemarks;//明细备注
+	private String communityName;
+	private String buildNumber;
+	private String buildUnit;
+	private String buildRoom;
+	private String customerName;
+	private String customerPhone;
+	private String orderNumber;
+	private String generalRemarks;
+	private String detailRemarks;
 
 	public String getIds() {
 		return ids;

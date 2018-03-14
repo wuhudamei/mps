@@ -1,32 +1,26 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 供应商工人组Entity
- * @author wyb
- * @version 2017-07-13
- */
+
 public class SupplierInstallWorker extends DataEntity2<SupplierInstallWorker> {
 	
 	private static final long serialVersionUID = 1L;
 	
-	private Integer installBillId;		// 安装单id
-	private Integer employeegroupId;		// 工人组id
-	private Integer orderstop;		// 是否停单
-	private String address;		// 现住址
-	private Integer state;		// 是否删除状态
-	private Integer workerId;  // 组长id
-	private String workerName;		// 组长姓名
-	private String workerPhone;		// 组长电话
-	private Integer workerNumber;		// 组内成员数
-	private Integer supplierInstallConstrunctBillCount;		// 当前未完工安装项
-	private Double distance;		// 距离施工地点（米）
+	private Integer installBillId;
+	private Integer employeegroupId;
+	private Integer orderstop;
+	private String address;
+	private Integer state;
+	private Integer workerId;
+	private String workerName;
+	private String workerPhone;
+	private Integer workerNumber;
+	private Integer supplierInstallConstrunctBillCount;
+	private Double distance;
 	
 	
 	public SupplierInstallWorker() {

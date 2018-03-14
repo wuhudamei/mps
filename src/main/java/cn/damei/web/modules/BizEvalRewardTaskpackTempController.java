@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,11 +19,7 @@ import cn.damei.common.web.BaseController;
 import cn.damei.entity.modules.BizEvalRewardTaskpackTemp;
 import cn.damei.service.modules.BizEvalRewardTaskpackTempService;
 
-/**
- * 评价奖励任务包模板Controller
- * @author qww
- * @version 2017-02-24
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/bizevalrewardtaskpacktemp/bizEvalRewardTaskpackTemp")
 public class BizEvalRewardTaskpackTempController extends BaseController {

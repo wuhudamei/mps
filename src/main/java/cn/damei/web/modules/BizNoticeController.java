@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import javax.servlet.http.HttpServletRequest;
@@ -53,11 +51,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.UUID;
 
-/**
- * 公告Controller
- * @author qww
- * @version 2017-01-14
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/notice/bizNotice")
 public class BizNoticeController extends BaseController {
@@ -89,7 +83,7 @@ public class BizNoticeController extends BaseController {
 	@RequiresPermissions("notice:bizNotice:view")
 	@RequestMapping(value = {"list", ""})
 	public String list(BizNoticeVo bizNoticeVo, Model model) {
-		//过滤门店
+
 		if(bizNoticeVo.getStoreId() == null){
 			String storeId = UserUtils.getUser().getStoreId();
 			if(StringUtils.isBlank(storeId)){
@@ -102,7 +96,7 @@ public class BizNoticeController extends BaseController {
 			model.addAttribute("storeDropEnable", true);
 		}
 
-		// 过滤工程模式
+
 		User user = UserUtils.getUser();
 		if(StringUtils.isNoneBlank(user.getEmpId())){
 			BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -120,7 +114,7 @@ public class BizNoticeController extends BaseController {
 	@RequiresPermissions("notice:bizNotice:view")
 	@RequestMapping(value = {"loadList", ""})
 	public String loadList(BizNoticeVo bizNoticeVo, HttpServletRequest request, HttpServletResponse response, Model model) {
-		//过滤门店
+
 		if(bizNoticeVo.getStoreId() == null){
 			String storeId = UserUtils.getUser().getStoreId();
 			if(StringUtils.isBlank(storeId)){
@@ -133,7 +127,7 @@ public class BizNoticeController extends BaseController {
 			model.addAttribute("storeDropEnable", true);
 		}
 
-		// 过滤工程模式
+
 		User user = UserUtils.getUser();
 		if(StringUtils.isNoneBlank(user.getEmpId())){
 			BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -141,7 +135,7 @@ public class BizNoticeController extends BaseController {
 				bizNoticeVo.setProjectMode(be.getProjectMode());
 				model.addAttribute("projectModeEnable", true);
 			}else{
-				//bizNoticeVo.setProjectMode(be.getProjectMode());
+
 			}
 		}
 
@@ -154,7 +148,7 @@ public class BizNoticeController extends BaseController {
 	@RequiresPermissions("notice:bizNotice:view")
 	@RequestMapping(value = "form")
 	public String form(BizNotice bizNotice, Model model) {
-		// 过滤门店
+
 		if(bizNotice.getStoreId() == null){
 			String storeId = UserUtils.getUser().getStoreId();
 			if(StringUtils.isBlank(storeId)){
@@ -175,7 +169,7 @@ public class BizNoticeController extends BaseController {
 			}
 		}
 
-		// 过滤工程模式
+
 		User user = UserUtils.getUser();
 		if(StringUtils.isNoneBlank(user.getEmpId())){
 			BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -238,33 +232,22 @@ public class BizNoticeController extends BaseController {
 	}
 	@RequestMapping(value="noReadAndyesRead")
 	public String noReadAndyesRead(Integer id, Model model){
-		/*List<BizNoticeViewLog> yesRead = bizNoticeViewLogService.queryNoticeViewLogByNoticeId(id);
-		List<BizNoticeViewLog> noRead = new ArrayList<>();
-		List<String> list = bizNoticeReceiverService.queryNoticeReceiverByNoticeId(id);
-		for (String string : list) {
-			BizNoticeViewLog bn = new BizNoticeViewLog();
-			bn.setRealName(string);
-			noRead.add(bn);
-		}
-		noRead.addAll(yesRead);
-		model.addAttribute("bizNoticeViewLogList", noRead);
-		model.addAttribute("yesRead", yesRead.size());
-		model.addAttribute("noRead", noRead.size());*/
-		//总数量公告
+
+
 		String sum = bizNoticeViewLogService.findNoticeSum(id);
-		// 已读的公告
+
 		String yessum = bizNoticeViewLogService.findYesNoticeSum(id);
 		model.addAttribute("yesRead", yessum);
 		model.addAttribute("noRead", sum);
 		model.addAttribute("id", id);
 		return "modules/notice/bizNoticeYesReadList";
 	}
-	//ajaxData
+
 	@RequestMapping(value="ajaxData")
 	public @ResponseBody String ajaxData(String flag,Integer id){
 		SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		
-		//1 全部的数量 2 未读的数量 3已读的数量
+
 		if("1".equals(flag)){
 			List<BizNoticeViewLog> yesRead = bizNoticeViewLogService.queryNoticeViewLogByNoticeId(id);
 			List<BizNoticeViewLog2> yesRead2 = new ArrayList<>();

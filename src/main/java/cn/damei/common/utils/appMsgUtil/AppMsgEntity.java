@@ -6,21 +6,19 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
-/**
- * Created by joseph on 2017/7/31.
- */
+
 public final class AppMsgEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-private Integer msgId; //消息主键
-    private String msgTitle; //站内消息头
-    private Date msgDateTime;//消息发送时间
-    private String msgContent;//消息内容
-    private String msgType;//消息类型
-    private String relatedBusinessType;//关联业务类型
-    private String relatedBusinessId;//关联业务id
-    private Integer employeeId;//发送给那个员工
+private Integer msgId;
+    private String msgTitle;
+    private Date msgDateTime;
+    private String msgContent;
+    private String msgType;
+    private String relatedBusinessType;
+    private String relatedBusinessId;
+    private Integer employeeId;
 
 
     public String getMsgTitle()

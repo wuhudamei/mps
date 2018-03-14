@@ -1,48 +1,40 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import java.util.Date;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 质检报告Entity
- * @author wyb
- * @version 2016-10-31
- */
+
 public class BizOrderQcBill extends DataEntity2<BizOrderQcBill> {
 	
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
-	private Integer orderId;//订单id
-	private String orderNumber;		// 订单编号
-	private String customerName;		// 客户姓名
-	private String communityName;		// 小区名称
-	private String buildNumber;		// 几号楼
-	private String buildUnit;		// 几单元
-	private String buildRoom;		// 哪一室
-	private String orderStatusNumber;		// 订单状态码  创建订单成功默认状态码 105
-	private String orderStatusDescription;		// 订单状态码详情   默认详情 确认订单   状态码105
-	private String orderInspector;		// 订单质检员
-	private Integer orderInspectorId; //订单质检员id
-	private String itemManager;		// 项目经理
-	private Integer itemManagerId;	//项目经理id
-	private String storeId;		// 门店id
-	private String cusManager;		// 客户经理
-	private Date actualStartDate; //实际开工日期
-	private String isNullActualStartDate;	//实际开工日期是否为空
+	private Integer orderId;
+	private String orderNumber;
+	private String customerName;
+	private String communityName;
+	private String buildNumber;
+	private String buildUnit;
+	private String buildRoom;
+	private String orderStatusNumber;
+	private String orderStatusDescription;
+	private String orderInspector;
+	private Integer orderInspectorId;
+	private String itemManager;
+	private Integer itemManagerId;
+	private String storeId;
+	private String cusManager;
+	private Date actualStartDate;
+	private String isNullActualStartDate;
 	
-	private Integer signCount;	//签到次数
-	private Integer count;	//质检报告数量
-	private Integer checkCount;	//约检报告数量
-	private Integer selectCheckCount;	//抽检报告数量
-	private Integer recheckCount;	//复检报告数量
-	private Integer recheckTimes;	//复检次数
-	private String projectMode;		//工程模式   1-产业模式；2-传统模式
+	private Integer signCount;
+	private Integer count;
+	private Integer checkCount;
+	private Integer selectCheckCount;
+	private Integer recheckCount;
+	private Integer recheckTimes;
+	private String projectMode;
 	
 	
 	public String getProjectMode() {

@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import org.hibernate.validator.constraints.Length;
@@ -11,64 +9,60 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 上传复尺Entity
- * @author wyb
- * @version 2016-10-20
- */
+
 public class BizOrderChecksizeEntity extends DataEntity2<BizOrderChecksizeEntity> {
 	
 	private static final long serialVersionUID = 1L;
 	
-	private Integer id;//主键
-	private String orderNumber;//订单编号
-	private String customerAddress;//客户地址
-	private String communityName;//小区名称
-	private String buildNumber;//几号楼
-	private String buildUnit;//几单元
-	private String buildRoom;//哪一室
-	private String customerName;//客户姓名
-	private Date contractStartDate;//合同开工日期
-	private Date beginContractStartDate;//合同开工日期
-	private Date endContractStartDate;//合同开工日期
+	private Integer id;
+	private String orderNumber;
+	private String customerAddress;
+	private String communityName;
+	private String buildNumber;
+	private String buildUnit;
+	private String buildRoom;
+	private String customerName;
+	private Date contractStartDate;
+	private Date beginContractStartDate;
+	private Date endContractStartDate;
 	
-	private Date contractEndDate;//合同竣工日期
-	private Integer contractTime;//合同工期
-	private String orderStatusNumber;//订单状态码  创建订单成功默认状态码 105 
-	private String orderStatusDescription;//订单状态码详情   默认详情 确认订单   状态码105
-	private String itemManager;//项目经理
-	private Integer storeId;//门店ID
-	private Integer itemManagerId;//项目经理id
-	private String phone;	//项目经理电话
+	private Date contractEndDate;
+	private Integer contractTime;
+	private String orderStatusNumber;
+	private String orderStatusDescription;
+	private String itemManager;
+	private Integer storeId;
+	private Integer itemManagerId;
+	private String phone;
 	
 	private Integer orderInstallItemId;
-	private Integer orderChecksizeId;	//复尺id
-	private Integer orderId;		// 订单id -- '
-	private String checksizeType;		// 复尺类型 -- '
+	private Integer orderChecksizeId;
+	private Integer orderId;
+	private String checksizeType;
 	private String checksizeTypeold;	
-	private String checksizeTypeName;		// 复尺类型名称 -- '
+	private String checksizeTypeName;
 	private String checksizeTypeNameold;
-	private Date checksizeDate;		// 复尺日期 -- '
-	private String checksizeEmployeeId;		// 复尺人员工id -- '
-	private Date beginChecksizeDate;		// 开始 复尺日期 -- '
-	private Date endChecksizeDate;		// 结束 复尺日期 -- '
-	private Integer checksizePhoto;		//复尺图片总数
-	private String checksizeStatus;	//复尺状态
-	private String checksizeStatusName;	//复尺状态名称
-	private Date checksizeStatusDatetime;	//复尺状态日期时间
-	private Date supplierConfirmDate;	//供应商确认时间
-	private Date beginSupplierConfirmDate;	//供应商确认时间
-	private Date endSupplierConfirmDate;	//供应商确认时间
-	private Date materialDepartmentDealDatetime;	//材料部处理日期时间
-	private Integer materialDepartmentDealEmployeeId;	//材料部处理人员工ID
-	private String materialDepartmentDealEmployeeName;	//材料部处理人员工
-	private String materialDepartmentDealReply;	//材料部处理回复
+	private Date checksizeDate;
+	private String checksizeEmployeeId;
+	private Date beginChecksizeDate;
+	private Date endChecksizeDate;
+	private Integer checksizePhoto;
+	private String checksizeStatus;
+	private String checksizeStatusName;
+	private Date checksizeStatusDatetime;
+	private Date supplierConfirmDate;
+	private Date beginSupplierConfirmDate;
+	private Date endSupplierConfirmDate;
+	private Date materialDepartmentDealDatetime;
+	private Integer materialDepartmentDealEmployeeId;
+	private String materialDepartmentDealEmployeeName;
+	private String materialDepartmentDealReply;
 	
-	private String storeName;//门店名字
-	private String projectMode;		//工程模式   1-产业模式；2-传统模式
+	private String storeName;
+	private String projectMode;
 	private Date beginCreateDate;
 	private Date endCreateDate;	
-	private String applyDate; //申请日期
+	private String applyDate;
 	private List<String> phones;
 	private String userId;
 	

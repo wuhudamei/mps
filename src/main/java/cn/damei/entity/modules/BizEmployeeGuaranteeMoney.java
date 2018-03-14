@@ -1,27 +1,20 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import cn.damei.common.persistence.DataEntity2;
 
 import java.util.Date;
 
-/**
- * 工人组长质保金明细Entity
- * 
- * @author qww
- * @version 2017-01-06
- */
+
 public class BizEmployeeGuaranteeMoney extends DataEntity2<BizEmployeeGuaranteeMoney> {
 
 	private static final long serialVersionUID = 1L;
 
-	private String customerName; // 客户姓名
-	private String customerAddress; // 客户地址
-	private String itemCustomer; // 项目经理
-	private Date deductTime; // 上缴质保金日期
-	private Double guaranteeMoneyAmount; // 质保金金额
+	private String customerName;
+	private String customerAddress;
+	private String itemCustomer;
+	private Date deductTime;
+	private Double guaranteeMoneyAmount;
 
 	public BizEmployeeGuaranteeMoney() {
 		super();

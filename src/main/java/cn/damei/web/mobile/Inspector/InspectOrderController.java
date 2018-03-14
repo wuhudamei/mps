@@ -26,7 +26,7 @@ public class InspectOrderController {
 	
 	@RequestMapping(value="list.php")
 	public String orderList(HttpServletRequest request,Model model){
-		//根据登陆的质检员查询该质检员下的所有订单
+
 		Inspector inspector = SessionUtils.getInspectorSession(request);
 	InspectOrderVo vo = 	new InspectOrderVo();
 		vo.setInspectorId(inspector.getId());

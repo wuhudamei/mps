@@ -10,11 +10,7 @@ import cn.damei.common.service.CrudService2;
 import cn.damei.dao.modules.BizAuxiliarMaterialsVerifySettlementRelDao;
 import cn.damei.entity.modules.BizAuxiliarMaterialsVerifySettlementRel;
 
-/**
- * 对账单结算关系Service
- * @author hyh
- *
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizAuxiliarMaterialsVerifySettlementRelService extends CrudService2<BizAuxiliarMaterialsVerifySettlementRelDao, BizAuxiliarMaterialsVerifySettlementRel>{

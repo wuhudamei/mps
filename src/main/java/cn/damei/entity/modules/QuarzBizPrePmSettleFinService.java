@@ -70,19 +70,17 @@ public class QuarzBizPrePmSettleFinService {
 	@Autowired
 	private BizPhoneMsgDao bizPhoneMsgDao;
 
-	/**
-	 * 更新财务收款信息
-	 */
+
 	@Transactional
 	public void updateBizPrePmData(BizSynData data) throws Exception {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		Date date = new Date();
 		String businessData = data.getBusinessData().replaceAll("[\\[\\]]", "");
 		JSONObject jb = JSONObject.fromObject(businessData);
-		String time = jb.getString("time");// 时间
-		String amount = jb.getString("amount");// 金额
-		String orderNumber = jb.getString("orderId");// 订单号
-		String paymentStatus = jb.getString("paymentStatus");// 交款状态
+		String time = jb.getString("time");
+		String amount = jb.getString("amount");
+		String orderNumber = jb.getString("orderId");
+		String paymentStatus = jb.getString("paymentStatus");
 		Integer orderId = orderDao.getIdByOrderNumber(orderNumber);
 		if (orderId == null) {
 			data.setSynStatus("201");
@@ -91,16 +89,16 @@ public class QuarzBizPrePmSettleFinService {
 			bizPrePmSettleFin.setReceiveMoneyDatetime(sdf.parse(time));
 			bizPrePmSettleFin.setOrderNumber(orderNumber);
 			bizPrePmSettleFin.setOrderId(orderId);
-			if (data.getBusinessType().equals("401")) {// 二期款
+			if (data.getBusinessType().equals("401")) {
 				bizPrePmSettleFin.setReceiveMoneyType("1");
-			} else if (data.getBusinessType().equals("402")) {// 尾款
+			} else if (data.getBusinessType().equals("402")) {
 				bizPrePmSettleFin.setReceiveMoneyType("2");
 			}
 
 			bizPrePmSettleFin.setReceiveMoneyAmount(Double.valueOf(amount));
 			bizPrePmSettleFin.setCollectionStatus(paymentStatus);
 			bizPrePmSettleFin.preInsert();
-			// 添加之前，先判断该订单的款项是否已经存在
+
 			List<BizPrePmSettleFin> bizPrePmSettleFinedList = bizPrePmSettleFinDao
 					.getBinPrePmByOrderIdAndType(bizPrePmSettleFin);
 			if (bizPrePmSettleFinedList != null && bizPrePmSettleFinedList.size() > 0) {
@@ -111,13 +109,13 @@ public class QuarzBizPrePmSettleFinService {
 			}
 			bizPrePmSettleFinDao.insert(bizPrePmSettleFin);
 
-			// 判断订单结算收款信息是否存在
+
 			Map<String, Object> param = new HashMap<String, Object>();
 			param.put("orderId", orderId);
 			param.put("collectionType", bizPrePmSettleFin.getReceiveMoneyType());
 			int collectionCount = bizOrderFinanceCollectionDao.checkIsExistByParam(param);
 			if (collectionCount == 0) {
-				// 插入结算收款信息
+
 				BizOrderFinanceCollection orderFinanceCollection = new BizOrderFinanceCollection();
 				orderFinanceCollection.setOrderId(bizPrePmSettleFin.getOrderId());
 				orderFinanceCollection.setCollectionType(bizPrePmSettleFin.getReceiveMoneyType());
@@ -128,7 +126,7 @@ public class QuarzBizPrePmSettleFinService {
 				orderFinanceCollection.setCollectionOperatorDatetime(date);
 				orderFinanceCollection.preInsert();
 				bizOrderFinanceCollectionDao.insert(orderFinanceCollection);
-				if (orderFinanceCollection.getCollectionType().equals("1")) {// 二期款
+				if (orderFinanceCollection.getCollectionType().equals("1")) {
 					Order order = orderDao.get(String.valueOf(orderId));
 					BizEmployee bizEmp = bizEmployeeDao.get(String.valueOf(order.getItemManagerId()));
 					BizPhoneMsg ddMsg = new BizPhoneMsg();
@@ -148,7 +146,7 @@ public class QuarzBizPrePmSettleFinService {
 					ddMsg.preInsert();
 					bizPhoneMsgDao.insert(ddMsg);
 					erqiMoney(orderId, date);
-				} else if (orderFinanceCollection.getCollectionType().equals("2")) {// 尾款
+				} else if (orderFinanceCollection.getCollectionType().equals("2")) {
 					weikuanMoney(orderId, date);
 				}
 				
@@ -163,7 +161,7 @@ public class QuarzBizPrePmSettleFinService {
 				bizOrderFinanceCollectionDao.update(orderFinanceCollection);
 			}
 
-			// 财务收款信息更新成功后，同步数据的状态改为3
+
 			data.setSynStatus("3");
 		}
 		data.setBusinessData(businessData);
@@ -172,10 +170,10 @@ public class QuarzBizPrePmSettleFinService {
 	}
 
 	public void erqiMoney(Integer orderId, Date date) {
-		// 判断该订单的项目经理结算关联约检节点是否审核通过
+
 		int settleCheckNodeCount = bizQcBillDao.checkSettleCheckNodeByOrderId(orderId);
-		if (settleCheckNodeCount > 0) {// 订单的项目经理结算关联约检节点已通过
-			// 系统处理【确认二期款】的业务数据
+		if (settleCheckNodeCount > 0) {
+
 			SimpleDateFormat format = new SimpleDateFormat("yyyyMM");
 			Map<String, Object> settleBillParam = new HashMap<String, Object>();
 			settleBillParam.put("orderId", orderId);
@@ -183,7 +181,7 @@ public class QuarzBizPrePmSettleFinService {
 			settleBillParam.put("settleBillType", ConstantUtils.PM_SETTLE_BILL_TYPE_1);
 			int settleBillCount = bizPmSettleBillDao.queryPmSettleBillByParam(settleBillParam);
 			if (settleBillCount == 0) {
-				// 1.新增结算类目汇总
+
 				Map<String, Object> map1 = new HashMap<String, Object>();
 				map1.put("orderId", orderId);
 				map1.put("settleStatus", ConstantUtils.PM_SETTLE_STATUS_20);
@@ -228,8 +226,8 @@ public class QuarzBizPrePmSettleFinService {
 					bizPmSettleCategorySummaryDao.insertBatch(summaryList);
 				}
 
-				// 2.更新结算类目明细关联的结算类目汇总id(之前新增时该字段为空，所以更新该字段)
-				// 更新标化辅材、自主支配、中期提成、中期奖励、中期扣款的结算类目明细
+
+
 				Map<String, Object> updateMap = new HashMap<String, Object>();
 				updateMap.put("orderId", orderId);
 				updateMap.put("settleStatus", ConstantUtils.PM_SETTLE_STATUS_20);
@@ -249,7 +247,7 @@ public class QuarzBizPrePmSettleFinService {
 				updateMap.put("settleCategoryList", settleCategoryListUpdateMap);
 				bizPmSettleCategoryDetailDao.updateRelateSummary(updateMap);
 
-				// 更新质检罚款的结算类目明细
+
 				Map<String, Object> updateMap2 = new HashMap<String, Object>();
 				updateMap2.put("orderId", orderId);
 				updateMap2.put("sign", "01");
@@ -262,7 +260,7 @@ public class QuarzBizPrePmSettleFinService {
 				updateMap2.put("updateBy", null);
 				bizPmSettleCategoryDetailDao.updateRelateSummaryCategory(updateMap2);
 
-				// 更新项目经理材料结算类目明细
+
 				Map<String, Object> updateMap3 = new HashMap<String, Object>();
 				updateMap3.put("orderId", orderId);
 				updateMap3.put("sign", "1");
@@ -275,7 +273,7 @@ public class QuarzBizPrePmSettleFinService {
 				updateMap3.put("updateBy", null);
 				bizPmSettleCategoryDetailDao.updateRelateSummaryCategory(updateMap3);
 
-				// 3.新增结算单
+
 				Map<String, Object> map2 = new HashMap<String, Object>();
 				map2.put("orderId", orderId);
 				map2.put("settleStatus", ConstantUtils.PM_SETTLE_STATUS_30);
@@ -314,7 +312,7 @@ public class QuarzBizPrePmSettleFinService {
 					bizPmSettleBillDao.insertBatch(settleBillList);
 				}
 
-				// 4.更新结算类目汇总关联的结算单id(之前新增时该字段为空，所以更新该字段)
+
 				Map<String, Object> map3 = new HashMap<String, Object>();
 				map3.put("orderId", orderId);
 				map3.put("settleStatus", ConstantUtils.PM_SETTLE_STATUS_30);
@@ -334,7 +332,7 @@ public class QuarzBizPrePmSettleFinService {
 				map4.put("settleStage", 1);
 				map4.put("settleType", 2);
 				bizAssessRewardPunishDao.updateByParam(map4);
-				// 保存财务确认二期款时间
+
 				BizBusinessStatusLog bizBusinessStatusLog = new BizBusinessStatusLog();
 				bizBusinessStatusLog.setBusinessType(BusinessLogConstantUtil.BUSINESS_TYPE_304);
 				bizBusinessStatusLog.setBusinessOnlyMarkInt(orderId);
@@ -353,8 +351,8 @@ public class QuarzBizPrePmSettleFinService {
 
 	public void weikuanMoney(Integer orderId, Date date) {
 		BizOrderFinishProjectBill orderFinishbill = bizOrderFinishProjectBillDao.getByOrderID(orderId);
-		if (orderFinishbill != null && (Integer.valueOf(orderFinishbill.getStatus()).intValue()>= 3)) {// 订单竣工审核通过
-            //系统处理【确认尾款】的业务数据
+		if (orderFinishbill != null && (Integer.valueOf(orderFinishbill.getStatus()).intValue()>= 3)) {
+
 			SimpleDateFormat format = new SimpleDateFormat("yyyyMM");
 			Map<String, Object> param = new HashMap<String, Object>();
 			param.put("orderId", orderId);
@@ -362,7 +360,7 @@ public class QuarzBizPrePmSettleFinService {
 			param.put("settleBillType", ConstantUtils.PM_SETTLE_BILL_TYPE_2);
 			int count = bizPmSettleBillDao.queryPmSettleBillByParam(param);
 			if (count == 0) {
-				// 1.新增结算类目汇总
+
 				Map<String, Object> map1 = new HashMap<String, Object>();
 				map1.put("orderId", orderId);
 				map1.put("settleStatus", ConstantUtils.PM_SETTLE_STATUS_20);
@@ -406,8 +404,8 @@ public class QuarzBizPrePmSettleFinService {
 					bizPmSettleCategorySummaryDao.insertBatch(summaryList);
 				}
 
-				// 2.更新结算类目明细关联的结算类目汇总id(之前新增时该字段为空，所以更新该字段)
-				// 更新竣工提成、质保金、自采材料报销、竣工奖励、竣工扣款的结算类目明细
+
+
 				Map<String, Object> updateMap = new HashMap<String, Object>();
 				updateMap.put("orderId", orderId);
 				updateMap.put("settleStatus", ConstantUtils.PM_SETTLE_STATUS_20);
@@ -428,7 +426,7 @@ public class QuarzBizPrePmSettleFinService {
 				updateMap.put("settleCategoryList", settleCategoryListUpdateMap);
 				bizPmSettleCategoryDetailDao.updateRelateSummary(updateMap);
 
-				// 更新质检罚款的结算类目明细
+
 				Map<String, Object> updateMap2 = new HashMap<String, Object>();
 				updateMap2.put("orderId", orderId);
 				updateMap2.put("sign", "02");
@@ -441,7 +439,7 @@ public class QuarzBizPrePmSettleFinService {
 				updateMap2.put("updateBy", null);
 				bizPmSettleCategoryDetailDao.updateRelateSummaryCategory(updateMap2);
 
-				// 更新项目经理材料结算类目明细
+
 				Map<String, Object> updateMap3 = new HashMap<String, Object>();
 				updateMap3.put("orderId", orderId);
 				updateMap3.put("sign", "2");
@@ -454,7 +452,7 @@ public class QuarzBizPrePmSettleFinService {
 				updateMap3.put("updateBy", null);
 				bizPmSettleCategoryDetailDao.updateRelateSummaryCategory(updateMap3);
 
-				// 3.新增结算单
+
 				Map<String, Object> map2 = new HashMap<String, Object>();
 				map2.put("orderId", orderId);
 				map2.put("settleStatus", ConstantUtils.PM_SETTLE_STATUS_30);
@@ -494,7 +492,7 @@ public class QuarzBizPrePmSettleFinService {
 					bizPmSettleBillDao.insertBatch(settleBillList);
 				}
 
-				// 4.更新结算类目汇总关联的结算单id(之前新增时该字段为空，所以更新该字段)
+
 				Map<String, Object> map3 = new HashMap<String, Object>();
 				map3.put("orderId", orderId);
 				map3.put("settleStatus", ConstantUtils.PM_SETTLE_STATUS_30);
@@ -515,7 +513,7 @@ public class QuarzBizPrePmSettleFinService {
 				map4.put("settleType", 2);
 				bizAssessRewardPunishDao.updateByParam(map4);
 
-				// 保存财务确认尾款款时间
+
 				BizBusinessStatusLog bizBusinessStatusLog = new BizBusinessStatusLog();
 				bizBusinessStatusLog.setBusinessType(BusinessLogConstantUtil.BUSINESS_TYPE_305);
 				bizBusinessStatusLog.setBusinessOnlyMarkInt(orderId);

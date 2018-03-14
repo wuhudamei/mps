@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,11 +20,7 @@ import cn.damei.common.web.BaseController;
 import cn.damei.entity.modules.SysAppVersion;
 import cn.damei.service.modules.SysAppVersionService;
 
-/**
- * 手机app版本Controller
- * @author qww
- * @version 2016-12-27
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/sysappversion/sysAppVersion")
 public class SysAppVersionController extends BaseController {
@@ -82,11 +76,7 @@ public class SysAppVersionController extends BaseController {
 		return "redirect:"+Global.getAdminPath()+"/sysappversion/sysAppVersion/?repage";
 	}
 
-	/**
-	 * 查询最大版本号
-	 * @param appType
-	 * @return
-	 */
+
 	@RequestMapping(value = "queryMaxVersion")
 	public @ResponseBody String queryMaxVersion(String appType) {
 		String version = sysAppVersionService.queryMaxVersion(appType);
@@ -96,11 +86,7 @@ public class SysAppVersionController extends BaseController {
 		return version;
 	}
 
-	/**
-	 * 判断版本号是否存在
-	 * @param sysAppVersion
-	 * @return
-	 */
+
 	@RequestMapping(value = "checkVersionIsExits")
 	public @ResponseBody String checkVersionIsExits(SysAppVersion sysAppVersion) {
 		return sysAppVersionService.checkVersionIsExits(sysAppVersion);

@@ -13,10 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import cn.damei.dao.modules.LeaveDao;
 import cn.damei.entity.modules.Leave;
 
-/**
- * 销假后处理器
- * @author liuj
- */
+
 @Service
 @Transactional
 public class LeaveReportProcessor implements TaskListener {
@@ -28,9 +25,7 @@ public class LeaveReportProcessor implements TaskListener {
 	@Autowired
 	private RuntimeService runtimeService;
 	
-	/**
-	 * 销假完成后执行，保存实际开始和结束时间
-	 */
+
 	public void notify(DelegateTask delegateTask) {
 		String processInstanceId = delegateTask.getProcessInstanceId();
 		ProcessInstance processInstance = runtimeService.createProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();

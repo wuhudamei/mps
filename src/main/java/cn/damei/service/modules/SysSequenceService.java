@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.util.List;
@@ -13,11 +11,7 @@ import cn.damei.common.service.CrudService;
 import cn.damei.entity.modules.SysSequence;
 import cn.damei.dao.modules.SysSequenceDao;
 
-/**
- * 编号序列管理Service
- * @author 魏建勇
- * @version 2016-08-21
- */
+
 @Service
 @Transactional(readOnly = true)
 public class SysSequenceService extends CrudService<SysSequenceDao, SysSequence> {

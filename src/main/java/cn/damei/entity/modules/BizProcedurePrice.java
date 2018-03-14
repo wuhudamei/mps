@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import org.hibernate.validator.constraints.Length;
@@ -11,23 +9,19 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import cn.damei.common.persistence.DataEntity;
 
-/**
- * 工序价格管理Entity
- * @author 魏建勇
- * @version 2016-09-03
- */
+
 public class BizProcedurePrice extends DataEntity<BizProcedurePrice> {
 	
 	private static final long serialVersionUID = 1L;
-	private String storeId;		// 门店id
-	private String projectMode;//工程模式
-	private String procedureNo;		// 描述
-	private java.math.BigDecimal laborPrice;		// 人工价
-	private java.math.BigDecimal accessoriesPrice;		// 计量单位
-	private java.math.BigDecimal synthesizePrice;		// 综合价
-	private String isEnable;		// 启用标记
-	private int version;		// 版本号
-	private Date effectiveDate;		// 生效日期
+	private String storeId;
+	private String projectMode;
+	private String procedureNo;
+	private java.math.BigDecimal laborPrice;
+	private java.math.BigDecimal accessoriesPrice;
+	private java.math.BigDecimal synthesizePrice;
+	private String isEnable;
+	private int version;
+	private Date effectiveDate;
 	
 	
 	public String getProjectMode() {
@@ -97,7 +91,7 @@ public class BizProcedurePrice extends DataEntity<BizProcedurePrice> {
 		this.isEnable = isEnable;
 	}
 	
-	//@Length(min=0, max=4, message="版本号长度必须介于 0 和 4 之间")
+
 	public int getVersion() {
 		return version;
 	}

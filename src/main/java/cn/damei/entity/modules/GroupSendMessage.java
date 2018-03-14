@@ -1,23 +1,23 @@
 package cn.damei.entity.modules;
 
 public class GroupSendMessage {
-	private String id;// 订单编号
-	private String communityName;// 小区名称
-	private String buildNumber;// 几号楼
-	private String buildUnit;// 几单元
-	private String buildRoom;// 哪一室
-	private String orderTaskPackageId;// biz_order_taskpackage:id
-	private String packageCode;// 任务包编号
-	private String orderId;// 订单编号
-	private String planStartdate;// 订单表中实际开工时间
-	private String customerName;//客户姓名
-	private String packageName;//任务包名称
-	private String no;// 员工编号
-	private String realName;// 真实姓名
-	private String phone;// 手机号码
-	private String empType;// 员工类型
-	private Integer groupId;//工人组长ID
-	private Integer itemManagerId;//项目经理ID
+	private String id;
+	private String communityName;
+	private String buildNumber;
+	private String buildUnit;
+	private String buildRoom;
+	private String orderTaskPackageId;
+	private String packageCode;
+	private String orderId;
+	private String planStartdate;
+	private String customerName;
+	private String packageName;
+	private String no;
+	private String realName;
+	private String phone;
+	private String empType;
+	private Integer groupId;
+	private Integer itemManagerId;
 
 	public String getId() {
 		return id;

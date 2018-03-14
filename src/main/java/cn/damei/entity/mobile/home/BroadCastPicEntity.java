@@ -5,9 +5,7 @@ import java.util.Date;
 
 public class BroadCastPicEntity  implements Serializable{
 
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 
 	private Integer id;
@@ -32,10 +30,10 @@ public class BroadCastPicEntity  implements Serializable{
 	
 	
 	
-	//pic  part
+
 	
-	private String  picType;//501 播报类型
-	private Integer broadCastId;//关联播报id
+	private String  picType;
+	private Integer broadCastId;
 	private String picUrl;
 	private Date picDateTime;
 	

@@ -4,34 +4,29 @@ import java.util.Date;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * @author 梅浩 meihao@zzhyun.cn:
- * @version 创建时间：2016年9月28日 上午10:10:41 类说明
- */
+
 
 public class OrderVo extends DataEntity2<OrderVo> {
 
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 
-	// 订单id主键在 爷爷类中
 
-	private Integer itemManagerId; // 关键的项目经理id
-	private String customerName;// 客户姓名
-	private String communityName;// 小区名称
-	private String buildNumber;// 楼号
-	private String buildUnit;// 单元号
-	private String buildRoom;// 门牌号 哪一室
-	private Date contractStartDate;// 合同开工日期
-	private Date actualStartDate;// 实际开工日期
-	private Integer contractTime;// 合同工期
-	private String orderStatus;// 订单状态
-	private String orderNumber;// 订单状态编号
-	private String projectMode;// 订单工程模式
-	private Integer allCount; // 开工数量
-	private String isScrap; // 订单是否作废 1为是 0为否
+
+	private Integer itemManagerId;
+	private String customerName;
+	private String communityName;
+	private String buildNumber;
+	private String buildUnit;
+	private String buildRoom;
+	private Date contractStartDate;
+	private Date actualStartDate;
+	private Integer contractTime;
+	private String orderStatus;
+	private String orderNumber;
+	private String projectMode;
+	private Integer allCount;
+	private String isScrap;
 
 	public String getOrderStatus() {
 		return orderStatus;
@@ -120,7 +115,7 @@ public class OrderVo extends DataEntity2<OrderVo> {
 
 	public void setActualStartDate(Date actualStartDate) {
 		this.actualStartDate = actualStartDate;
-	} // 实际开工日期
+	}
 
 	public String getOrderNumber() {
 		return orderNumber;

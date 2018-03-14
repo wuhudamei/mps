@@ -24,8 +24,8 @@ public class NodePlanPicService extends CrudService<NodePlanPicDao, NodePlanPic>
 
 	@Transactional(readOnly = false)
 	public String insertNodePlanPic(NodePlanPic nodePlanPic) {
-		//nodePlanPic.setCreateBy(UserUtils.getUser().getCreateBy());
-		//nodePlanPic.setUpdateBy(UserUtils.getUser().getUpdateBy());
+
+
 		nodePlanPic.setCreateDate(new Date());
 		nodePlanPic.setUpdateDate(new Date());
 		nodePlanPic.setDelFlag("0");

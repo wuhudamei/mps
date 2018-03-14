@@ -9,10 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import cn.damei.common.web.BaseController;
 import cn.damei.service.mobile.Manager.OrderConfirmStartworkPicService;
 
-/**
- * @author llp
- * @version 创建时间：2016年10月27日 下午5:05:38 类说明
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/bizconfirmstartworkpic/bizConfirmStartworkPic")
 public class BizOrderConfirmStartworkPicController extends BaseController{

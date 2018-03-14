@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import java.util.Date;
@@ -8,39 +6,35 @@ import java.util.Date;
 import cn.damei.common.persistence.DataEntity;
 import cn.damei.common.utils.DateUtils;
 
-/**
- * 违规问题统计Entity
- * @author wyb
- * @version 2016-10-31
- */
+
 public class BreakProblem extends DataEntity<BreakProblem> {
 	
 	private static final long serialVersionUID = 1L;
 	
-	private String storeId; //门店
-	private Date quCreateDate; //质检提交报告时间
-	private String quCreateDateString; //质检提交报告时间
-	private String storeName; //门店名称
-	private String projectModeName; //工程模式
+	private String storeId;
+	private Date quCreateDate;
+	private String quCreateDateString;
+	private String storeName;
+	private String projectModeName;
 
-	private Date checkDatetime;		// 质检日期时间 -- '
-	private Date beginCheckDatetime;		// 开始 质检日期时间 -- '
-	private Date endCheckDatetime;		// 结束 质检日期时间 -- '
+	private Date checkDatetime;
+	private Date beginCheckDatetime;
+	private Date endCheckDatetime;
 	
-	private String qcCheckKindName;	//检查分类
-	private String qcCheckItemName;	//检查项
-	private String breakDescribe;	//违规形式
-	private String breakTimes;	//出现次数
-	private String projectMode;		//工程模式   1-产业模式；2-传统模式
-	private String qcCheckItemBreakId;		//违规问题统计ID
-	private String enginDepartId;		//区域ID
-	private String enginDepartName;		//区域名称
-	private String customerAddr;		//小区
-	private String orderInspector;		//质检员
-	private String itemManager;		//项目经理
-	private String customerName;		//客户姓名
-	private String workerGroupName;		//工人组长姓名
-	private String mnagerPerson;		//责任项目经理姓名
+	private String qcCheckKindName;
+	private String qcCheckItemName;
+	private String breakDescribe;
+	private String breakTimes;
+	private String projectMode;
+	private String qcCheckItemBreakId;
+	private String enginDepartId;
+	private String enginDepartName;
+	private String customerAddr;
+	private String orderInspector;
+	private String itemManager;
+	private String customerName;
+	private String workerGroupName;
+	private String mnagerPerson;
 
 	
 	public String getProjectMode() {

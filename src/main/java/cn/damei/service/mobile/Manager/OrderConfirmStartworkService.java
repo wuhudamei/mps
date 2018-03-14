@@ -12,18 +12,13 @@ import cn.damei.dao.mobile.Manager.OrderConfirmStartworkDao;
 import cn.damei.entity.mobile.Manager.OrderConfirmStartwork;
 import cn.damei.entity.mobile.Manager.Manager;
 
-/**
- * 确认开工功能
- * 
- * @author llp
- *
- */
+
 @Service
 @Transactional(readOnly = true)
 public class OrderConfirmStartworkService extends CrudService2<OrderConfirmStartworkDao, OrderConfirmStartwork> {
 
 	@Autowired
-	private OrderConfirmStartworkDao orderConfirmStartworkDao;// 确认开工功能
+	private OrderConfirmStartworkDao orderConfirmStartworkDao;
 
 	@Transactional(readOnly = false)
 	public int insertConfirmStartwork(String selDecorateDelayDays, String isSelfDecorateNeedSign, 
@@ -45,7 +40,7 @@ public class OrderConfirmStartworkService extends CrudService2<OrderConfirmStart
 		orderConfirmStartworkDao.insertConfirmStartwork(sWork);
 		
 		logger.info("返回的主键ID："+sWork.getId());
-		return sWork.getId();//返回biz_order_confirm_startwork主键ID
+		return sWork.getId();
 	}
 
 	public Integer findByOrderId(Integer orderId) {

@@ -18,11 +18,7 @@ import org.springframework.web.util.UriUtils;
 
 import cn.damei.common.config.Global;
 
-/**
- * 查看CK上传的图片
- * @author ThinkGem
- * @version 2014-06-25
- */
+
 public class UserfilesDownloadServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;

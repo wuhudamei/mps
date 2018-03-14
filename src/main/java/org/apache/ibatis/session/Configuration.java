@@ -1,18 +1,4 @@
-/*
- *    Copyright 2009-2014 the original author or authors.
- *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
- *
- *       http://www.apache.org/licenses/LICENSE-2.0
- *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
- */
+
 package org.apache.ibatis.session;
 
 import java.util.Arrays;
@@ -87,10 +73,7 @@ import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.TypeAliasRegistry;
 import org.apache.ibatis.type.TypeHandlerRegistry;
 
-/**
- * @author Clinton Begin
- * @description 重写put，实现刷新的功能
- */
+
 public class Configuration {
 
 	protected Environment environment;
@@ -124,14 +107,7 @@ public class Configuration {
 	protected ProxyFactory proxyFactory;
 
 	protected String databaseId;
-	/**
-	 * Configuration factory class. Used to create Configuration for loading
-	 * deserialized unread properties.
-	 * 
-	 * @see <a
-	 *      href='https://code.google.com/p/mybatis/issues/detail?id=300'>Issue
-	 *      300</a> (google code)
-	 */
+
 	protected Class<?> configurationFactory;
 
 	protected final InterceptorChain interceptorChain = new InterceptorChain();
@@ -159,11 +135,7 @@ public class Configuration {
 	protected final Collection<ResultMapResolver> incompleteResultMaps = new LinkedList<ResultMapResolver>();
 	protected final Collection<MethodResolver> incompleteMethods = new LinkedList<MethodResolver>();
 
-	/*
-	 * A map holds cache-ref relationship. The key is the namespace that
-	 * references a cache bound to another namespace and the value is the
-	 * namespace which the actual cache is bound to.
-	 */
+
 	protected final Map<String, String> cacheRefMap = new HashMap<String, String>();
 
 	public Configuration(Environment environment) {
@@ -313,7 +285,7 @@ public class Configuration {
 
 	public ProxyFactory getProxyFactory() {
 		if (proxyFactory == null) {
-			// makes sure CGLIB is not needed unless explicitly requested
+
 			proxyFactory = new CglibProxyFactory();
 		}
 		return proxyFactory;
@@ -419,9 +391,7 @@ public class Configuration {
 		return typeAliasRegistry;
 	}
 
-	/**
-	 * @since 3.2.2
-	 */
+
 	public MapperRegistry getMapperRegistry() {
 		return mapperRegistry;
 	}
@@ -443,9 +413,7 @@ public class Configuration {
 		this.objectWrapperFactory = objectWrapperFactory;
 	}
 
-	/**
-	 * @since 3.2.2
-	 */
+
 	public List<Interceptor> getInterceptors() {
 		return interceptorChain.getInterceptors();
 	}
@@ -713,51 +681,41 @@ public class Configuration {
 		cacheRefMap.put(namespace, referencedNamespace);
 	}
 
-	/*
-	 * Parses all the unprocessed statement nodes in the cache. It is
-	 * recommended to call this method once all the mappers are added as it
-	 * provides fail-fast statement validation.
-	 */
+
 	protected void buildAllStatements() {
 		if (!incompleteResultMaps.isEmpty()) {
 			synchronized (incompleteResultMaps) {
-				// This always throws a BuilderException.
+
 				incompleteResultMaps.iterator().next().resolve();
 			}
 		}
 		if (!incompleteCacheRefs.isEmpty()) {
 			synchronized (incompleteCacheRefs) {
-				// This always throws a BuilderException.
+
 				incompleteCacheRefs.iterator().next().resolveCacheRef();
 			}
 		}
 		if (!incompleteStatements.isEmpty()) {
 			synchronized (incompleteStatements) {
-				// This always throws a BuilderException.
+
 				incompleteStatements.iterator().next().parseStatementNode();
 			}
 		}
 		if (!incompleteMethods.isEmpty()) {
 			synchronized (incompleteMethods) {
-				// This always throws a BuilderException.
+
 				incompleteMethods.iterator().next().resolve();
 			}
 		}
 	}
 
-	/*
-	 * Extracts namespace from fully qualified statement id.
-	 * 
-	 * @param statementId
-	 * 
-	 * @return namespace or null when id does not contain period.
-	 */
+
 	protected String extractNamespace(String statementId) {
 		int lastPeriod = statementId.lastIndexOf('.');
 		return lastPeriod > 0 ? statementId.substring(0, lastPeriod) : null;
 	}
 
-	// Slow but a one time cost. A better solution is welcome.
+
 	protected void checkGloballyForDiscriminatedNestedResultMaps(ResultMap rm) {
 		if (rm.hasNestedResultMaps()) {
 			for (Map.Entry<String, ResultMap> entry : resultMaps.entrySet()) {
@@ -778,7 +736,7 @@ public class Configuration {
 		}
 	}
 
-	// Slow but a one time cost. A better solution is welcome.
+
 	protected void checkLocallyForDiscriminatedNestedResultMaps(ResultMap rm) {
 		if (!rm.hasNestedResultMaps() && rm.getDiscriminator() != null) {
 			for (Map.Entry<String, String> entry : rm.getDiscriminator()
@@ -821,7 +779,7 @@ public class Configuration {
 			this.name = name;
 		}
 
-		// TODO 如果现在状态为刷新，则刷新(先删除后添加)
+
 		@SuppressWarnings("unchecked")
 		public V put(String key, V value) {
 			if (org.apache.ibatis.thread.Runnable.isRefresh()) {

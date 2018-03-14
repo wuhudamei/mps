@@ -7,12 +7,10 @@ public class Recheck implements Serializable {
 
 	
 	
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
-	private Integer  reCheckId;//质检单id(复检单)
-	private String  reCheckCode;//质检单编号(复检单)
+	private Integer  reCheckId;
+	private String  reCheckCode;
 	private Integer orderId;
 	private Integer checkNodeId;
 	public Integer getOrderId() {
@@ -99,16 +97,16 @@ public class Recheck implements Serializable {
 	public void setChangeWay(String changeWay) {
 		this.changeWay = changeWay;
 	}
-	private String  type;//质检单类型 (1:约检单)
-	private String isReCheck ;//是否复检  1: 是
-	private Integer relatedBillId; //关联质检单id (关联的约检单id)
-	private String status;//状态:  1: 创建
-	private Integer relatedCheckItemId;//关联质检单检查项id
-	private Integer checkItemId;//检查项id
-	private String  isOk;//是否合格
-	private Double preScores;//原分
-	private Double actualScores;//实际得分
-	private String changeWay;//整改方式
+	private String  type;
+	private String isReCheck ;
+	private Integer relatedBillId;
+	private String status;
+	private Integer relatedCheckItemId;
+	private Integer checkItemId;
+	private String  isOk;
+	private Double preScores;
+	private Double actualScores;
+	private String changeWay;
 	private Integer createBy;
 	private Integer updateBy;
 	private Date createDate;

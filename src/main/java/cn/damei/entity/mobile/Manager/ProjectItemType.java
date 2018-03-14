@@ -3,24 +3,15 @@ package cn.damei.entity.mobile.Manager;
 import java.io.Serializable;
 import java.util.List;
 
-/**
- * 
- * @author 梅浩
- * @2016年11月17日
- * @mdn大美装饰管理平台
- * @author_phone : 18610507472
- * @ClassInfo:施工分类
- */
+
 public class ProjectItemType  implements Serializable{
 
 	
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
-	private Integer  itemTypeId;//施工分类id
-	private String itemTypeName;//施工分类name
-	private List<ProjectItem> itemList;//施工项集合
+	private Integer  itemTypeId;
+	private String itemTypeName;
+	private List<ProjectItem> itemList;
 	public List<ProjectItem> getItemList() {
 		return itemList;
 	}

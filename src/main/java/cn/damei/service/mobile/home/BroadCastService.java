@@ -12,15 +12,7 @@ import cn.damei.dao.mobile.home.BroadCastDao;
 import cn.damei.entity.mobile.home.BroadCastCodeEntity;
 import cn.damei.entity.mobile.home.BroadCastPicEntity;
 
-/**
- * 播报Service
- * 
- * @author 梅浩
- * @2017年1月7日
- * @mdn大美装饰管理平台
- * @author_phone : 18610507472
- * @ClassInfo:类说明
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BroadCastService {
@@ -28,14 +20,14 @@ public class BroadCastService {
 	@Autowired
 	private BroadCastDao dao;
 
-	// 保存播报单
+
 	@Transactional(readOnly = false)
 	public void saveBroadCastRecord(BroadCastPicEntity entity) {
 
 		dao.saveBroadCastRecord(entity);
 	}
 
-	// 保存播报图片
+
 	@Transactional(readOnly = false)
 	public void saveBroadCastPic(BroadCastPicEntity entity) {
 
@@ -57,18 +49,14 @@ public class BroadCastService {
 		dao.updateCode(code);
 	}
 	
-	/**
-	 * 播报单编号
-	 * 
-	 * @return
-	 */
+
 	@Transactional(readOnly = false)
 	public String getBroadCastCode() {
-		// 以BB开头
+
 			
 		StringBuilder builder = new StringBuilder();
 
-		// num
+
 		BroadCastCodeEntity code1 = dao.getCode();
 
 		if (null == code1) {
@@ -76,7 +64,7 @@ public class BroadCastService {
 			code1 = dao.getCode();
 		}
 		builder.append(code1.getBussinessType());
-		// 格式后的时间戳
+
 		String format = new SimpleDateFormat("yyyyMMdd").format(new Date());
 		if (!new SimpleDateFormat("yyyyMMdd").format(code1.getGenerateTime()).equals(format)) {
 			code1.setGenerateTime(new Date());
@@ -85,13 +73,13 @@ public class BroadCastService {
 		code1.setLastSeiralnum((code1.getLastSeiralnum() + 1));
 dao.updateCode(code1);
 		String code = String.valueOf(code1.getLastSeiralnum());
-		// 判断长度
+
 		if (code.length() == 1) {
 
 			builder.append("000").append(code);
 
 		} else if (code.length() == 2) {
-			// 拼接采购单编号
+
 			builder.append("00").append(code);
 		} else if (code.length() == 3) {
 			builder.append("0").append(code);
@@ -99,19 +87,13 @@ dao.updateCode(code1);
 			builder.append(code);
 		}
 
-		// 返回采购单编号
+
 		return builder.toString();
 
 	}
 	
 	
-	/**
-	 * 保存播报图片
-	 * @param orderId
-	 * @param photos
-	 * @param manager
-	 * @return
-	 */
+
 	@Transactional(readOnly = false)
 	public Integer saveBroadCast(Integer orderId, String[] photos, Manager manager) {
 		
@@ -127,7 +109,7 @@ dao.updateCode(code1);
         bc.setPicCount(photos.length);
         bc.setApplyEmployeeId(manager.getId());
         bc.setApplyDate(new Date());
-        bc.setStatus("10");//10已生成播报单
+        bc.setStatus("10");
         bc.setStatusTime(date);
         bc.setCreateBy(manager.getId());
         bc.setCreateDate(date);

@@ -29,7 +29,7 @@ public class NodePlanService extends CrudService2<NodePlanDao, NodePlan>{
 			String startRemark,String actualStartDate, Manager manager) throws ParseException {
 		NodePlan np = new NodePlan();
 		logger.info("actualStartDate==="+actualStartDate);
-		//java.util.Date date = sdf.parse(actualStartDate);
+
 		
 		np.setId(null);
 		np.setOrderId(Integer.valueOf(orderId));
@@ -75,7 +75,7 @@ public class NodePlanService extends CrudService2<NodePlanDao, NodePlan>{
 		np.setId(node.getId());
 		np.setExeDoneDate(node.getExeDoneDate());
 		np.setRealDoneDate(DateUtils.parseDate(realDoneDate));
-		//np.setUpdateBy(UserUtils.getUser().getUpdateBy());
+
 		np.setDelayDays(i);
 		np.setDelayType(delayType);
 		np.setDelayReason(delayReason);
@@ -108,15 +108,7 @@ public class NodePlanService extends CrudService2<NodePlanDao, NodePlan>{
 		return dao.justForTraditionNodePlan(orderId);
 	}
 
-	/**
-	 * 批量保存订单进度节点
-	 * @param listBcs
-	 * @param orderId
-	 * @param startRemark
-	 * @param actualStartDate
-	 * @param manager
-	 * @return
-	 */
+
 	@Transactional(readOnly = false)
 	public boolean saveNodePlanList(List<BizConstructionSchedule> listBcs, String orderId, String startRemark,
 			String actualStartDate, Manager manager) {
@@ -135,7 +127,7 @@ public class NodePlanService extends CrudService2<NodePlanDao, NodePlan>{
 				np.setNodeIndex(Integer.valueOf(bizConstructionSchedule.getSort()));
 				np.setPlanDoneDate(DateUtils.addDate(DateUtils.parseDate(actualStartDate), Integer.valueOf(bizConstructionSchedule.getNormalCompletionDays())));
 				np.setExeDoneDate(DateUtils.addDate(DateUtils.parseDate(actualStartDate), Integer.valueOf(bizConstructionSchedule.getNormalCompletionDays())));
-//				计划审核日期
+
 				np.setPlanCheckTime(np.getPlanDoneDate());
 				np.setRealDoneDate(null);
 				np.setIsDone("0");

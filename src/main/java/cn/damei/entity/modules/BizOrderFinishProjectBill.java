@@ -8,66 +8,42 @@ import cn.damei.common.persistence.DataEntity2;
 public class BizOrderFinishProjectBill extends DataEntity2<BizOrderFinishProjectBill> {
 	private Integer id;
 	
-	/**
-	 * 订单编号
-	 */
+
 	private Integer orderId;
 	
-	/**
-	 * 订单竣工单编号
-	 */
+
 	private String orderFinishProjectBillCode;
 	
-	/**
-	 * 实际竣工日期
-	 */
+
 	private Date realFinishProjectDate;
 	
-	/**
-	 * 竣工申请人员工id
-	 */
+
 	private Integer applyEmployeeId;
 	
 	private String applyEmployeeName;
 	
-	/**
-	 * 竣工申请日期时间
-	 */
+
 	private Date applyDatetime;
 	
-	/**
-	 * 竣工审核人员工id
-	 */
+
 	private Integer checkEmployeeId;
 	
-	/**
-	 * 审核意见 
-	 */
+
 	private String checkWords; 
 	
-	/**
-	 * 状态
-	 */
+
 	private String status;
 	
-	/**
-	 * 备注
-	 */
+
 	private String remarks;
 	
-	/**
-	 * 创建日期时间
-	 */
+
 	private Date createDate;
 	
-	/**
-	 * 更新日期时间
-	 */
+
 	private Date updateDate;
 	
-	/**
-	 * del_flag
-	 */
+
 	private String delFlag;
 
 	

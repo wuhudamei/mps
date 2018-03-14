@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.util.List;
@@ -14,11 +12,7 @@ import cn.damei.entity.modules.DropModel;
 import cn.damei.dao.modules.BizMaterialsStandardDao;
 import cn.damei.entity.modules.BizMaterialsStandard;
 
-/**
- * 标化辅材Service
- * @author 汪文文
- * @version 2016-12-24
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizMaterialsStandardService extends CrudService2<BizMaterialsStandardDao, BizMaterialsStandard> {
@@ -55,7 +49,7 @@ public class BizMaterialsStandardService extends CrudService2<BizMaterialsStanda
 	}
 
 	public List<BizMaterialsStandard> queryMaterialsByStoreId(String storeId) {
-		// TODO Auto-generated method stub
+
 		return dao.queryMaterialsByStoreId(storeId);
 	}
 	

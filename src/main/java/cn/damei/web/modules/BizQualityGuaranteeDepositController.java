@@ -29,12 +29,7 @@ import cn.damei.service.modules.BizGuaranteeMoneyPaidUsedService;
 import cn.damei.entity.modules.User;
 import cn.damei.common.utils.UserUtils;
 
-/**
- * 质保金Controller
- * 
- * @author hyh
- *
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/guarantee/guaranteeManager")
 public class BizQualityGuaranteeDepositController extends BaseController {
@@ -53,13 +48,13 @@ public class BizQualityGuaranteeDepositController extends BaseController {
 	@Autowired
 	private BizGuaranteeMoneyBalanceService bizGuaranteeMoneyBalanceService;
 
-	// 查询使用质保金
+
 	@RequestMapping(value = "queryUseGuarantee")
 	public String queryUseGuarantee(BizGuaranteeMoneyPaidUsed bizGuaranteeMoneyPaidUsed, HttpServletRequest request,
 			HttpServletResponse response, Model model) {
 		User user = UserUtils.getUser();
 		bizGuaranteeMoneyPaidUsed.setGuaranteeMoneyType(GuaranteeMoneyConstantUtil.guaranteeMoneyType_2);
-		// 过滤门店
+
 		if (null == bizGuaranteeMoneyPaidUsed.getStoreId()) {
 			if (null != user.getStoreId()) {
 				bizGuaranteeMoneyPaidUsed.setStoreId(user.getStoreId());
@@ -69,7 +64,7 @@ public class BizQualityGuaranteeDepositController extends BaseController {
 			model.addAttribute("storeDropEnable", true);
 		}
 
-		// 过滤工程模式
+
 		if (StringUtils.isBlank(bizGuaranteeMoneyPaidUsed.getProjectMode())) {
 			if (null != user.getEmpId()) {
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -117,13 +112,13 @@ public class BizQualityGuaranteeDepositController extends BaseController {
 		return "modules/qualityguaranteedeposit/queryUseGuarantee";
 	}
 
-	// 打开保质金使用添加页面
+
 	@RequestMapping(value = "openUseGuaranteFrom")
 	public String openUseGuaranteFrom(BizGuaranteeMoneyPaidUsed bizGuaranteeMoneyPaidUsed, HttpServletRequest request,
 			HttpServletResponse response, Model model) {
 		boolean isShowArea = true;
 		User user = UserUtils.getUser();
-		// 过滤门店
+
 		if (null == bizGuaranteeMoneyPaidUsed.getStoreId()) {
 			if (null != user.getStoreId()) {
 				bizGuaranteeMoneyPaidUsed.setStoreId(user.getStoreId());
@@ -133,7 +128,7 @@ public class BizQualityGuaranteeDepositController extends BaseController {
 			isShowArea = false;
 			model.addAttribute("storeDropEnable", true);
 		}
-		// 过滤工程模式
+
 		if (StringUtils.isBlank(bizGuaranteeMoneyPaidUsed.getProjectMode())) {
 			if (null != user.getEmpId()) {
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -169,13 +164,13 @@ public class BizQualityGuaranteeDepositController extends BaseController {
 		return "modules/qualityguaranteedeposit/useGuaranteeFrom";
 	}
 
-	// 打开质保金使用修改页面
+
 	@RequestMapping(value = "openUseGuaranteeUpdate")
 	public String openUseGuaranteeUpdate(BizGuaranteeMoneyPaidUsed bizGuaranteeMoneyPaidUsed,
 			HttpServletRequest request, HttpServletResponse response, Model model) {
 		User user = UserUtils.getUser();
 		bizGuaranteeMoneyPaidUsed = bizGuaranteeMoneyPaidUsedService.get(bizGuaranteeMoneyPaidUsed);
-		// 过滤门店
+
 		if (null == bizGuaranteeMoneyPaidUsed.getStoreId()) {
 			if (null != user.getStoreId()) {
 				bizGuaranteeMoneyPaidUsed.setStoreId(user.getStoreId());
@@ -184,7 +179,7 @@ public class BizQualityGuaranteeDepositController extends BaseController {
 		if (StringUtils.isBlank(user.getStoreId())) {
 			model.addAttribute("storeDropEnable", true);
 		}
-		// 过滤工程模式
+
 		if (StringUtils.isBlank(bizGuaranteeMoneyPaidUsed.getProjectMode())) {
 			if (null != user.getEmpId()) {
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -220,7 +215,7 @@ public class BizQualityGuaranteeDepositController extends BaseController {
 		return "modules/qualityguaranteedeposit/useGuaranteeUpdate";
 	};
 
-	// 保存使用质保金
+
 	@RequestMapping(value = "saveUseGuarantee")
 	public String saveUseGuarantee(BizGuaranteeMoneyPaidUsed bizGuaranteeMoneyPaidUsed, HttpServletRequest request,
 			HttpServletResponse response, Model model) {
@@ -228,7 +223,7 @@ public class BizQualityGuaranteeDepositController extends BaseController {
 		return "redirect:" + Global.getAdminPath() + "/guarantee/guaranteeManager/queryUseGuarantee";
 	}
 
-	// 获取质保金使用详情
+
 	@RequestMapping(value = "getUseGuaranteeDetail")
 	public String getUseGuaranteeDetail(BizGuaranteeMoneyPaidUsed bizGuaranteeMoneyPaidUsed, HttpServletRequest request,
 			HttpServletResponse response, Model model) {
@@ -237,13 +232,13 @@ public class BizQualityGuaranteeDepositController extends BaseController {
 		return "modules/qualityguaranteedeposit/useGuaranteeDetail";
 	}
 
-	// 查询线下上缴质保金
+
 	@RequestMapping(value = "queryPaidGuarantee")
 	public String queryPaidGuarantee(BizGuaranteeMoneyPaidUsed bizGuaranteeMoneyPaidUsed, HttpServletRequest request,
 			HttpServletResponse response, Model model) {
 		bizGuaranteeMoneyPaidUsed.setGuaranteeMoneyType(GuaranteeMoneyConstantUtil.guaranteeMoneyType_1);
 		User user = UserUtils.getUser();
-		// 过滤门店
+
 		if (null == bizGuaranteeMoneyPaidUsed.getStoreId()) {
 			if (null != user.getStoreId()) {
 				bizGuaranteeMoneyPaidUsed.setStoreId(user.getStoreId());
@@ -252,7 +247,7 @@ public class BizQualityGuaranteeDepositController extends BaseController {
 		if (StringUtils.isBlank(user.getStoreId())) {
 			model.addAttribute("storeDropEnable", true);
 		}
-		// 过滤工程模式
+
 		if (StringUtils.isBlank(bizGuaranteeMoneyPaidUsed.getProjectMode())) {
 			if (StringUtils.isBlank(user.getProjectMode()) || user.getProjectMode().equals("3")) {
 				model.addAttribute("gongcheng", true);
@@ -273,12 +268,12 @@ public class BizQualityGuaranteeDepositController extends BaseController {
 		return "modules/qualityguaranteedeposit/queryPaidGuarantee";
 	}
 
-	// 打开质保金上缴添加页面
+
 	@RequestMapping(value = "openPaidGuaranteeFrom")
 	public String openPaidGuaranteeFrom(BizGuaranteeMoneyPaidUsed bizGuaranteeMoneyPaidUsed, HttpServletRequest request,
 			HttpServletResponse response, Model model) {
 		User user = UserUtils.getUser();
-		// 过滤门店
+
 		if (null == bizGuaranteeMoneyPaidUsed.getStoreId()) {
 			if (null != user.getStoreId()) {
 				bizGuaranteeMoneyPaidUsed.setStoreId(user.getStoreId());
@@ -287,7 +282,7 @@ public class BizQualityGuaranteeDepositController extends BaseController {
 		if (StringUtils.isBlank(user.getStoreId())) {
 			model.addAttribute("storeDropEnable", true);
 		}
-		// 过滤工程模式
+
 		if (StringUtils.isBlank(bizGuaranteeMoneyPaidUsed.getProjectMode())) {
 			if (null != user.getEmpId()) {
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -322,13 +317,13 @@ public class BizQualityGuaranteeDepositController extends BaseController {
 		return "modules/qualityguaranteedeposit/paidGuaranteeFrom";
 	}
 
-	// 打开质保金上缴修改页面
+
 	@RequestMapping(value = "openPaidGuaranteeUpdate")
 	public String openPaidGuaranteeUpdate(BizGuaranteeMoneyPaidUsed bizGuaranteeMoneyPaidUsed,
 			HttpServletRequest request, HttpServletResponse response, Model model) {
 		User user = UserUtils.getUser();
 		bizGuaranteeMoneyPaidUsed = bizGuaranteeMoneyPaidUsedService.get(bizGuaranteeMoneyPaidUsed);
-		// 过滤门店
+
 		if (null == bizGuaranteeMoneyPaidUsed.getStoreId()) {
 			if (null != user.getStoreId()) {
 				bizGuaranteeMoneyPaidUsed.setStoreId(user.getStoreId());
@@ -337,7 +332,7 @@ public class BizQualityGuaranteeDepositController extends BaseController {
 		if (StringUtils.isBlank(user.getStoreId())) {
 			model.addAttribute("storeDropEnable", true);
 		}
-		// 过滤工程模式
+
 		if (StringUtils.isBlank(bizGuaranteeMoneyPaidUsed.getProjectMode())) {
 			if (null != user.getEmpId()) {
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -373,7 +368,7 @@ public class BizQualityGuaranteeDepositController extends BaseController {
 		return "modules/qualityguaranteedeposit/paidGuaranteeUpdate";
 	};
 
-	// 保存上缴质保金
+
 	@RequestMapping(value = "savePaidGuarantee")
 	public String savePaidGuarantee(BizGuaranteeMoneyPaidUsed bizGuaranteeMoneyPaidUsed, HttpServletRequest request,
 			HttpServletResponse response, Model model) {
@@ -381,7 +376,7 @@ public class BizQualityGuaranteeDepositController extends BaseController {
 		return "redirect:" + Global.getAdminPath() + "/guarantee/guaranteeManager/queryPaidGuarantee";
 	}
 
-	// 获取上缴质保金详情
+
 	@RequestMapping(value = "getPaidGuaranteeDetail")
 	public String getPaidGuaranteeDetail(BizGuaranteeMoneyPaidUsed bizGuaranteeMoneyPaidUsed,
 			HttpServletRequest request, HttpServletResponse response, Model model) {
@@ -390,34 +385,19 @@ public class BizQualityGuaranteeDepositController extends BaseController {
 		return "modules/qualityguaranteedeposit/paidGuaranteeDetail";
 	}
 
-	/**
-	 * 根据订单Id获取项目经理信息
-	 * 
-	 * @param orderId
-	 * @return
-	 */
+
 	@RequestMapping(value = "findItemManagerInfoByOrderId")
 	public @ResponseBody List<BizEmployee> findItemManagerInfoByOrderId(Integer orderId) {
 		return bizEmployeeService.findItemManagerInfoByOrderId(orderId);
 	}
 
-	/**
-	 * 根据订单Id获取工人组长信息
-	 * 
-	 * @param orderId
-	 * @return
-	 */
+
 	@RequestMapping(value = "findWorkGroupInfoByOrderId")
 	public @ResponseBody List<BizEmployee> findWorkGroupInfoByOrderId(Integer orderId) {
 		return bizEmployeeService.findWorkGroupInfoByOrderId(orderId);
 	}
 
-	/**
-	 * 根据人员Id获取质保金余额信息
-	 * 
-	 * @param employeeId
-	 * @return
-	 */
+
 	@RequestMapping(value = "findGuaranteeMoneyBalanceByEmployeeId")
 	public @ResponseBody BizGuaranteeMoneyBalance findGuaranteeMoneyBalanceByEmployeeId(Integer employeeId) {
 		return bizGuaranteeMoneyBalanceService.findGuaranteeMoneyBalanceByEmployeeId(employeeId);

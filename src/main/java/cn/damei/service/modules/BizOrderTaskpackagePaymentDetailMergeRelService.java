@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.util.List;
@@ -11,11 +9,7 @@ import cn.damei.common.service.CrudService2;
 import cn.damei.entity.modules.BizOrderTaskpackagePaymentDetailMergeRel;
 import cn.damei.dao.modules.BizOrderTaskpackagePaymentDetailMergeRelDao;
 
-/**
- * 付款单明细合并关系Service
- * @author qww
- * @version 2016-10-27
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizOrderTaskpackagePaymentDetailMergeRelService extends CrudService2<BizOrderTaskpackagePaymentDetailMergeRelDao, BizOrderTaskpackagePaymentDetailMergeRel> {

@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,11 +20,7 @@ import cn.damei.entity.modules.BizMaterialsStandardReceiveBill;
 import cn.damei.service.modules.BizMaterialsStandardReceiveBillService;
 import cn.damei.service.modules.BizMaterialsStandardReceiveBillVoService;
 
-/**
- * 标化辅材记录Controller
- * @author 汪文文
- * @version 2016-12-26
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/standradmaterialsrecords/bizMaterialsStandardReceiveBill")
 public class BizMaterialsStandardReceiveBillController extends BaseController {
@@ -56,13 +50,7 @@ public class BizMaterialsStandardReceiveBillController extends BaseController {
 		return "modules/managerSettlement/standradmaterialsrecords/bizMaterialsStandardReceiveBillList";
 	}
 
-	/*@RequiresPermissions("standradmaterialsrecords:bizMaterialsStandardReceiveBill:view")
-	@RequestMapping(value = {"list", ""})
-	public String list(BizMaterialsStandardReceiveBillVo bizMaterialsStandardReceiveBill, HttpServletRequest request, HttpServletResponse response, Model model) {
-		Page<BizMaterialsStandardReceiveBillVo> page = bizMaterialsStandardReceiveBillVoService.findPage(new Page<BizMaterialsStandardReceiveBillVo>(request, response), bizMaterialsStandardReceiveBill); 
-		model.addAttribute("page", page);
-		return "modules/managerSettlement/standradmaterialsrecords/bizMaterialsStandardReceiveBillList";
-	}*/
+
 	
 	@RequiresPermissions("standradmaterialsrecords:bizMaterialsStandardReceiveBill:edit")
 	@RequestMapping(value = "form")

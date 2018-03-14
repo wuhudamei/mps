@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import cn.damei.common.persistence.Page;
@@ -17,11 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-/**
- * 订单质检报告Service
- * @author wyb
- * @version 2016-10-31
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizOrderQcBillService extends CrudService2<BizOrderQcBillDao, BizOrderQcBill> {
@@ -38,22 +32,22 @@ public class BizOrderQcBillService extends CrudService2<BizOrderQcBillDao, BizOr
 		return super.findPage(page, bizOrderQcBill);
 	}
 
-	//通过订单id查询所属订单的报告单
+
 	public List<BizQcBill> findReport(int orderId) {
 		return dao.findReport(orderId);
 	}
 
-	//通过订单id查询订单
+
 	public BizOrderQcBill findOrder(int orderId) {
 		return dao.findOrder(orderId);
 	}
 
-	//通过质检单id查询质检单信息
+
 	public BizQcBill findReportDetails(int qcBillId) {
 		return dao.findReportDetails(qcBillId);
 	}
 
-	//报告详情
+
 	public List<ReportCheckDetails> finditemById(ReportCheckDetails reportCheckDetails) {
 		List<ReportCheckDetails> list = dao.finditemById(reportCheckDetails);
 		Double a = 0.00;
@@ -80,7 +74,7 @@ public class BizOrderQcBillService extends CrudService2<BizOrderQcBillDao, BizOr
 						item.setQcPunishScore(0);
 					}
 				}
-				//查询任务包名称
+
 
 				List<InspectItem> workerManagerInspectorPackageInfoByOrderId = dao.findWorkerManagerInspectorPackageInfoByOrderId(reportCheckDetails.getQcBillId());
 
@@ -99,12 +93,12 @@ public class BizOrderQcBillService extends CrudService2<BizOrderQcBillDao, BizOr
 		
 	}
 	
-	//查询所有的检查分类
+
 	public List<BizQcCheckKind> findCheckKind() {
 		return dao.findCheckKind();
 	}
 
-	//通过质检单id查询质检图片
+
 	public List<ReportCheckDetailsPic> findPic(int qcBillId) {
 		return dao.findPic(qcBillId);
 	}

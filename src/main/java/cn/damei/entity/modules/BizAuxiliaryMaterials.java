@@ -1,38 +1,32 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import org.hibernate.validator.constraints.Length;
 
 import cn.damei.common.persistence.DataEntity;
 
-/**
- * 辅料管理Entity
- * @author chy
- * @version 2016-09-09
- */
+
 public class BizAuxiliaryMaterials extends DataEntity<BizAuxiliaryMaterials> {
 	
 	private static final long serialVersionUID = 1L;
-	private String storeId;		// 门店
-	private String auxiliaryMaterialsNo;		// 材料编号
-	private String auxiliaryMaterialsName;		// 材料名称
-	private String empWorkType;		// 常用工种
-	private String categoryId;		// 材料类别
-	private String specifications;		// 规格
-	private String measurementUnit;		// 单位
-	private String status;		// 状态
-	private String brands;		// 品牌
-	private String picUrl;		// 辅料图片路径
-	private String dropDisp;		// 下拉列表显示用
-	private String unit;		//单位名称
-	private String workerType;	//常用工种
-	private Double price;	//价格
-	private String categoryName;	//材料类别名称
-	private String isSandCement;	//是否沙子水泥 1.是 0.否
-	private Double supplierPrice;	//供应商价格
-	private Double wangzhenPrice;	//网真价格
+	private String storeId;
+	private String auxiliaryMaterialsNo;
+	private String auxiliaryMaterialsName;
+	private String empWorkType;
+	private String categoryId;
+	private String specifications;
+	private String measurementUnit;
+	private String status;
+	private String brands;
+	private String picUrl;
+	private String dropDisp;
+	private String unit;
+	private String workerType;
+	private Double price;
+	private String categoryName;
+	private String isSandCement;
+	private Double supplierPrice;
+	private Double wangzhenPrice;
 	
 	
 	public String getIsSandCement() {

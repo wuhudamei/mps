@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import java.io.IOException;
@@ -36,12 +34,7 @@ import cn.damei.service.modules.WallRecheckService;
 import cn.damei.common.utils.DropUtils;
 import cn.damei.common.utils.StoreUtils;
 
-/**
- * 墙地砖复尺Controller
- * 
- * @author ztw
- * @version 2017-08-01
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/materialwallfloor/wallRecheck")
 public class WallRecheckController extends BaseController {
@@ -98,20 +91,7 @@ public class WallRecheckController extends BaseController {
 		}
 	}
 
-	/**
-	 * 设计师处罚记录
-	 * 
-	 * @Title: listExamine
-	 * @Description: TODO
-	 * @param @param wallRecheck
-	 * @param @param request
-	 * @param @param response
-	 * @param @param model
-	 * @param @return
-	 * @return String
-	 * @author ZhangTongWei
-	 * @throws
-	 */
+
 	@RequiresPermissions("materialwallfloor:wallRecheck:view")
 	@RequestMapping(value = "listExamineLog")
 	public String listExamineLog(WallRecheck wallRecheck, HttpServletRequest request, HttpServletResponse response, Model model) {
@@ -130,9 +110,9 @@ public class WallRecheckController extends BaseController {
 	@RequiresPermissions("materialwallfloor:wallRecheck:edit")
 	@RequestMapping(value = "save")
 	public String save(WallRecheck wallRecheck, Model model, RedirectAttributes redirectAttributes) {
-		// if (!beanValidator(model, wallRecheck)) {
-		// return form(wallRecheck, model);
-		// }
+
+
+
 		wallRecheckService.save(wallRecheck);
 		addMessage(redirectAttributes, "保存墙地砖复尺成功");
 		return "redirect:" + Global.getAdminPath() + "/materialwallfloor/wallRecheck/?repage";
@@ -146,18 +126,7 @@ public class WallRecheckController extends BaseController {
 		return "redirect:" + Global.getAdminPath() + "/materialwallfloor/wallRecheck/?repage";
 	}
 
-	/**
-	 * 同意订单复尺跳转页面
-	 * 
-	 * @Title: agreRecheck
-	 * @Description: TODO
-	 * @param @param wallRecheck
-	 * @param @param redirectAttributes
-	 * @param @return
-	 * @return String
-	 * @author ZhangTongWei
-	 * @throws
-	 */
+
 	@RequiresPermissions("materialwallfloor:wallRecheck:edit")
 	@RequestMapping(value = "agreRecheck")
 	public String agreRecheck(WallRecheck wallRecheck, RedirectAttributes redirectAttributes, Model model) {
@@ -167,19 +136,7 @@ public class WallRecheckController extends BaseController {
 		return "modules/materialwallfloor/wallRecheckAgre";
 	}
 
-	/**
-	 * 同意复尺修改
-	 * 
-	 * @Title: agreRecheckUpdate
-	 * @Description: TODO
-	 * @param @param wallRecheck
-	 * @param @param redirectAttributes
-	 * @param @param model
-	 * @param @return
-	 * @return String
-	 * @author ZhangTongWei
-	 * @throws
-	 */
+
 	@RequiresPermissions("materialwallfloor:wallRecheck:edit")
 	@RequestMapping(value = "agreRecheckUpdate")
 	public String agreRecheckUpdate(WallRecheck wallRecheck, RedirectAttributes redirectAttributes, Model model) {
@@ -188,19 +145,7 @@ public class WallRecheckController extends BaseController {
 		return "redirect:" + Global.getAdminPath() + "/materialwallfloor/wallRecheck/?repage";
 	}
 
-	/**
-	 * 同意认可
-	 * 
-	 * @Title: agreRecheckUpdate1
-	 * @Description: TODO
-	 * @param @param wallRecheck
-	 * @param @param redirectAttributes
-	 * @param @param model
-	 * @param @return
-	 * @return String
-	 * @author ZhangTongWei
-	 * @throws
-	 */
+
 	@RequiresPermissions("materialwallfloor:wallRecheck:edit")
 	@RequestMapping(value = "agreRecheckUpdate1")
 	public String agreRecheckUpdate1(WallRecheck wallRecheck, RedirectAttributes redirectAttributes, Model model) {
@@ -209,19 +154,7 @@ public class WallRecheckController extends BaseController {
 		return "redirect:" + Global.getAdminPath() + "/materialwallfloor/wallRecheck/?repage";
 	}
 
-	/**
-	 * 设计师同意复尺
-	 * 
-	 * @Title: agreRecheckUpdate2
-	 * @Description: TODO
-	 * @param @param wallRecheck
-	 * @param @param redirectAttributes
-	 * @param @param model
-	 * @param @return
-	 * @return String
-	 * @author ZhangTongWei
-	 * @throws
-	 */
+
 	@RequiresPermissions("materialwallfloor:wallRecheck:edit")
 	@RequestMapping(value = "agreRecheckUpdate2")
 	public String agreRecheckUpdate2(WallRecheck wallRecheck, RedirectAttributes redirectAttributes, Model model) {
@@ -230,19 +163,7 @@ public class WallRecheckController extends BaseController {
 		return "redirect:" + Global.getAdminPath() + "/materialwallfloor/wallRecheck/?repage";
 	}
 
-	/**
-	 * 设计师不同意复尺
-	 * 
-	 * @Title: agreRecheckUpdate2
-	 * @Description: TODO
-	 * @param @param wallRecheck
-	 * @param @param redirectAttributes
-	 * @param @param model
-	 * @param @return
-	 * @return String
-	 * @author ZhangTongWei
-	 * @throws
-	 */
+
 	@RequiresPermissions("materialwallfloor:wallRecheck:edit")
 	@RequestMapping(value = "NotagreRecheckUpdate2")
 	public String NotagreRecheckUpdate2(WallRecheck wallRecheck, RedirectAttributes redirectAttributes, Model model) {
@@ -251,40 +172,28 @@ public class WallRecheckController extends BaseController {
 		return "redirect:" + Global.getAdminPath() + "/materialwallfloor/wallRecheck/?repage";
 	}
 
-	/**
-	 * 分责的结果
-	 * 
-	 * @Title: queryResult
-	 * @Description: TODO
-	 * @param @param wallRecheck
-	 * @param @param redirectAttributes
-	 * @param @param model
-	 * @param @return
-	 * @return String
-	 * @author ZhangTongWei
-	 * @throws
-	 */
+
 	@RequiresPermissions("materialwallfloor:wallRecheck:edit")
 	@RequestMapping(value = "queryResult")
 	public String queryResult(WallRecheck wallRecheck, RedirectAttributes redirectAttributes, Model model) {
 
 		WallRecheck recheck = wallRecheckService.findbyid(wallRecheck);
-		// if (null != recheck) {
-		//
-		// boolean isString1 = isString(recheck.getAssessPersonName1());
-		// // 根据员工ID查询
-		// if (isString1) {
-		// String empName1 =
-		// wallRecheckService.getempName(Integer.parseInt(recheck.getAssessPersonName1()));
-		// recheck.setAssessPersonName1(empName1);
-		// }
-		// boolean isString2 = isString(recheck.getAssessPersonName2());
-		// if (isString2) {
-		// String empName2 =
-		// wallRecheckService.getempName(Integer.parseInt(recheck.getAssessPersonName2()));
-		// recheck.setAssessPersonName2(empName2);
-		// }
-		// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 		model.addAttribute("wallRecheck", recheck);
 		return "modules/materialwallfloor/wallRecheckResult";
 	}
@@ -292,33 +201,21 @@ public class WallRecheckController extends BaseController {
 	@SuppressWarnings("unused")
 	private boolean isString(String string) {
 		try {
-			Integer.valueOf(string);// 把字符串强制转换为数字
-			return true;// 如果是数字，返回True
+			Integer.valueOf(string);
+			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
-			return false;// 如果抛出异常，返回False
+			return false;
 		}
 	}
 
-	/**
-	 * 审批
-	 * 
-	 * @Title: queryResultExamine
-	 * @Description: TODO
-	 * @param @param wallRecheck
-	 * @param @param redirectAttributes
-	 * @param @param model
-	 * @param @return
-	 * @return String
-	 * @author ZhangTongWei
-	 * @throws
-	 */
+
 	@RequiresPermissions("materialwallfloor:wallRecheck:edit")
 	@RequestMapping(value = "queryResultExamine")
 	public String queryResultExamine(WallRecheck wallRecheck, RedirectAttributes redirectAttributes, Model model) {
-		// 设计师列表
+
 		List<BizEmployee> employeeListByType = bizPrepareOrderService.getEmployeeListByType(EmployeeContantUtil.EMPLOYEE_EMP_TYPE_5);
-		// 审计员列表
+
 		List<BizEmployee> auditorList = bizPrepareOrderService.getEmployeeListByType(EmployeeContantUtil.EMPLOYEE_EMP_TYPE_3);
 
 		model.addAttribute("empList", employeeListByType);
@@ -328,25 +225,13 @@ public class WallRecheckController extends BaseController {
 		return "modules/materialwallfloor/wallRecheckResultExamine";
 	}
 
-	/**
-	 * 设计师直接认可的审核
-	 * 
-	 * @Title: queryResultExamineRenk
-	 * @Description: TODO
-	 * @param @param wallRecheck
-	 * @param @param redirectAttributes
-	 * @param @param model
-	 * @param @return
-	 * @return String
-	 * @author ZhangTongWei
-	 * @throws
-	 */
+
 	@RequiresPermissions("materialwallfloor:wallRecheck:view")
 	@RequestMapping(value = "queryResultExamineRenk")
 	public String queryResultExamineRenk(WallRecheck wallRecheck, RedirectAttributes redirectAttributes, Model model) {
-		// 设计师列表
+
 		List<BizEmployee> employeeListByType = bizPrepareOrderService.getEmployeeListByType(EmployeeContantUtil.EMPLOYEE_EMP_TYPE_5);
-		// 审计员列表
+
 		List<BizEmployee> auditorList = bizPrepareOrderService.getEmployeeListByType(EmployeeContantUtil.EMPLOYEE_EMP_TYPE_3);
 
 		model.addAttribute("empList", employeeListByType);
@@ -356,19 +241,7 @@ public class WallRecheckController extends BaseController {
 		return "modules/materialwallfloor/wallRecheckResultExamineRenk";
 	}
 
-	/**
-	 * 审批保存
-	 * 
-	 * @Title: agreRecheckUpdate1
-	 * @Description: TODO
-	 * @param @param wallRecheck
-	 * @param @param redirectAttributes
-	 * @param @param model
-	 * @param @return
-	 * @return String
-	 * @author ZhangTongWei
-	 * @throws
-	 */
+
 	@RequiresPermissions("materialwallfloor:wallRecheck:edit")
 	@RequestMapping(value = "updateExamine")
 	public String updateExamine(WallRecheck wallRecheck, RedirectAttributes redirectAttributes, Model model) {
@@ -383,35 +256,8 @@ public class WallRecheckController extends BaseController {
 	@Autowired
 	private ProjectUtil PicUtil;
 
-/*	@RequestMapping(value = "querypic")
-	public String querypic(WallRecheck wallRecheck, HttpServletRequest request, HttpServletResponse response, RedirectAttributes redirectAttributes, Model model) throws IOException {
 
-		Map<String, String> picMap = new HashMap<String, String>();
 
-		picMap.put("businessType", PictureTypeContantUtil.PICTURE_TYPE_2073);
-		picMap.put("businessIdInt", wallRecheck.getId() + "");
-		List<String> findPicByIdAndType = PicUtil.findPicByIdAndType(picMap);
-		List<WallRecheck> rechecks = new ArrayList<WallRecheck>();
-		if (null != findPicByIdAndType && findPicByIdAndType.size() > 0) {
-			for (String string : findPicByIdAndType) {
-				WallRecheck recheck = new WallRecheck();
-				recheck.setPicUrl(string);
-				rechecks.add(recheck);
-			}
-		}
-		String baseUrl = PicRootName.picPrefixName();
-		model.addAttribute("list", rechecks);
-		model.addAttribute("baseUrl", baseUrl);
-		return "modules/materialwallfloor/wallRecheckResultExaminePic";
-	}*/
-	/**
-	 * 查看收货单
-	 * @param
-	 * @param model
-	 * @param request
-	 * @return
-	 * @throws IOException
-	 */
 	@RequestMapping(value = "querypic")
 	@ResponseBody
 	public Map<Object, Object> querypic(Integer id, Model model, HttpServletRequest request) throws IOException{
@@ -436,22 +282,7 @@ public class WallRecheckController extends BaseController {
 		return mapObject;
 	}
 
-	/**
-	 * 导出复尺的审核
-	 * 
-	 * @Title: exportRecheck
-	 * @Description: TODO
-	 * @param @param wallRecheck
-	 * @param @param request
-	 * @param @param response
-	 * @param @param redirectAttributes
-	 * @param @param model
-	 * @param @return
-	 * @param @throws IOException
-	 * @return String
-	 * @author ZhangTongWei
-	 * @throws
-	 */
+
 	@RequestMapping(value = "exportRecheck", method = RequestMethod.POST)
 	public String exportRecheck(WallRecheck wallRecheck, HttpServletRequest request, HttpServletResponse response, RedirectAttributes redirectAttributes, Model model) throws IOException {
 		try {
@@ -462,10 +293,10 @@ public class WallRecheckController extends BaseController {
 			for (WallRecheck wallRecheck2 : list) {
 				wallRecheck2.setStoreName(StoreUtils.getStoreLabel(wallRecheck2.getStoreId(), ""));
 				wallRecheck2.setOrderaccepName(DropUtils.getElacLabel(wallRecheck2.getOrderacceptarea(), ""));
-				// System.err.println(wallRecheck2.getStoreId() + ":" +
-				// wallRecheck.getOrderacceptarea() + ":" +
-				// DropUtils.getElacLabel(wallRecheck.getOrderacceptarea(),
-				// ""));
+
+
+
+
 			}
 			new ExportExcel("审计复尺单", WallRecheck.class).setDataList(list).write(response, fileName).dispose();
 			return null;

@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import java.util.Date;
@@ -8,22 +6,18 @@ import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import cn.damei.common.persistence.DataEntity;
 
-/**
- * 订单评分Entity
- * @author lwc
- * @version 2017-04-12
- */
+
 public class ScoreOrder extends DataEntity<ScoreOrder> {
 	
 	private static final long serialVersionUID = 1L;
 
-	private Integer orderId;	// 订单id
-	private String scoreType;	// 评价类型，1：综合评分；2，销售评分。。。。
-	private String scoreTypeCn;	// 评价类型中文值，1：综合评分；2，销售评分。。。。
-	private Integer scoreValue;	// 评分值
-	private String scoreContent;// 评分内容
-	private Date scoreTime;		// 评分时间
-	private String stakeholder;	// 干系人
+	private Integer orderId;
+	private String scoreType;
+	private String scoreTypeCn;
+	private Integer scoreValue;
+	private String scoreContent;
+	private Date scoreTime;
+	private String stakeholder;
 	
 	public ScoreOrder() {
 		super();

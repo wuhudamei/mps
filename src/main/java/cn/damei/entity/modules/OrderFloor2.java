@@ -6,48 +6,45 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-/**
- * 订单地板地砖面积实体类
- * Created by hyh on 2017/11/6.
- */
+
 public class OrderFloor2 extends DataEntity2<OrderFloor2> {
     private static final long serialVersionUID = 1L;
 
-    private Integer orderId;// 订单Id
+    private Integer orderId;
 
-    private String orderNumber;// 订单编号
+    private String orderNumber;
 
-    private Double floorSettleArea;// 木地板结算面积
+    private Double floorSettleArea;
 
-    private Double floorTileBudgetArea;// 地砖预算面积
+    private Double floorTileBudgetArea;
 
-    private Double floorTileSettleArea;// 地砖结算面积
+    private Double floorTileSettleArea;
 
-    private Date payDate; //泥瓦工程任务包首款付款完成时间
+    private Date payDate;
 
-    private Integer storeId;//门店
+    private Integer storeId;
 
-    private String projectMode;//工程模式
+    private String projectMode;
 
     private List<Integer> enginDepartIds = new ArrayList<Integer>();
 
-    private Integer enginDepartId;//区域
+    private Integer enginDepartId;
 
     private String enginDepartName;
 
-    private String customerName; // 客户姓名
+    private String customerName;
 
-    private String communityName; // 小区名称
+    private String communityName;
 
-    private String buildNumber; // 几号楼
+    private String buildNumber;
 
-    private String buildUnit; // 几单元
+    private String buildUnit;
 
-    private String buildRoom; // 哪一室
+    private String buildRoom;
 
-    private String customerAddress; // 客户地址
+    private String customerAddress;
 
-    private String itemManager;//项目经理
+    private String itemManager;
 
     private Date startDate;
 

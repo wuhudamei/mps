@@ -5,37 +5,32 @@ import java.util.List;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 项目经理材料结算信息实体类
- * 
- * @author hyh
- *
- */
+
 public class PmMaterialsSettleInfo extends DataEntity2<PmMaterialsSettleInfo> {
 
 	private static final long serialVersionUID = 1L;
-	private Integer storeId; // 门店id
+	private Integer storeId;
 	private Integer enginDepartId;
-	private String engineDepartName; // 区域
-	private Integer orderId; // 订单Id
-	private String orderNumber; // 订单编号
-	private Date auditDate; // 结算员审核通过时间
-	private String settleStatus; // 任务包材料结算单状态
-	private String communityName; // 小区名称
-	private String buildNumber; // 几号楼
-	private String buildUnit; // 几单元
-	private String buildRoom; // 哪一室
-	private String customerName; // 客户姓名
-	private String itemManager; // 项目经理
-	private String itemPhone; // 项目经理手机号
-	private Integer taskPackageId;// 任务包Id
-	private String taskPackageNo;// 任务包编号
-	private String taskPackageName;// 任务包名称
-	private Integer settleId;//结算单Id
-	private Double auxiliaryMaterialsSettleAmount;// 辅料结算金额
-	private Double auxiliaryMaterialsAmount;// 辅料扣款金额
-	private Double sandCementAmount;// 沙子水泥扣款金额
-	private Double pmMaterialsSettleAmount;// 项目经理结算金额
+	private String engineDepartName;
+	private Integer orderId;
+	private String orderNumber;
+	private Date auditDate;
+	private String settleStatus;
+	private String communityName;
+	private String buildNumber;
+	private String buildUnit;
+	private String buildRoom;
+	private String customerName;
+	private String itemManager;
+	private String itemPhone;
+	private Integer taskPackageId;
+	private String taskPackageNo;
+	private String taskPackageName;
+	private Integer settleId;
+	private Double auxiliaryMaterialsSettleAmount;
+	private Double auxiliaryMaterialsAmount;
+	private Double sandCementAmount;
+	private Double pmMaterialsSettleAmount;
 	private List<String> status; 
 	
 	

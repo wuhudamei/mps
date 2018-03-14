@@ -1,30 +1,24 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import cn.damei.common.persistence.DataEntity2;
 
 import java.util.Date;
 
-/**
- * 在册人员Entity
- * 
- * @author wyb
- */
+
 public class BizEmployeeRegistered extends DataEntity2<BizEmployeeRegistered> {
 
 	private static final long serialVersionUID = 1L;
-	private String storeId;// 门店
-	private String projectMode; // 工程模式
-	private String empType; // 人员类别
-	private Date startEntryDate; // 录入日期开始
-	private Date endEntryDate; // 录入日期结束
+	private String storeId;
+	private String projectMode;
+	private String empType;
+	private Date startEntryDate;
+	private Date endEntryDate;
 
-	private String storeIdName; //门店名称
-	private String month; //月份
-	private Integer employeeEntriesCount; //当月录入人数
-	private Integer employeeRegisteredCount; //当月在册人数
+	private String storeIdName;
+	private String month;
+	private Integer employeeEntriesCount;
+	private Integer employeeRegisteredCount;
 
 
 	public String getStoreId() {

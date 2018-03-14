@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,11 +20,7 @@ import cn.damei.common.utils.StringUtils;
 import cn.damei.entity.modules.OaNotify;
 import cn.damei.service.modules.OaNotifyService;
 
-/**
- * 通知通告Controller
- * @author ThinkGem
- * @version 2014-05-16
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/oa/oaNotify")
 public class OaNotifyController extends BaseController {
@@ -70,7 +64,7 @@ public class OaNotifyController extends BaseController {
 		if (!beanValidator(model, oaNotify)){
 			return form(oaNotify, model);
 		}
-		// 如果是修改，则状态为已发布，则不能再进行操作
+
 		if (StringUtils.isNotBlank(oaNotify.getId())){
 			OaNotify e = oaNotifyService.get(oaNotify.getId());
 			if ("1".equals(e.getStatus())){
@@ -91,9 +85,7 @@ public class OaNotifyController extends BaseController {
 		return "redirect:" + adminPath + "/oa/oaNotify/?repage";
 	}
 	
-	/**
-	 * 我的通知列表
-	 */
+
 	@RequestMapping(value = "self")
 	public String selfList(OaNotify oaNotify, HttpServletRequest request, HttpServletResponse response, Model model) {
 		oaNotify.setSelf(true);
@@ -102,9 +94,7 @@ public class OaNotifyController extends BaseController {
 		return "modules/oa/oaNotifyList";
 	}
 
-	/**
-	 * 我的通知列表-数据
-	 */
+
 	@RequiresPermissions("oa:oaNotify:view")
 	@RequestMapping(value = "selfData")
 	@ResponseBody
@@ -114,9 +104,7 @@ public class OaNotifyController extends BaseController {
 		return page;
 	}
 	
-	/**
-	 * 查看我的通知
-	 */
+
 	@RequestMapping(value = "view")
 	public String view(OaNotify oaNotify, Model model) {
 		if (StringUtils.isNotBlank(oaNotify.getId())){
@@ -128,9 +116,7 @@ public class OaNotifyController extends BaseController {
 		return "redirect:" + adminPath + "/oa/oaNotify/self?repage";
 	}
 
-	/**
-	 * 查看我的通知-数据
-	 */
+
 	@RequestMapping(value = "viewData")
 	@ResponseBody
 	public OaNotify viewData(OaNotify oaNotify, Model model) {
@@ -141,9 +127,7 @@ public class OaNotifyController extends BaseController {
 		return null;
 	}
 	
-	/**
-	 * 查看我的通知-发送记录
-	 */
+
 	@RequestMapping(value = "viewRecordData")
 	@ResponseBody
 	public OaNotify viewRecordData(OaNotify oaNotify, Model model) {
@@ -154,9 +138,7 @@ public class OaNotifyController extends BaseController {
 		return null;
 	}
 	
-	/**
-	 * 获取我的通知数目
-	 */
+
 	@RequestMapping(value = "self/count")
 	@ResponseBody
 	public String selfCount(OaNotify oaNotify, Model model) {

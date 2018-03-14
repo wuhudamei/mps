@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.util.List;
@@ -12,11 +10,7 @@ import cn.damei.common.service.CrudService2;
 import cn.damei.entity.modules.BizNoticeViewLog;
 import cn.damei.dao.modules.BizNoticeViewLogDao;
 
-/**
- * 消息公告查看日志Service
- * @author qww
- * @version 2017-01-14
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizNoticeViewLogService extends CrudService2<BizNoticeViewLogDao, BizNoticeViewLog> {
@@ -62,12 +56,12 @@ public class BizNoticeViewLogService extends CrudService2<BizNoticeViewLogDao, B
 	}
 
 	public String findNoticeSum(Integer id) {
-		// TODO Auto-generated method stub
+
 		return dao.findNoticeSum(id);
 	}
 
 	public String findYesNoticeSum(Integer id) {
-		// TODO Auto-generated method stub
+
 		return dao.findYesNoticeSum(id);
 	}
 }

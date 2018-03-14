@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import java.util.List;
@@ -27,11 +25,7 @@ import cn.damei.service.modules.BizQcLongwayCommissionCnfgService;
 import cn.damei.entity.modules.User;
 import cn.damei.common.utils.UserUtils;
 
-/**
- * 远程费提成金额设置Controller
- * @author wyb
- * @version 2017-02-13
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/inspectorsettlement/bizqclongwaycommissioncnfg/bizQcLongwayCommissionCnfg")
 public class BizQcLongwayCommissionCnfgController extends BaseController {
@@ -56,7 +50,7 @@ public class BizQcLongwayCommissionCnfgController extends BaseController {
 	public String list(BizQcLongwayCommissionCnfg bizQcLongwayCommissionCnfg, HttpServletRequest request, HttpServletResponse response, Model model) {
 		
 		User user = UserUtils.getUser();
-		//过滤门店
+
 		if(null==bizQcLongwayCommissionCnfg.getStoreId()){
 			if(null!=user.getStoreId()){
 				bizQcLongwayCommissionCnfg.setStoreId(Integer.valueOf(user.getStoreId()));
@@ -74,7 +68,7 @@ public class BizQcLongwayCommissionCnfgController extends BaseController {
 	public String list1(String panduan,BizQcLongwayCommissionCnfg bizQcLongwayCommissionCnfg, HttpServletRequest request, HttpServletResponse response, Model model) {
 		
 		User user = UserUtils.getUser();
-		//过滤门店
+
 		if(null==bizQcLongwayCommissionCnfg.getStoreId()){
 			if(null!=user.getStoreId()){
 				bizQcLongwayCommissionCnfg.setStoreId(Integer.valueOf(user.getStoreId()));

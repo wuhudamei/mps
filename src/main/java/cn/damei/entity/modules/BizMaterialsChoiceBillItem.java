@@ -1,45 +1,39 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import org.hibernate.validator.constraints.Length;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 选材单材料表Entity
- * @author wyb
- * @version 2017-06-13
- */
+
 public class BizMaterialsChoiceBillItem extends DataEntity2<BizMaterialsChoiceBillItem> {
 	
 	private static final long serialVersionUID = 1L;
-	private Integer materialsChoiceBillId;		// 选材单id
-	private String materialsChoiceType;		// 选材类型
-	private String materialsChoiceCategoryCode;		// 选材类目编码
-	private String brand;		// 品牌
-	private String model;		// 型号
-	private String attribute;		// 属性
-	private String unit;		// 单位
-	private String spec;		// 规格
-	private String position;		// 位置
-	private String budgetNumber1;		// 预算用量
-	private String budgetNumber2;		// 预算用量 --面积
-	private Double lossRatio;		// 损耗系数
-	private Double includeLossNumber;		// 含损耗用量
-	private Double unitPrice;		// 单价
-	private Double totalAmount;		// 合价
-	private String categoryName;		// 选材类目编码 --名称
+	private Integer materialsChoiceBillId;
+	private String materialsChoiceType;
+	private String materialsChoiceCategoryCode;
+	private String brand;
+	private String model;
+	private String attribute;
+	private String unit;
+	private String spec;
+	private String position;
+	private String budgetNumber1;
+	private String budgetNumber2;
+	private Double lossRatio;
+	private Double includeLossNumber;
+	private Double unitPrice;
+	private Double totalAmount;
+	private String categoryName;
 	
-	private Integer storeId;		// 门店id
-	private String customerName;		// 客户姓名
-	private String storeName;		// 门店名称
-	private String orderNumber;		// 订单编号
-	private String firstMaterialsChoiceCategoryCode;		// 选材类目编码(一级)
-	private String firstCategoryName;		// 选材类目编码 --名称(一级)
-	private String supplierName;	//供应商名称
-	private String supplierNo;	//供应商code
+	private Integer storeId;
+	private String customerName;
+	private String storeName;
+	private String orderNumber;
+	private String firstMaterialsChoiceCategoryCode;
+	private String firstCategoryName;
+	private String supplierName;
+	private String supplierNo;
 	
 	
 	public BizMaterialsChoiceBillItem() {

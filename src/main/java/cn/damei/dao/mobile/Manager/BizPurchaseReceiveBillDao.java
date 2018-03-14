@@ -16,11 +16,7 @@ public interface BizPurchaseReceiveBillDao extends CrudDao2<BizPurchaseReceiveBi
 
 	BizPurchaseReceiveBill queryById(Integer id);
 
-	/**
-	 * 根据采购单ID查询最新的一条收货记录
-	 * @param purchaseId
-	 * @return
-	 */
+
 	BizPurchaseReceiveBillVo findNewReceiveBill(Integer purchaseId);
 
 }

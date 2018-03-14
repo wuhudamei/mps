@@ -16,17 +16,17 @@ import cn.damei.entity.modules.BizOrderTaskpackagePaymentDetailMergeTxtVo;
 public class ExportSWIFTExcel {
 	
 	public HSSFWorkbook ExportSWIFTExcel(List<BizOrderTaskpackagePaymentDetailMergeTxtVo> list){
-		HSSFWorkbook wb = new HSSFWorkbook();// 创建一个Excel文件
-		HSSFSheet sheet = wb.createSheet("对外支付");// 创建一个Excel的Sheet
+		HSSFWorkbook wb = new HSSFWorkbook();
+		HSSFSheet sheet = wb.createSheet("对外支付");
 		
-		//单元格样式--标题
+
 		HSSFCellStyle columnHeadStyle = wb.createCellStyle();
 		
-		columnHeadStyle.setBottomBorderColor(HSSFColor.BLACK.index); // 设置单元格的边框颜色
-		columnHeadStyle.setFillForegroundColor(HSSFColor.YELLOW.index);// 设置单元格的背景颜色（单元格的样式会覆盖列或行的样式）
+		columnHeadStyle.setBottomBorderColor(HSSFColor.BLACK.index);
+		columnHeadStyle.setFillForegroundColor(HSSFColor.YELLOW.index);
 		columnHeadStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);	
 		
-		//------------------字体样式
+
 		HSSFFont font = wb.createFont();
 		font.setFontHeightInPoints((short) 9);
 		font.setColor(HSSFColor.BLACK.index);
@@ -34,13 +34,13 @@ public class ExportSWIFTExcel {
 		font.setFontName("宋体");
 		columnHeadStyle.setFont(font);
 		
-		//单元格样式--标题222
+
 		HSSFCellStyle columnHeadStyle1 = wb.createCellStyle();
-		columnHeadStyle1.setFillForegroundColor(HSSFColor.WHITE.index);// 设置单元格的背景颜色（单元格的样式会覆盖列或行的样式）
+		columnHeadStyle1.setFillForegroundColor(HSSFColor.WHITE.index);
 		columnHeadStyle1.setFont(font);
-		//单元格样式--标题233
+
 		HSSFCellStyle columnHeadStyle2 = wb.createCellStyle();
-		columnHeadStyle2.setFillForegroundColor(HSSFColor.WHITE.index);// 设置单元格的背景颜色（单元格的样式会覆盖列或行的样式）
+		columnHeadStyle2.setFillForegroundColor(HSSFColor.WHITE.index);
 		HSSFFont font1 = wb.createFont();
 		font1.setFontHeightInPoints((short) 9);
 		font1.setColor(HSSFColor.BLACK.index);
@@ -50,7 +50,7 @@ public class ExportSWIFTExcel {
 
 				
 				
-		// 设置列宽
+
 		sheet.setColumnWidth(0, 5500);
 		sheet.setColumnWidth(1, 2000);
 		sheet.setColumnWidth(2, 3100);
@@ -72,7 +72,7 @@ public class ExportSWIFTExcel {
             HSSFRow row = null;
             HSSFCell cell = null; 
             
-            // ---------------------------1.初始化带边框的表头------------------------------  
+
             for (int i = 0; i < 5; i++) {
                 row = sheet.createRow(i);
                 if(i == 4){
@@ -82,9 +82,9 @@ public class ExportSWIFTExcel {
                     cell = row.createCell(j);  
                 }  
             }  
-            //--------------------------------------------------单元格样式
+
            
-            // ---------------------------2.指定单元格填充数据------------------------------
+
             cell = sheet.getRow(0).getCell(0);
             cell.setCellStyle(columnHeadStyle1);
             cell.setCellValue(new HSSFRichTextString("文件类型:"));
@@ -103,11 +103,9 @@ public class ExportSWIFTExcel {
             cell.setCellValue(new HSSFRichTextString("(标注颜色的列为必填项)"));
             
             
-           /* cell = sheet.getRow(4).getCell(0);
-            cell.setCellStyle(columncell);
-            cell.setCellValue(new HSSFRichTextString("付款账号")); */
+
             
-            //----------------------------
+
             HSSFRow row2 = sheet.getRow(4);
             
             HSSFCell headCell0 = row2.createCell(0);
@@ -171,7 +169,7 @@ public class ExportSWIFTExcel {
             cell = sheet.getRow(4).getCell(16);  
             cell.setCellStyle(columnHeadStyle1);
             cell.setCellValue(new HSSFRichTextString("备注"));
-// ---------------------------3.合并单元格------------------------------  
+
            
             for (int i= 0; i<list.size();i++) {
             		row = sheet.createRow(i+5);

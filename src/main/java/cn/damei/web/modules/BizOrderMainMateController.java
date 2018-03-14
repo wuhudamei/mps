@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import java.io.InputStream;
@@ -46,12 +44,7 @@ import cn.damei.service.modules.BizOrderMainMateService;
 import cn.damei.service.modules.ProjectOrderListService;
 import cn.damei.common.utils.UserUtils;
 
-/**
- * 主材订单Controller
- * 
- * @author qww
- * @version 2016-10-09
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/ordermainmate/bizOrderMainMate")
 public class BizOrderMainMateController extends BaseController {
@@ -81,20 +74,20 @@ public class BizOrderMainMateController extends BaseController {
 	@RequestMapping(value = { "list", "" })
 	public String list(BizOrderMainMate bizOrderMainMate, HttpServletRequest request, HttpServletResponse response, Model model) {
 
-		// System.out.println("orderId=" + bizOrderMainMate.getOrderId());
-		// 1.根据订单ID查询订单信息
+
+
 		BizMaterialsChoiceBill bizMaterialsChoiceBill = bizMaterialsChoiceBillService.getOrder(bizOrderMainMate.getOrderId());
-		// 2.根据订单编号查询是否有选材清单
+
 		BizMaterialsChoiceBill isMaterialsChoiceBill = bizOrderMainMateService.ismaterialschoicebill(bizOrderMainMate.getOrderNumber());
-		// 3.替换页面俩标签 如果空代表没有选材清单否则就有选材清单
+
 		if (isMaterialsChoiceBill == null) {
 			model.addAttribute("isMaterialsChoiceBill", 0);
 		} else {
 			model.addAttribute("isMaterialsChoiceBill", 1);
 		}
-		// System.err.println(isMaterialsChoiceBill.getId() + ":" +
-		// isMaterialsChoiceBill.getOrderId());
-		// bizMaterialsChoiceBill.setCreateDatez(createDate);
+
+
+
 		Page<BizOrderMainMate> page = bizOrderMainMateService.findPage(new Page<BizOrderMainMate>(request, response), bizOrderMainMate);
 		model.addAttribute("bizMaterialsChoiceBill", bizMaterialsChoiceBill);
 		model.addAttribute("page", page);
@@ -108,12 +101,12 @@ public class BizOrderMainMateController extends BaseController {
 	public String uploadFile(HttpServletRequest request, HttpServletResponse response, String orderId) throws Exception {
 
 		try {
-			// 解析器解析request的上下文
+
 			CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(request.getSession().getServletContext());
 
-			// 先判断request中是否包涵multipart类型的数据
+
 			if (multipartResolver.isMultipart(request)) {
-				// 再将request中的数据转化成multipart类型的数据
+
 				MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) request;
 				@SuppressWarnings("rawtypes")
 				Iterator iter = multiRequest.getFileNames();
@@ -121,7 +114,7 @@ public class BizOrderMainMateController extends BaseController {
 					MultipartFile file = multiRequest.getFile((String) iter.next());
 					if (file != null) {
 
-						// 先真删除orderId下的所有数据
+
 						bizOrderMainMateService.deleteByOrderId(Integer.parseInt(orderId));
 
 						InputStream is = file.getInputStream();
@@ -170,7 +163,7 @@ public class BizOrderMainMateController extends BaseController {
 											bizOrderMainMate.setMainMateType(ConstantUtils.WALL_BRICK_NUMBER45);
 										} else if (ConstantUtils.WALL_FLOOR_BRICK_NUMBER_STRING46.contains(value)) {
 											bizOrderMainMate.setMainMateType(ConstantUtils.WALL_BRICK_NUMBER46);
-											// ConstantUtils.FLOOR_BRICK_NUMBER_STRING31
+
 										} else if (value.contains("踢脚线")) {
 											bizOrderMainMate.setMainMateType(ConstantUtils.FLOOR_BRICK_NUMBER31);
 										} else if (ConstantUtils.FLOOR_BRICK_NUMBER_STRING32.contains(value)) {
@@ -178,19 +171,19 @@ public class BizOrderMainMateController extends BaseController {
 										} else if (ConstantUtils.FLOOR_BRICK_NUMBER_STRING33.contains(value)) {
 											bizOrderMainMate.setMainMateType(ConstantUtils.FLOOR_BRICK_NUMBER33);
 										}
-										// 设置归类
-										// if (value.contains("上墙砖") ||
-										// value.contains("下墙砖") ||
-										// value.contains("腰线") ||
-										// value.contains("转角") ||
-										// value.contains("花片") ||
-										// value.contains("角花")) {
-										// bizOrderMainMate.setMainMateType(ConstantUtils.WALL_BRICK_NUMBER);
-										// } else {
-										// bizOrderMainMate.setMainMateType(ConstantUtils.FLOOR_BRICK_NUMBER);
-										//
-										// }
-										// 是否计算面积
+
+
+
+
+
+
+
+
+
+
+
+
+
 										if (cell.getStringCellValue().contains("转角") || cell.getStringCellValue().contains("瓷砖配件") || cell.getStringCellValue().contains("波导线") || cell.getStringCellValue().contains("角花") || cell.getStringCellValue().contains("腰线") || cell.getStringCellValue().contains("踢脚线") || cell.getStringCellValue().contains("花片")) {
 											bizOrderMainMate.setIscountsquare("0");
 										} else {
@@ -294,7 +287,7 @@ public class BizOrderMainMateController extends BaseController {
 										break;
 									}
 								case 8:
-									// int cellType = cell.getCellType();
+
 									if (cell != null) {
 										cell.setCellType(Cell.CELL_TYPE_STRING);
 										bizOrderMainMate.setCount(cell.getStringCellValue() + "");
@@ -312,11 +305,11 @@ public class BizOrderMainMateController extends BaseController {
 										bizOrderMainMate.setIncludLossCount(cell.getStringCellValue() + "");
 										break;
 									}
-									// case 11:
-									// cell.setCellType(cell.CELL_TYPE_STRING);
-									// bizOrderMainMate.setRemarks(cell.getStringCellValue()
-									// + "");
-									// break;
+
+
+
+
+
 								default:
 									break;
 								}
@@ -329,7 +322,7 @@ public class BizOrderMainMateController extends BaseController {
 						}
 					}
 				}
-				// 批量处理申请数量
+
 				bizOrderMainMateService.insertpurchaseCount(Integer.parseInt(orderId));
 			}
 		} catch (Exception e) {
@@ -338,31 +331,22 @@ public class BizOrderMainMateController extends BaseController {
 		return "success";
 	}
 
-	/**
-	 * 
-	 * @Title: insertOrderMainMate
-	 * @Description: TODO
-	 * @param @param orderId订单ID
-	 * @param @return
-	 * @return String
-	 * @author ZhangTongWei
-	 * @throws
-	 */
+
 	@RequestMapping(value = "insertOrderMainMate")
 	public String insertOrderMainMate(String orderId, RedirectAttributes redirectAttributes, Model model) {
-		// 根据订单ID查询选材单ID
+
 		BizMaterialsChoiceBill findChoiceBillId = projectOrderListService.findChoiceBillId(Integer.parseInt(orderId));
 		List<BizMaterialsChoiceBillItem> materialsChoiceList = null;
 		if (findChoiceBillId != null && findChoiceBillId.getId() != null) {
 			projectOrderListService.updateStatusWall(WallfloorConstant.WAll_FLOOR_ISTRUE5, Integer.parseInt(orderId));
 
-			// 先真删除orderId下的所有数据
+
 			bizOrderMainMateService.deleteByOrderId(Integer.parseInt(orderId));
 
-			// 2.选材清单--墙地砖信息
-			// BizMaterialsChoiceBillItem bizMaterialsChoiceBillItem = new
-			// BizMaterialsChoiceBillItem();
-			// bizMaterialsChoiceBillItem.setMaterialsChoiceBillId(findChoiceBillId.getId());
+
+
+
+
 			materialsChoiceList = projectOrderListService.findMaterialsChoicez(findChoiceBillId.getId());
 			for (BizMaterialsChoiceBillItem bizMaterialsChoiceBillItem : materialsChoiceList) {
 				BizOrderMainMate bizOrderMainMate = new BizOrderMainMate();
@@ -390,7 +374,7 @@ public class BizOrderMainMateController extends BaseController {
 					bizOrderMainMate.setMainMateType(ConstantUtils.WALL_BRICK_NUMBER45);
 				} else if (ConstantUtils.WALL_FLOOR_BRICK_NUMBER_STRING46.contains(value)) {
 					bizOrderMainMate.setMainMateType(ConstantUtils.WALL_BRICK_NUMBER46);
-					// ConstantUtils.FLOOR_BRICK_NUMBER_STRING31
+
 				} else if (value.contains("踢脚线")) {
 					bizOrderMainMate.setMainMateType(ConstantUtils.FLOOR_BRICK_NUMBER31);
 				} else if (ConstantUtils.FLOOR_BRICK_NUMBER_STRING32.contains(value)) {
@@ -464,17 +448,17 @@ public class BizOrderMainMateController extends BaseController {
 				bizOrderMainMate.setLossxs(bizMaterialsChoiceBillItem.getLossRatio());
 				bizOrderMainMate.setIncludLossCount(bizMaterialsChoiceBillItem.getIncludeLossNumber() + "");
 				bizOrderMainMate.setApplyCounta(bizMaterialsChoiceBillItem.getBudgetNumber2());
-				// bizOrderMainMate.setRemarks(bizMaterialsChoiceBillItem.getStringCellValue());
+
 				bizOrderMainMate.setCreateBy(UserUtils.getUser());
 				bizOrderMainMate.setCreateDate(new Date());
 				bizOrderMainMate.setUpdateBy(UserUtils.getUser());
 				bizOrderMainMate.setUpdateDate(new Date());
 				bizOrderMainMateService.insert(bizOrderMainMate);
 			}
-			// 批量处理申请数量
+
 			bizOrderMainMateService.insertpurchaseCount(Integer.parseInt(orderId));
 			addMessage(redirectAttributes, "导入了" + materialsChoiceList.size() + "条墙地砖数据");
-			// model.addAttribute("tiaoshu", materialsChoiceList.size());
+
 
 		}
 		return "redirect:" + Global.getAdminPath() + "/ordermainmate/bizOrderMainMate/list?orderId=" + orderId + "&orderNumber=" + findChoiceBillId.getOrderNumber();
@@ -493,10 +477,10 @@ public class BizOrderMainMateController extends BaseController {
 		try {
 			String fileName = "墙地砖导入模板" + DateUtils.getDate("yyyyMMddHHmmss") + ".xlsx";
 
-			// WallRecheck
-			// String date = DateUtils.getDate("2017-09-08 11:59:59");
+
+
 			Date date = DateUtils.parseDate("2017-09-08 11:59:59");
-			// String formatDateTime = DateUtils.formatDateTime(date);
+
 			bizOrderMainMate.setCreateDatez(date);
 			bizOrderMainMate.setAttribute("xxx");
 			List<BizOrderMainMate> list = bizOrderMainMateService.findListOne(bizOrderMainMate);
@@ -532,7 +516,7 @@ public class BizOrderMainMateController extends BaseController {
 	}
 
 	@RequestMapping(value = "ajaxUpdateistf")
-	// /ordermainmate/bizOrderMainMate/list
+
 	public String ajaxUpdateistf(BizOrderMainMate bizOrderMainMate, HttpServletRequest request, HttpServletResponse response, RedirectAttributes redirectAttributes, Model model) {
 		bizOrderMainMate.setUpdateBy(UserUtils.getUser());
 		bizOrderMainMate.setUpdateDate(new Date());

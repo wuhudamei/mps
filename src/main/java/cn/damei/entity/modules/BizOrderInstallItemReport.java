@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import java.util.Date;
@@ -8,155 +6,153 @@ import java.util.Date;
 import cn.damei.common.persistence.DataEntity2;
 
 
-/**
- * 工程部主材工期统计表
- */
+
 public class BizOrderInstallItemReport extends DataEntity2<BizOrderInstallItemReport> {
 	
 	private static final long serialVersionUID = 1L;
-	private Integer bizOrderInstallItemReportId;	//工程部主材工期统计表	
-	private Integer enginDepartId;		// 区域id
-	private Integer orderId;		// 订单id
-	private String orderNumber;		// 订单编号
-	private String customerName;		// 客户姓名
-	private String customerPhone;		// 客户手机号
-	private String pmName;		// 项目经理名称
-	private Date actualStartDate;		// 实际开工时间
-	private String enginDepartName;		// 区域名称
-	private Date beginActualStartDate; // 开始   实际开工日期
-	private Date endActualStartDate;   // 结束   实际开工日期
-	private Integer storeId;     //门店id
+	private Integer bizOrderInstallItemReportId;
+	private Integer enginDepartId;
+	private Integer orderId;
+	private String orderNumber;
+	private String customerName;
+	private String customerPhone;
+	private String pmName;
+	private Date actualStartDate;
+	private String enginDepartName;
+	private Date beginActualStartDate;
+	private Date endActualStartDate;
+	private Integer storeId;
 	
 	
-	//<!-- 1.橱柜 -->
-	private Date checksizeApplyDatetimeChugui;		// 申报复尺日期时间
-	private Date installItemApplyDatetimeChugui;		// 安装提报日期时间
-	private Date installItemApplyIntoDateChugui;		// 期望进场日期
-	private Date installItemRealIntoDateChugui;		// 实际进场日期
-	private Date installItemRealAcceptDateChugui;		// 实际验收日期
-	private String installItemIsReturnedChugui;		// 是否返工  0：否  1：是
-	private String installItemProblemDescribeChugui;		// 安装问题描述
-	private Date installItemProblemApplyDatetimeChugui;		// 安装问题提交日期时间
-	private Date installItemProblemSolveDatetimeChugui;		// 解决完成日期时间
-	private Double spendTimeChugui;		// 总共用时
+
+	private Date checksizeApplyDatetimeChugui;
+	private Date installItemApplyDatetimeChugui;
+	private Date installItemApplyIntoDateChugui;
+	private Date installItemRealIntoDateChugui;
+	private Date installItemRealAcceptDateChugui;
+	private String installItemIsReturnedChugui;
+	private String installItemProblemDescribeChugui;
+	private Date installItemProblemApplyDatetimeChugui;
+	private Date installItemProblemSolveDatetimeChugui;
+	private Double spendTimeChugui;
 	
 	
-	//<!-- 2.房门  -->
-	private Date checksizeApplyDatetimeFangmen;		// 申报复尺日期时间
-	private Date installItemApplyDatetimeFangmen;		// 安装提报日期时间
-	private Date installItemApplyIntoDateFangmen;		// 期望进场日期
-	private Date installItemRealIntoDateFangmen;		// 实际进场日期
-	private Date installItemRealAcceptDateFangmen;		// 实际验收日期
-	private String installItemIsReturnedFangmen;		// 是否返工  0：否  1：是
-	private String installItemProblemDescribeFangmen;		// 安装问题描述
-	private Date installItemProblemApplyDatetimeFangmen;		// 安装问题提交日期时间
-	private Date installItemProblemSolveDatetimeFangmen;		// 解决完成日期时间
-	private Double spendTimeFangmen;		// 总共用时
+
+	private Date checksizeApplyDatetimeFangmen;
+	private Date installItemApplyDatetimeFangmen;
+	private Date installItemApplyIntoDateFangmen;
+	private Date installItemRealIntoDateFangmen;
+	private Date installItemRealAcceptDateFangmen;
+	private String installItemIsReturnedFangmen;
+	private String installItemProblemDescribeFangmen;
+	private Date installItemProblemApplyDatetimeFangmen;
+	private Date installItemProblemSolveDatetimeFangmen;
+	private Double spendTimeFangmen;
 	
 	
 	
-	//<!-- 3.洁具 -->
-	private Date checksizeApplyDatetimeJieju;		// 申报复尺日期时间
-	private Date installItemApplyDatetimeJieju;		// 安装提报日期时间
-	private Date installItemApplyIntoDateJieju;		// 期望进场日期
-	private Date installItemRealIntoDateJieju;		// 实际进场日期
-	private Date installItemRealAcceptDateJieju;		// 实际验收日期
-	private String installItemIsReturnedJieju;		// 是否返工  0：否  1：是
-	private String installItemProblemDescribeJieju;		// 安装问题描述
-	private Date installItemProblemApplyDatetimeJieju;		// 安装问题提交日期时间
-	private Date installItemProblemSolveFatetimeJieju;		// 解决完成日期时间
-	private Double spendTimeJieju;		// 总共用时
+
+	private Date checksizeApplyDatetimeJieju;
+	private Date installItemApplyDatetimeJieju;
+	private Date installItemApplyIntoDateJieju;
+	private Date installItemRealIntoDateJieju;
+	private Date installItemRealAcceptDateJieju;
+	private String installItemIsReturnedJieju;
+	private String installItemProblemDescribeJieju;
+	private Date installItemProblemApplyDatetimeJieju;
+	private Date installItemProblemSolveFatetimeJieju;
+	private Double spendTimeJieju;
 	
 	
-	//<!-- 4.壁纸 -->
-	private Date checksizeApplyDatetimeBizhi;		// 申报复尺日期时间
-	private Date installItemApplyDatetimeBizhi;		// 安装提报日期时间
-	private Date installItemApplyIntoDateBizhi;		// 期望进场日期
-	private Date installItemRealIntoDateBizhi;		// 实际进场日期
-	private Date installItemRealCompleteDateBizhi;		// 实际验收日期
-	private String installItemIsReturnedBizhi;		// 是否返工  0：否  1：是
-	private String installItemProblemDescribeBizhi;		// 安装问题描述
-	private Date installItemProblemApplyDatetimeBizhi;		// 安装问题提交日期时间
-	private Date installItemProblemSolveDatetimeBizhi;		// 解决完成日期时间
-	private Double spendTimeBizhi;		// 总共用时
+
+	private Date checksizeApplyDatetimeBizhi;
+	private Date installItemApplyDatetimeBizhi;
+	private Date installItemApplyIntoDateBizhi;
+	private Date installItemRealIntoDateBizhi;
+	private Date installItemRealCompleteDateBizhi;
+	private String installItemIsReturnedBizhi;
+	private String installItemProblemDescribeBizhi;
+	private Date installItemProblemApplyDatetimeBizhi;
+	private Date installItemProblemSolveDatetimeBizhi;
+	private Double spendTimeBizhi;
 	
 	
-	//<!-- 5.木地板 -->
-	private Date checksizeApplyDatetimeMudiban;		// 申报复尺日期时间
-	private Date installItemApplyDatetimeMudiban;		// 安装提报日期时间
-	private Date installItemApplyIntoDateMudiban;		// 期望进场日期
-	private Date installItemRealIntoDateMudiban;		// 实际进场日期
-	private Date installItemRealAcceptDateMudiban;		// 实际验收日期
-	private String installItemIsReturnedMudiban;		// 是否返工  0：否  1：是
-	private String installItemProblemDescribeMudiban;		// 安装问题描述
-	private Date installItemProblemApplyDatetimeMudiban;		// 安装问题提交日期时间
-	private Date installItemProblemSolveDatetimeMudiban;		// 解决完成日期时间
-	private Double spendTimeMudiban;		// 总共用时
+
+	private Date checksizeApplyDatetimeMudiban;
+	private Date installItemApplyDatetimeMudiban;
+	private Date installItemApplyIntoDateMudiban;
+	private Date installItemRealIntoDateMudiban;
+	private Date installItemRealAcceptDateMudiban;
+	private String installItemIsReturnedMudiban;
+	private String installItemProblemDescribeMudiban;
+	private Date installItemProblemApplyDatetimeMudiban;
+	private Date installItemProblemSolveDatetimeMudiban;
+	private Double spendTimeMudiban;
 
 	
-	//<!-- 6.吊顶-->
-	private Date checksizeApplyDatetimeDiaoding;		// 申报复尺日期时间
-	private Date installItemApplyDatetimeDiaoding;		// 安装提报日期时间
-	private Date installItemApplyIntoDateDiaoding;		// 期望进场日期
-	private Date installItemRealIntoDateDiaoding;		// 实际进场日期
-	private Date installItemRealAcceptDateDiaoding;		// 实际验收日期
-	private String installItemIsReturnedDiaoding;		// 是否返工  0：否  1：是
-	private String installItemProblemDescribeDiaoding;		// 安装问题描述
-	private Date installItemProblemApplyDatetimeDiaoding;		// 安装问题提交日期时间
-	private Date installItemProblemSolveDatetimeDiaoding;		// 解决完成日期时间
-	private Double spendTimeDiaoding;		// 总共用时
+
+	private Date checksizeApplyDatetimeDiaoding;
+	private Date installItemApplyDatetimeDiaoding;
+	private Date installItemApplyIntoDateDiaoding;
+	private Date installItemRealIntoDateDiaoding;
+	private Date installItemRealAcceptDateDiaoding;
+	private String installItemIsReturnedDiaoding;
+	private String installItemProblemDescribeDiaoding;
+	private Date installItemProblemApplyDatetimeDiaoding;
+	private Date installItemProblemSolveDatetimeDiaoding;
+	private Double spendTimeDiaoding;
 
 	
-	//<!-- 7.灯具、开关、小五金 -->
-	private Date checksizeApplyDatetimeDengju;		// 申报复尺日期时间
-	private Date installItemApplyDatetimeDengju;		// 安装提报日期时间
-	private Date installItemApplyIntoDateDengju;		// 期望进场日期
-	private Date installItemRealIntoDateDengju;		// 实际进场日期
-	private Date installItemRealAcceptDateDengju;		// 实际验收日期
-	private String installItemIsReturnedDengju;		// 是否返工  0：否  1：是
-	private String installItemProblemDescribeDengju;		// 安装问题描述
-	private Date installItemProblemApplyDatetimeDengju;		// 安装问题提交日期时间
-	private Date installItemProblemSolveDatetimeDengju;		// 解决完成日期时间
-	private Double spendTimeDengju;		// 总共用时
+
+	private Date checksizeApplyDatetimeDengju;
+	private Date installItemApplyDatetimeDengju;
+	private Date installItemApplyIntoDateDengju;
+	private Date installItemRealIntoDateDengju;
+	private Date installItemRealAcceptDateDengju;
+	private String installItemIsReturnedDengju;
+	private String installItemProblemDescribeDengju;
+	private Date installItemProblemApplyDatetimeDengju;
+	private Date installItemProblemSolveDatetimeDengju;
+	private Double spendTimeDengju;
 	
 	
-	//<!-- 8.窗帘 -->
-	private Date checksizeApplyDatetimeChuanglian;		// 申报复尺日期时间
-	private Date installItemApplyDatetimeChuanglian;		// 安装提报日期时间
-	private Date installItemApplyIntoDateChuanglian;		// 期望进场日期
-	private Date installItemRealIntoDateChuanglian;		// 实际进场日期
-	private Date installItemRealAcceptDateChuanglian;		// 实际验收日期
-	private String installItemIsReturnedChuanglian;		// 是否返工  0：否  1：是
-	private String installItemProblemDescribeChuanglian;		// 安装问题描述
-	private Date installItemProblemApplyDatetimeChuanglian;		// 安装问题提交日期时间
-	private Date installItemProblemSolveDatetimeChuanglian;		// 解决完成日期时间
-	private Double spendTimeChuanglian;		// 总共用时
+
+	private Date checksizeApplyDatetimeChuanglian;
+	private Date installItemApplyDatetimeChuanglian;
+	private Date installItemApplyIntoDateChuanglian;
+	private Date installItemRealIntoDateChuanglian;
+	private Date installItemRealAcceptDateChuanglian;
+	private String installItemIsReturnedChuanglian;
+	private String installItemProblemDescribeChuanglian;
+	private Date installItemProblemApplyDatetimeChuanglian;
+	private Date installItemProblemSolveDatetimeChuanglian;
+	private Double spendTimeChuanglian;
 
 	
-	//<!-- 9.淋浴房 -->
-	private Date checksizeApplyDatetimeLinyufang;		// 申报复尺日期时间
-	private Date installItemApplyDatetimeLinyufang;		// 安装提报日期时间
-	private Date installItemApplyIntoDateLinyufang;		// 期望进场日期
-	private Date installItemRealIntoDateLinyufang;		// 实际进场日期
-	private Date installItemRealAcceptDateLinyufang;		// 实际验收日期
-	private String installItemIsReturnedLinyufang;		// 是否返工  0：否  1：是
-	private String installItemProblemDescribeLinyufang;		// 安装问题描述
-	private Date installItemProblemApplyDatetimeLinyufang;		// 安装问题提交日期时间
-	private Date installItemProblemSolveDatetimeLinyufang;		// 解决完成日期时间
-	private Double spendTimeLinyufang;		// 总共用时
+
+	private Date checksizeApplyDatetimeLinyufang;
+	private Date installItemApplyDatetimeLinyufang;
+	private Date installItemApplyIntoDateLinyufang;
+	private Date installItemRealIntoDateLinyufang;
+	private Date installItemRealAcceptDateLinyufang;
+	private String installItemIsReturnedLinyufang;
+	private String installItemProblemDescribeLinyufang;
+	private Date installItemProblemApplyDatetimeLinyufang;
+	private Date installItemProblemSolveDatetimeLinyufang;
+	private Double spendTimeLinyufang;
 
 	
-	//<!-- 10.定制衣柜 -->
-	private Date checksizeApplyDatetimeYigui;		// 申报复尺日期时间
-	private Date installItemApplyDatetimeYigui;		// 安装提报日期时间
-	private Date installItemApplyIntoDateYigui;		// 期望进场日期
-	private Date installItemRealIntoDateYigui;		// 实际进场日期
-	private Date installItemRealAcceptDateYigui;		// 实际验收日期
-	private String installItemIsReturnedYigui;		// 是否返工  0：否  1：是
-	private String installItemProblemDescribeYigui;		// 安装问题描述
-	private Date installItemProblemApplyDatetimeYigui;		// 安装问题提交日期时间
-	private Date installItemProblemSolveDatetimeYigui;		// 解决完成日期时间
-	private Double spendTimeYigui;		// 总共用时
+
+	private Date checksizeApplyDatetimeYigui;
+	private Date installItemApplyDatetimeYigui;
+	private Date installItemApplyIntoDateYigui;
+	private Date installItemRealIntoDateYigui;
+	private Date installItemRealAcceptDateYigui;
+	private String installItemIsReturnedYigui;
+	private String installItemProblemDescribeYigui;
+	private Date installItemProblemApplyDatetimeYigui;
+	private Date installItemProblemSolveDatetimeYigui;
+	private Double spendTimeYigui;
 	
 
 	public BizOrderInstallItemReport() {

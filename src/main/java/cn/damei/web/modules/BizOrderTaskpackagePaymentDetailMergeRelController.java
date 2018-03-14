@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,11 +17,7 @@ import cn.damei.common.web.BaseController;
 import cn.damei.entity.modules.BizOrderTaskpackagePaymentDetailMergeRel;
 import cn.damei.service.modules.BizOrderTaskpackagePaymentDetailMergeRelService;
 
-/**
- * 付款单明细合并关系Controller
- * @author qww
- * @version 2016-10-27
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/ordertaskpaymentdetailmerge/bizOrderTaskpackagePaymentDetailMergeRel")
 public class BizOrderTaskpackagePaymentDetailMergeRelController extends BaseController {

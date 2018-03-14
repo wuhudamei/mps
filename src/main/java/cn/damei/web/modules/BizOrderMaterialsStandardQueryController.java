@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import java.util.List;
@@ -24,11 +22,7 @@ import cn.damei.entity.modules.BizOrderMaterialsStandardQuery;
 import cn.damei.service.modules.BizOrderMaterialsStandardQueryService;
 import cn.damei.service.modules.BizOrderMaterialsStandardService;
 
-/**
- * 标化辅料（筒灯灯带）订单Controller
- * @author lft
- * @version 2017-05-12
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/orderMaterialsStandard/bizOrderMaterialsStandard")
 public class BizOrderMaterialsStandardQueryController extends BaseController {
@@ -58,7 +52,7 @@ public class BizOrderMaterialsStandardQueryController extends BaseController {
     @RequiresPermissions("managersettlement:bizOrderMaterialsStandard:view")
     @RequestMapping(value = {"findlist",""})
     public String findList(BizOrderMaterialsStandardQuery bizOrderMaterialsStandard, HttpServletRequest request, HttpServletResponse response, Model model) {
-        //设置为标化
+
         bizOrderMaterialsStandard.setMaterialsLargeType("1");
         Page<BizOrderMaterialsStandardQuery> page = bizOrderMaterialsStandardQueryService.findPage(new Page<BizOrderMaterialsStandardQuery>(request, response), bizOrderMaterialsStandard);
         model.addAttribute("page", page);

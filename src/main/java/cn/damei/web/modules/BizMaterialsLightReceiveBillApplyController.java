@@ -39,12 +39,12 @@ public class BizMaterialsLightReceiveBillApplyController extends BaseController{
 	@Autowired
 	private BizMaterialsStandardReceiveBillApplyService bizMaterialsStandardReceiveBillApplyService;
 	@Autowired
-	//order表
+
 	private BizOrderMaterialsStandardService bizOrderMaterialsStandardService;
 	@Autowired
 	private AppOrderService appOrderService;
 	@Autowired
-	//detail表
+
 	private BizMaterialsStandardReceiveDetailService bizMaterialsStandardReceiveDetailService;
 	
 	@ModelAttribute
@@ -58,18 +58,11 @@ public class BizMaterialsLightReceiveBillApplyController extends BaseController{
 		}
 		return entity;
 	}
-	/**
-	 * 查询申请记录
-	 * @param bizMaterialsStandardReceiveBillApply
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @return
-	 */
+
 	@RequiresPermissions("lightmaterialsapplyrecords:bizMaterialsLightReceiveBillApply:edit")
 	@RequestMapping(value = "list")
 	public String materialsApplyBillList(BizMaterialsStandardReceiveBillApply bizMaterialsStandardReceiveBillApply,
-			HttpServletRequest request, HttpServletResponse response, Model model){//过滤门店
+			HttpServletRequest request, HttpServletResponse response, Model model){
         User user = UserUtils.getUser();
         if(null==bizMaterialsStandardReceiveBillApply.getName()){
             if(null!=user.getStoreId()){
@@ -81,17 +74,7 @@ public class BizMaterialsLightReceiveBillApplyController extends BaseController{
 		model.addAttribute("page", page);
 		return "modules/managerSettlement/lightmaterialsapplybill/bizMaterialsLightReceiveBillApplyList";
 	}
-	/**
-	 * 领取,作废操作
-	 * @param id
-	 * @param status
-	 * @param winDate
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @return
-	 * @throws ParseException
-	 */
+
 	@Transactional
 	@RequiresPermissions("lightmaterialsapplyrecords:bizMaterialsLightReceiveBillApply:edit")
 	@RequestMapping(value="from/{ssid}/{ssstatus}/{winDate}",method = RequestMethod.GET)
@@ -101,38 +84,38 @@ public class BizMaterialsLightReceiveBillApplyController extends BaseController{
 		String id2 = user.getId();
 		Date date = new Date();
 		BizMaterialsStandardReceiveBillApply bizMaterialsStandardReceiveBillApply = new BizMaterialsStandardReceiveBillApply();
-		//获取 orderid
+
 		String orderId = bizMaterialsStandardReceiveDetailService.getOrderId(id);
-		//查看是否竣工 1 竣工  0 未竣工 null 无状态
+
 				String orderStatusByMaterislType = appOrderService.getOrderStatusByMaterislType(orderId, "2");
 				if(!"0".equals(orderStatusByMaterislType)){
 					status="30";
 					winDate="验收完成";
 				}
-		//10项目经理已申请20已领取30已废弃
-		if(Integer.valueOf(status)!=30){//领取
+
+		if(Integer.valueOf(status)!=30){
 				Date dates = new SimpleDateFormat("yyyy-MM-dd").parse(winDate);
 				bizMaterialsStandardReceiveBillApply.setReceiveDatetime(dates);
-				//修改 detail 表bizMaterialsStandardReceiveDetailService //領取
+
 				bizMaterialsStandardReceiveDetailService.updateDtaileApplySnape(id);
-				//根据billId获取detail列表
+
 				List<BizMaterialsStandardReceiveDetail> findDetailsByBillId = bizMaterialsStandardReceiveDetailService.findDetailsByBillId(Integer.valueOf(id));
-				//修改 orderMaterisl表 bizOrderMaterialsStandardService
+
 				for (BizMaterialsStandardReceiveDetail bizMaterialsStandardReceiveDetail : findDetailsByBillId) {
-					//根據oiderId 和材料id 查詢出要修改的實體 
+
 					BizOrderMaterialsStandard bizOrderMaterialsStandard2 = bizOrderMaterialsStandardService.getBizOrderMaterialsStandard(String.valueOf(bizMaterialsStandardReceiveDetail.getMaterialsId()), orderId);
 					if(bizOrderMaterialsStandard2!=null){
-					//申請的數量
+
 					Double receiveNumber = bizMaterialsStandardReceiveDetail.getReceiveNumber();
-					//待领取
+
 					Double applyNumberTotal = bizOrderMaterialsStandard2.getApplyNumberTotal();
 					if(applyNumberTotal!=null){
 					bizOrderMaterialsStandard2.setApplyNumberTotal(applyNumberTotal-receiveNumber);
 					}
-					//已经收到的
+
 					bizOrderMaterialsStandard2.setReceiveNumberTotal(receiveNumber+bizOrderMaterialsStandard2.getReceiveNumberTotal());
-					//修改
-					//金額修改
+
+
 					bizOrderMaterialsStandard2.setMaterialsAmount(bizOrderMaterialsStandard2.getMaterialsAmount()+receiveNumber*bizOrderMaterialsStandard2.getMaterialsPrice());
 					bizOrderMaterialsStandardService.updateOrderMaterialsByOrderIdAndStandId(bizOrderMaterialsStandard2);
 					}else{
@@ -153,25 +136,25 @@ public class BizMaterialsLightReceiveBillApplyController extends BaseController{
 					}
 				
 		}
-		else{ //作废
-			//根据billId获取detail列表
+		else{
+
 			List<BizMaterialsStandardReceiveDetail> findDetailsByBillId = bizMaterialsStandardReceiveDetailService.findDetailsByBillId(Integer.valueOf(id));
-			//获取 orderid
-			//修改 orderMaterisl表 bizOrderMaterialsStandardService
+
+
 			for (BizMaterialsStandardReceiveDetail bizMaterialsStandardReceiveDetail : findDetailsByBillId) {
-				//根據oiderId 和材料id 查詢出要修改的實體 
+
 				BizOrderMaterialsStandard bizOrderMaterialsStandard2 = bizOrderMaterialsStandardService.getBizOrderMaterialsStandard(String.valueOf(bizMaterialsStandardReceiveDetail.getMaterialsId()), orderId);
 				if(bizOrderMaterialsStandard2!=null){
-				//申請的數量
+
 				Double receiveNumber = bizMaterialsStandardReceiveDetail.getReceiveNumber();
-				//单价
+
 				Double materialsPrice = bizMaterialsStandardReceiveDetail.getMaterialsPrice();
-				//待领取
+
 				Double applyNumberTotal = bizOrderMaterialsStandard2.getApplyNumberTotal();
 				if(applyNumberTotal!=null){
 				bizOrderMaterialsStandard2.setApplyNumberTotal(applyNumberTotal-receiveNumber);
 				}
-				//修改
+
 				bizOrderMaterialsStandardService.updateOrderMaterialsByOrderIdAndStandId(bizOrderMaterialsStandard2);
 				}else{
 					BizOrderMaterialsStandard bizOrderMaterialsStandard=new BizOrderMaterialsStandard();
@@ -199,15 +182,7 @@ public class BizMaterialsLightReceiveBillApplyController extends BaseController{
 		bizMaterialsStandardReceiveBillApplyService.materialsApplyBillById(bizMaterialsStandardReceiveBillApply);
 		return "redirect:"+Global.getAdminPath()+"/standradmaterialsrecords/bizMaterialsLightReceiveBillApply/list";
 	}
-	/**
-	 * 详情
-	 * @param billId
-	 * @param billStatus
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @return
-	 */
+
 	@RequiresPermissions("lightmaterialsapplyrecords:bizMaterialsLightReceiveBillApply:edit")
 	@RequestMapping(value="detail/{billId}/{billStatus}",method = RequestMethod.GET)
 	public String detail(@PathVariable("billId")String billId,@PathVariable("billStatus")Integer billStatus,HttpServletRequest request, HttpServletResponse response, Model model){

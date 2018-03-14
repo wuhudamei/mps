@@ -29,36 +29,24 @@ import cn.damei.entity.modules.BizEmployee2;
 import cn.damei.entity.modules.User;
 import cn.damei.common.utils.UserUtils;
 
-/** 
-* @ClassName: DetailOfCostAccountingService 
-* @Description: TODO(这里用一句话描述这个类的作用) 
-* @author zkj  
-* @date 2017年10月18日 上午11:45:06 
-* @version V1.0 
-*/
+
 @Service
 public class DetailOfCostAccountingService extends CrudService2<DetailOfCostAccountingDao, DetailOfCostAccounting>{
 
 	
 	
-	/** 
-	* @Description: 成本核算导出
-	* @param @param detailOfCostAccounting
-	* @param @param response
-	* @author zkj 
-	* @date 2017年10月19日 上午11:02:58 
-	*/
+
 	public void exportDetailExcel(DetailOfCostAccounting detailOfCostAccounting, HttpServletResponse response) {
 		SimpleDateFormat sf = new SimpleDateFormat("yyyyMMdd");
 		String fileName = "卞总报表--成本核算("+sf.format(new Date())+")";
 		HSSFWorkbook excel = exportExcelDispatch(detailOfCostAccounting);
-		//创建一个输出流对象
+
 		ServletOutputStream out= null;
 		try {
 			response.setContentType("application/binary;charset=utf-8");
-			//headerString为中文时转码
+
 			String headerStr =new String(fileName.getBytes("utf-8"), "ISO8859-1");
-			//filename是下载的xls的名称
+
 			response.setHeader("Content-disposition","attachment; filename="+headerStr+".xls");
 			out = response.getOutputStream();
 			excel.write(out);
@@ -76,61 +64,55 @@ public class DetailOfCostAccountingService extends CrudService2<DetailOfCostAcco
 		}
 	}
 
-	/** 
-	* @Description: 数据导出 
-	* @param @param detailOfCostAccounting
-	* @param @return
-	* @author zkj 
-	* @date 2017年10月19日 上午11:04:04 
-	*/
+
 	private HSSFWorkbook exportExcelDispatch(DetailOfCostAccounting detailOfCostAccounting) {
 		SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
 		String sheetName = "卞总报表--成本核算";
 		
-		HSSFWorkbook wb = new HSSFWorkbook();// 创建一个Excel文件
-		HSSFSheet sheet = wb.createSheet(sheetName);// 创建一个Excel的Sheet
+		HSSFWorkbook wb = new HSSFWorkbook();
+		HSSFSheet sheet = wb.createSheet(sheetName);
 		
-		//设置字体
+
 		HSSFFont font = wb.createFont();
-		font.setColor(HSSFFont.COLOR_NORMAL);//字体颜色
-		font.setFontName("黑体");//字体
-		font.setFontHeightInPoints((short)10);//字体高度
-		font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);//宽度
+		font.setColor(HSSFFont.COLOR_NORMAL);
+		font.setFontName("黑体");
+		font.setFontHeightInPoints((short)10);
+		font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
 		
-		//单元格样式--标题
+
 		HSSFCellStyle columnHeadStyle = wb.createCellStyle();
 		columnHeadStyle.setFont(font);
-		columnHeadStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);// 左右居中
-		columnHeadStyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);// 上下居中
+		columnHeadStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+		columnHeadStyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
 		columnHeadStyle.setLocked(true);
 		columnHeadStyle.setWrapText(true);
-		columnHeadStyle.setLeftBorderColor(HSSFColor.BLACK.index);// 左边框的颜色
-		columnHeadStyle.setBorderLeft((short) 1);// 边框的大小
-		columnHeadStyle.setRightBorderColor(HSSFColor.BLACK.index);// 右边框的颜色
-		columnHeadStyle.setBorderRight((short) 1);// 边框的大小
+		columnHeadStyle.setLeftBorderColor(HSSFColor.BLACK.index);
+		columnHeadStyle.setBorderLeft((short) 1);
+		columnHeadStyle.setRightBorderColor(HSSFColor.BLACK.index);
+		columnHeadStyle.setBorderRight((short) 1);
 		
-		columnHeadStyle.setTopBorderColor(HSSFColor.BLACK.index);// 上边框的颜色
-		columnHeadStyle.setBorderTop((short) 1);// 边框的大小
-		columnHeadStyle.setBottomBorderColor(HSSFColor.BLACK.index);// 下边框的颜色
-		columnHeadStyle.setBorderBottom((short) 1);// 边框的大小
-		columnHeadStyle.setBorderBottom(HSSFCellStyle.BORDER_THIN); // 设置单元格的边框为粗体
-		columnHeadStyle.setBottomBorderColor(HSSFColor.BLACK.index); // 设置单元格的边框颜色
-		columnHeadStyle.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);// 设置单元格的背景颜色（单元格的样式会覆盖列或行的样式）
+		columnHeadStyle.setTopBorderColor(HSSFColor.BLACK.index);
+		columnHeadStyle.setBorderTop((short) 1);
+		columnHeadStyle.setBottomBorderColor(HSSFColor.BLACK.index);
+		columnHeadStyle.setBorderBottom((short) 1);
+		columnHeadStyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+		columnHeadStyle.setBottomBorderColor(HSSFColor.BLACK.index);
+		columnHeadStyle.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
 		columnHeadStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);		
 		
-		//单元格样式
+
 		HSSFCellStyle columnStyle = wb.createCellStyle();
-		columnStyle.setLeftBorderColor(HSSFColor.BLACK.index); // 左边框线的颜色
-		columnStyle.setBorderLeft((short) 1);// 左边框线的大小
-		columnStyle.setRightBorderColor(HSSFColor.BLACK.index); // 右边框线的颜色
-		columnStyle.setBorderRight((short) 1);// 右边框线的大小
-		columnStyle.setTopBorderColor(HSSFColor.BLACK.index); // 上边框线的颜色
-		columnStyle.setBorderTop((short) 1);// 上边框线的大小
-		columnStyle.setBottomBorderColor(HSSFColor.BLACK.index); // 下边框线的颜色
-		columnStyle.setBorderBottom((short) 1);// 下边框线的大小
+		columnStyle.setLeftBorderColor(HSSFColor.BLACK.index);
+		columnStyle.setBorderLeft((short) 1);
+		columnStyle.setRightBorderColor(HSSFColor.BLACK.index);
+		columnStyle.setBorderRight((short) 1);
+		columnStyle.setTopBorderColor(HSSFColor.BLACK.index);
+		columnStyle.setBorderTop((short) 1);
+		columnStyle.setBottomBorderColor(HSSFColor.BLACK.index);
+		columnStyle.setBorderBottom((short) 1);
 		columnStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
 		
-		// 单元格宽度
+
 		sheet.setColumnWidth(0, 2000);
 		sheet.setColumnWidth(1, 3000);
 		sheet.setColumnWidth(2, 3000);
@@ -165,7 +147,7 @@ public class DetailOfCostAccountingService extends CrudService2<DetailOfCostAcco
 		sheet.setColumnWidth(31, 5000);
 		
 		
-		//标题---订单信息
+
 		HSSFRow rowTitle21 = sheet.createRow(0);
 		rowTitle21.setHeightInPoints(30);
 		HSSFCell headCell01 = rowTitle21.createCell(0);
@@ -176,30 +158,30 @@ public class DetailOfCostAccountingService extends CrudService2<DetailOfCostAcco
 			HSSFCell cella = rowTitle21.createCell(i+1);
 			cella.setCellStyle(columnHeadStyle);
 		}
-		//合并单元格--开始行，结束行，开始列，结束列  
+
 		sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 31));
 		
-		sheet.addMergedRegion(new CellRangeAddress(1, 2, 0, 0));// 序号
-		sheet.addMergedRegion(new CellRangeAddress(1, 2, 1, 1));//门店
-		sheet.addMergedRegion(new CellRangeAddress(1, 2, 2, 2));//区域
-		sheet.addMergedRegion(new CellRangeAddress(1, 2, 3, 3));//工程模式
-		sheet.addMergedRegion(new CellRangeAddress(1, 2, 4, 4));//订单编号
-		sheet.addMergedRegion(new CellRangeAddress(1, 2, 5, 5));//房屋类型
-		sheet.addMergedRegion(new CellRangeAddress(1, 2, 6, 6));//合同面积
-		sheet.addMergedRegion(new CellRangeAddress(1, 2, 7, 7));//计划竣工
-		sheet.addMergedRegion(new CellRangeAddress(1, 2, 8, 8));//实际竣工
-		sheet.addMergedRegion(new CellRangeAddress(1, 2, 9, 9));//项目经理
-		sheet.addMergedRegion(new CellRangeAddress(1, 2, 10,10));//客户信息
+		sheet.addMergedRegion(new CellRangeAddress(1, 2, 0, 0));
+		sheet.addMergedRegion(new CellRangeAddress(1, 2, 1, 1));
+		sheet.addMergedRegion(new CellRangeAddress(1, 2, 2, 2));
+		sheet.addMergedRegion(new CellRangeAddress(1, 2, 3, 3));
+		sheet.addMergedRegion(new CellRangeAddress(1, 2, 4, 4));
+		sheet.addMergedRegion(new CellRangeAddress(1, 2, 5, 5));
+		sheet.addMergedRegion(new CellRangeAddress(1, 2, 6, 6));
+		sheet.addMergedRegion(new CellRangeAddress(1, 2, 7, 7));
+		sheet.addMergedRegion(new CellRangeAddress(1, 2, 8, 8));
+		sheet.addMergedRegion(new CellRangeAddress(1, 2, 9, 9));
+		sheet.addMergedRegion(new CellRangeAddress(1, 2, 10,10));
 		
-		sheet.addMergedRegion(new CellRangeAddress(1, 1, 11,18));//辅材
+		sheet.addMergedRegion(new CellRangeAddress(1, 1, 11,18));
 		
-		sheet.addMergedRegion(new CellRangeAddress(1, 2, 19,19));//沙子水泥
+		sheet.addMergedRegion(new CellRangeAddress(1, 2, 19,19));
 		
-		sheet.addMergedRegion(new CellRangeAddress(1, 1, 20,28));//人工成本
+		sheet.addMergedRegion(new CellRangeAddress(1, 1, 20,28));
 		
-		sheet.addMergedRegion(new CellRangeAddress(1, 2, 29,29));//项目经理提成
-		sheet.addMergedRegion(new CellRangeAddress(1, 2, 30,30));//合同金额
-		sheet.addMergedRegion(new CellRangeAddress(1, 2, 31,31));//订单状态
+		sheet.addMergedRegion(new CellRangeAddress(1, 2, 29,29));
+		sheet.addMergedRegion(new CellRangeAddress(1, 2, 30,30));
+		sheet.addMergedRegion(new CellRangeAddress(1, 2, 31,31));
 		
 
 		HSSFRow rowTitle2 = sheet.createRow(1);
@@ -550,25 +532,18 @@ public class DetailOfCostAccountingService extends CrudService2<DetailOfCostAcco
 		
 	}
 
-	/** 
-	* @Description: 门店和工程模式过滤
-	* @param @param detailOfCostAccountingController
-	* @param @param detailOfCostAccounting
-	* @param @param mode
-	* @author zkj 
-	* @date 2017年10月19日 上午11:04:36 
-	*/
+
 	public void storeAndProjectMode(DetailOfCostAccountingController detailOfCostAccountingController, DetailOfCostAccounting detailOfCostAccounting, Model mode) {
 		if (UserUtils.getUser().getStoreId() != null) {
-			// 当前登录用户门店
+
 			detailOfCostAccounting.setStoreId(UserUtils.getUser().getStoreId());
 		} else {
-			// 门店是总部的查询所有部门信息
+
 			if(detailOfCostAccounting.getStoreId() == null){
 				detailOfCostAccounting.setStoreId(null);
 			}
 		}
-		//过滤工程模式
+
 		if (detailOfCostAccounting.getProjectMode() == null || "".equals(detailOfCostAccounting.getProjectMode())) {
 			User user = UserUtils.getUser();
 			if (null != user.getEmpId()) {

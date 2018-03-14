@@ -4,49 +4,42 @@ import java.util.Date;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 订单安装项vo
- * 
- * @author 梅浩
- *
- */
+
 public class OrderInstallItemVo extends DataEntity2<Order> {
 
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 
-	// 主键在爷爷里
 
-	private Integer orderId;// 订单外键id
-	private Integer projectInstallItemId;// 关联的模板安装项id
-	private String projectInstallItemName;// 关联的模板安装项name
-	private Integer installItemSequence; // 安装项顺序
-	private Integer daysToApplyInto; // 开工第几天申请
-	private Integer daysPlanInto; // 开工第几天进场
-	private Integer daysPalnComplete; // 开工第几天完成
-	private String isGeneratedOrdeInstallPlan;// 是否生成计划
-	private String isOn;// 是否启用 0:停用 1:启用
-	private String isChoosed;// 修改订单回显判断字段
-	private String status;// 安装项的状态 //作为安装项计划中为 1,2,3 作为 订单安装项, 为是否可选
+
+	private Integer orderId;
+	private Integer projectInstallItemId;
+	private String projectInstallItemName;
+	private Integer installItemSequence;
+	private Integer daysToApplyInto;
+	private Integer daysPlanInto;
+	private Integer daysPalnComplete;
+	private String isGeneratedOrdeInstallPlan;
+	private String isOn;
+	private String isChoosed;
+	private String status;
 	private Date planIntoDate;
 	private Date applyIntoDate;
 	private Date realIntoDate;
-	private String projectMode;// 工程模式
-	private Integer daysPlanChecksize;// 开工第几天复尺
-	private String isToChecksize;// 是需要复尺
-	private String installMode;// 安装项
-	private String installstatus;// 安装项状态
-	private Date statusDate;// 安装项状态时间
+	private String projectMode;
+	private Integer daysPlanChecksize;
+	private String isToChecksize;
+	private String installMode;
+	private String installstatus;
+	private Date statusDate;
 	
-	private String installModeFlag;// 安装模式标识
-	private String installStatus;// 安装项状态
-	private Date planCompleteDate;//计划完成时间
+	private String installModeFlag;
+	private String installStatus;
+	private Date planCompleteDate;
 	
-	private String isShowInstallDescription; // 是否展示安装说明
-	private String installDescription; // 安装说明
-	private Date allowApplyChecksizeDate;//可申请复尺日期
+	private String isShowInstallDescription;
+	private String installDescription;
+	private Date allowApplyChecksizeDate;
 	
 	public Date getPlanCompleteDate() {
 		return planCompleteDate;

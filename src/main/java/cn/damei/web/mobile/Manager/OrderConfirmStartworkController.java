@@ -8,10 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import cn.damei.service.mobile.Manager.OrderConfirmStartworkService;
 
-/**
- * @author llp
- * @version 创建时间：2016年10月27日 下午5:05:38 类说明
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/app/manager")
 public class OrderConfirmStartworkController {

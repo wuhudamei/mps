@@ -4,45 +4,41 @@ import java.util.Date;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 确认验收
- * @author Administrator
- *
- */
+
 public class CheckConfirm extends DataEntity2<CheckConfirm>{
 
 	
 	private static final long serialVersionUID = 1L;
-    private Integer id ; //质检单id
+    private Integer id ;
    
-    private String communityName; //小区
-    private String buildNumber; //几号楼
-    private String buildUnit; //几单元
-    private String buildRoom; //几室
-    private String customerName; //客户姓名
-    private String projectMode;		//工程模式   1-产业模式；2-传统模式
+    private String communityName;
+    private String buildNumber;
+    private String buildUnit;
+    private String buildRoom;
+    private String customerName;
+    private String projectMode;
 	
-    private String customerPhone; //客户电话
-    private String designerPhone; //设计师电话
-    private String managerRealName; //项目经理
-    private Integer qcCheckNodeId; //约检节点id
-    private String qcCheckNodeName; //约检内容
-    private Date expectCheckDatetime; //约检日期
-    private Date acceptCheckDatetime; //验收日期
-    private String status; //状态
+    private String customerPhone;
+    private String designerPhone;
+    private String managerRealName;
+    private Integer qcCheckNodeId;
+    private String qcCheckNodeName;
+    private Date expectCheckDatetime;
+    private Date acceptCheckDatetime;
+    private String status;
     private String isUrgePay;
-    private String checkWords;//驳回原因
+    private String checkWords;
     
-    private Integer workerCount; //工人结算
-    private Integer managerCount;  //项目经理结算
-    private Integer inspectorCount;  //质检员结算
+    private Integer workerCount;
+    private Integer managerCount;
+    private Integer inspectorCount;
 	private String delayReasonQc;
 	private String delayReasonPm;
 	private Date planCheckDate;
 	private Integer orderId;
 	private String orderNumber;
 	
-	//顺序
+
 	private Integer qcCheckNodeIndex;
 		
 	public Integer getQcCheckNodeIndex() {

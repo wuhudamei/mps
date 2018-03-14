@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import java.util.List;
@@ -26,11 +24,7 @@ import cn.damei.service.modules.BizPmStarCommissionCnfgService;
 import cn.damei.entity.modules.User;
 import cn.damei.common.utils.UserUtils;
 
-/**
- * 项目经理星级和提成设置Controller
- * @author wyb
- * @version 2016-12-24
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/managerSettlement/bizpmstarcommissioncnfg/bizPmStarCommissionCnfg")
 public class BizPmStarCommissionCnfgController extends BaseController {
@@ -99,7 +93,7 @@ public class BizPmStarCommissionCnfgController extends BaseController {
          bizPmStarCommissionCnfg.setCommissionRateMidwayTwo(a);
          bizPmStarCommissionCnfg.setCommissionRateCompleteTwo(b);
          
-		//修改
+
 		if(null!=bizPmStarCommissionCnfg.getId()){
 			List<BizPmStarCommissionCnfg> list = bizPmStarCommissionCnfgService.findList(bizPmStarCommissionCnfg);
 			if(null!=list && list.size()>0){
@@ -116,7 +110,7 @@ public class BizPmStarCommissionCnfgController extends BaseController {
 				addMessage(redirectAttributes, "保存项目经理星级和提成设置成功");
 			}
 		}else{
-			//新增
+
 			List<BizPmStarCommissionCnfg> list = bizPmStarCommissionCnfgService.findList(bizPmStarCommissionCnfg);
 			if(null!=list && list.size()>0){
 				addMessage(redirectAttributes, "项目经理星级和提成已经存在,保存失败");

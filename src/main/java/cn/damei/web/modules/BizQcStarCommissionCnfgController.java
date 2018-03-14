@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import java.util.List;
@@ -26,11 +24,7 @@ import cn.damei.service.modules.BizQcStarCommissionCnfgService;
 import cn.damei.entity.modules.User;
 import cn.damei.common.utils.UserUtils;
 
-/**
- * 质检员星级和提成设置Controller
- * @author wyb
- * @version 2017-02-13
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/inspectorsettlement/bizqcstarcommissioncnfg/bizQcStarCommissionCnfg")
 public class BizQcStarCommissionCnfgController extends BaseController {
@@ -54,7 +48,7 @@ public class BizQcStarCommissionCnfgController extends BaseController {
 	@RequestMapping(value = {"list", ""})
 	public String list(BizQcStarCommissionCnfg bizQcStarCommissionCnfg, HttpServletRequest request, HttpServletResponse response, Model model) {
 		User user = UserUtils.getUser();
-		//过滤门店
+
 		if(null==bizQcStarCommissionCnfg.getStoreId()){
 			if(null!=user.getStoreId()){
 				bizQcStarCommissionCnfg.setStoreId(Integer.valueOf(user.getStoreId()));
@@ -71,7 +65,7 @@ public class BizQcStarCommissionCnfgController extends BaseController {
 	public String list1(BizQcStarCommissionCnfg bizQcStarCommissionCnfg, HttpServletRequest request, HttpServletResponse response, Model model) {
 		
 		User user = UserUtils.getUser();
-		//过滤门店
+
 		if(null==bizQcStarCommissionCnfg.getStoreId()){
 			if(null!=user.getStoreId()){
 				bizQcStarCommissionCnfg.setStoreId(Integer.valueOf(user.getStoreId()));

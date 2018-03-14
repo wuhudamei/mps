@@ -10,13 +10,7 @@ import cn.damei.entity.mobile.Worker.Worker;
 
 @Service
 @Transactional(readOnly = true)
-/*public class WorkerService extends CrudService2<WorkerVoDao, WorkerVo>{
 
-	public WorkerVo selectWorkerByPhone(String phone) {
-		return dao.selectWorkerByPhone(phone);
-	}
-
-}*/
 
 public class WorkerService extends CrudService2<WorkerDao, Worker>{
 

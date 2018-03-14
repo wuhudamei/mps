@@ -5,29 +5,25 @@ import java.util.Date;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 评价活动指标设置Entity
- * @author wyb
- * @version 2017-02-25
- */
+
 public class BizEvalActivityIndex extends DataEntity2<BizEvalActivityIndex> {
 	
 	private static final long serialVersionUID = 1L;
-	private Integer evalActivityId;		// 评价活动id
-	private String evalRoleType;		// 评价类别id
-	private Integer evalIndexId;		// 评价指标id
-	private Double evalTotalScore;		// 分值
-	private String indexName;	//评价指标内容
+	private Integer evalActivityId;
+	private String evalRoleType;
+	private Integer evalIndexId;
+	private Double evalTotalScore;
+	private String indexName;
 	
-	private BizEvalActivity evalActivity; //评价活动
+	private BizEvalActivity evalActivity;
 
-	private Integer selectCount; //星级选中个数
+	private Integer selectCount;
 
-	private Double indexScore;//评价分数
+	private Double indexScore;
 	
-	private Date evalDate; //评价时间
+	private Date evalDate;
 	
-	private String evalCycleHours;//系统评价时间
+	private String evalCycleHours;
 	
 	
 	public String getEvalCycleHours() {

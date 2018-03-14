@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.io.ByteArrayInputStream;
@@ -32,11 +30,7 @@ import org.springframework.transaction.annotation.Transactional;
 import cn.damei.common.persistence.Page;
 import cn.damei.common.service.BaseService;
 
-/**
- * 流程模型相关Controller
- * @author ThinkGem
- * @version 2013-11-03
- */
+
 @Service
 @Transactional(readOnly = true)
 public class ActModelService extends BaseService {
@@ -44,9 +38,7 @@ public class ActModelService extends BaseService {
 	@Autowired
 	private RepositoryService repositoryService;
 
-	/**
-	 * 流程模型列表
-	 */
+
 	public Page<org.activiti.engine.repository.Model> modelList(Page<org.activiti.engine.repository.Model> page, String category) {
 
 		ModelQuery modelQuery = repositoryService.createModelQuery().latestVersion().orderByLastUpdateTime().desc();
@@ -61,10 +53,7 @@ public class ActModelService extends BaseService {
 		return page;
 	}
 
-	/**
-	 * 创建模型
-	 * @throws UnsupportedEncodingException 
-	 */
+
 	@Transactional(readOnly = false)
 	public org.activiti.engine.repository.Model create(String name, String key, String description, String category) throws UnsupportedEncodingException {
 		ObjectMapper objectMapper = new ObjectMapper();
@@ -94,9 +83,7 @@ public class ActModelService extends BaseService {
 		return modelData;
 	}
 
-	/**
-	 * 根据Model部署流程
-	 */
+
 	@Transactional(readOnly = false)
 	public String deploy(String id) {
 		String message = "";
@@ -112,13 +99,13 @@ public class ActModelService extends BaseService {
 			if (!StringUtils.endsWith(processName, ".bpmn20.xml")){
 				processName += ".bpmn20.xml";
 			}
-//			System.out.println("========="+processName+"============"+modelData.getName());
+
 			ByteArrayInputStream in = new ByteArrayInputStream(bpmnBytes);
 			Deployment deployment = repositoryService.createDeployment().name(modelData.getName())
 					.addInputStream(processName, in).deploy();
-//					.addString(processName, new String(bpmnBytes)).deploy();
+
 			
-			// 设置流程分类
+
 			List<ProcessDefinition> list = repositoryService.createProcessDefinitionQuery().deploymentId(deployment.getId()).list();
 			for (ProcessDefinition processDefinition : list) {
 				repositoryService.setProcessDefinitionCategory(processDefinition.getId(), modelData.getCategory());
@@ -133,11 +120,7 @@ public class ActModelService extends BaseService {
 		return message;
 	}
 	
-	/**
-	 * 导出model的xml文件
-	 * @throws IOException 
-	 * @throws JsonProcessingException 
-	 */
+
 	public void export(String id, HttpServletResponse response) {
 		try {
 			org.activiti.engine.repository.Model modelData = repositoryService.getModel(id);
@@ -158,20 +141,14 @@ public class ActModelService extends BaseService {
 		
 	}
 
-	/**
-	 * 更新Model分类
-	 */
+
 	public void updateCategory(String id, String category) {
 		org.activiti.engine.repository.Model modelData = repositoryService.getModel(id);
 		modelData.setCategory(category);
 		repositoryService.saveModel(modelData);
 	}
 	
-	/**
-	 * 删除模型
-	 * @param id
-	 * @return
-	 */
+
 	public void delete(String id) {
 		repositoryService.deleteModel(id);
 	}

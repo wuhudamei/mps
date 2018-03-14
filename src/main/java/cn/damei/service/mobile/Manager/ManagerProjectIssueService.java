@@ -26,9 +26,7 @@ import cn.damei.entity.mobile.Manager.ManagerProjectIssueBean;
 import cn.damei.dao.mobile.Manager.ManagerProjectIssueDao;
 import cn.damei.common.utils.UserUtils;
 
-/**
- * Created by joseph on 2017/7/4.
- */
+
 
 @Service
 @Transactional(readOnly = true)
@@ -62,16 +60,16 @@ public class ManagerProjectIssueService extends BaseService {
 	@Transactional(readOnly = false)
 	public String saveManagerDeal(HttpServletRequest request, String describe, Integer handleId, Integer complaintProblemItemId, Integer orderId, Double delayDays, Integer orderComplaintProblemId, String... photos) {
 
-		// 去重复数据校验, 查询是否已经处理过该问题
+
 
 		Integer isExist = dao.findIssueIsDoneByHandleId(handleId);
 
 		if (null != isExist && isExist == 0) {
 			Date date = new Date();
 			Map<String, String> map = new HashMap<>();
-			// 保存答复内容
-			// 更新处理表状态-->20
-			// 更新投诉问题状态->30 (已处理)
+
+
+
 			map.put("handleId", String.valueOf(handleId));
 			map.put("dealDescribe", describe);
 			dao.saveHandleDescribeByHandleIdAndDealDescribe(map);
@@ -82,22 +80,22 @@ public class ManagerProjectIssueService extends BaseService {
 
 			try {
 				Map<String, Object> mapForfeit = new HashMap<>();
-				// 保存客诉罚款
-				mapForfeit.put("orderId", orderId.toString()); // 订单ID
-				mapForfeit.put("complaintProblemItemId", complaintProblemItemId.toString()); // 事项ID
-				mapForfeit.put("orderComplaintProblemId", orderComplaintProblemId.toString()); // 投诉问题ID
+
+				mapForfeit.put("orderId", orderId.toString());
+				mapForfeit.put("complaintProblemItemId", complaintProblemItemId.toString());
+				mapForfeit.put("orderComplaintProblemId", orderComplaintProblemId.toString());
 
 				Map<String, Object> mapDate = dao.findProblemByHandleId(handleId);
 				String responseTime = mapDate.get("responseTime").toString();
-				// 问题创建时间
+
 				Date problemCreateDate = (Date) mapDate.get("createDate");
-				// 问题的截止日期
+
 				Date problemDelayDate = DateUtils.addDate(problemCreateDate, (new Double(responseTime)).intValue());
 
-				mapForfeit.put("promiseComDate", problemDelayDate); // 计划处理时间
-				mapForfeit.put("userCreate", UserUtils.getUser().getId()); // 创建者
-				mapForfeit.put("userUpdate", UserUtils.getUser().getId());// 更新的的人
-				mapForfeit.put("punishMoney", (delayDays) * 100); // 罚款金额
+				mapForfeit.put("promiseComDate", problemDelayDate);
+				mapForfeit.put("userCreate", UserUtils.getUser().getId());
+				mapForfeit.put("userUpdate", UserUtils.getUser().getId());
+				mapForfeit.put("punishMoney", (delayDays) * 100);
 
 				dao.saveCustomerComForfeit(mapForfeit);
 			} catch (Exception e) {
@@ -105,7 +103,7 @@ public class ManagerProjectIssueService extends BaseService {
 			}
 
 			if (null != photos && photos.length > 0) {
-				// 保存图片
+
 
 				List<Map<String, Object>> picMapList = new ArrayList<>();
 
@@ -123,7 +121,7 @@ public class ManagerProjectIssueService extends BaseService {
 
 			}
 
-			// 保存对应log
+
 
 			Map<String, Object> logMap = new HashMap<>();
 
@@ -138,7 +136,7 @@ public class ManagerProjectIssueService extends BaseService {
 			return "1";
 		} else {
 
-			// 已经处理过的
+
 			return "2";
 		}
 
@@ -151,9 +149,9 @@ public class ManagerProjectIssueService extends BaseService {
 
 		String uuid = UUID.randomUUID().toString().replaceAll("-", "");
 
-		// String rootPath = RootName.SystemEnvironment(request);
 
-		// 判断该文件是否存在
+
+
 		if (!filePath.exists() && !filePath.isDirectory()) {
 			filePath.mkdirs();
 		}
@@ -166,11 +164,7 @@ public class ManagerProjectIssueService extends BaseService {
 
 	}
 
-	/**
-	 * 查看图片
-	 *
-	 * @return
-	 */
+
 	public List<String> findPic(Map<String, String> map) {
 
 		List<String> list = util.findPicByIdAndType(map);
@@ -178,12 +172,7 @@ public class ManagerProjectIssueService extends BaseService {
 		return list;
 	}
 
-	/**
-	 * 查询未处理问题的数量
-	 * 
-	 * @param workOrderCode
-	 * @return
-	 */
+
 	public int selectCountNoDealByWorkOrderCode(String workOrderCode) {
 		return util.selectCountNoDealByWorkOrderCode(workOrderCode);
 	}

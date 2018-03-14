@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import java.util.ArrayList;
@@ -12,63 +10,59 @@ import org.hibernate.validator.constraints.Length;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 订单管理Entity
- * @author wyb
- * @version 2016-09-08
- */
+
 public class Order2 extends DataEntity2<Order2> {
 
 	private static final long serialVersionUID = 1L;
 	
 	
-	//private Integer id; //订单id
-	private String orderNumber;		// 订单编号
-	private String contractNumber;		// 合同编号
-	private String customerType;		// 客户类型
-	private String customerDescription;		// 客户属性描述
-	private String customerName;		// 客户姓名
-	private String customerPhone;		// 客户电话
+
+	private String orderNumber;
+	private String contractNumber;
+	private String customerType;
+	private String customerDescription;
+	private String customerName;
+	private String customerPhone;
 	private String customerAddress;
-	private String communityName;		// 小区名称
-	private String buildNumber;		// 几号楼
-	private String buildUnit;		// 几单元
-	private String buildRoom;		// 哪一室
-	private String mapCoordinate;		// 地图坐标
-	private String saleType;		// 套餐类型
-	private String area;		// 片区
-	private String buildType;		// 房屋类型
-	private String houseType;		// 户型
-	private String houseIsNew;		// 新房老房  1为新房  0为老房  默认老房
-	private String isElevator;		// 是否有电梯  1代表有   0代表没有   默认没有
-	private String designerName;		// 设计师姓名
-	private String designerPhone;		// 设计师电话
-	private String orderReporterName;		// 跟单员姓名
-	private String orderReporterPhone;		// 跟单员电话
-	private String serviceName;		// 客服姓名
-	private String servicePhone;		// 客服电话
-	private Date contractStartDate;		// 合同开工日期
-	private Date contractEndDate;		// 合同竣工日期
-	private String coveredArea;		// 建筑面积
-	private String contractArea;		// 合同面积
-	private Integer contractTime;		// 合同工期
-	private Date signContractDate;		// 签约日期
-	private String orderStatusNumber;		// 订单状态码  创建订单成功默认状态码 105
-	private String orderStatusDescription;		// 订单状态码详情   默认详情 确认订单   状态码105
-	private String orderInspector;		// 订单质检员
-	private String itemManager;		// 项目经理
-	private String storeId;		// 门店id
-	private String cusManager;		// 客户经理
-	private String isLongwayCommission; //是否有远程费 -0没有 1有
-	private Double longwayAmount;  //远程费
+	private String communityName;
+	private String buildNumber;
+	private String buildUnit;
+	private String buildRoom;
+	private String mapCoordinate;
+	private String saleType;
+	private String area;
+	private String buildType;
+	private String houseType;
+	private String houseIsNew;
+	private String isElevator;
+	private String designerName;
+	private String designerPhone;
+	private String orderReporterName;
+	private String orderReporterPhone;
+	private String serviceName;
+	private String servicePhone;
+	private Date contractStartDate;
+	private Date contractEndDate;
+	private String coveredArea;
+	private String contractArea;
+	private Integer contractTime;
+	private Date signContractDate;
+	private String orderStatusNumber;
+	private String orderStatusDescription;
+	private String orderInspector;
+	private String itemManager;
+	private String storeId;
+	private String cusManager;
+	private String isLongwayCommission;
+	private Double longwayAmount;
 	
-	private Date beginContractStartDate;		// 开始 合同开工日期
-	private Date endContractStartDate;		// 结束 合同开工日期
-	private Date beginSignContractDate;		// 开始 签约日期
-	private Date endSignContractDate;		// 结束 签约日期
-	private Date beginCreateDate;		// 开始 创建时间
-	private Date endCreateDate;		// 结束 创建时间
-	private String orderTaskPackStatus; //任务包状态
+	private Date beginContractStartDate;
+	private Date endContractStartDate;
+	private Date beginSignContractDate;
+	private Date endSignContractDate;
+	private Date beginCreateDate;
+	private Date endCreateDate;
+	private String orderTaskPackStatus;
 	private Integer itemManagerId;
 	private Integer orderInspectorId;
 	private String workeMaprName;
@@ -76,18 +70,18 @@ public class Order2 extends DataEntity2<Order2> {
 	private String workerMapPhone;
 	private Integer workerMapType;
 	
-	private Integer floor;   //楼层
-	private String province;//省
-	private String city;//市
-	private String county ;//县
-	private String detailAddress;//详细地址
-	private Date getOrderDatetime; //接单时间
-	private Double  contractAmount; //合同金额
-	private String getOrderPeople; //接单人
+	private Integer floor;
+	private String province;
+	private String city;
+	private String county ;
+	private String detailAddress;
+	private Date getOrderDatetime;
+	private Double  contractAmount;
+	private String getOrderPeople;
 	
-	private Date updateByDate;//操作时间
-	private String userName; //分派项目经理操作人
-	private String isScrap; // 是否作废
+	private Date updateByDate;
+	private String userName;
+	private String isScrap;
 	
 	
 	
@@ -139,7 +133,7 @@ public class Order2 extends DataEntity2<Order2> {
 		this.workerMapType = workerMapType;
 	}
 	
-	private String projectMode; //区分产业和传统   产业:1 传统:2
+	private String projectMode;
 	private List<String> orderStatus;
 	private List<String> paymentStatusList;
 	private String paymentStatus;
@@ -161,7 +155,7 @@ public class Order2 extends DataEntity2<Order2> {
 
 	private String isAllotManager;
 	private String isAllotInspector;
-	private Integer enginDepartId; //区域
+	private Integer enginDepartId;
 	private String departmentName;
 
 	private String managerName;
@@ -172,8 +166,8 @@ public class Order2 extends DataEntity2<Order2> {
 	private Double pointY;
 	private Integer engineDepartId;
 	
-	private String distribution; //已分配数量
-	private String noDistribution; //未分配数量
+	private String distribution;
+	private String noDistribution;
 	public String getManagerName() {
 		return managerName;
 	}

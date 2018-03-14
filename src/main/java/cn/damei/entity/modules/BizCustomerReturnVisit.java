@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import java.util.List;
@@ -9,19 +7,15 @@ import org.hibernate.validator.constraints.Length;
 
 import cn.damei.common.persistence.DataEntity;
 
-/**
- * 客户回访节点Entity
- * @author LiwanCai
- * @version 2017-05-22
- */
+
 public class BizCustomerReturnVisit extends DataEntity<BizCustomerReturnVisit> {
 	
 	private static final long serialVersionUID = 1L;
-	private String storeId;		// 门店
-	private String returnVisitNode;		// 回访节点
-	private String projectNode;		// 工程节点
-	private String projectNodeCn;		// 工程节点名称
-	private String projectMode;		//工程模式
+	private String storeId;
+	private String returnVisitNode;
+	private String projectNode;
+	private String projectNodeCn;
+	private String projectMode;
 	private List<BizCustomerReturnVisitContent> questions;
 	
 	public BizCustomerReturnVisit() {

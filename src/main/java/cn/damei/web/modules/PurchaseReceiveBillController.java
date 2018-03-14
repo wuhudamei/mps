@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import java.io.IOException;
@@ -41,12 +39,7 @@ import cn.damei.service.modules.PurchaseReceiveBillService;
 import cn.damei.entity.modules.User;
 import cn.damei.common.utils.UserUtils;
 
-/**
- * 收货单Controller
- * 
- * @author www
- * @version 2016-11-10
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/receipt/purchaseReceiveBill")
 public class PurchaseReceiveBillController extends BaseController {
@@ -81,12 +74,12 @@ public class PurchaseReceiveBillController extends BaseController {
 	public String listPage(PurchaseReceiveBill purchaseReceiveBill, HttpServletRequest request, HttpServletResponse response, Model model) {
 
 		if (UserUtils.getUser().getStoreId() != null) {
-			// 当前登录用户门店
+
 			purchaseReceiveBill.setStoreId(Integer.parseInt(UserUtils.getUser().getStoreId()));
 		} else {
-			// 门店是总部的查询所有部门信息
+
 			if (purchaseReceiveBill.getStoreId() != null && purchaseReceiveBill.getStoreId() == 1) {
-				// 总部
+
 				purchaseReceiveBill.setStoreId(null);
 			}
 		}
@@ -95,13 +88,13 @@ public class PurchaseReceiveBillController extends BaseController {
 			if (null != user.getEmpId()) {
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
 				if (ConstantUtils.EMPLOYEE_PROJECT_MODE_3.equals(be.getProjectMode()) || null == be.getProjectMode()) {
-					purchaseReceiveBill.setProjectMode(null);// 表示查询所有的采购单
+					purchaseReceiveBill.setProjectMode(null);
 				} else {
 					purchaseReceiveBill.setProjectMode(be.getProjectMode());
 					model.addAttribute("projectModeEnable", true);
 				}
 			} else {
-				purchaseReceiveBill.setProjectMode(null);// 表示查询所有的采购单
+				purchaseReceiveBill.setProjectMode(null);
 			}
 		}
 		return "modules/receipt/purchaseReceiveBillList";
@@ -111,12 +104,12 @@ public class PurchaseReceiveBillController extends BaseController {
 	@RequestMapping(value = { "list", "" })
 	public String list(PurchaseReceiveBill purchaseReceiveBill, HttpServletRequest request, HttpServletResponse response, Model model) {
 		if (UserUtils.getUser().getStoreId() != null) {
-			// 当前登录用户门店
+
 			purchaseReceiveBill.setStoreId(Integer.parseInt(UserUtils.getUser().getStoreId()));
 		} else {
-			// 门店是总部的查询所有部门信息
+
 			if (purchaseReceiveBill.getStoreId() != null && purchaseReceiveBill.getStoreId() == 1) {
-				// 总部
+
 				purchaseReceiveBill.setStoreId(null);
 			}
 		}
@@ -125,13 +118,13 @@ public class PurchaseReceiveBillController extends BaseController {
 			if (null != user.getEmpId()) {
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
 				if (ConstantUtils.EMPLOYEE_PROJECT_MODE_3.equals(be.getProjectMode()) || null == be.getProjectMode()) {
-					purchaseReceiveBill.setProjectMode(null);// 表示查询所有的采购单
+					purchaseReceiveBill.setProjectMode(null);
 				} else {
 					purchaseReceiveBill.setProjectMode(be.getProjectMode());
 					model.addAttribute("projectModeEnable", true);
 				}
 			} else {
-				purchaseReceiveBill.setProjectMode(null);// 表示查询所有的采购单
+				purchaseReceiveBill.setProjectMode(null);
 			}
 		}
 		Page<PurchaseReceiveBill> page = purchaseReceiveBillService.findPage(new Page<PurchaseReceiveBill>(request, response), purchaseReceiveBill);
@@ -144,11 +137,11 @@ public class PurchaseReceiveBillController extends BaseController {
 	public String receiptDetail(Integer id, Model model) {
 
 		PurchaseReceiveBill purchaseReceiveBill = purchaseReceiveBillService.get(id);
-		// 根据收货单id查询收货的商品
+
 		String purchaseType = purchaseReceiveBill.getPurchaseType();
 
 		if (ConstantUtils.AUXILIARY_NUMBER.equals(purchaseType)) {
-			// 根据采购单id查询对应的商品
+
 			List<ReceivedAuxiliary> list = receivedAuxiliaryService.queryAuxiliaryByReceiveBillId(id);
 			model.addAttribute("list", list);
 		} else if (ConstantUtils.WALL_FLOOR_BRICK_NUMBER.equals(purchaseType)) {
@@ -170,22 +163,8 @@ public class PurchaseReceiveBillController extends BaseController {
 		return "modules/receipt/detail";
 	}
 
-/*	@RequestMapping(value = "seePhoto")
-	public String seePhoto(Integer id, Model model) throws IOException {
-		List<BusinessPicture> pictures = businessPictureService.queryByReceiveBillId(id);
-		String baseUrl = PicRootName.picPrefixName();
-		model.addAttribute("pictures", pictures);
-		model.addAttribute("baseUrl", baseUrl);
-		return "modules/receipt/photo";
-	}*/
-	/**
-	 * 查看收货单
-	 * @param
-	 * @param model
-	 * @param request
-	 * @return
-	 * @throws IOException
-	 */
+
+
 	@RequestMapping(value = "seePhoto")
 	@ResponseBody
 	public Map<Object, Object> seePhoto(Integer id, Model model, HttpServletRequest request) throws IOException{

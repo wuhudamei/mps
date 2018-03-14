@@ -25,11 +25,7 @@ import cn.damei.service.modules.BizMaterialsSwitchByOrderService;
 import cn.damei.entity.modules.User;
 import cn.damei.common.utils.UserUtils;
 
-/**
- * 材料类按订单汇总查询开关面板Controller
- * @author 王硕
- * @version 2017-10-27
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/bizMaterialSortedByOrder/materialSwitchByOrder")
 public class BizMaterialSwitchByOrderController extends BaseController {
@@ -47,17 +43,17 @@ public class BizMaterialSwitchByOrderController extends BaseController {
 		}
 		return entity;
 	}
-	//开关面板列表页
+
 	@RequestMapping(value = "/switchList")
 	public String listPage(BizMaterialsSwitchByOrder bizMaterialsSwitchByOrder, HttpServletRequest request, HttpServletResponse response, Model model){
 		User user = UserUtils.getUser();
-		//过滤门店
+
 		if(null==bizMaterialsSwitchByOrder.getStoreId()){
 			if(null!=user.getStoreId()){
 				bizMaterialsSwitchByOrder.setStoreId(Integer.valueOf(user.getStoreId()));
 			}
 		}
-		//查询采购单的三个状态
+
 		List<Dict>listStatus=bizMaterialsSwitchByOrderService.findPurchaseStatus();
 		model.addAttribute("listStatus", listStatus);
 		if(bizMaterialsSwitchByOrder.getStatus()!=null){
@@ -75,23 +71,23 @@ public class BizMaterialSwitchByOrderController extends BaseController {
 		
 	}
 	
-	//开关面板详情页
+
 	@RequestMapping(value = "/detail")
 	public String detail(BizMaterialsSwitchByOrder bizMaterialsSwitchByOrder, HttpServletRequest request, HttpServletResponse response, Model model,String key){
-		//查询基本信息
+
 		BizMaterialsSwitchByOrder list=bizMaterialsSwitchByOrderService.findByOrderId(bizMaterialsSwitchByOrder.getOrderId());
 		model.addAttribute("bizMaterialsSwitchByOrder",list);
-		//查询开关面板合计信息
+
 		List<BizMaterialsSwitchByOrder> findHejiByOrderId = bizMaterialsSwitchByOrderService.findHejiByOrderId(bizMaterialsSwitchByOrder.getOrderId()); 
 		model.addAttribute("findHejiByOrderId", findHejiByOrderId); 
-		//查询开关面板明细信息
+
 		List<BizMaterialsSwitchByOrder> findMingxiByOrderId = bizMaterialsSwitchByOrderService.findMingxiByOrderId(bizMaterialsSwitchByOrder.getOrderId()); 
 		model.addAttribute("findMingxiByOrderId", findMingxiByOrderId); 
 		return "modules/mateialSortedByOrder/bizPurchaseSwitchDetails";
 		
 	}
 	
-	//开关面板导出
+
 	@RequestMapping(value = "/export")
 	public void export(HttpServletResponse response, BizMaterialsSwitchByOrder bizMaterialsSwitchByOrder, HttpServletRequest request) {
 

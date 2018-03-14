@@ -11,11 +11,7 @@ import cn.damei.common.service.CrudService2;
 import cn.damei.dao.modules.ProgressKanbanDao;
 import cn.damei.entity.modules.ProgressKanban;
 
-/**
- * 进度看板
- * @author llp
- * 2016/10/18
- */
+
 @Service
 @Transactional(readOnly = true)
 public class ProgressKanbanService extends CrudService2<ProgressKanbanDao, ProgressKanban>{

@@ -55,7 +55,7 @@ public class WorkerController {
 	public @ResponseBody String isExist(@RequestBody String username,HttpServletRequest request){
 		
 		Worker worker = workerService.selectWorkerByPhone(username);
-		//用户不存在
+
 		if(worker==null){
 			return "0";
 		}else{
@@ -68,8 +68,7 @@ public class WorkerController {
 		
 		Worker worker = workerService.selectWorkerByPhone(username);
 		if(worker==null){
-			/*model.addAttribute("message", "用户名不存在");
-			return "mobile/modules/Worker/login";*/
+
 			return "4";
 		}else{
 			HttpSession session = request.getSession();
@@ -77,7 +76,7 @@ public class WorkerController {
 	        session.setMaxInactiveInterval(3600);
 		}
 		
-		//安装工
+
 		if(worker.getWorktype().equals(4)){
 			if(ConstantUtils.USER_NAME_13393163996.equals(username)){
 				if(ConstantUtils.PASS_WORD_888888.equals(yanzheng)){
@@ -104,7 +103,7 @@ public class WorkerController {
 		}
 
 		EmployeeGroup employeeGroup = employeeGroupService.selectEmployeeGroupByGroupId(worker.getId());
-		if(employeeGroup != null){ // 组长
+		if(employeeGroup != null){
 			if(ConstantUtils.USER_NAME_13393163996.equals(username)){
 				if(ConstantUtils.PASS_WORD_888888.equals(yanzheng)){
 					return "2";
@@ -142,7 +141,7 @@ public class WorkerController {
 					}
 				}
 			}
-		}else{ // 工人
+		}else{
 			if(ConstantUtils.USER_NAME_13393163996.equals(username)){
 				if(ConstantUtils.PASS_WORD_888888.equals(yanzheng)){
 					return "3";
@@ -182,38 +181,7 @@ public class WorkerController {
 			}
 		}
 
-		/*String sessionCode = (String) request.getSession().getAttribute(username+"worker");
-		if(sessionCode ==null){
-			return "5"; //请先获取验证码
-		}
-		//加上验证码是否为null的判断
-		String[] split = sessionCode.split(",");
-		StringBuffer sb = new StringBuffer();
-		for (String string : split) {
-			sb.append(string);
-		}
-		EmployeeGroup employeeGroup = employeeGroupService.selectEmployeeGroupByGroupId(worker.getId());
-        if(employeeGroup != null){
-        	//组长
-        	if((sb.toString().trim().equals(yanzheng)&& worker.getPhone().equals(username)) || (ConstantUtils.USER_NAME_13393163996.equals(username) && ConstantUtils.PASS_WORD_888888.equals(yanzheng))){
-        		*//*return "redirect:"+Global.getAdminPath()+"/app/worker/toindex";*//*
-        		return "2";
-        	}else{
-        		*//*model.addAttribute("message","验证码错误");
-    			return "mobile/modules/Worker/login";*//*
-        		return "1";
-        	}
-        }else{
-        	//工人
-        	if((sb.toString().trim().equals(yanzheng)&& worker.getPhone().equals(username)) || (ConstantUtils.USER_NAME_13393163996.equals(username) && ConstantUtils.PASS_WORD_888888.equals(yanzheng))){
-        		*//*return "redirect:"+Global.getAdminPath()+"/app/worker/toindex1";*//*
-        		return "3";
-        	}else{
-        		*//*model.addAttribute("message","验证码错误");
-    			return "mobile/modules/Worker/login";*//*
-        		return "1";
-        	}
-        }*/
+
 	}
 	
 	
@@ -221,8 +189,8 @@ public class WorkerController {
 	public @ResponseBody String get(HttpServletRequest request,@RequestBody String username ){
 		String code = " ";
         Random random = new Random();
-        for(int i=0; i<6; i++){    //表示生成六位验证码
-        	code += String.valueOf(random.nextInt(10));   //  采用随机码生成0-10（包括0，不包括10）的验证码，生成六次，构成六位数验证码；
+        for(int i=0; i<6; i++){
+        	code += String.valueOf(random.nextInt(10));
         }
         HttpSession session = request.getSession();
         session.setAttribute(username+"worker", code);

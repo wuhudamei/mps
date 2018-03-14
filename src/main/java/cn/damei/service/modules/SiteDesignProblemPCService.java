@@ -19,12 +19,12 @@ public class SiteDesignProblemPCService extends CrudService2<SiteDesignProblemPC
 	}
 
 public SiteDesignProblem findDetails(Integer id, String businessProblemSolveRole5, String businessProblemStatus70, String pictureType2082) {
-	// TODO Auto-generated method stub
+
 	return dao.findDetails(id,businessProblemSolveRole5,businessProblemStatus70,pictureType2082);
 }
 
 public List<String> findPictureByBusinessProblemId(Integer id, String picType) {
-	// TODO Auto-generated method stub
+
 	return dao.findPictureByBusinessProblemId(id, picType);
 }
 

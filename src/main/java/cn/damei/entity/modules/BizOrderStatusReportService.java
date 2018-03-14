@@ -10,11 +10,7 @@ import cn.damei.common.service.CrudService2;
 import cn.damei.dao.modules.BizOrderStatusReportDao;
 import cn.damei.entity.modules.BizOrderStatusReport;
 
-/**
- * 大统计表-大阶段(只查询订单状态是100至400 的项目)
- * @author llp
- * @version 2016-11-29
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizOrderStatusReportService extends CrudService2<BizOrderStatusReportDao, BizOrderStatusReport>{
@@ -28,7 +24,7 @@ public class BizOrderStatusReportService extends CrudService2<BizOrderStatusRepo
 	}
 
 	public List<BizOrderStatusReport> getByStoreID(String storeId) {
-		// TODO Auto-generated method stub
+
 		return dao.getByStoreID(storeId);
 	}
 }

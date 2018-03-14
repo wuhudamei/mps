@@ -1,29 +1,23 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import cn.damei.common.persistence.DataEntity;
 
-/**
- * 团队成员评分实际评分结果Entity
- * @author lwc
- * @version 2017-04-12
- */
+
 public class ScoreTeamMemberActual extends DataEntity<ScoreTeamMemberActual> {
 	
 	private static final long serialVersionUID = 1L;
 
-	private Integer orderId;		// 订单id
-	private Integer employeeId;		// 员工id
-	private String employeeName;	// 员工姓名
-	private String employeePhone;	// 员工电话
-	private Integer belongOffice;	// 员工所属门店
-	private String employeePost;	// 员工岗位
-	private Integer currentScore;	// 当前评分值
-	private Integer currentGoodNum;	// 当前好评数
-	private Integer currentBadNum;	// 当前差评数
-	private String initFlag;		// 初始标记
+	private Integer orderId;
+	private Integer employeeId;
+	private String employeeName;
+	private String employeePhone;
+	private Integer belongOffice;
+	private String employeePost;
+	private Integer currentScore;
+	private Integer currentGoodNum;
+	private Integer currentBadNum;
+	private String initFlag;
 
 	public ScoreTeamMemberActual() {
 		super();

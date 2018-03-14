@@ -33,12 +33,7 @@ import cn.damei.entity.modules.BizSupplier;
 import cn.damei.entity.modules.User;
 import cn.damei.common.utils.UserUtils;
 
-/**
- * 采购单状态修改
- * 
- * @author wang
- *
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/purchase1/purchase1")
 public class PurchaseController extends BaseController
@@ -69,7 +64,7 @@ public class PurchaseController extends BaseController
 		bizPurchaseService.updateStatus(bizPurchase);
 		if ("40".equals(status))
 		{
-			// 订单（小区名-楼号-单元号-门牌号-客户姓名-手机号），供应商（姓名-手机号），申请辅料供应商已转单，请登录APP查看详情。--短信项目经理
+
 			Order2 order = orderService2.findOrderById(bizPurchase.getOrderId());
 			BizEmployee2 manager = bizEmployeeService2.get(order.getItemManagerId());
 			List<Auxiliary> auxiliarys = auxiliaryService.findListByPurchaseId(id, Integer.parseInt(order.getStoreId()));
@@ -79,7 +74,7 @@ public class PurchaseController extends BaseController
 			{
 				for (int i = 0; i < bizSuppliers.size(); i++)
 				{
-					// 根据辅材的id查询供应商
+
 					if (i == auxiliarys.size() - 1)
 					{
 						supplierMessage.append(bizSuppliers.get(i).getContacts()).append("-").append(bizSuppliers.get(i).getContactsPhone());
@@ -124,58 +119,51 @@ public class PurchaseController extends BaseController
 		bizPurchaseService.updateStatus(bizPurchase);
 		
 		
-		//废弃
+
 		if("21".equals(status)){
 			
-			//更新订单墙地砖表（已申请商品数量）
+
 			wallAndFloorService.updateOrderWallFloorTile(orderId);
 			
-			//如果订单工程模式为产业(是否生成复尺表)
+
 			if(OrderConstantUtil.ORDER_PROJECT_MODE_INDUSTRY_1.equals(projectMode)){
 				User user = UserUtils.getUser();
 				Integer empId = null;
 				if(null!=user && StringUtils.isNotBlank(user.getEmpId())){
 					empId = Integer.valueOf(user.getEmpId());
 				}
-				// 如果订单工程模式为产业(是否生成复尺表)
+
 				wallAndFloorService.saveWallFloorTileRecheck(orderId,empId);
 			}
 		}
 		
-		//转给供应商
+
 		if ("40".equals(status)){
 			Order2 order = orderService2.findOrderById(bizPurchase.getOrderId());
 			BizEmployee2 manager = bizEmployeeService2.get(order.getItemManagerId());
-			// BizMessagegroup bizMessagegroup =
-			// bizMessagegroupService.getByStoreId(order.getStoreId(),"4");
-			// List<Integer> list = new ArrayList<Integer>();
-			// List<BizEmployee2> employeelist = null;
-			// StringBuilder supplierMessage = new StringBuilder();
-			// if(null != bizMessagegroup ){
-			// String[] str = bizMessagegroup.getEmployees().split(",");
-			// for(String id1: str){
-			// list.add(Integer.valueOf(id1));
-			// }
-			// employeelist = bizEmployeeService2.getById(list);
-			// if(employeelist != null && employeelist.size()>0){
-			// for (int i=0;i<employeelist.size();i++) {
-			// if(i == employeelist.size()-1){
-			// supplierMessage.append(employeelist.get(i).getRealname()).append("-").append(employeelist.get(i).getPhone());
-			// }else{
-			// supplierMessage.append(employeelist.get(i).getRealname()).append("-").append(employeelist.get(i).getPhone()).append(",");
-			// }
-			// }
-			// }
-			// }
-			// 订单（小区名-楼号-单元号-门牌号-客户姓名-手机号），材料调度员（姓名-手机号），申请墙地砖材料调度员已转单，请登录APP查看详情。
-			/*
-			 * String content =
-			 * "订单（"+order.getCommunityName()+"-"+order.getBuildNumber()+"-"
-			 * +order
-			 * .getBuildUnit()+"-"+order.getBuildRoom()+"-"+order.getCustomerName
-			 * ()+"-"+order.getCustomerPhone()+",材料调度员（"
-			 * +supplierMessage.toString()+"），申请墙地砖材料调度员已转单，请登录APP查看详情。";
-			 */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 			String content = "订单（" + order.getCommunityName() + "-" + order.getBuildNumber() + "-" + order.getBuildUnit() + "-" + order.getBuildRoom() + "-" + order.getCustomerName() + "-" + order.getCustomerPhone() + "），申请墙地砖材料调度员已转单，请登录APP查看详情。";
 			BizPhoneMsg message = new BizPhoneMsg();
 			message.setMsgContent(content);
@@ -212,37 +200,29 @@ public class PurchaseController extends BaseController
 		{
 			Order2 order = orderService2.findOrderById(bizPurchase.getOrderId());
 			BizEmployee2 manager = bizEmployeeService2.get(order.getItemManagerId());
-			// BizMessagegroup bizMessagegroup =
-			// bizMessagegroupService.getByStoreId(order.getStoreId(),"8");
-			// List<Integer> list = new ArrayList<Integer>();
-			// List<BizEmployee2> employeelist = null;
-			// StringBuilder supplierMessage = new StringBuilder();
-			// if(null != bizMessagegroup ){
-			// String[] str = bizMessagegroup.getEmployees().split(",");
-			// for(String id1: str){
-			// list.add(Integer.valueOf(id1));
-			// }
-			// employeelist = bizEmployeeService2.getById(list);
-			// if(employeelist != null && employeelist.size()>0){
-			// for (int i=0;i<employeelist.size();i++) {
-			// if(i == employeelist.size()-1){
-			// supplierMessage.append(employeelist.get(i).getRealname()).append("-").append(employeelist.get(i).getPhone());
-			// }else{
-			// supplierMessage.append(employeelist.get(i).getRealname()).append("-").append(employeelist.get(i).getPhone()).append(",");
-			// }
-			// }
-			// }
-			// }
-			// 订单（小区名-楼号-单元号-门牌号-客户姓名-手机号），材料调度员（姓名-手机号），申请开关面板材料调度员已转单，请登录APP查看详情。
-			/*
-			 * String content =
-			 * "订单（"+order.getCommunityName()+"-"+order.getBuildNumber
-			 * ()+"-"+order
-			 * .getBuildUnit()+"-"+order.getBuildRoom()+"-"+order.getCustomerName
-			 * (
-			 * )+"-"+order.getCustomerPhone()+",材料调度员（"+supplierMessage.toString
-			 * ()+"），申请开关面板材料调度员已转单，请登录APP查看详情。";
-			 */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 			String content = "订单（" + order.getCommunityName() + "-" + order.getBuildNumber() + "-" + order.getBuildUnit() + "-" + order.getBuildRoom() + "-" + order.getCustomerName() + "-" + order.getCustomerPhone() + "），申请开关面板材料调度员已转单，请登录APP查看详情。";
 			BizPhoneMsg message = new BizPhoneMsg();
 			message.setMsgContent(content);
@@ -277,13 +257,7 @@ public class PurchaseController extends BaseController
 		return "redirect:" + Global.getAdminPath() + "/purchase/bizPurchase/sand/listPage";
 	}
 
-	/**
-	 * 送货
-	 * 
-	 * @param id
-	 * @param status
-	 * @return
-	 */
+
 	@RequiresPermissions("purchase:bizPurchase:edit")
 	@RequestMapping(value = "updateStatus")
 	public String updateStatus(Integer id, String status)
@@ -295,38 +269,31 @@ public class PurchaseController extends BaseController
 		return "redirect:" + Global.getAdminPath() + "/purchase/bizPurchase/sendAuxiliaryList";
 	}
 
-	/**
-	 * 开关面板--废弃
-	 * 
-	 * @param purchaseId
-	 * @param status
-	 * @param urgeReply
-	 * @return
-	 */
+
 	@RequestMapping(value = "main_panel_abandoned_because_ajax")
 	public @ResponseBody String mainPanelAbandonedBecauseAjax(String purchaseId, String status, String urgeReply)
 	{
 
 		String result = "0";
-		// 1.采购单编号为空
+
 		if (null == purchaseId || purchaseId.equals(""))
 		{
 			result = "1";
 			return result;
 		}
-		// 2.状态为空
+
 		if (null == status || status.equals(""))
 		{
 			result = "2";
 			return result;
 		}
-		// 3.废弃原因为空
+
 		if (null == urgeReply || urgeReply.equals(""))
 		{
 			result = "3";
 			return result;
 		}
-		// 4.保存废弃状态
+
 		boolean flag = bizPurchaseService.updateMainPanelStatus(purchaseId, status, urgeReply);
 		if (!flag)
 		{
@@ -336,21 +303,17 @@ public class PurchaseController extends BaseController
 		return result;
 	}
 	
-	/**
-	 * 如果是准产业，点击【转给供应商】时，判断项目经理的中期结算单是否已存在
-	 * @param orderId
-	 * @return
-	 */
+
 	@RequestMapping(value = "settlement_is_exist_ajax")
 	public @ResponseBody String settlementIsExistAjax(String orderId){
 		
 		String result = "0";
-		//1.订单id是否为空
+
 		if(StringUtils.isBlank(orderId)){
 			result = "1";
 			return result;
 		}
-		//2.判断项目经理的中期结算单是否已存在
+
 		Integer count = bizPurchaseService.findSettlementIsExist(Integer.valueOf(orderId));
 		if(null!=count && count>0){
 			result = "2";

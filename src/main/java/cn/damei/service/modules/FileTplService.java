@@ -10,11 +10,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * User: songlai
- * Date: 13-8-27
- * Time: 下午4:56
- */
+
 @Service
 @Transactional(readOnly = true)
 public class FileTplService {

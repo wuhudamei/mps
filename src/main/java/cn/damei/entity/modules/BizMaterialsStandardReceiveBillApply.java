@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import java.util.Date;
@@ -10,40 +8,35 @@ import org.hibernate.validator.constraints.Length;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 标化辅材申请记录Entity
- * 
- * @author zkj
- * @version 2016-12-26
- */
+
 public class BizMaterialsStandardReceiveBillApply extends DataEntity2<BizMaterialsStandardReceiveBillApply> {
 
 	private static final long serialVersionUID = 1L;
 	private Integer id;
-	private String name; // 门店id
-	private String orderNumber; // 订单id
-	private String materialsStandardReceiveBillCode; // 申请单号
-	private Date receiveDatetime; // 领取日期
-	private String itemManager; // 领取人 ,项目经理
-	private Double receiveBillAmount; // 领取单总金额 -- '
-	private String isSettled; // 是否已作项目经理结算 -- '1.是；0.否
-	private Date applyDatetime; // 申请日期
-	private Integer status = 10; // 领取单的状态 10.项目经理已申请 30.已领取 20.已作废 默认为0
-	private String customerName; // 客户的名字
+	private String name;
+	private String orderNumber;
+	private String materialsStandardReceiveBillCode;
+	private Date receiveDatetime;
+	private String itemManager;
+	private Double receiveBillAmount;
+	private String isSettled;
+	private Date applyDatetime;
+	private Integer status = 10;
+	private String customerName;
 
-	private Date fristApplyDatetime; // 开始申请日期
-	private Date endApplyDatetime; // 结束申请日期
+	private Date fristApplyDatetime;
+	private Date endApplyDatetime;
 
-	private Date fristReceiveDatetime; // 开始领取日期
-	private Date endReceiveDatetime; // 结束领取日期
+	private Date fristReceiveDatetime;
+	private Date endReceiveDatetime;
 
-	private Integer operatorEmployeeId; // 当前系统操作人
-	private Date operateDatetime;// 操作时间
-	private String abandonReason; // 废弃理由
-	private String receiveBillType;// 1标化辅料 2 筒灯灯带
-	private Integer shippingType;// 配送方式  0:自提 1:配送
-	private Integer shippingFee;// 配送方式  0:自提 1:配送
-	private String isScrap; // 订单是否作废 1为是 0为否
+	private Integer operatorEmployeeId;
+	private Date operateDatetime;
+	private String abandonReason;
+	private String receiveBillType;
+	private Integer shippingType;
+	private Integer shippingFee;
+	private String isScrap;
 
 	public Integer getShippingFee() {
 		return shippingFee;

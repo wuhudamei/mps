@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import java.util.Date;
@@ -8,15 +6,13 @@ import java.util.Date;
 import cn.damei.common.persistence.DataEntity2;
 
 
-/**
- * 工程部主材工期统计表--厂家复尺
- */
+
 public class BizOrderCheckSize extends DataEntity2<BizOrderCheckSize> {
 	
 	private static final long serialVersionUID = 1L;
-	private Integer orderId;		// 订单id
-	private String checksizeType;		// 厂家复尺类型
-	private Date checksizeDate;		// 最早的厂家复尺时间
+	private Integer orderId;
+	private String checksizeType;
+	private Date checksizeDate;
 	
 	
 

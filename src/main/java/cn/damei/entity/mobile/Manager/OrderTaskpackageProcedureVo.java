@@ -2,28 +2,24 @@ package cn.damei.entity.mobile.Manager;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 任务包结算Entity
- * @author qww
- * @version 2016-10-15
- */
+
 
 public class OrderTaskpackageProcedureVo extends DataEntity2<OrderTaskpackageProcedureVo>{
 
 	private static final long serialVersionUID = 1L;
 
-	private Integer id; // 任务包工序id
-	private Integer taskpackageId; // 任务包id
-	private String packageName; // 任务包名称
-	private String procedureNo; // 工序编号
-	private String procedureName; // 工序名称
-	private String measurementUnit; // 计算单位
-	private String measurementUnitLabel; // 计量单位
-	private String budgetNumber; // 预算数量(预算工程量)
-	private String realNumber; // 真实数量(实际工程量)
-	private String synthesizeUnitPrice; // 综合单价
-	private String synthesizePrice; // 结算价(综合价)
-	private String remarks; // 备注
+	private Integer id;
+	private Integer taskpackageId;
+	private String packageName;
+	private String procedureNo;
+	private String procedureName;
+	private String measurementUnit;
+	private String measurementUnitLabel;
+	private String budgetNumber;
+	private String realNumber;
+	private String synthesizeUnitPrice;
+	private String synthesizePrice;
+	private String remarks;
 	
 	public Integer getId() {
 		return id;

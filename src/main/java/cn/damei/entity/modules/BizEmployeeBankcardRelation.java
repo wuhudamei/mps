@@ -4,9 +4,7 @@ import cn.damei.common.persistence.DataEntity2;
 
 public class BizEmployeeBankcardRelation extends DataEntity2<BizEmployeeBankcardRelation>{
 
-	/**
-	 * 关联身份证
-	 */
+
 	private static final long serialVersionUID = 1L;
 	
 	private Integer id;

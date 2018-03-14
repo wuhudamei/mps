@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.util.List;
@@ -13,11 +11,7 @@ import cn.damei.common.service.CrudService2;
 import cn.damei.entity.modules.PurchaseReceiveBill;
 import cn.damei.dao.modules.PurchaseReceiveBillDao;
 
-/**
- * 收货单Service
- * @author www
- * @version 2016-11-10
- */
+
 @Service
 @Transactional(readOnly = true)
 public class PurchaseReceiveBillService extends CrudService2<PurchaseReceiveBillDao, PurchaseReceiveBill> {

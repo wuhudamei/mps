@@ -1,30 +1,24 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import org.hibernate.validator.constraints.Length;
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 付款单明细拆分Entity
- * @author www
- * @version 2016-10-31
- */
+
 public class BizOrderTaskpackagePaymentDetailSplit extends DataEntity2<BizOrderTaskpackagePaymentDetailSplit> {
 	
 	private static final long serialVersionUID = 1L;
-	private Integer orderTaskpackagePaymentDetailId;		// 付款单明细id -- '
-	private Integer salaryEmployeeId;		// 收款员工id -- '
-	private Integer employeeBankcardId;		// 员工银行卡id -- '
-	private Integer employeeBankcardRelatedIdcardId;		// 员工银行卡关联身份证id -- '
-	private String salaryEmployeeName;		// 收款员工姓名 -- '
-	private String salaryEmployeeIdcardNo;		// 收款员工身份证号 -- '
-	private String salaryEmployeeBankcard;		// 收款员工银行卡号 -- '
-	private Double payAmountTotal;		// 付款总金额 -- '
-	private String relatedName;		// 关联人姓名 -- '
-	private String relatedIdcardNo;		// 关联人身份证号 -- '
-	private Double payAmountSplit;		// 打款金额 -- '
+	private Integer orderTaskpackagePaymentDetailId;
+	private Integer salaryEmployeeId;
+	private Integer employeeBankcardId;
+	private Integer employeeBankcardRelatedIdcardId;
+	private String salaryEmployeeName;
+	private String salaryEmployeeIdcardNo;
+	private String salaryEmployeeBankcard;
+	private Double payAmountTotal;
+	private String relatedName;
+	private String relatedIdcardNo;
+	private Double payAmountSplit;
 
 	public BizOrderTaskpackagePaymentDetailSplit() {
 		super();

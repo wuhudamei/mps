@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import java.util.ArrayList;
@@ -9,48 +7,44 @@ import java.util.List;
 
 import cn.damei.common.persistence.DataEntity;
 
-/**
- * 结算员审核验收单Entity
- * @author wyb
- * @version 2016-10-31
- */
+
 public class InspectorConfirm extends DataEntity<InspectorConfirm> {
 	
 	private static final long serialVersionUID = 1L;
 	
-	private Integer qcBillId;	//约检验收单id
-	private Integer orderId;	//订单id
-	private String storeId;	//门店
+	private Integer qcBillId;
+	private Integer orderId;
+	private String storeId;
 
-	private String communityName;		// 小区名称
-	private String buildNumber;		// 几号楼
-	private String buildUnit;		// 几单元
-	private String buildRoom;		// 哪一室
-	private String customerName;		// 客户姓名
+	private String communityName;
+	private String buildNumber;
+	private String buildUnit;
+	private String buildRoom;
+	private String customerName;
 	
-	private String itemManager;		// 项目经理
-	private Integer itemManagerId;		// 项目经理id
+	private String itemManager;
+	private Integer itemManagerId;
 	
 	private String checkEmployeeName;
 	
 	
-	private String qcBillCode;	//质检单编号
-	private Integer qcCheckNodeId;	//约检节点id
-	private String qcCheckNodeName;	//约检节点
-	private String status;		//状态
-	private String isRecheck;	//是否复检
-	private String qcBillType;	//质检单类型
+	private String qcBillCode;
+	private Integer qcCheckNodeId;
+	private String qcCheckNodeName;
+	private String status;
+	private String isRecheck;
+	private String qcBillType;
 	
 	
-	private Date acceptCheckDatetime; //确认验收日期
-	private Date beginAcceptCheckDatetime; // 开始   确认验收日期
-	private Date endAcceptCheckDatetime; // 结束   确认验收日期
+	private Date acceptCheckDatetime;
+	private Date beginAcceptCheckDatetime;
+	private Date endAcceptCheckDatetime;
 	
-	private String projectMode;		//工程模式   1-产业模式；2-传统模式
+	private String projectMode;
 	
-	private String reviewStatus;	//审核状态
-	private String reviewRemark;	//审核意见
-	private Date reviewDatetime;	//审核日期时间
+	private String reviewStatus;
+	private String reviewRemark;
+	private Date reviewDatetime;
 
 	private Integer enginDepartId;
 	private String departmentName;

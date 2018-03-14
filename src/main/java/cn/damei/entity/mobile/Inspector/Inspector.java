@@ -4,34 +4,30 @@ import java.util.Date;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/** 
-* @author 梅浩   meihao@zzhyun.cn: 
-* @version 创建时间：2016年10月24日 下午3:44:28 
-* 质检员 
-*/
+
 
 public class Inspector  extends DataEntity2<Inspector>{
 	
 	private static final long serialVersionUID = 1L;
 	
 	private Integer id; 
-	private String no; // 员工编号
-	private String loginName; // 登录名
-	private String realName; // 真实姓名
-	private String phone; // 手机号
+	private String no;
+	private String loginName;
+	private String realName;
+	private String phone;
 	private String password;
-	private Integer empType; // 员工类型
-	private Integer storeId; // 门店Id
-	private Integer totalOrderCount;//总订单数
-	private Integer  currentOrderCount;//正在施工数
-	private Integer inspectReport;//质检报告
-	private Integer evalCount;//未评价数
+	private Integer empType;
+	private Integer storeId;
+	private Integer totalOrderCount;
+	private Integer  currentOrderCount;
+	private Integer inspectReport;
+	private Integer evalCount;
 	
-	private Date nowDate;	//当前时间
-	private Integer isLeader;//是否领导
+	private Date nowDate;
+	private Integer isLeader;
 	
-	private Integer star;//星级
-	private String selectCheckText;	//抽检搜索条件
+	private Integer star;
+	private String selectCheckText;
 	
 	
 	public String getSelectCheckText() {

@@ -33,9 +33,7 @@ import cn.damei.service.modules.BizOrderScrapService;
 import cn.damei.entity.modules.User;
 import cn.damei.common.utils.UserUtils;
 
-/**
- * 订单作废Controller
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/orderScrap/orderScrap")
 public class BizOrderScrapController extends BaseController {
@@ -54,28 +52,20 @@ public class BizOrderScrapController extends BaseController {
 		return entity;
 	}
 
-	/**
-	 * 订单作废页面
-	 * 
-	 * @param bizOrderScrap
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @return
-	 */
+
 	@RequiresPermissions("orderScrap:orderScrap:view")
 	@RequestMapping(value = { "preList", "" })
 	public String preList(BizOrderScrap bizOrderScrap, HttpServletRequest request, HttpServletResponse response, Model model) {
 
 		User user = UserUtils.getUser();
 
-		// 过滤门店
+
 		if (null == bizOrderScrap.getStoreId()) {
 			if (StringUtils.isNotBlank(user.getStoreId())) {
 				bizOrderScrap.setStoreId(Integer.valueOf(user.getStoreId()));
 			}
 		}
-		// 过滤工程模式
+
 		if (StringUtils.isBlank(bizOrderScrap.getProjectMode())) {
 			if (StringUtils.isBlank(user.getProjectMode()) || user.getProjectMode().equals("3")) {
 				model.addAttribute("gongcheng", true);
@@ -92,28 +82,20 @@ public class BizOrderScrapController extends BaseController {
 		return "modules/orderScrap/bizOrderScrapList";
 	}
 
-	/**
-	 * 订单作废页面
-	 * 
-	 * @param bizOrderScrap
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @return
-	 */
+
 	@RequiresPermissions("orderScrap:orderScrap:view")
 	@RequestMapping(value = { "list", "" })
 	public String list(BizOrderScrap bizOrderScrap, HttpServletRequest request, HttpServletResponse response, Model model) {
 
 		User user = UserUtils.getUser();
 
-		// 过滤门店
+
 		if (null == bizOrderScrap.getStoreId()) {
 			if (StringUtils.isNotBlank(user.getStoreId())) {
 				bizOrderScrap.setStoreId(Integer.valueOf(user.getStoreId()));
 			}
 		}
-		// 过滤工程模式
+
 		if (StringUtils.isBlank(bizOrderScrap.getProjectMode())) {
 			if (StringUtils.isBlank(user.getProjectMode()) || user.getProjectMode().equals("3")) {
 				model.addAttribute("gongcheng", true);
@@ -128,7 +110,7 @@ public class BizOrderScrapController extends BaseController {
 			}
 		}
 
-		// 是否作废
+
 		bizOrderScrap.setIsScrap(OrderConstantUtil.ORDER_IS_SCRAP_NO_0);
 
 		Page<BizOrderScrap> page = bizOrderScrapService.findPage(new Page<BizOrderScrap>(request, response), bizOrderScrap);
@@ -137,28 +119,20 @@ public class BizOrderScrapController extends BaseController {
 		return "modules/orderScrap/bizOrderScrapList";
 	}
 
-	/**
-	 * 订单回收页面
-	 * 
-	 * @param bizOrderScrap
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @return
-	 */
+
 	@RequiresPermissions("orderScrap:orderScrap:view")
 	@RequestMapping(value = { "preRecoveryList", "" })
 	public String preRecoveryList(BizOrderScrap bizOrderScrap, HttpServletRequest request, HttpServletResponse response, Model model) {
 
 		User user = UserUtils.getUser();
 
-		// 过滤门店
+
 		if (null == bizOrderScrap.getStoreId()) {
 			if (StringUtils.isNotBlank(user.getStoreId())) {
 				bizOrderScrap.setStoreId(Integer.valueOf(user.getStoreId()));
 			}
 		}
-		// 过滤工程模式
+
 		if (StringUtils.isBlank(bizOrderScrap.getProjectMode())) {
 			if (StringUtils.isBlank(user.getProjectMode()) || user.getProjectMode().equals("3")) {
 				model.addAttribute("gongcheng", true);
@@ -175,28 +149,20 @@ public class BizOrderScrapController extends BaseController {
 		return "modules/orderScrap/bizOrderScrapRecoveryList";
 	}
 
-	/**
-	 * 订单回收页面
-	 * 
-	 * @param bizOrderScrap
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @return
-	 */
+
 	@RequiresPermissions("orderScrap:orderScrap:view")
 	@RequestMapping(value = { "recoveryList", "" })
 	public String recoveryList(BizOrderScrap bizOrderScrap, HttpServletRequest request, HttpServletResponse response, Model model) {
 
 		User user = UserUtils.getUser();
 
-		// 过滤门店
+
 		if (null == bizOrderScrap.getStoreId()) {
 			if (StringUtils.isNotBlank(user.getStoreId())) {
 				bizOrderScrap.setStoreId(Integer.valueOf(user.getStoreId()));
 			}
 		}
-		// 过滤工程模式
+
 		if (StringUtils.isBlank(bizOrderScrap.getProjectMode())) {
 			if (StringUtils.isBlank(user.getProjectMode()) || user.getProjectMode().equals("3")) {
 				model.addAttribute("gongcheng", true);
@@ -211,7 +177,7 @@ public class BizOrderScrapController extends BaseController {
 			}
 		}
 
-		// 是否作废
+
 		bizOrderScrap.setIsScrap(OrderConstantUtil.ORDER_IS_SCRAP_YES_1);
 
 		Page<BizOrderScrap> page = bizOrderScrapService.findRecoveryPage(new Page<BizOrderScrap>(request, response), bizOrderScrap);
@@ -220,13 +186,7 @@ public class BizOrderScrapController extends BaseController {
 		return "modules/orderScrap/bizOrderScrapRecoveryList";
 	}
 
-	/**
-	 * 查看详情
-	 * 
-	 * @param orderId
-	 * @param model
-	 * @return
-	 */
+
 	@RequiresPermissions("orderScrap:orderScrap:view")
 	@RequestMapping(value = "details")
 	public String details(Integer orderId, Model model) {
@@ -235,13 +195,7 @@ public class BizOrderScrapController extends BaseController {
 		return "modules/orderScrap/bizOrderScrapDetails";
 	}
 
-	/**
-	 * 作废
-	 * 
-	 * @param orderId
-	 * @param model
-	 * @return
-	 */
+
 	@RequiresPermissions("orderScrap:orderScrap:view")
 	@RequestMapping(value = "scrapfrom")
 	public String scrapfrom(Integer orderId, Model model) {
@@ -250,19 +204,7 @@ public class BizOrderScrapController extends BaseController {
 		return "modules/orderScrap/bizOrderScrapfrom";
 	}
 
-	/**
-	 * 修改订单的作废状态值和更改isto结算需要的字段
-	 * 
-	 * @Title: scrapUpdate
-	 * @Description: TODO
-	 * @param @param orderId
-	 * @param @param bizOrderScrap
-	 * @param @param model
-	 * @param @return
-	 * @return String
-	 * @author ZhangTongWei
-	 * @throws
-	 */
+
 	@RequiresPermissions("orderScrap:orderScrap:view")
 	@RequestMapping(value = "scrapUpdate")
 	public String scrapUpdate(Integer orderId, BizOrderScrap bizOrderScrap, String[] photo, Model model, RedirectAttributes redirectAttributes, HttpServletResponse response, HttpServletRequest request) {
@@ -277,46 +219,9 @@ public class BizOrderScrapController extends BaseController {
 	@Autowired
 	private ProjectUtil PicUtil;
 
-	/**
-	 * 获取图片
-	 *
-	 * @param orderId
-	 * @param model
-	 * @return
-	 */
-	/*@RequiresPermissions("orderScrap:orderScrap:view")
-	@RequestMapping(value = "getPic")
-	public String getPic(Integer orderId, Model model) {
-		try {
-			Map<String, String> picMap = new HashMap<String, String>();
 
-			picMap.put("businessType", ConstantUtils.UPLOAD_SCRAP);
-			picMap.put("businessIdInt", orderId + "");
-			List<String> findPicByIdAndType = PicUtil.findPicByIdAndType(picMap);
-			List<WallRecheck> rechecks = new ArrayList<WallRecheck>();
-			if (null != findPicByIdAndType && findPicByIdAndType.size() > 0) {
-				for (String string : findPicByIdAndType) {
-					WallRecheck recheck = new WallRecheck();
-					recheck.setPicUrl(string);
-					rechecks.add(recheck);
-				}
-			}
-			String baseUrl = PicRootName.picPrefixName();
-			model.addAttribute("list", rechecks);
-			model.addAttribute("baseUrl", baseUrl);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return "modules/materialwallfloor/wallRecheckResultExaminePic";
-	}*/
-	/**
-	 * 图片Ajax
-	 * @param
-	 * @param model
-	 * @param request
-	 * @return
-	 * @throws IOException
-	 */
+
+
 	@RequestMapping(value = "photo")
 	@ResponseBody
 	public Map<Object, Object> photo(Integer orderId, Model model, HttpServletRequest request) throws IOException{
@@ -340,12 +245,7 @@ public class BizOrderScrapController extends BaseController {
 		mapObject.put("mapObject", rechecks);
 		return mapObject;
 	}
-	/**
-	 * @Description: 订单编号回收
-	 * @param @return
-	 * @author zkj
-	 * @date 2017年10月31日 下午2:57:56
-	 */
+
 	@RequestMapping(value="orderNumberRecovery")
 	public String orderNumberRecovery(RedirectAttributes redirectAttributes,BizOrderScrap bizOrderScrap, HttpServletRequest request, HttpServletResponse response, Model model){
 		bizOrderScrapService.orderNumberRecovery(bizOrderScrap);

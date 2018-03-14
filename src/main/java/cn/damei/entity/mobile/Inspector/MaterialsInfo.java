@@ -7,35 +7,35 @@ import cn.damei.common.persistence.DataEntity2;
 
 public class MaterialsInfo{
 
-	private  String assistItemName; //辅材名称
+	private  String assistItemName;
 	
-	private  String assistItemNo;//辅材编号
+	private  String assistItemNo;
 	 
-	private String unit;  //计量单位
+	private String unit;
 	
-	private Double unitPrice; //单价（门店结算价）
+	private Double unitPrice;
 	
-	private Double workerPrice; //工人结算价
+	private Double workerPrice;
 	
-	private Double supplierPrice; //供应商供货价
+	private Double supplierPrice;
 	
-	private String supplierCode; //供应商Code
+	private String supplierCode;
 	
-	private String supplierName; //供应商名称
+	private String supplierName;
 	
-	private String lastCount; //最终数量
+	private String lastCount;
 	
-	private String materialCateName; //材料分类名称
+	private String materialCateName;
 	
-	private String brand;//品牌
+	private String brand;
 	
-	private String type;//型号
+	private String type;
 	
-	private Date acceptanceDate;//验收日期
+	private Date acceptanceDate;
 	
-	private String projectManagerName;//验收人
+	private String projectManagerName;
 	
-	private String projectManagerMobile;//验收人手机号
+	private String projectManagerMobile;
 	
 
 	public String getAcceptanceDate() {

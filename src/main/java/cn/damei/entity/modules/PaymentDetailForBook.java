@@ -2,11 +2,7 @@ package cn.damei.entity.modules;
 
 import java.util.Date;
 
-/**
- * 工人账目
- * @author wang
- *
- */
+
 public class PaymentDetailForBook {
 
 	private Integer employeeId;

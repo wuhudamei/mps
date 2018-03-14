@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.dao.modules;
 
 import java.util.Date;
@@ -12,16 +10,11 @@ import cn.damei.entity.modules.BizEmployeeStarLog;
 import cn.damei.entity.modules.BizEmployeegroupVO;
 import cn.damei.entity.modules.OrderTaskpackage;
 
-/**
- * 工人组管理DAO接口
- * 
- * @author qhy
- * @version 2016-09-01
- */
+
 @MyBatisDao
 public interface BizBizEmployeegroupVoDao extends CrudDao<BizEmployeegroupVO> {
-	// 任务包，预留
-	// public List<BizEmployeegroupVO>findGroupList();
+
+
 
 	public List<BizEmployeegroupVO> findFreeLeader(BizEmployeegroupVO bizEmployeegroupVO);
 
@@ -31,9 +24,9 @@ public interface BizBizEmployeegroupVoDao extends CrudDao<BizEmployeegroupVO> {
 
 	public BizEmployeegroupVO getbyId(BizEmployeegroupVO bizEmployeegroupVO);
 
-	public void updateStar(Integer empGroupId);   //将数据更新至员工表的星级得分
+	public void updateStar(Integer empGroupId);
 
-	public List<BizEmployeegroupVO> getSumAvg(Integer empGroupId);    //获取总分 次数
+	public List<BizEmployeegroupVO> getSumAvg(Integer empGroupId);
 
 	public void insertStarLog(double beforeScore, double afterScore,
 			Integer empGroupId);

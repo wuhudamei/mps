@@ -7,9 +7,7 @@ import java.util.List;
 
 public class CustomerOrderVo  implements Serializable{
 
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 
 	

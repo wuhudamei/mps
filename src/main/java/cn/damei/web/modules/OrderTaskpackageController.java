@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import java.util.Date;
@@ -30,12 +28,7 @@ import cn.damei.service.modules.OrderTaskpackageService;
 import cn.damei.entity.modules.User;
 import cn.damei.common.utils.UserUtils;
 
-/**
- * 派工管理Controller
- * 
- * @author wyb
- * @version 2016-09-12
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/scheduling/orderTaskpackage")
 public class OrderTaskpackageController extends BaseController {
@@ -58,12 +51,12 @@ public class OrderTaskpackageController extends BaseController {
 		return entity;
 	}
 
-	// 按任务包派工人
+
 	@RequiresPermissions("scheduling:orderTaskpackage:view")
 	@RequestMapping(value = { "list", "" })
 	public String list(OrderTaskpackage orderTaskpackage, HttpServletRequest request, HttpServletResponse response,
 			Model model) {
-		// 过滤门店
+
 		User user = UserUtils.getUser();
 		if (orderTaskpackage.getStoreId() == null) {
 			String storeId = user.getStoreId();
@@ -73,7 +66,7 @@ public class OrderTaskpackageController extends BaseController {
 				orderTaskpackage.setStoreId(storeId);
 			}
 		}
-		// 过滤工程模式
+
 		if (StringUtils.isBlank(orderTaskpackage.getProjectMode())) {
 			if (null != user.getEmpId()) {
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -109,17 +102,17 @@ public class OrderTaskpackageController extends BaseController {
 		
 		return "modules/scheduling/orderTaskpackageList";
 	}
-	// 按任务包派工人
+
 	@RequiresPermissions("scheduling:orderTaskpackage:view")
 	@RequestMapping(value = { "list2", "" })
 	public String list2(OrderTaskpackage orderTaskpackage, HttpServletRequest request, HttpServletResponse response,
 			Model model) {
-		// 不是管理员就不能查全部门店
+
 		if (!UserUtils.getUser().getOffice().getId().equals("1")) {
-			// 安心查自己门店吧
+
 			orderTaskpackage.setStoreId(UserUtils.getUser().getStoreId());
 		}
-		// 过滤门店
+
 		User user = UserUtils.getUser();
 		if (orderTaskpackage.getStoreId() == null) {
 			String storeId = user.getStoreId();
@@ -129,7 +122,7 @@ public class OrderTaskpackageController extends BaseController {
 				orderTaskpackage.setStoreId(storeId);
 			}
 		}
-		// 过滤工程模式
+
 		if (StringUtils.isBlank(orderTaskpackage.getProjectMode())) {
 			if (null != user.getEmpId()) {
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -177,7 +170,7 @@ public class OrderTaskpackageController extends BaseController {
 		return "modules/scheduling/orderTaskpackageList";
 	}
 
-	// 工人接单监控
+
 	@RequiresPermissions("scheduling:orderTaskpackage:view")
 	@RequestMapping(value = { "workerList", "" })
 	public String workerList(OrderTaskpackage orderTaskpackage, HttpServletRequest request,
@@ -191,7 +184,7 @@ public class OrderTaskpackageController extends BaseController {
 				orderTaskpackage.setStoreId(storeId);
 			}
 		}
-		// 过滤工程模式
+
 		if (StringUtils.isBlank(orderTaskpackage.getProjectMode())) {
 			if (null != user.getEmpId()) {
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -227,7 +220,7 @@ public class OrderTaskpackageController extends BaseController {
 		return "modules/scheduling/workerReceiveMonitoringList";
 	}
 	
-	// 工人接单监控
+
 	@RequiresPermissions("scheduling:orderTaskpackage:view")
 	@RequestMapping(value = { "workerListNew", "" })
 	public String workerListNew(OrderTaskpackage orderTaskpackage, HttpServletRequest request,
@@ -241,7 +234,7 @@ public class OrderTaskpackageController extends BaseController {
 				orderTaskpackage.setStoreId(storeId);
 			}
 		}
-		// 过滤工程模式
+
 		if (StringUtils.isBlank(orderTaskpackage.getProjectMode())) {
 			if (null != user.getEmpId()) {
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -277,7 +270,7 @@ public class OrderTaskpackageController extends BaseController {
 		return "modules/scheduling/workerReceiveMonitoringListNew";
 	}
 	
-	// 特殊--已派工人组
+
 	@RequiresPermissions("scheduling:orderTaskpackage:view")
 	@RequestMapping(value = { "specialworkerList", "" })
 	public String specialworkerList(OrderTaskpackage orderTaskpackage, HttpServletRequest request,
@@ -291,7 +284,7 @@ public class OrderTaskpackageController extends BaseController {
 				orderTaskpackage.setStoreId(storeId);
 			}
 		}
-		// 过滤工程模式
+
 		if (StringUtils.isBlank(orderTaskpackage.getProjectMode())) {
 			if (null != user.getEmpId()) {
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -326,20 +319,20 @@ public class OrderTaskpackageController extends BaseController {
 		
 		return "modules/scheduling/workerSpecialReceiveMonitoringListNew";
 	}
-	// 工人接单监控
+
 	@RequiresPermissions("scheduling:orderTaskpackage:view")
 	@RequestMapping(value = { "workerList2", "" })
 	public String workerList2(OrderTaskpackage orderTaskpackage, HttpServletRequest request,
 			HttpServletResponse response, Model model) {
 		int x = 0;
-		// 不是管理员就不能查全部门店
+
 		if (!UserUtils.getUser().getOffice().getId().equals("1")) {
-			// 安心查自己门店吧
+
 			orderTaskpackage.setStoreId(UserUtils.getUser().getStoreId());
 			x++;
 		}
 		User user = UserUtils.getUser();
-		// 过滤工程模式
+
 		if (StringUtils.isBlank(orderTaskpackage.getProjectMode())) {
 			if (null != user.getEmpId()) {
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -378,18 +371,18 @@ public class OrderTaskpackageController extends BaseController {
 		
 		List<OrderTaskpackage> lis = new ArrayList<OrderTaskpackage>();
 		
-		//获取所有的任务包（遍历）
+
 		List<OrderTaskpackage> list = page.getList();
 		for (OrderTaskpackage otp : list) {
 			
-			//通过订单id查询订单编号
+
 			String id = otp.getOrderId();
 			String on = orderTaskpackageService.findOrderNumber(Integer.valueOf(id));
 			otp.setOrderNumber(on);
 			
 			
 			
-			//获取页面输入的派工时间间隔
+
 			String time = request.getParameter("time");
 			int t = 0;
 			if(time != null && !time.equals("")){
@@ -398,13 +391,13 @@ public class OrderTaskpackageController extends BaseController {
 					
 					Long s = new Date().getTime()-otp.getDispatchTime().getTime();
 					int ss = s.intValue();
-					//如果计算出的时间间隔大于等于页面输入的时间间隔
+
 					if(ss>=t && "50".equals(otp.getPackageStateId()) || "55".equals(otp.getPackageStateId())){
 						otp.setIsOvertime("1");
 					}else{
 						otp.setIsOvertime("0");
 					}
-					//把任务包对象放入新的lis集合中
+
 					lis.add(otp);
 				}
 				
@@ -419,7 +412,7 @@ public class OrderTaskpackageController extends BaseController {
 					}else{
 						otp.setIsOvertime("0");
 					}
-					//把任务包对象放入新的lis集合中
+
 					lis.add(otp);
 				}
 			}
@@ -427,7 +420,7 @@ public class OrderTaskpackageController extends BaseController {
 			
 		}
 		
-		//把lis集合放入分页插件中
+
 		page.setList(lis);
 		
 		if (x > 0) {
@@ -439,20 +432,20 @@ public class OrderTaskpackageController extends BaseController {
 		model.addAttribute("page", page);
 		return "modules/scheduling/workerReceiveMonitoringList";
 	}
-	// 已派工人组
+
 	@RequiresPermissions("scheduling:orderTaskpackage:view")
 	@RequestMapping(value = { "workerList2New", "" })
 	public String workerList2New(OrderTaskpackage orderTaskpackage, HttpServletRequest request,
 			HttpServletResponse response, Model model) {
 		int x = 0;
-		// 不是管理员就不能查全部门店
+
 		if (!UserUtils.getUser().getOffice().getId().equals("1")) {
-			// 安心查自己门店吧
+
 			orderTaskpackage.setStoreId(UserUtils.getUser().getStoreId());
 			x++;
 		}
 		User user = UserUtils.getUser();
-		// 过滤工程模式
+
 		if (StringUtils.isBlank(orderTaskpackage.getProjectMode())) {
 			if (null != user.getEmpId()) {
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -491,18 +484,18 @@ public class OrderTaskpackageController extends BaseController {
 		
 		List<OrderTaskpackage> lis = new ArrayList<OrderTaskpackage>();
 		
-		//获取所有的任务包（遍历）
+
 		List<OrderTaskpackage> list = page.getList();
 		for (OrderTaskpackage otp : list) {
 			
-			//通过订单id查询订单编号
+
 			String id = otp.getOrderId();
 			String on = orderTaskpackageService.findOrderNumber(Integer.valueOf(id));
 			otp.setOrderNumber(on);
 			
 			
 			
-			//获取页面输入的派工时间间隔
+
 			String time = request.getParameter("time");
 			int t = 0;
 			if(time != null && !time.equals("")){
@@ -511,13 +504,13 @@ public class OrderTaskpackageController extends BaseController {
 					
 					Long s = new Date().getTime()-otp.getDispatchTime().getTime();
 					int ss = s.intValue();
-					//如果计算出的时间间隔大于等于页面输入的时间间隔
+
 					if(ss>=t && "50".equals(otp.getPackageStateId()) || "55".equals(otp.getPackageStateId())){
 						otp.setIsOvertime("1");
 					}else{
 						otp.setIsOvertime("0");
 					}
-					//把任务包对象放入新的lis集合中
+
 					lis.add(otp);
 				}
 				
@@ -532,7 +525,7 @@ public class OrderTaskpackageController extends BaseController {
 					}else{
 						otp.setIsOvertime("0");
 					}
-					//把任务包对象放入新的lis集合中
+
 					lis.add(otp);
 				}
 			}
@@ -540,7 +533,7 @@ public class OrderTaskpackageController extends BaseController {
 			
 		}
 		
-		//把lis集合放入分页插件中
+
 		page.setList(lis);
 		
 		if (x > 0) {
@@ -552,20 +545,20 @@ public class OrderTaskpackageController extends BaseController {
 		model.addAttribute("page", page);
 		return "modules/scheduling/workerReceiveMonitoringListNew";
 	}
-	// 特殊-已派工人组
+
 	@RequiresPermissions("scheduling:orderTaskpackage:view")
 	@RequestMapping(value = { "specialWorkerList2New", "" })
 	public String specialWorkerList2New(OrderTaskpackage orderTaskpackage, HttpServletRequest request,
 			HttpServletResponse response, Model model) {
 		int x = 0;
-		// 不是管理员就不能查全部门店
+
 		if (!UserUtils.getUser().getOffice().getId().equals("1")) {
-			// 安心查自己门店吧
+
 			orderTaskpackage.setStoreId(UserUtils.getUser().getStoreId());
 			x++;
 		}
 		User user = UserUtils.getUser();
-		// 过滤工程模式
+
 		if (StringUtils.isBlank(orderTaskpackage.getProjectMode())) {
 			if (null != user.getEmpId()) {
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -604,18 +597,18 @@ public class OrderTaskpackageController extends BaseController {
 		
 		List<OrderTaskpackage> lis = new ArrayList<OrderTaskpackage>();
 		
-		//获取所有的任务包（遍历）
+
 		List<OrderTaskpackage> list = page.getList();
 		for (OrderTaskpackage otp : list) {
 			
-			//通过订单id查询订单编号
+
 			String id = otp.getOrderId();
 			String on = orderTaskpackageService.findOrderNumber(Integer.valueOf(id));
 			otp.setOrderNumber(on);
 			
 			
 			
-			//获取页面输入的派工时间间隔
+
 			String time = request.getParameter("time");
 			int t = 0;
 			if(time != null && !time.equals("")){
@@ -624,13 +617,13 @@ public class OrderTaskpackageController extends BaseController {
 					
 					Long s = new Date().getTime()-otp.getDispatchTime().getTime();
 					int ss = s.intValue();
-					//如果计算出的时间间隔大于等于页面输入的时间间隔
+
 					if(ss>=t && "50".equals(otp.getPackageStateId()) || "55".equals(otp.getPackageStateId())){
 						otp.setIsOvertime("1");
 					}else{
 						otp.setIsOvertime("0");
 					}
-					//把任务包对象放入新的lis集合中
+
 					lis.add(otp);
 				}
 				
@@ -646,7 +639,7 @@ public class OrderTaskpackageController extends BaseController {
 					}else{
 						otp.setIsOvertime("0");
 					}
-					//把任务包对象放入新的lis集合中
+
 					lis.add(otp);
 				}
 			}
@@ -654,7 +647,7 @@ public class OrderTaskpackageController extends BaseController {
 			
 		}
 		
-		//把lis集合放入分页插件中
+
 		page.setList(lis);
 		
 		if (x > 0) {
@@ -667,35 +660,35 @@ public class OrderTaskpackageController extends BaseController {
 		return "modules/scheduling/workerSpecialReceiveMonitoringListNew";
 	}
 
-	// 工人组信息
+
 	@RequiresPermissions("scheduling:orderTaskpackage:edit")
 	@RequestMapping(value = "findById")
 	public String findById(OrderTaskpackage orderTaskpackage, HttpServletRequest request, HttpServletResponse response,
 			Model model) throws IOException {
-		// 传入工人组id 查询 姓名 手机号,可接任务包及图片
 
-		// 1:查询 组长的 头像, 真实姓名 和 手机号
+
+
 		TeamLeaderInfo teamLeaderInfo = orderTaskpackageService
 				.findTeamLeaderInfoByEmployeeGroupId(orderTaskpackage.getEmpGroupid());
 	
 			ArrayList<String>  list = new ArrayList<String>();
-		// 2: 查询任务包的id
+
 		String taskPackageIds = orderTaskpackageService
 				.findTaskPackageByemployeeGroupId(orderTaskpackage.getEmpGroupid());
 		if (null != taskPackageIds && !"".equals(taskPackageIds)) {
 
 			String[] split = taskPackageIds.split(",");
 			for (String taskPackageId : split) {
-				// 得到每一个任务包的id ,查询出name
+
 				String packageName = orderTaskpackageService.findPackageNameById(taskPackageId);
 			
 			list.add(packageName);
 			}
 		} else {
-			// 工人组啥活都不会
+
 		}
 
-		// 3: 设置工人数
+
 		
 		teamLeaderInfo.setTeamNumber(orderTaskpackageService.findCountByWorkerId(orderTaskpackage.getEmpGroupid()));
 
@@ -705,9 +698,7 @@ public class OrderTaskpackageController extends BaseController {
 		return "modules/scheduling/employeegroup";
 	}
 	
-	/**
-	 * 
-	 */
+
 	@RequestMapping(value = "viewByOrderID")
 	public String viewByOrderID(String orderID,HttpServletRequest request, 
 			HttpServletResponse response, Model model){
@@ -724,12 +715,12 @@ public class OrderTaskpackageController extends BaseController {
 		return "modules/bizcompleted/taskpackageDetail";
 	}
 	
-	// 按任务包派工人---2017-08-31新需求
+
 	@RequiresPermissions("scheduling:orderTaskpackage:view")
 	@RequestMapping(value = { "listNew", "" })
 	public String listNew(OrderTaskpackage orderTaskpackage, HttpServletRequest request, HttpServletResponse response,
 			Model model) {
-		// 过滤门店
+
 		User user = UserUtils.getUser();
 		if (orderTaskpackage.getStoreId() == null) {
 			String storeId = user.getStoreId();
@@ -739,7 +730,7 @@ public class OrderTaskpackageController extends BaseController {
 				orderTaskpackage.setStoreId(storeId);
 			}
 		}
-		// 过滤工程模式
+
 		if (StringUtils.isBlank(orderTaskpackage.getProjectMode())) {
 			if (null != user.getEmpId()) {
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -776,12 +767,12 @@ public class OrderTaskpackageController extends BaseController {
 		return "modules/scheduling/orderTaskpackageListNew";
 	}
 	
-	// 按任务包派工人---2017-08-31新需求
+
 	@RequiresPermissions("scheduling:orderTaskpackage:view")
 	@RequestMapping(value = { "specialListNew", "" })
 	public String specialListNew(OrderTaskpackage orderTaskpackage, HttpServletRequest request, HttpServletResponse response,
 			Model model) {
-		// 过滤门店
+
 		User user = UserUtils.getUser();
 		if (orderTaskpackage.getStoreId() == null) {
 			String storeId = user.getStoreId();
@@ -791,7 +782,7 @@ public class OrderTaskpackageController extends BaseController {
 				orderTaskpackage.setStoreId(storeId);
 			}
 		}
-		// 过滤工程模式
+
 		if (StringUtils.isBlank(orderTaskpackage.getProjectMode())) {
 			if (null != user.getEmpId()) {
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -828,17 +819,17 @@ public class OrderTaskpackageController extends BaseController {
 		return "modules/scheduling/specialOrderTaskpackageList";
 	}
 	
-	// 按任务包派工人
+
 	@RequiresPermissions("scheduling:orderTaskpackage:view")
 	@RequestMapping(value = { "list2New", "" })
 	public String list2New(OrderTaskpackage orderTaskpackage, HttpServletRequest request, HttpServletResponse response,
 			Model model) {
-		// 不是管理员就不能查全部门店
+
 		if (!UserUtils.getUser().getOffice().getId().equals("1")) {
-			// 安心查自己门店吧
+
 			orderTaskpackage.setStoreId(UserUtils.getUser().getStoreId());
 		}
-		// 过滤门店
+
 		User user = UserUtils.getUser();
 		if (orderTaskpackage.getStoreId() == null) {
 			String storeId = user.getStoreId();
@@ -848,7 +839,7 @@ public class OrderTaskpackageController extends BaseController {
 				orderTaskpackage.setStoreId(storeId);
 			}
 		}
-		// 过滤工程模式
+
 		if (StringUtils.isBlank(orderTaskpackage.getProjectMode())) {
 			if (null != user.getEmpId()) {
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -887,7 +878,7 @@ public class OrderTaskpackageController extends BaseController {
 		model.addAttribute("count", count);
 		Page<OrderTaskpackage> page = orderTaskpackageService.findPage(new Page<OrderTaskpackage>(request, response),
 				orderTaskpackage);
-		//待分派任务包数量
+
 		List<OrderTaskpackage> list = page.getList();
 		for(OrderTaskpackage otpa :list){
 			String id = otpa.getOrderId();
@@ -899,17 +890,17 @@ public class OrderTaskpackageController extends BaseController {
 		return "modules/scheduling/orderTaskpackageListNew";
 	}
 	
-	// 按任务包派工人特殊
+
 	@RequiresPermissions("scheduling:orderTaskpackage:view")
 	@RequestMapping(value = { "specialList2New", "" })
 	public String specialList2New(OrderTaskpackage orderTaskpackage, HttpServletRequest request, HttpServletResponse response,
 			Model model) {
-		// 不是管理员就不能查全部门店
+
 		if (!UserUtils.getUser().getOffice().getId().equals("1")) {
-			// 安心查自己门店吧
+
 			orderTaskpackage.setStoreId(UserUtils.getUser().getStoreId());
 		}
-		// 过滤门店
+
 		User user = UserUtils.getUser();
 		if (orderTaskpackage.getStoreId() == null) {
 			String storeId = user.getStoreId();
@@ -919,7 +910,7 @@ public class OrderTaskpackageController extends BaseController {
 				orderTaskpackage.setStoreId(storeId);
 			}
 		}
-		// 过滤工程模式
+
 		if (StringUtils.isBlank(orderTaskpackage.getProjectMode())) {
 			if (null != user.getEmpId()) {
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -957,7 +948,7 @@ public class OrderTaskpackageController extends BaseController {
 		model.addAttribute("count", count);
 		Page<OrderTaskpackage> page = orderTaskpackageService.findPage(new Page<OrderTaskpackage>(request, response),
 				orderTaskpackage);
-		//待分派任务包数量
+
 		List<OrderTaskpackage> list = page.getList();
 		for(OrderTaskpackage otpa :list){
 			String id = otpa.getOrderId();

@@ -33,38 +33,26 @@ public class LaborCapitalController extends BaseController {
 	@RequestMapping(value="queryOrderList")
 	public String query(@ModelAttribute LaborCapital laborCapital,HttpServletRequest request, HttpServletResponse response, Model model){
 		User user = UserUtils.getUser();
-		// 过滤门店
+
 		laborCapitalService.store(laborCapital, model);
 		bizEmployeeService2.projectMode(laborCapital, model, user, this);
 		return "modules/laborCapital/laborCapital";
 	}
-	/**
-	* @Description:工人接单和罚款查询
-	* @Author zhangkangjian
-	* @param
-	* @return
-	* @Date 2017/11/22 14:59
-	*/
+
 	@RequiresPermissions("laborCapital:laborCapital:view")
 	@RequestMapping(value="queryOrderList1")
 	public String query1(@ModelAttribute LaborCapital laborCapital,HttpServletRequest request, HttpServletResponse response, Model model){
 		User user = UserUtils.getUser();
-		// 过滤门店
+
 		laborCapitalService.store(laborCapital, model);
-		// 过滤工程模式
+
 		bizEmployeeService2.projectMode(laborCapital, model, user, this);
 		Page<LaborCapital> page = laborCapitalService.findPage(new Page<LaborCapital>(request, response), laborCapital);
 		model.addAttribute("page", page);
 		return "modules/laborCapital/laborCapital";
 	}
 
-	/**
-	* @Description: 导出管理扣款/延期扣款/公司扣款任意一个值不为零的所有数据
-	* @Author zhangkangjian
-	* @param
-	* @return
-	* @Date 2017/11/23 14:49
-	*/
+
 	@RequestMapping(value="exportexcel")
 	@ResponseBody
 	public void exportexcel(LaborCapital laborCapital,HttpServletResponse response){

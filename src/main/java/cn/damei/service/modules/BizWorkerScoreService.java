@@ -10,11 +10,7 @@ import cn.damei.common.service.CrudService;
 import cn.damei.dao.modules.BizWorkerScoreDao;
 import cn.damei.entity.modules.BizWorkerScore;
 
-/**
- * 分数排名Service
- * @author ws
- * @version 2017-09-14
- */
+
 @Service
 public class BizWorkerScoreService extends CrudService<BizWorkerScoreDao, BizWorkerScore> {
 

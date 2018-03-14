@@ -32,12 +32,7 @@ import cn.damei.entity.modules.BizSupplier;
 import cn.damei.entity.modules.User;
 import cn.damei.common.utils.UserUtils;
 
-/**
- * 对账单service
- * 
- * @author hyh
- *
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizAuxiliaryMaterialsVerifyService
@@ -87,15 +82,13 @@ public class BizAuxiliaryMaterialsVerifyService
 		super.delete(bizAuxiliaryMaterialsVerify);
 	}
 
-	/**
-	 * 生成对账单
-	 */
+
 	@Transactional(readOnly = false)
 	public String createVerify(Integer storeId, String startDate, String endDate){
 		try {
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			User user = UserUtils.getUser();
-			//根据当前用户的手机号查出供应商
+
 			List<BizSupplier> supplierList = bizSupplierDao.findListByPhone(user.getPhone());
 			if(supplierList==null || supplierList .size()==0){
 				return "noSupplier";
@@ -116,11 +109,11 @@ public class BizAuxiliaryMaterialsVerifyService
 			param.put("startDate", sdf.parse(startDate));
 			param.put("endDate", sdf.parse(endDate));
 			param.put("supplierId", supplierId);
-			// 获取有效的结算单
+
 			List<BizOrderTaskpackageSettlement> orderTaskpackSettleList = bizOrderTaskpackageSettlementDao
 					.getPassOrderTaskPageSettle(param);
 			
-			// 获取有效结算单下的所有辅料信息
+
 			List<OrderTaskpackageAuxiliaryMaterials> auxiliaryList = orderTaskpackageAuxiliaryMaterialsDao
 					.queryAuxiliaryMaterialByPassOrderTaskpackageSettle(param);
 			if(auxiliaryList == null){
@@ -137,7 +130,7 @@ public class BizAuxiliaryMaterialsVerifyService
 				verify.setAuxiliaryMaterialsCount(auxiliaryList.size());
 				super.save(verify);
 				
-				// 添加状态日志信息
+
 				BizBusinessStatusLog statusLog = new BizBusinessStatusLog();
 				statusLog.setBusinessType(BusinessLogConstantUtil.BUSINESS_TYPE_701);
 				statusLog.setBusinessOnlyMarkInt(verify.getId());
@@ -193,10 +186,7 @@ public class BizAuxiliaryMaterialsVerifyService
 		}
 		
 	}
-	/**
-	 * 修改对账单的状态,并添加状态日志
-	 * @return
-	 */
+
 	@Transactional(readOnly = false)
 	public String updateVerifyStatus(BizAuxiliaryMaterialsVerify verify){
 		String result = "ok";
@@ -219,7 +209,7 @@ public class BizAuxiliaryMaterialsVerifyService
 			}
 	        verify.setStatusRemark(statusRemark);
 			super.save(verify);
-			// 添加状态日志信息
+
 			User user = UserUtils.getUser();
 			BizBusinessStatusLog statusLog = new BizBusinessStatusLog();
 			statusLog.setBusinessType(BusinessLogConstantUtil.BUSINESS_TYPE_701);

@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import cn.damei.common.persistence.DataEntity2;
@@ -8,26 +6,22 @@ import cn.damei.common.persistence.DataEntity2;
 import java.util.Date;
 import java.util.List;
 
-/**
- * 付款单VoEntity
- * @author qww
- * @version 2016-10-26
- */
+
 public class BizOrderTaskpackagePaymentSummaryVo extends DataEntity2<BizOrderTaskpackagePaymentSummaryVo> {
 
 	private static final long serialVersionUID = 1L;
 
-	private Integer storeId; // 付款单门店
-	private String orderTaskpackagePaymentSummaryCode; // 批次编号
-	private String summaryStatus; // 批次状态
-	private Date summaryGeneratedDatetime; // 批次生成日期
-	private String orderTaskpackagePaymentCode; // 付款单编号
-	private String paymentStatus; // 付款单状态
-	private Date paymentGeneratedDatetime; // 付款单生成日期
-	private Double amount; // 付款单金额
-	private String orderTaskpackagePaymentType; // 付款单类型
-	private String packageName; // 对应任务包名
-	private String realName; // 对应工人
+	private Integer storeId;
+	private String orderTaskpackagePaymentSummaryCode;
+	private String summaryStatus;
+	private Date summaryGeneratedDatetime;
+	private String orderTaskpackagePaymentCode;
+	private String paymentStatus;
+	private Date paymentGeneratedDatetime;
+	private Double amount;
+	private String orderTaskpackagePaymentType;
+	private String packageName;
+	private String realName;
 
 	private List<String> summaryStatusList;
 	private List<String> paymentStatusList;

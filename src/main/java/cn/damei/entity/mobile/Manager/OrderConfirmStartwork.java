@@ -4,56 +4,36 @@ import cn.damei.common.persistence.DataEntity2;
 
 @SuppressWarnings("serial")
 public class OrderConfirmStartwork extends DataEntity2<OrderConfirmStartwork> {
-	// private Integer id;
 
-	/**
-	 * 订单id
-	 */
+
+
 	private Integer orderId;
 
-	/**
-	 * 开工是否需要客户签字 0.否；1.是
-	 */
+
 	private String isNeedSign;
 
-	/**
-	 * 自装延期天数
-	 */
+
 	private Integer selfDecorateDelayDays;
 
-	/**
-	 * 自装是否需要客户签字 0.否；1.是
-	 */
+
 	private String isSelfDecorateNeedSign;
 
-	/**
-	 * 备注
-	 */
-	// private String remarks;
 
-	/**
-	 * 创建人
-	 */
+
+
+
 	private String createByAuthor;
 
-	/**
-	 * 创建日期时间
-	 */
-	// private Date createDate;
 
-	/**
-	 * 修改人
-	 */
+
+
+
 	private String updateByAuthor;
 
-	/**
-	 * 更新日期时间
-	 */
-	// private Date updateDate;
 
-	/**
-	 * 删除标识
-	 */
+
+
+
 	private String delFlag;
 
 	public Integer getOrderId() {

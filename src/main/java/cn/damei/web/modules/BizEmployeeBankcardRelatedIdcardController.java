@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,11 +17,7 @@ import cn.damei.common.web.BaseController;
 import cn.damei.entity.modules.BizEmployeeBankcardRelatedIdcard;
 import cn.damei.service.modules.BizEmployeeBankcardRelatedIdcardService;
 
-/**
- * 员工身份证关联Controller
- * @author qww
- * @version 2016-10-31
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/employeebankcardrelatedidcard/bizEmployeeBankcardRelatedIdcard")
 public class BizEmployeeBankcardRelatedIdcardController extends BaseController {

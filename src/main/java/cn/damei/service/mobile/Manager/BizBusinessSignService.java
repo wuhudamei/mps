@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.mobile.Manager;
 
 import java.util.HashMap;
@@ -14,11 +12,7 @@ import cn.damei.common.utils.ConstantUtils;
 import cn.damei.entity.mobile.Manager.BizBusinessSign;
 import cn.damei.dao.mobile.Manager.BizBusinessSignDao;
 
-/**
- * 人员签到Service
- * @author qww
- * @version 2016-11-03
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizBusinessSignService extends CrudService2<BizBusinessSignDao, BizBusinessSign> {
@@ -27,11 +21,7 @@ public class BizBusinessSignService extends CrudService2<BizBusinessSignDao, Biz
 		return super.get(id);
 	}
 	
-	/**
-	 * 根据orderId、packId、signType、managerId查询项目经理验收时签到信息
-	 * @param sign
-	 * @return
-	 */
+
 	public BizBusinessSign queryEmployeeIsCheck(Integer employeeId, Integer packId){
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("employeeId", employeeId);
@@ -50,11 +40,7 @@ public class BizBusinessSignService extends CrudService2<BizBusinessSignDao, Biz
 		dao.update(sign);
 	}
 	
-	/**
-	 * 通过订单Id查出基装验收的时间
-	 * @param orderId
-	 * @return
-	 */
+
 	public String getCheckDatetimeByOrderId(Integer orderId){
 		return dao.getCheckDatetimeByOrderId(orderId);
 	}

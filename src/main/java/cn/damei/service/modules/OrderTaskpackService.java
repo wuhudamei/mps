@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.util.List;
@@ -16,11 +14,7 @@ import cn.damei.entity.modules.Dict;
 import cn.damei.dao.modules.OrderDao2;
 import cn.damei.dao.modules.OrderTaskpackDao;
 
-/**
- * 订单管理Service
- * @author llp
- * @version 2016-09-20
- */
+
 @Service
 @Transactional(readOnly = true)
 public class OrderTaskpackService extends CrudService<OrderTaskpackDao, OrderTaskpack> {
@@ -54,10 +48,10 @@ public class OrderTaskpackService extends CrudService<OrderTaskpackDao, OrderTas
 	public boolean updateByOrderStatusAndTaskpackageStatus(String orderStatusNumber,String orderStatusNumberRemark,
 			String orderTaskPackStatus,String orderId) {
 		boolean flag = false;
-		//根据订单id拿到当前订单的状态
+
 		String status = orderDao2.findOrderStatusByOrderId(Integer.parseInt(orderId));
 		if(Integer.parseInt(status) >=200){
-			//只更新订单是否生成任务包
+
 			flag = orderTaskpackDao.updateIsCreateTaskpackage(orderTaskPackStatus,orderId) ? true :false;
 		}else{
 			flag = (orderTaskpackDao.updateByOrderStatusAndTaskpackageStatus(orderStatusNumber,
@@ -66,12 +60,7 @@ public class OrderTaskpackService extends CrudService<OrderTaskpackDao, OrderTas
 		return flag;
 	}
 
-	/**
-	 * 重新分配经理
-	 * @param orderId
-	 * @param managerName
-	 * @param managerId
-	 */
+
 	@Transactional(readOnly = false)
 	public void updateManager(Integer orderId, String managerName, Integer managerId) {
 
@@ -89,9 +78,7 @@ public class OrderTaskpackService extends CrudService<OrderTaskpackDao, OrderTas
 	}
 
 
-	/**
-	 * 更新待办经理id
-	 */
+
 	@Autowired
 	ToDoItemService toDoItemService;
 
@@ -99,14 +86,7 @@ public class OrderTaskpackService extends CrudService<OrderTaskpackDao, OrderTas
 
 
 
-	/**
-	 *
-	 * 任务包审核
-	 * 修改任务包-修改订单任务包总价
-	 * @param sum
-	 * @param taskpackageID 
-	 * @return
-	 */
+
 	@Transactional(readOnly = false)
 	public boolean updateTotal(Double sum, String taskpackageID, Double laborSum, Double auxiliarySum) {
 		return (orderTaskpackDao.updateTotal(sum, taskpackageID,laborSum, auxiliarySum)) ? true : false;

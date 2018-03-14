@@ -10,27 +10,27 @@ public class ChecksizeOrder extends DataEntity2<ChecksizeOrder>{
 	private static final long serialVersionUID = 1L;
 	
 
-	private Integer orderId;	//订单id
-	private Integer storeId;	//门店id
-	private String customerAddress;     //客户地址
-	private String communityName;		// 小区名称
-	private String buildNumber;		// 几号楼
-	private String buildUnit;		// 几单元
-	private String buildRoom;		// 哪一室
-	private String customerName;		// 客户姓名
-	private String customerPhone; //客户电话
+	private Integer orderId;
+	private Integer storeId;
+	private String customerAddress;
+	private String communityName;
+	private String buildNumber;
+	private String buildUnit;
+	private String buildRoom;
+	private String customerName;
+	private String customerPhone;
 	
-	private String info;	//顾客信息
+	private String info;
 	
-	private Date contractStartDate;		// 合同开工日期
-	private Date contractEndDate;		// 合同竣工日期
-	private Integer contractTime;		// 合同工期
-	private Date actualStartDate; //实际开工日期
-	private String orderStatusNumber;		// 订单状态码  创建订单成功默认状态码 105
-	private String orderStatusDescription;		// 订单状态码详情   默认详情 确认订单   状态码105
+	private Date contractStartDate;
+	private Date contractEndDate;
+	private Integer contractTime;
+	private Date actualStartDate;
+	private String orderStatusNumber;
+	private String orderStatusDescription;
 	
-	private Integer itemManagerId; // 项目经理id
-	private String text; // 搜索文本框
+	private Integer itemManagerId;
+	private String text;
 	
 	public Date getActualStartDate() {
 		return actualStartDate;

@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.util.*;
@@ -31,12 +29,7 @@ import cn.damei.dao.modules.BizBusinessStatusLogDao;
 import cn.damei.entity.modules.BizBusinessStatusLog;
 import cn.damei.dao.modules.BizPmSettleBillDao;
 
-/**
- * 结算单Service
- * 
- * @author qww
- * @version 2016-12-26
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizPmSettleBillService extends CrudService2<BizPmSettleBillDao, BizPmSettleBill> {
@@ -137,18 +130,14 @@ public class BizPmSettleBillService extends CrudService2<BizPmSettleBillDao, Biz
 		return dao.queryBillCountByCondition(map);
 	}
 
-	/**
-	 * 项目经理-生成月度工程清单
-	 * 
-	 * @return
-	 */
+
 	@Transactional(readOnly = false)
 	public void createSettleSummaryBill(Integer storeId, String settleMonth,String orderIds) {
-		/*try {*/
+
 			Date date = new Date();
 			User user = UserUtils.getUser();
 
-			// 1.新增结算汇总单
+
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("status", ConstantUtils.PM_SETTLE_STATUS_30);
 			map.put("storeId", storeId);
@@ -179,7 +168,7 @@ public class BizPmSettleBillService extends CrudService2<BizPmSettleBillDao, Biz
 					billList.add(bill);
 				}
 				
-				//保存生成月度结算时间
+
 				BizBusinessStatusLog bizBusinessStatusLog = new BizBusinessStatusLog();
 				bizBusinessStatusLog.setBusinessType(BusinessLogConstantUtil.BUSINESS_TYPE_305);
 				bizBusinessStatusLog.setBusinessOnlyMarkInt(Integer.valueOf(summaryBill.getId()));
@@ -193,11 +182,11 @@ public class BizPmSettleBillService extends CrudService2<BizPmSettleBillDao, Biz
 				logDao.insert(bizBusinessStatusLog);
 			}
 
-			// bizPmSettleSummaryBillDao.insertBatch(summaryBillList);
-			// 2.更新关联字段
+
+
 			dao.updateBatchByRelate(billList);
 
-			// 3.更新结算类目明细
+
 			BizPmSettleBill settleBill = new BizPmSettleBill();
 			settleBill.setNewStatus(ConstantUtils.PM_SETTLE_STATUS_50);
 			settleBill.setSettleDatetime(date);
@@ -209,7 +198,7 @@ public class BizPmSettleBillService extends CrudService2<BizPmSettleBillDao, Biz
 			settleBill.setList(list);
 			bizPmSettleCategoryDetailDao.updateStatus(settleBill);
 
-			// 4.更新结算类目汇总
+
 			BizPmSettleBill settle = new BizPmSettleBill();
 			settle.setNewStatus(ConstantUtils.PM_SETTLE_STATUS_50);
 			settle.setSettleDatetime(date);
@@ -221,7 +210,7 @@ public class BizPmSettleBillService extends CrudService2<BizPmSettleBillDao, Biz
 		    settle.setList(list);
 			bizPmSettleCategorySummaryDao.updateStatus(settle);
 
-			// 5.更新结算单
+
 			BizPmSettleBill bill = new BizPmSettleBill();
 			bill.setNewStatus(ConstantUtils.PM_SETTLE_STATUS_50);
 			bill.setUpdateBy(user);
@@ -234,23 +223,17 @@ public class BizPmSettleBillService extends CrudService2<BizPmSettleBillDao, Biz
 			dao.updateBatchByCondition(bill);
 			
 			
-		/*} catch (Exception e) {
-			e.printStackTrace();
-		}*/
+
 	}
 
-	/**
-	 * 质检员-生成月度工程清单
-	 * 
-	 * @return
-	 */
+
 	@Transactional(readOnly = false)
 	public void createSettleSummaryBillPbc(Integer storeId, String settleMonth) {
 		try {
 			Date date = new Date();
 			User user = UserUtils.getUser();
 
-			// 1.新增结算汇总单
+
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("status", ConstantUtils.PM_SETTLE_STATUS_30);
 			map.put("storeId", storeId);
@@ -275,11 +258,11 @@ public class BizPmSettleBillService extends CrudService2<BizPmSettleBillDao, Biz
 					billList.add(bill);
 				}
 			}
-			// bizPmSettleSummaryBillDao.insertBatch(summaryBillList);
-			// 2.更新关联字段
+
+
 			dao.updateBatchByRelate(billList);
 
-			// 2.更新结算类目明细
+
 			BizPmSettleBill settleBill = new BizPmSettleBill();
 			settleBill.setNewStatus(ConstantUtils.PM_SETTLE_STATUS_50);
 			settleBill.setSettleDatetime(date);
@@ -290,7 +273,7 @@ public class BizPmSettleBillService extends CrudService2<BizPmSettleBillDao, Biz
 			settleBill.setSettleRole(ConstantUtils.SETTLE_ROLE_2);
 			bizPmSettleCategoryDetailDao.updateStatus(settleBill);
 
-			// 3.更新结算类目汇总
+
 			BizPmSettleBill settle = new BizPmSettleBill();
 			settle.setNewStatus(ConstantUtils.PM_SETTLE_STATUS_50);
 			settle.setSettleDatetime(date);
@@ -301,7 +284,7 @@ public class BizPmSettleBillService extends CrudService2<BizPmSettleBillDao, Biz
 			settle.setSettleRole(ConstantUtils.SETTLE_ROLE_2);
 			bizPmSettleCategorySummaryDao.updateStatus(settle);
 
-			// 4.更新结算单
+
 			BizPmSettleBill bill = new BizPmSettleBill();
 			bill.setNewStatus(ConstantUtils.PM_SETTLE_STATUS_50);
 			bill.setUpdateBy(user);
@@ -316,17 +299,12 @@ public class BizPmSettleBillService extends CrudService2<BizPmSettleBillDao, Biz
 		}
 	}
 
-	/**
-	 * 订单月度工程结算单导出数据
-	 * 
-	 * @param bill
-	 * @return
-	 */
-	public HSSFWorkbook exportExcel(BizPmSettleBill bill) {
-		HSSFWorkbook wb = new HSSFWorkbook();// 创建一个Excel文件
-		HSSFSheet sheet = wb.createSheet("订单月度工程结算单");// 创建一个Excel的Sheet
 
-		// 单元格宽度
+	public HSSFWorkbook exportExcel(BizPmSettleBill bill) {
+		HSSFWorkbook wb = new HSSFWorkbook();
+		HSSFSheet sheet = wb.createSheet("订单月度工程结算单");
+
+
 		sheet.setColumnWidth(0, 2000);
 		sheet.setColumnWidth(1, 2000);
 		sheet.setColumnWidth(2, 3000);
@@ -356,30 +334,30 @@ public class BizPmSettleBillService extends CrudService2<BizPmSettleBillDao, Biz
 		sheet.setColumnWidth(26, 3000);
 
 		HSSFCellStyle columnStyle = wb.createCellStyle();
-		columnStyle.setLeftBorderColor(HSSFColor.BLACK.index); // 左边框线的颜色
-		columnStyle.setBorderLeft((short) 1);// 左边框线的大小
-		columnStyle.setRightBorderColor(HSSFColor.BLACK.index); // 右边框线的颜色
-		columnStyle.setBorderRight((short) 1);// 右边框线的大小
-		columnStyle.setTopBorderColor(HSSFColor.BLACK.index); // 上边框线的颜色
-		columnStyle.setBorderTop((short) 1);// 上边框线的大小
-		columnStyle.setBottomBorderColor(HSSFColor.BLACK.index); // 下边框线的颜色
-		columnStyle.setBorderBottom((short) 1);// 下边框线的大小
+		columnStyle.setLeftBorderColor(HSSFColor.BLACK.index);
+		columnStyle.setBorderLeft((short) 1);
+		columnStyle.setRightBorderColor(HSSFColor.BLACK.index);
+		columnStyle.setBorderRight((short) 1);
+		columnStyle.setTopBorderColor(HSSFColor.BLACK.index);
+		columnStyle.setBorderTop((short) 1);
+		columnStyle.setBottomBorderColor(HSSFColor.BLACK.index);
+		columnStyle.setBorderBottom((short) 1);
 		columnStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
 
 		HSSFCellStyle headStyle = wb.createCellStyle();
-		headStyle.setLeftBorderColor(HSSFColor.BLACK.index); // 左边框线的颜色
-		headStyle.setBorderLeft((short) 1);// 左边框线的大小
-		headStyle.setRightBorderColor(HSSFColor.BLACK.index); // 右边框线的颜色
-		headStyle.setBorderRight((short) 1);// 右边框线的大小
-		headStyle.setTopBorderColor(HSSFColor.BLACK.index); // 上边框线的颜色
-		headStyle.setBorderTop((short) 1);// 上边框线的大小
-		headStyle.setBottomBorderColor(HSSFColor.BLACK.index); // 下边框线的颜色
-		headStyle.setBorderBottom((short) 1);// 下边框线的大小
-		headStyle.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);// 设置背景色
+		headStyle.setLeftBorderColor(HSSFColor.BLACK.index);
+		headStyle.setBorderLeft((short) 1);
+		headStyle.setRightBorderColor(HSSFColor.BLACK.index);
+		headStyle.setBorderRight((short) 1);
+		headStyle.setTopBorderColor(HSSFColor.BLACK.index);
+		headStyle.setBorderTop((short) 1);
+		headStyle.setBottomBorderColor(HSSFColor.BLACK.index);
+		headStyle.setBorderBottom((short) 1);
+		headStyle.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
 		headStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
 		headStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
 
-		// 标题
+
 		HSSFRow rowTitle = sheet.createRow(0);
 		HSSFCell headCell0 = rowTitle.createCell(0);
 		headCell0.setCellStyle(headStyle);
@@ -489,7 +467,7 @@ public class BizPmSettleBillService extends CrudService2<BizPmSettleBillDao, Biz
 		headCell26.setCellStyle(headStyle);
 		headCell26.setCellValue("合计");
 
-		// 数据
+
 		bill.setStatus(ConstantUtils.PM_SETTLE_STATUS_50);
 		bill.setSettleRole(ConstantUtils.SETTLE_ROLE_1);
 		List<BizPmSettleBill> list = dao.findSettleBillList(bill);
@@ -662,9 +640,9 @@ public class BizPmSettleBillService extends CrudService2<BizPmSettleBillDao, Biz
 	}
 
 	public HSSFWorkbook exportExcel2(BizPmSettleBill bill) {
-		HSSFWorkbook wb = new HSSFWorkbook();// 创建一个Excel文件
-		HSSFSheet sheet = wb.createSheet("月度工程结算明细");// 创建一个Excel的Sheet
-		// 单元格宽度
+		HSSFWorkbook wb = new HSSFWorkbook();
+		HSSFSheet sheet = wb.createSheet("月度工程结算明细");
+
 		sheet.setColumnWidth(0, 2000);
 		sheet.setColumnWidth(1, 2000);
 		sheet.setColumnWidth(2, 3000);
@@ -694,30 +672,30 @@ public class BizPmSettleBillService extends CrudService2<BizPmSettleBillDao, Biz
 		sheet.setColumnWidth(26, 3000);
 
 		HSSFCellStyle columnStyle = wb.createCellStyle();
-		columnStyle.setLeftBorderColor(HSSFColor.BLACK.index); // 左边框线的颜色
-		columnStyle.setBorderLeft((short) 1);// 左边框线的大小
-		columnStyle.setRightBorderColor(HSSFColor.BLACK.index); // 右边框线的颜色
-		columnStyle.setBorderRight((short) 1);// 右边框线的大小
-		columnStyle.setTopBorderColor(HSSFColor.BLACK.index); // 上边框线的颜色
-		columnStyle.setBorderTop((short) 1);// 上边框线的大小
-		columnStyle.setBottomBorderColor(HSSFColor.BLACK.index); // 下边框线的颜色
-		columnStyle.setBorderBottom((short) 1);// 下边框线的大小
+		columnStyle.setLeftBorderColor(HSSFColor.BLACK.index);
+		columnStyle.setBorderLeft((short) 1);
+		columnStyle.setRightBorderColor(HSSFColor.BLACK.index);
+		columnStyle.setBorderRight((short) 1);
+		columnStyle.setTopBorderColor(HSSFColor.BLACK.index);
+		columnStyle.setBorderTop((short) 1);
+		columnStyle.setBottomBorderColor(HSSFColor.BLACK.index);
+		columnStyle.setBorderBottom((short) 1);
 		columnStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
 
 		HSSFCellStyle headStyle = wb.createCellStyle();
-		headStyle.setLeftBorderColor(HSSFColor.BLACK.index); // 左边框线的颜色
-		headStyle.setBorderLeft((short) 1);// 左边框线的大小
-		headStyle.setRightBorderColor(HSSFColor.BLACK.index); // 右边框线的颜色
-		headStyle.setBorderRight((short) 1);// 右边框线的大小
-		headStyle.setTopBorderColor(HSSFColor.BLACK.index); // 上边框线的颜色
-		headStyle.setBorderTop((short) 1);// 上边框线的大小
-		headStyle.setBottomBorderColor(HSSFColor.BLACK.index); // 下边框线的颜色
-		headStyle.setBorderBottom((short) 1);// 下边框线的大小
-		headStyle.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);// 设置背景色
+		headStyle.setLeftBorderColor(HSSFColor.BLACK.index);
+		headStyle.setBorderLeft((short) 1);
+		headStyle.setRightBorderColor(HSSFColor.BLACK.index);
+		headStyle.setBorderRight((short) 1);
+		headStyle.setTopBorderColor(HSSFColor.BLACK.index);
+		headStyle.setBorderTop((short) 1);
+		headStyle.setBottomBorderColor(HSSFColor.BLACK.index);
+		headStyle.setBorderBottom((short) 1);
+		headStyle.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
 		headStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
 		headStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
 
-		// 标题
+
 		HSSFRow rowTitle = sheet.createRow(0);
 		HSSFCell headCell0 = rowTitle.createCell(0);
 		headCell0.setCellStyle(headStyle);
@@ -999,17 +977,12 @@ public class BizPmSettleBillService extends CrudService2<BizPmSettleBillDao, Biz
 		return wb;
 	}
 
-	/**
-	 * 中国银行导出数据
-	 * 
-	 * @param bill
-	 * @return
-	 */
-	public HSSFWorkbook exportExcelPbc(BizPmSettleBill bill) {
-		HSSFWorkbook wb = new HSSFWorkbook();// 创建一个Excel文件
-		HSSFSheet sheet = wb.createSheet("订单月度工程结算单");// 创建一个Excel的Sheet
 
-		// 单元格宽度
+	public HSSFWorkbook exportExcelPbc(BizPmSettleBill bill) {
+		HSSFWorkbook wb = new HSSFWorkbook();
+		HSSFSheet sheet = wb.createSheet("订单月度工程结算单");
+
+
 		sheet.setColumnWidth(0, 2000);
 		sheet.setColumnWidth(1, 2000);
 		sheet.setColumnWidth(2, 3000);
@@ -1025,30 +998,30 @@ public class BizPmSettleBillService extends CrudService2<BizPmSettleBillDao, Biz
 		sheet.setColumnWidth(12, 3000);
 
 		HSSFCellStyle columnStyle = wb.createCellStyle();
-		columnStyle.setLeftBorderColor(HSSFColor.BLACK.index); // 左边框线的颜色
-		columnStyle.setBorderLeft((short) 1);// 左边框线的大小
-		columnStyle.setRightBorderColor(HSSFColor.BLACK.index); // 右边框线的颜色
-		columnStyle.setBorderRight((short) 1);// 右边框线的大小
-		columnStyle.setTopBorderColor(HSSFColor.BLACK.index); // 上边框线的颜色
-		columnStyle.setBorderTop((short) 1);// 上边框线的大小
-		columnStyle.setBottomBorderColor(HSSFColor.BLACK.index); // 下边框线的颜色
-		columnStyle.setBorderBottom((short) 1);// 下边框线的大小
+		columnStyle.setLeftBorderColor(HSSFColor.BLACK.index);
+		columnStyle.setBorderLeft((short) 1);
+		columnStyle.setRightBorderColor(HSSFColor.BLACK.index);
+		columnStyle.setBorderRight((short) 1);
+		columnStyle.setTopBorderColor(HSSFColor.BLACK.index);
+		columnStyle.setBorderTop((short) 1);
+		columnStyle.setBottomBorderColor(HSSFColor.BLACK.index);
+		columnStyle.setBorderBottom((short) 1);
 		columnStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
 
 		HSSFCellStyle headStyle = wb.createCellStyle();
-		headStyle.setLeftBorderColor(HSSFColor.BLACK.index); // 左边框线的颜色
-		headStyle.setBorderLeft((short) 1);// 左边框线的大小
-		headStyle.setRightBorderColor(HSSFColor.BLACK.index); // 右边框线的颜色
-		headStyle.setBorderRight((short) 1);// 右边框线的大小
-		headStyle.setTopBorderColor(HSSFColor.BLACK.index); // 上边框线的颜色
-		headStyle.setBorderTop((short) 1);// 上边框线的大小
-		headStyle.setBottomBorderColor(HSSFColor.BLACK.index); // 下边框线的颜色
-		headStyle.setBorderBottom((short) 1);// 下边框线的大小
-		headStyle.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);// 设置背景色
+		headStyle.setLeftBorderColor(HSSFColor.BLACK.index);
+		headStyle.setBorderLeft((short) 1);
+		headStyle.setRightBorderColor(HSSFColor.BLACK.index);
+		headStyle.setBorderRight((short) 1);
+		headStyle.setTopBorderColor(HSSFColor.BLACK.index);
+		headStyle.setBorderTop((short) 1);
+		headStyle.setBottomBorderColor(HSSFColor.BLACK.index);
+		headStyle.setBorderBottom((short) 1);
+		headStyle.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
 		headStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
 		headStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
 
-		// 标题
+
 		HSSFRow rowTitle = sheet.createRow(0);
 		HSSFCell headCell0 = rowTitle.createCell(0);
 		headCell0.setCellStyle(headStyle);
@@ -1102,7 +1075,7 @@ public class BizPmSettleBillService extends CrudService2<BizPmSettleBillDao, Biz
 		headCell12.setCellStyle(headStyle);
 		headCell12.setCellValue("合计");
 
-		// 数据
+
 		bill.setStatus(ConstantUtils.PM_SETTLE_STATUS_50);
 		bill.setSettleRole(ConstantUtils.SETTLE_ROLE_2);
 		List<BizPmSettleBill> list = dao.findSettleBillListPbc(bill);
@@ -1191,32 +1164,17 @@ public class BizPmSettleBillService extends CrudService2<BizPmSettleBillDao, Biz
 		return wb;
 	}
 
-	/**
-	 * 自主支配项
-	 * 
-	 * @param id
-	 * @return
-	 */
+
 	public List<Ownpay> findOwnpayAmount(Integer id) {
 		return dao.findOwnpayAmount(id);
 	}
 
-	/**
-	 * 质检罚款明细
-	 * 
-	 * @param inspectorPunish
-	 * @return
-	 */
+
 	public List<InspectorPunish> findInspector(InspectorPunish inspectorPunish) {
 		return dao.findInspector(inspectorPunish);
 	}
 
-	/**
-	 * 查询订单的自采材料信息
-	 * 
-	 * @param orderId
-	 * @return
-	 */
+
 	public List<BizMaterialSelfbuyVo> querySelfbuyMaterial(Map<String,Object> param) {
 		return dao.querySelfbuyMaterial(param);
 	}

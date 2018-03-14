@@ -1,6 +1,4 @@
-/**
- * Copyright (c) 2005-2012 springside.org.cn
- */
+
 package cn.damei.common.utils;
 
 import java.io.PrintWriter;
@@ -8,16 +6,10 @@ import java.io.StringWriter;
 
 import javax.servlet.http.HttpServletRequest;
 
-/**
- * 关于异常的工具类.
- * @author calvin
- * @version 2013-01-15
- */
+
 public class Exceptions {
 
-	/**
-	 * 将CheckedException转换为UncheckedException.
-	 */
+
 	public static RuntimeException unchecked(Exception e) {
 		if (e instanceof RuntimeException) {
 			return (RuntimeException) e;
@@ -26,9 +18,7 @@ public class Exceptions {
 		}
 	}
 
-	/**
-	 * 将ErrorStack转化为String.
-	 */
+
 	public static String getStackTraceAsString(Throwable e) {
 		if (e == null){
 			return "";
@@ -38,9 +28,7 @@ public class Exceptions {
 		return stringWriter.toString();
 	}
 
-	/**
-	 * 判断异常是否由某些底层的异常引起.
-	 */
+
 	public static boolean isCausedBy(Exception ex, Class<? extends Exception>... causeExceptionClasses) {
 		Throwable cause = ex.getCause();
 		while (cause != null) {
@@ -54,11 +42,7 @@ public class Exceptions {
 		return false;
 	}
 
-	/**
-	 * 在request中获取异常类
-	 * @param request
-	 * @return 
-	 */
+
 	public static Throwable getThrowable(HttpServletRequest request){
 		Throwable ex = null;
 		if (request.getAttribute("exception") != null) {

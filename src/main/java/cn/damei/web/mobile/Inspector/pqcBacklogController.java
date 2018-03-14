@@ -13,9 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by joseph on 2017/6/14.
- */
+
 
 @Controller
 @RequestMapping(value = "${adminPath}/app/pqc/backlog")

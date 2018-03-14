@@ -25,11 +25,7 @@ import cn.damei.entity.mobile.Inspector.PqcOrderTaskpackageProcedure;
 import cn.damei.entity.mobile.Inspector.PqcOrderTaskpackageSettlement;
 import cn.damei.entity.mobile.Inspector.PqcOrderTaskpackageVo;
 
-/** 
-* @author 梅浩   qww
-* @version 创建时间：2016年10月24日 下午3:47:59 
-* 质检登录系统首页
-*/
+
 @Service
 @Transactional(readOnly=true)
 public class PqcOrderTaskPackageService  extends CrudService2<PqcOrderTaskPackageDao, PqcOrderTaskPackage>{
@@ -46,11 +42,7 @@ public class PqcOrderTaskPackageService  extends CrudService2<PqcOrderTaskPackag
 	@Autowired
 	private BizProjectChangeBillService bizProjectChangeBillService;
 	
-	/**
-	 * 质检端   查询质检员下所有[待质检复核结算单]状态下的任务包
-	 * @param inspectorId
-	 * @return
-	 */
+
 	public List<PqcOrderTaskPackage> queryTaskPackageByInspectorId(Integer inspectorId) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("inspectorId", inspectorId);
@@ -58,30 +50,23 @@ public class PqcOrderTaskPackageService  extends CrudService2<PqcOrderTaskPackag
 		return dao.queryTaskPackageByInspectorId(map);
 	}
 	
-	/**
-	 * 查询复核清单
-	 * @param id
-	 * @return
-	 */
+
 	public PqcOrderTaskpackageVo queryTaskPackageRecheck(Integer id){
 		return dao.queryTaskPackageRecheck(id);
 	}
 	
-	/**
-	 * 提交复核
-	 * @param task
-	 */
+
 	@Transactional(readOnly=false)
 	public void confirmTaskpackageRecheck(PqcOrderTaskPackage task) {
-		/*try{*/
+
 			Date date = new Date();
-			// 1.更新任务包
+
 			task.setPackageStateId(ConstantUtils.ORDER_TASK_STATUS_95_VALUE);
 			task.setPackageStatename(ConstantUtils.ORDER_TASK_STATUS_95_VALUE_REMARK);
 			task.setUpdateDate(date);
 			dao.updatePackageStateIdById(task);
 
-			// 2.更新结算单
+
 			PqcOrderTaskpackageSettlement settlement = settlementDao.querySettlementByOrderTaskpackageId(task.getId());
 			if(settlement != null){
 				settlement.setStatus(ConstantUtils.SETTLEMENT_STATUS_20);
@@ -91,7 +76,7 @@ public class PqcOrderTaskPackageService  extends CrudService2<PqcOrderTaskPackag
 				settlementDao.update(settlement);
 			}
 
-			// 3.更新工程清单
+
 			if(CollectionUtils.isNotEmpty(task.getProcedureList())){
 				for(PqcOrderTaskpackageProcedure procedure:task.getProcedureList()){
 					PqcOrderTaskpackageProcedure p = procedureDao.get(procedure.getId());
@@ -105,7 +90,7 @@ public class PqcOrderTaskPackageService  extends CrudService2<PqcOrderTaskPackag
 				}
 			}
 
-			// 4.发送短信
+
 			PqcOrderTaskPackage taskPackage = dao.querySmsMessageForManager(task.getId());
 			String content = "订单（"+taskPackage.getCustomerMessage()+"-"+taskPackage.getCustomerName()+"-"+taskPackage.getCustomerPhone()+"）的任务包（"+taskPackage.getPackageName()+
 					"），质检员（"+taskPackage.getInspectorName()+"-"+taskPackage.getInspectorPhone()+"）已提交复核，请在【任务包结算】中及时验收任务包。";
@@ -119,7 +104,7 @@ public class PqcOrderTaskPackageService  extends CrudService2<PqcOrderTaskPackag
 			msg.setRelatedBusinessIdInt(taskPackage.getSettlementId());
 			bizPhoneMsgService.insert(msg);
 
-			// 5.发送通知
+
 			BizMsg bizMsg = new BizMsg();
 			bizMsg.setMsgTitle("质检员已提交复核");
 			bizMsg.setMsgTime(date);
@@ -130,9 +115,7 @@ public class PqcOrderTaskPackageService  extends CrudService2<PqcOrderTaskPackag
 			bizMsg.setEmployeeId(taskPackage.getManagerId());
 			bizProjectChangeBillService.saveBizMsg(bizMsg);
 
-		/*}catch(Exception e){
-			e.printStackTrace();
-		}*/
+
 	}
 	
 	public PqcOrderTaskPackage queryOrderTaskPackageByParam(Map<String,Object> param){

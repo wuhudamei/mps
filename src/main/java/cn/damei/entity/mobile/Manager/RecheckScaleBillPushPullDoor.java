@@ -4,100 +4,60 @@ import java.util.Date;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 上报复尺新版(20161107-20161113)
- * @author llp 
- * 推拉门
- * biz_recheck_scale_bill_push_pull_door
- * 2016-11-17
- */
+
 @SuppressWarnings("serial")
 public class RecheckScaleBillPushPullDoor extends DataEntity2<RecheckScaleBillPushPullDoor> {
 	private Integer id;
 
-	/**
-	 * 复尺单id
-	 */
+
 	private Integer recheckScaleBillId;
 
-	/**
-	 * 位置
-	 */
+
 	private String position;
 
-	/**
-	 * 推拉方式
-	 */
+
 	private String pushPullStyle;
 	
-	/**
-	 * 包套方式
-	 */
+
 	private String packageCover;
 	
-	/**
-	 * 开启方向
-	 */
+
 	private String openDirection;
 
-	/**
-	 * 门扇数量
-	 */
+
 	private String doorAmount;
 
-	/**
-	 * 新加门垛宽度
-	 */
+
 	private String newDoorWidth;
 	
-	/**
-	 * 新加门垛高度
-	 */
+
 	private String newDoorHeight;
 	
-	/**
-	 * 宽
-	 */
+
 	private String width;
 	
-	/**
-	 * 高
-	 */
+
 	private String height;
 	
-	/**
-	 * 厚
-	 */
+
 	private String thickness;
 
-	/**
-	 * 备注
-	 */
+
 	private String remarks;
 
-	/**
-	 * 创建日期时间
-	 */
+
 	private Date createDate;
 	
-	/**
-	 * 创建人
-	 */
+
 	private String createPeo;
 
-	/**
-	 * 更新日期时间
-	 */
+
 	private Date updateDate;
 	
-	/**
-	 * 更新人
-	 */
+
 	private String updatePeo;
 
-	/**
-	 * 是否删除
-	 */
+
 	private String delFlag;
 
 	public Integer getId() {

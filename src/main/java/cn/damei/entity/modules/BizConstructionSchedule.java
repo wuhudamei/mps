@@ -1,22 +1,16 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import org.hibernate.validator.constraints.Length;
 
 import cn.damei.common.persistence.DataEntity;
 
-/**
- * 工程进度节点Entity
- * @author 魏建勇
- * @version 2016-09-05
- */
+
 public class BizConstructionSchedule extends DataEntity<BizConstructionSchedule> {
 	
 	private static final long serialVersionUID = 1L;
-	private String storeId;		// 门店id
-	private String projectMode;//工程模式
+	private String storeId;
+	private String projectMode;
 	public String getProjectMode() {
 		return projectMode;
 	}
@@ -25,12 +19,12 @@ public class BizConstructionSchedule extends DataEntity<BizConstructionSchedule>
 		this.projectMode = projectMode;
 	}
 
-	private String isOldHouse;		// 是否老房
-	private String constructionScheduleName;		// 进度节点名称
-	private String sort;		// 进度节点顺序
-	private String normalCompletionDays;		// 正常完工天数
-	private String lateCompletionDays;		// 最晚完工天数
-	private String isEnable;		// 启用标记
+	private String isOldHouse;
+	private String constructionScheduleName;
+	private String sort;
+	private String normalCompletionDays;
+	private String lateCompletionDays;
+	private String isEnable;
 	
 	public BizConstructionSchedule() {
 		super();

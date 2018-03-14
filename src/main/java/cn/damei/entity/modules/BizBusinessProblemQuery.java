@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 
@@ -9,11 +7,7 @@ import cn.damei.common.persistence.DataEntity;
 
 import java.util.Date;
 
-/**
- * 约检问题上报查询Entity
- * @author mh
- * @version 2017-05-27
- */
+
 public class BizBusinessProblemQuery extends DataEntity<BizBusinessProblemQuery> {
 	
 	private static final long serialVersionUID = 1L;

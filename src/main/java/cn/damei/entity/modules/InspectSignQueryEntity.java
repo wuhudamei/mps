@@ -6,9 +6,7 @@ import cn.damei.common.persistence.DataEntity;
 
 public class InspectSignQueryEntity extends DataEntity<InspectSignQueryEntity>{
 
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	private String projectMode;
 	public String getProjectMode() {

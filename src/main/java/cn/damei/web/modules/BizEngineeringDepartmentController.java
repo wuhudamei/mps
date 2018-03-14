@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import cn.damei.common.config.Global;
@@ -32,12 +30,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * 工程部管理Controller
- * 
- * @author haven
- * @version 2016-09-05
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/engdept/bizEngineeringDepartment")
 public class BizEngineeringDepartmentController extends BaseController {
@@ -63,14 +56,14 @@ public class BizEngineeringDepartmentController extends BaseController {
     @RequiresPermissions("engdept:bizEngineeringDepartment:view")
     @RequestMapping(value = { "list", "" })
     public String list(BizEngineeringDepartment bizEngineeringDepartment, HttpServletRequest request, HttpServletResponse response, Model model) {
-        // 过滤门店
+
         if (StringUtils.isBlank(bizEngineeringDepartment.getStoreId())) {
             bizEngineeringDepartment.setStoreId(UserUtils.getUser().getStoreId());
         }
         if (StringUtils.isBlank(UserUtils.getUser().getStoreId())) {
             model.addAttribute("storeDropEnable", true);
         }
-        // 过滤工程模式
+
         User user = UserUtils.getUser();
 		if (bizEngineeringDepartment.getProjectMode() == null || "".equals(bizEngineeringDepartment.getProjectMode())) {
 			
@@ -94,14 +87,14 @@ public class BizEngineeringDepartmentController extends BaseController {
     @RequiresPermissions("engdept:bizEngineeringDepartment:view")
     @RequestMapping(value = "form")
     public String form(BizEngineeringDepartment bizEngineeringDepartment, Model model) {
-        // 过滤门店
+
         if (StringUtils.isBlank(bizEngineeringDepartment.getStoreId())) {
             bizEngineeringDepartment.setStoreId(UserUtils.getUser().getStoreId());
         }
         if (StringUtils.isBlank(UserUtils.getUser().getStoreId())) {
             model.addAttribute("storeDropEnable", true);
         }
-        // 过滤工程模式
+
         User user = UserUtils.getUser();
         if(StringUtils.isNoneBlank(user.getEmpId())){
             BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -127,7 +120,7 @@ public class BizEngineeringDepartmentController extends BaseController {
         	bizEngineeringDepartment.preUpdate();;
         	bizEngineeringDepartmentService.update(bizEngineeringDepartment);
         }
-        //bizEngineeringDepartmentService.save(bizEngineeringDepartment);
+
         addMessage(redirectAttributes, "保存工程部管理成功");
         return "redirect:" + Global.getAdminPath() + "/engdept/bizEngineeringDepartment/?repage";
     }
@@ -140,26 +133,24 @@ public class BizEngineeringDepartmentController extends BaseController {
         return "redirect:" + Global.getAdminPath() + "/engdept/bizEngineeringDepartment/?repage";
     }
 
-    /**
-     * 门店下拉框事件
-     */
+
     @ResponseBody
     @RequestMapping(value = "engListByStorId")
     public String manager_StoreForm(String storeid, String eid, Model model, HttpServletRequest request) {
         List<BizEngineeringDepartment> list = null;
-        //List<BizEngineeringDepartment> list = new ArrayList<BizEngineeringDepartment>();
-        // if(!eid.equals(""))
-        // {
-        // BizEngineeringDepartment
-        // engDep=bizEngineeringDepartmentService.get(eid);
-        // list.add(engDep);
-        // return JsonMapper.getInstance().toJson(list);
-        // }
-        // if (storeid == null||storeid.equals("")) {
-        // BizEngineeringDepartment engDep=new BizEngineeringDepartment();
-        // list.add(engDep);
-        // return JsonMapper.getInstance().toJson(list);
-        // }
+
+
+
+
+
+
+
+
+
+
+
+
+
         list = bizEngineeringDepartmentService.findByStoreId(storeid);
         return JsonMapper.getInstance().toJson(list);
     }
@@ -179,7 +170,7 @@ public class BizEngineeringDepartmentController extends BaseController {
     	}else{
     		map.put("projectMode", projectMode);
     	}
-    	//员工id不为null 根据员工id查询工程部id
+
     	if(employeeId != null && !"".equals(employeeId)){
     		List<Integer> ids = bizEngineeringDepartmentService.findByEmployeeId(Integer.parseInt(employeeId));
     		if(ids != null && ids.size()>0){
@@ -187,7 +178,7 @@ public class BizEngineeringDepartmentController extends BaseController {
     		}else {
     			map.put("ids", null);
     		}
-    	}else{ //员工id为null 查所有的工程id
+    	}else{
     		List<Integer> ids = bizEngineeringDepartmentService.findAll();
     		if(ids != null && ids.size()>0){
     			map.put("ids", ids);
@@ -195,7 +186,7 @@ public class BizEngineeringDepartmentController extends BaseController {
     			map.put("ids", null);
     		}
     	}
-    	//map.put("delFlag", "0");
+
     	List<DropModel> list = bizEngineeringDepartmentService.findEngDepListByMap(map);
     	
     	return JsonMapper.getInstance().toJson(list);

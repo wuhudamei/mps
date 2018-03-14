@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import java.util.Date;
@@ -24,12 +22,7 @@ import cn.damei.common.web.BaseController;
 import cn.damei.entity.modules.ArrangeCheckStatisticsQ;
 import cn.damei.service.modules.ArrangeCheckStatisticsQService;
 
-/**
- * 约检节点验收统计Controller
- * 
- * @author 张同维
- * @version 2017-06-22
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/arrangecheckstatisticsq/arrangeCheckStatisticsQ")
 public class ArrangeCheckStatisticsQController extends BaseController {
@@ -51,21 +44,7 @@ public class ArrangeCheckStatisticsQController extends BaseController {
 		return entity;
 	}
 
-	/**
-	 * 
-	 * 查询所有的
-	 * 
-	 * @Title: list
-	 * @Description: TODO
-	 * @param @param arrangeCheckStatisticsQ
-	 * @param @param request
-	 * @param @param response
-	 * @param @param model
-	 * @param @return
-	 * @return String
-	 * @author ZhangTongWei
-	 * @throws
-	 */
+
 	@RequiresPermissions("arrangecheckstatisticsq:arrangeCheckStatisticsQ:view")
 	@RequestMapping(value = { "list", "" })
 	public String list(ArrangeCheckStatisticsQ arrangeCheckStatisticsQ, HttpServletRequest request, HttpServletResponse response, Model model) {

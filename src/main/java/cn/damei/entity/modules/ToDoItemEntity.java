@@ -4,15 +4,9 @@ import java.util.Date;
 
 import cn.damei.common.persistence.DataEntity;
 
-/**
- * 待办事项实体类
- * @author lzm
- * @version 2017-7-14
- */
+
 public class ToDoItemEntity extends  DataEntity<ToDoItemEntity>{
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	private Integer toDoItemTypeId;
 	private String relatedBusinessType;

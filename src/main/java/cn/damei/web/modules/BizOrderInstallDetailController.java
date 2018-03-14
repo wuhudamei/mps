@@ -18,10 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Arrays;
 
-/**
- * @author llp 说明： 安装项明细
- * @version 20161124-20161204
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/bizorderinstalldetail/bizOrderInstallDetail")
 public class BizOrderInstallDetailController extends BaseController {
@@ -52,13 +49,7 @@ public class BizOrderInstallDetailController extends BaseController {
 		return "modules/bizEnginInstall/bizInstallDetailList";
 	}
 
-	/**
-	* @Description: 主材安装过程明细
-	* @Author zhangkangjian
-	* @param
-	* @return 
-	* @Date 2017/12/4 15:30
-	*/
+
 	@RequiresPermissions("bizorderinstalldetail:bizOrderInstallDetail:view")
 	@RequestMapping(value = "list")
 	public String list(BizOrderInstallDetail bizOrderInstallDetail, HttpServletRequest request, HttpServletResponse response, Model model) {

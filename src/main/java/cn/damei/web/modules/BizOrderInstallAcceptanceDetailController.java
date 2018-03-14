@@ -26,11 +26,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-/**
- *	@author llp
- *	说明： 安装项验收明细
- *	@version 20161124-20161204
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/bizorderinstallacceptdetail/bizOrderInstallAcceptDetail")
 public class BizOrderInstallAcceptanceDetailController extends BaseController {
@@ -62,7 +58,7 @@ public class BizOrderInstallAcceptanceDetailController extends BaseController {
 	public String preList(BizOrderInstallAcceptanceDetail bizOrderInstallAcceptanceDetail, HttpServletRequest request, HttpServletResponse response,
 			Model model) {
 		User user = UserUtils.getUser();
-		//过滤门店
+
 		if(null == bizOrderInstallAcceptanceDetail.getStoreId()){
 			if(null != user.getStoreId()){
 				bizOrderInstallAcceptanceDetail.setStoreId(Integer.valueOf(user.getStoreId()));
@@ -71,7 +67,7 @@ public class BizOrderInstallAcceptanceDetailController extends BaseController {
 		if(StringUtils.isBlank(user.getStoreId())){
 			model.addAttribute("storeDropEnable", true);
 		}
-		//过滤工程模式
+
 		if(null != user.getEmpId()){
 			BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
 			if(StringUtils.isBlank(be.getProjectMode())){
@@ -95,15 +91,7 @@ public class BizOrderInstallAcceptanceDetailController extends BaseController {
 	public String list(BizOrderInstallAcceptanceDetail bizOrderInstallAcceptanceDetail, HttpServletRequest request, 
 			HttpServletResponse response, Model model) throws IOException {
 		User user = UserUtils.getUser();
-		/*//过滤门店
-		if(null == bizOrderInstallAcceptanceDetail.getStoreId()){
-			if(null != user.getStoreId()){
-				bizOrderInstallAcceptanceDetail.setStoreId(Integer.valueOf(user.getStoreId()));
-			}
-		}
-		if(StringUtils.isBlank(user.getStoreId())){
-			model.addAttribute("storeDropEnable", true);
-		}*/
+
 		
 		
 		List<String> orderdPhones = dataAuthorityService.orderdPhones(DataAuthorityConstantUtils.Biz_Business_Type_DD);
@@ -113,7 +101,7 @@ public class BizOrderInstallAcceptanceDetailController extends BaseController {
 		bizOrderInstallAcceptanceDetail.setUserId(userId);
 		
 		
-		//过滤工程模式
+
 		if(null != user.getEmpId()){
 			BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
 			if(StringUtils.isBlank(be.getProjectMode())){

@@ -5,9 +5,7 @@ import cn.damei.dao.modules.OrderReportLogStatePolicyInterface;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by joseph on 2017/5/15.
- */
+
 public class LogStateStrategyFactory {
 
     private static LogStateStrategyFactory factory = new LogStateStrategyFactory();

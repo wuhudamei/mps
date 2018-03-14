@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,11 +22,7 @@ import cn.damei.entity.modules.Site;
 import cn.damei.service.modules.SiteService;
 import cn.damei.common.utils.UserUtils;
 
-/**
- * 站点Controller
- * @author ThinkGem
- * @version 2013-3-23
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/cms/site")
 public class SiteController extends BaseController {
@@ -91,17 +85,13 @@ public class SiteController extends BaseController {
 		return "redirect:" + adminPath + "/cms/site/?repage";
 	}
 	
-	/**
-	 * 选择站点
-	 * @param id
-	 * @return
-	 */
+
 	@RequiresPermissions("cms:site:select")
 	@RequestMapping(value = "select")
 	public String select(String id, boolean flag, HttpServletResponse response){
 		if (id!=null){
 			UserUtils.putCache("siteId", id);
-			// 保存到Cookie中，下次登录后自动切换到该站点
+
 			CookieUtils.setCookie(response, "siteId", id);
 		}
 		if (flag){

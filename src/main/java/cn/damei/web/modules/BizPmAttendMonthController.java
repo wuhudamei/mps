@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import cn.damei.common.config.Global;
@@ -30,11 +28,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-/**
- * 考勤月度表Controller
- * @author wl
- * @version 2017-08-02
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/attend/bizPmAttendMonth")
 public class BizPmAttendMonthController extends BaseController {
@@ -70,13 +64,13 @@ public class BizPmAttendMonthController extends BaseController {
 		System.out.println(mon);
 		bizPmAttendMonth.setAttendMonth(mon);
 		if(UserUtils.getUser().getStoreId()!=null){
-			//当前登录用户门店
+
 			bizPmAttendMonth.setStoreId(UserUtils.getUser().getStoreId());
 		}
 		else{
-			//门店是总部的查询所有部门信息
+
 			if(bizPmAttendMonth.getStoreId()!=null && bizPmAttendMonth.getStoreId().equals("1")){
-				//总部
+
 				bizPmAttendMonth.setStoreId(null);
 			}
 		}
@@ -87,16 +81,16 @@ public class BizPmAttendMonthController extends BaseController {
 	@RequiresPermissions("attend:bizPmAttendMonth:view")
 	@RequestMapping(value = {"findList", ""})
 	public String findlist(BizPmAttendMonth bizPmAttendMonth, HttpServletRequest request, HttpServletResponse response, Model model) {
-//	    拿到考勤月
+
 		String mon = DateUtils.formatDate(DateUtils.addMonths(new Date(),-1),"yyyy-MM");
 		if(UserUtils.getUser().getStoreId()!=null){
-			//当前登录用户门店
+
 			bizPmAttendMonth.setStoreId(UserUtils.getUser().getStoreId());
 		}
 		else{
-			//门店是总部的查询所有部门信息
+
 			if(bizPmAttendMonth.getStoreId()!=null && bizPmAttendMonth.getStoreId().equals("1")){
-				//总部
+
 				bizPmAttendMonth.setStoreId(null);
 			}
 		}
@@ -131,13 +125,7 @@ public class BizPmAttendMonthController extends BaseController {
 		model.addAttribute("bizPmAttendMonth", bizPmAttendMonth);
 		return "modules/attend/bizPmAttendMonthForm";
 	}
-	/**
-	* @Description: 生成月度考勤单--签到详情
-	* @Author zhangkangjian
-	* @param
-	* @return 
-	* @Date 2017/12/21 15:45
-	*/
+
 	@RequiresPermissions("attend:bizPmAttendMonth:view")
 	@RequestMapping(value = "getForm2List")
 	@ResponseBody
@@ -148,13 +136,7 @@ public class BizPmAttendMonthController extends BaseController {
 		map.put("resultMap", bizPmAttendMonthList);
 		return map;
 	}
-	/**
-	* @Description: 生成月度考勤单--结论
-	* @Author zhangkangjian
-	* @param 
-	* @return 
-	* @Date 2018/1/3 10:24
-	*/
+
 	@RequiresPermissions("attend:bizPmAttendMonth:view")
 	@RequestMapping(value = "getForm3Count")
 	@ResponseBody
@@ -174,24 +156,24 @@ public class BizPmAttendMonthController extends BaseController {
 		BizPmAttendMonth findAttendMonth = bizPmAttendMonthService.findAttendMonth(bizPmAttendMonth);
 		if(null == findAttendMonth){
 			if(StringUtils.isEmpty(bizPmAttendMonth.getPmAttendMonthId())){
-				//String sequence = bizSeiralnumService.getDateSequence(BizAttendBillConstantUtil.KQ_NO);
+
 				String sequence = sysSequenceService.getSequence(BizAttendBillConstantUtil.KQ_NO);
-				//考勤单号
+
 				String kqNo = sequence.substring(0,2);
-				//顺序码
+
 				String No = sequence.substring(2);
-				//时间
+
 				String date = BizAttendBillConstantUtil.getDate(new Date());
-				//考勤单编号
+
 				bizPmAttendMonth.setAttendMonthCode(kqNo+date+No);
-				//bizPmAttendMonth.setAttendMonthCode(sequence);
+
 				bizPmAttendMonth.setStatus("20");
 				bizPmAttendMonthService.save(bizPmAttendMonth);
 				bizPmAttendMonth.setPmAttendMonthId(bizPmAttendMonth.getId());
 			}else{
 				bizPmAttendMonth.setStatus("20");
 				bizPmAttendMonthService.updatePmAttendMonth(bizPmAttendMonth);
-				//bizPmAttendMonthService.updateMonthOrder(bizPmAttendMonth);
+
 			}
 			BizPmAttendMonth findAttendMonthOrder = bizPmAttendMonthService.findAttendMonthOrder(bizPmAttendMonth);
 			if(null==findAttendMonthOrder){
@@ -228,13 +210,13 @@ public class BizPmAttendMonthController extends BaseController {
 		String mon = sdf.format(time);
 		bizPmAttendMonth.setAttendMonth(mon);
 		if(UserUtils.getUser().getStoreId()!=null){
-			//当前登录用户门店
+
 			bizPmAttendMonth.setStoreId(UserUtils.getUser().getStoreId());
 		}
 		else{
-			//门店是总部的查询所有部门信息
+
 			if(bizPmAttendMonth.getStoreId()!=null && bizPmAttendMonth.getStoreId().equals("1")){
-				//总部
+
 				bizPmAttendMonth.setStoreId(null);
 			}
 		}
@@ -253,13 +235,13 @@ public class BizPmAttendMonthController extends BaseController {
 		String mon = sdf.format(time);
 		System.out.println(mon);
 		if(UserUtils.getUser().getStoreId()!=null){
-			//当前登录用户门店
+
 			bizPmAttendMonth.setStoreId(UserUtils.getUser().getStoreId());
 		}
 		else{
-			//门店是总部的查询所有部门信息
+
 			if(bizPmAttendMonth.getStoreId()!=null && bizPmAttendMonth.getStoreId().equals("1")){
-				//总部
+
 				bizPmAttendMonth.setStoreId(null);
 			}
 		}
@@ -281,13 +263,13 @@ public class BizPmAttendMonthController extends BaseController {
 		String mon = sdf.format(time);
 		bizPmAttendMonth.setAttendMonth(mon);
 		if(UserUtils.getUser().getStoreId()!=null){
-			//当前登录用户门店
+
 			bizPmAttendMonth.setStoreId(UserUtils.getUser().getStoreId());
 		}
 		else{
-			//门店是总部的查询所有部门信息
+
 			if(bizPmAttendMonth.getStoreId()!=null && bizPmAttendMonth.getStoreId().equals("1")){
-				//总部
+
 				bizPmAttendMonth.setStoreId(null);
 			}
 		}
@@ -306,13 +288,13 @@ public class BizPmAttendMonthController extends BaseController {
 		Date time = c.getTime();
 		String mon = sdf.format(time);
 		if(UserUtils.getUser().getStoreId()!=null){
-			//当前登录用户门店
+
 			bizPmAttendMonth.setStoreId(UserUtils.getUser().getStoreId());
 		}
 		else{
-			//门店是总部的查询所有部门信息
+
 			if(bizPmAttendMonth.getStoreId()!=null && bizPmAttendMonth.getStoreId().equals("1")){
-				//总部
+
 				bizPmAttendMonth.setStoreId(null);
 
 			}
@@ -358,11 +340,11 @@ public class BizPmAttendMonthController extends BaseController {
 			detailFormList = bizPmAttendMonthService.getDetailFormList(bizPmAttendMonth.getAttendMonth(),bizPmAttendMonth.getItemManagerId(),formatDate,bizPmAttendMonth.getStatus());
 		}
 
-		//map.put("resultMap", detailFormList);
-		//Map<String,Object> map = new HashMap<>();
-		//List<BizPmAttendMonth> bizPmAttendMonthList = new ArrayList<>();
-		//bizPmAttendMonthList = bizPmAttendMonthService.getBizPmAttendMonthDetail(bizPmAttendMonth);
-		//List<BizPmAttendMonth> bizPmAttendMonthList = bizPmAttendMonthService.getBizPmAttendMonthList(bizPmAttendMonth);
+
+
+
+
+
 		map.put("resultMap", detailFormList);
 		return map;
 	}

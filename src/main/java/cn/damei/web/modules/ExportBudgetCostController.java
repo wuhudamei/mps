@@ -26,10 +26,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
-/**
- * 预算成本Controller
- * Created by hyh on 2017/11/30.
- */
+
 @Controller
 @RequestMapping(value="${adminPath}/export/ExportBudgetCost")
 public class ExportBudgetCostController {
@@ -39,14 +36,11 @@ public class ExportBudgetCostController {
     @Autowired
     private BizEmployeeService2 bizEmployeeService2;
 
-    /**
-     * 打开导出预算成本页面
-     * @return
-     */
+
     @RequestMapping(value = "/openExportBudgetCost")
     public String openExportBudgetCost(ExportBudgetCost exportBudgetCost, HttpServletRequest request, HttpServletResponse response, Model model){
         User user = UserUtils.getUser();
-        //过滤门店
+
         if(null==exportBudgetCost.getStoreId()){
             if(null!=user.getStoreId()){
                 exportBudgetCost.setStoreId(user.getStoreId());
@@ -55,7 +49,7 @@ public class ExportBudgetCostController {
         if(StringUtils.isBlank(user.getStoreId())){
             model.addAttribute("storeDropEnable", true);
         }
-        //过滤工程模式
+
         if(StringUtils.isBlank(exportBudgetCost.getProjectMode())){
             if(null != user.getEmpId()){
                 BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));

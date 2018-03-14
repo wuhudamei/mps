@@ -1,47 +1,40 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import java.util.Date;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 主材安装申请Entity
- * 
- * @author haven
- * @version 2016-09-05
- */
+
 public class InstallHistoryData extends DataEntity2<InstallHistoryData> {
 
     private static final long serialVersionUID = 1L;
     
-    private String installItemName; // 安装项名称
-    private String installStatus; // 安装项状态
-    private String installStatusName; // 安装项状态名称
-    private String installItemSequence; // 安装项顺序
-    private String supplierConfirmRemarks; // 下达供应商 说明
+    private String installItemName;
+    private String installStatus;
+    private String installStatusName;
+    private String installItemSequence;
+    private String supplierConfirmRemarks;
     
-    private Date realAcceptDate; // 实际验收时间
-    private Date realIntoDate; // 实际进场日期
-    private Date realCompleteDate; // 实际完工日期
+    private Date realAcceptDate;
+    private Date realIntoDate;
+    private Date realCompleteDate;
     
-    private Date applyIntoCreateDatetime; // 申请时间
+    private Date applyIntoCreateDatetime;
     
-    private Date applyIntoDate; // 期望进场日期
+    private Date applyIntoDate;
     
-    private Date supplierConfirmIntoDate; // 供应商确认日期
+    private Date supplierConfirmIntoDate;
     
-    private Integer orderId; // 订单id
+    private Integer orderId;
     
-    private Integer statusTwoCount; // 申请 的数量
-    private Integer statusThreeCount; // 下达供应商  的数量
-    private Integer statusFourCount; // 验收  的数量
+    private Integer statusTwoCount;
+    private Integer statusThreeCount;
+    private Integer statusFourCount;
     
-    private Integer itemManagerId;//项目经理id
-    private String applyIntoDateString; // 期望进场日期 字符串
-    private String supplierConfirmIntoDateString; // 供应商确认日期 字符串
+    private Integer itemManagerId;
+    private String applyIntoDateString;
+    private String supplierConfirmIntoDateString;
     
     public InstallHistoryData() {
         super();

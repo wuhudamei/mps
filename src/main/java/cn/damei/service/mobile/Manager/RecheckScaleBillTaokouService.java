@@ -12,11 +12,7 @@ import cn.damei.common.utils.DateUtils;
 import cn.damei.dao.mobile.Manager.RecheckScaleBillTaokouDao;
 import cn.damei.entity.mobile.Manager.RecheckScaleBillTaokou;
 
-/**
- * 上报复尺(20161107-20161113)
- * @author llp
- * 2016-11-15
- */
+
 @Service
 @Transactional(readOnly = true)
 public class RecheckScaleBillTaokouService extends CrudService2<RecheckScaleBillTaokouDao,RecheckScaleBillTaokou>{
@@ -64,13 +60,9 @@ public class RecheckScaleBillTaokouService extends CrudService2<RecheckScaleBill
 		return recheckScaleBillTaokouDao.insertTaokou(taokou) ? "0" : "2";
 	}
 
-	/**
-	 * 根据复尺编号获取套口中所有数据
-	 * @param recheckID
-	 * @return List
-	 */
+
 	public List<RecheckScaleBillTaokou> getByRecheckID(Integer recheckID) {
-		// TODO Auto-generated method stub
+
 		return recheckScaleBillTaokouDao.getByRecheckID(recheckID);
 	}
 	

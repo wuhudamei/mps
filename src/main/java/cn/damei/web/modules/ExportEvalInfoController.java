@@ -24,10 +24,7 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-/**
- * 评价分数导出Controller
- * Created by hyh on 2017/11/29.
- */
+
 @Controller
 @RequestMapping(value="${adminPath}/evaluate/exportEvalInfo")
 public class ExportEvalInfoController {
@@ -37,18 +34,11 @@ public class ExportEvalInfoController {
     @Autowired
     private BizEmployeeService2 bizEmployeeService2;
 
-    /**
-     * 打开评价分数导出页面
-     * @param exportEvalInfo
-     * @param request
-     * @param response
-     * @param model
-     * @return
-     */
+
     @RequestMapping("/openExportEvalInfo")
     public String openExportEvalInfo(ExportEvalInfo exportEvalInfo, HttpServletRequest request, HttpServletResponse response, Model model) throws Exception {
         User user = UserUtils.getUser();
-        //过滤门店
+
         if(null==exportEvalInfo.getStoreId()){
             if(null!=user.getStoreId()){
                 exportEvalInfo.setStoreId(user.getStoreId());
@@ -57,7 +47,7 @@ public class ExportEvalInfoController {
         if(StringUtils.isBlank(user.getStoreId())){
             model.addAttribute("storeDropEnable", true);
         }
-        //过滤工程模式
+
         if(StringUtils.isBlank(exportEvalInfo.getProjectMode())){
             if(null != user.getEmpId()){
                 BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -96,13 +86,7 @@ public class ExportEvalInfoController {
         return "modules/export/exportEvalInfo";
     }
 
-    /**
-     * 导出评价分数
-     * @param exportEvalInfo
-     * @param request
-     * @param response
-     * @return
-     */
+
     @RequestMapping(value = "/exportEvalInfo")
     public ModelAndView exportEvalInfo(String storeId,String projectMode, String startDate,String endDate,String evalTargetType,HttpServletRequest request, HttpServletResponse response) throws Exception{
 
@@ -119,7 +103,7 @@ public class ExportEvalInfoController {
         exportEvalInfo.setStartDate(sdf.parse(startDate));
         exportEvalInfo.setEndDate(sdf.parse(endDate));
         exportEvalInfo.setEvalTargetType(evalTargetType);
-        //表头
+
         LinkedHashMap<String, String> headerMapper = Maps.newLinkedHashMap();
         headerMapper.put("storeName", "门店");
         headerMapper.put("projectModeName", "工程模式");

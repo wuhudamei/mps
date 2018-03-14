@@ -27,11 +27,7 @@ import cn.damei.service.mobile.Manager.EnginInstallService;
 import cn.damei.service.mobile.Manager.OrderInstallPlanService;
 import cn.damei.entity.mobile.Manager.Manager;
 
-/**
- * 工程安装
- *
- * @author wyb
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/app/manager/orderInstallPlan")
 public class OrderInstallPlanController {
@@ -45,16 +41,11 @@ public class OrderInstallPlanController {
 	@Autowired
 	private BizMainMaterialsUnqualifiedReasonService bizMainMaterialsUnqualifiedReasonService;
 
-	/**
-	 * 安装验收 订单列表页
-	 * @param request
-	 * @param model
-	 * @return
-	 */
+
 	@RequestMapping(value = { "enginInstall", "" })
 	public String enginInstallListView( HttpServletRequest request, Model model) {
 
-		// 获取项目经理session
+
 		Manager manager = (Manager) request.getSession().getAttribute("manager");
 		if(null != manager && null != manager.getId()){
 			model.addAttribute("managerId", manager.getId());
@@ -62,12 +53,7 @@ public class OrderInstallPlanController {
 		return "mobile/modules/Manager/progressMain/enginInstall/installCheckList";
 	}
 
-	/**
-	 * 动态加载安装验收 订单列表
-	 * @param text
-	 * @param managerId
-	 * @return
-	 */
+
 	@RequestMapping(value = "ajaxEngineInstallList")
 	@ResponseBody
 	public List<EnginInstall> ajaxEngineInstallList(@RequestParam(required = false)String text, @RequestParam(required = true)Integer managerId) {
@@ -75,43 +61,29 @@ public class OrderInstallPlanController {
 	}
 
 
-	/**
-	 * 订单 主材安装验收列表页
-	 * 安装项状态为：
-	 * 	  安装模式-传统【3：已转给供应商】【401：验收不合格】
-	 * 	  安装模式-传统【330：工人已申请完工】【401：验收不合格】
-	 * @param orderId
-	 * @param model
-	 * @return
-	 */
+
 	@RequestMapping(value = "/installAcceptance")
 	public String installAcceptance(@RequestParam(required = true)Integer orderId, Model model) {
-		// 订单
+
 		EnginInstall enginInstall = enginInstallService.queryOrderDetails(orderId);
-		// 主材安装验收明细列表页【3：已转给供应商】【330：工人已申请完工】【401：验收不合格】
+
 		List<OrderInstallPlan> installPlanList = orderInstallPlanService.queryOrderInstallAcceptList(orderId);
 		model.addAttribute("order", enginInstall);
 		model.addAttribute("installPlanList", installPlanList);
 		return "mobile/modules/Manager/progressMain/enginInstall/checkList_2";
 	}
 
-	/**
-	 * 去验收页面
-	 * @param id
-	 * @param isQualified
-	 * @param model
-	 * @return
-	 */
+
 	@RequestMapping(value = "/acceptancePM")
 	public String acceptancePM(@RequestParam(required = true)Integer id,
 							   @RequestParam(required = true)Integer isQualified,Model model) {
-		//1.安装项详情
+
 		OrderInstallPlan orderInstallPlan = orderInstallPlanService.getById(id);
-		//1.1.验收日期
+
 		orderInstallPlan.setRealAcceptDate(new Date());
-		//2.查询该安装项【订单】【安装单】【施工单】信息
+
 		EnginInstall enginInstall = orderInstallPlanService.querySupplierInstallBillMessage(id);
-		//3.查询不合格原因列表
+
 		List<BizMainMaterialsUnqualifiedReason> unReasonList = bizMainMaterialsUnqualifiedReasonService.queryUnqualifiedReasonList(id);
 
 		model.addAttribute("engineInstall",enginInstall);
@@ -123,25 +95,13 @@ public class OrderInstallPlanController {
 	}
 
 
-	/**
-	 * 确认验收-提交
-	 * @param orderInstallPlan
-	 * @param photo
-	 * @param request
-	 * @return
-	 */
+
 	@RequestMapping(value="/acceptance_submit")
 	public @ResponseBody String acceptanceSubmit(OrderInstallPlan orderInstallPlan,String realAcceptDateString,String realIntoDateString,String realCompleteDateString, String[] photo, HttpServletRequest request){
 		return orderInstallPlanService.acceptanceSubmit(orderInstallPlan,realAcceptDateString,realIntoDateString,realCompleteDateString,photo,request);
 	}
 
-	/**
-	 * 【不合格】验收日志
-	 * @param id
-	 * @param orderId
-	 * @param model
-	 * @return
-	 */
+
 	@RequestMapping(value = "/acceptUnqualifiedLog")
 	public String acceptUnqualifiedLog(@RequestParam(required = true)Integer id,@RequestParam(required = true)Integer orderId,Model model) {
 
@@ -152,13 +112,7 @@ public class OrderInstallPlanController {
 		return "mobile/modules/Manager/progressMain/enginInstall/check-accept-log-unqualified";
 	}
 
-	/**
-	 * 【不合格】验收日志--图片
-	 * @param id
-	 * @param model
-	 * @return
-	 * @throws IOException
-	 */
+
 	@RequestMapping(value = { "/unqualified_pic", "" })
 	public String unqualifiedPic(Integer id, Model model) throws IOException {
 
@@ -169,39 +123,28 @@ public class OrderInstallPlanController {
 	}
 
 
-	/**
-	 * 订单 安装验收明细列表【合格】
-	 * @param orderId
-	 * @param model
-	 * @return
-	 */
+
 	@RequestMapping(value = "/installAcceptanceDetail")
 	public String installAcceptanceDetail(@RequestParam(required = true)Integer orderId, Model model) {
-		// 订单
+
 		EnginInstall enginInstall = enginInstallService.queryOrderDetails(orderId);
-		// 主材安装验收明细列表页【4：已验收】
+
 		List<OrderInstallPlan> installPlanList = orderInstallPlanService.queryOrderInstallAcceptDetailList(orderId);
 		model.addAttribute("order", enginInstall);
 		model.addAttribute("installPlanList", installPlanList);
 		return "mobile/modules/Manager/progressMain/enginInstall/checkdetailsList_5";
 	}
 
-	/**
-	 * 【合格】验收日志
-	 * @param id
-	 * @param model
-	 * @return
-	 * @throws IOException
-	 */
+
 	@RequestMapping(value = "/acceptancePMdetail")
 	public String acceptancePMdetail(@RequestParam(required = true)Integer id,
 									 Model model) throws IOException {
 
-		//1.安装项详情
+
 		OrderInstallPlan orderInstallPlan = orderInstallPlanService.getById(id);
-		//2.查询该安装项【订单】【安装单】【施工单】信息
+
 		EnginInstall engineInstall = orderInstallPlanService.querySupplierInstallBillMessage(id);
-		//3.查询验收【合格】图片
+
 		List<OrderInstallPlanPic> list = orderInstallPlanService.queryAcceptQualifiedPicList(id);
 
 		model.addAttribute("orderInstallPlan", orderInstallPlan);
@@ -212,13 +155,7 @@ public class OrderInstallPlanController {
 	}
 
 
-	/**
-	 * 【产业】查看完工图
-	 * @param constructionId
-	 * @param model
-	 * @return
-	 * @throws IOException
-	 */
+
 	@RequestMapping(value = "/construction_pic")
 	public String constructionPic(@RequestParam(required = true)Integer constructionId, Model model) throws IOException {
 

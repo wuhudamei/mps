@@ -5,22 +5,15 @@ import cn.damei.entity.modules.BizNodePlan;
 
 import java.util.Date;
 
-/**
- * <dl>
- * <dd>描述:施工计划台账</dd>
- * <dd>公司: 智装</dd>
- * <dd>创建时间：2017/9/7</dd>
- * <dd>创建人：Chaos</dd>
- * </dl>
- */
+
 public class BizNodePlanExtend extends DataEntity2<BizNodePlan> {
 
-    private String nodeName;		// 节点名称 -- '
-    private Date planDoneDate;		// 计划完成日期 -- '
-    private Date realDoneDate;		// 实际完成日期 -- '
-    /**现场交底**/
+    private String nodeName;
+    private Date planDoneDate;
+    private Date realDoneDate;
+
     private Date disclosure;
-    /**确认开工**/
+
     private Date confirmation;
     private String designerName;
     private String serviceName;

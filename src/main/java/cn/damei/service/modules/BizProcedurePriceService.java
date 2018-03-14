@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.util.List;
@@ -13,11 +11,7 @@ import cn.damei.common.service.CrudService;
 import cn.damei.entity.modules.BizProcedurePrice;
 import cn.damei.dao.modules.BizProcedurePriceDao;
 
-/**
- * 工序价格管理Service
- * @author 魏建勇
- * @version 2016-09-03
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizProcedurePriceService extends CrudService<BizProcedurePriceDao, BizProcedurePrice> {

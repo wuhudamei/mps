@@ -19,9 +19,7 @@ import cn.damei.entity.modules.BizOrderInstallPlan;
 import cn.damei.service.modules.BizEnginInstallService;
 import cn.damei.service.modules.BizOrderInstallPlanService;
 
-/*
- *	订单交底查询
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/bizorderinstallplan/bizOrderInstallPlan")
 public class BizOrderInstallPlanController extends BaseController {
@@ -65,10 +63,7 @@ public class BizOrderInstallPlanController extends BaseController {
 		return "modules/bizOrderDisclose/discloseList";
 	}
 	
-	/**
-	 * 查看详情
-	 * @return list
-	 */
+
 	@RequestMapping(value = { "selectByInstallID", "" })
 	public String selectByInstallID(BizOrderInstallPlan bizOrderInstallPlan, HttpServletRequest request, HttpServletResponse response,
 			Model model,String id,String orderID) {
@@ -84,17 +79,7 @@ public class BizOrderInstallPlanController extends BaseController {
 		return "modules/bizEnginInstall/installDetail";
 	}
 	
-	/**
-	 * 修改安装项状态
-	 * 改为3
-	 * @param bizOrderInstallPlan
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @param id
-	 * @param orderID
-	 * @return
-	 */
+
 	@RequestMapping(value = { "updateByStatus", "" })
 	public String updateByStatus(BizOrderInstallPlan bizOrderInstallPlan, HttpServletRequest request, HttpServletResponse response,
 			Model model,String id,String orderID,String supplierConfirmRemarks) {

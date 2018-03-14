@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.util.ArrayList;
@@ -19,12 +17,7 @@ import cn.damei.dao.modules.BizSupplierDao;
 import cn.damei.entity.modules.BizSupplier;
 import cn.damei.common.utils.UserUtils;
 
-/**
- * 主材安装供应商设置Service
- * 
- * @author ztw
- * @version 2017-07-14
- */
+
 @Service
 @Transactional(readOnly = true)
 public class ProjectInstallAndSupplierService extends CrudService<ProjectInstallAndSupplierDao, ProjectInstallAndSupplier> {
@@ -78,9 +71,9 @@ public class ProjectInstallAndSupplierService extends CrudService<ProjectInstall
 
 	public List<BizSupplier> findPageList(ProjectInstallAndSupplier projectInstallAndSupplier) {
 
-		// projectInstallAndSupplier2.set
-		// 根据安装项ID查询关系表
-		// 然后根据关系表的ID查询供应商
+
+
+
 		projectInstallAndSupplier.setProjectInstallItemId(projectInstallAndSupplier.getId());
 		List<ProjectInstallAndSupplier> list = dao.querySupplierId(projectInstallAndSupplier);
 		List<BizSupplier> bizSupplierList = new ArrayList<BizSupplier>();
@@ -100,9 +93,9 @@ public class ProjectInstallAndSupplierService extends CrudService<ProjectInstall
 		projectInstallAndSupplier.setPage(page);
 		List<ProjectInstallAndSupplier> findAllList = dao.findPageList(projectInstallAndSupplier);
 		for (ProjectInstallAndSupplier projectInstallAndSupplier2 : findAllList) {
-			// projectInstallAndSupplier2.set
-			// 根据安装项ID查询关系表
-			// 然后根据关系表的ID查询供应商
+
+
+
 			projectInstallAndSupplier2.setPage(page);
 			List<ProjectInstallAndSupplier> list = dao.querySupplierId(projectInstallAndSupplier2);
 			page.setList(list);

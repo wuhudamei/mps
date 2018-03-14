@@ -12,11 +12,7 @@ import cn.damei.entity.mobile.Inspector.Inspector;
 import cn.damei.dao.mobile.home.HomeReportDao;
 import cn.damei.entity.mobile.home.ViewLog;
 
-/** 
-* @author 梅浩   meihao@zzhyun.cn: 
-* @version 创建时间：2016年10月24日 下午3:47:59 
-* 质检登录系统首页
-*/
+
 @Service
 @Transactional(readOnly=true)
 public class InspectorLoginService  extends CrudService2<InspectorLoginDao, Inspector>{
@@ -42,11 +38,7 @@ public class InspectorLoginService  extends CrudService2<InspectorLoginDao, Insp
 		return dao.findInspectReport(inspectorId);
 	}
 	
-	/**
-	 * 根据质检员ID和当期时间  查询质检未评价数
-	 * @param inspector
-	 * @return
-	 */
+
 	public Integer findEvalCount(Inspector inspector) {
 		return dao.findEvalCount(inspector);
 	}
@@ -55,19 +47,12 @@ public class InspectorLoginService  extends CrudService2<InspectorLoginDao, Insp
 		return  dao.isLeader(id);
 	}
 
-	/**
-	 * 弹框是否已查看	
-	 * @param inspector
-	 * @return
-	 */
+
 	public Integer findView(Inspector inspector) {
 		return dao.findView(inspector);
 	}
 
-	/**
-	 * 插入一弹框信息
-	 * @param inspector
-	 */
+
 	@Transactional(readOnly=false)
 	public void insertView(Inspector inspector) {
 		Date date = new Date();
@@ -85,7 +70,7 @@ public class InspectorLoginService  extends CrudService2<InspectorLoginDao, Insp
 	}
 
 	public Inspector selectInspectorByPhone1(String username, String string) {
-		// TODO Auto-generated method stub
+
 		return dao.selectInspectorByPhone1(username,string);
 	}
 

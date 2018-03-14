@@ -10,12 +10,7 @@ import cn.damei.common.service.CrudService;
 import cn.damei.dao.modules.BudgetDailyTableDao;
 import cn.damei.entity.modules.BudgetDailyTable;
 
-/**
- * @ClassName: BudgetDailyTableService 
- * @Description: 预算日报表Service
- * @author huhanwei 
- * @date 2017年7月18日 下午6:13:52
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BudgetDailyTableService extends CrudService<BudgetDailyTableDao, BudgetDailyTable> {

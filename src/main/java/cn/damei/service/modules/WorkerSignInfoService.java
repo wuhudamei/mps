@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.util.List;
@@ -13,11 +11,7 @@ import cn.damei.common.service.CrudService2;
 import cn.damei.dao.modules.WorkerSignInfoDao;
 import cn.damei.entity.modules.WorkerSign;
 
-/**
- * 工人签到查询Service
- * @author 梅浩
- * @version 2016-09-26
- */
+
 @Service
 @Transactional(readOnly = true)
 public class WorkerSignInfoService extends CrudService2<WorkerSignInfoDao, WorkerSign> {

@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,11 +23,7 @@ import cn.damei.service.modules.BizMaterialsStandardService;
 import cn.damei.common.utils.DictUtils;
 import cn.damei.common.utils.UserUtils;
 
-/**
- * 标化辅材Controller
- * @author 汪文文
- * @version 2016-12-24
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/standradmaterials/bizMaterialsStandard")
 public class BizMaterialsStandardController extends BaseController {
@@ -52,12 +46,12 @@ public class BizMaterialsStandardController extends BaseController {
 	@RequestMapping(value = "listPage")
 	public String listPage(BizMaterialsStandard bizMaterialsStandard, HttpServletRequest request, HttpServletResponse response, Model model){
 		if(UserUtils.getUser().getStoreId()!=null){
-			//当前登录用户门店
+
 			bizMaterialsStandard.setStoreId(Integer.parseInt(UserUtils.getUser().getStoreId()));
 		}else{
-			//门店是总部的查询所有部门信息
+
 			if(bizMaterialsStandard.getStoreId()!=null && bizMaterialsStandard.getStoreId().equals(1)){
-				//总部
+
 				bizMaterialsStandard.setStoreId(null);
 			}
 		}
@@ -67,16 +61,16 @@ public class BizMaterialsStandardController extends BaseController {
 	@RequestMapping(value = {"list", ""})
 	public String list(BizMaterialsStandard bizMaterialsStandard, HttpServletRequest request, HttpServletResponse response, Model model) {
 		if(UserUtils.getUser().getStoreId()!=null){
-			//当前登录用户门店
+
 			bizMaterialsStandard.setStoreId(Integer.parseInt(UserUtils.getUser().getStoreId()));
 		}else{
-			//门店是总部的查询所有部门信息
+
 			if(bizMaterialsStandard.getStoreId()!=null && bizMaterialsStandard.getStoreId().equals(1)){
-				//总部
+
 				bizMaterialsStandard.setStoreId(null);
 			}
 		}
-		//設置标化
+
 		bizMaterialsStandard.setMaterialsLargeType("1");
 		Page<BizMaterialsStandard> page = bizMaterialsStandardService.findPage(new Page<BizMaterialsStandard>(request, response), bizMaterialsStandard); 
 		model.addAttribute("page", page);

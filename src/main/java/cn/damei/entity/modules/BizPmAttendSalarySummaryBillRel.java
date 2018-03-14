@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import java.util.Date;
@@ -9,24 +7,20 @@ import org.hibernate.validator.constraints.Length;
 
 import cn.damei.common.persistence.DataEntity;
 
-/**
- * 工资单批次审批Entity
- * @author wl
- * @version 2017-08-10
- */
+
 public class BizPmAttendSalarySummaryBillRel extends DataEntity<BizPmAttendSalarySummaryBillRel> {
 	
 	private static final long serialVersionUID = 1L;
-	private String pmAttendSalarySummaryBillId;		// 工资汇总单ID
-	private String pmAttendSalaryBillId;		// 工资单ID
+	private String pmAttendSalarySummaryBillId;
+	private String pmAttendSalaryBillId;
 	
-	private String attendMonth; //考勤月份
-	private String pmAttendSalarySummaryBillCode; //工资批次编号
-	private String storeId; //门店Id
-	private String salrayBillCount; //工资单数量
-	private String status; //工资批次状态
-	private String statusEmployeeId; //操作人
-	private Date generatedDatetime;		// 汇总生成时间
+	private String attendMonth;
+	private String pmAttendSalarySummaryBillCode;
+	private String storeId;
+	private String salrayBillCount;
+	private String status;
+	private String statusEmployeeId;
+	private Date generatedDatetime;
 	private String realName;
 	private String enginDepartId;
 	private String departmentName;

@@ -8,7 +8,7 @@ import cn.damei.entity.mobile.Manager.Progress;
 import cn.damei.entity.mobile.Manager.ProgressWarning;
 @MyBatisDao
 public interface ProgressWarningDao extends CrudDao2<ProgressWarning>{
-	//查询项目经理所有延期的订单
+
 	public List<String> findAllDelayOrderId(Integer id);
 
 	public List<String> findPurchaseOrderId(List<String> allOrderId);

@@ -4,28 +4,24 @@ import java.util.Date;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 任务包结算Entity
- * @author qww
- * @version 2016-10-15
- */
+
 
 public class GuaranteeMoney extends DataEntity2<GuaranteeMoney>{
 
 	private static final long serialVersionUID = 1L;
 	
-	private Integer id; // 质保金id
-	private Integer orderTaskpackageId; // 订单任务包id
-	private Integer settlementId; // 结算单id
-	private Integer taskpackageTemplatId; // 任务包模板id
-	private Integer employeeId; // 员工id
-	private Integer employeegroupId; // 工人组id
-	private Double guaranteeMoneyAmount; // 质保金额
-	private Double guaranteeMoneyAmountTotal; // 质保金累计金额
-	private String isDeduct; // 是否上缴
-	private Date deductTime; // 上缴时间
-	private String remarks; // 备注
-	private Double guaranteeMoneyBalance;//质保金余额
+	private Integer id;
+	private Integer orderTaskpackageId;
+	private Integer settlementId;
+	private Integer taskpackageTemplatId;
+	private Integer employeeId;
+	private Integer employeegroupId;
+	private Double guaranteeMoneyAmount;
+	private Double guaranteeMoneyAmountTotal;
+	private String isDeduct;
+	private Date deductTime;
+	private String remarks;
+	private Double guaranteeMoneyBalance;
 	
 	public Integer getId() {
 		return id;

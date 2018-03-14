@@ -1,17 +1,11 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import java.util.Date;
 
 import cn.damei.common.persistence.DataEntity;
 
-/**
- * 约检信息管理Entity
- * @author 梅浩
- * @version 2017-04-21
- */
+
 public class BizApplyCheckDelete extends DataEntity<BizApplyCheckDelete> {
 	
 

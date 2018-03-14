@@ -6,22 +6,20 @@ import cn.damei.common.persistence.DataEntity2;
 
 public class BizQcCheckNode extends DataEntity2<BizQcCheckNode>{
 	
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	
 	private Integer id;
-	private Integer orderId; //订单id
-	private Integer storeId;		// 门店id -- '
-	private String qcCheckNodeName;		// 节点名称 -- '
-	private Integer qcCheckNodeIndex;		// 节点顺序 -- '
-	private Integer daysToCheck;		// 开工后第几天检查 -- '
-	private Integer constructionScheduleId;		// 所属进度节点模板id -- '
+	private Integer orderId;
+	private Integer storeId;
+	private String qcCheckNodeName;
+	private Integer qcCheckNodeIndex;
+	private Integer daysToCheck;
+	private Integer constructionScheduleId;
 
-	private String isUrgePay;		// 是否缴催 -- '0.否；1.是
-	private String status;		// 状态 -- '0.停用；1.启用
-	private Date statusDatetime;		// 状态产生日期时间 --
+	private String isUrgePay;
+	private String status;
+	private Date statusDatetime;
 	private Date planCheckDate;
 
 	public Date getPlanCheckDate() {

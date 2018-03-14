@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,11 +15,7 @@ import cn.damei.common.web.BaseController;
 import cn.damei.entity.modules.Log;
 import cn.damei.service.modules.LogService;
 
-/**
- * 日志Controller
- * @author ThinkGem
- * @version 2013-6-2
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/sys/log")
 public class LogController extends BaseController {

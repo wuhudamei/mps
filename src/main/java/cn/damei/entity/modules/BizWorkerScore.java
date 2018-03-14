@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 
@@ -12,85 +10,81 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import cn.damei.common.persistence.DataEntity;
 
-/**
- * 评价指标设置Entity
- * @author ws
- * @version 2017-09-14
- */
+
 public class BizWorkerScore extends DataEntity<BizWorkerScore> implements Comparable<BizWorkerScore> {
 	
 	private static final long serialVersionUID = 1L;
 	
-	String storeId; // 门店Id
-	String storeName;// 门店名称
-	String elactricationId;// 工程部ID
-	String elactricationName;// 工程部名称
-	String empId;// 组长ID
-	String leaderRealName;// 组长姓名
-	String leaderRealNamezhen;// 组长姓名 供应商使用
-	String empCount;// 组员数量
-	String empIds;// 组员id逗号分隔
-	String empRealNames;// 组员名称逗号分隔
-	String taskPackageId;// 任务包
-	String leaderPhone;// 组长手机号
+	String storeId;
+	String storeName;
+	String elactricationId;
+	String elactricationName;
+	String empId;
+	String leaderRealName;
+	String leaderRealNamezhen;
+	String empCount;
+	String empIds;
+	String empRealNames;
+	String taskPackageId;
+	String leaderPhone;
 	Integer orderstop;
 	Integer state;
-	Integer star; // 星级
-	private Integer workType; // 工种
+	Integer star;
+	private Integer workType;
 	private List<Integer> enginDepartIds = new ArrayList<Integer>();
 	private Integer noInDepartment;
-	private String address;// 地址
+	private String address;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date freeBeginDate;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date freeEndDate;
-	private List<BizEmgrouprelation>empGropRelation;//工人组关联关系表
-	private Date planStartDate;// 计划开工
-	private Date planEndDate;// 计划结束
+	private List<BizEmgrouprelation>empGropRelation;
+	private Date planStartDate;
+	private Date planEndDate;
 
 	private Integer workerGroupId;
 
-	private String recommendManagerName; // 推荐项目经的姓名
+	private String recommendManagerName;
 	
-	private String orderStopReason;       //停单原因
-	private String orderStopReasonType;       //停单原因类型
-	private String orderStopOperatorEmployeeId;//停单操作人
-	private Date orderStopOperateDatetime;  //停单操作时间;
+	private String orderStopReason;
+	private String orderStopReasonType;
+	private String orderStopOperatorEmployeeId;
+	private Date orderStopOperateDatetime;
 	
-	private String projectMode;//工程模式
+	private String projectMode;
 
 	
-	private String starScore;    //平均分
+	private String starScore;
 	
 	
-	private Integer sort;//排名
+	private Integer sort;
 	
 	
-	private Date gradeDate;//评分时间
+	private Date gradeDate;
 	
-	private String groupRealName;//工人组长
+	private String groupRealName;
 	
-	private String customerMessage;//客户地址信息
+	private String customerMessage;
 	
-	private String customerName;//客户姓名
+	private String customerName;
 	
 	private Integer packageId;
 	
-	private String packageName;//任务包名称
+	private String packageName;
 	
-	private Integer evalRoleType;//评价角色类型 1：项目经理  2：质检   3:客户
+	private Integer evalRoleType;
 	
-	private Double evaltotalScore;//总分
+	private Double evaltotalScore;
 	
-	private Double gradtotalScore;//实际得分
+	private Double gradtotalScore;
 	
-	private String starScore1;    //平均分比较
+	private String starScore1;
 	
-	private String starScore2;    //平均分比较
+	private String starScore2;
 	
-	private Integer sort1;//排名比较
+	private Integer sort1;
 	
-	private Integer sort2;//排名比较
+	private Integer sort2;
 	
 	private List<BizEvalActivityIndex> bizEvalActivityIndexList;
 	

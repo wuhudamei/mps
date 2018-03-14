@@ -22,7 +22,7 @@ public class InspectorBalanceOfOrderController {
 	private InspectBalanceOfOrderService service;
 	@RequestMapping(value={"balanceByOrderList"})
 	public String   list(Model model  , HttpServletRequest request){
-		//根据登录查询订单
+
 		List<OrderSignVo> list = service.orderByInspectorId(SessionUtils.getInspectorSession(request).getId());
 		model.addAttribute("list", list);
 		
@@ -33,7 +33,7 @@ public class InspectorBalanceOfOrderController {
 		
 		if(null != id && !"".equals(id)){
 			InspectorBalanceEntity orderVo = new InspectorBalanceEntity();
-			//根据 订单id查询 结算单
+
 			orderVo.setOrderId(Integer.parseInt(id));
 			orderVo.setInspectId(Integer.parseInt(inspectorId));
 			List<InspectorBalanceEntity> list = service.findBalanceDetailByOrderId(orderVo);

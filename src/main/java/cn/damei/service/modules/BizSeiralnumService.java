@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.text.SimpleDateFormat;
@@ -12,22 +10,14 @@ import cn.damei.common.service.CrudService2;
 import cn.damei.dao.modules.BizSeiralnumDao;
 import cn.damei.entity.modules.BizSeiralnum;
 
-/**
- * 编号序列管理Service
- * @author 魏建勇
- * @version 2016-08-21
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizSeiralnumService extends CrudService2<BizSeiralnumDao, BizSeiralnum> {
 	
 	
     
-	/**
-	 * 完整编号，如 JS201610140001
-	 * @param name 编号前两位，如  JS
-	 * @return
-	 */
+
 	@Transactional(readOnly = false)
 	public synchronized String getDateSequence(String bussinessType){
 		if(StringUtils.isBlank(bussinessType)){

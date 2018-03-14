@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.util.List;
@@ -15,12 +13,7 @@ import cn.damei.dao.modules.CheckNodeDao;
 import cn.damei.entity.modules.CheckNode;
 import cn.damei.entity.modules.DropModel;
 
-/**
- * 约检节点设置Service
- *
- * @author 梅浩
- * @version 2016-10-26
- */
+
 @Service
 @Transactional(readOnly = true)
 public class CheckNodeService extends CrudService2<CheckNodeDao, CheckNode> {
@@ -48,23 +41,13 @@ public class CheckNodeService extends CrudService2<CheckNodeDao, CheckNode> {
     }
 
 
-    /**
-     * 根据门店id 动态查询节点
-     *
-     * @param node
-     * @return
-     */
+
     public List<CheckNode> findConsList(CheckNode node) {
 
         return dao.findConsList(node);
     }
 
-    /**
-     * 根据门店id查询门店下的约检节点
-     *
-     * @param map
-     * @return
-     */
+
     public List<DropModel> queryNodeListByStoreId(Map<String, Object> map) {
 
         return dao.queryNodeListByStoreId(map);
@@ -72,11 +55,7 @@ public class CheckNodeService extends CrudService2<CheckNodeDao, CheckNode> {
 
 
 
-    /**
-     * 根据门店和模式  确认是否可以选择为基装节点
-     * @param storeId  projectMode
-     * @return
-     */
+
     public String checkIsOkForBasicNode(String storeId, String projectMode) {
 
 

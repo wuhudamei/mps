@@ -4,42 +4,38 @@ import java.util.Date;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 奖励惩罚实体类
- * @author hyh
- *
- */
+
 public class BizBusinessRewardPunish extends DataEntity2<BizBusinessRewardPunish>{
 
 	private static final long serialVersionUID = 1L;
 	
-	private String rewardPunishType;  //奖惩类型  1：奖励 2：惩罚
+	private String rewardPunishType;
 	
-	private String employeeType; //员工类型 1：员工  2：项目经理
+	private String employeeType;
 	
-	private Integer employeeId;//员工Id
+	private Integer employeeId;
 	
-	private String relatedBusinessType; //关联业务类型  1：准产业项目经理中期结算  2：准产业项目经理竣工结算
+	private String relatedBusinessType;
 	
 	private Integer relatedBusinessIdInt;
 	
 	private String relatedBusinessIdVarchar;
 	
-	private Double rewardPunishAmount; //奖惩金额
+	private Double rewardPunishAmount;
 	
-	private String rewardPunishRemarks; //奖惩说明
+	private String rewardPunishRemarks;
 	
-	private Date rewardPunishDatetime; //奖惩时间
+	private Date rewardPunishDatetime;
 	
-	private String rewardPunishStatus; //奖惩状态
+	private String rewardPunishStatus;
 	
-	private Date statusDatetime;  //状态时间
+	private Date statusDatetime;
 	
-	private String settleStage; //结算阶段  1：中期结算   2：竣工结算
+	private String settleStage;
 	
-	private String settleType; //结算单类型 1：工人结算  2：项目经理结算
+	private String settleType;
 	
-	private Integer settleId;  //结算单Id
+	private Integer settleId;
 
 	
 	public String getRelatedBusinessType() {

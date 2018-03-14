@@ -2,12 +2,10 @@ package cn.damei.entity.mobile.Inspector;
 
 import java.util.Objects;
 
-/**
- * Created by joseph on 2017/6/13.
- */
+
 public class ApplyCheckPlanEntity extends BasePqcEntity implements Comparable<ApplyCheckPlanEntity>  {
 
-    private String isChecked;//是否验收, 作为高亮
+    private String isChecked;
 
     public String getIsChecked() {
         return isChecked;

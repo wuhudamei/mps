@@ -24,11 +24,7 @@ import cn.damei.common.web.BaseController;
 import cn.damei.entity.modules.InspectPunishMoneyQueryEntity;
 import cn.damei.service.modules.InspectPunishMoneyQueryService;
 import cn.damei.common.utils.UserUtils;
-/**
- * 
- * @author 梅浩
- * 质检罚款明细查询
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/inspectPunishMoneyQuery")
 public class InspectPunishMoneyQueryController extends BaseController {
@@ -71,9 +67,9 @@ public class InspectPunishMoneyQueryController extends BaseController {
 		
 		
 		int x = 0;
-		// 不是管理员就不能查全部门店
+
 		if (!UserUtils.getUser().getOffice().getId().equals("1")) {
-			// 安心查自己门店吧
+
 			checkEntity.setStoreId(Integer.parseInt(UserUtils.getUser().getStoreId()));
 			x++;
 		}

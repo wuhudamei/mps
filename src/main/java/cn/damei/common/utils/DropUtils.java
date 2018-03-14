@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.common.utils;
 
 import java.util.ArrayList;
@@ -19,12 +17,7 @@ import cn.damei.entity.modules.BizEmployee;
 import cn.damei.dao.modules.BizEngineeringDepartmentDao;
 import cn.damei.entity.modules.Office;
 
-/**
- * 员工工具类
- * 
- * @author ThinkGem
- * @version 2013-5-29
- */
+
 public class DropUtils {
 
     private static BizEmployeeDao employeeDao = SpringContextHolder.getBean(BizEmployeeDao.class);
@@ -52,18 +45,18 @@ public class DropUtils {
         return defaultValue;
     }
 
-    //
-    // public static String getStoreValue(String label, String type, String
-    // defaultLabel){
-    // if (StringUtils.isNotBlank(type) && StringUtils.isNotBlank(label)){
-    // for (BizEmpStore dict : getStoreList()){
-    // if (type.equals(dict.getId()) && label.equals(dict.getDescription())){
-    // return dict.getDescription();
-    // }
-    // }
-    // }
-    // return defaultLabel;
-    // }
+
+
+
+
+
+
+
+
+
+
+
+
 
     public static List<DropModel> getEmployeeList(String value) {
         BizEmployee employee = new BizEmployee();
@@ -74,13 +67,7 @@ public class DropUtils {
         return employeeList;
     }
     
-    /**
-     * 根据登录员工的工程部,返回不同的工程部list
-     * 如果登录员工有多个工程部或没有工程部,  返回list+空的开头 (空的开头是默认值)
-     * 如果登录员工有一个工程部, 那么默认该工程部label为第一个
-     *
-     * @return
-     */
+
     public static List<DropModel> getEngineListWithUserConditions() {
     	 List<DropModel> elactricationList  = new  ArrayList<DropModel>();
     	DropModel model = new DropModel();
@@ -88,16 +75,16 @@ public class DropUtils {
     	model.setLabel("");
     	String loginUserEmpId = UserUtils.getUser().getEmpId();
     	if(null!=loginUserEmpId){
-    		//根据员工id  查询工程区域
+
     		List<Integer> listPre = employeeDao.findEngineIdsByEmpId(Integer.parseInt(loginUserEmpId));
 
                 List<Integer> list = new ArrayList<Integer>(new HashSet<Integer>(listPre.size()>0?listPre:new ArrayList<Integer>()));
                 if (null != list && list.size() > 1) {
 
 
-                    //多个工程部,  默认空
+
                     elactricationList.add(model);
-                    //
+
                     List<DropModel> list2 = getElacListWithUserConditons(list);
 
                     for (DropModel dropModel : list2) {
@@ -107,12 +94,12 @@ public class DropUtils {
 
                 } else if (list.size() == 1) {
 
-                    //只有一个工程部 ,查询该工程部 显示第一个
+
                     String label = getElacLabel(String.valueOf(list.get(0)), "");
                     model.setLabel(label);
                     model.setValue(String.valueOf(list.get(0)));
                     elactricationList.add(model);
-                    //
+
                     List<DropModel> list2 = getElacListWithUserConditons(list);
 
                     for (DropModel dropModel : list2) {
@@ -125,9 +112,9 @@ public class DropUtils {
 
 
                 } else {
-                    //没有empId  查询全部 ,第一个默认空
+
                     elactricationList.add(model);
-                    //
+
                     List<DropModel> list2 = getElacList();
 
                     for (DropModel dropModel : list2) {
@@ -141,9 +128,9 @@ public class DropUtils {
 
     	}else{
     		
-    		//没有empId  查询全部 ,第一个默认空
+
 			elactricationList.add(model);
-			//
+
 			List<DropModel> list2 = getElacList();
 			
 			for (DropModel dropModel : list2) {
@@ -157,10 +144,7 @@ public class DropUtils {
     	
     
     }
-    /**
-     * 当前用户有什么区域 就显示什么区域
-     * @return
-     */
+
     public static List<DropModel> getEngineListWithUserConditionsForBiddenChange() {
     	List<DropModel> elactricationList  = new  ArrayList<DropModel>();
     	DropModel model = new DropModel();
@@ -168,21 +152,21 @@ public class DropUtils {
     	model.setLabel("");
     	String loginUserEmpId = UserUtils.getUser().getEmpId();
     	if(null!=loginUserEmpId){
-    		//根据员工id  查询工程区域
+
     		List<Integer> list = employeeDao.findEngineIdsByEmpId(Integer.parseInt(loginUserEmpId));
     		if(null!=list&&list.size()>0){
-    			//如果有一个 默认这一个
-    			//当前登录的有哪些区域就查哪些区域
-    			//根据当前登录的人的用户id查询到的工程部id 查询工程部list
+
+
+
     			List<DropModel> list2 = getElacListWithUserConditons(list);
     			for (DropModel dropModel : list2) {
     				elactricationList.add(dropModel);
     			}
     			return 	 elactricationList;
     		}else{
-        		//没有区域  查询全部 ,第一个默认空
+
         		elactricationList.add(model);
-        		//
+
         		List<DropModel> list2 = getElacList();
         		for (DropModel dropModel : list2) {
         			elactricationList.add(dropModel);
@@ -190,9 +174,9 @@ public class DropUtils {
         		return 	 elactricationList;	
     		}
     	}else{
-    		//没有empId  查询全部 ,第一个默认空
+
     		elactricationList.add(model);
-    		//
+
     		List<DropModel> list2 = getElacList();
     		for (DropModel dropModel : list2) {
     			elactricationList.add(dropModel);
@@ -209,26 +193,26 @@ public class DropUtils {
     	model.setLabel("");
     	String loginUserEmpId = UserUtils.getUser().getEmpId();
     	if(null!=loginUserEmpId){
-    		//根据员工id  查询工程区域
+
     		List<Integer> listPre = employeeDao.findEngineIdsByEmpId(Integer.parseInt(loginUserEmpId));
             List<Integer> list = new ArrayList<Integer>(new HashSet<Integer>(listPre));
     		if(null!=list&&list.size()>0){
     			if(list.size()>1){
-    				//如果该用户有多个工程部, 默认空
+
     				elactricationList.add(model);
     			}
-    			//如果有一个 默认这一个
-    			//当前登录的有哪些区域就查哪些区域
-    			//根据当前登录的人的用户id查询到的工程部id 查询工程部list
+
+
+
     			List<DropModel> list2 = getElacListWithUserConditons(list);
     			for (DropModel dropModel : list2) {
     				elactricationList.add(dropModel);
     			}
     			return 	 elactricationList;
     		}else{
-        		//没有区域  查询全部 ,第一个默认空
+
         		elactricationList.add(model);
-        		//
+
         		List<DropModel> list2 = getAllElacList();
         		for (DropModel dropModel : list2) {
         			elactricationList.add(dropModel);
@@ -236,9 +220,9 @@ public class DropUtils {
         		return 	 elactricationList;	
     		}
     	}else{
-    		//没有empId  查询全部 ,第一个默认空
+
     		elactricationList.add(model);
-    		//
+
     		List<DropModel> list2 = getAllElacList();
     		for (DropModel dropModel : list2) {
     			elactricationList.add(dropModel);
@@ -273,27 +257,13 @@ public class DropUtils {
         return getEmployeeListByConditionsNew(empTypes, workTypes, unauth,"");
     }
     
-    /**
-     * 
-     * getEmployeeListByConditions:(这里用一句话描述这个方法的作用). <br/>
-     * 多个条件并行查询
-     * 如果unauth=true  && storeIds!= "" 按照storeIds查询
-     * 如果unauth=false && storeIds!= "" 按照storeIds查询
-     * 如果unauth=true  && storeIds== "" 按照权限的值查询
-     * 如果unauth=false  && storeIds== "" 按照权限的值查询
-     * @param empTypes  员工类型,多个用逗号隔开
-     * @param workTypes 员工类型,多个用逗号隔开
-     * @param unauth    是否根据权限设置
-     * @param storeIds  门店id,多个用逗号隔开 对应officeId
-     * @return
-     * @since JDK 1.6
-     */
+
     public static List<DropModel> getEmployeeListByConditionsNew(String empTypes, String workTypes, String unauth, String storeIds) {
         Map<String, String> map = new HashMap<String, String>();
         List<Office> officeList = null;
         String officeIds = "";
         Set<String> officeIdSet = null;
-        // 如果不控制权限,则查询所有门店
+
         if ("true".equals(unauth)) {
             officeList = UserUtils.getOfficeAllList();
         } else {
@@ -359,7 +329,7 @@ public class DropUtils {
             for (DropModel emp : employeeList) {
                 defaultValue += emp.getLabel() + ",";
             }
-           // System.out.println("------------------------" + defaultValue + ",employeeList.size:" + employeeList.size() + "-----------");
+
         }
         return defaultValue;
     }
@@ -376,7 +346,7 @@ public class DropUtils {
             		defaultValue += emp.getLabel() + ",";
 				}
             }
-            //System.out.println("------------------------" + defaultValue + ",employeeList.size:" + employeeList.size() + "-----------");
+
         }
         return defaultValue;
     }
@@ -422,14 +392,14 @@ public class DropUtils {
     	return elactricationList;
     }
 
-    // /**
-    // * 返回字典列表（JSON）
-    // * @param type
-    // * @return
-    // */
-    // public static String getStoreListJson(String type){
-    // return JsonMapper.toJsonString(getStoreList(type));
-    // }
+
+
+
+
+
+
+
+
 
     public static List<Office> getNowStoreList() {
         List<Office> officeList = UserUtils.getOfficeList();

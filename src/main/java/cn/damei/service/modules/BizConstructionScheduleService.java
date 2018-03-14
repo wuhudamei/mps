@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.util.List;
@@ -14,11 +12,7 @@ import cn.damei.common.service.CrudService;
 import cn.damei.entity.modules.BizConstructionSchedule;
 import cn.damei.dao.modules.BizConstructionScheduleDao;
 
-/**
- * 工程进度节点Service
- * @author 魏建勇
- * @version 2016-09-05
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizConstructionScheduleService extends CrudService<BizConstructionScheduleDao, BizConstructionSchedule> {
@@ -53,10 +47,7 @@ public class BizConstructionScheduleService extends CrudService<BizConstructionS
 		return BizConstructionScheduleDao.getConsScheduleByIsOldHouseAndStoreId(storeId,houseIsNew,projectMode);
 	}
 
-	/**
-	 * 获取
-	 * @return
-	 */
+
 	public List<BizConstructionSchedule> getByList() {
 		return null;
 	}
@@ -65,30 +56,18 @@ public class BizConstructionScheduleService extends CrudService<BizConstructionS
 		return BizConstructionScheduleDao.getByStoreIdList(storeId);
 	}
 
-	/**
-	 * 
-	 * @param isOldHouse 
-	 * @return List
-	 */
+
 	public List<BizConstructionSchedule> getByStoreIdAndDelflag(Integer stroeID, String isOldHouse) {
 		return BizConstructionScheduleDao.getByStoreIdAndDelflag(stroeID,isOldHouse);
 	}
 
-	/**
-	 * 获取新房的节点
-	 * @param isOldHouse 
-	 * @param string 
-	 * @return List
-	 */
+
 	public List<BizConstructionSchedule> getByEnableOrNewHouse(String stroeID, String isOldHouse) {
-		// TODO Auto-generated method stub
+
 		return BizConstructionScheduleDao.getByEnableOrNewHouse(stroeID,isOldHouse);
 	}
 	
-	/**
-	 * 获取老房的节点
-	 * @return List
-	 */
+
 	public List<BizConstructionSchedule> getByEnableOrOldHouse() {
 		return BizConstructionScheduleDao.getByEnableOrOldHouse();
 	}

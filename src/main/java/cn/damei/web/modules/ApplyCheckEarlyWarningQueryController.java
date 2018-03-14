@@ -20,10 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
-/**
- * Created by joseph on 2017/5-22
- * 约检验收预警查询
- */
+
 @Controller
 @RequestMapping(value="${adminPath}/ApplyCheckEarlyEarningQuery")
 public class ApplyCheckEarlyWarningQueryController extends BaseController{

@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.mobile.home;
 
 import java.io.Serializable;
@@ -13,53 +11,49 @@ import org.hibernate.validator.constraints.Length;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-/**
- * 施工变更单Entity
- * @author wyb
- * @version 2016-11-16
- */
+
 public class BizProjectChangeBill implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
-	private String type; //审核
-	private Integer projectChangeId;		//变更单id
-	private Integer orderId;		// 订单id -- '
-	private String projectChangeBillCode;		// 施工变更单编号 -- '
-	private String changeReason;		// 变更原因 -- '
-	private Date applyDate;		// 提报日期 -- '
-	private Double addItemTotalPrice;		// 增项总价 -- '
-	private Double subItemTotalPrice;		// 减项总价 -- '
-	private Double allPrice;	//总价
-	private String status;		// 状态 -- '
-	private Integer checkEmployeeId;		// 审核人员工id -- '
-	private Date checkDate;		// 审核日期 -- '
-	private String checkWords;		// 审核意见 -- '
-	private Date beginApplyDate;		// 开始 提报日期 -- '
-	private Date endApplyDate;		// 结束 提报日期 -- '
+	private String type;
+	private Integer projectChangeId;
+	private Integer orderId;
+	private String projectChangeBillCode;
+	private String changeReason;
+	private Date applyDate;
+	private Double addItemTotalPrice;
+	private Double subItemTotalPrice;
+	private Double allPrice;
+	private String status;
+	private Integer checkEmployeeId;
+	private Date checkDate;
+	private String checkWords;
+	private Date beginApplyDate;
+	private Date endApplyDate;
 	
 	
-	private String storeId;	//门店
-	private String orderNumber;	//订单编码
-	private String communityName;	//小区
-	private String buildNumber;	//几号楼
-	private String buildUnit;	//几单元
-	private String buildRoom;	//几室
-	private String customerName;	//客户姓名
-	private String itemManager;	//项目经理
-	private Integer itemManagerId; //项目经理id
+	private String storeId;
+	private String orderNumber;
+	private String communityName;
+	private String buildNumber;
+	private String buildUnit;
+	private String buildRoom;
+	private String customerName;
+	private String itemManager;
+	private Integer itemManagerId;
 	
-	private String customerPhone; //客户电话
-	private String contractArea; //建筑面积
-	private String itemManagerPhone; //项目经理电话
-	private String designerName; //设计师
-	private String designerPhone; //设计师电话
-	private String contractNumber; //合同编号
-	private String isElevator; //有无电梯
+	private String customerPhone;
+	private String contractArea;
+	private String itemManagerPhone;
+	private String designerName;
+	private String designerPhone;
+	private String contractNumber;
+	private String isElevator;
 	
-	private Integer viewCount;//日志表
-	private BizOrder order; //订单
+	private Integer viewCount;
+	private BizOrder order;
 	
-	private List<BizChangeItem> changeItemList; //变更项列表
+	private List<BizChangeItem> changeItemList;
 
 
 	public Integer getProjectChangeId() {

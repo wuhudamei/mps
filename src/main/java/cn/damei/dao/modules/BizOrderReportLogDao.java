@@ -5,9 +5,7 @@ import cn.damei.entity.modules.OrderReportLogEntity;
 
 import java.util.Map;
 
-/**
- * Created by joseph on 2017/5/10.
- */
+
 
 @MyBatisDao
 public interface BizOrderReportLogDao {

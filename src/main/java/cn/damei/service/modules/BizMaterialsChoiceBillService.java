@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.util.List;
@@ -13,12 +11,7 @@ import cn.damei.common.service.CrudService2;
 import cn.damei.dao.modules.BizMaterialsChoiceBillDao;
 import cn.damei.entity.modules.BizMaterialsChoiceBill;
 
-/**
- * 选材单表Service
- * 
- * @author wyb
- * @version 2017-06-13
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizMaterialsChoiceBillService extends CrudService2<BizMaterialsChoiceBillDao, BizMaterialsChoiceBill> {
@@ -45,22 +38,12 @@ public class BizMaterialsChoiceBillService extends CrudService2<BizMaterialsChoi
 		super.delete(bizMaterialsChoiceBill);
 	}
 
-	/**
-	 * 根据订单id查询订单详情以及选材清单id
-	 * 
-	 * @param orderId
-	 * @return
-	 */
+
 	public BizMaterialsChoiceBill findOrder(Integer orderId) {
 		return dao.findOrder(orderId);
 	}
 
-	/**
-	 * 根据订单编号查询订单选材清单的墙地砖预算面积
-	 * 
-	 * @param orderNumber
-	 * @return
-	 */
+
 	public BizMaterialsChoiceBill findWallFloorTileSquareBudgetAllCount(String orderNumber) {
 		return dao.findWallFloorTileSquareBudgetAllCount(orderNumber);
 	}

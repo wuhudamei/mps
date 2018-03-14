@@ -2,37 +2,33 @@ package cn.damei.entity.mobile.Manager;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 任务包结算Entity
- * @author qww
- * @version 2016-10-15
- */
+
 
 public class OrderTaskpackageVo extends DataEntity2<OrderTaskpackageVo>{
 
 	private static final long serialVersionUID = 1L;
 
-	private Integer id; // 订单任务包id
-	private Integer orderId; // 订单id
-	private Integer groupId; // 组长id
-	private String customerMessage; //客户基本信息
-	private String customerName; //客户名称
-	private String packageName; // 任务包名称
-	private String realName; // 工人组长名称
-	private String phone; // 工人组长电话
-	private String houseType; // 户型 1:一居室 2:二居室 3:三居室 4:四居室 5:五居室 6:其它居室
-	private String coveredArea; // 建筑面积
-	private String empGroupid; // 工人组id
+	private Integer id;
+	private Integer orderId;
+	private Integer groupId;
+	private String customerMessage;
+	private String customerName;
+	private String packageName;
+	private String realName;
+	private String phone;
+	private String houseType;
+	private String coveredArea;
+	private String empGroupid;
 	
-	private Integer taskPackageTemplatId; // 任务包模板id
-	private String guaranteeMoneyAmount; // 质保金额
-	private String guaranteeMoneyAmountTotal; // 质保金累计金额
-	private String isQualityGuarantee; // 是否扣质保金；0：否，1：是
-	private String qualityGuaranteeRate; // 质保金扣除比例;1-100
-	private Integer gualityGuaranteeType; // 扣除质保金分类(自定义字段) 1-不扣质保金 2-扣质保金，但是没满两次 3-扣质保金，但是已满2次
-	private String packageStateId; // 任务包状态Id
-	private Double guaranteeMoneyBalance;//质保金余额
-	private String settleStyle;//结算方式  1：包工包料  2：包工
+	private Integer taskPackageTemplatId;
+	private String guaranteeMoneyAmount;
+	private String guaranteeMoneyAmountTotal;
+	private String isQualityGuarantee;
+	private String qualityGuaranteeRate;
+	private Integer gualityGuaranteeType;
+	private String packageStateId;
+	private Double guaranteeMoneyBalance;
+	private String settleStyle;
 	
 	public String getSettleStyle() {
 		return settleStyle;

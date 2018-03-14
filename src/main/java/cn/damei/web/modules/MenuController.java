@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import java.util.List;
@@ -27,11 +25,7 @@ import cn.damei.entity.modules.Menu;
 import cn.damei.service.modules.SystemService;
 import cn.damei.common.utils.UserUtils;
 
-/**
- * 菜单Controller
- * @author ThinkGem
- * @version 2013-3-23
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/sys/menu")
 public class MenuController extends BaseController {
@@ -65,7 +59,7 @@ public class MenuController extends BaseController {
 			menu.setParent(new Menu(Menu.getRootId()));
 		}
 		menu.setParent(systemService.getMenu(menu.getParent().getId()));
-		// 获取排序号，最末节点排序号+30
+
 		if (StringUtils.isBlank(menu.getId())){
 			List<Menu> list = Lists.newArrayList();
 			List<Menu> sourcelist = systemService.findAllMenu();
@@ -104,12 +98,12 @@ public class MenuController extends BaseController {
 			addMessage(redirectAttributes, "演示模式，不允许操作！");
 			return "redirect:" + adminPath + "/sys/menu/";
 		}
-//		if (Menu.isRoot(id)){
-//			addMessage(redirectAttributes, "删除菜单失败, 不允许删除顶级菜单或编号为空");
-//		}else{
+
+
+
 			systemService.deleteMenu(menu);
 			addMessage(redirectAttributes, "删除菜单成功");
-//		}
+
 		return "redirect:" + adminPath + "/sys/menu/";
 	}
 
@@ -126,9 +120,7 @@ public class MenuController extends BaseController {
 		return "modules/sys/menuTreeselect";
 	}
 	
-	/**
-	 * 批量修改菜单排序
-	 */
+
 	@RequiresPermissions("sys:menu:edit")
 	@RequestMapping(value = "updateSort")
 	public String updateSort(String[] ids, Integer[] sorts, RedirectAttributes redirectAttributes) {
@@ -145,13 +137,7 @@ public class MenuController extends BaseController {
 		return "redirect:" + adminPath + "/sys/menu/";
 	}
 	
-	/**
-	 * isShowHide是否显示隐藏菜单
-	 * @param extId
-	 * @param isShowHidden
-	 * @param response
-	 * @return
-	 */
+
 	@RequiresPermissions("user")
 	@ResponseBody
 	@RequestMapping(value = "treeData")

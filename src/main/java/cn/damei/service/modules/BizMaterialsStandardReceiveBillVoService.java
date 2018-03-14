@@ -21,17 +21,17 @@ public class BizMaterialsStandardReceiveBillVoService extends CrudService2<BizMa
 	}
 
 	public BizMaterialsStandardReceiveBillVo findByCode(String code) {
-		// TODO Auto-generated method stub
+
 		return dao.findByCode(code);
 	}
 
 	public BizMaterialsStandardReceiveBillVo findBySettleBillId(Integer billId) {
-		// TODO Auto-generated method stub
+
 		return dao.findBySettleBillId(billId);
 	}
 
 	public BizMaterialsStandardReceiveBillVo findByOrderId(Integer orderId) {
-		// TODO Auto-generated method stub
+
 		return dao.findByOrderId(orderId);
 	}
 }

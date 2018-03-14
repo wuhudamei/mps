@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.util.ArrayList;
@@ -28,12 +26,7 @@ import cn.damei.dao.modules.UserDao;
 import cn.damei.entity.modules.Office;
 import cn.damei.entity.modules.User;
 
-/**
- * 员工信息Service
- * 
- * @author qhy
- * @version 2016-08-24
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizEmployeeService extends
@@ -70,36 +63,21 @@ public class BizEmployeeService extends
 		return super.findPage(page, bizEmployee);
 	}
 	
-	/**
-	 * 查询工人组组长 换单查询使用
-	 * @param page
-	 * @param bizEmployee
-	 * @return
-	 */
+
 	public Page<BizEmployee> findLeadListPage(Page<BizEmployee> page,BizEmployee bizEmployee){
 		bizEmployee.setPage(page);
 		page.setList(bizEmployeeDao.findLeadList(bizEmployee));
 		return page;
 	}
 	
-	/**
-	 * 查询项目经理换单使用
-	 * @param page
-	 * @param bizEmployee
-	 * @return
-	 */
+
 	public Page<BizEmployee> findExCahangeManagerList(Page<BizEmployee> page,BizEmployee bizEmployee){
 		bizEmployee.setPage(page);
 		page.setList(bizEmployeeDao.findExCahangeManagerList(bizEmployee));
 		return page;
 	}
 	
-	/**
-	 * 质检员 换单使用
-	 * @param page
-	 * @param bizEmployee
-	 * @return
-	 */
+
 	public Page<BizEmployee> findExCahangeInspectorList(Page<BizEmployee> page,BizEmployee bizEmployee){
 		bizEmployee.setPage(page);
 		page.setList(bizEmployeeDao.findExCahangeInspectorList(bizEmployee));
@@ -112,7 +90,7 @@ public class BizEmployeeService extends
 		boolean isAdd = bizEmployee.getIsNewRecord();
 		super.save(bizEmployee);
 		if (isAdd) {
-		//保存登录信息
+
 		User user=new User();
 		user.preInsert();
 		user.setName(bizEmployee.getRealname());
@@ -129,11 +107,11 @@ public class BizEmployeeService extends
 			user.preUpdate();
 			user.setName(bizEmployee.getRealname());
 			user.setLoginName(bizEmployee.getLoginname());
-//			user.setOffice(new Office(bizEmployee.getStoreid()));
-			//user.setCompany(new Office("1")); 
+
+
 			user.setNo(bizEmployee.getNo());
-			//user.setEmpId(bizEmployee.getId());
-			//userDao.updateByEmployee(user);
+
+
 			user.setPhone(bizEmployee.getPhone());
 			userDao.update(user);
 		}
@@ -143,13 +121,13 @@ public class BizEmployeeService extends
 	public void delete(BizEmployee bizEmployee) {
 		
 		BizEmployee bizEmployee2 = super.get(bizEmployee.getId());
-		//删除用户表中数据
+
 		User user = new User();
 		user.setId(bizEmployee2.getSysuserid());
 		userDao.delete(user);
-		//删除员工表中的数据
+
 		super.delete(bizEmployee);
-		//判断是否组长，如果是组长，把工人组状态改为停用，如果不是，不修改工人组
+
 		List<String> leader = bizEmployeeDao2.findIsLeader(Integer.parseInt(bizEmployee2.getId()));
 		if(leader != null && leader.size() > 0){
 			BizEmployee2 bizEmployee3 = new BizEmployee2();
@@ -167,9 +145,9 @@ public class BizEmployeeService extends
 	}
 	public List<DropModel>findEmployeeListByCondition(Map map)
 	{
-//		Map map=new HashMap();
-//		map.put("officeIds", storeId);
-//		map.put("empTypes", empType);
+
+
+
 		return bizEmployeeDao.findEmployeeListByCondition(map);
 	}
 	public List<BizEmployee>findListNotInGroup()
@@ -235,35 +213,23 @@ public class BizEmployeeService extends
 		return dao.findItemManagerInfoByOrderId(orderId);
 	}
 	
-	/**
-	 * 查询员工被换单次数
-	 * @param id
-	 * @return
-	 */
+
 	public BizEmployee selectExchangeOrderTimesById(Integer id){
 		return dao.selectExchangeOrderTimesById(id);
 	};
 	
-	/**
-	 * 更新被换单次数
-	 */
+
 	@Transactional
 	public void updateExchangeOrderTimes(BizEmployee bizEmployee){
 		dao.updateExchangeOrderTimes(bizEmployee);
 	};
-	/**
-	 * 保存员工
-	 * @param emp
-	 */
+
 	@Transactional
 	public void saveEmployee(BizEmployee emp){
 			super.save(emp);
 	}
 	
-	/**
-	 * 更新员工
-	 * @param emp
-	 */
+
 	@Transactional
 	public void updateEmployee(BizEmployee emp){
 		dao.updateEmployee(emp);

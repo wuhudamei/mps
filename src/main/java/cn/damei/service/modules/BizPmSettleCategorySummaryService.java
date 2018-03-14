@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.util.List;
@@ -14,11 +12,7 @@ import cn.damei.entity.modules.BizPmSettleCategorySummary;
 import cn.damei.entity.modules.BizPmSettleBill;
 import cn.damei.dao.modules.BizPmSettleCategorySummaryDao;
 
-/**
- * 结算类目汇总Service
- * @author qww
- * @version 2016-12-26
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizPmSettleCategorySummaryService extends CrudService2<BizPmSettleCategorySummaryDao, BizPmSettleCategorySummary> {

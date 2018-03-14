@@ -5,20 +5,18 @@ import com.fasterxml.jackson.annotation.JsonIgnoreType;
 import java.io.Serializable;
 import java.util.Date;
 
-/**
- * Created by joseph on 2017/4/22.
- */
+
 @JsonIgnoreType
 public class ApplyCheckDetailEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private ApplyCheckOrderEntity orderEntity;
 	private String qcCheckNodeName;
-	private Date managerApplyDate;// 经理申请日期
-	private Date hopePqcCheckDate;// 期望质检日期
-	private Date pqcSignDate;// 质检签到日期
-	private Date pqcSubmitDate;// 质检提交报告日期
-	private Date pqcCheckDoneDate;// 质检确认验收日期
-	private String scores;// 实际得分/总得分
+	private Date managerApplyDate;
+	private Date hopePqcCheckDate;
+	private Date pqcSignDate;
+	private Date pqcSubmitDate;
+	private Date pqcCheckDoneDate;
+	private String scores;
 	private Integer qcBillId;
 	private String delayReasonPm;
 	private String delayReasonQc;

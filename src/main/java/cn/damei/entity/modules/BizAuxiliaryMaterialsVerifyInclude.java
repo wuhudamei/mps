@@ -2,28 +2,23 @@ package cn.damei.entity.modules;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 对账单辅料信息实体
- * 
- * @author hyh
- *
- */
+
 public class BizAuxiliaryMaterialsVerifyInclude extends DataEntity2<BizAuxiliaryMaterialsVerifyInclude> {
 
 	private static final long serialVersionUID = 1L;
 
-	private Integer auxiliaryMaterialsVerifyId;// 对账单Id
-	private String auxiliaryMaterialsNo;// 辅料编号
-	private String auxiliaryMaterilasName; //辅料名称
-	private String specifications;//规格型号
-	private String measurementUnit;		// 单位
-	private Integer auxiliaryMaterialsCount;// 辅料数量
-	private Double auxiliaryMaterialsSupplierPrice;// 辅料供应商结算价
-	private Double auxiliaryMaterialsWangzhenPrice;// 辅料网真结算价价
-	private Double auxiliaryMaterialsLaborPrice;// 辅料工人结算价
-	private Double auxiliaryMaterialsSupplierPriceAmount;// 辅料供应商总价
-	private Double auxiliaryMaterialsWangzhenPriceAmount;// 辅料网真总价
-	private Double auxiliaryMaterialsLaborPriceAmount;// 辅料工人总价
+	private Integer auxiliaryMaterialsVerifyId;
+	private String auxiliaryMaterialsNo;
+	private String auxiliaryMaterilasName;
+	private String specifications;
+	private String measurementUnit;
+	private Integer auxiliaryMaterialsCount;
+	private Double auxiliaryMaterialsSupplierPrice;
+	private Double auxiliaryMaterialsWangzhenPrice;
+	private Double auxiliaryMaterialsLaborPrice;
+	private Double auxiliaryMaterialsSupplierPriceAmount;
+	private Double auxiliaryMaterialsWangzhenPriceAmount;
+	private Double auxiliaryMaterialsLaborPriceAmount;
 	private String supplierId;
 	private String groupType;
 

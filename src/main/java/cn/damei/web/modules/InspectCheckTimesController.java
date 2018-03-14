@@ -56,9 +56,9 @@ public class InspectCheckTimesController   extends BaseController{
 			model.addAttribute("endDate", checkEntity.getCheckEndDate());
 		}
 		int x = 0;
-		// 不是管理员就不能查全部门店
+
 		if (!UserUtils.getUser().getOffice().getId().equals("1")) {
-			// 安心查自己门店吧
+
 			checkEntity.setStoreId(Integer.parseInt(UserUtils.getUser().getStoreId()));
 			x++;
 		}

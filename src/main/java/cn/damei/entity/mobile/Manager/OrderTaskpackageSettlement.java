@@ -5,66 +5,62 @@ import java.util.List;
 import cn.damei.common.persistence.DataEntity2;
 import cn.damei.entity.modules.BizEvalActivityIndex;
 
-/**
- * 任务包结算Entity
- * @author qww
- * @version 2016-10-15
- */
+
 
 public class OrderTaskpackageSettlement extends DataEntity2<OrderTaskpackageSettlement>{
 
 	private static final long serialVersionUID = 1L;
 
-	private Integer id; // 任务包结算id
-	private String settlementNo; // 任务包结算编号
-	private Integer orderTaskpackageId; // 订单任务包id
-	private Date checkDate; // 验收日期
-	private String isQualified; // 是否合格 no:不合格 yes:合格
-	private String isDelay; // 是否延期  no:延期 yes:按时完成
-	private Double delayDays; // 延期天数(延期天数可以为整天，可以为半天，即0.5天)
-	private Double delayAmerce; // 延期扣除金额 -- '延期天数*100元
-	private String isManagePunish; // 是否管理处罚 0:无 1:有
-	private Double punishAmerce; // 处罚金额
-	private String punishReason; // 处罚理由
-	private Double auxiliaryMaterialsAmount; // 辅料核算金额 
-	private Double guaranteeMoneyAmount; // 质保金金额
-	private Double settlementAmount; // 结算金额
-	private String status; // 状态
-	private Date statusDate; // 状态产生时间
+	private Integer id;
+	private String settlementNo;
+	private Integer orderTaskpackageId;
+	private Date checkDate;
+	private String isQualified;
+	private String isDelay;
+	private Double delayDays;
+	private Double delayAmerce;
+	private String isManagePunish;
+	private Double punishAmerce;
+	private String punishReason;
+	private Double auxiliaryMaterialsAmount;
+	private Double guaranteeMoneyAmount;
+	private Double settlementAmount;
+	private String status;
+	private Date statusDate;
 	private String refusedReason;
 	private String remarks;
-	private String isNeedRecheck; // 是否需要复合
+	private String isNeedRecheck;
 	private Integer storeId;
-	private Double qcPunishMoneyAmount; // 质检罚款
-	private Double rewardAmount; // 评价奖励金额
-	private Double sandCementAmount;//沙子水泥金额
-	private Double companyDeductAmount;//公司罚款
-	private String companyDeductReason;//公司罚款原因
-	private Date ensureAmountDatetime;//工人确认薪酬时间
+	private Double qcPunishMoneyAmount;
+	private Double rewardAmount;
+	private Double sandCementAmount;
+	private Double companyDeductAmount;
+	private String companyDeductReason;
+	private Date ensureAmountDatetime;
 	
-	// 额外字段 
-	private List<BizOrderTaskpackageProcedure> orderTaskProcedure; // 订单任务包工序表
-	private List<BizOrderTaskpackageSettlementDetail> settlementDetail; // 任务结算单人工薪酬
-	private List<OrderTaskpackageAuxiliaryMaterials> auxiliaryMaterials; // 订单任务包辅料
-	private List<OrderTaskpackageAuxiliaryMaterials> sandMaterials;//订单任务包沙子水泥
+
+	private List<BizOrderTaskpackageProcedure> orderTaskProcedure;
+	private List<BizOrderTaskpackageSettlementDetail> settlementDetail;
+	private List<OrderTaskpackageAuxiliaryMaterials> auxiliaryMaterials;
+	private List<OrderTaskpackageAuxiliaryMaterials> sandMaterials;
 	private List<BizEvalActivityIndex> bizEvalActivityIndexList;
-	private String evalFeedback; // 评价工人反馈意见
-	private Integer orderId; // 订单id
-	private Integer groupId; //  员工组长id
-	private Integer empGroupid; // 工人组id
-	private Integer taskPackageTemplatId; // 任务包模板id
-	private Double guaranteeMoneyAmountTotal; // 质保金累计
-	private Integer gualityGuaranteeType; // 扣除质保金分类(自定义字段) 1-不扣质保金 2-扣质保金，但是没满两次 3-扣质保金，但是已满2次
-	private Double laborAuxiliaryMaterialsSettleAmount;//工料费结算总金额
-	private Double laborSettleAmount;//人工费结算总金额
-	private Double auxiliaryMaterialsSettleAmount;//辅料费结算总金额
-	private Double pmMaterialsSettleAmount;//项目经理材料结算总金额
-	private Double workerGroupSettleAmount;//工人组结算总金额
-	private String settleStyle;//结算方式
-	private Double auxiliaryMaterialsDeductAmountSupplierPrice;//辅料扣除金额供应商价格
-	private Double auxiliaryMaterialsDeductAmountWangzhenPrice;//辅料扣除金额网真价格
-	private Double sandCementDeductAmountSupplierPrice;//沙子水泥扣除金额供应商价格
-	private Double sandCementDeductAmountWangzhenPrice;//沙子水泥扣除金额网真价格
+	private String evalFeedback;
+	private Integer orderId;
+	private Integer groupId;
+	private Integer empGroupid;
+	private Integer taskPackageTemplatId;
+	private Double guaranteeMoneyAmountTotal;
+	private Integer gualityGuaranteeType;
+	private Double laborAuxiliaryMaterialsSettleAmount;
+	private Double laborSettleAmount;
+	private Double auxiliaryMaterialsSettleAmount;
+	private Double pmMaterialsSettleAmount;
+	private Double workerGroupSettleAmount;
+	private String settleStyle;
+	private Double auxiliaryMaterialsDeductAmountSupplierPrice;
+	private Double auxiliaryMaterialsDeductAmountWangzhenPrice;
+	private Double sandCementDeductAmountSupplierPrice;
+	private Double sandCementDeductAmountWangzhenPrice;
 	
 
 	public Double getAuxiliaryMaterialsDeductAmountSupplierPrice() {

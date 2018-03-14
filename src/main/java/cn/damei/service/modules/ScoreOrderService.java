@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.text.SimpleDateFormat;
@@ -30,11 +28,7 @@ import cn.damei.entity.modules.ScoreTeamMemberEvaluate;
 import cn.damei.entity.modules.ScoreTeamMemberHistory;
 import cn.damei.entity.modules.ScorebizCustomerComplaint;
 
-/**
- * 评分订单Service
- * @author liwc
- * @version 2017-04-12
- */
+
 @Service
 public class ScoreOrderService extends CrudService<ScoreOrderDao, ScoreOrder> {
 	
@@ -49,8 +43,8 @@ public class ScoreOrderService extends CrudService<ScoreOrderDao, ScoreOrder> {
 	@Autowired
 	ScoreCustomerComplaintDao scoreCustomerComplaintDao;
 	
-    private static Integer EVALUATE_BAD = 0;					//差评
-    private static String EVALUATE_BAD_COMPLAINT_TYPE = "16";	//差评默认投诉类型（其他）
+    private static Integer EVALUATE_BAD = 0;
+    private static String EVALUATE_BAD_COMPLAINT_TYPE = "16";
     
 	public ScoreOrder get(String id) {
 		return super.get(id);
@@ -60,22 +54,14 @@ public class ScoreOrderService extends CrudService<ScoreOrderDao, ScoreOrder> {
 		return super.findList(scoreOrder);
 	}
 	
-	/**
-	 * 根据顾客电话查询订单
-	 * @param customerPhone，用户手机号
-	 * @return
-	 */
+
 	public List<Map<String,String>> selectOrderByCustomer(String customerPhone){
 		
 		return scoreOrderDao.selectOrderByCustomer(customerPhone);
 		
 	}
 	
-	/**
-	 * 根据订单id获取未评分类型数据
-	 * @param orderId
-	 * @return
-	 */
+
 	public List<Map<String,String>> orderNoScoreType(Integer orderId){
 		Map<String,Object> param = new HashMap<>();
 		param.put("orderId", orderId);
@@ -84,11 +70,7 @@ public class ScoreOrderService extends CrudService<ScoreOrderDao, ScoreOrder> {
 		return scoreOrderDao.orderNoScoreType(param);
 	}
 	
-	/**
-	 * 根据订单id获取已评分类型历史数据
-	 * @param orderId
-	 * @return
-	 */
+
 	public List<Map<String,String>> orderHistoryScore(Integer orderId){
 		return scoreOrderDao.orderHistoryScore(orderId);
 	}
@@ -97,13 +79,7 @@ public class ScoreOrderService extends CrudService<ScoreOrderDao, ScoreOrder> {
 		return super.findPage(page, scoreOrder);
 	}
 	
-	/**
-	 * 订单评分提交处理
-	 * @param orderId
-	 * @param scoreType
-	 * @param scoreValue
-	 * @param scoreContent
-	 */
+
 	@Transactional
 	public int orderScoreSave(Integer orderId,String scoreType,Integer scoreValue,String scoreContent) {
 		int result = 0;
@@ -112,10 +88,10 @@ public class ScoreOrderService extends CrudService<ScoreOrderDao, ScoreOrder> {
 			Date date = new Date();
 			String stakeholder = "";
 			
-			//1、获取评分类型对应的员工信息
+
 			List<Map<String,Object>> memberList = null;
 			if( ("Z001").equals( scoreType ) ){
-				//暂时不对任何人评分
+
 			}else if( ("A003").equals( scoreType ) ){
 				memberList = this.scoreOrderDao.selectServiceMemberFromOrder(orderId);
 			}else if( ("A002").equals( scoreType ) ){
@@ -126,7 +102,7 @@ public class ScoreOrderService extends CrudService<ScoreOrderDao, ScoreOrder> {
 			
 			if( memberList != null && memberList.size() > 0 ){
 				for( Map<String,Object> map : memberList){
-					//2、增加员工历史评分记录
+
 					if( map.get("memberName") != null && !map.get("memberName").equals("") &&  map.get("memberPhone") != null && !map.get("memberPhone").equals("")){
 						ScoreTeamMemberHistory historyScore = new ScoreTeamMemberHistory();
 						historyScore.setOrderId(orderId);
@@ -139,7 +115,7 @@ public class ScoreOrderService extends CrudService<ScoreOrderDao, ScoreOrder> {
 						
 						this.scoreTeamMemberHistoryDao.insert(historyScore);
 						
-						//3、更新员工当前评分(先根据用户信息查询是否存在评分信息，如果存在更新，如果不存在添加)
+
 						Map<String,Object> param = new HashMap<>();
 						param.put("employeeName", map.get("memberName").toString());
 						param.put("employeePhone", map.get("memberPhone").toString());
@@ -175,7 +151,7 @@ public class ScoreOrderService extends CrudService<ScoreOrderDao, ScoreOrder> {
 				}
 			}
 			
-			//4、保存订单评分
+
 			
 			if( !StringUtils.isBlank( stakeholder ) ){
 				stakeholder = stakeholder.substring(0, stakeholder.length()-1);
@@ -198,20 +174,12 @@ public class ScoreOrderService extends CrudService<ScoreOrderDao, ScoreOrder> {
 		return result;
 	}
 	
-	/**
-	 *获取投诉类型数据
-	 * @return
-	 */
+
 	public List<Map<String,String>> getComplainType(){
 		return scoreCustomerComplaintDao.getComplainType();
 	}
 	
-	/**
-	 * 顾客投诉提交操作
-	 * @param orderId
-	 * @param complainType
-	 * @param complainContent
-	 */
+
 	@Transactional
 	public void commitComplain(Integer orderId,String complainType,String complainContent) {
 		Date date = new Date();
@@ -226,30 +194,18 @@ public class ScoreOrderService extends CrudService<ScoreOrderDao, ScoreOrder> {
 		this.scoreCustomerComplaintDao.insert( complaint );
 	}
 	
-	/**
-	 * 根据订单id获取全部的干系人，包括项目经理，服务人员，设计人员，施工团队
-	 * @param orderId
-	 * @return
-	 */
+
 	public List<Map<String,Object>> selectAllTeamMember(Integer orderId){
 		return scoreOrderDao.selectAllTeamMember(orderId);
 	}
 	
-	/**
-	 * 人员评价操作
-	 * @param orderId
-	 * @param evaluateType
-	 * @param evaluateContent
-	 * @param employeeId
-	 * @param employeeName
-	 * @param employeePhone
-	 */
+
 	@Transactional
 	public void evaluateSave(Integer orderId,Integer evaluateType,String evaluateContent,Integer employeeId,String employeeName,String employeePhone,Integer storeId,String memberPost ) {
 		try{
 			Date date = new Date();
 			
-			//1、保存评价记录
+
 			ScoreTeamMemberEvaluate evaluate = new ScoreTeamMemberEvaluate();
 			evaluate.setCreateDate(date);
 			evaluate.setOrderId(orderId);
@@ -261,7 +217,7 @@ public class ScoreOrderService extends CrudService<ScoreOrderDao, ScoreOrder> {
 			
 			this.scoreTeamMemberEvaluateDao.insert( evaluate );
 			
-			//2、更新员工实际点赞数或者差评数
+
 			Map<String,Object> param = new HashMap<>();
 			param.put("employeeName", employeeName);
 			param.put("employeePhone", employeePhone);
@@ -297,7 +253,7 @@ public class ScoreOrderService extends CrudService<ScoreOrderDao, ScoreOrder> {
 				this.scoreTeamMemberActualDao.insert(actual);
 			}
 			
-			//对于差评部分，增加投诉记录
+
 			if( EVALUATE_BAD.equals( evaluateType ) ){
 				ScorebizCustomerComplaint  complaint = new ScorebizCustomerComplaint();
 				
@@ -319,63 +275,36 @@ public class ScoreOrderService extends CrudService<ScoreOrderDao, ScoreOrder> {
 		}
 	}
 
-	/**
-	 * 根据查询条件 查询所有订单评分统计
-	 * @param address
-	 * @return 
-	 */
+
 	
 	public List<ScoreOrderQuery> selectOrderScoreQuery(Page <ScoreOrderQuery> page,ScoreOrderQuery scoreOrderQuery){
 		scoreOrderQuery.setPage(page);
 		List<ScoreOrderQuery> selectOrderScore = scoreOrderDao.selectOrderScoreQuery(scoreOrderQuery);
 		return selectOrderScore;
 	}
-/*	public List<ScoreOrderComplain> selectScoreOrderComplain(){
-		return scoreOrderDao.selectScoreOrderComplain();
-	}*/
-	/**
-	 * 根据查询条件 查询所有客诉统计
-	 * @param
-	 * @return 
-	 */
+
+
 	public List<ScoreOrderComplain> selectScoreOrderComplainQuery(Page <ScoreOrderComplain> page ,ScoreOrderComplain orderComplain){
 		orderComplain.setPage(page);
 		return scoreOrderDao.selectScoreOrderComplainQuery(orderComplain);
 	}
-	/**
-	 * 根据查询条件 查询所有员工评分统计
-	 * @param 
-	 * @return 
-	 */
+
 	public List<ScorOrderEmployee> selectScorOrderEmployeeQuery(Page <ScorOrderEmployee> page,ScorOrderEmployee scorOrderEmployee){
 		scorOrderEmployee.setPage(page);
 		return scoreOrderDao.selectScorOrderEmployeeQuery(scorOrderEmployee);
 	}
-	/**
-	 * 根据公司获取评分类型
-	 * @return
-	 */
+
 	public List<Map<String,Object>> getScoreContentByStoreId(String storeId){
 		return scoreOrderDao.getScoreContentByStoreId(storeId);
 	}
-	/**
-	 * 根据公司查询  岗位列表
-	 * @return
-	 */
+
 	public List<Map<String,Object>> selectPositionTypeByStoreId(String storeId){
 		return scoreOrderDao.selectPositionTypeByStoreId(storeId);
 	}
 
-	/**
-	 * 根据订单iD验证当天是否对该用户进行评价
-	 * @param orderId
-	 * @param employeeId
-	 * @param employeeName
-	 * @param employeePhone
-	 * @return
-	 */
+
 	public int evaluateValidate(Integer orderId,Integer employeeId,String employeeName,String employeePhone) {
-		//校验是否可操作
+
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); 
 		
@@ -390,10 +319,7 @@ public class ScoreOrderService extends CrudService<ScoreOrderDao, ScoreOrder> {
 	
 	
 	
-	/**
-	 * 生成客诉编码
-	 * @return
-	 */
+
 	private String createComplainCode(){
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS"); 
 		return sdf.format(new Date());

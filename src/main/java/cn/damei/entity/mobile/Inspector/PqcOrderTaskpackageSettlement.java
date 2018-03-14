@@ -3,36 +3,32 @@ package cn.damei.entity.mobile.Inspector;
 import java.util.Date;
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 任务包结算Entity
- * @author qww
- * @version 2016-10-15
- */
+
 
 public class PqcOrderTaskpackageSettlement extends DataEntity2<PqcOrderTaskpackageSettlement>{
 
 	private static final long serialVersionUID = 1L;
 
-	private String settlementNo; // 任务包结算编号
-	private Integer orderTaskpackageId; // 订单任务包id
-	private Date checkDate; // 验收日期
-	private String isQualified; // 是否合格 no:不合格 yes:合格
-	private String isDelay; // 是否延期  no:延期 yes:按时完成
-	private Double delayDays; // 延期天数(延期天数可以为整天，可以为半天，即0.5天)
-	private Double delayAmerce; // 延期扣除金额 -- '延期天数*100元
-	private String isManagePunish; // 是否管理处罚 0:无 1:有
-	private Double punishAmerce; // 处罚金额
-	private String punishReason; // 处罚理由
-	private Double auxiliaryMaterialsAmount; // 辅料核算金额 
-	private Double guaranteeMoneyAmount; // 质保金金额
-	private Double settlementAmount; // 结算金额
-	private String status; // 状态
-	private Date statusDate; // 状态产生时间
+	private String settlementNo;
+	private Integer orderTaskpackageId;
+	private Date checkDate;
+	private String isQualified;
+	private String isDelay;
+	private Double delayDays;
+	private Double delayAmerce;
+	private String isManagePunish;
+	private Double punishAmerce;
+	private String punishReason;
+	private Double auxiliaryMaterialsAmount;
+	private Double guaranteeMoneyAmount;
+	private Double settlementAmount;
+	private String status;
+	private Date statusDate;
 	private String refusedReason;
 	private String remarks;
-	private String isNeedRecheck; // 是否需要复合
-	private Integer storeId; // 门店id
-	private Date recheckDatetime; // 复核时间
+	private String isNeedRecheck;
+	private Integer storeId;
+	private Date recheckDatetime;
 	
 	public PqcOrderTaskpackageSettlement() {
 		super();

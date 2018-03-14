@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import cn.damei.common.config.Global;
@@ -21,11 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
-/**
- * 主材安装项验收不合格原因配置Controller
- * @author wyb
- * @version 2018-01-23
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/mainmaterialsunqualifiedreason/bizMainMaterialsUnqualifiedReason")
 public class BizMainMaterialsUnqualifiedReasonController extends BaseController {
@@ -45,12 +39,7 @@ public class BizMainMaterialsUnqualifiedReasonController extends BaseController 
 		return entity;
 	}
 
-	/**
-	 * 主材安装项验收不合格原因配置
-	 * @param bizMainMaterialsUnqualifiedReason
-	 * @param model
-	 * @return
-	 */
+
 	@RequiresPermissions("mainmaterialsunqualifiedreason:bizMainMaterialsUnqualifiedReason:view")
 	@RequestMapping(value = {"preList", ""})
 	public String preList(BizMainMaterialsUnqualifiedReason bizMainMaterialsUnqualifiedReason, Model model) {
@@ -58,14 +47,7 @@ public class BizMainMaterialsUnqualifiedReasonController extends BaseController 
 		return "modules/bizmainmaterialsunqualifiedreason/bizMainMaterialsUnqualifiedReasonList";
 	}
 
-	/**
-	 * 主材安装项验收不合格原因配置【列表页】
-	 * @param bizMainMaterialsUnqualifiedReason
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @return
-	 */
+
 	@RequiresPermissions("mainmaterialsunqualifiedreason:bizMainMaterialsUnqualifiedReason:view")
 	@RequestMapping(value = {"list", ""})
 	public String list(BizMainMaterialsUnqualifiedReason bizMainMaterialsUnqualifiedReason, HttpServletRequest request, HttpServletResponse response, Model model) {
@@ -93,31 +75,20 @@ public class BizMainMaterialsUnqualifiedReasonController extends BaseController 
 		return "redirect:"+Global.getAdminPath()+"/mainmaterialsunqualifiedreason/bizMainMaterialsUnqualifiedReason/list?repage";
 	}
 
-	/**
-	 * 动态加载主材安装项
-	 * @return
-	 */
+
 	@RequestMapping(value = "/queryInstallItemList")
 	public @ResponseBody List<BizProjectInstallItem> queryInstallItemList(String storeId,String projectMode,String installMode) {
 		return bizMainMaterialsUnqualifiedReasonService.queryInstallItemList(storeId,projectMode,installMode);
 	}
 
-	/**
-	 * 停启用
-	 * @param bizMainMaterialsUnqualifiedReason
-	 * @return
-	 */
+
 	@RequiresPermissions("mainmaterialsunqualifiedreason:bizMainMaterialsUnqualifiedReason:edit")
 	@RequestMapping(value = "/enable")
 	public @ResponseBody String enable(BizMainMaterialsUnqualifiedReason bizMainMaterialsUnqualifiedReason) {
 		return bizMainMaterialsUnqualifiedReasonService.updateRreasonEnable(bizMainMaterialsUnqualifiedReason);
 	}
 
-	/**
-	 * 删除
-	 * @param id
-	 * @return
-	 */
+
 	@RequiresPermissions("mainmaterialsunqualifiedreason:bizMainMaterialsUnqualifiedReason:edit")
 	@RequestMapping(value = "/delete")
 	public @ResponseBody String delete(Integer id) {

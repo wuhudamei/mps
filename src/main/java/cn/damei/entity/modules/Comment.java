@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import java.util.Date;
@@ -11,24 +9,20 @@ import org.hibernate.validator.constraints.Length;
 
 import cn.damei.common.persistence.DataEntity;
 
-/**
- * 评论Entity
- * @author ThinkGem
- * @version 2013-05-15
- */
+
 public class Comment extends DataEntity<Comment> {
 
 	private static final long serialVersionUID = 1L;
-	private Category category;// 分类编号
-	private String contentId;	// 归属分类内容的编号（Article.id、Photo.id、Download.id）
-	private String title;	// 归属分类内容的标题（Article.title、Photo.title、Download.title）
-	private String content; // 评论内容
-	private String name; 	// 评论姓名
-	private String ip; 		// 评论IP
-	private Date createDate;// 评论时间
-	private User auditUser; // 审核人
-	private Date auditDate;	// 审核时间
-	private String delFlag;	// 删除标记删除标记（0：正常；1：删除；2：审核）
+	private Category category;
+	private String contentId;
+	private String title;
+	private String content;
+	private String name;
+	private String ip;
+	private Date createDate;
+	private User auditUser;
+	private Date auditDate;
+	private String delFlag;
 
 	public Comment() {
 		super();

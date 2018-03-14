@@ -6,36 +6,32 @@ import java.util.List;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 准产业订单项目经理结算信息
- * @author hyh
- *
- */
+
 public class ProIndustryPmSettleInfo extends DataEntity2<ProIndustryPmSettleInfo>{
 	private static final long serialVersionUID = 1L;
-	private Integer orderId;  //订单Id
-	private Integer storeId;  //门店
-	private Integer projectMode; //工程模式
-	private String orderNum; //订单编号
-	private Integer enginDepartId; //区域
+	private Integer orderId;
+	private Integer storeId;
+	private Integer projectMode;
+	private String orderNum;
+	private Integer enginDepartId;
 	private String departmentName;
 	private List<Integer> enginDepartIds = new ArrayList<Integer>();
-	private String communityName;		// 小区名称
-	private String buildNumber;		// 几号楼
-	private String buildUnit;		// 几单元
-	private String buildRoom;		// 哪一室 
+	private String communityName;
+	private String buildNumber;
+	private String buildUnit;
+	private String buildRoom;
 	
-	private String customerName;	// 客户姓名
-	private String customerPhone;	// 客户手机号
-	private String itemCustomer;    // 项目经理
-	private String itemPhone;       //项目经理手机号
-	private String inspector;       //质检员
-	private Date acceptCheckDatetime; //约检节点质检员确认通过时间
-	private Date completeAuditPassTime;//竣工申请通过时间
-	private Double secondPayment; //二期款
-	private Date secondPaymentDate; //二期款时间
-	private Double finalPayment;  //尾款
-	private Date finalPaymentDate;  //尾款时间
+	private String customerName;
+	private String customerPhone;
+	private String itemCustomer;
+	private String itemPhone;
+	private String inspector;
+	private Date acceptCheckDatetime;
+	private Date completeAuditPassTime;
+	private Double secondPayment;
+	private Date secondPaymentDate;
+	private Double finalPayment;
+	private Date finalPaymentDate;
 	
 	public Date getCompleteAuditPassTime() {
 		return completeAuditPassTime;

@@ -10,32 +10,32 @@ public class Checksize extends DataEntity2<Checksize>{
 	private static final long serialVersionUID = 1L;
 	
 
-	private Integer orderId;     //订单id
-	private String checksizeType;		// 复尺类型
-	private String checksizeTypeName;		// 复尺类型名称
-	private Date checksizeDate;		// 复尺日期
-	private Integer checksizeEmployeeId;		// 复尺人员工id
-	private String remarks;		// 备注
-	private String checksizeStatus;	//复尺状态
-	private String checksizeStatusName;	//复尺状态名称
-	private Date checksizeStatusDatetime;	//复尺状态日期时间
-	private Date supplierConfirmDate;	//供应商确认时间
-	private Date materialDepartmentDealDatetime;	//材料部处理日期时间
-	private Integer materialDepartmentDealEmployeeId;	//材料部处理人员工ID
-	private String materialDepartmentDealReply;	//材料部处理回复
-	private Integer picCount;	//图片数量
-	private String orderInstallItemId; //订单安装项ID
+	private Integer orderId;
+	private String checksizeType;
+	private String checksizeTypeName;
+	private Date checksizeDate;
+	private Integer checksizeEmployeeId;
+	private String remarks;
+	private String checksizeStatus;
+	private String checksizeStatusName;
+	private Date checksizeStatusDatetime;
+	private Date supplierConfirmDate;
+	private Date materialDepartmentDealDatetime;
+	private Integer materialDepartmentDealEmployeeId;
+	private String materialDepartmentDealReply;
+	private Integer picCount;
+	private String orderInstallItemId;
 	
-	private String checksizeDateString; //期望复尺日期字符串
-	private String createDateString; //申请复尺时间 字符串
-	private String supplierConfirmDateString; //供应商确认时间 字符串
+	private String checksizeDateString;
+	private String createDateString;
+	private String supplierConfirmDateString;
 	
-	private Date allowApplyChecksizeDate;//申请复尺计划日期
+	private Date allowApplyChecksizeDate;
 	
-	private String daysPlanChecksizeString; //开工第几天可以复尺
-	private String installItemName; //复尺内容
-	private String orderActualStartDateString; //订单实际开工日期
-	private String canApplyChecksizeDateString; //可以复尺日期
+	private String daysPlanChecksizeString;
+	private String installItemName;
+	private String orderActualStartDateString;
+	private String canApplyChecksizeDateString;
 	
 	private String text;
 	

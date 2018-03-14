@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import com.google.common.collect.Lists;
@@ -10,30 +8,26 @@ import org.hibernate.validator.constraints.Length;
 
 import java.util.List;
 
-/**
- * 业务表字段Entity
- * @author ThinkGem
- * @version 2013-10-15
- */
+
 public class GenTableColumn extends DataEntity<GenTableColumn> {
 	
 	private static final long serialVersionUID = 1L;
-	private GenTable genTable;	// 归属表
-	private String name; 		// 列名
-	private String comments;	// 描述
-	private String jdbcType;	// JDBC类型
-	private String javaType;	// JAVA类型
-	private String javaField;	// JAVA字段名
-	private String isPk;		// 是否主键（1：主键）
-	private String isNull;		// 是否可为空（1：可为空；0：不为空）
-	private String isInsert;	// 是否为插入字段（1：插入字段）
-	private String isEdit;		// 是否编辑字段（1：编辑字段）
-	private String isList;		// 是否列表字段（1：列表字段）
-	private String isQuery;		// 是否查询字段（1：查询字段）
-	private String queryType;	// 查询方式（等于、不等于、大于、小于、范围、左LIKE、右LIKE、左右LIKE）
-	private String showType;	// 字段生成方案（文本框、文本域、下拉框、复选框、单选框、字典选择、人员选择、部门选择、区域选择）
-	private String dictType;	// 字典类型
-	private Integer sort;		// 排序（升序）
+	private GenTable genTable;
+	private String name;
+	private String comments;
+	private String jdbcType;
+	private String javaType;
+	private String javaField;
+	private String isPk;
+	private String isNull;
+	private String isInsert;
+	private String isEdit;
+	private String isList;
+	private String isQuery;
+	private String queryType;
+	private String showType;
+	private String dictType;
+	private Integer sort;
 
 	public GenTableColumn() {
 		super();
@@ -176,30 +170,21 @@ public class GenTableColumn extends DataEntity<GenTableColumn> {
 		this.sort = sort;
 	}
 
-	/**
-	 * 获取列名和说明
-	 * @return
-	 */
+
 	public String getNameAndComments() {
 		return getName() + (comments == null ? "" : "  :  " + comments);
 	}
 	
-	/**
-	 * 获取字符串长度
-	 * @return
-	 */
+
 	public String getDataLength(){
 		String[] ss = StringUtils.split(StringUtils.substringBetween(getJdbcType(), "(", ")"), ",");
-		if (ss != null && ss.length == 1){// && "String".equals(getJavaType())){
+		if (ss != null && ss.length == 1){
 			return ss[0];
 		}
 		return "0";
 	}
 
-	/**
-	 * 获取简写Java类型
-	 * @return
-	 */
+
 	public String getSimpleJavaType(){
 		if ("This".equals(getJavaType())){
 			return StringUtils.capitalize(genTable.getClassName());
@@ -209,35 +194,23 @@ public class GenTableColumn extends DataEntity<GenTableColumn> {
 						: getJavaType();
 	}
 	
-	/**
-	 * 获取简写Java字段
-	 * @return
-	 */
+
 	public String getSimpleJavaField(){
 		return StringUtils.substringBefore(getJavaField(), ".");
 	}
 	
-	/**
-	 * 获取Java字段，如果是对象，则获取对象.附加属性1
-	 * @return
-	 */
+
 	public String getJavaFieldId(){
 		return StringUtils.substringBefore(getJavaField(), "|");
 	}
 	
-	/**
-	 * 获取Java字段，如果是对象，则获取对象.附加属性2
-	 * @return
-	 */
+
 	public String getJavaFieldName(){
 		String[][] ss = getJavaFieldAttrs();
 		return ss.length>0 ? getSimpleJavaField()+"."+ss[0][0] : "";
 	}
 	
-	/**
-	 * 获取Java字段，所有属性名
-	 * @return
-	 */
+
 	public String[][] getJavaFieldAttrs(){
 		String[] ss = StringUtils.split(StringUtils.substringAfter(getJavaField(), "|"), "|");
 		String[][] sss = null;
@@ -251,20 +224,17 @@ public class GenTableColumn extends DataEntity<GenTableColumn> {
 		return sss;
 	}
 	
-	/**
-	 * 获取列注解列表
-	 * @return
-	 */
+
 	public List<String> getAnnotationList(){
 		List<String> list = Lists.newArrayList();
-		// 导入Jackson注解
+
 		if ("This".equals(getJavaType())){
 			list.add("com.fasterxml.jackson.annotation.JsonBackReference");
 		}
 		if ("java.util.Date".equals(getJavaType())){
 			list.add("com.fasterxml.jackson.annotation.JsonFormat(pattern = \"yyyy-MM-dd HH:mm:ss\")");
 		}
-		// 导入JSR303验证依赖包
+
 		if (!"1".equals(getIsNull()) && !"String".equals(getJavaType())){
 			list.add("javax.validation.constraints.NotNull(message=\""+getComments()+"不能为空\")");
 		}
@@ -279,10 +249,7 @@ public class GenTableColumn extends DataEntity<GenTableColumn> {
 		return list;
 	}
 	
-	/**
-	 * 获取简写列注解列表
-	 * @return
-	 */
+
 	public List<String> getSimpleAnnotationList(){
 		List<String> list = Lists.newArrayList();
 		for (String ann : getAnnotationList()){
@@ -291,10 +258,7 @@ public class GenTableColumn extends DataEntity<GenTableColumn> {
 		return list;
 	}
 	
-	/**
-	 * 是否是基类字段
-	 * @return
-	 */
+
 	public Boolean getIsNotBaseField(){
 		return !StringUtils.equals(getSimpleJavaField(), "id")
 				&& !StringUtils.equals(getSimpleJavaField(), "remarks")

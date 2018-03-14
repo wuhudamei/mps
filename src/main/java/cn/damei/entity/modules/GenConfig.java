@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import java.io.Serializable;
@@ -10,19 +8,15 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
-/**
- * 生成方案Entity
- * @author ThinkGem
- * @version 2013-10-15
- */
+
 @XmlRootElement(name="config")
 public class GenConfig implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
-	private List<GenCategory> categoryList;	// 代码模板分类
-	private List<Dict> javaTypeList;		// Java类型
-	private List<Dict> queryTypeList;		// 查询类型
-	private List<Dict> showTypeList;		// 显示类型
+	private List<GenCategory> categoryList;
+	private List<Dict> javaTypeList;
+	private List<Dict> queryTypeList;
+	private List<Dict> showTypeList;
 
 	public GenConfig() {
 		super();

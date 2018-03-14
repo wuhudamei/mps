@@ -4,15 +4,13 @@ import cn.damei.common.persistence.DataEntity2;
 
 public class Inspector extends DataEntity2<Inspector>{
 	
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	private Integer id;
-	private String no; // 员工编号
-	private String realName; // 真实姓名
-	private String phone; // 手机号
-	private String storeId; // 门店Id
+	private String no;
+	private String realName;
+	private String phone;
+	private String storeId;
 	
 	public Integer getId() {
 		return id;

@@ -2,19 +2,15 @@ package cn.damei.entity.mobile.Manager;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 任务包结算Entity
- * @author qww
- * @version 2016-10-15
- */
+
 
 public class OrderTaskpackagePic extends DataEntity2<OrderTaskpackagePic>{
 
 	private static final long serialVersionUID = 1L;
 
-	private Integer id; // 图片id
-	private Integer orderTaskpackageId; // 任务包id
-	private String picturePath; // 任务包图片的路径
+	private Integer id;
+	private Integer orderTaskpackageId;
+	private String picturePath;
 	
 	public Integer getId() {
 		return id;

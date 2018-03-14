@@ -33,11 +33,7 @@ public class EvaluationIntervalController {
 		return entity;
 	}
 	
-	/**
-	 * 系统评价时间设置列表
-	 * @param
-	 * @return
-	 */
+
 	@RequestMapping(value = "list")
 	public String list(HttpServletRequest request,HttpServletResponse response,BizEvalActivity bizEvalActivity,Model model) {
 		model.addAttribute("bizEvalActivity", bizEvalActivity);
@@ -46,11 +42,7 @@ public class EvaluationIntervalController {
 		return "modules/evaluate/bizevalactivity/evaluationIntervalList";
 	}
 	
-	/**
-	 * 系统评价时间
-	 * @param
-	 * @return
-	 */
+
 	@RequestMapping(value = "from")
 	public String from(HttpServletRequest request,BizEvalActivity bizEvalActivity,Model model) {
 		model.addAttribute("bizEvalActivity", bizEvalActivity);
@@ -58,11 +50,7 @@ public class EvaluationIntervalController {
 	}
 	
 	
-	/**
-	 * 系统评价时间保存
-	 * @param
-	 * @return
-	 */
+
 	@RequestMapping(value = "save")
 	public String save(HttpServletRequest request,BizEvalActivity bizEvalActivity) {
 		if(bizEvalActivity.getRoleCycleId() == null || bizEvalActivity.getRoleCycleId().equals("")){
@@ -72,35 +60,27 @@ public class EvaluationIntervalController {
 		}
 		
 		return "redirect:"+Global.getAdminPath()+"/evaluate/evaluationInterval/list?id="+bizEvalActivity.getId()+"&evalTargetType="+bizEvalActivity.getEvalTargetType()+"&storeId="+bizEvalActivity.getStoreId()+"&projectMode="+bizEvalActivity.getProjectMode();
-		/*return "modules/evaluate/bizevalactivity/evaluationIntervalList";*/
-		/* /mdn/a/evaluate/evaluationInterval/list?id=5&evalTargetType=1&storeId=2&projectMode=1 */
+
+
 	} 
 	
 	
-	/**
-	 * 加载评价类别
-	 * @param
-	 * @return
-	 */
+
 	@RequestMapping(value = "findEvalType")
 	@ResponseBody
 	public List<String> findEvalType(HttpServletRequest request,BizEvalActivity bizEvalActivity) {
 		List<String> list = bizEvalActivityService.findEvalType(bizEvalActivity);
 		return list;
 	}
-	/**
-	 * 校验是否存在
-	 * @param
-	 * @return 1 存在 0 不存在
-	 */
+
 	@RequestMapping(value = "checkExist")
 	@ResponseBody
 	public String checkExist(HttpServletRequest request,BizEvalActivity bizEvalActivity) {
 		String str = bizEvalActivityService.checkExist(bizEvalActivity);
-		//修改
+
 		if(bizEvalActivity.getDelFlag().equals("1")){
 			if(str.equals("1")){
-				 //并且ID相等
+
 				String id = bizEvalActivityService.findEvalActivity(bizEvalActivity);
 				if(id.equals(bizEvalActivity.getRoleCycleId())){
 					return "0";

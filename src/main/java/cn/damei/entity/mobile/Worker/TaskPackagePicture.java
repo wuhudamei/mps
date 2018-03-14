@@ -4,10 +4,7 @@ import cn.damei.common.persistence.DataEntity2;
 
 public class TaskPackagePicture extends DataEntity2<TaskPackagePicture>{
 
-	/**
-	 * @author wang
-	 * 2016-10-20
-	 */
+
 	private static final long serialVersionUID = 1L;
 	
 	private Integer id ;

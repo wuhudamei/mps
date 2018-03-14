@@ -4,26 +4,24 @@ import com.fasterxml.jackson.annotation.JsonIgnoreType;
 
 import java.io.Serializable;
 
-/**
- * Created by joseph on 2017/4/17.
- */
+
 @JsonIgnoreType
 public class SettleNodeChildEntity  implements Serializable{
 	private static final long serialVersionUID = 1L;
     private BizNormalPmSettleNode  settleNode;
 
-    private Integer settleIndex;		// 结算顺序
-    private String settleNodeName;		// 节点名称
-    private Integer qcCheckNodeId;		// 验收节点id
-    private String  qcCheckNodeName; //验收节点名称
-    private String settleType;		// 结算类型
-    private String settleRule;		// 具体结算占比
-    private String receiveMoneyType;		// 收款类型
-    private String isRequired;		// 是否必选
-    private String createMan;//创建人名称
+    private Integer settleIndex;
+    private String settleNodeName;
+    private Integer qcCheckNodeId;
+    private String  qcCheckNodeName;
+    private String settleType;
+    private String settleRule;
+    private String receiveMoneyType;
+    private String isRequired;
+    private String createMan;
     private String projectMode;
-	private String settleStage;//结算阶段
-	private String settlePrice;//结算单价
+	private String settleStage;
+	private String settlePrice;
 
     public String getProjectMode() {
 		return projectMode;

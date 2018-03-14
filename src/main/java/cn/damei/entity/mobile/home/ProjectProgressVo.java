@@ -5,9 +5,7 @@ import java.util.Date;
 
 public class ProjectProgressVo implements Serializable{
 
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 
 	

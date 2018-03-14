@@ -24,11 +24,7 @@ import cn.damei.dao.modules.BizOrderReportDao;
 import cn.damei.entity.modules.BizOrderReport;
 import cn.damei.common.utils.UserUtils;
 
-/**
- * 返单上报Service
- * @author hyh
- *
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizOrderReportService extends CrudService2<BizOrderReportDao,BizOrderReport>{
@@ -86,10 +82,7 @@ public class BizOrderReportService extends CrudService2<BizOrderReportDao,BizOrd
 	@Autowired
 	private BizOrderReportLogDao orderReportLogDao;
 
-	/**
-	 * log
-	 * @param bizOrderReport
-	 */
+
 	@Transactional(readOnly = false)
 	public void saveBizBusinessStatusLog(BizOrderReport bizOrderReport){
 		OrderReportLogEntity logEntity = new OrderReportLogEntity();
@@ -107,7 +100,7 @@ public class BizOrderReportService extends CrudService2<BizOrderReportDao,BizOrd
 			bizBusinessStatusLog.setStatusDatetime(new Date());
 			bizBusinessStatusLog.preInsert();
 			logDao.insert(bizBusinessStatusLog);
-		}else if(bizOrderReport.getReportStatus().equals(BizOrderReportConstantUtil.REPORT_STATUS_30)){//客户进店未签单
+		}else if(bizOrderReport.getReportStatus().equals(BizOrderReportConstantUtil.REPORT_STATUS_30)){
 			logEntity.setOperateSource(BizOrderReportConstantUtil.REPORT_SOURCE_TYPE_4);
 			logEntity.setOrderReportId(bizOrderReport.getId());
 			logEntity.setLogType(BizOrderReportConstantUtil.INSOTRE_TYPE_1);
@@ -124,32 +117,30 @@ public class BizOrderReportService extends CrudService2<BizOrderReportDao,BizOrd
 
 
 
-			/**
-			 * 发送短信
-			 */
-//			PhoneMessageEntity phone = new PhoneMessageEntity();
-//
-//
-//			String content = "【大美装饰管理平台】亲爱的大美装饰管理平台员工，您推荐的客户"+bizOrderReport.getCustomerName()+"已进大美装饰管理平台门店了，您的奖励将在下月兑现。如有新的客户，记得再次向“小美返单”推荐哦";
-//
-//			phone.setReceivePhone(bizOrderReport.getCustomerPhone());
-//			phone.setMessageContent(content);
-//			phone.setMessageGenerateTime(new Date());
-//			phone.setStatus(ConstantUtils.SEND_MSG_STATUS_0);
-//			phone.setRelatedBusinessType(SendMsgBusinessType.SEND_MSG_BUSINESS_TYPE_66666);
-//			phone.setRelatedBusinessId(bizOrderReport.getId());
-//			phone.setRelatedBusinessVarchar(logEntity.getId());
-//
-//			Integer count =messageDao.checkIsExistByTypeAndBusinessId(phone);
-//			if(null==count || count==0){
-//				messageDao.saveMessageContent(phone);
-//
-//
-//			}
 
 
 
-		}else if(bizOrderReport.getReportStatus().equals(BizOrderReportConstantUtil.REPORT_STATUS_40)){//客户进店已签单
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		}else if(bizOrderReport.getReportStatus().equals(BizOrderReportConstantUtil.REPORT_STATUS_40)){
 			logEntity.setOperateSource(BizOrderReportConstantUtil.REPORT_SOURCE_TYPE_4);
 			logEntity.setOrderReportId(bizOrderReport.getId());
 			logEntity.setLogType(BizOrderReportConstantUtil.INSOTRE_TYPE_2);
@@ -161,7 +152,7 @@ public class BizOrderReportService extends CrudService2<BizOrderReportDao,BizOrd
 			logEntity.setOperateEmployeeName(UserUtils.getUser().getName());
 			logEntity.preInsert();
 			orderReportLogDao.saveInstoreLog(logEntity);
-			//保存该次log关联订单
+
 			logRelatedMap.put("logId",logEntity.getId());
 			logRelatedMap.put("orderNums",bizOrderReport.getOrderNumber());
 
@@ -170,32 +161,6 @@ public class BizOrderReportService extends CrudService2<BizOrderReportDao,BizOrd
 
 
 
-			/**
-			 * 发送短信
-			 */
-//			PhoneMessageEntity phone = new PhoneMessageEntity();
-//
-//
-//			String content = "【大美装饰管理平台】亲爱的大美装饰管理平台员工，您推荐的客户"+bizOrderReport.getCustomerName()+"已进大美装饰管理平台门店了，您的奖励将在下月兑现。如有新的客户，记得再次向“小美返单”推荐哦";
-//
-//			phone.setReceivePhone(bizOrderReport.getCustomerPhone());
-//			phone.setMessageContent(content);
-//			phone.setMessageGenerateTime(new Date());
-//			phone.setStatus(ConstantUtils.SEND_MSG_STATUS_0);
-//			phone.setRelatedBusinessType(SendMsgBusinessType.SEND_MSG_BUSINESS_TYPE_66666);
-//			phone.setRelatedBusinessId(bizOrderReport.getId());
-//			phone.setRelatedBusinessVarchar(logEntity.getId());
-//			Integer count =messageDao.checkIsExistByTypeAndBusinessId(phone);
-//			if(null==count || count==0){
-//				messageDao.saveMessageContent(phone);
-//
-//
-//			}
-//
-//
-//
-//
-//
 
 
 
@@ -204,7 +169,31 @@ public class BizOrderReportService extends CrudService2<BizOrderReportDao,BizOrd
 
 
 
-		}else if(bizOrderReport.getReportStatus().equals(BizOrderReportConstantUtil.REPORT_STATUS_50)){//客户
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		}else if(bizOrderReport.getReportStatus().equals(BizOrderReportConstantUtil.REPORT_STATUS_50)){
 			logEntity.setOperateSource(BizOrderReportConstantUtil.REPORT_SOURCE_TYPE_4);
 			logEntity.setOrderReportId(bizOrderReport.getId());
 			logEntity.setLogType(BizOrderReportConstantUtil.SIGN_TYPE_1);
@@ -214,7 +203,7 @@ public class BizOrderReportService extends CrudService2<BizOrderReportDao,BizOrd
 			logEntity.setOperateEmployeeName(UserUtils.getUser().getName());
 			logEntity.preInsert();
 			orderReportLogDao.saveInstoreLog(logEntity);
-			//保存该次log关联订单
+
 			logRelatedMap.put("logId",logEntity.getId());
 			logRelatedMap.put("orderNums",bizOrderReport.getOrderNumber());
 
@@ -225,24 +214,22 @@ public class BizOrderReportService extends CrudService2<BizOrderReportDao,BizOrd
 
 
 
-			/**
-			 * 发送短信
-			 */
-//			PhoneMessageEntity phone = new PhoneMessageEntity();
-//
-//
-//			String content = "【大美装饰管理平台】亲爱的大美装饰管理平台员工，您推荐的客户"+bizOrderReport.getCustomerName()+"已成功与大美装饰管理平台签订装修合同了，您的奖励将在下月兑现。如有新的客户，记得再次向“小美返单”推荐哦";
-//
-//			phone.setReceivePhone(bizOrderReport.getCustomerPhone());
-//			phone.setMessageContent(content);
-//			phone.setMessageGenerateTime(new Date());
-//			phone.setStatus(ConstantUtils.SEND_MSG_STATUS_0);
-//			phone.setRelatedBusinessType(SendMsgBusinessType.SEND_MSG_BUSINESS_TYPE_88888);
-//			phone.setRelatedBusinessId(bizOrderReport.getId());
-//
-//				messageDao.saveMessageContent(phone);
-//
-//
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -263,17 +250,17 @@ public class BizOrderReportService extends CrudService2<BizOrderReportDao,BizOrd
 
 
 	@Transactional(readOnly = false)
-	//更新补签合同备注
+
 	public void updateReturnOrder(BizOrderReport bizOrderReport,	List<BizOrderReport> orderReportList,String orderNums ) {
 
-			//id  remarks
+
 		bizOrderReportDao.updateReturnOrderRemarks(bizOrderReport);
-		//批量加入新的补签合同
+
 		bizOrderReport.preInsert();
 		bizOrderReportDao.batchInsertRelatedContractContract(orderReportList);
 
-			//插入log
-		// 返单上报日志
+
+
 		OrderReportLogEntity logEntity = new OrderReportLogEntity();
 		Map<String,Object> logRelatedMap = new HashMap<>();
 		logEntity.setOperateSource(BizOrderReportConstantUtil.REPORT_SOURCE_TYPE_4);
@@ -287,7 +274,7 @@ public class BizOrderReportService extends CrudService2<BizOrderReportDao,BizOrd
 		logEntity.setOperateEmployeeName(UserUtils.getUser().getName());
 		logEntity.preInsert();
 		orderReportLogDao.saveSignLog(logEntity);
-		//保存该次log关联订单
+
 		logRelatedMap.put("logId",logEntity.getId());
 		logRelatedMap.put("orderNums",orderNums);
 
@@ -296,24 +283,22 @@ public class BizOrderReportService extends CrudService2<BizOrderReportDao,BizOrd
 
 
 
-		/**
-		 * 发送短信
-		 */
-//		PhoneMessageEntity phone = new PhoneMessageEntity();
-//
-//
-//		String content = "【大美装饰管理平台】亲爱的大美装饰管理平台员工，您推荐的客户"+bizOrderReport.getCustomerName()+"与大美装饰管理平台签订装修合同了，您的奖励将在下月兑现。如有新的客户，记得再次向“小美返单”推荐哦";
-//
-//		phone.setReceivePhone(bizOrderReport.getReporterPhone());
-//		phone.setMessageContent(content);
-//		phone.setMessageGenerateTime(new Date());
-//		phone.setStatus(ConstantUtils.SEND_MSG_STATUS_0);
-//		phone.setRelatedBusinessType(SendMsgBusinessType.SEND_MSG_BUSINESS_TYPE_66666);
-//		phone.setRelatedBusinessId(bizOrderReport.getId());
-//		phone.setRelatedBusinessVarchar(logEntity.getId());
-//
-//
-//		messageDao.saveMessageContent(phone);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -325,10 +310,7 @@ public class BizOrderReportService extends CrudService2<BizOrderReportDao,BizOrd
 
 	}
 
-	/**
-	 * 查询客服列表
-	 * @return
-	 */
+
 	public List<BizOrderReport> findServiceList(Map<String,String> map){
 
 		return dao.findServiceList(map);
@@ -338,10 +320,7 @@ public class BizOrderReportService extends CrudService2<BizOrderReportDao,BizOrd
 	private BizBusinessStatusLogService bizBusinessStatusLogService;
 	@Autowired
 	private BizOrderReportBusinessService bizOrderReportBusinessService;
-	/**
-	 * 更新返单的客服信息,更新返单状态 插入log
-	 * @param report
-	 */
+
 	@Transactional(readOnly = false)
 	public void saveTransferServiceInfo(BizOrderReport report){
 
@@ -358,11 +337,11 @@ public class BizOrderReportService extends CrudService2<BizOrderReportDao,BizOrd
 
 
 		dao.updateStatus(report);
-		//调用接口 转派下客服
+
 		bizOrderReportBusinessService.orderReportDistributionCustomerService(report);
 
-		//插入分配客服log
-		// 返单上报日志
+
+
 		OrderReportLogEntity logEntity = new OrderReportLogEntity();
 
 
@@ -376,7 +355,7 @@ public class BizOrderReportService extends CrudService2<BizOrderReportDao,BizOrd
 		logEntity.setOperateEmployeeName(UserUtils.getUser().getName());
 		logEntity.setOperateEmployeeId(UserUtils.getUser().getId());
 		orderReportLogDao.saveSendLog(logEntity);
-		//保存log日志
+
 	}
 
 
@@ -418,76 +397,52 @@ public class BizOrderReportService extends CrudService2<BizOrderReportDao,BizOrd
 
 		HSSFSheet sheet = workbook.createSheet("返单详情");
 		HSSFFont font = workbook.createFont();
-		font.setColor(HSSFFont.COLOR_RED);//字体颜色
-		font.setFontName("黑体");//字体
-		font.setFontHeightInPoints((short)50);//字体高度
-		font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);//宽度
-		//單元格樣式--标题
+		font.setColor(HSSFFont.COLOR_RED);
+		font.setFontName("黑体");
+		font.setFontHeightInPoints((short)50);
+		font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
+
 		HSSFCellStyle cellStyle = workbook.createCellStyle();
 
 
 		cellStyle.setFont(font);
-		cellStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);// 左右居中
-		cellStyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);// 上下居中
+		cellStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+		cellStyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
 		cellStyle.setLocked(true);
 		cellStyle.setWrapText(true);
-		cellStyle.setLeftBorderColor(HSSFColor.BLACK.index);// 左边框的颜色
-		cellStyle.setBorderLeft((short) 1);// 边框的大小
-		cellStyle.setRightBorderColor(HSSFColor.BLACK.index);// 右边框的颜色
-		cellStyle.setBorderRight((short) 1);// 边框的大小
-		cellStyle.setTopBorderColor(HSSFColor.BLACK.index);// 上边框的颜色
-		cellStyle.setBorderTop((short) 1);// 边框的大小
-		cellStyle.setBottomBorderColor(HSSFColor.BLACK.index);// 下边框的颜色
-		cellStyle.setBorderBottom((short) 1);// 边框的大小
-		cellStyle.setBorderBottom(HSSFCellStyle.BORDER_THIN); // 设置单元格的边框为粗体
-		cellStyle.setBottomBorderColor(HSSFColor.BLACK.index); // 设置单元格的边框颜色
-		cellStyle.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);// 设置单元格的背景颜色（单元格的样式会覆盖列或行的样式）
+		cellStyle.setLeftBorderColor(HSSFColor.BLACK.index);
+		cellStyle.setBorderLeft((short) 1);
+		cellStyle.setRightBorderColor(HSSFColor.BLACK.index);
+		cellStyle.setBorderRight((short) 1);
+		cellStyle.setTopBorderColor(HSSFColor.BLACK.index);
+		cellStyle.setBorderTop((short) 1);
+		cellStyle.setBottomBorderColor(HSSFColor.BLACK.index);
+		cellStyle.setBorderBottom((short) 1);
+		cellStyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+		cellStyle.setBottomBorderColor(HSSFColor.BLACK.index);
+		cellStyle.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
 		cellStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
 
-		  /*
-		  	cellStyle.setFont(font);
-		  	cellStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);//左右居中
-		  	cellStyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);//上下居中
-		  	cellStyle.setLocked(true);
-		  	cellStyle.setWrapText(true);
-
-		  	cellStyle.setLeftBorderColor(HSSFColor.BLACK.index);//左边框的颜色
-		  	cellStyle.setBorderLeft((short)3);//边框的大小
-		  	cellStyle.setBorderRight((short) 3);// 边框的大小
-			cellStyle.setTopBorderColor(HSSFColor.BLACK.index);// 上边框的颜色
-			cellStyle.setBorderTop((short) 3);// 边框的大小
-			cellStyle.setBottomBorderColor(HSSFColor.BLACK.index);// 下边框的颜色
-			cellStyle.setBorderBottom((short) 3);// 边框的大小
-			cellStyle.setBottomBorderColor(HSSFColor.BLACK.index); // 设置单元格的边框颜色
-*/			/*cellStyle.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);// 设置单元格的背景颜色（单元格的样式会覆盖列或行的样式）
-*/		/*	cellStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);		*/
 
 
 
-		//单元格样式
+
+
 		HSSFCellStyle columnStyle = workbook.createCellStyle();
-		columnStyle.setLeftBorderColor(HSSFColor.BLACK.index); // 左边框线的颜色
-		columnStyle.setBorderLeft((short) 1);// 左边框线的大小
-		columnStyle.setRightBorderColor(HSSFColor.BLACK.index); // 右边框线的颜色
-		columnStyle.setBorderRight((short) 1);// 右边框线的大小
-		columnStyle.setTopBorderColor(HSSFColor.BLACK.index); // 上边框线的颜色
-		columnStyle.setBorderTop((short) 1);// 上边框线的大小
-		columnStyle.setBottomBorderColor(HSSFColor.BLACK.index); // 下边框线的颜色
-		columnStyle.setBorderBottom((short) 1);// 下边框线的大小
+		columnStyle.setLeftBorderColor(HSSFColor.BLACK.index);
+		columnStyle.setBorderLeft((short) 1);
+		columnStyle.setRightBorderColor(HSSFColor.BLACK.index);
+		columnStyle.setBorderRight((short) 1);
+		columnStyle.setTopBorderColor(HSSFColor.BLACK.index);
+		columnStyle.setBorderTop((short) 1);
+		columnStyle.setBottomBorderColor(HSSFColor.BLACK.index);
+		columnStyle.setBorderBottom((short) 1);
 		columnStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-			/*columnStyle.setLeftBorderColor(HSSFColor.BLACK.index); // 左边框线的颜色
-			columnStyle.setBorderLeft((short) 3);// 左边框线的大小
-			columnStyle.setRightBorderColor(HSSFColor.BLACK.index); // 右边框线的颜色
-			columnStyle.setBorderRight((short) 3);// 右边框线的大小
-			columnStyle.setTopBorderColor(HSSFColor.BLACK.index); // 上边框线的颜色
-			columnStyle.setBorderTop((short) 3);// 上边框线的大小
-			columnStyle.setBottomBorderColor(HSSFColor.BLACK.index); // 下边框线的颜色
-			columnStyle.setBorderBottom((short) 3);// 下边框线的大小
-			columnStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);*/
 
 
 
-		// 单元格宽度
+
+
 		sheet.setColumnWidth(0, 1233);
 		sheet.setColumnWidth(1, 4000);
 		sheet.setColumnWidth(2, 2000);
@@ -504,7 +459,7 @@ public class BizOrderReportService extends CrudService2<BizOrderReportDao,BizOrd
 
 
 
-		//标题---订单信息
+
 		HSSFRow rowTitle = sheet.createRow(0);
 		rowTitle.setHeightInPoints(30);
 		HSSFCell cell = rowTitle.createCell(0);
@@ -516,11 +471,11 @@ public class BizOrderReportService extends CrudService2<BizOrderReportDao,BizOrd
 			cella.setCellStyle(columnStyle);
 		}
 
-		//合并单元格--开始行，结束行，开始列，结束列
-		sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 12));//
+
+		sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 12));
 
 
-		//标题
+
 		HSSFRow rowTitle2 = sheet.createRow(1);
 
 		HSSFCell headCell0 = rowTitle2.createCell(0);
@@ -581,15 +536,15 @@ public class BizOrderReportService extends CrudService2<BizOrderReportDao,BizOrd
 			for(int v =0;v<listSize;v++){
 
 				BizOrderReport  entity = list.get(v);
-				//从第三行开始
+
 				HSSFRow row = sheet.createRow(v+2);
 
-				//第一个是序号
+
 				HSSFCell cell0 = row.createCell(0);
 				cell0.setCellStyle(columnStyle);
 				cell0.setCellValue(v+1);
 
-				//mendian
+
 				HSSFCell cell1 = row.createCell(1);
 				cell1.setCellStyle(columnStyle);
 				if(null!=entity.getStoreName()){
@@ -597,49 +552,49 @@ public class BizOrderReportService extends CrudService2<BizOrderReportDao,BizOrd
 				}
 
 
-				//返单上报日期
+
 				HSSFCell cell2 = row.createCell(2);
 				cell2.setCellStyle(columnStyle);
 				if(null!=entity.getReportDatetime()){
 					cell2.setCellValue(entity.getReportDatetime());
 				}
-				//客户姓名
+
 				HSSFCell cell3 = row.createCell(3);
 				cell3.setCellStyle(columnStyle);
 
 				cell3.setCellValue(entity.getCustomerName());
 
-				//客户手机号
+
 				HSSFCell cell4 = row.createCell(4);
 				cell4.setCellStyle(columnStyle);
 				if(StringUtils.isNoneBlank(entity.getCustomerPhone())){
 					cell4.setCellValue(entity.getCustomerPhone());
 				}
-				//小区名称
+
 				HSSFCell cell5 = row.createCell(5);
 				cell5.setCellStyle(columnStyle);
 				if(StringUtils.isNoneBlank(entity.getCommunityName())){
 					cell5.setCellValue(entity.getCommunityName());
 				}
-				//详细地址
+
 				HSSFCell cell6 = row.createCell(6);
 				cell6.setCellStyle(columnStyle);
 				if(StringUtils.isNoneBlank(entity.getAddress())){
 					cell6.setCellValue(entity.getAddress());
 				}
-				//返单推荐人
+
 				HSSFCell cell7 = row.createCell(7);
 				cell7.setCellStyle(columnStyle);
 				if(null!=entity.getReporterName()){
 					cell7.setCellValue(entity.getReporterName());
 				}
-				//返单推荐人手机号
+
 				HSSFCell cell8 = row.createCell(8);
 				cell8.setCellStyle(columnStyle);
 				if(StringUtils.isNoneBlank(entity.getReporterPhone())){
 					cell8.setCellValue(entity.getReporterPhone());
 				}
-				//返单推荐人类型
+
 				HSSFCell cell9 = row.createCell(9);
 				cell9.setCellStyle(columnStyle);
 				if(StringUtils.isNoneBlank(entity.getReporterType())){
@@ -648,13 +603,13 @@ public class BizOrderReportService extends CrudService2<BizOrderReportDao,BizOrd
 
 					cell9.setCellValue(entity.getReporterType());
 				}
-				//备注
+
 				HSSFCell cell10 = row.createCell(10);
 				cell10.setCellStyle(columnStyle);
 				if(null!=entity.getReportRemarks()){
 					cell10.setCellValue(entity.getReportRemarks());
 				}
-				//返单状态
+
 				HSSFCell cell11 = row.createCell(11);
 				cell11.setCellStyle(columnStyle);
 				if(null!=entity.getReportStatus()){

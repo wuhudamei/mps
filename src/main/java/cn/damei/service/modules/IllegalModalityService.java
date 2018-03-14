@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.util.List;
@@ -13,11 +11,7 @@ import cn.damei.common.service.CrudService2;
 import cn.damei.dao.modules.IllegalModalityDao;
 import cn.damei.entity.modules.IllegalModality;
 
-/**
- * PC违规形式Service
- * @author 梅浩
- * @version 2016-10-26
- */
+
 @Service
 @Transactional(readOnly = true)
 public class IllegalModalityService extends CrudService2<IllegalModalityDao, IllegalModality> {
@@ -46,11 +40,7 @@ public class IllegalModalityService extends CrudService2<IllegalModalityDao, Ill
 	
 	
 	
-	/**
-	 * 根据 违规形式id,查询门店,检查项,检查分类信息
-	 * @param id
-	 * @return
-	 */
+
 	public IllegalModality getStoreKindItemInfoByIllegalModalityId(Integer id){
 		
 		return dao.getStoreKindItemInfoByIllegalModalityId(id);

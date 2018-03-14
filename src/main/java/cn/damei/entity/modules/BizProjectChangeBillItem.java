@@ -2,31 +2,27 @@ package cn.damei.entity.modules;
 
 import cn.damei.common.persistence.DataEntity;
 
-/**
- * 变更单 增减项Entity
- * @author wyb
- * @version 2016-11-16
- */
+
 public class BizProjectChangeBillItem extends DataEntity<BizProjectChangeBillItem> {
 	
 	private static final long serialVersionUID = 1L;
 	
-	private Integer itemId;		//变更单id
-	private Integer projectChangeBillId;	//变更单id
-	private String projectIntemTypeName;	//施工项分类名称
-	private Integer projectIntemId;		//施工项
-	private String projectIntemMold;	//施工项 1增项 2减项
-	private String projectIntemCode;	//施工项编码
-	private String projectIntemName;	//施工项名称
-	private String projectIntemUnit;	//施工项计量单位
-	private String projectType;	//施工类型
-	private String groupType;	//套餐类型 -- '1.套餐内；2套餐外
-	private String projectIntemDetail;	//施工项详情
-	private Double projectIntemAmount;	//数量
-	private String explainWords;	//说明
+	private Integer itemId;
+	private Integer projectChangeBillId;
+	private String projectIntemTypeName;
+	private Integer projectIntemId;
+	private String projectIntemMold;
+	private String projectIntemCode;
+	private String projectIntemName;
+	private String projectIntemUnit;
+	private String projectType;
+	private String groupType;
+	private String projectIntemDetail;
+	private Double projectIntemAmount;
+	private String explainWords;
 	
-	private Double everyPrice;	//单价
-	private Double allPrice;	//每一项的总价 =数量*单价
+	private Double everyPrice;
+	private Double allPrice;
 	
 	public Integer getItemId() {
 		return itemId;

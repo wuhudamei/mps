@@ -2,39 +2,30 @@ package cn.damei.entity.mobile.Manager;
 
 import java.io.Serializable;
 
-/**
- * 
- * @author 梅浩
- * @2016年11月17日
- * @mdn大美装饰管理平台
- * @author_phone : 18610507472
- * @ClassInfo:施工变更项
- */
+
 public class ProjectItem  implements  Serializable{
 
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 
 	
-	private Integer itemId; //施工项id
-	private String itemName;//施工项name
-	private ProjectItemType   itemType;//施工分类
-	private String itemWay;//增减项 1:增  2:减
-	private String  itemCode;//施工项编号
-	private String itemUnit;//施工项计量单位
-	private String groupType;//套餐类型: 1:套餐内  2:套餐外
-	private String status;//状态
-	private String itemDetail;//施工项详情
-	private Double itemPrice;//单价
-	private Double  itemTotalPrice;//总价
-	private Double itemCount;//数量
-	private Integer itemTypeId;//分类id
-	private String itemTypeName;//分类name
-	private Integer  changeBillId;//变更单id
-	private String itemDescription;//说明
-	private Integer count;//是否有价格
+	private Integer itemId;
+	private String itemName;
+	private ProjectItemType   itemType;
+	private String itemWay;
+	private String  itemCode;
+	private String itemUnit;
+	private String groupType;
+	private String status;
+	private String itemDetail;
+	private Double itemPrice;
+	private Double  itemTotalPrice;
+	private Double itemCount;
+	private Integer itemTypeId;
+	private String itemTypeName;
+	private Integer  changeBillId;
+	private String itemDescription;
+	private Integer count;
 	private String projectIntemMold;
 	private String storeId;
 

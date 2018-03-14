@@ -1,16 +1,10 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 订单分配记录Entity
- * @author 汪文
- * @version 2017-03-08
- */
+
 public class BizOrderDistributeLog extends DataEntity2<BizOrderDistributeLog> {
 	
 	private static final long serialVersionUID = 1L;
@@ -23,11 +17,11 @@ public class BizOrderDistributeLog extends DataEntity2<BizOrderDistributeLog> {
 	private Integer unfinishedOrderCountBefore;	
 	private Integer distributeOrderCount;		
 	private Integer unfinishedOrderCountAfter;	
-	//原员工Id
+
 	private Integer oldEmployeeId;
-	//原因类型
+
 	private String reasonType;
-	//原因说名
+
 	private String reasonRemarks;
 	
 	

@@ -5,18 +5,18 @@ import cn.damei.common.persistence.DataEntity2;
 public class TaskpackageTemplat extends DataEntity2<TaskpackageTemplat>{
 
 	private static final long serialVersionUID = 1L;
-	private String no;		// 任务包模板编号
-	private String templatName;		// 任务包模板名称
-	private String taskPackageTypeId;		// 任务包类型id
-	private Integer storeId;		// 门店id
+	private String no;
+	private String templatName;
+	private String taskPackageTypeId;
+	private Integer storeId;
 	private String projectMode;
-	private String storeOrder;		// 门店顺序
-	private String advancePaymentRates;		// 首付款比例
-	private String restPaymentRates;		// 付尾款比例
-	private String status;		// 状态;0:停用，1：启用
-	private String isQualityGuarantee;//是否扣质保金；0：否，1：是
-	private String qualityGuaranteeRate;//质保金扣除比例;1-100
-	private String settleStyle;//结算方式
+	private String storeOrder;
+	private String advancePaymentRates;
+	private String restPaymentRates;
+	private String status;
+	private String isQualityGuarantee;
+	private String qualityGuaranteeRate;
+	private String settleStyle;
 	
 	
 	public String getProjectMode() {

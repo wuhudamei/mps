@@ -10,20 +10,12 @@ import cn.damei.common.utils.ConstantUtils;
 import cn.damei.dao.mobile.Inspector.PqcOrderTaskpackageProcedureDao;
 import cn.damei.entity.mobile.Inspector.PqcOrderTaskpackageProcedure;
 
-/** 
-* @author qww
-* @version 创建时间：2016年10月24日 下午3:47:59 
-* 质检登录系统首页
-*/
+
 @Service
 @Transactional(readOnly=true)
 public class PqcOrderTaskPackageProcedureService  extends CrudService2<PqcOrderTaskpackageProcedureDao, PqcOrderTaskpackageProcedure>{
 	
-	/**
-	 * 查询工程清单
-	 * @param map
-	 * @return
-	 */
+
 	public List<PqcOrderTaskpackageProcedure> queryBizOrderTaskpackageProcedure(Integer id){
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("taskpackageId", id);

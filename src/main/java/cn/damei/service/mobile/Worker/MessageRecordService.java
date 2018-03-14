@@ -26,7 +26,7 @@ public class MessageRecordService extends CrudService2<MessageRecordDao,MessageR
 	}
 
 	public MessageRecord findByMsgIdAndEmployeeId(Integer msgId, Integer employeeId) {
-		// TODO Auto-generated method stub
+
 		return dao.findByMsgIdAndEmployeeId(msgId,employeeId);
 	}
 

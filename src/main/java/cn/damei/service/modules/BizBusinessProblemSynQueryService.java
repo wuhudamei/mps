@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import cn.damei.common.persistence.Page;
@@ -13,11 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Map;
 
-/**
- * 经理约检问题统计Service
- * @author mh
- * @version 2017-05-27
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizBusinessProblemSynQueryService extends CrudService<BizBusinessSynProblemQueryDao, BizBusinessSynProblemQuery> {

@@ -9,40 +9,40 @@ public class Purchase extends DataEntity2<Purchase>{
 	
 	private static final long serialVersionUID = 1L;
 	
-	private Integer orderId;		//订单id
-	private Integer purchaseId;	//采购单ID
-	private String purchaseCode;	//采购单编码
-	private String purchaseType;	//采购单类型
-	private String receiverName;	//收货人
-	private String receiverPhone;	//收货电话
-	private Date applyReceiveTime;	//期望送货日期
-	private Integer applyEmployee;	//申请人
-	private Date applyTime;			//申请时间
-	private String status;			//状态id 
-	private String statusName;			//状态
-	private Double totalPrice;     //总价格
+	private Integer orderId;
+	private Integer purchaseId;
+	private String purchaseCode;
+	private String purchaseType;
+	private String receiverName;
+	private String receiverPhone;
+	private Date applyReceiveTime;
+	private Integer applyEmployee;
+	private Date applyTime;
+	private String status;
+	private String statusName;
+	private Double totalPrice;
 	
-	private Date transferSupplierDatetime;	//转给供应商日期时间
-	private Date receiveAllGoodsDatetime;	//收货完成日期时间
-	private Double overNumber;	//超出多少
-	private String overReasonType;	//超出类型
-	private String overReasonWords;	//超出原因说明
-	private Integer supplierId;	//供应商ID
-	private String supplierName;	//供应商名称
-	private String supplierPhone;	//供应商电话
-	private String supplierContactsName;//供应商联系人
-	private String isElevator;	//是否有电梯
-	private Double upstairsPay;	//上楼费
-	private Integer upstairsFloor;	//几楼
-	private String statusDescribe;			//状态描述
+	private Date transferSupplierDatetime;
+	private Date receiveAllGoodsDatetime;
+	private Double overNumber;
+	private String overReasonType;
+	private String overReasonWords;
+	private Integer supplierId;
+	private String supplierName;
+	private String supplierPhone;
+	private String supplierContactsName;
+	private String isElevator;
+	private Double upstairsPay;
+	private Integer upstairsFloor;
+	private String statusDescribe;
 	private Double purchaseCountTotal;
 	
-	private Integer count; //是否是已读信息
-	private Integer applyFiveMinuteCount; //5分钟内申请墙地砖的数量
-	private Integer purchaseCount; //是否存在了对应非作废的采购单
-	private String businessType;	//日志表类型
-	private String businessViewerOnlyMark;//日志表唯一标识
-	private Integer businessViewerEmployeeId;//日志表的操作人
+	private Integer count;
+	private Integer applyFiveMinuteCount;
+	private Integer purchaseCount;
+	private String businessType;
+	private String businessViewerOnlyMark;
+	private Integer businessViewerEmployeeId;
 	
 	public Integer getOrderId() {
 		return orderId;

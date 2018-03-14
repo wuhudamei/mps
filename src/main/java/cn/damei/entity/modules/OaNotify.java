@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import java.util.List;
@@ -13,26 +11,22 @@ import cn.damei.common.utils.Collections3;
 import cn.damei.common.utils.IdGen;
 import cn.damei.common.utils.StringUtils;
 
-/**
- * 通知通告Entity
- * @author ThinkGem
- * @version 2014-05-16
- */
+
 public class OaNotify extends DataEntity<OaNotify> {
 	
 	private static final long serialVersionUID = 1L;
-	private String type;		// 类型
-	private String title;		// 标题
-	private String content;		// 类型
-	private String files;		// 附件
-	private String status;		// 状态
+	private String type;
+	private String title;
+	private String content;
+	private String files;
+	private String status;
 
-	private String readNum;		// 已读
-	private String unReadNum;	// 未读
+	private String readNum;
+	private String unReadNum;
 	
-	private boolean isSelf;		// 是否只查询自己的通知
+	private boolean isSelf;
 	
-	private String readFlag;	// 本人阅读状态
+	private String readFlag;
 	
 	private List<OaNotifyRecord> oaNotifyRecordList = Lists.newArrayList();
 	
@@ -112,18 +106,12 @@ public class OaNotify extends DataEntity<OaNotify> {
 		this.oaNotifyRecordList = oaNotifyRecordList;
 	}
 	
-	/**
-	 * 获取通知发送记录用户ID
-	 * @return
-	 */
+
 	public String getOaNotifyRecordIds() {
 		return Collections3.extractToString(oaNotifyRecordList, "user.id", ",") ;
 	}
 	
-	/**
-	 * 设置通知发送记录用户ID
-	 * @return
-	 */
+
 	public void setOaNotifyRecordIds(String oaNotifyRecord) {
 		this.oaNotifyRecordList = Lists.newArrayList();
 		for (String id : StringUtils.split(oaNotifyRecord, ",")){
@@ -136,20 +124,14 @@ public class OaNotify extends DataEntity<OaNotify> {
 		}
 	}
 
-	/**
-	 * 获取通知发送记录用户Name
-	 * @return
-	 */
+
 	public String getOaNotifyRecordNames() {
 		return Collections3.extractToString(oaNotifyRecordList, "user.name", ",") ;
 	}
 	
-	/**
-	 * 设置通知发送记录用户Name
-	 * @return
-	 */
+
 	public void setOaNotifyRecordNames(String oaNotifyRecord) {
-		// 什么也不做
+
 	}
 
 	public boolean isSelf() {

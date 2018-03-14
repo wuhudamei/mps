@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import java.io.IOException;
@@ -40,11 +38,7 @@ import cn.damei.entity.modules.User;
 import cn.damei.common.utils.UserUtils;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-/**
- * 辅材采购单Controller
- * @author 汪文文
- * @version 2016-09-28
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/purchase/bizPurchase")
 public class BizPurchaseController extends BaseController {
@@ -70,20 +64,20 @@ public class BizPurchaseController extends BaseController {
 		return entity;
 	}
 	
-	//采购单辅材列表
+
 	@RequiresPermissions("purchase:bizPurchase:view")
 	@RequestMapping(value = "listPage")
 	public String listPage(BizPurchaseVo bizPurchaseVo, HttpServletRequest request, HttpServletResponse response, Model model){
 		if(UserUtils.getUser().getStoreId()!=null)
 		{
-			//当前登录用户门店
+
 			bizPurchaseVo.setStoreId(Integer.parseInt(UserUtils.getUser().getStoreId()));
 		}
 		else{
-			//门店是总部的查询所有部门信息
+
 		if(bizPurchaseVo.getStoreId()!= null && bizPurchaseVo.getStoreId() ==1)
 			{
-				//总部
+
 				bizPurchaseVo.setStoreId(null);
 			}
 		}
@@ -91,13 +85,13 @@ public class BizPurchaseController extends BaseController {
 		if(null !=user.getEmpId()){
 			BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
 			if(ConstantUtils.EMPLOYEE_PROJECT_MODE_3.equals(be.getProjectMode())|| null == be.getProjectMode()){
-				bizPurchaseVo.setProjectMode(null);//表示查询所有的采购单
+				bizPurchaseVo.setProjectMode(null);
 			}else{
 				bizPurchaseVo.setProjectMode(be.getProjectMode());
 				model.addAttribute("projectModeEnable", true);
 			}
 		}else{
-			bizPurchaseVo.setProjectMode(null);//表示查询所有的采购单
+			bizPurchaseVo.setProjectMode(null);
 		}
 		if(null == bizPurchaseVo.getStatus()|| "".equals(bizPurchaseVo.getStatus())){
 			bizPurchaseVo.setStatus("10");
@@ -110,14 +104,14 @@ public class BizPurchaseController extends BaseController {
 	public String list(BizPurchaseVo bizPurchaseVo, HttpServletRequest request, HttpServletResponse response, Model model) {
 		if(UserUtils.getUser().getStoreId()!=null)
 		{
-			//当前登录用户门店
+
 			bizPurchaseVo.setStoreId(Integer.parseInt(UserUtils.getUser().getStoreId()));
 		}
 		else{
-			//门店是总部的查询所有部门信息
+
 		if(bizPurchaseVo.getStoreId()!= null && bizPurchaseVo.getStoreId() ==1)
 			{
-				//总部
+
 				bizPurchaseVo.setStoreId(null);
 			}
 		}
@@ -130,37 +124,26 @@ public class BizPurchaseController extends BaseController {
 			if(null !=user.getEmpId()){
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
 				if(ConstantUtils.EMPLOYEE_PROJECT_MODE_3.equals(be.getProjectMode())|| null == be.getProjectMode()){
-					bizPurchaseVo.setProjectMode(null);//表示查询所有的采购单
+					bizPurchaseVo.setProjectMode(null);
 				}else{
 					bizPurchaseVo.setProjectMode(be.getProjectMode());
 					model.addAttribute("projectModeEnable", true);
 				}
 			}else{
-				bizPurchaseVo.setProjectMode(null);//表示查询所有的采购单
+				bizPurchaseVo.setProjectMode(null);
 			}
 		}
 		Page<BizPurchaseVo> page = bizPurchaseVoService.findPage(new Page<BizPurchaseVo>(request, response), bizPurchaseVo);
-		/*List<BizPurchaseVo> list = page.getList();
-		for (BizPurchaseVo bizPurchaseVo2 : list) {
-			
-			if(bizPurchaseVo2.getApplyEmployee()!=null){
-				BizEmployee2 employee = bizEmployeeService2.findEmployeeNameById(bizPurchaseVo2.getApplyEmployee());
-				bizPurchaseVo2.setApplyName(employee.getRealname());
-			}else{
-				bizPurchaseVo2.setApplyName("");
-			}
-			//BizEmployee2 employee = bizEmployeeService2.findEmployeeNameById(bizPurchaseVo2.getApplyEmployee());
-			//bizPurchaseVo2.setApplyName(employee.getRealname());
-		}*/
+
 		model.addAttribute("page", page);
 		return "modules/purchase/bizPurchaseList";
 	}
 	
-	//辅材明细
+
 	@RequiresPermissions("purchase:bizPurchase:view")
 	@RequestMapping(value = "details")
 	public String details(Integer id , HttpServletRequest request, HttpServletResponse response, Model model){
-		//id 采购单id
+
 		BizPurchaseVo bizPurchaseVo =  bizPurchaseVoService.findById(id);
 		BizEmployee2 employee = bizEmployeeService2.findEmployeeNameById(bizPurchaseVo.getApplyEmployee());
 		
@@ -173,22 +156,8 @@ public class BizPurchaseController extends BaseController {
 		return "modules/purchase/auxiliaryDetails";
 	}
 	
-/*	@RequestMapping(value = "seePhoto")
-	public String seePhoto(Integer id ,Model model) throws IOException{
-		List<BusinessPicture> pictures = businessPictureService.queryPicture(id, ConstantUtils.PICTURE_BUSINESS_TYPE_5);
-		String baseUrl = PicRootName.picPrefixName();
-		model.addAttribute("pictures", pictures);
-		model.addAttribute("baseUrl", baseUrl);
-		return "modules/purchase/photo";
-	}*/
-	/**
-	 * 查看收货单
-	 * @param
-	 * @param model
-	 * @param request
-	 * @return
-	 * @throws IOException
-	 */
+
+
 	@RequestMapping(value = "seePhoto")
 	@ResponseBody
 	public Map<Object, Object> seePhoto(Integer id, Model model, HttpServletRequest request) throws IOException{
@@ -203,42 +172,37 @@ public class BizPurchaseController extends BaseController {
 		return mapObject;
 	}
 	
-	//辅料送货 --状态为40的采购单
+
 	@RequiresPermissions("purchase:bizPurchase:view")
 	@RequestMapping(value="sendAuxiliaryList")
 	public String sendAuxiliaryList(BizPurchaseVo bizPurchaseVo, HttpServletRequest request, HttpServletResponse response, Model model){
 		if(UserUtils.getUser().getStoreId()!=null)
 		{
-			//当前登录用户门店
+
 			bizPurchaseVo.setStoreId(Integer.parseInt(UserUtils.getUser().getStoreId()));
 		}
 		else{
-			//门店是总部的查询所有部门信息
+
 		if(bizPurchaseVo.getStoreId()!= null && bizPurchaseVo.getStoreId() == 1)
 			{
-				//总部
+
 				bizPurchaseVo.setStoreId(null);
 			}
 		}
-		bizPurchaseVo.setStatus("40");//已转给供应商
+		bizPurchaseVo.setStatus("40");
 		bizPurchaseVo.setPurchaseType(ConstantUtils.AUXILIARY_NUMBER);
 		Page<BizPurchaseVo> page = bizPurchaseVoService.findPage(new Page<BizPurchaseVo>(request, response), bizPurchaseVo);
 		model.addAttribute("page", page);
 		return "modules/purchase/sendAuxiliaryList";
 	}
-	/**
-	 * 导出辅材工地发货申请
-	 * @param id
-	 * @param response
-	 * @return
-	 */
+
 	@RequiresPermissions("purchase:bizPurchase:view")
 	@RequestMapping(value="exportExcel")
 	public String exportExcel(Integer id,HttpServletResponse response){
 		SimpleDateFormat sf = new SimpleDateFormat("yyyyMMddHHmmss");
-		ServletOutputStream ouputStream= null;//创建一个输出流对象
+		ServletOutputStream ouputStream= null;
 		
-		//id 采购单id
+
 		BizPurchaseVo bizPurchaseVo =  bizPurchaseVoService.findById(id);
 		BizEmployee2 employee = bizEmployeeService2.findEmployeeNameById(bizPurchaseVo.getApplyEmployee());
 		bizPurchaseVo.setApplyName(employee.getRealname());
@@ -248,8 +212,8 @@ public class BizPurchaseController extends BaseController {
 		HSSFWorkbook projectExcel = ExportProjectExcel.exportPurchaseOrders(bizPurchaseVo,employee,auxiliarys);
 		try {  
 			response.setContentType("application/binary;charset=utf-8"); 
-			String headerStr =new String((bizPurchaseVo.getPurchaseCode()+"--"+sf.format(new Date())).getBytes("utf-8"), "ISO8859-1");//headerString为中文时转码  
-			response.setHeader("Content-disposition","attachment; filename="+headerStr+".xls");//filename是下载的xls的名
+			String headerStr =new String((bizPurchaseVo.getPurchaseCode()+"--"+sf.format(new Date())).getBytes("utf-8"), "ISO8859-1");
+			response.setHeader("Content-disposition","attachment; filename="+headerStr+".xls");
 			ouputStream = response.getOutputStream();    
 			projectExcel.write(ouputStream);  
 			ouputStream.flush();    

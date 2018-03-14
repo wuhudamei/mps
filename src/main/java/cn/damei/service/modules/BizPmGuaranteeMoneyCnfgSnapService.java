@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.util.List;
@@ -13,11 +11,7 @@ import cn.damei.common.service.CrudService2;
 import cn.damei.dao.modules.BizPmGuaranteeMoneyCnfgSnapDao;
 import cn.damei.entity.modules.BizPmGuaranteeMoneyCnfgSnap;
 
-/**
- * 项目经理保证金快照Service
- * @author 汪文文
- * @version 2016-12-28
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizPmGuaranteeMoneyCnfgSnapService extends CrudService2<BizPmGuaranteeMoneyCnfgSnapDao, BizPmGuaranteeMoneyCnfgSnap> {

@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import java.util.ArrayList;
@@ -9,51 +7,48 @@ import java.util.List;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 约检验收驳回原因查询Entity
- * @author wyb
- */
+
 public class InspectorConfirmReject extends DataEntity2<InspectorConfirmReject> {
 	
 	private static final long serialVersionUID = 1L;
 	
-	private Integer qcBillId;	//约检验收单id
-	private String qcBillCode;	//质检单编号
-	private Integer qcCheckNodeId;	//约检节点id
-	private String qcCheckNodeName;	//约检节点
-	private String status;		//状态
-	private String isRecheck;	//是否复检
-	private String qcBillType;	//质检单类型
+	private Integer qcBillId;
+	private String qcBillCode;
+	private Integer qcCheckNodeId;
+	private String qcCheckNodeName;
+	private String status;
+	private String isRecheck;
+	private String qcBillType;
 	
-	private Date acceptCheckDatetime; //确认验收日期
-	private Date beginAcceptCheckDatetime; // 开始   确认验收日期
-	private Date endAcceptCheckDatetime; // 结束   确认验收日期
+	private Date acceptCheckDatetime;
+	private Date beginAcceptCheckDatetime;
+	private Date endAcceptCheckDatetime;
 	
-	private String reviewStatus;	//审核状态
-	private String reviewRemark;	//审核意见
-	private Date reviewDatetime;	//审核日期时间
-	private Date beginReviewDatetime;	// 开始  审核日期时间
-	private Date endReviewDatetime;	// 结束   审核日期时间
+	private String reviewStatus;
+	private String reviewRemark;
+	private Date reviewDatetime;
+	private Date beginReviewDatetime;
+	private Date endReviewDatetime;
 	
-	private Integer orderId;	//订单id
-	private String storeId;	//门店
-	private String storeName; //门店名称
-	private String projectMode;		//工程模式   1-产业模式；2-传统模式
-	private String projectModeName;		//工程模式名称
-	private String orderNumber;		// 订单编号
-	private String communityName;		// 小区名称
-	private String buildNumber;		// 几号楼
-	private String buildUnit;		// 几单元
-	private String buildRoom;		// 哪一室
-	private String customerName;		// 客户姓名
+	private Integer orderId;
+	private String storeId;
+	private String storeName;
+	private String projectMode;
+	private String projectModeName;
+	private String orderNumber;
+	private String communityName;
+	private String buildNumber;
+	private String buildUnit;
+	private String buildRoom;
+	private String customerName;
 	
-	private String itemManager;		// 项目经理
-	private String orderInspector;		// 质检
+	private String itemManager;
+	private String orderInspector;
 	
 	
-	private Integer enginDepartId; //区域 id
-	private String departmentName; //区域 名称
-	private List<Integer> enginDepartIds = new ArrayList<Integer>();//区域 集合
+	private Integer enginDepartId;
+	private String departmentName;
+	private List<Integer> enginDepartIds = new ArrayList<Integer>();
 	
 	
 	public Integer getQcBillId() {

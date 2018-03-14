@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.util.Date;
@@ -19,11 +17,7 @@ import cn.damei.entity.modules.User;
 import cn.damei.common.utils.UserUtils;
 import cn.damei.dao.modules.BizOrderChecksizeDao;
 
-/**
- * 上传复尺Service
- * @author wyb
- * @version 2016-10-20
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizOrderChecksizeService extends CrudService2<BizOrderChecksizeDao, BizOrderChecksizeEntity> {
@@ -40,21 +34,17 @@ public class BizOrderChecksizeService extends CrudService2<BizOrderChecksizeDao,
 		return super.findPage(page, bizOrderChecksize);
 	}
 
-	//通过复尺表id查询复尺图片
+
 	public List<BizOrderChecksizePic> selectPicByOrderChecksizeId(Integer orderChecksizeId) {
 		return dao.selectPicByOrderChecksizeId(orderChecksizeId);
 	}
 
-	//通过复尺表id查询详情
+
 	public BizOrderChecksizeEntity selectDetailsByOrderChecksizeId(Integer orderChecksizeId) {
 		return dao.selectDetailsByOrderChecksizeId(orderChecksizeId);
 	}
 
-	/**
-	 *  更新厂家复尺
-	 * @param bizOrderChecksize
-	 * @return
-	 */
+
 	@Transactional(readOnly = false)
 	public boolean updateOrderChecksize(BizOrderChecksizeEntity bizOrderChecksize) {
 		Date date = new Date();
@@ -71,7 +61,7 @@ public class BizOrderChecksizeService extends CrudService2<BizOrderChecksizeDao,
 	}
 
 	public List<BizOrderChecksizeEntity> findMainItem(String storeId, String projectModeValue) {
-		// TODO Auto-generated method stub
+
 		return dao.findMainItem(storeId,projectModeValue);
 	}
 	

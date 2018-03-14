@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,11 +21,7 @@ import cn.damei.common.utils.StringUtils;
 import cn.damei.entity.modules.BizQcMaxCount;
 import cn.damei.service.modules.BizQcMaxCountService;
 
-/**
- * 约检数量配置Controller
- * @author 梅浩
- * @version 2017-04-20
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/bizqccount/bizQcMaxCount")
 public class BizQcMaxCountController extends BaseController {
@@ -50,8 +44,7 @@ public class BizQcMaxCountController extends BaseController {
 	@RequiresPermissions("bizqccount:bizQcMaxCount:view")
 	@RequestMapping(value = {"list"})
 	public String list(BizQcMaxCount bizQcMaxCount, HttpServletRequest request, HttpServletResponse response, Model model) {
-		/*Page<BizQcMaxCount> page = bizQcMaxCountService.findPage(new Page<BizQcMaxCount>(request, response), bizQcMaxCount);
-		model.addAttribute("page", page);*/
+
 		return "modules/bizqccount/bizQcMaxCountList";
 	}
     @RequiresPermissions("bizqccount:bizQcMaxCount:view")
@@ -92,7 +85,7 @@ public class BizQcMaxCountController extends BaseController {
 
 			} catch (ClassCastException e) {
 
-				//门店类型无效
+
 				e.printStackTrace();
 				addMessage(redirectAttributes, "门店参数有误");
 			}
@@ -144,7 +137,7 @@ public class BizQcMaxCountController extends BaseController {
 
 			} catch (ClassCastException e) {
 
-				//门店类型无效
+
 				e.printStackTrace();
 				return "2";
 			}

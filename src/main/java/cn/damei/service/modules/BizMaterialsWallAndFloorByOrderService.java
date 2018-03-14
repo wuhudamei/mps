@@ -9,11 +9,7 @@ import cn.damei.common.persistence.Page;
 import cn.damei.common.service.CrudService2;
 import cn.damei.dao.modules.BizMaterialsWallAndFloorByOrderDao;
 import cn.damei.entity.modules.BizMaterialsWallAndFloorByOrder;
-/**
- * 材料类按订单汇总查询(墙地砖）
- * @author 王硕
- * @version 2017-10-26
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizMaterialsWallAndFloorByOrderService extends CrudService2<BizMaterialsWallAndFloorByOrderDao, BizMaterialsWallAndFloorByOrder> {

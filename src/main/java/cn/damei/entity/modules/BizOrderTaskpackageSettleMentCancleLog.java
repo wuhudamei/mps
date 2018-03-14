@@ -2,12 +2,7 @@ package cn.damei.entity.modules;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 订单任务包结算单撤回日志实体类
- * 
- * @author hyh
- *
- */
+
 public class BizOrderTaskpackageSettleMentCancleLog extends DataEntity2<BizOrderTaskpackageSettleMentCancleLog> {
 
 	private static final long serialVersionUID = 1L;

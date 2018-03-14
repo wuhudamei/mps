@@ -9,99 +9,61 @@ public class OrderDetailsInstallPlan extends DataEntity2<OrderDetailsInstallPlan
 
 	private Integer id;
 
-	/**
-	 * 订单id
-	 */
+
 	private Integer orderId;
 
-	/**
-	 * 订单安装项id
-	 */
+
 	private Integer orderInstallItemId;
 
-	/**
-	 * 安装项名称
-	 */
+
 	private String installItemName;
 
-	/**
-	 * 安装项顺序
-	 */
+
 	private Integer installItemSequence;
 
-	/**
-	 * 计划进场日期
-	 */
+
 	private Date planIntoDate;
 
-	/**
-	 * 申请进场日期
-	 */
+
 	private Date applyIntoDate;
 
-	/**
-	 * 实际进场日期
-	 */
+
 	private Date realIntoDate;
 
-	/**
-	 * 实际完工日期
-	 */
+
 	private Date realCompleteDate;
 
-	/**
-	 * 实际验收日期
-	 */
+
 	private Date realAcceptDate;
 
-	/**
-	 * 状态 1.已生成计划；2.已申请计划；3.已验收
-	 */
+
 	private String status;
 
-	/**
-	 * 申请进场备注
-	 */
+
 	private String applyIntoRemarks;
 
-	/**
-	 * 是否完工延期 0.否；1.是
-	 */
+
 	private String isCompleteDelay;
 
-	/**
-	 * 完工延期原因 1.发生变更；2.材料未送到；3.工人不够；4.物业不让施工；5.其他
-	 */
+
 	private String completeDelayReason;
 
-	/**
-	 * 完工延期描述
-	 */
+
 	private String completeDelayRemarks;
 
-	/**
-	 * 备注
-	 */
+
 	private String remarks;
 
-	/**
-	 * 创建日期时间
-	 */
+
 	private Date createDate;
 
-	/**
-	 * 更新日期时间
-	 */
+
 	private Date updateDate;
 
-	/**
-	 * 是否删除
-	 */
+
 	private String delFlag;
 	
-	/**
-	 * 申请进场创建期时间 
-	 */
+
 	private Date applyIntoCreateDatetime;
 private Date supplierConfirmIntoDate;
 	public Date getSupplierConfirmIntoDate() {

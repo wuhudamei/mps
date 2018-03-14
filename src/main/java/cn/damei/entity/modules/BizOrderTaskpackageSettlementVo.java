@@ -7,101 +7,98 @@ import java.util.List;
 import cn.damei.common.persistence.DataEntity2;
 public class BizOrderTaskpackageSettlementVo extends DataEntity2<BizOrderTaskpackageSettlementVo>{
 
-	/**
-	 * @author wang
-	 * @version 2016-10-14
-	 */
+
 	private static final long serialVersionUID = -5392178936581100638L;
 	
 	private Integer id;
-	private String settlementNo;		// 结算单编号
-	private Integer orderTaskpackageId;		// 订单任务包id
+	private String settlementNo;
+	private Integer orderTaskpackageId;
 	private Integer storeid;
 	private String projectMode;
-	private Date checkDate;		// 验收日期
-	private String isQualified;		// 是否合格
-	private String isDelay;		// 是否延期 
-	private Double delayDays;		// 延期天数 
-	private Double delayAmerce;		// 延期扣除金额 延期天数*100元
-	private String isManagePunish;		// 是否管理处罚 
-	private Double punishAmerce;		// 处罚金额 
-	private String punishReason;		// 处罚理由
-	private Double auxiliaryMaterialsAmount;		// 辅料核算金额 
-	private Double sandMaterialsAmount;   //沙子水泥核算金额
-	private Double guaranteeMoneyAmount;		// 质保金金额 
-	private Double settlementAmount;		// 结算金额
-	private String status;		// 状态 
-	private String taskPackageNo;  //任务包编号
+	private Date checkDate;
+	private String isQualified;
+	private String isDelay;
+	private Double delayDays;
+	private Double delayAmerce;
+	private String isManagePunish;
+	private Double punishAmerce;
+	private String punishReason;
+	private Double auxiliaryMaterialsAmount;
+	private Double sandMaterialsAmount;
+	private Double guaranteeMoneyAmount;
+	private Double settlementAmount;
+	private String status;
+	private String taskPackageNo;
 	private String packName;
-	private String packageStateid; //任务包状态
-	private String packageStatename; // 任务包状态名称
-	private Integer orderId; //订单ID
-	private String orderNo;			//订单编号
-	private String customerName;		// 客户姓名
-	private String customerMessage;		// 客户信息
-	private String communityName;		// 小区名称
-	private String buildNumber;		// 几号楼
-	private String buildUnit;		// 几单元
-	private String buildRoom;		// 哪一室
-	private String itemManager; 	//项目经理
+	private String packageStateid;
+	private String packageStatename;
+	private Integer orderId;
+	private String orderNo;
+	private String customerName;
+	private String customerMessage;
+	private String communityName;
+	private String buildNumber;
+	private String buildUnit;
+	private String buildRoom;
+	private String itemManager;
 	private Integer itemManagerId; 
-	private String orderTaskpackageName;  //任务包名称
-	private String groupRealname;	//组长姓名
-	private String designerName; //设计师姓名
-	private String houseType; //户型
-	private String coveredArea; //建筑面积
+	private String orderTaskpackageName;
+	private String groupRealname;
+	private String designerName;
+	private String houseType;
+	private String coveredArea;
 	private String refusedReason;
 	private Date statusDate;
 	private String isNeedRecheck;
 	
-	private Date beginCheckDate;		// 开始 验收日期 
-	private Date endCheckDate;		// 结束 验收日期
-	private Date actualStartdate; // 实际开工日期
-	private Date actualEnddate; // 实际完工日期
-	private Date recheckDatetime; // 质检员复核时间
-	private Double qcPunishMoneyAmount; // 质检罚款
-	private Double rewardAmount; // 奖励金额
+	private Date beginCheckDate;
+	private Date endCheckDate;
+	private Date actualStartdate;
+	private Date actualEnddate;
+	private Date recheckDatetime;
+	private Double qcPunishMoneyAmount;
+	private Double rewardAmount;
 	
-	private String isQualityGuarantee; // 是否扣质保金
-	private Integer qualityGuaranteeRate; // 质保金扣除比例;1-100
-	private Integer taskPackageTemplatId; // 任务包模板id
-	private Integer groupId; // 工人组长id
-	private String groupName; // 工人组长名称
+	private String isQualityGuarantee;
+	private Integer qualityGuaranteeRate;
+	private Integer taskPackageTemplatId;
+	private Integer groupId;
+	private String groupName;
 	private String groupPhone;
-	private Double guaranteeMoneyAmountTotal; // 质保金累计金额
-	private Integer gualityGuaranteeType; // 扣除质保金分类(自定义字段) 1-不扣质保金 2-扣质保金，但是没满两次 3-扣质保金，但是已满2次
+	private Double guaranteeMoneyAmountTotal;
+	private Integer gualityGuaranteeType;
 
-	private String customerPhone; // 客户电话
-	private String customerAddress; // 客户地址
-	private String itemCustomer; // 项目经理
-	private String itemPhone;//项目经理手机号
-	private Float advancePaymentRates; // 首付款比例
-	private Float restPaymentRates; // 尾付款比例
-	private Double advanceAmount; // 首付款金额
-	private Double restAmount; // 尾付款金额
+	private String customerPhone;
+	private String customerAddress;
+	private String itemCustomer;
+	private String itemPhone;
+	private Float advancePaymentRates;
+	private Float restPaymentRates;
+	private Double advanceAmount;
+	private Double restAmount;
 	private List<String> settlementStatus;
 	private String realName;
-	private Date confirmSalaryTime;//工人确认薪酬时间
+	private Date confirmSalaryTime;
 	private List<Integer> enginDepartIds = new ArrayList<Integer>();
 	private Integer enginDepartId;
 	private String departmentName;
 	
-	private Double guaranteeMoneyBalance;//质保金余额
-	private Date passBeginDate;//结算员通过开始时间
-	private Date passEndDate;//结算员通过结束时间
-	private Date ensureBegindatetime;//工人确认薪酬开始时间
-	private Date ensureEnddatetime;//工人确认薪酬结束时间
-	private Double companyDeductAmount;//公司罚款
-	private String companyDeductReason;//公司罚款原因 
-	private Double laborAuxiliaryMaterialsBudgetAmount;//工料费预算总金额
-	private Double laborBudgetAmount;// 人工费预算总金额
-	private Double auxiliaryMaterialsBudgetAmount;//辅料费预算总金额
-	private Double laborAuxiliaryMaterialsSettleAmount;//工料费结算总金额
-	private Double laborSettleAmount;//人工费结算总金额
-	private Double auxiliaryMaterialsSettleAmount;//辅料费结算总金额
-	private Double pmMaterialsSettleAmount;//项目经理材料结算总金额
-	private Double workerGroupSettleAmount;//工人组结算总金额
-	private String settleStyle;//结算方式
+	private Double guaranteeMoneyBalance;
+	private Date passBeginDate;
+	private Date passEndDate;
+	private Date ensureBegindatetime;
+	private Date ensureEnddatetime;
+	private Double companyDeductAmount;
+	private String companyDeductReason;
+	private Double laborAuxiliaryMaterialsBudgetAmount;
+	private Double laborBudgetAmount;
+	private Double auxiliaryMaterialsBudgetAmount;
+	private Double laborAuxiliaryMaterialsSettleAmount;
+	private Double laborSettleAmount;
+	private Double auxiliaryMaterialsSettleAmount;
+	private Double pmMaterialsSettleAmount;
+	private Double workerGroupSettleAmount;
+	private String settleStyle;
 
 	
 	

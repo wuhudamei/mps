@@ -19,10 +19,7 @@ import cn.damei.service.modules.PurchaseStatisticsService;
 import cn.damei.entity.modules.User;
 import cn.damei.common.utils.UserUtils;
 
-/**
- * 材料统计表Controller
- * 
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/purchaseStatistics/purchaseStatistics")
 public class PurchaseStatisticsController extends BaseController {
@@ -30,26 +27,19 @@ public class PurchaseStatisticsController extends BaseController {
 	@Autowired
 	private PurchaseStatisticsService purchaseStatisticsService;
 
-	/**
-	 * 材料统计表
-	 * @param purchaseStatistics
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @return
-	 */
+
 	@RequiresPermissions("purchaseStatistics:purchaseStatistics:view")
 	@RequestMapping(value = { "preList", "" })
 	public String preList(PurchaseStatistics purchaseStatistics, HttpServletRequest request, HttpServletResponse response, Model model) {
 		
 		User user = UserUtils.getUser();
-		//过滤门店
+
 		if(null==purchaseStatistics.getStoreId()){
 			if(StringUtils.isNotBlank(user.getStoreId())){
 				purchaseStatistics.setStoreId(Integer.valueOf(user.getStoreId()));
 			}
 		}
-		//过滤工程模式
+
 		if(StringUtils.isBlank(purchaseStatistics.getProjectMode())){
 			if(StringUtils.isBlank(user.getProjectMode())||user.getProjectMode().equals("3")){
 				model.addAttribute("gongcheng", true);
@@ -67,26 +57,19 @@ public class PurchaseStatisticsController extends BaseController {
 		return "modules/purchaseStatistics/purchaseStatisticsList";
 	}
 	
-	/**
-	 * 材料统计表
-	 * @param purchaseStatistics
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @return
-	 */
+
 	@RequiresPermissions("purchaseStatistics:purchaseStatistics:view")
 	@RequestMapping(value = { "list", "" })
 	public String list(PurchaseStatistics purchaseStatistics, HttpServletRequest request, HttpServletResponse response, Model model) {
 		
 		User user = UserUtils.getUser();
-		//过滤门店
+
 		if(null==purchaseStatistics.getStoreId()){
 			if(StringUtils.isNotBlank(user.getStoreId())){
 				purchaseStatistics.setStoreId(Integer.valueOf(user.getStoreId()));
 			}
 		}
-		//过滤工程模式
+
 		if(StringUtils.isBlank(purchaseStatistics.getProjectMode())){
 			if(StringUtils.isBlank(user.getProjectMode())||user.getProjectMode().equals("3")){
 				model.addAttribute("gongcheng", true);

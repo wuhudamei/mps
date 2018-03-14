@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.service.modules;
 
 import java.util.ArrayList;
@@ -24,11 +22,7 @@ import cn.damei.entity.modules.BizOrderTaskpackagePaymentVo;
 import cn.damei.entity.modules.ReportCheckDetailsPic;
 import cn.damei.dao.modules.BizOrderTaskpackagePaymentDao;
 
-/**
- * 付款单Service
- * @author qww
- * @version 2016-10-26
- */
+
 @Service
 @Transactional(readOnly = true)
 public class BizOrderTaskpackagePaymentService extends CrudService2<BizOrderTaskpackagePaymentDao, BizOrderTaskpackagePayment> {
@@ -68,40 +62,22 @@ public class BizOrderTaskpackagePaymentService extends CrudService2<BizOrderTask
 	
 	public List<BizOrderTaskpackagePaymentVo> queryPaymentByCondition(BizOrderTaskpackagePaymentVo bizOrderTaskpackagePaymentVo){
 		
-		/*Map<String, Object> map = new HashMap<String, Object>();
-		map.put("status", ConstantUtils.PAYMENT_STATUS);
-		map.put("paymentType0", ConstantUtils.ORDER_TASKPACKAGE_PAYMENT_TYPE_0);
-		map.put("paymentType1", ConstantUtils.ORDER_TASKPACKAGE_PAYMENT_TYPE_1);
-		map.put("orderStatusNumber", ConstantUtils.ORDER_STATUS_NUMBER_320);
-		List<String> list = new ArrayList<String>();
-		list.add(ConstantUtils.PAYMENT_STATUS_10);
-		list.add(ConstantUtils.PAYMENT_STATUS_90);
-		map.put("list", list);
-		if(bizOrderTaskpackagePaymentVo.getStoreId() != null){
-			map.put("storeId", bizOrderTaskpackagePaymentVo.getStoreId());
-		}
-		if(bizOrderTaskpackagePaymentVo.getStartDate() != null){
-			map.put("startDate", bizOrderTaskpackagePaymentVo.getStartDate());
-		}
-		if(bizOrderTaskpackagePaymentVo.getEndDate() != null){
-			map.put("endDate", bizOrderTaskpackagePaymentVo.getEndDate());
-		}
-		return dao.queryPaymentByCondition(map);*/
+
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("status", ConstantUtils.PAYMENT_STATUS);
-		map.put("paymentType0", ConstantUtils.ORDER_TASKPACKAGE_PAYMENT_TYPE_0);//首款
-		map.put("paymentType1", ConstantUtils.ORDER_TASKPACKAGE_PAYMENT_TYPE_1);//尾款
+		map.put("paymentType0", ConstantUtils.ORDER_TASKPACKAGE_PAYMENT_TYPE_0);
+		map.put("paymentType1", ConstantUtils.ORDER_TASKPACKAGE_PAYMENT_TYPE_1);
 		map.put("qcStatus", "30");
 		map.put("qcType", "1");
 		map.put("ischeck", "0");
-		map.put("cnrStatus", "1");//任务包和之间节点关系状态--启用
+		map.put("cnrStatus", "1");
 		
-		//map.put("orderStatusNumber", ConstantUtils.ORDER_STATUS_NUMBER_320);
+
 		List<String> list = new ArrayList<String>();
-		//list.add(ConstantUtils.PAYMENT_STATUS_10);---www
+
 		if(bizOrderTaskpackagePaymentVo.getStatus() == null || bizOrderTaskpackagePaymentVo.getStatus().equals("")){
-			list.add(ConstantUtils.PAYMENT_STATUS_15);//---www
+			list.add(ConstantUtils.PAYMENT_STATUS_15);
 			list.add(ConstantUtils.PAYMENT_STATUS_90);
 		}else{
 			list.add(bizOrderTaskpackagePaymentVo.getStatus());
@@ -158,24 +134,24 @@ public class BizOrderTaskpackagePaymentService extends CrudService2<BizOrderTask
 		return dao.queryPaymentForCheckByQcBillId(map);
 	}
 	
-	//查看验收详情
+
 	public BizOrderTaskpackagePaymentDetails findQcBill(Integer qcBillId) {
 		return dao.findQcBill(qcBillId);
 	}
 
-	//查看验收图片
+
 	public List<ReportCheckDetailsPic> findPic(Integer qcBillId) {
 		return dao.findPic(qcBillId);
 	}
 	
-	//修改质检单状态
+
 	@Transactional(readOnly = false)
 	public void updateQcbillStatusById(Integer qcBillId, String status,String reason) {
 
 		dao.updateQcbillStatusById(qcBillId,status,reason);
 	}
 	
-	//修改付款单状态
+
 	@Transactional(readOnly = false)
 	public void updateStatusByPaymentId(Integer paymentId, String status) {
 		dao.updateStatusByPaymentId(paymentId,status);
@@ -218,7 +194,7 @@ public class BizOrderTaskpackagePaymentService extends CrudService2<BizOrderTask
 	}
 
 	public List<Payment> findPayments(Map<String, Object> map) {
-		// TODO Auto-generated method stub
+
 		return dao.findPayments(map);
 	}
 

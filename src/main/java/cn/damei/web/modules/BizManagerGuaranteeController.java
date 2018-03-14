@@ -18,12 +18,7 @@ import cn.damei.service.modules.BizGuaranteeMoneyPaidUsedService;
 import cn.damei.entity.modules.User;
 import cn.damei.common.utils.UserUtils;
 
-/**
- * 项目经理质保金Controller
- * 
- * @author hyh
- *
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/guarantee/guaranteeManager2")
 public class BizManagerGuaranteeController extends BaseController {
@@ -34,17 +29,13 @@ public class BizManagerGuaranteeController extends BaseController {
 	@Autowired
 	private BizGuaranteeMoneyPaidUsedService bizGuaranteeMoneyPaidUsedService;
 
-	/**
-	 * 项目经理质保金查询
-	 * 
-	 * @return
-	 */
+
 	@RequestMapping(value = "queryManagerGuarantee")
 	public String queryManagerGuarantee(BizGuaranteeMoneyBalance bizGuaranteeMoneyBalance, HttpServletRequest request,
 			HttpServletResponse response, Model model) {
 		bizGuaranteeMoneyBalance.setEmpType("1");
 		User user = UserUtils.getUser();
-		// 过滤门店
+
 		if (null == bizGuaranteeMoneyBalance.getStoreId()) {
 			if (null != user.getStoreId()) {
 				bizGuaranteeMoneyBalance.setStoreId(user.getStoreId());
@@ -53,7 +44,7 @@ public class BizManagerGuaranteeController extends BaseController {
 		if (StringUtils.isBlank(user.getStoreId())) {
 			model.addAttribute("storeDropEnable", true);
 		}
-		// 过滤工程模式
+
 		if (StringUtils.isBlank(bizGuaranteeMoneyBalance.getProjectMode())) {
 			if (StringUtils.isBlank(user.getProjectMode()) || user.getProjectMode().equals("3")) {
 				model.addAttribute("gongcheng", true);
@@ -74,15 +65,7 @@ public class BizManagerGuaranteeController extends BaseController {
 		return "modules/qualityguaranteedeposit/managerGuaranteeList";
 	}
 
-	/***
-	 * 项目经理结算上缴质保金详情
-	 * 
-	 * @param bizGuaranteeMoneyBalance
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @return
-	 */
+
 	@RequestMapping(value = "queryManagerGuaranteePaidSettleDetail")
 	public String queryManagerGuaranteePaidSettleDetail(BizGuaranteeMoneyPaidUsed bizGuaranteeMoneyPaidUsed,
 			HttpServletRequest request, HttpServletResponse response, Model model) {
@@ -96,15 +79,7 @@ public class BizManagerGuaranteeController extends BaseController {
 		return "modules/qualityguaranteedeposit/managerGuaranteeMoneyAmountPaidSettleDetail";
 	}
 
-	/**
-	 * 项目经理线下上缴质保金详情
-	 * 
-	 * @param bizGuaranteeMoneyBalance
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @return
-	 */
+
 	@RequestMapping(value = "queryManagerGuaranteePaidOffineDetail")
 	public String queryManagerGuaranteePaidOffineDetail(BizGuaranteeMoneyPaidUsed bizGuaranteeMoneyPaidUsed,
 			HttpServletRequest request, HttpServletResponse response, Model model) {
@@ -118,15 +93,7 @@ public class BizManagerGuaranteeController extends BaseController {
 		return "modules/qualityguaranteedeposit/managerGuaranteeMoneyAmountPaidOffineDetail";
 	}
 
-	/**
-	 * 项目经理质保金使用详情
-	 * 
-	 * @param bizGuaranteeMoneyBalance
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @return
-	 */
+
 	@RequestMapping(value = "queryManagerGuaranteeUsedDetail")
 	public String queryManagerGuaranteeUsedDetail(BizGuaranteeMoneyPaidUsed bizGuaranteeMoneyPaidUsed,
 			HttpServletRequest request, HttpServletResponse response, Model model) {

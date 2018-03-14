@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.common.utils;
 
 import java.util.ArrayList;
@@ -32,12 +30,7 @@ import cn.damei.dao.modules.BizTaskPackageTypeDao;
 import cn.damei.entity.modules.BizTaskPackageTemplat;
 import cn.damei.entity.modules.BizTaskPackageType;
 
-/**
- * 和业务表有关的字典工具
- * 
- * @author wangchao
- * @date 2016年9月3日
- */
+
 public class BizDictUtils {
 
 	private static BizEmployeeDao storeDao = SpringContextHolder.getBean(BizEmployeeDao.class);
@@ -102,18 +95,18 @@ public class BizDictUtils {
 		}
 		return storeList;
 	}
-	//
-	// public static String getStoreValue(String label, String type, String
-	// defaultLabel){
-	// if (StringUtils.isNotBlank(type) && StringUtils.isNotBlank(label)){
-	// for (BizEmpStore dict : getStoreList()){
-	// if (type.equals(dict.getId()) && label.equals(dict.getDescription())){
-	// return dict.getDescription();
-	// }
-	// }
-	// }
-	// return defaultLabel;
-	// }
+
+
+
+
+
+
+
+
+
+
+
+
 
 	public static List<BizEmpStore> getStoreList() {
 		List<BizEmpStore> storeList = new ArrayList<BizEmpStore>();
@@ -136,11 +129,7 @@ public class BizDictUtils {
 		return storeList;
 	}
 
-	/**
-	 * 获取任务包类型列表
-	 * 
-	 * @return
-	 */
+
 	public static List<BizTaskPackageType> getTaskPackageTypeList() {
 		BizTaskPackageType param = new BizTaskPackageType();
 		param.setStatus("1");
@@ -148,13 +137,7 @@ public class BizDictUtils {
 		return list;
 	}
 
-	/**
-	 * 获取任务包类型标签
-	 * 
-	 * @param value
-	 * @param defaultValue
-	 * @return
-	 */
+
 	public static String getTaskPackageTypeLabel(String value, String defaultValue) {
 		if (StringUtils.isNotBlank(value)) {
 			for (BizTaskPackageType dict : getTaskPackageTypeList()) {
@@ -166,18 +149,12 @@ public class BizDictUtils {
 		return defaultValue;
 	}
 
-	/**
-	 * 获取任务包模板标签
-	 * 
-	 * @param value
-	 * @param defaultValue
-	 * @return
-	 */
+
 	public static String getTaskPackageTemplateLabel(String value, String defaultValue) {
 		if (StringUtils.isNotBlank(value)) {
-			// User user = UserUtils.getUser();
-			// List<BizTaskPackageTemplat> list =
-			// bizTaskPackageTemplatDao.findTaskPackageList(user.getOffice().getId());
+
+
+
 			BizTaskPackageTemplat param = new BizTaskPackageTemplat();
 			param.setStoreId(UserUtils.getUser().getStoreId());
 			List<BizTaskPackageTemplat> list = bizTaskPackageTemplatDao.findList(param);
@@ -190,33 +167,19 @@ public class BizDictUtils {
 		return defaultValue;
 	}
 
-	/**
-	 * 获取任务包模板
-	 * 
-	 * @return
-	 */
+
 	public static List<BizTaskPackageTemplat> getTaskPackageTemplate() {
 		return bizTaskPackageTemplatDao.queryTaskpackageTemplat();
 	}
 
-	/**
-	 * 获取工序列表
-	 * 
-	 * @return
-	 */
+
 	public static List<BizProcedure> getProcedureList() {
 		BizProcedure param = new BizProcedure();
 		List<BizProcedure> list = bizProcedureDao.findList(param);
 		return list;
 	}
 
-	/**
-	 * 获取工序标签
-	 * 
-	 * @param value
-	 * @param defaultValue
-	 * @return
-	 */
+
 	public static String getProcedureLabel(String value, String defaultValue) {
 		if (StringUtils.isNotBlank(value)) {
 			for (BizProcedure dict : getProcedureList()) {
@@ -228,29 +191,25 @@ public class BizDictUtils {
 		return defaultValue;
 	}
 
-	/**
-	 * 门店的添加
-	 * 
-	 * @return
-	 */
+
 	public static List<BizEmpStore> getStoreListAdd() {
 
 		System.out.println("*************getStoreListAdd begin*************");
 		List<BizEmpStore> store = new ArrayList<BizEmpStore>();
 		if (UserUtils.getUser().getStoreId() == null) {
-			// 首先获取所有门店信息
+
 			List<BizEmpStore> storeList = storeDao.findStoreList();
 			for (BizEmpStore bizEmpStore : storeList) {
-				// 通过遍历门店id ，查询出门店下的星级对象
+
 				List<BizStar> bizStar = StarDao.findStarByStoreId(bizEmpStore.getValue());
-				// 如果星级为空，那么该门店没有添加过星级
+
 				if (bizStar != null && bizStar.size() > 1) {
 				} else {
 					store.add(bizEmpStore);
 				}
 			}
 		} else {
-			// 当前门店
+
 			Office office = officeDao.get(UserUtils.getUser().getStoreId());
 			BizEmpStore store2 = new BizEmpStore();
 			store2.setValue(office.getId());
@@ -258,7 +217,7 @@ public class BizDictUtils {
 			store.add(store2);
 		}
 		System.out.println("*************getStoreListAdd finish*************");
-		// 返回门店集合（没有添加过星级的）
+
 		return store;
 	}
 
@@ -275,26 +234,16 @@ public class BizDictUtils {
 		return defaultValue;
 	}
 
-	/**
-	 * 获取当前登录门店的辅料列表
-	 * 
-	 * @return
-	 */
+
 	public static List<BizAuxiliaryMaterials> getAuxiliaryMaterialsList() {
 		BizAuxiliaryMaterials param = new BizAuxiliaryMaterials();
-		// param.setStoreId(UserUtils.getUser().getStoreId());
+
 		param.setStatus("1");
 		List<BizAuxiliaryMaterials> list = bizAuxiliaryMaterialsDao.findList(param);
 		return list;
 	}
 
-	/**
-	 * 获取辅料标签
-	 * 
-	 * @param value
-	 * @param defaultValue
-	 * @return
-	 */
+
 	public static String getAuxiliaryMaterialsLabel(String value, String defaultValue) {
 		if (StringUtils.isNotBlank(value)) {
 			for (BizAuxiliaryMaterials dict : getAuxiliaryMaterialsList()) {
@@ -306,11 +255,7 @@ public class BizDictUtils {
 		return defaultValue;
 	}
 
-	/**
-	 * 获取供应商列表
-	 * 
-	 * @return
-	 */
+
 	public static List<BizSupplier> getSupplierList() {
 		BizSupplier param = new BizSupplier();
 		param.setStatus("1");
@@ -318,13 +263,7 @@ public class BizDictUtils {
 		return list;
 	}
 
-	/**
-	 * 获取供应商标签
-	 * 
-	 * @param value
-	 * @param defaultValue
-	 * @return
-	 */
+
 	public static String getSupplierLabel(String value, String defaultValue) {
 		if (StringUtils.isNotBlank(value)) {
 			for (BizSupplier dict : getSupplierList()) {
@@ -336,26 +275,16 @@ public class BizDictUtils {
 		return defaultValue;
 	}
 
-	/**
-	 * 获取辅材类别列表
-	 * 
-	 * @return
-	 */
+
 	public static List<BizMaterialCategory> getMaterialCategoryList() {
 		BizMaterialCategory param = new BizMaterialCategory();
-		param.setMaterialTypeId(ConstantUtils.AUXILIARY_MATERIALS_CATEGORY);// 辅材
-		param.setStatus("1");// 启用
+		param.setMaterialTypeId(ConstantUtils.AUXILIARY_MATERIALS_CATEGORY);
+		param.setStatus("1");
 		List<BizMaterialCategory> list = bizMaterialCategoryDao.findList(param);
 		return list;
 	}
 
-	/**
-	 * 获取辅材类别标签
-	 * 
-	 * @param value
-	 * @param defaultValue
-	 * @return
-	 */
+
 	public static String getMaterialCategoryLabel(String value, String defaultValue) {
 		if (StringUtils.isNotBlank(value)) {
 			for (BizMaterialCategory dict : getMaterialCategoryList()) {
@@ -367,26 +296,16 @@ public class BizDictUtils {
 		return defaultValue;
 	}
 
-	/**
-	 * 获取主材类别列表
-	 * 
-	 * @return
-	 */
+
 	public static List<BizMaterialCategory> getMainMaterialCategoryList() {
 		BizMaterialCategory param = new BizMaterialCategory();
-		param.setMaterialTypeId(ConstantUtils.MAIN_MATERIALS_CATEGORY);// 主材
-		param.setStatus("1");// 启用
+		param.setMaterialTypeId(ConstantUtils.MAIN_MATERIALS_CATEGORY);
+		param.setStatus("1");
 		List<BizMaterialCategory> list = bizMaterialCategoryDao.findList(param);
 		return list;
 	}
 
-	/**
-	 * 获取主材类别标签
-	 * 
-	 * @param value
-	 * @param defaultValue
-	 * @return
-	 */
+
 	public static String getMainMaterialCategoryLabel(String value, String defaultValue) {
 		if (StringUtils.isNotBlank(value)) {
 			for (BizMaterialCategory dict : getMainMaterialCategoryList()) {
@@ -398,11 +317,7 @@ public class BizDictUtils {
 		return defaultValue;
 	}
 
-	/**
-	 * 获取扣除质保金列表
-	 * 
-	 * @return
-	 */
+
 	public static List<Dict> getqualityGuaranteeRateList() {
 		List<Dict> list = new LinkedList<Dict>();
 		Dict dict = null;

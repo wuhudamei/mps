@@ -12,10 +12,7 @@ import cn.damei.common.utils.DateUtils;
 import cn.damei.dao.mobile.Manager.OrderFinishProjectBillDao;
 import cn.damei.entity.mobile.Manager.OrderFinishProjectBill;
 
-/**
- * 确认竣工
- * @author llp
- */
+
 @Service
 @Transactional(readOnly = true)
 public class OrderFinishProjectBillService extends CrudService2<OrderFinishProjectBillDao, OrderFinishProjectBill>{
@@ -23,12 +20,7 @@ public class OrderFinishProjectBillService extends CrudService2<OrderFinishProje
 	@Autowired
 	private OrderFinishProjectBillDao orderFinishProjectBillDao;
 
-	/**
-	 * 确认竣工申请功能
-	 * @param orderID 
-	 * @param managerID 
-	 * @return String
-	 */
+
 	@Transactional(readOnly = false)
 	public int insert(String realFinishProjectDate, String orderID, String number, Integer managerID) 
 			throws DateParseException {
@@ -60,27 +52,19 @@ public class OrderFinishProjectBillService extends CrudService2<OrderFinishProje
 		return id;
 	}
 
-	/**
-	 * 根据orderID查询所有
-	 * @param orderID
-	 * @return List
-	 */
+
 	public OrderFinishProjectBill queryListByOrderID(Integer orderID) {
 		return orderFinishProjectBillDao.queryListByOrderID(orderID);
 	}
 
-	/**
-	 * 根据订单编号获取整条数据
-	 * @param orderID
-	 * @return bean
-	 */
+
 	public OrderFinishProjectBill getByOrderID(Integer orderID) {
 		return orderFinishProjectBillDao.getByOrderID(orderID);
 	}
 
 
 
-	//如果竣工单 存在, 更新竣工单 并删除无用的图片
+
 	@Transactional(readOnly = false)
 	public String updateByMore(String realFinishProjectDate, String orderID, Integer managerID, String updateDate,String billId) {
 

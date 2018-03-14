@@ -143,13 +143,13 @@ public class BizOrderTaskpackageSettlementVoController extends BaseController {
 			bizOrderTaskpackageSettlementVo.setEnginDepartIds(list);
 		}
 		if (UserUtils.getUser().getStoreId() != null) {
-			// 当前登录用户门店
+
 			bizOrderTaskpackageSettlementVo.setStoreid(Integer.parseInt(UserUtils.getUser().getStoreId()));
 		} else {
-			// 门店是总部的查询所有部门信息
+
 			if (bizOrderTaskpackageSettlementVo.getStoreid() != null
 					&& bizOrderTaskpackageSettlementVo.getStoreid() == 1) {
-				// 总部
+
 				bizOrderTaskpackageSettlementVo.setStoreid(null);
 			}
 		}
@@ -180,18 +180,18 @@ public class BizOrderTaskpackageSettlementVoController extends BaseController {
 			bizOrderTaskpackageSettlementVo.setEnginDepartIds(list);
 		}
 		if (UserUtils.getUser().getStoreId() != null) {
-			// 当前登录用户门店
+
 			bizOrderTaskpackageSettlementVo.setStoreid(Integer.parseInt(UserUtils.getUser().getStoreId()));
 		} else {
-			// 门店是总部的查询所有部门信息
+
 			if (bizOrderTaskpackageSettlementVo.getStoreid() != null
 					&& bizOrderTaskpackageSettlementVo.getStoreid() == 1) {
-				// 总部
+
 				bizOrderTaskpackageSettlementVo.setStoreid(null);
 			}
 		}
 
-		// 过滤工程模式
+
 		if (StringUtils.isBlank(bizOrderTaskpackageSettlementVo.getProjectMode())) {
 			if (null != user.getEmpId()) {
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -234,7 +234,7 @@ public class BizOrderTaskpackageSettlementVoController extends BaseController {
 
 	@RequestMapping(value = "updateTaskpackageStatus")
 	public @ResponseBody String updateTaskpackageStatus(Integer orderTaskpackageId, String status, String reason) throws UnsupportedEncodingException {
-		// 根据任务包id查询项目经理手机号
+
 		String result="0";
 		OrderTaskpackage orderTaskpackage = allotWorkerGroupService.findTargetPackageById(orderTaskpackageId);
 		BizOrderTaskpackageSettlement settlement = bizOrderTaskpackageSettlementService
@@ -249,10 +249,10 @@ public class BizOrderTaskpackageSettlementVoController extends BaseController {
 			result = "1";
 		} else {
 			if ("130".equals(status)) {
-				// 结算单审核驳回
+
 				bizOrderTaskpackageSettlementVoService.updateRefusedReason(orderTaskpackageId, reason, new Date(),
 						ConstantUtils.ORDER_TASKPACKAGE_STATUSNAME_130, status);
-				// 订单（小区名-楼号-单元号-门牌号-客户姓名-手机号）的任务包（任务包名称），结算员（结算员姓名-手机号）结算员驳回，驳回原因：（驳回原因），请及时登录APP查看详情。
+
 				String content = "订单（" + order.getCommunityName() + "-" + order.getBuildNumber() + "-"
 						+ order.getBuildUnit() + "-" + order.getBuildRoom() + "-" + order.getCustomerName() + "-"
 						+ order.getCustomerPhone() + "）的任务包（" + orderTaskpackage.getPackageName() + "），结算员（"
@@ -279,11 +279,11 @@ public class BizOrderTaskpackageSettlementVoController extends BaseController {
 				messageService.insert(message);
 
 			} else {
-				// 结算单审核通过 --修改结算单信息
+
 				bizOrderTaskpackageSettlementVoService.updateStatusDate(orderTaskpackageId,
 						ConstantUtils.ORDER_TASKPACKAGE_STATUSNAME_140, status);
 
-				// 订单（小区名-楼号-单元号-门牌号-客户姓名-手机号）的任务包（任务包名称），结算员（结算员姓名-手机号）结算员任务包审核通过，请登录APP查看详情。
+
 				String content = "订单（" + order.getCommunityName() + "-" + order.getBuildNumber() + "-"
 						+ order.getBuildUnit() + "-" + order.getBuildRoom() + "-" + order.getCustomerName() + "-"
 						+ order.getCustomerPhone() + "）的任务包（" + orderTaskpackage.getPackageName() + "），结算员（"
@@ -299,16 +299,11 @@ public class BizOrderTaskpackageSettlementVoController extends BaseController {
 				messageService.insert(message);
 			}
 		}
-		/*return "redirect:" + Global.getAdminPath()
-				+ "/ordertaskpackagesettlement/bizOrderTaskpackageSettlementVo/settleOrderList";*/
+
 		return result;
 	}
 
-	/**
-	 * @param id
-	 *            结算单id
-	 * @return
-	 */
+
 	@RequiresPermissions("ordertaskpackagesettlement:bizOrderTaskpackageSettlementVo:view")
 	@RequestMapping(value = "details")
 	public String details(Integer id, Model model) {
@@ -339,7 +334,7 @@ public class BizOrderTaskpackageSettlementVoController extends BaseController {
 			sandTotalPrice = settlementAuxiliary.getPrice() + sandTotalPrice;
 		}
 
-		// 根据结算id查找质保金
+
 		Guarantee guarantee = guaranteeService.findGuaranteeBySettlementId(id);
 		List<OrderTaskpackageSettlementDetail> payments = orderTaskpackageSettlementDetailService
 				.findByOrderTaskpackageId(packageId);
@@ -353,7 +348,7 @@ public class BizOrderTaskpackageSettlementVoController extends BaseController {
 		param.put("evalType", "1");
 		EvalScore bizEvalTaskpackScore = bizEvalTaskpackScoreService.queryEvalScoreByBusinessId(param);
 
-		// 奖励金额
+
 		EmployeeRewardDetail employeeRewardDetail = bizEvalRewardTaskpackService.queryEmployeeRewardDetail(packageId);
 
 		model.addAttribute("payments", payments);
@@ -375,7 +370,7 @@ public class BizOrderTaskpackageSettlementVoController extends BaseController {
 	public String settlementList(BizOrderTaskpackageSettlementVo bizOrderTaskpackageSettlementVo,
 			HttpServletRequest request, HttpServletResponse response, Model model) {
 		User user = UserUtils.getUser();
-		// 过滤门店
+
 		if (bizOrderTaskpackageSettlementVo.getStoreid() == null) {
 			String storeId = UserUtils.getUser().getStoreId();
 			if (StringUtils.isBlank(storeId)) {
@@ -388,7 +383,7 @@ public class BizOrderTaskpackageSettlementVoController extends BaseController {
 			model.addAttribute("storeDropEnable", true);
 		}
 
-		// 过滤工程模式
+
 		if (StringUtils.isBlank(bizOrderTaskpackageSettlementVo.getProjectMode())) {
 			if (null != user.getEmpId()) {
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -428,7 +423,7 @@ public class BizOrderTaskpackageSettlementVoController extends BaseController {
 	public String settlementLoadList(BizOrderTaskpackageSettlementVo bizOrderTaskpackageSettlementVo,
 			HttpServletRequest request, HttpServletResponse response, Model model) {
 		User user = UserUtils.getUser();
-		// 过滤门店
+
 		if (bizOrderTaskpackageSettlementVo.getStoreid() == null) {
 			String storeId = UserUtils.getUser().getStoreId();
 			if (StringUtils.isBlank(storeId)) {
@@ -441,7 +436,7 @@ public class BizOrderTaskpackageSettlementVoController extends BaseController {
 			model.addAttribute("storeDropEnable", true);
 		}
 
-		// 过滤工程模式
+
 		if (StringUtils.isBlank(bizOrderTaskpackageSettlementVo.getProjectMode())) {
 			if (null != user.getEmpId()) {
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -474,7 +469,7 @@ public class BizOrderTaskpackageSettlementVoController extends BaseController {
 			}
 		}
 
-		// 区域
+
 		if (bizOrderTaskpackageSettlementVo.getEnginDepartId() == null) {
 			if (StringUtils.isNoneBlank(UserUtils.getUser().getEmpId())) {
 				List<Integer> list = bizEmployeeService2
@@ -508,14 +503,12 @@ public class BizOrderTaskpackageSettlementVoController extends BaseController {
 				.queryOrderTaskpackageProcedure(bizOrderTaskpackageSettlementVo.getOrderTaskpackageId());
 
 		if (ConstantUtils.IS_QUALITY_GUARANTEE_YES.equals(bizOrderTaskpackageSettlementVo.getIsQualityGuarantee())) {
-			/*int count = guaranteeMoneyService.queryGuaranteeMoneyCount(
-					bizOrderTaskpackageSettlementVo.getTaskPackageTemplatId(),
-					bizOrderTaskpackageSettlementVo.getGroupId(), id);*/
-			// 计算累积质保金
+
+
 			Double guaranteeMoneySum = guaranteeMoneyService
 					.queryGuaranteeMoneySum(bizOrderTaskpackageSettlementVo.getGroupId(), id);
 			bizOrderTaskpackageSettlementVo.setGuaranteeMoneyAmountTotal(guaranteeMoneySum);
-			// 查询质保金余额
+
 			BizGuaranteeMoneyBalance bizGuaranteeMoneyBalance = bizGuaranteeMoneyBalanceService
 					.findGuaranteeMoneyBalanceByEmployeeId(bizOrderTaskpackageSettlementVo.getGroupId());
 			if (bizGuaranteeMoneyBalance == null) {
@@ -531,18 +524,14 @@ public class BizOrderTaskpackageSettlementVoController extends BaseController {
 				bizOrderTaskpackageSettlementVo
 						.setGuaranteeMoneyBalance(bizGuaranteeMoneyBalance.getGuaranteeMoneyBalance());
 			}
-			//2017-11-23  工人质保金改为从第一个任务包就扣除质保金
+
 			bizOrderTaskpackageSettlementVo.setGualityGuaranteeType(3);
-			/*if (count < 2) {
-				bizOrderTaskpackageSettlementVo.setGualityGuaranteeType(2);
-			} else {
-				bizOrderTaskpackageSettlementVo.setGualityGuaranteeType(3);
-			}*/
+
 		} else {
 			bizOrderTaskpackageSettlementVo.setGualityGuaranteeType(1);
 		}
 
-		// 质检罚款
+
 		Double qcAmount = settlementService
 				.queryQcWorkerPublishAmountTotal(bizOrderTaskpackageSettlementVo.getOrderTaskpackageId());
 
@@ -576,7 +565,7 @@ public class BizOrderTaskpackageSettlementVoController extends BaseController {
 	@RequestMapping(value = "settlementDetailLoadList")
 	public String settlementDetailLoadList(BizOrderTaskpackageSettlementVo bizOrderTaskpackageSettlementVo,
 			HttpServletRequest request, HttpServletResponse response, Model model) {
-		// 过滤门店
+
 		if (bizOrderTaskpackageSettlementVo.getStoreid() == null) {
 			String storeId = UserUtils.getUser().getStoreId();
 			if (StringUtils.isBlank(storeId)) {
@@ -600,7 +589,7 @@ public class BizOrderTaskpackageSettlementVoController extends BaseController {
 	@RequestMapping(value = "settlementTaskList")
 	public String settlementTaskList(BizOrderTaskpackageSettlementVo bizOrderTaskpackageSettlementVo, Model model) {
 		User user = UserUtils.getUser();
-		// 过滤门店
+
 		if (bizOrderTaskpackageSettlementVo.getStoreid() == null) {
 			String storeId = UserUtils.getUser().getStoreId();
 			if (StringUtils.isBlank(storeId)) {
@@ -613,7 +602,7 @@ public class BizOrderTaskpackageSettlementVoController extends BaseController {
 			model.addAttribute("storeDropEnable", true);
 		}
 
-		// 过滤工程模式
+
 		if (StringUtils.isBlank(bizOrderTaskpackageSettlementVo.getProjectMode())) {
 			if (null != user.getEmpId()) {
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -646,7 +635,7 @@ public class BizOrderTaskpackageSettlementVoController extends BaseController {
 			}
 		}
 
-		// 区域
+
 		if (bizOrderTaskpackageSettlementVo.getEnginDepartId() == null) {
 			if (StringUtils.isNoneBlank(UserUtils.getUser().getEmpId())) {
 				List<Integer> list = bizEmployeeService2
@@ -674,7 +663,7 @@ public class BizOrderTaskpackageSettlementVoController extends BaseController {
 	public String settlementTaskLoadList(BizOrderTaskpackageSettlementVo bizOrderTaskpackageSettlementVo,
 			HttpServletRequest request, HttpServletResponse response, Model model) {
 		User user = UserUtils.getUser();
-		// 过滤门店
+
 		if (bizOrderTaskpackageSettlementVo.getStoreid() == null) {
 			String storeId = UserUtils.getUser().getStoreId();
 			if (StringUtils.isBlank(storeId)) {
@@ -687,7 +676,7 @@ public class BizOrderTaskpackageSettlementVoController extends BaseController {
 			model.addAttribute("storeDropEnable", true);
 		}
 
-		// 过滤工程模式
+
 		if (StringUtils.isBlank(bizOrderTaskpackageSettlementVo.getProjectMode())) {
 			if (null != user.getEmpId()) {
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -720,7 +709,7 @@ public class BizOrderTaskpackageSettlementVoController extends BaseController {
 			}
 		}
 
-		// 区域
+
 		if (bizOrderTaskpackageSettlementVo.getEnginDepartId() == null) {
 			if (StringUtils.isNoneBlank(UserUtils.getUser().getEmpId())) {
 				List<Integer> list = bizEmployeeService2
@@ -746,20 +735,12 @@ public class BizOrderTaskpackageSettlementVoController extends BaseController {
 		return "modules/ordertaskpackagesettlement/bizOrderTaskpackageSettlementTaskList";
 	}
 
-	/**
-	 * 查询可撤回的结算单
-	 * 
-	 * @param bizOrderTaskpackageSettlementVo
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @return
-	 */
+
 	@RequestMapping(value = "querySettleCancelList")
 	public String querySettleCancelList(BizOrderTaskpackageSettlementVo bizOrderTaskpackageSettlementVo,
 			HttpServletRequest request, HttpServletResponse response, Model model) {
 		User user = UserUtils.getUser();
-		// 过滤门店
+
 		if (bizOrderTaskpackageSettlementVo.getStoreid() == null) {
 			String storeId = UserUtils.getUser().getStoreId();
 			if (StringUtils.isBlank(storeId)) {
@@ -772,7 +753,7 @@ public class BizOrderTaskpackageSettlementVoController extends BaseController {
 			model.addAttribute("storeDropEnable", true);
 		}
 
-		// 过滤工程模式
+
 		if (StringUtils.isBlank(bizOrderTaskpackageSettlementVo.getProjectMode())) {
 			if (null != user.getEmpId()) {
 				BizEmployee2 be = bizEmployeeService2.get(Integer.parseInt(user.getEmpId()));
@@ -805,7 +786,7 @@ public class BizOrderTaskpackageSettlementVoController extends BaseController {
 			}
 		}
 
-		// 区域
+
 		if (bizOrderTaskpackageSettlementVo.getEnginDepartId() == null) {
 			if (StringUtils.isNoneBlank(UserUtils.getUser().getEmpId())) {
 				List<Integer> list = bizEmployeeService2
@@ -830,11 +811,7 @@ public class BizOrderTaskpackageSettlementVoController extends BaseController {
 		return "modules/ordertaskpackagesettlement/bizOrderTaskpackageSettlementCancelList";
 	}
 
-	/**
-	 * 结算单撤回
-	 * 
-	 * @return
-	 */
+
 	@RequestMapping(value = "settleCancel")
 	public @ResponseBody String settleCancel(Integer id, String operateRemarks) {
 		String result = null;

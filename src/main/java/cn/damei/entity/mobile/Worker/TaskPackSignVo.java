@@ -4,46 +4,40 @@ import java.util.Date;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/** 
-* @author 梅浩   meihao@zzhyun.cn: 
-* @version 创建时间：2016年9月22日 下午6:35:08 
-* 项目经理(ItemManager)     订单(Order)    签到(Sign)      Vo
-*/
+
 
 public class TaskPackSignVo extends DataEntity2<TaskPackSignVo>{
 
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 
 	
-	//任务包id主键在 爷爷类中
-	private Integer orderId; //任务包相关订单id	
+
+	private Integer orderId;
 	public Integer getOrderId() {
 		return orderId;
 	}
 	public void setOrderId(Integer orderId) {
 		this.orderId = orderId;
 	}
-	private String workerLeaderName;//组长姓名
-	private Integer workerLeaderId;//组长id
-	private Integer itemManagerId;//项目经理id
-	private String itemManagerName;//项目经理姓名
-	private String itemManagerPhone;//项目经理电话
-	private String customerName;//客户姓名
-	private String customerMessage;//客户信息
-	private Date planStartDate;//计划开始日期
-	private Date planEndDate;//计划结束日期
-	private String  packStateName;//任务包状态名称
-	private String packStateId; //任务包状态
-	private String signFlag;//是否签到
-	private String packageName;//任务包名称
-	private Integer count;//签到数量
+	private String workerLeaderName;
+	private Integer workerLeaderId;
+	private Integer itemManagerId;
+	private String itemManagerName;
+	private String itemManagerPhone;
+	private String customerName;
+	private String customerMessage;
+	private Date planStartDate;
+	private Date planEndDate;
+	private String  packStateName;
+	private String packStateId;
+	private String signFlag;
+	private String packageName;
+	private Integer count;
 	private String lat;
 	private String lon;
-	private String settleStyle;//结算方式
-	private String isScrap; //已作废标识
+	private String settleStyle;
+	private String isScrap;
 	
 	public String getLat() {
 		return lat;

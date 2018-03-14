@@ -6,17 +6,14 @@ import java.util.Date;
 
 public class GuarMoney extends DataEntity2<GuarMoney>{
 
-	/**
-	 * @author qww
-	 * 2016-12-7
-	 */
+
 	private static final long serialVersionUID = 1L;
 
-	private Date deductTime; // 质保金产生时间
-	private Double guaranteeMoneyAmount; // 质保金额
-	private String itemCustomer; // 项目经理
-	private String customerMessage; // 客户信息
-	private String customerName; // 客户姓名
+	private Date deductTime;
+	private Double guaranteeMoneyAmount;
+	private String itemCustomer;
+	private String customerMessage;
+	private String customerName;
 
 	public Date getDeductTime() {
 		return deductTime;

@@ -3,30 +3,23 @@ package cn.damei.entity.modules;
 import java.io.Serializable;
 import java.util.Date;
 
-/**
- * <dl>
- * <dd>描述:工程台账延期单台账实体</dd>
- * <dd>公司: 智装</dd>
- * <dd>创建时间：2017/9/7</dd>
- * <dd>创建人：Chaos</dd>
- * </dl>
- */
+
 public class DelaySheet implements Serializable{
-    /**延期阶段**/
+
     private String delayBillStageStatus;
-    /**延期类别**/
+
     private String delayTypeName;
-    /**延期原因**/
+
     private String deferredInstruction;
-    /**延期开始时间**/
+
     private Date delayBeginDatetime;
-    /**延期结束时间**/
+
     private Date delayEndDatetime;
-    /**延期天数**/
+
     private String delayDays;
-    /**延期阶段值**/
+
     private String label;
-    /**延期单状态**/
+
     private String status;
 
     public String getDelayBillStageStatus() {

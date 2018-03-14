@@ -4,24 +4,20 @@ import java.util.Date;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 结算单修改日志实体类
- * @author hyh
- *
- */
+
 public class BizOrderTaskpackageSettlementUpdateLog extends DataEntity2<BizOrderTaskpackageSettlementUpdateLog>{
 
 	private static final long serialVersionUID = 1L;
 	
-	private Integer orderTaskpackageSettlementId; //结算单Id
+	private Integer orderTaskpackageSettlementId;
 	
-	private Double amountOld; //原来结算金额
+	private Double amountOld;
 	
-	private Double amountNew; //修改后的结算金额
+	private Double amountNew;
 	
-	private Integer operatorEmployeeId; //操作人
+	private Integer operatorEmployeeId;
 	
-	private Date operateDatetime; //操作时间
+	private Date operateDatetime;
 
 	public Integer getOrderTaskpackageSettlementId() {
 		return orderTaskpackageSettlementId;

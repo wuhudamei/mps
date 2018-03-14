@@ -12,11 +12,7 @@ import cn.damei.common.utils.DateUtils;
 import cn.damei.dao.mobile.Manager.RecheckScaleBillPushPullDoorDao;
 import cn.damei.entity.mobile.Manager.RecheckScaleBillPushPullDoor;
 
-/**
- * 上报复尺(20161107-20161113)
- * 
- * @author llp 2016-11-15
- */
+
 @Service
 @Transactional(readOnly = true)
 public class RecheckScaleBillPushPullDoorService
@@ -78,7 +74,7 @@ public class RecheckScaleBillPushPullDoorService
 	}
 
 	public List<RecheckScaleBillPushPullDoor> getByRecheckID(Integer recheckIDs) {
-		// TODO Auto-generated method stub
+
 		return recheckScaleBillPushpullDoorDao.getByRecheckID(recheckIDs);
 	}
 

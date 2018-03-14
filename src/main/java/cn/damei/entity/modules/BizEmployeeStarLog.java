@@ -1,32 +1,24 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import cn.damei.common.persistence.DataEntity;
 
-/**
- * 员工星级变更记录表Entity
- * @author ws
- * @version 2017-09-08
- */
+
 public class BizEmployeeStarLog extends DataEntity<BizEmployeeStarLog> {
 	
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
-	private Integer empId;//员工ID
-	private String starChangeSource;		// 星级变更来源
-	private Integer relatedBusinessId;       //评价分数ID
-	private String starScoreBefore;			//变更前星级得分
-	private String starScoreAfter;         //变更后星级得分
-	private Integer starBefore;            //变更前星级
-	private Integer starAfter;              //变更后星级
-	private String reasonType;                 //变更原因分类
-	private String changeDescribe;			//变更说明
-	private Integer changeEmpId;            //变更操作人ID
-	private String starChangeDatetime;		//变更日期时间
+	private Integer empId;
+	private String starChangeSource;
+	private Integer relatedBusinessId;
+	private String starScoreBefore;
+	private String starScoreAfter;
+	private Integer starBefore;
+	private Integer starAfter;
+	private String reasonType;
+	private String changeDescribe;
+	private Integer changeEmpId;
+	private String starChangeDatetime;
 	public BizEmployeeStarLog() {
 		super();
 	}

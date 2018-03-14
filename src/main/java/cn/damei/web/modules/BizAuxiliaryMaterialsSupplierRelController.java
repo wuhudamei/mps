@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import java.util.Date;
@@ -30,11 +28,7 @@ import cn.damei.entity.modules.BizAuxiliaryMaterialsSupplierRelService;
 import cn.damei.entity.modules.BizSupplier;
 import cn.damei.service.modules.BizSupplierService;
 
-/**
- * 辅料对应供应商Controller
- * @author chy
- * @version 2016-09-09
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/auxiliarymaterialssupplier/bizAuxiliaryMaterialsSupplierRel")
 public class BizAuxiliaryMaterialsSupplierRelController extends BaseController {
@@ -58,7 +52,7 @@ public class BizAuxiliaryMaterialsSupplierRelController extends BaseController {
 		return entity;
 	}
 	
-//	@RequiresPermissions("auxiliarymaterialssupplier:bizAuxiliaryMaterialsSupplierRel:view")
+
 	@RequestMapping(value = {"list", ""})
 	public String list(BizAuxiliaryMaterialsSupplierRel bizAuxiliaryMaterialsSupplierRel, HttpServletRequest request, HttpServletResponse response, Model model) {
 		BizAuxiliaryMaterials bizAuxiliaryMaterials = bizAuxiliaryMaterialsService.get(bizAuxiliaryMaterialsSupplierRel.getAuxiliaryMaterialsId());
@@ -69,14 +63,7 @@ public class BizAuxiliaryMaterialsSupplierRelController extends BaseController {
 		return "modules/auxiliarymaterialssupplier/bizAuxiliaryMaterialsSupplierRelList";
 	}
 	
-	/**
-	 * 网真
-	 * @param bizAuxiliaryMaterialsSupplierRel
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @return
-	 */
+
 	@RequestMapping(value = "WZlist")
 	public String WZlist(BizAuxiliaryMaterialsSupplierRel bizAuxiliaryMaterialsSupplierRel, HttpServletRequest request, HttpServletResponse response, Model model) {
 		BizAuxiliaryMaterials bizAuxiliaryMaterials = bizAuxiliaryMaterialsService.get(bizAuxiliaryMaterialsSupplierRel.getAuxiliaryMaterialsId());
@@ -86,12 +73,7 @@ public class BizAuxiliaryMaterialsSupplierRelController extends BaseController {
 		model.addAttribute("bizAuxiliaryMaterials", bizAuxiliaryMaterials);
 		return "modules/auxiliarymaterialssupplier/bizWZAuxiliaryMaterialsSupplierRelList";
 	}
-	/**
-	 * WZ
-	 * @param bizAuxiliaryMaterialsSupplierRel
-	 * @param model
-	 * @return
-	 */
+
 	@RequestMapping(value = "wZform")
 	public String wZform(BizAuxiliaryMaterialsSupplierRel bizAuxiliaryMaterialsSupplierRel, Model model) {
 		List<Integer> list = bizAuxiliaryMaterialsSupplierRelService.findSupplierName(bizAuxiliaryMaterialsSupplierRel);
@@ -99,31 +81,25 @@ public class BizAuxiliaryMaterialsSupplierRelController extends BaseController {
 			Integer id = list.get(0);
 			bizAuxiliaryMaterialsSupplierRel.setSupplierId(id+"");
 		}
-		/*model.addAttribute("supplierName",list);*/
+
 		model.addAttribute("bizAuxiliaryMaterialsSupplierRel", bizAuxiliaryMaterialsSupplierRel);
 		return "modules/auxiliarymaterialssupplier/bizWZAuxiliaryMaterialsSupplierRelForm";
 	}
 	
-	/**
-	 * wz
-	 * @param bizAuxiliaryMaterialsSupplierRel
-	 * @param model
-	 * @param redirectAttributes
-	 * @return
-	 */
+
 	@RequestMapping(value = "saveWz")
 	public String saveWz(BizAuxiliaryMaterialsSupplierRel bizAuxiliaryMaterialsSupplierRel, Model model, RedirectAttributes redirectAttributes) {
 		if (!beanValidator(model, bizAuxiliaryMaterialsSupplierRel)){
 			return wZform(bizAuxiliaryMaterialsSupplierRel, model);
 		}
-		//添加供应商编号
+
 		if (bizAuxiliaryMaterialsSupplierRel.getId() == null || "".equals(bizAuxiliaryMaterialsSupplierRel.getId())) {
 			BizSupplier sup=bizSupplierService.get(bizAuxiliaryMaterialsSupplierRel.getSupplierId());
 			if(sup!=null){
 				bizAuxiliaryMaterialsSupplierRel.setSupplierNo(sup.getSupplierNo());
 			}
         }
-		//添加版本号
+
 		Integer maxVersion=bizAuxiliaryMaterialsSupplierRelService.getMaxVersion(bizAuxiliaryMaterialsSupplierRel);
 		if(maxVersion==null){
 			maxVersion=0;
@@ -137,14 +113,7 @@ public class BizAuxiliaryMaterialsSupplierRelController extends BaseController {
 	}
 	
 	
-	/**
-	 * 供应商
-	 * @param bizAuxiliaryMaterialsSupplierRel
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @return
-	 */
+
 	@RequestMapping(value = "supplierList")
 	public String supplierList(BizAuxiliaryMaterialsSupplierRel bizAuxiliaryMaterialsSupplierRel, HttpServletRequest request, HttpServletResponse response, Model model) {
 		BizAuxiliaryMaterials bizAuxiliaryMaterials = bizAuxiliaryMaterialsService.get(bizAuxiliaryMaterialsSupplierRel.getAuxiliaryMaterialsId());
@@ -155,12 +124,7 @@ public class BizAuxiliaryMaterialsSupplierRelController extends BaseController {
 		return "modules/auxiliarymaterialssupplier/bizSupplierListAuxiliaryMaterialsSupplierRelList";
 	}
 	
-	/**
-	 * 供应商
-	 * @param bizAuxiliaryMaterialsSupplierRel
-	 * @param model
-	 * @return
-	 */
+
 	@RequestMapping(value = "supplierform")
 	public String supplierForm(BizAuxiliaryMaterialsSupplierRel bizAuxiliaryMaterialsSupplierRel, Model model) {
 		List<Integer> list = bizAuxiliaryMaterialsSupplierRelService.findSupplierName(bizAuxiliaryMaterialsSupplierRel);
@@ -168,31 +132,25 @@ public class BizAuxiliaryMaterialsSupplierRelController extends BaseController {
 			Integer id = list.get(0);
 			bizAuxiliaryMaterialsSupplierRel.setSupplierId(id+"");
 		}
-		/*model.addAttribute("supplierName",list);*/
+
 		model.addAttribute("bizAuxiliaryMaterialsSupplierRel", bizAuxiliaryMaterialsSupplierRel);
 		return "modules/auxiliarymaterialssupplier/bizSupplierAuxiliaryMaterialsSupplierRelForm";
 	}
 	
-	/**
-	 * 供应商
-	 * @param bizAuxiliaryMaterialsSupplierRel
-	 * @param model
-	 * @param redirectAttributes
-	 * @return
-	 */
+
 	@RequestMapping(value = "saveSupplier")
 	public String saveSupplier(BizAuxiliaryMaterialsSupplierRel bizAuxiliaryMaterialsSupplierRel, Model model, RedirectAttributes redirectAttributes) {
 		if (!beanValidator(model, bizAuxiliaryMaterialsSupplierRel)){
 			return wZform(bizAuxiliaryMaterialsSupplierRel, model);
 		}
-		//添加供应商编号
+
 		if (bizAuxiliaryMaterialsSupplierRel.getId() == null || "".equals(bizAuxiliaryMaterialsSupplierRel.getId())) {
 			BizSupplier sup=bizSupplierService.get(bizAuxiliaryMaterialsSupplierRel.getSupplierId());
 			if(sup!=null){
 				bizAuxiliaryMaterialsSupplierRel.setSupplierNo(sup.getSupplierNo());
 			}
         }
-		//添加版本号
+
 		Integer maxVersion=bizAuxiliaryMaterialsSupplierRelService.getMaxVersion(bizAuxiliaryMaterialsSupplierRel);
 		if(maxVersion==null){
 			maxVersion=0;
@@ -205,7 +163,7 @@ public class BizAuxiliaryMaterialsSupplierRelController extends BaseController {
 		return "redirect:"+Global.getAdminPath()+"/auxiliarymaterialssupplier/bizAuxiliaryMaterialsSupplierRel/supplierList?auxiliaryMaterialsId="+bizAuxiliaryMaterialsSupplierRel.getAuxiliaryMaterialsId()+"&repage";
 	}
 	
-//	@RequiresPermissions("auxiliarymaterialssupplier:bizAuxiliaryMaterialsSupplierRel:view")
+
 	@RequestMapping(value = "form")
 	public String form(BizAuxiliaryMaterialsSupplierRel bizAuxiliaryMaterialsSupplierRel, Model model) {
 		List<Integer> list = bizAuxiliaryMaterialsSupplierRelService.findSupplierName(bizAuxiliaryMaterialsSupplierRel);
@@ -213,25 +171,25 @@ public class BizAuxiliaryMaterialsSupplierRelController extends BaseController {
 			Integer id = list.get(0);
 			bizAuxiliaryMaterialsSupplierRel.setSupplierId(id+"");
 		}
-		/*model.addAttribute("supplierName",list);*/
+
 		model.addAttribute("bizAuxiliaryMaterialsSupplierRel", bizAuxiliaryMaterialsSupplierRel);
 		return "modules/auxiliarymaterialssupplier/bizAuxiliaryMaterialsSupplierRelForm";
 	}
 
-//	@RequiresPermissions("auxiliarymaterialssupplier:bizAuxiliaryMaterialsSupplierRel:edit")
+
 	@RequestMapping(value = "save")
 	public String save(BizAuxiliaryMaterialsSupplierRel bizAuxiliaryMaterialsSupplierRel, Model model, RedirectAttributes redirectAttributes) {
 		if (!beanValidator(model, bizAuxiliaryMaterialsSupplierRel)){
 			return form(bizAuxiliaryMaterialsSupplierRel, model);
 		}
-		//添加供应商编号
+
 		if (bizAuxiliaryMaterialsSupplierRel.getId() == null || "".equals(bizAuxiliaryMaterialsSupplierRel.getId())) {
 			BizSupplier sup=bizSupplierService.get(bizAuxiliaryMaterialsSupplierRel.getSupplierId());
 			if(sup!=null){
 				bizAuxiliaryMaterialsSupplierRel.setSupplierNo(sup.getSupplierNo());
 			}
         }
-		//添加版本号
+
 		Integer maxVersion=bizAuxiliaryMaterialsSupplierRelService.getMaxVersion(bizAuxiliaryMaterialsSupplierRel);
 		if(maxVersion==null){
 			maxVersion=0;
@@ -244,14 +202,10 @@ public class BizAuxiliaryMaterialsSupplierRelController extends BaseController {
 		return "redirect:"+Global.getAdminPath()+"/auxiliarymaterialssupplier/bizAuxiliaryMaterialsSupplierRel/?auxiliaryMaterialsId="+bizAuxiliaryMaterialsSupplierRel.getAuxiliaryMaterialsId()+"&repage";
 	}
 	
-	/**
-	 * 检查同一个供应商生效日期当天是否已经有记录
-	 * @param teamId
-	 * @return
-	 */
+
 	@RequestMapping(value = "checkEffectiveDate" ,method= RequestMethod.POST)
 	public @ResponseBody String checkEffectiveDate(@RequestParam(value="id" )String id,@RequestParam(value="auxiliaryMaterialsId" )String auxiliaryMaterialsId,@RequestParam(value="supplierId" )String supplierId,@RequestParam(value="effectiveDate" )Date effectiveDate) {
-		//查询同一个供应商生效日期当天是否已经有记录
+
 		BizAuxiliaryMaterialsSupplierRel prm=new BizAuxiliaryMaterialsSupplierRel();
 		prm.setAuxiliaryMaterialsId(auxiliaryMaterialsId);
 		prm.setSupplierId(supplierId);
@@ -275,7 +229,7 @@ public class BizAuxiliaryMaterialsSupplierRelController extends BaseController {
 	
 	
 	
-//	@RequiresPermissions("auxiliarymaterialssupplier:bizAuxiliaryMaterialsSupplierRel:edit")
+
 	@RequestMapping(value = "delete")
 	public String delete(BizAuxiliaryMaterialsSupplierRel bizAuxiliaryMaterialsSupplierRel, RedirectAttributes redirectAttributes) {
 		bizAuxiliaryMaterialsSupplierRelService.delete(bizAuxiliaryMaterialsSupplierRel);

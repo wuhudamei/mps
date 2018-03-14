@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import org.hibernate.validator.constraints.Length;
@@ -8,27 +6,23 @@ import java.util.Date;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 业务催促表Entity
- * @author wyb
- * @version 2017-05-03
- */
+
 public class BizBusinessUrge extends DataEntity2<BizBusinessUrge> {
 	
 	private static final long serialVersionUID = 1L;
-	private Integer businessOnlyMarkInt;		// 业务唯一标识整型
-	private String businessOnlyMarkVarchar;		// 业务唯一标识字符型
-	private String businesType;		// 业务类型
-	private String businesTypeName;		// 业务类型 名称
-	private String operateType;		// 操作类型
-	private String operateTypeName;		// 操作类型 名称
-	private String operateContent;		// 操作内容
-	private Integer operatorEmployeeId;		// 操作人员工id
-	private String operatorEmployeeName;		// 操作人员工id 名称
-	private String operatorType;		// 操作人类型
-	private String operatorTypeName;		// 操作人类型 名称
-	private Date operateDatetime;		// 操作日期时间
-	private String createId;	//创建人id
+	private Integer businessOnlyMarkInt;
+	private String businessOnlyMarkVarchar;
+	private String businesType;
+	private String businesTypeName;
+	private String operateType;
+	private String operateTypeName;
+	private String operateContent;
+	private Integer operatorEmployeeId;
+	private String operatorEmployeeName;
+	private String operatorType;
+	private String operatorTypeName;
+	private Date operateDatetime;
+	private String createId;
 	
 	
 	

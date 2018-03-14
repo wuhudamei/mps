@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.web.modules;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,11 +25,7 @@ import cn.damei.service.modules.BizTodoItemTypeService;
 import java.util.List;
 import java.util.Map;
 
-/**
- * 待办配置Controller
- * @author mh
- * @version 2017-07-14
- */
+
 @Controller
 @RequestMapping(value = "${adminPath}/biztodotype/bizTodoItemType")
 public class BizTodoItemTypeController extends BaseController {

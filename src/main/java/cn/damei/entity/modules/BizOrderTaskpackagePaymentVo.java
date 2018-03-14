@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.entity.modules;
 
 import java.util.ArrayList;
@@ -9,11 +7,7 @@ import java.util.List;
 
 import cn.damei.common.persistence.DataEntity2;
 
-/**
- * 付款单VoEntity
- * @author qww
- * @version 2016-10-26
- */
+
 public class BizOrderTaskpackagePaymentVo extends DataEntity2<BizOrderTaskpackagePaymentVo> {
 	
 	private static final long serialVersionUID = 1L;
@@ -28,7 +22,7 @@ public class BizOrderTaskpackagePaymentVo extends DataEntity2<BizOrderTaskpackag
 	private String packageName;
 	private String status;
 	private String statusName;
-	private String frozenRemarksTow;//冻结/解冻说明
+	private String frozenRemarksTow;
 	private String orderTaskpackagePaymentType;
 	private Double amount;
 	
@@ -38,16 +32,16 @@ public class BizOrderTaskpackagePaymentVo extends DataEntity2<BizOrderTaskpackag
 	private String packageCode;
 	private Integer orderTaskpackageId;
 	private Float advancePaymentRates;
-	private Integer qcBillId; //质检单id
+	private Integer qcBillId;
 
 	private Date generatedDatetime;
-	private Date beginGeneratedDatetime; // 付款单生成日期开始
-	private Date endGeneratedDatetime; // 付款单生成日期结束
-	private String itemCustomer; // 项目经理
+	private Date beginGeneratedDatetime;
+	private Date endGeneratedDatetime;
+	private String itemCustomer;
 	private List<String> paymentStatus;
-	private String customerPhone; // 客户手机号
-	private Integer enginDepartId; // 区域
-	private String enginDepartName; // 区域名称
+	private String customerPhone;
+	private Integer enginDepartId;
+	private String enginDepartName;
 	private List<Integer> enginDepartIds = new ArrayList<Integer>();
 	
 	public BizOrderTaskpackagePaymentVo() {

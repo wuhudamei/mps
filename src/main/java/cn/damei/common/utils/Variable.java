@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package cn.damei.common.utils;
 
 import java.util.Map;
@@ -10,11 +8,7 @@ import org.apache.commons.beanutils.ConvertUtils;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.collect.Maps;
 
-/**
- * 流程变量对象
- * @author ThinkGem
- * @version 2013-11-03
- */
+
 public class Variable {
 
 	private Map<String, Object> map = Maps.newHashMap();
