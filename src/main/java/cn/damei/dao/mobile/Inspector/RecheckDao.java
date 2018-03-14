@@ -11,7 +11,7 @@ import cn.damei.entity.mobile.Inspector.ReportCheckDetailsPic;
  * 
  * @author 梅浩
  * @2016年11月9日
- * @mdn美得你
+ * @mdn大美装饰管理平台
  * @author_phone : 18610507472
  */
 @MyBatisDao

@@ -311,7 +311,7 @@ public class ChecksizeNewService extends CrudService2<ChecksizeNewDao,Checksize>
 		/**
 		 * 项目经理申请厂家复尺==材料员
 		 */
-		//材料员【美得你】订单（小区名-楼号-单元号-门牌号-客户姓名-手机号），项目经理（姓名-手机号），项目经理已申请复尺（复尺内容），请及时登录系统联系供应商。
+		//材料员【大美装饰管理平台】订单（小区名-楼号-单元号-门牌号-客户姓名-手机号），项目经理（姓名-手机号），项目经理已申请复尺（复尺内容），请及时登录系统联系供应商。
 		String content = "订单（"+order.getCommunityName()+"-"+order.getBuildNumber()+"-"+order.getBuildUnit()+"-"+order.getBuildRoom()+"-"+order.getCustomerName()+"-"+order.getCustomerPhone()+"），项目经理（"+manager.getRealname()+"-"+manager.getPhone()+"），项目经理已申请复尺（"+check+"），请及时登录系统联系供应商。";
 		BizMessagegroup bizMessagegroup = bizMessagegroupService.getByStoreId(order.getStoreId()+"","9");
 		List<Integer> list = new ArrayList<Integer>();

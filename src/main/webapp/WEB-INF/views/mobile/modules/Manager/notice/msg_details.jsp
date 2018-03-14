@@ -29,7 +29,7 @@
 			<p class="font28 col_3 mar_top3 mar_btm5 line_hgt_em indent">
 				${message.msgContent }
 			</p>
-			<p class="font28 col_6 align_rgt mar_btm3">美得你家装互联网公司</p>
+			<p class="font28 col_6 align_rgt mar_btm3">大美装饰管理平台家装互联网公司</p>
 			<p class="font24 col_6 align_rgt">
 				<fmt:formatDate value="${message.msgTime }" pattern="yyyy-MM-dd HH:mm:ss"/>
 			</p>

@@ -32,7 +32,7 @@
 			<p class="font28 col_3 mar_top3 mar_btm5 line_hgt_em indent">
 				工程部文员还未添加墙地砖数据，请联系工程部文员或大区经理。
 			</p>
-			<p class="font28 col_6 align_rgt mar_btm3">美得你家装互联网公司</p>
+			<p class="font28 col_6 align_rgt mar_btm3">大美装饰管理平台家装互联网公司</p>
 		</section>
 	</div>
 	<script type="text/javascript" src="${ctxStatic}/mobile/modules/Worker/js/lib/jquery-2.1.1.min.js"></script>

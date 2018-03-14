@@ -116,7 +116,7 @@
 				<label class="control-label">门店结算价（元）：</label>
 				<div class="controls">
 					<form:input path="wangZhenPrice" htmlEscape="false" min="0"  class="input-xlarge number " required="required" />
-					<span style="color: red;">*网真提供给美得你的价格</span>
+					<span style="color: red;">*网真提供给大美装饰管理平台的价格</span>
 				</div>
 		</div>
 		<div class="control-group">

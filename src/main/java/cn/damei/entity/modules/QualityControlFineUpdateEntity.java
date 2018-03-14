@@ -7,7 +7,7 @@ import cn.damei.common.persistence.DataEntity;
  * 
  * @author lzm
  * @2017年7月7日
- * @mdn美得你
+ * @mdn大美装饰管理平台
  * @author_phone : 
  * @ClassInfo:质检罚款修改
  */

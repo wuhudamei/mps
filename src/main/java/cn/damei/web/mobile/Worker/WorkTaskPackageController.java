@@ -365,7 +365,7 @@ public class WorkTaskPackageController {
 			/**
 			 * 工人申请完工==项目经理
 			 */
-			//项目经理【美得你】订单（小区名-楼号-单元号-门牌号-客户姓名-手机号）的任务包（任务包名称），工人（工人组长-手机号）已申请完工，请及时验收任务包。
+			//项目经理【大美装饰管理平台】订单（小区名-楼号-单元号-门牌号-客户姓名-手机号）的任务包（任务包名称），工人（工人组长-手机号）已申请完工，请及时验收任务包。
 			String content = "订单（"+customerMessage+"-"+customerName+"-"+workTaskPackage.getCustomerPhone()+"）的任务包（"+packageName+"），工人（"+worker.getRealname()+"-"+worker.getPhone()+"）已申请完工，请及时验收任务包。";
 			BizPhoneMsg phone = new BizPhoneMsg();
 			phone.setReceiveEmployeeId(workTaskPackage.getManagerId());

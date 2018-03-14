@@ -143,7 +143,7 @@ private BizOrderReportDao reportDao;
 			//PhoneMessageEntity phone = new PhoneMessageEntity();
             //
             //
-			//String content = "【美得你】亲爱的美得你员工，您推荐的客户"+orderReport.getCustomerName()+"与美得你签订装修合同了，您的奖励将在下月兑现。如有新的客户，记得再次向“小美返单”推荐哦";
+			//String content = "【大美装饰管理平台】亲爱的大美装饰管理平台员工，您推荐的客户"+orderReport.getCustomerName()+"与大美装饰管理平台签订装修合同了，您的奖励将在下月兑现。如有新的客户，记得再次向“小美返单”推荐哦";
             //
 			//phone.setReceivePhone(orderReport.getReporterPhone());
 			//phone.setMessageContent(content);

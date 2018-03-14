@@ -30,7 +30,7 @@
 					<div class="nav nav-tabs">
 						<h2>
 							<center>
-								美的你--自主支配明细
+								大美装饰管理平台--自主支配明细
 							</center>
 						</h2>
 					</div>

@@ -24,7 +24,7 @@
 					<div >
 						<h3>
 							<center>
-								美得你--收货单-${ purchaseReceiveBill.purchaseReceiveBillCode }
+								大美装饰管理平台--收货单-${ purchaseReceiveBill.purchaseReceiveBillCode }
 							</center>
 						</h3>
 					</div>

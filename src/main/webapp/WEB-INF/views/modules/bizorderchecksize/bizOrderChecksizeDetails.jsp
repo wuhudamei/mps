@@ -30,7 +30,7 @@
 						<table style="width:100%" align="center" valign="center">
 							<tr>
 								<td style="text-align:center" >
-									<font><h3>美得你--复尺单</h3></font>
+									<font><h3>大美装饰管理平台--复尺单</h3></font>
 								</td>
 							</tr>
 							<tr>

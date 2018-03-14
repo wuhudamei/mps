@@ -53,7 +53,7 @@ public class ExportExcelKanban {
             }  
             // ---------------------------2.指定单元格填充数据------------------------------  
             cell = sheet.getRow(0).getCell(0);  
-            cell.setCellValue(new HSSFRichTextString("美得你工地精细化管理可视看板"));  
+            cell.setCellValue(new HSSFRichTextString("大美装饰管理平台工地精细化管理可视看板"));
             cell = sheet.getRow(1).getCell(0);  
             cell.setCellValue(new HSSFRichTextString("合同编号"));  
             cell = sheet.getRow(1).getCell(1);  
@@ -75,7 +75,7 @@ public class ExportExcelKanban {
             
             // ---------------------------2.指定单元格填充数据------------------------------  
             cell = sheet.getRow(0).getCell(9);  
-            cell.setCellValue(new HSSFRichTextString("美得你工地精细化管理可视看板"));  
+            cell.setCellValue(new HSSFRichTextString("大美装饰管理平台工地精细化管理可视看板"));
             cell = sheet.getRow(1).getCell(9);  
             cell.setCellValue(new HSSFRichTextString("合同编号"));  
             cell = sheet.getRow(1).getCell(12);  
@@ -141,7 +141,7 @@ public class ExportExcelKanban {
             }  
             // ---------------------------2.指定单元格填充数据1------------------------------  
             cell = sheet.getRow(0).getCell(0);  
-            cell.setCellValue(new HSSFRichTextString("美得你工地精细化管理可视看板"));  
+            cell.setCellValue(new HSSFRichTextString("大美装饰管理平台工地精细化管理可视看板"));
             cell = sheet.getRow(1).getCell(0);  
             cell.setCellValue(new HSSFRichTextString("合同编号"));  
             cell = sheet.getRow(1).getCell(1);  
@@ -163,7 +163,7 @@ public class ExportExcelKanban {
             
             // ---------------------------2.指定单元格填充数据2------------------------------  
             cell = sheet.getRow(0).getCell(9);  
-            cell.setCellValue(new HSSFRichTextString("美得你工地精细化管理可视看板"));
+            cell.setCellValue(new HSSFRichTextString("大美装饰管理平台工地精细化管理可视看板"));
             //计算得到工序表数据
             for (int i = 0; i < csList.size(); i++) {
             	BizConstructionSchedule Schedule = csList.get(i);

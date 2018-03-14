@@ -164,7 +164,7 @@
 	</form>
 	 <div style="background:rgba(0,0,0,.4);z-index:9;" class="g-mask undis" id ="subReport">
 			<div id="g-done_ask">
-				<p class="first">尊敬的美得你质检员,确定提交报告吗?</p>
+				<p class="first">尊敬的大美装饰管理平台质检员,确定提交报告吗?</p>
 				<p class="second">
 					
 					<a href="#" onclick="hideSubmitAlert()">取消</a>

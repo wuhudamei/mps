@@ -130,7 +130,7 @@ public class BizOrderReportService extends CrudService2<BizOrderReportDao,BizOrd
 //			PhoneMessageEntity phone = new PhoneMessageEntity();
 //
 //
-//			String content = "【美得你】亲爱的美得你员工，您推荐的客户"+bizOrderReport.getCustomerName()+"已进美得你门店了，您的奖励将在下月兑现。如有新的客户，记得再次向“小美返单”推荐哦";
+//			String content = "【大美装饰管理平台】亲爱的大美装饰管理平台员工，您推荐的客户"+bizOrderReport.getCustomerName()+"已进大美装饰管理平台门店了，您的奖励将在下月兑现。如有新的客户，记得再次向“小美返单”推荐哦";
 //
 //			phone.setReceivePhone(bizOrderReport.getCustomerPhone());
 //			phone.setMessageContent(content);
@@ -176,7 +176,7 @@ public class BizOrderReportService extends CrudService2<BizOrderReportDao,BizOrd
 //			PhoneMessageEntity phone = new PhoneMessageEntity();
 //
 //
-//			String content = "【美得你】亲爱的美得你员工，您推荐的客户"+bizOrderReport.getCustomerName()+"已进美得你门店了，您的奖励将在下月兑现。如有新的客户，记得再次向“小美返单”推荐哦";
+//			String content = "【大美装饰管理平台】亲爱的大美装饰管理平台员工，您推荐的客户"+bizOrderReport.getCustomerName()+"已进大美装饰管理平台门店了，您的奖励将在下月兑现。如有新的客户，记得再次向“小美返单”推荐哦";
 //
 //			phone.setReceivePhone(bizOrderReport.getCustomerPhone());
 //			phone.setMessageContent(content);
@@ -231,7 +231,7 @@ public class BizOrderReportService extends CrudService2<BizOrderReportDao,BizOrd
 //			PhoneMessageEntity phone = new PhoneMessageEntity();
 //
 //
-//			String content = "【美得你】亲爱的美得你员工，您推荐的客户"+bizOrderReport.getCustomerName()+"已成功与美得你签订装修合同了，您的奖励将在下月兑现。如有新的客户，记得再次向“小美返单”推荐哦";
+//			String content = "【大美装饰管理平台】亲爱的大美装饰管理平台员工，您推荐的客户"+bizOrderReport.getCustomerName()+"已成功与大美装饰管理平台签订装修合同了，您的奖励将在下月兑现。如有新的客户，记得再次向“小美返单”推荐哦";
 //
 //			phone.setReceivePhone(bizOrderReport.getCustomerPhone());
 //			phone.setMessageContent(content);
@@ -302,7 +302,7 @@ public class BizOrderReportService extends CrudService2<BizOrderReportDao,BizOrd
 //		PhoneMessageEntity phone = new PhoneMessageEntity();
 //
 //
-//		String content = "【美得你】亲爱的美得你员工，您推荐的客户"+bizOrderReport.getCustomerName()+"与美得你签订装修合同了，您的奖励将在下月兑现。如有新的客户，记得再次向“小美返单”推荐哦";
+//		String content = "【大美装饰管理平台】亲爱的大美装饰管理平台员工，您推荐的客户"+bizOrderReport.getCustomerName()+"与大美装饰管理平台签订装修合同了，您的奖励将在下月兑现。如有新的客户，记得再次向“小美返单”推荐哦";
 //
 //		phone.setReceivePhone(bizOrderReport.getReporterPhone());
 //		phone.setMessageContent(content);

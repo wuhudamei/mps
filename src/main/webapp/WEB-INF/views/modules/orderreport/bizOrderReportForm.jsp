@@ -232,7 +232,7 @@
 				</td>
 
 				<td><div class="control-group">
-					<label class="control-label">客户本人或家人是否曾在美得你咨询过：</label>
+					<label class="control-label">客户本人或家人是否曾在大美装饰管理平台咨询过：</label>
 					<div class="controls">
 						<form:radiobuttons path="isAsked"
 										   items="${fns:getDictList('yes_no')}" itemLabel="label"

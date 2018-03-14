@@ -34,7 +34,7 @@
 					<div >
 						<h3>
 							<center>
-								美得你--标化辅材明细--${ list.materialsStandardReceiveBillCode }
+								大美装饰管理平台--标化辅材明细--${ list.materialsStandardReceiveBillCode }
 							</center>
 						</h3>
 					</div>

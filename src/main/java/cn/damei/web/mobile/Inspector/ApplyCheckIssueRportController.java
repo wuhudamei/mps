@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 /**
  * @author 梅浩
  * @2017年5-22
- * @mdn美得你
+ * @mdn大美装饰管理平台
  * @author_phone : 18610507472
  * @ClassInfo:约检问题上报
  */

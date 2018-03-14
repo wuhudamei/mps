@@ -176,7 +176,7 @@ public class OrderComplaintMsgAndPhoneQuartz {
     public String getContent() {
 
 
-        String content = "工程投诉 : 客户" + customerName + "，地址" + customerInfo + "的工地存在“" + problemName + "”的工程问题，已超过标准执行时限，请您及时到美得你工程APP的工程投诉中查看投诉问题内容，并尽快处理答复，以免延期造成罚款。";
+        String content = "工程投诉 : 客户" + customerName + "，地址" + customerInfo + "的工地存在“" + problemName + "”的工程问题，已超过标准执行时限，请您及时到大美装饰管理平台工程APP的工程投诉中查看投诉问题内容，并尽快处理答复，以免延期造成罚款。";
 
         return content;
 

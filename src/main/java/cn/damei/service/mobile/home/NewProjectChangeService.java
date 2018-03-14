@@ -171,7 +171,7 @@ public class NewProjectChangeService {
 		/**
 		 * 1.客户审核==通过==项目经理
 		 */
-		//【美得你】订单（小区名-楼号-单元号-门牌号-客户姓名-手机号），施工变更单客户已审核通过，请登录APP查看详情。
+		//【大美装饰管理平台】订单（小区名-楼号-单元号-门牌号-客户姓名-手机号），施工变更单客户已审核通过，请登录APP查看详情。
 		String content = "订单（"+change.getCommunityName()+"-"+change.getBuildNumber()+"-"+change.getBuildUnit()+"-"+change.getBuildRoom()+"-"+change.getCustomerName()+"-"+change.getCustomerPhone()+"），施工变更单客户已审核通过，请登录APP查看详情。";
 		BizPhoneMsg phone = new BizPhoneMsg();
 		phone.setReceiveEmployeeId(change.getItemManagerId());
@@ -186,7 +186,7 @@ public class NewProjectChangeService {
 		/**
 		 * 2.客户审核==通过==财务
 		 */
-		//【美得你】订单（小区名-楼号-单元号-门牌号-客户姓名-手机号），施工变更单客户已审核通过，请及时登录系统存档。
+		//【大美装饰管理平台】订单（小区名-楼号-单元号-门牌号-客户姓名-手机号），施工变更单客户已审核通过，请及时登录系统存档。
 		String content2 = "订单（"+change.getCommunityName()+"-"+change.getBuildNumber()+"-"+change.getBuildUnit()+"-"+change.getBuildRoom()+"-"+change.getCustomerName()+"-"+change.getCustomerPhone()+"），施工变更单客户已审核通过，请及时登录系统存档。";
 		BizMessagegroup bizMessagegroup = bizMessagegroupService.getByStoreId(change.getStoreId(),"10");
 		List<Integer> list = new ArrayList<Integer>();
@@ -215,7 +215,7 @@ public class NewProjectChangeService {
 		/**
 		 * 3.客户审核==通过==设计师
 		 */
-		//【美得你】订单（小区名-楼号-单元号-门牌号-客户姓名-手机号），施工变更单客户已审核通过，请登录系统查看详情。
+		//【大美装饰管理平台】订单（小区名-楼号-单元号-门牌号-客户姓名-手机号），施工变更单客户已审核通过，请登录系统查看详情。
 		String content3 = "订单（"+change.getCommunityName()+"-"+change.getBuildNumber()+"-"+change.getBuildUnit()+"-"+change.getBuildRoom()+"-"+change.getCustomerName()+"-"+change.getCustomerPhone()+"），施工变更单客户已审核通过，请登录系统查看详情。";
 		BizPhoneMsg phone3 = new BizPhoneMsg();
 		phone3.setReceivePhone(change.getDesignerPhone());
@@ -229,7 +229,7 @@ public class NewProjectChangeService {
 		/**
 		 * 4.客户审核==通过==审计员
 		 */
-		//【美得你】订单（小区名-楼号-单元号-门牌号-客户姓名-手机号），施工变更单客户已审核通过，请登录系统查看详情。
+		//【大美装饰管理平台】订单（小区名-楼号-单元号-门牌号-客户姓名-手机号），施工变更单客户已审核通过，请登录系统查看详情。
 		String content4 = "订单（"+change.getCommunityName()+"-"+change.getBuildNumber()+"-"+change.getBuildUnit()+"-"+change.getBuildRoom()+"-"+change.getCustomerName()+"-"+change.getCustomerPhone()+"），施工变更单客户已审核通过，请登录系统查看详情。";
 		BizMessagegroup bizMessagegroup2 = bizMessagegroupService.getByStoreId(change.getStoreId(),"11");
 		List<Integer> list2 = new ArrayList<Integer>();
@@ -295,7 +295,7 @@ public class NewProjectChangeService {
 		/**
 		 * 客户审核==驳回==项目经理
 		 */
-		//【美得你】订单（小区名-楼号-单元号-门牌号-客户姓名-手机号），施工变更单客户审核不通过，驳回原因（原因），请登录APP重新提交。
+		//【大美装饰管理平台】订单（小区名-楼号-单元号-门牌号-客户姓名-手机号），施工变更单客户审核不通过，驳回原因（原因），请登录APP重新提交。
 		String content = "订单（"+change.getCommunityName()+"-"+change.getBuildNumber()+"-"+change.getBuildUnit()+"-"+change.getBuildRoom()+"-"+change.getCustomerName()+"-"+change.getCustomerPhone()+"），施工变更单客户审核不通过，驳回原因（"+reason+"），请登录APP重新提交。";
 		BizPhoneMsg phone = new BizPhoneMsg();
 		phone.setReceiveEmployeeId(change.getItemManagerId());

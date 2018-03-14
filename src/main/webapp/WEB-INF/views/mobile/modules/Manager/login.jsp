@@ -19,13 +19,13 @@
 <body>
 	<div class="g-login">
 		<div class="logo">
-			<img src="${ctxStatic}/mobile/modules/Manager/images/logo.png" alt="美得你">
+			<img src="${ctxStatic}/mobile/modules/Manager/images/logo.png" alt="大美装饰管理平台">
 		</div>
-		<h3 class="logo_text">美得你，是你最好的选择</h3>
+		<h3 class="logo_text">大美装饰管理平台，是你最好的选择</h3>
 		<div class="login_form">
 			<form id="loginForm" action="${ctx}/app/manager/login" method="post">
 				<input type="hidden" name="ReturnUrl" value="${param.ReturnUrl }"/>
-				<input id="phone" type="text" name="phone" value="" placeholder="请输入美得你预留手机号">
+				<input id="phone" type="text" name="phone" value="" placeholder="请输入大美装饰管理平台预留手机号">
 				<input id="password" type="password" name="password" value="" placeholder="请输入密码">
 				<!-- <a id="user_login_btn" href="javascript:;" onclick ="login()">登录</a> -->
 				<input id="user_login_btn" type="submit" value="登 录"/>

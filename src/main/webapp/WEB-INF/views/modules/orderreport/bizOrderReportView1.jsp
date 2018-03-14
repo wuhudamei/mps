@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>美得你模板套餐</title>
+	<title>大美装饰管理平台模板套餐</title>
 	<link rel="stylesheet" href="${ctxStatic}/modules/orderReportRelatedContract/css/packahesChoice.css">
 	<style type="text/css">
 		.Page_back {

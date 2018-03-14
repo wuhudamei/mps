@@ -34,7 +34,7 @@ import cn.damei.service.modules.BizProjectChangeBillService;
  * 
  * @author 梅浩
  * @2016年11月9日
- * @mdn美得你
+ * @mdn大美装饰管理平台
  * @author_phone : 18610507472
  * @ClassInfo:复检单service
  */
@@ -250,7 +250,7 @@ public class RecheckService {
 						if(flag){
 							//合格
 							
-							//【美得你】订单（东晨小区-10-4-202-王维-13333333333），复检员（王毅-13212341234），质检员复检合格，请及时登录APP查看详情。
+							//【大美装饰管理平台】订单（东晨小区-10-4-202-王维-13333333333），复检员（王毅-13212341234），质检员复检合格，请及时登录APP查看详情。
 							QualityControl control = itemDao.findMessageInfoByInspectId(Integer.parseInt(recheckId));
 							String content = "订单（" + control.getCommunityName() + "-" + control.getBuildNumber() + "-" + control.getBuildUnit() + "-" + control.getBuildRoom() + "-" + control.getCustomerName() + "-" + control.getCustomerPhone() + "，质检员（" + SessionUtils.getInspectorSession(request).getRealName() + "-" + SessionUtils.getInspectorSession(request).getPhone() + "）质检员复检合格,请及时登录APP查看详情。";
 							//发给经理, 短信内质检员

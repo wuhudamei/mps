@@ -344,7 +344,7 @@ public class WorkerSignController {
 				/**
 				 * 1.工人签到==项目经理
 				 */
-				//【美得你】订单  (小区名称-楼牌号-客户姓名) 的任务包 (任务包名称), 工人:工人组长姓名-手机号,已签到,请登录app查看详情.
+				//【大美装饰管理平台】订单  (小区名称-楼牌号-客户姓名) 的任务包 (任务包名称), 工人:工人组长姓名-手机号,已签到,请登录app查看详情.
 				
 				String content = "订单（"+packSignVo.getCustomerMessage()+"-"+packSignVo.getCustomerName()+"）的任务包（）,工人:"+worker.getRealname()+"-"+worker.getPhone()+",已签到,请登录app查看详情。";
 				BizPhoneMsg phone = new BizPhoneMsg();

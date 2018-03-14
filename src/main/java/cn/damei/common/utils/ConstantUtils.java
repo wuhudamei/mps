@@ -499,7 +499,7 @@ public class ConstantUtils {
 	public static final String USER_NAME_18519377253 = "18519377253"; // 美装管家-手机号-18519377253
 	public static final String USER_NAME_18810656468 = "18810656468"; // 美装卫士-手机号-18810656468
 	public static final String USER_NAME_13393163996 = "13393163996"; // 美装工匠-手机号-13393163996
-	public static final String USER_NAME_18611735753 = "18611735753"; // 美得你-手机号-18611735753
+	public static final String USER_NAME_18611735753 = "18611735753"; // 大美装饰管理平台-手机号-18611735753
 	public static final String PASS_WORD_888888 = "888888"; // 手机号验证码-888888
 
 	/** 问题上报 是否影响工期 */

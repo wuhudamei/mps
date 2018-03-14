@@ -130,7 +130,7 @@ public class OrderService extends CrudService<OrderDao, Order> {
 					//
 					//
 					// String content =
-					// "【美得你】亲爱的美得你员工，您推荐的客户"+orderReport.getCustomerName()+"已进美得你门店了，您的奖励将在下月兑现。如有新的客户，记得再次向“小美返单”推荐哦";
+					// "【大美装饰管理平台】亲爱的大美装饰管理平台员工，您推荐的客户"+orderReport.getCustomerName()+"已进大美装饰管理平台门店了，您的奖励将在下月兑现。如有新的客户，记得再次向“小美返单”推荐哦";
 					//
 					// phone.setReceivePhone(orderReport.getReporterPhone());
 					// phone.setMessageContent(content);
@@ -182,7 +182,7 @@ public class OrderService extends CrudService<OrderDao, Order> {
 					/**
 					 * 添加订单==预算员
 					 */
-					// 【美得你】订单（订单编号：XXXXXXX，小区名-楼号-单元号-门牌号-客户姓名-手机号），接单员已接收订单，请及时生成任务包。
+					// 【大美装饰管理平台】订单（订单编号：XXXXXXX，小区名-楼号-单元号-门牌号-客户姓名-手机号），接单员已接收订单，请及时生成任务包。
 					String content = "订单（订单编号：" + order.getOrderNumber() + "," + order.getCommunityName() + "-" + order.getBuildNumber() + "-" + order.getBuildUnit() + "-" + order.getBuildRoom() + "-" + order.getCustomerName() + "-" + order.getCustomerPhone() + "），接单员已接收订单，请及时生成任务包。";
 					BizMessagegroup bizMessagegroup = bizMessagegroupService.getByStoreId(order.getStoreId(), "3");
 					List<Integer> list = new ArrayList<Integer>();
@@ -211,7 +211,7 @@ public class OrderService extends CrudService<OrderDao, Order> {
 					/**
 					 * 添加订单==产业-派单员
 					 */
-					// 【美得你】订单（订单编号：XXXXXXX，小区名-楼号-单元号-门牌号-客户姓名-手机号），接单员已接收订单，请及时分配项目经理和质检员。
+					// 【大美装饰管理平台】订单（订单编号：XXXXXXX，小区名-楼号-单元号-门牌号-客户姓名-手机号），接单员已接收订单，请及时分配项目经理和质检员。
 					String content2 = "订单（订单编号：" + order.getOrderNumber() + "," + order.getCommunityName() + "-" + order.getBuildNumber() + "-" + order.getBuildUnit() + "-" + order.getBuildRoom() + "-" + order.getCustomerName() + "-" + order.getCustomerPhone() + "），接单员已接收订单，请及时分配项目经理和质检员。";
 					BizMessagegroup bizMessagegroup2 = bizMessagegroupService.getByStoreId(order.getStoreId(), "2");
 					List<Integer> list2 = new ArrayList<Integer>();
@@ -246,7 +246,7 @@ public class OrderService extends CrudService<OrderDao, Order> {
 					/**
 					 * 添加订单==传统-派单员
 					 */
-					// 【美得你】订单（订单编号：XXXXXXX，小区名-楼号-单元号-门牌号-客户姓名-手机号），接单员已接收订单，请及时分配项目经理和质检员。
+					// 【大美装饰管理平台】订单（订单编号：XXXXXXX，小区名-楼号-单元号-门牌号-客户姓名-手机号），接单员已接收订单，请及时分配项目经理和质检员。
 					String content2 = "订单（订单编号：" + order.getOrderNumber() + "," + order.getCommunityName() + "-" + order.getBuildNumber() + "-" + order.getBuildUnit() + "-" + order.getBuildRoom() + "-" + order.getCustomerName() + "-" + order.getCustomerPhone() + "），接单员已接收订单，请及时分配项目经理和质检员。";
 					BizMessagegroup bizMessagegroup2 = bizMessagegroupService.getByStoreId(order.getStoreId(), "12");
 					List<Integer> list2 = new ArrayList<Integer>();

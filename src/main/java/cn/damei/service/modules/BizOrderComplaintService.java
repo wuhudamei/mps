@@ -232,7 +232,7 @@ public class BizOrderComplaintService extends CrudService<BizOrderComplaintDao, 
 
                         Map<String, Object> nextEmployeeId = iterator.next();
 
-                        String messageContent = "工程投诉，" + customerName + "+" + customerAddress + "的客户存在  " + itemNames + "  的工程问题，请您及时到美得你工程APP的工程投诉中查看投诉问题内容，并尽快处理";
+                        String messageContent = "工程投诉，" + customerName + "+" + customerAddress + "的客户存在  " + itemNames + "  的工程问题，请您及时到大美装饰管理平台工程APP的工程投诉中查看投诉问题内容，并尽快处理";
 
                         entity.setMessageContent(messageContent);
 

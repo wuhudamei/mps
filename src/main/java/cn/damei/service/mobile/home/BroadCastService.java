@@ -17,7 +17,7 @@ import cn.damei.entity.mobile.home.BroadCastPicEntity;
  * 
  * @author 梅浩
  * @2017年1月7日
- * @mdn美得你
+ * @mdn大美装饰管理平台
  * @author_phone : 18610507472
  * @ClassInfo:类说明
  */

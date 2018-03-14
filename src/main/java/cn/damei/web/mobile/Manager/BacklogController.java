@@ -110,7 +110,7 @@ public class BacklogController {
 	@RequestMapping(value = "sendMessage")
 	public void sendMessage(String id,HttpServletResponse response) throws IOException{
 		Backlog backlog = backlogService.getErQiKuanInfoByItemId(id);
-		/*String content = "尊敬的业主您好，您家的"+backlog.getRemindTitle()+"验收施工已全部完成并经验收合格。为了不影响您家的施工进度，劳烦您办理二期款缴纳。感谢您对美得你的支持。";
+		/*String content = "尊敬的业主您好，您家的"+backlog.getRemindTitle()+"验收施工已全部完成并经验收合格。为了不影响您家的施工进度，劳烦您办理二期款缴纳。感谢您对大美装饰管理平台的支持。";
 		//短信通知客户
 		BizPhoneMsg phone = new BizPhoneMsg();
 		phone.setReceivePhone(backlog.getCustomerPhone());
@@ -123,7 +123,7 @@ public class BacklogController {
 		//短信通知设计师
 		String content2 = "（"+backlog.getCommunityName()+"-"+backlog.getBuildNumber()+"-"
 							  +backlog.getBuildUnit()+"-"+backlog.getBuildRoom()+"-"+backlog.getCustomerName()+"）家的"
-							  +backlog.getRemindTitle()+"验收工程客户已经验收合格，请及时计算二期款缴款明细，并催促客户及时交纳。【美得你】"
+							  +backlog.getRemindTitle()+"验收工程客户已经验收合格，请及时计算二期款缴款明细，并催促客户及时交纳。【大美装饰管理平台】"
 							  ;
 		BizPhoneMsg phone2 = new BizPhoneMsg();
 		phone2.setReceivePhone(backlog.getDesignerPhone());

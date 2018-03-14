@@ -156,7 +156,7 @@ public class BizPhoneMsgService extends CrudService2<BizPhoneMsgDao, BizPhoneMsg
 		//认证密文
 		String secret= MD5.GetMD5Code(password+stamp).toUpperCase();
 		//签名
-		String suffix = "【美得你】";
+		String suffix = "【大美装饰管理平台】";
 
 		try {
 			JSONObject j=new JSONObject();

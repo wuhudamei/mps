@@ -6,7 +6,7 @@ import java.io.Serializable;
  * 
  * @author 梅浩
  * @2016年11月17日
- * @mdn美得你
+ * @mdn大美装饰管理平台
  * @author_phone : 18610507472
  * @ClassInfo:施工变更项
  */

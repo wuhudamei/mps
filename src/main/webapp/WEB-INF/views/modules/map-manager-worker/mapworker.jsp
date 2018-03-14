@@ -278,7 +278,7 @@
 				 map.addControl(cr); //添加版权控件
 
 				 var bs = map.getBounds();   //返回地图可视区域
-				 cr.addCopyright({id: 1, content: "<a href='#' style='font-size:20px;background:blue'>美得你集团</a>", bounds: bs});*/
+				 cr.addCopyright({id: 1, content: "<a href='#' style='font-size:20px;background:blue'>大美装饰管理平台集团</a>", bounds: bs});*/
 
                 add_control(mapType1,mapType2,overView,overViewOpen);
             }

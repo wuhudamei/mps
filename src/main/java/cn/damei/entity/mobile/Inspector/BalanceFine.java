@@ -7,7 +7,7 @@ import java.util.Date;
  * 
  * @author 梅浩
  * @2016年12月26日
- * @mdn美得你
+ * @mdn大美装饰管理平台
  * @author_phone : 18610507472
  * @ClassInfo:结算罚款类目明细
  */

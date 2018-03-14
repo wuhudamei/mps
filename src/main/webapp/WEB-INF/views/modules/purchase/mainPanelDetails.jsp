@@ -26,7 +26,7 @@
 				<div >
 					<h3>
 						<center>
-							美得你--采购单-${ bizPurchaseMainPanel.purchaseCode }
+							大美装饰管理平台--采购单-${ bizPurchaseMainPanel.purchaseCode }
 						</center>
 					</h3>
 				</div>

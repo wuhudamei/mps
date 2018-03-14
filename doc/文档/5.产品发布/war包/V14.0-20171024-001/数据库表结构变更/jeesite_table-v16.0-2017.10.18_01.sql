@@ -1,7 +1,7 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : 192.168.1.131(美得你开发库)
+Source Server         : 192.168.1.131(大美装饰管理平台开发库)
 Source Server Version : 50717
 Source Host           : 192.168.1.131:3306
 Source Database       : jeesite_d

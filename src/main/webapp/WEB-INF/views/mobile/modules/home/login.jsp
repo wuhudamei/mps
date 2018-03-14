@@ -19,13 +19,13 @@
 <body>
 	<div class="g-login">
 		<div class="logo">
-			<img src="${ctxStatic}/mobile/modules/home/images/logo.png" alt="美得你">
+			<img src="${ctxStatic}/mobile/modules/home/images/logo.png" alt="大美装饰管理平台">
 		</div>
 		<div class="login_form">
 			<%-- <form id="loginForm" action="${ctx}/app/manager/login" method="post"> --%>
 			<form id="loginForm" action="${ctx}/app/inspector/inspectorIndex" method="post">
 			
-				<input id="username" type="text" name="username" placeholder="请输入在美得你签合同时预留手机号">
+				<input id="username" type="text" name="username" placeholder="请输入在大美装饰管理平台签合同时预留手机号">
 				<div>
 					<input id="yanzheng" type="text" name="yanzheng" placeholder="短信验证码">
 					<input id ="get_num" type="button" value="获取验证码" onclick="getCode()"/>  

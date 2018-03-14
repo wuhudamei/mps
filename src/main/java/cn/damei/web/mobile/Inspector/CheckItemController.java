@@ -30,7 +30,7 @@ import net.sf.json.JSONArray;
  *
  * @author 梅浩
  * @2016年11月8日
- * @mdn美得你
+ * @mdn大美装饰管理平台
  * @author_phone : 18610507472
  * @ClassInfo:约检
  */

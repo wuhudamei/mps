@@ -34,7 +34,7 @@ public class OrderReportRelatedContract extends DataEntity<OrderReportRelatedCon
 	private String buildRoom;//门牌号
 
 	private String reportRemarks;//上报备注
-	private String isAsked; //是否在美得你咨询过
+	private String isAsked; //是否在大美装饰管理平台咨询过
 
 	private Integer reporterEmployeeId;//返单上报人员工Id
 

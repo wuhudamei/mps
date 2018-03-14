@@ -295,7 +295,7 @@ public class BizOrderChecksizeController extends BaseController {
 			/**
 			 * 处理厂家复尺==项目经理
 			 */
-			//项目经理【美得你】订单（小区名称-楼号-单元号-门牌号-客户姓名-复尺内容），材料部已处理--供应商确认日期（日期），回复内容（回复内容），请您知晓。
+			//项目经理【大美装饰管理平台】订单（小区名称-楼号-单元号-门牌号-客户姓名-复尺内容），材料部已处理--供应商确认日期（日期），回复内容（回复内容），请您知晓。
 			String content = "订单（"+change.getCommunityName()+"-"+change.getBuildNumber()+"-"+change.getBuildUnit()+"-"+change.getBuildRoom()+"-"+change.getCustomerName()+"-"+change.getChecksizeTypeName()+"），材料部已处理--供应商确认日期（"+supplierDate+"），回复内容（"+bizOrderChecksize.getMaterialDepartmentDealReply()+"），请您知晓。";
 			BizPhoneMsg phone = new BizPhoneMsg();
 			phone.setReceiveEmployeeId(change.getItemManagerId());

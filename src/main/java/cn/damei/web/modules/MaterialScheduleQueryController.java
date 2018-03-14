@@ -24,7 +24,7 @@ import cn.damei.common.utils.UserUtils;
  * 
  * @author 梅浩
  * @2016年12月7日
- * @mdn美得你
+ * @mdn大美装饰管理平台
  * @author_phone : 18610507472
  * @ClassInfo:材料进度看板
  */

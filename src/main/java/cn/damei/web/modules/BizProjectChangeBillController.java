@@ -525,7 +525,7 @@ public class BizProjectChangeBillController extends BaseController {
 			/**
 			 * 设计师审核通过==项目经理
 			 */
-			// 项目经理【美得你】订单（小区名-楼号-单元号-门牌号-客户姓名-手机号），设计师（姓名-手机号），施工变更单设计师已审核通过，请登录APP查看详情。
+			// 项目经理【大美装饰管理平台】订单（小区名-楼号-单元号-门牌号-客户姓名-手机号），设计师（姓名-手机号），施工变更单设计师已审核通过，请登录APP查看详情。
 			String content = "订单（" + change.getCommunityName() + "-" + change.getBuildNumber() + "-" + change.getBuildUnit() + "-" + change.getBuildRoom() + "-" + change.getCustomerName() + "-" + change.getCustomerPhone() + "），设计师（" + user.getName() + "-" + user.getPhone() + "），施工变更单设计师已审核通过，请登录APP查看详情。";
 			BizPhoneMsg phone = new BizPhoneMsg();
 			phone.setReceiveEmployeeId(change.getItemManagerId());
@@ -540,7 +540,7 @@ public class BizProjectChangeBillController extends BaseController {
 			/**
 			 * 设计师审核通过==审计员
 			 */
-			// 审计员【美得你】订单（小区名-楼号-单元号-门牌号-客户姓名-手机号），设计师（姓名-手机号），施工变更单设计师已审核通过，请及时登录系统审核。
+			// 审计员【大美装饰管理平台】订单（小区名-楼号-单元号-门牌号-客户姓名-手机号），设计师（姓名-手机号），施工变更单设计师已审核通过，请及时登录系统审核。
 			String content2 = "订单（" + change.getCommunityName() + "-" + change.getBuildNumber() + "-" + change.getBuildUnit() + "-" + change.getBuildRoom() + "-" + change.getCustomerName() + "-" + change.getCustomerPhone() + "），设计师（" + user.getName() + "-" + user.getPhone() + "），施工变更单设计师已审核通过，请及时登录系统审核。";
 			BizMessagegroup bizMessagegroup = bizMessagegroupService.getByStoreId(change.getStoreId(), "11");
 			List<Integer> list = new ArrayList<Integer>();
@@ -601,7 +601,7 @@ public class BizProjectChangeBillController extends BaseController {
 			/**
 			 * 审计员审核通过==项目经理
 			 */
-			// 项目经理【美得你】订单（小区名-楼号-单元号-门牌号-客户姓名-手机号），审计员（姓名-手机号），施工变更单审计员已审核通过，请登录APP查看详情。
+			// 项目经理【大美装饰管理平台】订单（小区名-楼号-单元号-门牌号-客户姓名-手机号），审计员（姓名-手机号），施工变更单审计员已审核通过，请登录APP查看详情。
 			String content3 = "订单（" + change.getCommunityName() + "-" + change.getBuildNumber() + "-" + change.getBuildUnit() + "-" + change.getBuildRoom() + "-" + change.getCustomerName() + "-" + change.getCustomerPhone() + "），审计员（" + user.getName() + "-" + user.getPhone() + "），施工变更单审计员已审核通过，请登录APP查看详情。";
 			BizPhoneMsg phone3 = new BizPhoneMsg();
 			phone3.setReceiveEmployeeId(change.getItemManagerId());
@@ -616,7 +616,7 @@ public class BizProjectChangeBillController extends BaseController {
 			/**
 			 * 审计员审核通过==客户
 			 */
-			// 客户【美得你】尊敬的用户，我是您的家装管家（姓名-手机号）请确认施工变更的内容，点这里登录（加密链接）
+			// 客户【大美装饰管理平台】尊敬的用户，我是您的家装管家（姓名-手机号）请确认施工变更的内容，点这里登录（加密链接）
 			/*
 			 * String content4 =
 			 * "尊敬的用户，我是您的家装管家（"+change.getItemManager()+change
@@ -633,7 +633,7 @@ public class BizProjectChangeBillController extends BaseController {
 			 */
 			// =====================================短信end========================================================
 
-			// //【美得你】尊敬的用户，我是您的家装管家（孙伟-13411112222），请确认施工变更的内容，点这里登录（http://XXXXXXXXX）
+			// //【大美装饰管理平台】尊敬的用户，我是您的家装管家（孙伟-13411112222），请确认施工变更的内容，点这里登录（http://XXXXXXXXX）
 			// String content =
 			// "尊敬的用户，我是您的家装管家（"+change.getItemManager()+change.getItemManagerPhone()+"），请确认施工变更的内容，点这里登录（"+PicRootName.picPrefixName()+"/mDJlSsBc?micro="+change.getOrderId()+"）";
 			//
@@ -683,7 +683,7 @@ public class BizProjectChangeBillController extends BaseController {
 			/**
 			 * 财务存档==项目经理
 			 */
-			// 项目经理【美得你】订单（小区名-楼号-单元号-门牌号-客户姓名-手机号），财务人员（姓名-手机号），施工变更单财务已存档，请登录APP查看详情。
+			// 项目经理【大美装饰管理平台】订单（小区名-楼号-单元号-门牌号-客户姓名-手机号），财务人员（姓名-手机号），施工变更单财务已存档，请登录APP查看详情。
 			String content5 = "订单（" + change.getCommunityName() + "-" + change.getBuildNumber() + "-" + change.getBuildUnit() + "-" + change.getBuildRoom() + "-" + change.getCustomerName() + "-" + change.getCustomerPhone() + "），财务人员（" + user.getName() + "-" + user.getPhone() + "），施工变更单财务已存档，请登录APP查看详情。";
 			BizPhoneMsg phone5 = new BizPhoneMsg();
 			phone5.setReceiveEmployeeId(change.getItemManagerId());
@@ -756,7 +756,7 @@ public class BizProjectChangeBillController extends BaseController {
 			 * 设计师审核==驳回
 			 */
 			// 项目经理
-			// 【美得你】订单（小区名-楼号-单元号-门牌号-客户姓名-手机号），设计师（姓名-手机号），施工变更单设计师审核不通过，驳回原因（原因），请登录APP重新提交。
+			// 【大美装饰管理平台】订单（小区名-楼号-单元号-门牌号-客户姓名-手机号），设计师（姓名-手机号），施工变更单设计师审核不通过，驳回原因（原因），请登录APP重新提交。
 			String content = "订单（" + change.getCommunityName() + "-" + change.getBuildNumber() + "-" + change.getBuildUnit() + "-" + change.getBuildRoom() + "-" + change.getCustomerName() + "-" + change.getCustomerPhone() + "），设计师（" + user.getName() + "-" + user.getPhone() + "），施工变更单设计师审核不通过，驳回原因（" + reason + "），请登录APP重新提交。";
 			BizPhoneMsg phone = new BizPhoneMsg();
 			phone.setReceiveEmployeeId(change.getItemManagerId());
@@ -795,7 +795,7 @@ public class BizProjectChangeBillController extends BaseController {
 			/**
 			 * 预算员审核==驳回
 			 */
-			// 项目经理【美得你】订单（小区名-楼号-单元号-门牌号-客户姓名-手机号），审计员（姓名-手机号），施工变更单审计员审核不通过，驳回原因（原因），请登录APP重新提交。
+			// 项目经理【大美装饰管理平台】订单（小区名-楼号-单元号-门牌号-客户姓名-手机号），审计员（姓名-手机号），施工变更单审计员审核不通过，驳回原因（原因），请登录APP重新提交。
 			String content2 = "订单（" + change.getCommunityName() + "-" + change.getBuildNumber() + "-" + change.getBuildUnit() + "-" + change.getBuildRoom() + "-" + change.getCustomerName() + "-" + change.getCustomerPhone() + "），审计员（" + user.getName() + "-" + user.getPhone() + "），施工变更单审计员审核不通过，驳回原因（" + reason + "），请登录APP重新提交。";
 			BizPhoneMsg phone = new BizPhoneMsg();
 			phone.setReceiveEmployeeId(change.getItemManagerId());

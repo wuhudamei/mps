@@ -274,7 +274,7 @@ public class BizOrderTaskpackagePaymentSummaryController extends BaseController 
 		HSSFWorkbook projectExcel = ExportProjectExcel.exportProject(list);
 		try {
 			response.setContentType("application/binary;charset=utf-8");
-			String headerStr = new String(("产业工人结算汇总表-美得你-工程" + sf.format(new Date())).getBytes("utf-8"), "ISO8859-1");// headerString为中文时转码
+			String headerStr = new String(("产业工人结算汇总表-大美装饰管理平台-工程" + sf.format(new Date())).getBytes("utf-8"), "ISO8859-1");// headerString为中文时转码
 			response.setHeader("Content-disposition", "attachment; filename=" + headerStr + ".xls");// filename是下载的xls的名
 			ouputStream = response.getOutputStream();
 			projectExcel.write(ouputStream);
@@ -419,7 +419,7 @@ public class BizOrderTaskpackagePaymentSummaryController extends BaseController 
 		HSSFWorkbook financeExcel = ExportFinanceExcel.exportFinance(list);
 		try {
 			response.setContentType("application/binary;charset=utf-8");
-			String headerStr = new String(("产业工人结算汇总表-美得你-财务" + sf.format(new Date())).getBytes("utf-8"),
+			String headerStr = new String(("产业工人结算汇总表-大美装饰管理平台-财务" + sf.format(new Date())).getBytes("utf-8"),
 					"ISO8859-1");// headerString为中文时转码
 			response.setHeader("Content-disposition", "attachment; filename=" + headerStr + ".xls");// filename是下载的xls的名
 			ouputStream = response.getOutputStream();

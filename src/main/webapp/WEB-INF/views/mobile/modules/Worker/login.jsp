@@ -131,13 +131,13 @@
 <body>
 	<div class="g-login">
 		<div class="logo">
-			<img src="${ctxStatic}/mobile/modules/Worker/images/logo_worker.png" alt="美得你">
+			<img src="${ctxStatic}/mobile/modules/Worker/images/logo_worker.png" alt="大美装饰管理平台">
 		</div>
-		<!-- <h3 class="logo_text">美得你，是你最好的选择</h3> -->
+		<!-- <h3 class="logo_text">大美装饰管理平台，是你最好的选择</h3> -->
 		<div class="login_form">
 			<%-- <form id="loginForm" action="${ctx}/app/worker/login" method="post"> --%>
 			<form id="loginForm">
-				<input id="username" type="text" name="username" value="" placeholder="请输入美得你预留手机号">
+				<input id="username" type="text" name="username" value="" placeholder="请输入大美装饰管理平台预留手机号">
 				<div>
 					<input id="yanzheng" type="text" name="yanzheng" value="" placeholder="短信验证码">
 					<!-- <a id="get_num" href="#" onclick="getCode(this)">获取验证码</a> -->

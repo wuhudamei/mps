@@ -202,7 +202,7 @@ public class controller extends BaseController {
 							service.updatePackTime(orderTaskpackage);
 							// 发送短信
 							OrderTaskpackage info = messageService.sendMessagetoWorker(Integer.parseInt(orderTaskpackage.getId()));
-							//【美得你】订单（东晨小区-10-4-202-王维-13333333333）的任务包（瓦工任务包），工人调度（刘腾飞-13423455432）已调整任务包计划，请登录APP查看详情。
+							//【大美装饰管理平台】订单（东晨小区-10-4-202-王维-13333333333）的任务包（瓦工任务包），工人调度（刘腾飞-13423455432）已调整任务包计划，请登录APP查看详情。
 							PhoneMessageEntity entity = new PhoneMessageEntity();
 
 									//给项目经理发送短信
@@ -251,7 +251,7 @@ public class controller extends BaseController {
 								service.updatePackTime(orderTaskpackage);
 								// 发送短信
 								OrderTaskpackage info = messageService.sendMessagetoWorker(Integer.parseInt(orderTaskpackage.getId()));
-								//【美得你】订单（东晨小区-10-4-202-王维-13333333333）的任务包（瓦工任务包），工人调度（刘腾飞-13423455432）已调整任务包计划，请登录APP查看详情。
+								//【大美装饰管理平台】订单（东晨小区-10-4-202-王维-13333333333）的任务包（瓦工任务包），工人调度（刘腾飞-13423455432）已调整任务包计划，请登录APP查看详情。
 								PhoneMessageEntity entity = new PhoneMessageEntity();
 								
 										//给项目经理发送短信
@@ -292,7 +292,7 @@ public class controller extends BaseController {
 
 	/*	// 查询出需要发送的短信内容
 		OrderTaskpackage info = messageService.sendMessagetoWorker(Integer.parseInt(packId));
-		// 【美得你】订单（东晨小区-10-4-202-王维-13333333333）的任务包（瓦工任务包），工人调度（刘腾飞-13423455432）已调整任务包计划，请登录APP查看详情。
+		// 【大美装饰管理平台】订单（东晨小区-10-4-202-王维-13333333333）的任务包（瓦工任务包），工人调度（刘腾飞-13423455432）已调整任务包计划，请登录APP查看详情。
 		PhoneMessageEntity entity = new PhoneMessageEntity();
 		
 				//给项目经理发送短信

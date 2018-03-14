@@ -192,7 +192,7 @@ public class InspectPunishMoneyQueryService extends CrudService<InspectPunishMon
 			rowTitle.setHeightInPoints(30);
 			HSSFCell cell = rowTitle.createCell(0);
 			cell.setCellStyle(columnStyle);
-			cell.setCellValue(new HSSFRichTextString("北京美得你工程部质检处工地处罚通报表("+startDate+"-"+endDate+")"));
+			cell.setCellValue(new HSSFRichTextString("北京大美装饰管理平台工程部质检处工地处罚通报表("+startDate+"-"+endDate+")"));
 
 			for(int i=0;i<12;i++){
 				HSSFCell cella = rowTitle.createCell(i+1);

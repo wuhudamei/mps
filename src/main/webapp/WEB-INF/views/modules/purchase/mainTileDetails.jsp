@@ -37,7 +37,7 @@
 				<div >
 					<h3>
 						<center>
-							美得你--采购单-${ bizPurchaseMainTile.purchaseCode }
+							大美装饰管理平台--采购单-${ bizPurchaseMainTile.purchaseCode }
 						</center>
 					</h3>
 				</div>

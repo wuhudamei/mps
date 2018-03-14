@@ -33,7 +33,7 @@ import net.sf.json.JSONObject;
  * 
  * @author 梅浩
  * @2017年3月15日
- * @mdn美得你
+ * @mdn大美装饰管理平台
  * @author_phone : 18610507472
  * @ClassInfo:该类: 将订单接收的json数据,取出并进行解析成Order对象
  * 并数据映射(如 beijing 映射为2)然后保存到预备订单表中的 的定时调度任务类

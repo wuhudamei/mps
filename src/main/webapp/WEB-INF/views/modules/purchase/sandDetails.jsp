@@ -23,7 +23,7 @@
 					<div >
 						<h3>
 							<center>
-								美得你--沙子水泥采购单-${ bizPurchaseVo.purchaseCode }
+								大美装饰管理平台--沙子水泥采购单-${ bizPurchaseVo.purchaseCode }
 							</center>
 						</h3>
 					</div>

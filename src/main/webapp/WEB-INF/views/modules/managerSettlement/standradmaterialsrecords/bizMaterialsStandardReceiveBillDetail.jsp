@@ -15,7 +15,7 @@
 					<div >
 						<h3>
 							<center>
-								美得你--标化辅材明细--${ bizMaterialsStandardReceiveBillVo.materialsStandardReceiveBillCode }
+								大美装饰管理平台--标化辅材明细--${ bizMaterialsStandardReceiveBillVo.materialsStandardReceiveBillCode }
 							</center>
 						</h3>
 					</div>

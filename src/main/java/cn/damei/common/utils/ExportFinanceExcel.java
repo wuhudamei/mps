@@ -16,7 +16,7 @@ public class ExportFinanceExcel {
 	
 	public static void main(String[] args) {
 		HSSFWorkbook wb = new HSSFWorkbook();
-		HSSFSheet sheet = wb.createSheet("结算明细表-美得你");
+		HSSFSheet sheet = wb.createSheet("结算明细表-大美装饰管理平台");
 		// 定义样式
 		HSSFCellStyle cellStyleCenter = ExportFileNameUtils.initColumnHeadStyle(wb);// 表头样工
 		HSSFCellStyle cellStyleRight = ExportFileNameUtils.initColumnCenterstyle(wb);// 单元格样式

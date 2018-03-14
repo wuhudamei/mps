@@ -17,7 +17,7 @@
         </div>
         <div class="tab">
             <p>
-                <span class="name"></span><input type="text" id="username" placeholder="输入美得你预留手机号">
+                <span class="name"></span><input type="text" id="username" placeholder="输入大美装饰管理平台预留手机号">
             </p>
            <!--  <p>
                 <span class="psd"></span><input type="text" id="yanzheng" placeholder="短信验证码">

@@ -75,7 +75,7 @@
 				</ul>
 				<div class="singleBox">
 					<span class="font_fmy col_cb2307 pad_rgt10 font28">*</span>
-					<span class="font30 col_3">本人或家人是否曾在美得你咨询过</span>
+					<span class="font30 col_3">本人或家人是否曾在大美装饰管理平台咨询过</span>
 				</div>
 				<div class="chooseBox clearfix">
 					<span class="fl_l">
@@ -93,7 +93,7 @@
 					2.公司“小美返单”会将信息进行验证，确认推荐信息是否有效。<br />
 					3.有效信息“小美"会邀约客户进店，成功进店客户会给推荐员工兑现推荐奖励。<br />
 					4.成功进店信息在签约成功，进入施工阶段公司会给予推荐员工返单奖励。<br />
-					5.如果推荐人提供的潜在客户在两个月内，仍未与美得你公司签订预定合同，则此潜在客户将视为无效推荐。
+					5.如果推荐人提供的潜在客户在两个月内，仍未与大美装饰管理平台公司签订预定合同，则此潜在客户将视为无效推荐。
 				</p>
 				<a class="sub" href="javascript:;">上报返单</a>
 			</div>
@@ -104,7 +104,7 @@
 	<div class="alertMask undis">
 		<div class="maskWrapper">
 			<p class="col_3 maskTit">提示</p>
-			<div class="font28 col_6 maskContent">手机号已存在，请确认本次推荐客户是否曾经在美得你公司咨询过？</div>
+			<div class="font28 col_6 maskContent">手机号已存在，请确认本次推荐客户是否曾经在大美装饰管理平台公司咨询过？</div>
 			<div class="maskBtns clearfix">
 				<a class="maskBtn font33 col_fdfcfa" href="javascript:;" onclick="hide()">继续添加</a>
 				<a class="maskBtn font33 col_0780ec" href="javascript:;" onclick="hide()">取消</a>

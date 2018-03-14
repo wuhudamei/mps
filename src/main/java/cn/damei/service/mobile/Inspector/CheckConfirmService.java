@@ -310,11 +310,11 @@ public class CheckConfirmService extends CrudService2<CheckConfirmDao, CheckConf
 		// // ===================短信发送=====================================
 		// // 客户
 		// //
-		// 尊敬的业主您好，您家的水、电及瓦工工程施工已全部完成并经验收合格。为了不影响您家的施工进度，劳烦您办理二期款缴纳。感谢您对美得你的支持。
+		// 尊敬的业主您好，您家的水、电及瓦工工程施工已全部完成并经验收合格。为了不影响您家的施工进度，劳烦您办理二期款缴纳。感谢您对大美装饰管理平台的支持。
 		// Map<String, String> params = new HashMap<String, String>();
 		// params.put("source", "1");
 		// params.put("content", " 尊敬的业主您好，您家的" + confirm.getQcCheckNodeName()
-		// + "施工已全部完成并经验收合格。为了不影响您家的施工进度，劳烦您办理二期款缴纳。感谢您对美得你的支持。");
+		// + "施工已全部完成并经验收合格。为了不影响您家的施工进度，劳烦您办理二期款缴纳。感谢您对大美装饰管理平台的支持。");
 		// params.put("mobile", confirm.getCustomerPhone());
 		// params.put("sendtime", "");
 		// try {
