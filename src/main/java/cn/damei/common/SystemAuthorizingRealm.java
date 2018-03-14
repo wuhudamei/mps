@@ -57,13 +57,13 @@ public class SystemAuthorizingRealm extends AuthorizingRealm {
 		}
 		
 
-		if (LoginController.isValidateCodeLogin(token.getUsername(), false, false)){
+		/*if (LoginController.isValidateCodeLogin(token.getUsername(), false, false)){
 			Session session = UserUtils.getSession();
 			String code = (String)session.getAttribute(ValidateCodeServlet.VALIDATE_CODE);
 			if (token.getCaptcha() == null || !token.getCaptcha().toUpperCase().equals(code)){
 				throw new AuthenticationException("msg:验证码错误, 请重试.");
 			}
-		}
+		}*/
 		
 
 		User user = getSystemService().getUserByLoginName(token.getUsername());

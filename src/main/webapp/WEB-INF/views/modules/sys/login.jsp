@@ -15,28 +15,6 @@
     <link href="/static/dameistatic/style.css" rel="stylesheet" type="text/css" />
     <!-- 占位隐藏添加 [hidden]  不占位隐藏添加 [disN]-->
 </head>
-<script type="text/javascript">
-    $(document).ready(function() {
-        $("#loginForm").validate({
-            rules: {
-                username:"required"
-            },
-            messages: {
-                username: {required: "请填写用户名."},password: {required: "请填写密码."}
-            },
-            errorLabelContainer: "#messageBox",
-            errorPlacement: function(error, element) {
-                error.appendTo($("#loginError").parent());
-            }
-        });
-    });
-    // 如果在框架或在对话框中，则弹出提示并跳转到首页
-    if(self.frameElement && self.frameElement.tagName == "IFRAME" || $('#left').length > 0 || $('.jbox').length > 0){
-        alert('未登录或登录超时。请重新登录，谢谢！');
-        top.location = "${ctx}";
-    }
-</script>
-
 <body>
 
     <div class="wrapper">
@@ -101,6 +79,23 @@
 
     <script>
     $(function() {
+            $("#loginForm").validate({
+                rules: {
+                    username:"required"
+                },
+                messages: {
+                    username: {required: "请填写用户名."},password: {required: "请填写密码."}
+                },
+                errorLabelContainer: "#messageBox",
+                errorPlacement: function(error, element) {
+                    error.appendTo($("#loginError").parent());
+                }
+            });
+        // 如果在框架或在对话框中，则弹出提示并跳转到首页
+        if(self.frameElement && self.frameElement.tagName == "IFRAME" || $('#left').length > 0 || $('.jbox').length > 0){
+            alert('未登录或登录超时。请重新登录，谢谢！');
+            top.location = "${ctx}";
+        }
         $('#tabMenu a').bind('click', function(event) {
             var $a = $(this);
             var index = $a.index();
