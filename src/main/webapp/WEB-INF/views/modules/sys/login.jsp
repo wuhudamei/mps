@@ -12,7 +12,7 @@
 
     <meta http-equiv="x-ua-compatible" content="IE=Edge, chrome=1" />
     <meta name="renderer" content="webkit">
-    <link href="/static/dameistatic/style.css" rel="stylesheet" type="text/css" />
+    <link href="${ctxStatic}/dameistatic/style.css" rel="stylesheet" type="text/css" />
     <!-- 占位隐藏添加 [hidden]  不占位隐藏添加 [disN]-->
 </head>
 <body>
@@ -21,7 +21,7 @@
         <div class="header-bg">
             <div class="header _login clearfix">
                 <a href="javascript:;" class="logo pull-left">
-                   <img src="/static/images/logo.png" alt="logo">
+                   <img src="${ctxStatic}/images/logo.png" alt="logo">
                 </a>
             </div>
 
@@ -44,7 +44,7 @@
                         <form id="loginForm" class="form-signin" action="${ctx}/login" method="post">
                         <div class="tab-content" id="tabContent">
                             <div class="input-form disN">
-                                <p><img src="/static/images/qr-code.jpg" alt="img"></p>
+                                <p><img src="${ctxStatic}/images/qr-code.jpg" alt="img"></p>
                             </div>
                             <div class="input-form">
                                 <div class="form-label clearfix posR">
@@ -65,7 +65,7 @@
                     </div>
 
                 </div>
-                <div class="login-img pull-right"><img src="/static/images/img01.png" alt="img"></div>
+                <div class="login-img pull-right"><img src="${ctxStatic}/images/img01.png" alt="img"></div>
             </div>
             <!--/.login-content-->
         </div>
