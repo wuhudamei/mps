@@ -5,7 +5,7 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>登录页--大美新风</title>
+    <title>大美装饰管理平台</title>
     <meta name="decorator" content="blank"/>
     <meta name="keywords" content=" " />
     <meta name="description" content=" " />
@@ -14,6 +14,15 @@
     <meta name="renderer" content="webkit">
     <link href="${ctxStatic}/dameistatic/style.css" rel="stylesheet" type="text/css" />
     <!-- 占位隐藏添加 [hidden]  不占位隐藏添加 [disN]-->
+    <style>
+        .tab-menu2{
+            background: #000000;
+            text-align: center;
+        }
+        .login-content .tab-menu a{
+            width: 100%;
+        }
+    </style>
 </head>
 <body>
 
@@ -36,8 +45,8 @@
                         <div id="messageBox" class="alert alert-error ${empty message ? 'hide' : ''}"><button data-dismiss="alert" class="close">×</button>
                             <label id="loginError" class="error">${message}</label>
                         </div>
-                        <div class="tab-menu clearfix" id="tabMenu">
-                            <a href="javascript:void(0)" class="item">二维码登录</a>
+                        <div class="tab-menu clearfix tab-menu2" id="tabMenu">
+                            <%--<a href="javascript:void(0)" class="item">二维码登录</a>--%>
                             <a href="javascript:void(0)" class="item _active">用户名登录</a>
                         </div>
                         <!--/.tab-menu-->
